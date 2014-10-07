@@ -1,0 +1,27 @@
+{
+    "name": "maci/page-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony MaciPageBundle",
+    "keywords": ["Page Generator", "page", "maci", "bootstrap"],
+    "homepage": "https://github.com/maci1011/MaciPageBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maci",
+            "email": "info@macister.com",
+            "homepage": "http://macister.com"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": { "Maci\\PageBundle": "" }
+    },
+    "target-dir": "Maci/PageBundle",
+    "extra": {
+    }
+}
