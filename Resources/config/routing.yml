@@ -1,0 +1,3 @@
+maci_page_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MaciPageBundle:Default:index }
