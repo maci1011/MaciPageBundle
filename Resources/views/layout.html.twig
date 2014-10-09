@@ -51,6 +51,12 @@
 				{{ knp_menu_render('main') }}
 
 			</nav>
+			<nav>
+
+				{{ knp_menu_render('user') }}
+
+			</nav>
+			<nav>
 			<ul class="nav navbar-nav navbar-right">
 
 				{% block route_translation %}
@@ -73,41 +79,8 @@
 
 				{% endblock %}
 
-				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-
-				{% if is_granted("ROLE_ADMIN") %}
-
-				<li><a class="userMenuLink" href="{{ path('maci_admin_homepage') }}">
-					Admin
-				</a></li>
-
-				{% endif %}
-
-				<li><a class="userMenuLink" href="{{ path('maci_user_homepage') }}">
-					@{{ app.user }}
-				</a></li>
-
-				<li><a href="{{ path('maci_order_cart') }}">Cart</a></li>
-
-				<li><a href="{{ path('maci_order') }}">Orders</a></li>
-
-					<li><a class="userMenuLink" href="{{ path('fos_user_security_logout') }}">
-				{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-				</a></li>
-
-				{% else %}
-
-				<li><a class="userMenuLink" href="{{ path('fos_user_security_login') }}">
-					{{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-				</a></li>
-
-				<li><a class="userMenuLink" href="{{ path('fos_user_registration_register') }}">
-					{{ 'layout.register'|trans({}, 'FOSUserBundle') }}
-				</a></li>
-
-				{% endif %}
-
 			</ul>
+			</nav>
 		</div>
 	</div>
 
@@ -140,7 +113,7 @@
 
 				{% block leftMenu %}
 
-					{#{ render(controller('MaciPageBundle:Default:nav')) }#}
+					{{ knp_menu_render('left') }}
 
 				{% endblock %}
 

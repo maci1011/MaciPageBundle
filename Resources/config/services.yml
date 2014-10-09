@@ -6,15 +6,24 @@ services:
         tags:
             - { name: form.type, alias: page }
 
-    maci_main.menu_builder:
-        class: Maci\PageBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
+    maci_page.menu_builder:
+        class: Maci\PageBundle\Menu\PageMenuBuilder
+        arguments: ["@knp_menu.factory","@security.context","@doctrine.orm.entity_manager"]
 
-    maci_main.menu.main:
+    maci_page.menu.main:
         class: Knp\Menu\MenuItem
-        factory_service: maci_main.menu_builder
+        factory_service: maci_page.menu_builder
         factory_method: createMainMenu
         arguments: ["@request"]
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main }
+
+    maci_page.menu.left:
+        class: Knp\Menu\MenuItem
+        factory_service: maci_page.menu_builder
+        factory_method: createLeftMenu
+        arguments: ["@request"]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: left }
