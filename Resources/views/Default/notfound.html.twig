@@ -1,0 +1,19 @@
+
+{% extends "MaciPageBundle::layout.html.twig" %}
+
+
+{% block content %}
+
+<section class="row">
+
+	<p>{{ 'page.notfound' | matra }}</p>
+
+	{% if is_granted("ROLE_ADMIN") %}
+
+	<a class="btn btn-success ma-tra" href="{{ path('maci_admin_entity_form', {'entity': 'language', 'id': ('page.notfound'|matraid)}) }}" alt="page.notfound">Edit</a>
+
+	{% endif %}
+
+</section>
+
+{% endblock %}

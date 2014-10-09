@@ -1,0 +1,27 @@
+
+Maci\PageBundle\Entity\PageTranslation:
+    type: entity
+    table: maci_page_translation
+    fields:
+        id:
+            type: bigint
+            id: true
+            generator:
+                strategy: AUTO
+        title:
+            type: string
+            length: 127
+        content:
+            type: text
+            nullable: true
+        meta_title:
+            type: string
+            length: 63
+            nullable: true
+        meta_description:
+            type: string
+            length: 191
+            nullable: true
+        locale:
+            type: string
+            length: 10

@@ -1,0 +1,35 @@
+
+Maci\PageBundle\Entity\Page:
+    type:  entity
+    table: maci_page
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: string
+            length: 15
+            nullable: true
+        path:
+            type: string
+            length: 63
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    manyToOne:
+        parent:
+            targetEntity: Page
+            inversedBy: children
+    oneToMany:
+        children:
+            targetEntity: Page
+            mappedBy: parent
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]
+
+

@@ -1,4 +1,20 @@
+
 services:
-#    maci_page.example:
-#        class: Maci\PageBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+
+    maci_page.form.type.page:
+        class: Maci\PageBundle\Form\Type\PageType
+        tags:
+            - { name: form.type, alias: page }
+
+    maci_main.menu_builder:
+        class: Maci\PageBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
+
+    maci_main.menu.main:
+        class: Knp\Menu\MenuItem
+        factory_service: maci_main.menu_builder
+        factory_method: createMainMenu
+        arguments: ["@request"]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
