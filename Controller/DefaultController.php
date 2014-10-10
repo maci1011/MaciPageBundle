@@ -8,7 +8,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->redirect($this->generateUrl('maci_page_local_homepage'));
+        return $this->redirect($this->generateUrl('maci_homepage'));
     }
 
     public function localIndexAction()

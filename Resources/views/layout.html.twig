@@ -5,21 +5,30 @@
 {% if is_granted("ROLE_ADMIN") %}
 
 
+
 {% block stylesheets %}
 
-{{ parent() }}
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/external/google-code-prettify/prettify.css') }}">
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
 
-<link rel="stylesheet" type="text/css" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
+		{{ parent() }}
 
 {% endblock %}
 
 
 {% block javascripts %}
 
-{{ parent() }}
+		{{ parent() }}
 
-<script type="text/javascript" src="{{ asset('/js/jquery-ui.min.js') }}" ></script>
-<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/maci.admin.js') }}" ></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/external/google-code-prettify/prettify.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/external/jquery.hotkeys.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/bootstrap-wysiwyg.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/jquery-ui.min.js') }}" ></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/maci.admin.js') }}" ></script>
+
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 {% endblock %}
 
@@ -46,41 +55,8 @@
 			<a class="navbar-brand" href="#">Mah!</a>
 		</div>
 		<div class="collapse navbar-collapse">
-			<nav>
-
-				{{ knp_menu_render('main') }}
-
-			</nav>
-			<nav>
-
-				{{ knp_menu_render('user') }}
-
-			</nav>
-			<nav>
-			<ul class="nav navbar-nav navbar-right">
-
-				{% block route_translation %}
-
-				{% if app.request.locale != 'it' %}
-
-				<li><a class="userMenuLink" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'it'})) }}">
-					IT
-				</a></li>
-
-				{% endif %}
-
-				{% if app.request.locale != 'en' %}
-
-				<li><a class="userMenuLink" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'})) }}">
-					EN
-				</a></li>
-
-				{% endif %}
-
-				{% endblock %}
-
-			</ul>
-			</nav>
+			<nav>{{ knp_menu_render('main') }}</nav>
+			<nav>{{ knp_menu_render('user') }}</nav>
 		</div>
 	</div>
 
@@ -113,7 +89,7 @@
 
 				{% block leftMenu %}
 
-					{{ knp_menu_render('left') }}
+					<nav>{{ knp_menu_render('left') }}</nav>
 
 				{% endblock %}
 

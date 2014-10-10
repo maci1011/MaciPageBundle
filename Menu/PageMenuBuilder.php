@@ -35,8 +35,6 @@ class PageMenuBuilder
 
 		$menu->addChild('Home', array('route' => 'maci_homepage'));
 
-		$menu->addChild('Gallery', array('route' => 'maci_media_gallery'));
-
 		foreach ($pages as $page) {
 
 			$menu->addChild($page->getTitle(), array(
@@ -45,6 +43,12 @@ class PageMenuBuilder
 			));
 
 		}
+
+		$menu->addChild('Gallery', array('route' => 'maci_media_gallery'));
+
+		$menu->addChild('Shop', array('route' => 'maci_product'));
+
+		$menu->addChild('Blog', array('route' => 'maci_blog'));
 
 		$menu->addChild('Contacts', array('route' => 'maci_page_contacts'));
 
