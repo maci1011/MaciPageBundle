@@ -38,6 +38,10 @@ class PageType extends AbstractType
             ))
 			// ->add('status')
 			->add('path')
+			->add('album')
+			->add('gallery')
+			->add('slider')
+			->add('map')
 			->add('cancel', 'reset')
 			->add('send', 'submit')
 		;

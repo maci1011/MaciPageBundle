@@ -12,6 +12,9 @@ Maci\PageBundle\Entity\Page:
             type: string
             length: 15
             nullable: true
+        map:
+            type: text
+            nullable: true
         path:
             type: string
             length: 63
@@ -21,6 +24,12 @@ Maci\PageBundle\Entity\Page:
         updated:
             type: datetime
     manyToOne:
+        album:
+            targetEntity: Maci\MediaBundle\Entity\Album
+        gallery:
+            targetEntity: Maci\MediaBundle\Entity\Album
+        slider:
+            targetEntity: Maci\MediaBundle\Entity\Album
         parent:
             targetEntity: Page
             inversedBy: children

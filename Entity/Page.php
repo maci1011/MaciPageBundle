@@ -27,6 +27,26 @@ class Page
     private $path;
 
     /**
+     * @var string
+     */
+    private $map;
+
+    /**
+     * @var string
+     */
+    private $album;
+
+    /**
+     * @var string
+     */
+    private $gallery;
+
+    /**
+     * @var string
+     */
+    private $slider;
+
+    /**
      * @var \DateTime
      */
     private $created;
@@ -114,6 +134,98 @@ class Page
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set map
+     *
+     * @param string $map
+     * @return Page
+     */
+    public function setMap($map)
+    {
+        $this->map = $map;
+
+        return $this;
+    }
+
+    /**
+     * Get map
+     *
+     * @return string 
+     */
+    public function getMap()
+    {
+        return $this->map;
+    }
+
+    /**
+     * Set album
+     *
+     * @param string $album
+     * @return Page
+     */
+    public function setAlbum($album)
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * Get album
+     *
+     * @return string 
+     */
+    public function getAlbum()
+    {
+        return $this->album;
+    }
+
+    /**
+     * Set gallery
+     *
+     * @param string $gallery
+     * @return Page
+     */
+    public function setGallery($gallery)
+    {
+        $this->gallery = $gallery;
+
+        return $this;
+    }
+
+    /**
+     * Get gallery
+     *
+     * @return string 
+     */
+    public function getGallery()
+    {
+        return $this->gallery;
+    }
+
+    /**
+     * Set slider
+     *
+     * @param string $slider
+     * @return Page
+     */
+    public function setSlider($path)
+    {
+        $this->slider = $slider;
+
+        return $this;
+    }
+
+    /**
+     * Get slider
+     *
+     * @return string 
+     */
+    public function getSlider()
+    {
+        return $this->slider;
     }
 
     /**

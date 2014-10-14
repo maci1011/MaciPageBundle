@@ -5,15 +5,15 @@
 {% if is_granted("ROLE_ADMIN") %}
 
 
-
 {% block stylesheets %}
 
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/external/google-code-prettify/prettify.css') }}">
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
-
 		{{ parent() }}
+
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/farbtastic/farbtastic.css') }}">
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/freshereditor.css') }}" />
+		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
 
 {% endblock %}
 
@@ -22,10 +22,11 @@
 
 		{{ parent() }}
 
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/external/google-code-prettify/prettify.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/external/jquery.hotkeys.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/bootstrap-wysiwyg.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/jquery-ui.min.js') }}" ></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/shortcut.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/farbtastic/farbtastic.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap-dropdown.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/freshereditor.min.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/maci.admin.js') }}" ></script>
 
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -52,7 +53,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Mah!</a>
+			<a class="navbar-brand" href="{{ path('homepage') }}">Mah!</a>
 		</div>
 		<div class="collapse navbar-collapse">
 			<nav>{{ knp_menu_render('main') }}</nav>
