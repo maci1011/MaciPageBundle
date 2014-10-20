@@ -5,17 +5,47 @@
 
 <header class="row">
 
+	{% if page.slider %}
+	<div class="row">
+		{% include "MaciMediaBundle:Default:_slider.html.twig" with {'list': page.slider.images}  %}
+	</div>
+	{% endif %}
+
 	<h1>
 		{{ page.title }}
 	</h1>
 
 </header>
 
+
+{% if page.map %}
+
+<section class="row">
+
+	{{ page.map|raw }}
+
+</section>
+
+{% endif %}
+
+
 <section class="row">
 
 	{{ page.content|raw }}
 
 </section>
+
+
+{% if page.gallery %}
+
+<section class="row">
+
+	{% include "MaciMediaBundle:Default:_list.html.twig" with {'list': page.gallery.images}  %}
+
+</section>
+
+{% endif %}
+
 
 <footer class="row">
 

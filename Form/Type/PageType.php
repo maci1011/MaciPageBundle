@@ -5,6 +5,7 @@ namespace Maci\PageBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Page
@@ -38,9 +39,36 @@ class PageType extends AbstractType
             ))
 			// ->add('status')
 			->add('path')
-			->add('album')
-			->add('gallery')
-			->add('slider')
+			->add('album', 'entity', array(
+				'class' => 'MaciMediaBundle:Album',
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->where('a.type = :type')
+						->setParameter(':type', 'page_album')
+					;
+				},
+				'empty_value' => ''
+			))
+			->add('gallery', 'entity', array(
+				'class' => 'MaciMediaBundle:Album',
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->where('a.type = :type')
+						->setParameter(':type', 'page_gallery')
+					;
+				},
+				'empty_value' => ''
+			))
+			->add('slider', 'entity', array(
+				'class' => 'MaciMediaBundle:Album',
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->where('a.type = :type')
+						->setParameter(':type', 'page_slider')
+					;
+				},
+				'empty_value' => ''
+			))
 			->add('map')
 			->add('cancel', 'reset')
 			->add('send', 'submit')

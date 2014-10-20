@@ -211,7 +211,7 @@ class Page
      * @param string $slider
      * @return Page
      */
-    public function setSlider($path)
+    public function setSlider($slider)
     {
         $this->slider = $slider;
 

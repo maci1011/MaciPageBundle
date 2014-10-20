@@ -44,11 +44,13 @@ class PageMenuBuilder
 
 		}
 
-		$menu->addChild('Gallery', array('route' => 'maci_media_gallery'));
+		$menu->addChild('Media', array('route' => 'maci_media'));
 
 		$menu->addChild('Shop', array('route' => 'maci_product'));
 
 		$menu->addChild('Blog', array('route' => 'maci_blog'));
+
+		$menu->addChild('List', array('route' => 'maci_list'));
 
 		$menu->addChild('Contacts', array('route' => 'maci_page_contacts'));
 

@@ -12,8 +12,16 @@ canvas {
     height: 100%;
 }
 
+ul {
+    padding: 0;
+}
+
 li {
     list-style: none;
+}
+
+li > ul {
+    padding-left: 12px;
 }
 
 #main {
