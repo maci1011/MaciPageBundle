@@ -29,7 +29,7 @@ $(document).ready(function(e) {
 		});
 	});
 
-	$(".maci-album-item").fancybox();
+	// $(".maci-album-item").fancybox();
 
 });
 
