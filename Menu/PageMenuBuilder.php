@@ -37,6 +37,10 @@ class PageMenuBuilder
 
 		foreach ($pages as $page) {
 
+			if ($page->getPath() === 'homepage') {
+				continue;
+			}
+
 			$menu->addChild($page->getTitle(), array(
 			    'route' => 'maci_page',
 			    'routeParameters' => array('path' => $page->getPath())
