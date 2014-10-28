@@ -56,8 +56,8 @@
 			<a class="navbar-brand" href="{{ path('homepage') }}">Mah!</a>
 		</div>
 		<div class="collapse navbar-collapse">
-			<nav>{{ knp_menu_render('main') }}</nav>
-			<nav>{{ knp_menu_render('user') }}</nav>
+			<nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
+			<nav>{{ knp_menu_render('user', {'currentClass': 'active'}) }}</nav>
 		</div>
 	</div>
 
@@ -90,7 +90,7 @@
 
 				{% block leftMenu %}
 
-					<nav>{{ knp_menu_render('left') }}</nav>
+					<nav>{{ knp_menu_render('left', {'currentClass': 'active'}) }}</nav>
 
 				{% endblock %}
 
