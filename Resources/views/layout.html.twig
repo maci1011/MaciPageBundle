@@ -79,36 +79,30 @@
 	{% endif %}
 
 
-    <div>
+    <div class="container">
 
-	{% block container %}
+    {% block container %}
 
-		<div id="row">
-			<div class="col-md-2">
-			<div class="row">
-			<div id="_menuContainer">
+        <div class="col-md-2">
+        <div id="_menuContainer">
 
-				{% block leftMenu %}
+            {% block leftMenu %}
 
-					<nav>{{ knp_menu_render('left', {'currentClass': 'active'}) }}</nav>
+                <nav>{{ knp_menu_render('left', {'currentClass': 'active'}) }}</nav>
 
-				{% endblock %}
+            {% endblock %}
 
-			</div>
-			</div>
-			</div>
-			<div class="col-md-10">
-			<div class="row">
-			<div id="_pageContainer">
+        </div>
+        </div>
+        <div class="col-md-10">
+        <div id="_pageContainer">
 
-				{% block content %}{% endblock %}
+            {% block content %}{% endblock %}
 
-			</div>
-			</div>
-			</div>
-		</div>
+        </div>
+        </div>
 
-	{% endblock container %}
+    {% endblock container %}
 
     </div>
 

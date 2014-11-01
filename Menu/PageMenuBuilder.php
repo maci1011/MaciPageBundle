@@ -29,11 +29,11 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
-
 		$menu->setChildrenAttribute('class', 'nav navbar-nav');
 
 		$menu->addChild('Home', array('route' => 'maci_homepage'));
+
+		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
 
 		foreach ($pages as $page) {
 
@@ -65,9 +65,15 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
+		$menu->addChild('Home', array('route' => 'maci_homepage'));
+
 		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
 
 		foreach ($pages as $page) {
+
+			if ($page->getPath() === 'homepage') {
+				continue;
+			}
 
 			$menu->addChild($page->getTitle(), array(
 			    'route' => 'maci_page',

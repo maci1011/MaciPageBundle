@@ -57,6 +57,11 @@ class Page
     private $updated;
 
     /**
+     * @var boolean
+     */
+    private $removed;
+
+    /**
      * @var \Maci\PageBundle\Entity\Page
      */
     private $parent;
@@ -78,6 +83,7 @@ class Page
     {
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->status = 'active';
+        $this->removed = false;
     }
 
     /**
@@ -272,6 +278,18 @@ class Page
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 
     /**

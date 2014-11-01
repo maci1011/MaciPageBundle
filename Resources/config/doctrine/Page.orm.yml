@@ -23,6 +23,8 @@ Maci\PageBundle\Entity\Page:
             type: datetime
         updated:
             type: datetime
+        removed:
+            type: boolean
     manyToOne:
         album:
             targetEntity: Maci\MediaBundle\Entity\Album
