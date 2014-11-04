@@ -67,3 +67,6 @@ li > ul {
     border: 2px solid #fff;
 }*/
 
+.form-inline .edit-quantity-field {
+    width: 60px;
+}
