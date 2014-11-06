@@ -51,6 +51,7 @@ li > ul {
 }
 
 #footer p {
+    margin: 0;
 	padding: 60px;
 	text-align: center;
 }
