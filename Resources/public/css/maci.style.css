@@ -48,12 +48,12 @@ li > ul {
 
 #footer {
 	clear: both;
+    padding: 40px;
+    text-align: center;
 }
 
 #footer p {
     margin: 0;
-	padding: 60px;
-	text-align: center;
 }
 
 /*

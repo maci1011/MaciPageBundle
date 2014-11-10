@@ -19,6 +19,16 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     /**
      * @var string
      */
+    private $subtitle;
+
+    /**
+     * @var text
+     */
+    private $header;
+
+    /**
+     * @var string
+     */
     private $content;
 
     /**
@@ -53,6 +63,30 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setSubtitle($title)
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    public function setHeader($title)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    public function getHeader()
+    {
+        return $this->header;
     }
 
     /**

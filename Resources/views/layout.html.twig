@@ -2,39 +2,38 @@
 {% extends "::base.html.twig" %}
 
 
-{% if is_granted("ROLE_ADMIN") %}
-
-
 {% block stylesheets %}
 
-		{{ parent() }}
+    {{ parent() }}
 
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/farbtastic/farbtastic.css') }}">
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/freshereditor.css') }}" />
-		<link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
+    {% if is_granted("ROLE_ADMIN") %}
+
+    <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
+
+    {% endif %}
 
 {% endblock %}
 
 
 {% block javascripts %}
 
-		{{ parent() }}
+    {{ parent() }}
 
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/jquery-ui.min.js') }}" ></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/shortcut.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/farbtastic/farbtastic.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap-dropdown.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/freshereditor.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/maci.admin.js') }}" ></script>
+    {% if is_granted("ROLE_ADMIN") %}
 
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/jquery-ui.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/shortcut.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap-dropdown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bundles/maciadmin/js/maci.admin.js') }}" ></script>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    {% endif %}
 
 {% endblock %}
-
-
-{% endif %}
 
 
 {% block body %}

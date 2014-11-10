@@ -11,6 +11,12 @@ Maci\PageBundle\Entity\PageTranslation:
         title:
             type: string
             length: 127
+        subtitle:
+            type: string
+            length: 127
+        header:
+            type: text
+            nullable: true
         content:
             type: text
             nullable: true
