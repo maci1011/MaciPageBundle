@@ -65,7 +65,7 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
         return $this->title;
     }
 
-    public function setSubtitle($title)
+    public function setSubtitle($subtitle)
     {
         $this->subtitle = $subtitle;
 

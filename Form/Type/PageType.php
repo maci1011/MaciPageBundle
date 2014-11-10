@@ -26,6 +26,12 @@ class PageType extends AbstractType
 			->add('translations', 'a2lix_translations', array(
                 'fields' => array(
                     'title' => array(),
+                    'subtitle' => array(
+                        'required' => false
+                    ),
+                    'header' => array(
+                        'required' => false
+                    ),
                     'content' => array(
                         'required' => false
                     ),
