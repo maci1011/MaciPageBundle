@@ -37,7 +37,7 @@ class PageMenuBuilder
 
 		foreach ($pages as $page) {
 
-			if ($page->getPath() === 'homepage') {
+			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
 				continue;
 			}
 
@@ -71,7 +71,7 @@ class PageMenuBuilder
 
 		foreach ($pages as $page) {
 
-			if ($page->getPath() === 'homepage') {
+			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
 				continue;
 			}
 

@@ -29,6 +29,11 @@ class Page
     /**
      * @var string
      */
+    private $template;
+
+    /**
+     * @var string
+     */
     private $map;
 
     /**
@@ -140,6 +145,18 @@ class Page
     public function getPath()
     {
         return $this->path;
+    }
+
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function getTemplate()
+    {
+        return $this->template;
     }
 
     /**

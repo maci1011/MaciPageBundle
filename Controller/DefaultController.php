@@ -23,7 +23,7 @@ class DefaultController extends Controller
 
     public function contactsAction()
     {
-        return $this->render('MaciPageBundle:Default:contacts.html.twig');
+        return $this->renderByPath('contacts', false);
     }
 
     public function privacyAction()
@@ -40,7 +40,7 @@ class DefaultController extends Controller
             return $this->render('MaciPageBundle:Default:notfound.html.twig');
         }
 
-        if (!$template) {
+        if (!$template = $page->getTemplate()) {
             $template = 'MaciPageBundle:Default:page.html.twig';
         }
 

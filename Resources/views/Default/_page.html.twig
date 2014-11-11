@@ -6,19 +6,25 @@
 <header class="row">
 
 	{% if page.slider %}
-	<div class="row">
+	<div class="page-slider">
 		{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
 	</div>
 	{% endif %}
 
-	<h1>
+	<h1 class="page-title">
 		{{ page.title }}
 	</h1>
 
 	{% if page.subtitle %}
-	<h2>
+	<h2 class="page-subtitle">
 		{{ page.subtitle }}
 	</h2>
+	{% endif %}
+
+	{% if page.header %}
+	<div class="page-header">
+		{{ page.header }}
+	</div>
 	{% endif %}
 
 </header>
@@ -26,7 +32,7 @@
 
 {% if page.map %}
 
-<section class="row">
+<section class="page-map row">
 
 	{{ page.map|raw }}
 
@@ -35,7 +41,7 @@
 {% endif %}
 
 
-<section class="row">
+<section class="page-content row">
 
 	{{ page.content|raw }}
 
@@ -44,7 +50,7 @@
 
 {% if page.gallery %}
 
-<section class="row">
+<section class="page-gallery row">
 
 	{% include "MaciMediaBundle:Default:_list.html.twig" with {'list': page.gallery.images}  %}
 

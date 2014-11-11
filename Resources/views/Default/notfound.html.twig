@@ -13,7 +13,7 @@
 
 <section class="row">
 
-	<p>{{ 'page.notfound' | matra }}</p>
+	<p>{{ 'page.notfound' | matra('Page not found.') }}</p>
 
 	{% if is_granted("ROLE_ADMIN") %}
 

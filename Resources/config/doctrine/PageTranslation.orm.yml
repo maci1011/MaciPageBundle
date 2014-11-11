@@ -14,6 +14,7 @@ Maci\PageBundle\Entity\PageTranslation:
         subtitle:
             type: string
             length: 127
+            nullable: true
         header:
             type: text
             nullable: true
