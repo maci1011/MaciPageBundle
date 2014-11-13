@@ -78,7 +78,7 @@ class PageType extends AbstractType
 				},
 				'empty_value' => ''
 			))
-			->add('map')
+			->add('map', null, array('attr'=>array('class'=>'noeditor')))
 			->add('cancel', 'reset')
 			->add('send', 'submit')
 		;

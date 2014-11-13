@@ -390,6 +390,22 @@ class Page
     }
 
     /**
+     * getSubtitle
+     */
+    public function getSubitle()
+    {
+        return $this->__call('subtitle', null);
+    }
+
+    /**
+     * getHeader
+     */
+    public function getHeader()
+    {
+        return $this->__call('header', null);
+    }
+
+    /**
      * getContent
      */
     public function getContent()

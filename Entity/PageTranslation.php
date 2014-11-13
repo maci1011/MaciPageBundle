@@ -77,7 +77,7 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
         return $this->subtitle;
     }
 
-    public function setHeader($title)
+    public function setHeader($header)
     {
         $this->header = $header;
 
