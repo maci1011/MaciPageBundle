@@ -24,6 +24,10 @@ li > ul {
     padding-left: 12px;
 }
 
+select {
+    color: #000;
+}
+
 #main {
 	padding: 100px 40px 0;
 }
