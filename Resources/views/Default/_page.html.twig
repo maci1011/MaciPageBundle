@@ -48,11 +48,33 @@
 </section>
 
 
+{% if page.category %}
+
+<section class="page-products row">
+
+	{% include "MaciProductBundle:Default:_list.html.twig" with { 'list': page.category.products }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.tag %}
+
+<section class="page-posts row">
+
+	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
+
+</section>
+
+{% endif %}
+
+
 {% if page.gallery %}
 
 <section class="page-gallery row">
 
-	{% include "MaciMediaBundle:Default:_list.html.twig" with {'list': page.gallery.images}  %}
+	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
 
 </section>
 

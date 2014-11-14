@@ -52,6 +52,16 @@ class Page
     private $slider;
 
     /**
+     * @var string
+     */
+    private $category;
+
+    /**
+     * @var string
+     */
+    private $tag;
+
+    /**
      * @var \DateTime
      */
     private $created;
@@ -249,6 +259,30 @@ class Page
     public function getSlider()
     {
         return $this->slider;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
     }
 
     /**

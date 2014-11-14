@@ -78,6 +78,14 @@ class PageType extends AbstractType
 				},
 				'empty_value' => ''
 			))
+			->add('category', 'entity', array(
+				'class' => 'MaciProductBundle:Category',
+				'empty_value' => ''
+			))
+			->add('tag', 'entity', array(
+				'class' => 'MaciBlogBundle:Tag',
+				'empty_value' => ''
+			))
 			->add('map', null, array('attr'=>array('class'=>'noeditor')))
 			->add('cancel', 'reset')
 			->add('send', 'submit')
