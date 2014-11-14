@@ -33,26 +33,31 @@
 <section class="page">
 
 
-<header class="row">
+{% if page.slider %}
 
-	{% if page.slider %}
-	<div class="page-slider">
-		{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
-	</div>
-	{% endif %}
+<section class="page_slider row">
 
-	<h1 class="page-title">
+	{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
+
+</section>
+
+{% endif %}
+
+
+<header class="page_header page_container row">
+
+	<h1 class="page_title">
 		{{ page.title }}
 	</h1>
 
 	{% if page.subtitle %}
-	<h2 class="page-subtitle">
+	<h2 class="page_subtitle">
 		{{ page.subtitle }}
 	</h2>
 	{% endif %}
 
 	{% if page.header %}
-	<div class="page-header">
+	<div class="page_header-content">
 		{{ page.header }}
 	</div>
 	{% endif %}
@@ -62,7 +67,7 @@
 
 {% if page.map %}
 
-<section class="page-map row">
+<section class="page_map row">
 
 	{{ page.map|raw }}
 
@@ -71,7 +76,7 @@
 {% endif %}
 
 
-<section class="row">
+<section class="page_content page_container row">
 <div class="col-xs-6">
 
 	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
@@ -81,22 +86,41 @@
 
 	{{ render(controller('MaciContactBundle:Default:form')) }}
 
+	<div>
+		{{ page.content|raw }}
+	</div>
+
 </div>
 </section>
 
 
-<section class="page-content row">
+{% if page.category %}
 
-	{{ page.content|raw }}
+<section class="page_products page_container row">
+
+	{% include "MaciProductBundle:Default:_list.html.twig" with { 'list': page.category.products }  %}
 
 </section>
+
+{% endif %}
+
+
+{% if page.tag %}
+
+<section class="page_posts page_container row">
+
+	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
+
+</section>
+
+{% endif %}
 
 
 {% if page.gallery %}
 
-<section class="page-gallery row">
+<section class="page_gallery page_container row">
 
-	{% include "MaciMediaBundle:Default:_list.html.twig" with {'list': page.gallery.images}  %}
+	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
 
 </section>
 

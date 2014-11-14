@@ -3,7 +3,7 @@ body {
     background-color: #000;
     font-family: 'Gill Sans', 'Gill Sans MT';
     font-weight: lighter;
-    color: #fff;
+    color: #000;
     margin: 0;
 }
 
@@ -32,13 +32,25 @@ select {
 	padding: 100px 40px 0;
 }
 
-.modal {
-    color: #000;
+#header,
+#maciadmin,
+#mainContainer,
+#footer {
+    background-color: #fff;
+}
+
+#header,
+#mainContainer > .page .page_container {
+    padding: 0 40px;
 }
 
 .image {
     margin-bottom: 8px;
     height: 330px;
+}
+
+.modal {
+    color: #000;
 }
 
 .modal-body .image {
