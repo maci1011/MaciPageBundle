@@ -24,6 +24,11 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     /**
      * @var text
      */
+    private $description;
+
+    /**
+     * @var text
+     */
     private $header;
 
     /**
@@ -87,6 +92,29 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     public function getHeader()
     {
         return $this->header;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return TagTranslation
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

@@ -28,7 +28,7 @@
 
 	{% if page.header %}
 	<div class="page_header-content">
-		{{ page.header }}
+		{{ page.header|raw }}
 	</div>
 	{% endif %}
 
@@ -53,7 +53,7 @@
 </section>
 
 
-{% if page.category %}
+{% if page.category and page.category.products|length %}
 
 <section class="page_products page_container row">
 
@@ -64,7 +64,7 @@
 {% endif %}
 
 
-{% if page.tag %}
+{% if page.tag and page.tag.posts|length %}
 
 <section class="page_posts page_container row">
 
@@ -75,7 +75,18 @@
 {% endif %}
 
 
-{% if page.gallery %}
+{% if page.album and page.album.images|length %}
+
+<section class="page_album page_container row">
+
+	{% include "MaciMediaBundle:Default:_album_media_list.html.twig" with { 'album': page.album }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.gallery and page.gallery.images|length %}
 
 <section class="page_gallery page_container row">
 

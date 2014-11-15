@@ -432,6 +432,14 @@ class Page
     }
 
     /**
+     * getDescription()
+     */
+    public function getDescription()
+    {
+        return $this->__call('description', null);
+    }
+
+    /**
      * getHeader
      */
     public function getHeader()

@@ -16,13 +16,21 @@
 
 {% block title %}
 
-{{ page.meta_title }}
+{% if page.metaTitle %}
+{{ page.metaTitle }}
+{% else %}
+{{ page.title }} - {{ parent() }}
+{% endif %}
 
 {% endblock %}
 
 {% block description %}
 
-<meta name="description" content="{{ page.meta_description }}" />
+{% if page.metaDescription %}
+<meta name="description" content="{{ page.metaDescription }}" />
+{% else %}
+<meta name="description" content="{{ page.description|length > 180 ? page.description|slice(0, 163) : page.description  }}" />
+{% endif %}
 
 {% endblock %}
 

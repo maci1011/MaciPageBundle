@@ -29,6 +29,10 @@ class PageType extends AbstractType
                     'subtitle' => array(
                         'required' => false
                     ),
+                    'description' => array(
+                        'required' => false,
+                        'attr' => array('class'=>'noeditor')
+                    ),
                     'header' => array(
                         'required' => false
                     ),
