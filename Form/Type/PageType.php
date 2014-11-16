@@ -50,7 +50,7 @@ class PageType extends AbstractType
 			// ->add('status')
 			->add('path')
 			->add('template', 'choice', array(
-                'choices' => $this->getTypeArray()
+                'choices' => $this->getTemplatesArray()
             ))
 			->add('album', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
@@ -96,7 +96,7 @@ class PageType extends AbstractType
 		;
 	}
 
-    public function getTypeArray()
+    public function getTemplatesArray()
     {
         return array(
             'MaciPageBundle:Default:page.html.twig' => 'Page',

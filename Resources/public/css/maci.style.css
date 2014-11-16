@@ -1,4 +1,8 @@
 
+/*
+ *      Tags
+ */
+
 body {
     background-color: #000;
     font-family: 'Gill Sans', 'Gill Sans MT';
@@ -28,6 +32,14 @@ select {
     color: #000;
 }
 
+p {
+    margin: 0;
+}
+
+/*
+ *      Layout
+ */
+
 #main {
 	padding: 100px 40px 0;
 }
@@ -44,28 +56,28 @@ select {
     padding: 0 40px;
 }
 
-.image {
+/*
+ *      Lists
+ */
+
+.media, .product {
     margin-bottom: 8px;
     height: 330px;
 }
 
-.modal {
-    color: #000;
+.media-description {
+    padding: 0 6px;
 }
 
-.modal-body .image {
-    margin-bottom: 8px;
-    height: 260px;
-}
-
-.modal-body .image.selected {
-    background-color: #F1F6F7;
-}
+/*
+ *      Footer
+ */
 
 #footer {
 	clear: both;
     padding: 40px;
     text-align: center;
+    margin-bottom: 40px;
 }
 
 #footer p {
@@ -73,16 +85,33 @@ select {
 }
 
 /*
- *      MaciBundles
+ *      Modals
+ */
+
+.modal {
+    color: #000;
+}
+
+.modal-body .media {
+    margin-bottom: 8px;
+    height: 260px;
+}
+
+.modal-body .media.selected {
+    background-color: #F1F6F7;
+}
+
+/*
+ *      Addresses
  */
 
 .maci-user-address-form label {
     display: none;
 }
 
-/*.maci-album {
-    border: 2px solid #fff;
-}*/
+/*
+ *      Orders
+ */
 
 .form-inline .edit-quantity-field {
     width: 60px;

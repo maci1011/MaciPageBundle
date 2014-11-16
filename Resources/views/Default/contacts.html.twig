@@ -89,14 +89,14 @@
 
 	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
 
+	<div>
+		{{ page.content|raw }}
+	</div>
+
 </div>
 <div class="col-xs-6">
 
 	{{ render(controller('MaciContactBundle:Default:form')) }}
-
-	<div>
-		{{ page.content|raw }}
-	</div>
 
 </div>
 </section>
