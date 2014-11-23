@@ -108,6 +108,14 @@ p {
 }
 
 /*
+ *      Products
+ */
+
+.product-value {
+    text-decoration: line-through;
+}
+
+/*
  *      Orders
  */
 
