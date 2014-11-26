@@ -90,6 +90,7 @@ class PageType extends AbstractType
 				'class' => 'MaciBlogBundle:Tag',
 				'empty_value' => ''
 			))
+			->add('parent')
 			->add('map', null, array('attr'=>array('class'=>'noeditor')))
 			->add('cancel', 'reset')
 			->add('send', 'submit')

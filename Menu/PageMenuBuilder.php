@@ -46,6 +46,8 @@ class PageMenuBuilder
 			    'routeParameters' => array('path' => $page->getPath())
 			));
 
+			$this->addChildren($menu[$page->getTitle()], $page, true);
+
 		}
 
 		$menu->addChild('Media', array('route' => 'maci_media'));
@@ -80,8 +82,25 @@ class PageMenuBuilder
 			    'routeParameters' => array('path' => $page->getPath())
 			));
 
+			$this->addChildren($menu[$page->getTitle()], $page);
 		}
 
 		return $menu;
+	}
+
+    public function addChildren($menu, $item, $dropdown = false)
+	{
+		if (count($item->getChildren())) {
+			if ($dropdown) {
+				$menu->setAttribute('dropdown', true);
+			}
+			foreach ($item->getChildren() as $child) {
+				$menu->addChild($child->getTitle(), array(
+				    'route' => 'maci_page',
+				    'routeParameters' => array('path' => $child->getPath())
+				));
+				$this->addChildren($menu[$child->getTitle()], $child);
+			}
+		}
 	}
 }

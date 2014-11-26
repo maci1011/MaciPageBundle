@@ -29,6 +29,18 @@ $(document).ready(function(e) {
 		});
 	});
 
+	$('img[cover]').each(function(i,el) {
+		var src = $(el).attr('src'),
+			cvr = $(el).attr('cover');
+		$(el).mouseenter(function(e) {
+			$(el).attr('src', cvr);
+		}).mouseleave(function(e) {
+			$(el).attr('src', src);
+		});
+	});
+
+	// $('[dropdown=dropdown]').dropdown();
+
 	// $(".maci-album-item").fancybox();
 
 });
