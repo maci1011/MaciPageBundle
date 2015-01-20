@@ -46,7 +46,7 @@ class PageMenuBuilder
 			    'routeParameters' => array('path' => $page->getPath())
 			));
 
-			$this->addChildren($menu[$page->getTitle()], $page, true);
+			// $this->addChildren($menu[$page->getTitle()], $page, true);
 
 		}
 
