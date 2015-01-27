@@ -31,13 +31,29 @@ class DefaultController extends Controller
         return $this->render('MaciPageBundle:Default:privacy.html.twig');
     }
 
+    public function pageNotFoundAction()
+    {
+        $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
+                ->findOneByPath('page-not-found');
+
+        if (!$page) {
+            return $this->render('MaciPageBundle:Default:notfound.html.twig');
+        }
+
+        if (!$template = $page->getTemplate()) {
+            $template = 'MaciPageBundle:Default:page.html.twig';
+        }
+
+        return $this->render($template, array( 'page' => $page ));
+    }
+
     public function renderByPath($path, $template)
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
                 ->findOneByPath($path);
 
         if (!$page) {
-            return $this->render('MaciPageBundle:Default:notfound.html.twig');
+            return $this->redirect($this->generateUrl('maci_page_not_found'));
         }
 
         if (!$template = $page->getTemplate()) {

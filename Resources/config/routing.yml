@@ -7,7 +7,12 @@ maci_page_privacy:
     pattern:  /{_locale}/privacy
     defaults: { _controller: MaciPageBundle:Default:privacy }
 
-# ---> SHow Page
+# ---> Page Not Found
+maci_page_not_found:
+    pattern:  /{_locale}/page-not-found
+    defaults: { _controller: MaciPageBundle:Default:pageNotFound }
+
+# ---> Show Page
 maci_page:
     pattern:  /{_locale}/{path}
     defaults: { _controller: MaciPageBundle:Default:page }
