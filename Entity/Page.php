@@ -169,6 +169,26 @@ class Page
         return $this->template;
     }
 
+    public function getTemplateArray()
+    {
+        return array(
+            'MaciPageBundle:Default:page.html.twig' => 'Page',
+            'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
+            'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
+            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts'
+        );
+    }
+
+    public function getTemplateLabel()
+    {
+        $array = $this->getTemplateArray();
+        if (array_key_exists($this->template, $array)) {
+            return $array[$this->template];
+        }
+        $str = str_replace('_', ' ', $this->template);
+        return ucwords($str);
+    }
+
     /**
      * Set map
      *

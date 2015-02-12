@@ -8,7 +8,7 @@ services:
 
     maci_page.menu_builder:
         class: Maci\PageBundle\Menu\PageMenuBuilder
-        arguments: ["@knp_menu.factory","@security.context","@doctrine.orm.entity_manager"]
+        arguments: ["@knp_menu.factory","@security.context","@doctrine.orm.entity_manager","@maci.translator"]
 
     maci_page.menu.main:
         class: Knp\Menu\MenuItem

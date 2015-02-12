@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Maci\TranslatorBundle\Controller\TranslatorController;
+
 class PageMenuBuilder
 {
 	private $factory;
@@ -17,12 +19,18 @@ class PageMenuBuilder
 
     private $om;
 
-	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om)
+	private $translator;
+
+	private $locales;
+
+	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om, TranslatorController $tc)
 	{
 	    $this->factory = $factory;
 	    $this->securityContext = $securityContext;
 	    $this->user = $securityContext->getToken()->getUser();
         $this->om = $om;
+	    $this->translator = $tc;
+	    $this->locales = $tc->getLocales();
 	}
 
     public function createMainMenu(Request $request)
@@ -31,7 +39,7 @@ class PageMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'nav navbar-nav');
 
-		$menu->addChild('Home', array('route' => 'maci_homepage'));
+		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
 		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
 
@@ -50,15 +58,15 @@ class PageMenuBuilder
 
 		}
 
-		$menu->addChild('Media', array('route' => 'maci_media'));
+		$menu->addChild($this->translator->getText('menu.media', 'Media'), array('route' => 'maci_media'));
 
-		$menu->addChild('Shop', array('route' => 'maci_product'));
+		$menu->addChild($this->translator->getText('menu.shop', 'Shop'), array('route' => 'maci_product'));
 
-		$menu->addChild('Blog', array('route' => 'maci_blog'));
+		$menu->addChild($this->translator->getText('menu.blog', 'Blog'), array('route' => 'maci_blog'));
 
-		$menu->addChild('List', array('route' => 'maci_list'));
+		$menu->addChild($this->translator->getText('menu.list', 'List'), array('route' => 'maci_list'));
 
-		$menu->addChild('Contacts', array('route' => 'maci_page_contacts'));
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page_contacts'));
 
 		return $menu;
 	}

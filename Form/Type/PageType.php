@@ -50,7 +50,7 @@ class PageType extends AbstractType
 			// ->add('status')
 			->add('path')
 			->add('template', 'choice', array(
-                'choices' => $this->getTemplatesArray()
+                'choices' => $builder->getData()->getTemplateArray()
             ))
 			->add('album', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
@@ -96,16 +96,6 @@ class PageType extends AbstractType
 			->add('send', 'submit')
 		;
 	}
-
-    public function getTemplatesArray()
-    {
-        return array(
-            'MaciPageBundle:Default:page.html.twig' => 'Page',
-            'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
-            'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
-            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts'
-        );
-    }
 
 	public function getName()
 	{
