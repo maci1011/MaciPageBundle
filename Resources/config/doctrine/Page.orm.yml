@@ -2,6 +2,7 @@
 Maci\PageBundle\Entity\Page:
     type:  entity
     table: maci_page
+    repositoryClass: Maci\PageBundle\Repository\PageRepository
     id:
         id:
             type: integer
