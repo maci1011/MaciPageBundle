@@ -124,12 +124,46 @@
 
     {% block footer %}
 
-        <p>Footer</p>
+        <p>{{ 'layout.footer'|matra('Footer') }}</p>
 
     {% endblock footer %}
 
     </footer>
 
 </div>
+
+
+{% block startPopUp %}
+
+{% if not app.session.get('start-popup', false) %}
+<sectio id="startPopUp" class="popup">
+
+    <div class="popup-container">
+
+        <h1>{{ 'layout.title'|matra('Title') }}</h1>
+
+        <h2>{{ 'layout.subtitle'|matra('Subtitle') }}</h2>
+
+        <p>{{ 'popup.start.text'|matra('Text') }}</p>
+
+        <div>
+
+            <a class="btn btn-danger" href="http://en.wikipedia.org/">
+                {{ 'form.deny'|matra('Deny') }}
+            </a>
+
+            <a class="btn btn-primary popup-close" href="{{ path('maci_start_popup') }}">
+                {{ 'form.ok'|matra('Ok') }}
+            </a>
+
+        </div>
+
+    </div>
+
+</sectio>
+{% endif %}
+
+{% endblock %}
+
 
 {% endblock body %}

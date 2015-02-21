@@ -62,4 +62,11 @@ class DefaultController extends Controller
 
         return $this->render($template, array( 'page' => $page ));
     }
+
+    public function startPopupAction()
+    {
+        $session = $this->get('session');
+        $session->set('start-popup', true);
+        return $this->redirect($this->generateUrl('homepage'));
+    }
 }

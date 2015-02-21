@@ -1,4 +1,8 @@
 
+maci_start_popup:
+    pattern:  /session/start-popup
+    defaults: { _controller: MaciPageBundle:Default:startPopup }
+
 maci_page_contacts:
     pattern:  /{_locale}/contacts
     defaults: { _controller: MaciPageBundle:Default:contacts }

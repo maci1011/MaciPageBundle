@@ -41,7 +41,7 @@ p {
  */
 
 #main {
-	padding: 100px 40px 0;
+    padding: 60px 0 0;
 }
 
 #header,
@@ -55,6 +55,16 @@ p {
 #mainContainer > .page .page_container {
     padding: 0 40px 40px;
 }
+
+.carousel.slide .item > img {
+    margin: 0 auto;
+}
+
+/*
+ *      Pages
+ */
+
+.page_title {}
 
 /*
  *      Lists
@@ -125,4 +135,30 @@ p {
 
 .form-inline .edit-quantity-field {
     width: 60px;
+}
+
+/*
+ *      Start PopUp
+ */
+
+#startPopUp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(36,30,32,0.9);
+    z-index: 1300;
+}
+
+.popup-container {
+    height: 450px;
+    width: 500px;
+    margin: 80px auto;
+    border: 4px solid #ccc;
+    background-color: #241E20;
+    border-radius: 6px;
+    color: #FFF6F9;
+    padding: 10px 30px;
+    text-align: center;
 }
