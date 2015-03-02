@@ -32,6 +32,12 @@ select {
     color: #000;
 }
 
+h1 {}
+
+h2 {
+    font-size: 16pt;
+}
+
 p {
     margin: 0;
 }
@@ -56,8 +62,36 @@ p {
     padding: 0 40px 40px;
 }
 
-.carousel.slide .item > img {
+.carousel.slide .item img {
     margin: 0 auto;
+}
+
+#mainMenu {
+    padding: 36px 0 0 0;
+}
+
+#mainMenu ul {
+    margin: 0;
+}
+
+#mainMenu li a {
+    color: #000;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+#mainMenu li.active a {
+    background-color: #ddd;
+}
+
+#searchForm {
+    padding: 20px 0 0 0;
+    text-align: right;
+}
+
+#searchForm .form-group {
+    padding: 20px 0 0 0;
+    text-align: right;
 }
 
 /*
@@ -65,6 +99,7 @@ p {
  */
 
 .page_title {}
+.page_subtitle {}
 
 /*
  *      Lists

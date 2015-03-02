@@ -37,7 +37,7 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav navbar-nav');
+		$menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
 
 		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
@@ -58,7 +58,7 @@ class PageMenuBuilder
 
 		}
 
-		$menu->addChild($this->translator->getText('menu.media', 'Media'), array('route' => 'maci_media'));
+		$menu->addChild($this->translator->getText('menu.gallery', 'Gallery'), array('route' => 'maci_media_gallery'));
 
 		$menu->addChild($this->translator->getText('menu.shop', 'Shop'), array('route' => 'maci_product'));
 

@@ -6,25 +6,35 @@ maci_start_popup:
 maci_page_contacts:
     pattern:  /{_locale}/contacts
     defaults: { _controller: MaciPageBundle:Default:contacts }
+    requirements:
+        _locale: %r_locales%
 
 maci_page_privacy:
     pattern:  /{_locale}/privacy
     defaults: { _controller: MaciPageBundle:Default:privacy }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Page Not Found
 maci_page_not_found:
     pattern:  /{_locale}/page-not-found
     defaults: { _controller: MaciPageBundle:Default:pageNotFound }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Show Page
 maci_page:
     pattern:  /{_locale}/{path}
     defaults: { _controller: MaciPageBundle:Default:page }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Local Homepage
 maci_homepage:
     pattern:  /{_locale}
     defaults: { _controller: MaciPageBundle:Default:localIndex }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Locale Redirect
 homepage:

@@ -4,8 +4,15 @@
 
 {% block title %}
 
-{{ 'search.title' | matra('Search for:') }} {{ query }}
+{{ 'search.page' | matra('Search a Page:') }} {{ query }}
 
+{% endblock %}
+
+
+{% block searchForm %}
+<div id="searchForm" class="col-xs-12 col-md-3">
+    {{ render(controller('MaciSearchBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')), 'query': query })) }}
+</div>
 {% endblock %}
 
 
@@ -16,7 +23,7 @@
 	<header class="page_header page_container row">
 
 		<h1 class="page_title">
-			{{ 'search.title' | matra('Search for:') }} {{ query }}
+			{{ 'search.page' | matra('Search a Page') }} for "{{ query }}"
 		</h1>
 
 	</header>

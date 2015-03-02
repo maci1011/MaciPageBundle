@@ -51,10 +51,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('homepage') }}">Mah!</a>
         </div>
         <div class="collapse navbar-collapse">
-            <nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
+            <nav>{{ knp_menu_render('language', {'currentClass': 'active'}) }}</nav>
             <nav>{{ knp_menu_render('user', {'currentClass': 'active'}) }}</nav>
         </div>
     </div>
@@ -64,15 +63,27 @@
 
     <header id="header" class="container">
 
-    <div>
-        {{ render(controller('MaciSearchBundle:Search:form')) }}
-    </div>
-
     {% block header %}
 
-    <div>
-        <h1>Mah!</h1>
-        <h2>A Base Project</h2>
+    <div class="row">
+
+        <div class="col-xs-12 col-md-3">
+            <a href="{{ path('homepage') }}">
+                <h1>{{ 'layout.title'|matra('Mah!') }}</h1>
+            </a>
+            <h2>{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
+        </div>
+
+        <div id="mainMenu" class="col-xs-12 col-md-6">
+            <nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
+        </div>
+
+        {% block searchForm %}
+        <div id="searchForm" class="col-xs-12 col-md-3">
+            {{ render(controller('MaciSearchBundle:Search:form', {'section': 'all', 'label': ('form.search'|matra('Search')) })) }}
+        </div>
+        {% endblock %}
+
     </div>
 
     {% endblock %}
