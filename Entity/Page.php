@@ -99,6 +99,7 @@ class Page
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->status = 'active';
         $this->removed = false;
+        $this->path = ( 'page-' . rand( 100000, 999999 ) );
     }
 
     /**
