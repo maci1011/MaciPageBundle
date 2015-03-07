@@ -57,9 +57,8 @@ p {
     background-color: #fff;
 }
 
-#header,
-#mainContainer > .page .page_container {
-    padding: 0 40px 40px;
+#header {
+    padding: 0 40px;
 }
 
 .carousel.slide .item img {
@@ -97,6 +96,10 @@ p {
 /*
  *      Pages
  */
+
+.page_container {
+    padding: 0 15px;
+}
 
 .page_title {}
 .page_subtitle {}
