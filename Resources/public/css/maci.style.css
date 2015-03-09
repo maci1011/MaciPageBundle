@@ -171,6 +171,10 @@ p {
  *      Orders
  */
 
+.order-item-quantity-form {
+    display: inline;
+}
+
 .form-inline .edit-quantity-field {
     width: 60px;
 }
