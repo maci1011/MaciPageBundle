@@ -10,9 +10,7 @@
 
 
 {% block searchForm %}
-<div id="searchForm" class="col-xs-12 col-md-3">
-    {{ render(controller('MaciSearchBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')), 'query': query })) }}
-</div>
+{{ render(controller('MaciSearchBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')), 'query': query })) }}
 {% endblock %}
 
 

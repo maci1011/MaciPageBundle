@@ -73,9 +73,8 @@ p {
     margin: 0;
 }
 
-#mainMenu li a {
+#mainMenu li a, #pathMenu li a {
     color: #000;
-    padding: 10px;
     margin: 0 5px;
 }
 
@@ -83,13 +82,12 @@ p {
     background-color: #ddd;
 }
 
-#searchForm {
-    padding: 20px 0 0 0;
+#searchForm form {
     text-align: right;
 }
 
 #searchForm .form-group {
-    padding: 20px 0 0 0;
+    padding-top: 8px;
     text-align: right;
 }
 
@@ -171,12 +169,12 @@ p {
  *      Orders
  */
 
-.order-item-quantity-form {
+.order-item-quantity-form, .order-item-remove-form {
     display: inline;
 }
 
-.form-inline .edit-quantity-field {
-    width: 60px;
+.edit-quantity-field {
+    width: 75px;
 }
 
 /*

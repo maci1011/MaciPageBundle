@@ -74,15 +74,33 @@
             <h2>{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
         </div>
 
-        <div id="mainMenu" class="col-xs-12 col-md-6">
+        <div id="mainMenu" class="col-xs-12 col-md-9">
             <nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
         </div>
 
-        {% block searchForm %}
-        <div id="searchForm" class="col-xs-12 col-md-3">
-            {{ render(controller('MaciSearchBundle:Search:form', {'section': 'all', 'label': ('form.search'|matra('Search')) })) }}
+    </div>
+
+    {% endblock %}
+
+    {% block headerNav %}
+
+    <div class="row">
+
+        <div id="pathBar" class="col-xs-12 col-md-9">
+            {% block pathBar %}
+            <nav>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('homepage') }}">Home</a></li>
+            </ul>
+            </nav>
+            {% endblock %}
         </div>
-        {% endblock %}
+
+        <div id="searchForm" class="col-xs-12 col-md-3">
+            {% block searchForm %}
+                {{ render(controller('MaciSearchBundle:Search:form', {'section': 'all', 'label': ('form.search'|matra('Search')) })) }}
+            {% endblock %}
+        </div>
 
     </div>
 

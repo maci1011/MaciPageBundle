@@ -387,6 +387,17 @@ class Page
         return $this->parent;
     }
 
+    public function getParentsList()
+    {
+        $list = array();
+        $obj = $this->parent;
+        while (is_object($obj)) {
+            $list[] = $obj;
+            $obj = $obj->getParent();
+        }
+        return array_reverse($list);
+    }
+
     /**
      * Add children
      *
