@@ -3,18 +3,6 @@ maci_start_popup:
     pattern:  /session/start-popup
     defaults: { _controller: MaciPageBundle:Default:startPopup }
 
-maci_page_contacts:
-    pattern:  /{_locale}/contacts
-    defaults: { _controller: MaciPageBundle:Default:contacts }
-    requirements:
-        _locale: %r_locales%
-
-maci_page_privacy:
-    pattern:  /{_locale}/privacy
-    defaults: { _controller: MaciPageBundle:Default:privacy }
-    requirements:
-        _locale: %r_locales%
-
 # ---> Page Not Found
 maci_page_not_found:
     pattern:  /{_locale}/page-not-found

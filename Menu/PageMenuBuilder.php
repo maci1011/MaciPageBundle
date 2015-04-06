@@ -41,22 +41,7 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
-		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
-
-		foreach ($pages as $page) {
-
-			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
-				continue;
-			}
-
-			$menu->addChild($page->getTitle(), array(
-			    'route' => 'maci_page',
-			    'routeParameters' => array('path' => $page->getPath())
-			));
-
-			// $this->addChildren($menu[$page->getTitle()], $page, true);
-
-		}
+		$menu->addChild($this->translator->getText('menu.about', 'About'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'about')));
 
 		$menu->addChild($this->translator->getText('menu.gallery', 'Gallery'), array('route' => 'maci_media_gallery'));
 
@@ -66,7 +51,7 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getText('menu.list', 'List'), array('route' => 'maci_list'));
 
-		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page_contacts'));
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'contacts')));
 
 		return $menu;
 	}
@@ -75,25 +60,29 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->addChild('Home', array('route' => 'maci_homepage'));
+		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
+		$this->addPages($menu, true);
+
+		return $menu;
+	}
+
+    public function addPages($menu, $children = false)
+	{
 		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
-
 		foreach ($pages as $page) {
-
 			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
 				continue;
 			}
-
-			$menu->addChild($page->getTitle(), array(
+			$title = $page->getTitle();
+			$menu->addChild($title, array(
 			    'route' => 'maci_page',
 			    'routeParameters' => array('path' => $page->getPath())
 			));
-
-			$this->addChildren($menu[$page->getTitle()], $page);
+			if ($children) {
+				$this->addChildren($menu[$title], $page);
+			}
 		}
-
-		return $menu;
 	}
 
     public function addChildren($menu, $item, $dropdown = false)

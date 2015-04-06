@@ -21,16 +21,6 @@ class DefaultController extends Controller
         return $this->renderByPath($path, false);
     }
 
-    public function contactsAction()
-    {
-        return $this->renderByPath('contacts', false);
-    }
-
-    public function privacyAction()
-    {
-        return $this->render('MaciPageBundle:Default:privacy.html.twig');
-    }
-
     public function pageNotFoundAction()
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
