@@ -75,36 +75,28 @@
         </div>
 
         <div id="mainMenu" class="col-xs-12 col-md-9">
-            <nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
-        </div>
-
-    </div>
-
-    {% endblock %}
-
-    {% block headerNav %}
-
-    <div class="row">
-
-        <div id="pathBar" class="col-xs-12 col-md-9">
-            {% block pathBar %}
             <nav>
-            <ul class="nav navbar-nav">
-                <li><a href="{{ path('homepage') }}">Home</a></li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="searchLink" class="navbar-btn btn btn-primary" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            Search
+                        </a>
+                    </li>
+                </ul>
+                {{ knp_menu_render('main', {'currentClass': 'active'}) }}
             </nav>
-            {% endblock %}
-        </div>
-
-        <div id="searchForm" class="col-xs-12 col-md-3">
-            {% block searchForm %}
-                {{ render(controller('MaciSearchBundle:Search:form', {'section': 'all', 'label': ('form.search'|matra('Search')) })) }}
-            {% endblock %}
         </div>
 
     </div>
 
     {% endblock %}
+
+    <div id="pathBar" class="row">
+
+        {% block pathBar %}{% endblock %}
+
+    </div>
 
     </header>
 
