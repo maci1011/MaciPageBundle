@@ -60,7 +60,8 @@ class PageType extends AbstractType
 						->setParameter(':type', 'page_album')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('gallery', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
@@ -70,7 +71,8 @@ class PageType extends AbstractType
 						->setParameter(':type', 'page_gallery')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('slider', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
@@ -80,17 +82,24 @@ class PageType extends AbstractType
 						->setParameter(':type', 'page_slider')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('category', 'entity', array(
 				'class' => 'MaciProductBundle:Category',
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('tag', 'entity', array(
 				'class' => 'MaciBlogBundle:Tag',
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
-			->add('parent')
+			->add('parent', 'entity', array(
+				'class' => 'MaciPageBundle:Page',
+				'empty_value' => '',
+				'required' => false
+			))
 			->add('map', null, array('attr'=>array('class'=>'noeditor')))
 			->add('cancel', 'reset')
 			->add('send', 'submit')

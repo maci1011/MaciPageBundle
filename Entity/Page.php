@@ -176,7 +176,12 @@ class Page
             'MaciPageBundle:Default:page.html.twig' => 'Page',
             'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
             'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
-            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts'
+            'MaciPageBundle:Default:about.html.twig' => 'About',
+            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts',
+            'MaciPageBundle:Default:template_zero.html.twig' => 'Zero',
+            'MaciPageBundle:Default:template_one.html.twig' => 'One',
+            'MaciPageBundle:Default:template_two.html.twig' => 'Two',
+            'MaciPageBundle:Default:foo.html.twig' => 'Foo'
         );
     }
 
