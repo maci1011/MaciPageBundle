@@ -108,11 +108,11 @@
 </header>
 
 
-{% if page.map %}
+{% if page.content %}
 
-<section class="page_map row">
+<section class="page_content page_container row">
 
-	{{ page.map|raw }}
+	{{ page.content|raw }}
 
 </section>
 
@@ -125,7 +125,7 @@
 	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
 
 	<div class="page_content">
-		{{ page.content|raw }}
+		{{ page.text|raw }}
 	</div>
 
 </div>
@@ -164,6 +164,28 @@
 <section class="page_gallery page_container row">
 
 	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.map %}
+
+<section class="page_map row">
+
+	{{ page.map|raw }}
+
+</section>
+
+{% endif %}
+
+
+{% if page.footer %}
+
+<section class="page_footer row">
+
+	{{ page.footer|raw }}
 
 </section>
 

@@ -37,22 +37,26 @@
 </header>
 
 
-{% if page.map %}
-
-<section class="page_map row">
-
-	{{ page.map|raw }}
-
-</section>
-
-{% endif %}
-
+{% if page.content %}
 
 <section class="page_content page_container row">
 
 	{{ page.content|raw }}
 
 </section>
+
+{% endif %}
+
+
+{% if page.text %}
+
+<section class="page_text row">
+
+	{{ page.text|raw }}
+
+</section>
+
+{% endif %}
 
 
 {% if page.category and page.category.currentItems|length %}
@@ -93,6 +97,28 @@
 <section class="page_gallery page_container row">
 
 	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.map %}
+
+<section class="page_map row">
+
+	{{ page.map|raw }}
+
+</section>
+
+{% endif %}
+
+
+{% if page.footer %}
+
+<section class="page_footer row">
+
+	{{ page.footer|raw }}
 
 </section>
 

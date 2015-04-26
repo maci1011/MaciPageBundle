@@ -60,6 +60,8 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
+		$menu->setChildrenAttribute('class', 'nav');
+
 		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
 		$this->addPages($menu, true);
@@ -88,6 +90,7 @@ class PageMenuBuilder
     public function addChildren($menu, $item, $dropdown = false)
 	{
 		if (count($item->getChildren())) {
+			$menu->setChildrenAttribute('class', 'nav');
 			if ($dropdown) {
 				$menu->setAttribute('dropdown', true);
 			}

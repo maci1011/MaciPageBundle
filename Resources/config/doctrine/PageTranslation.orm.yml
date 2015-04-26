@@ -24,6 +24,12 @@ Maci\PageBundle\Entity\PageTranslation:
         content:
             type: text
             nullable: true
+        text:
+            type: text
+            nullable: true
+        footer:
+            type: text
+            nullable: true
         meta_title:
             type: string
             length: 63
