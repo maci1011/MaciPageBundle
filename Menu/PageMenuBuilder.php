@@ -71,7 +71,7 @@ class PageMenuBuilder
 
     public function addPages($menu, $children = false)
 	{
-		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
+		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null, 'removed' => false));
 		foreach ($pages as $page) {
 			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
 				continue;
@@ -89,12 +89,12 @@ class PageMenuBuilder
 
     public function addChildren($menu, $item, $dropdown = false)
 	{
-		if (count($item->getChildren())) {
+		if (count($item->getCurrentChildren())) {
 			$menu->setChildrenAttribute('class', 'nav');
 			if ($dropdown) {
 				$menu->setAttribute('dropdown', true);
 			}
-			foreach ($item->getChildren() as $child) {
+			foreach ($item->getCurrentChildren() as $child) {
 				$menu->addChild($child->getTitle(), array(
 				    'route' => 'maci_page',
 				    'routeParameters' => array('path' => $child->getPath())

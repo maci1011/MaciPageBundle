@@ -24,7 +24,10 @@ class DefaultController extends Controller
     public function pageNotFoundAction()
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
-                ->findOneByPath('page-not-found');
+                ->findOneBy(array(
+                    'path' => 'page-not-found',
+                    'removed' => false
+                ));
 
         if (!$page) {
             return $this->render('MaciPageBundle:Default:notfound.html.twig');
@@ -40,7 +43,10 @@ class DefaultController extends Controller
     public function renderByPath($path, $template)
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
-                ->findOneByPath($path);
+                ->findOneBy(array(
+                    'path' => $path,
+                    'removed' => false
+                ));
 
         if (!$page) {
             return $this->redirect($this->generateUrl('maci_page_not_found'));

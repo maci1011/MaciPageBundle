@@ -436,6 +436,13 @@ class Page
         return $this->children;
     }
 
+    public function getCurrentChildren()
+    {
+        return $this->children->filter(function($e){
+            return !$e->getRemoved();
+        });
+    }
+
     /**
      * setUpdatedValue
      */
