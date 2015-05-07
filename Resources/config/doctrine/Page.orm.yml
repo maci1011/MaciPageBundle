@@ -37,6 +37,8 @@ Maci\PageBundle\Entity\Page:
             targetEntity: Maci\MediaBundle\Entity\Album
         slider:
             targetEntity: Maci\MediaBundle\Entity\Album
+        slides:
+            targetEntity: Maci\MediaBundle\Entity\Album
         category:
             targetEntity: Maci\ProductBundle\Entity\Category
         tag:

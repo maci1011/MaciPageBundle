@@ -61,7 +61,7 @@
 
     {% endblock %}
 
-    <header id="header" class="container">
+    <header id="header">
 
     {% block header %}
 
@@ -103,7 +103,7 @@
 
     {% if is_granted("ROLE_ADMIN") %}
 
-    <div id="maciadmin" class="container">
+    <div id="maciadmin">
         <div class="btn-group">
 
             {% block maciadmin %}{% endblock %}
@@ -114,7 +114,7 @@
     {% endif %}
 
 
-    <div id="mainContainer" class="container">
+    <div id="mainContainer">
 
     {% block container %}
 
@@ -141,7 +141,7 @@
 
     </div>
 
-    <footer id="footer" class="container">
+    <footer id="footer">
 
     {% block footer %}
 

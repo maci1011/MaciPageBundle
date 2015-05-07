@@ -4,7 +4,7 @@
  */
 
 body {
-    background-color: #000;
+    background-color: #fff;
     font-family: 'Gill Sans', 'Gill Sans MT';
     font-weight: lighter;
     color: #000;
@@ -47,7 +47,7 @@ p {
  */
 
 #main {
-    padding: 60px 0 0;
+    padding: 51px 0 0;
 }
 
 #header,
@@ -96,11 +96,81 @@ p {
  */
 
 .page_container {
-    padding: 0 15px;
+    padding: 0 40px;
+    margin: 0;
 }
 
 .page_title {}
 .page_subtitle {}
+
+/*
+ *      Slider & Slides
+ */
+
+.page_slider, .page_slides {
+    padding: 0;
+    margin: 0;
+}
+
+.page_slides .slide {
+    position: relative;
+    padding: 90px 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.slide .button-next {
+    height: 89px;
+    width: 89px;
+    border: 2px solid #fff;
+    border-radius: 46.66667px;
+    overflow: hidden;
+    text-indent: -200px;
+    background-image: url('/images/defaults/arrow.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #333;
+    display: block;
+    margin: 20px auto 0;
+    opacity: 0.7;
+    color: #fff;
+}
+
+/*      Slide Style: Left and Right       */
+
+.slide.left .slide-caption, .slide.right .slide-caption {
+    width: 50%;
+    padding: 40px;
+    background-color: #fff;
+    position: relative;
+    left: 0;
+}
+
+.slide.right .slide-caption {
+    left: 50%;
+}
+
+.slide.left .button-next, .slide.right .button-next {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -44.5px;
+    border-bottom: 0 none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.slide.right .slide-caption {
+    left: 50%;
+}
+
+/*      Slide Style: Left and Right       */
+
+.slide.center .slide-caption {
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+}
 
 /*
  *      Lists

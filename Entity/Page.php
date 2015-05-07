@@ -39,26 +39,6 @@ class Page
     /**
      * @var string
      */
-    private $album;
-
-    /**
-     * @var string
-     */
-    private $gallery;
-
-    /**
-     * @var string
-     */
-    private $slider;
-
-    /**
-     * @var string
-     */
-    private $category;
-
-    /**
-     * @var string
-     */
     private $tag;
 
     /**
@@ -75,6 +55,31 @@ class Page
      * @var boolean
      */
     private $removed;
+
+    /**
+     * @var string
+     */
+    private $album;
+
+    /**
+     * @var string
+     */
+    private $gallery;
+
+    /**
+     * @var string
+     */
+    private $slider;
+
+    /**
+     * @var string
+     */
+    private $slides;
+
+    /**
+     * @var string
+     */
+    private $category;
 
     /**
      * @var \Maci\PageBundle\Entity\Page
@@ -285,6 +290,29 @@ class Page
     public function getSlider()
     {
         return $this->slider;
+    }
+
+    /**
+     * Set slides
+     *
+     * @param string $slides
+     * @return Page
+     */
+    public function setSlides($slides)
+    {
+        $this->slides = $slides;
+
+        return $this;
+    }
+
+    /**
+     * Get slides
+     *
+     * @return string 
+     */
+    public function getSlides()
+    {
+        return $this->slides;
     }
 
     public function setCategory($category)

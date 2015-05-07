@@ -14,6 +14,17 @@
 {% endif %}
 
 
+{% if page.slides and page.slides.images|length %}
+
+<section class="page_slides page_container row">
+
+	{% include "MaciMediaBundle:Default:_slides.html.twig" with {'album': page.slides}  %}
+
+</section>
+
+{% endif %}
+
+
 <header class="page_header page_container row">
 
 	<h1 class="page_title">
@@ -35,6 +46,7 @@
 	{% endif %}
 
 </header>
+
 
 
 {% if page.content %}
@@ -70,17 +82,6 @@
 {% endif %}
 
 
-{% if page.tag and page.tag.posts|length %}
-
-<section class="page_posts page_container row">
-
-	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
-
-</section>
-
-{% endif %}
-
-
 {% if page.album and page.album.images|length %}
 
 <section class="page_album page_container row">
@@ -96,7 +97,18 @@
 
 <section class="page_gallery page_container row">
 
-	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
+	{% include "MaciMediaBundle:Default:_album_media_list.html.twig" with { 'album': page.gallery }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.tag and page.tag.posts|length %}
+
+<section class="page_posts page_container row">
+
+	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
 
 </section>
 

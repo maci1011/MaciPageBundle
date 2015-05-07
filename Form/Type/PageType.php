@@ -85,6 +85,17 @@ class PageType extends AbstractType
 				'empty_value' => '',
 				'required' => false
 			))
+			->add('slides', 'entity', array(
+				'class' => 'MaciMediaBundle:Album',
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->where('a.type = :type')
+						->setParameter(':type', 'page_slides')
+					;
+				},
+				'empty_value' => '',
+				'required' => false
+			))
 			->add('category', 'entity', array(
 				'class' => 'MaciProductBundle:Category',
 				'empty_value' => '',
