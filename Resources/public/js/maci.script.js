@@ -19,6 +19,35 @@ $(document).ready(function(e) {
 		});
 	}).resize();
 
+	$('.page_slides .slide .button-next').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			var nxt = $(el).parents('.slide').first();
+			nxt = nxt.next().length ? nxt.next() : nxt.parent().next();
+			$(window).scrollTo( nxt , 600 );
+		});
+	});
+
+	$(window).scroll(function(e) {
+		$('.page_slides .slide').each(function(i,el) {
+			var
+				wnd = $(window).height(),
+				lmt = wnd / 3,
+				lmb = wnd - lmt,
+				scr = $(window).scrollTop(),
+				ofs = $(el).offset().top,
+				hgt = $(el).height(),
+				dff = ofs - scr,
+				btt = dff + hgt
+			;
+			if ( dff < lmt && lmb < btt ) {
+				$(el).addClass('active');
+			} else {
+				$(el).removeClass('active');
+			}
+		});
+	}).scroll();
+
 	// $('[dropdown=dropdown]').dropdown();
 
 	// $(".maci-album-item").fancybox();
