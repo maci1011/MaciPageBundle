@@ -29,7 +29,7 @@ $(document).ready(function(e) {
 	});
 
 	$(window).scroll(function(e) {
-		$('.page_slides .slide').each(function(i,el) {
+		$('.page_container, .page_slides .slide, .tgglscrn').not('page_slides').each(function(i,el) {
 			var
 				wnd = $(window).height(),
 				lmt = wnd / 3,
