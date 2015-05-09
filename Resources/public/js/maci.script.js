@@ -44,8 +44,8 @@ $(document).ready(function(e) {
 				$(el).addClass('active');
 				$(el).removeClass('inactive');
 			} else {
-				$(el).addClass('inactive');
 				$(el).removeClass('active');
+				$(el).addClass('inactive');
 			}
 		});
 	}).scroll();
