@@ -40,7 +40,7 @@ $(document).ready(function(e) {
 				dff = ofs - scr,
 				btt = dff + hgt
 			;
-			if ( dff < lmt && lmb < btt ) {
+			if ( lmt < btt && dff < lmb ) {
 				$(el).addClass('active');
 			} else {
 				$(el).removeClass('active');
