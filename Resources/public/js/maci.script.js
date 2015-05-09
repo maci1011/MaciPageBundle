@@ -42,7 +42,9 @@ $(document).ready(function(e) {
 			;
 			if ( lmt < btt && lmb < dff ) {
 				$(el).addClass('active');
+				$(el).removeClass('inactive');
 			} else {
+				$(el).addClass('inactive');
 				$(el).removeClass('active');
 			}
 		});
