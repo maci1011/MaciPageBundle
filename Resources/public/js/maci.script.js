@@ -14,7 +14,7 @@ $(document).ready(function(e) {
 	});
 
 	$(window).resize(function(e) {
-		$('.fllscrn').each(function(i,el) {
+		$('.page_slides .slide, .fllscrn').each(function(i,el) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
 		});
 	}).resize();
@@ -40,7 +40,7 @@ $(document).ready(function(e) {
 				dff = ofs - scr,
 				btt = dff + hgt
 			;
-			if ( lmt < btt && dff < lmb ) {
+			if ( lmt < btt && lmb < dff ) {
 				$(el).addClass('active');
 			} else {
 				$(el).removeClass('active');
