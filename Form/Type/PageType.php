@@ -39,6 +39,12 @@ class PageType extends AbstractType
                     'content' => array(
                         'required' => false
                     ),
+                    'text' => array(
+                        'required' => false
+                    ),
+                    'footer' => array(
+                        'required' => false
+                    ),
                     'meta_title' => array(
                         'required' => false
                     ),
@@ -57,7 +63,7 @@ class PageType extends AbstractType
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type')
-						->setParameter(':type', 'page_album')
+						->setParameter(':type', 'gallery')
 					;
 				},
 				'empty_value' => '',
@@ -68,7 +74,7 @@ class PageType extends AbstractType
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type')
-						->setParameter(':type', 'page_gallery')
+						->setParameter(':type', 'gallery')
 					;
 				},
 				'empty_value' => '',

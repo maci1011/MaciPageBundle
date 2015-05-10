@@ -36,7 +36,7 @@ $(document).ready(function(e) {
 				lmb = wnd - lmt,
 				scr = $(window).scrollTop(),
 				ofs = $(el).offset().top,
-				hgt = $(el).height(),
+				hgt = $(el).innerHeight(),
 				dff = ofs - scr,
 				btt = dff + hgt
 			;
