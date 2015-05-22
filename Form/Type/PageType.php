@@ -62,8 +62,10 @@ class PageType extends AbstractType
 				'class' => 'MaciMediaBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
-						->where('a.type = :type')
-						->setParameter(':type', 'gallery')
+						->where('a.type = :type1')
+						->orWhere('a.type = :type2')
+						->setParameter(':type1', 'gallery')
+						->setParameter(':type2', 'page_album')
 					;
 				},
 				'empty_value' => '',
@@ -73,8 +75,10 @@ class PageType extends AbstractType
 				'class' => 'MaciMediaBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
-						->where('a.type = :type')
-						->setParameter(':type', 'gallery')
+						->where('a.type = :type1')
+						->orWhere('a.type = :type2')
+						->setParameter(':type1', 'gallery')
+						->setParameter(':type2', 'page_album')
 					;
 				},
 				'empty_value' => '',

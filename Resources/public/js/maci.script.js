@@ -14,8 +14,11 @@ $(document).ready(function(e) {
 	});
 
 	$(window).resize(function(e) {
-		$('.page_slides .slide, .fllscrn').each(function(i,el) {
+		$('.page_slides > .slide, .fllscrn').each(function(i,el) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
+		});
+		$('.page_slides > .slide.slider .item').each(function(i,el) {
+			$(el).css('height', ( $(window).height() ) + 'px' );
 		});
 	}).resize();
 
@@ -29,7 +32,7 @@ $(document).ready(function(e) {
 	});
 
 	$(window).scroll(function(e) {
-		$('.page_container, .page_slides .slide, .tgglscrn').not('page_slides').each(function(i,el) {
+		$('.page_container, .page_slides > .slide .tgglscrn').not('.page_slides').each(function(i,el) {
 			var
 				wnd = $(window).height(),
 				lmt = wnd / 3,
