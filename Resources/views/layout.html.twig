@@ -69,7 +69,7 @@
 
         <div class="col-xs-12 col-sm-3">
             <a href="{{ path('homepage') }}">
-                <h1>{{ 'layout.title'|matra('Mah!') }}</h1>
+                <h1>{{ 'layout.title'|matra( company_title ) }}</h1>
             </a>
             <h2>{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
         </div>
@@ -145,7 +145,32 @@
 
     {% block footer %}
 
-        <p>{{ 'layout.footer'|matra('Footer') }}</p>
+        <nav>
+
+            <!--
+                 Social Icons
+                 
+                 Use anything from here: http://fortawesome.github.io/Font-Awesome/cheatsheet/)
+            -->
+                <ul class="nav navbar-nav">
+                    <li><a href="http://www.facebook.com/" target="_blank"><span>Facebook</span></a></li>
+                    <li><a href="http://plus.google.com/" target="_blank"><span>Google</span></a></li>
+                </ul>
+
+            <!-- Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="navbar-text">{{ company_title }} | {{ company_address }} {{ company_cccs }} | <abbr title="Phone">Tel.</abbr> {{ company_phone }}</span></li>
+                    <li><a href="mailto:{{ contact_email }}"><span>{{ contact_email }}</span></a></li>
+                    <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">Privacy &amp; Cookies</a></li>
+                    {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('maci_media') }}">Media</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{{ path('maci_user_login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+
+        </nav>
 
     {% endblock footer %}
 

@@ -1,0 +1,23 @@
+
+
+{% if page.content %}
+
+<section class="page_content page_container row">
+
+	{{ page.content|raw }}
+
+</section>
+
+{% endif %}
+
+
+{% if page.text %}
+
+<section class="page_text row">
+
+	{{ page.text|raw }}
+
+</section>
+
+{% endif %}
+

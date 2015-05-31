@@ -1,0 +1,46 @@
+
+
+{% if page.slider %}
+
+<section class="page_slider row">
+
+	{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.slides and page.slides.images|length %}
+
+<section class="page_slides page_container row">
+
+	{% include "MaciMediaBundle:Default:_slides.html.twig" with {'album': page.slides}  %}
+
+</section>
+
+{% endif %}
+
+
+<header class="page_header page_container row">
+
+	<h1 class="page_title">
+		{{ page.title }}
+	</h1>
+
+	<div class="page_spacer"></div>
+
+	{% if page.subtitle %}
+	<h2 class="page_subtitle">
+		{{ page.subtitle }}
+	</h2>
+	{% endif %}
+
+	{% if page.header %}
+	<div class="page_header-content">
+		{{ page.header|raw }}
+	</div>
+	{% endif %}
+
+</header>
+

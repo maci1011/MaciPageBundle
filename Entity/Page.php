@@ -186,7 +186,15 @@ class Page
             'MaciPageBundle:Default:template_zero.html.twig' => 'Zero',
             'MaciPageBundle:Default:template_one.html.twig' => 'One',
             'MaciPageBundle:Default:template_two.html.twig' => 'Two',
-            'MaciPageBundle:Default:foo.html.twig' => 'Foo'
+            'MaciPageBundle:Default:template_three.html.twig' => 'Three',
+            'MaciPageBundle:Default:foo.html.twig' => 'Foo',
+            'MaciPageBundle:Terms:cookie.html.twig' => 'Cookie Policy',
+            'MaciPageBundle:Terms:privacy.html.twig' => 'Privacy Policy',
+            'MaciPageBundle:Terms:gcs.html.twig' => 'General Condititions of Sale',
+            'MaciPageBundle:Terms:shipping.html.twig' => 'Shipping',
+            'MaciPageBundle:Terms:payment.html.twig' => 'Payment',
+            'MaciPageBundle:Terms:refunds.html.twig' => 'Returns and Refunds',
+            'MaciPageBundle:Terms:shopping_guide.html.twig' => 'Shopping Guide'
         );
     }
 

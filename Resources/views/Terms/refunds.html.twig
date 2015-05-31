@@ -2,14 +2,14 @@
 {% extends "MaciPageBundle::layout.html.twig" %}
 
 
-{% block bodyTag %}<body id="bodyContacts">{% endblock %}
+{% block bodyTag %}<body id="bodyTerms">{% endblock %}
 
 
 {% block maciadmin %}
 
-<a class="btn btn-success ma-form" href="{{ path('maci_admin_entity_form', {'entity': 'page', 'id': page.id}) }}">Edit Page</a>
+{% include 'MaciAdminBundle:Modal:edit.html.twig' with {'entity': 'page', 'item': page, 'label': 'Page'} %}
 
-<a class="btn btn-primary ma-form" href="{{ path('maci_admin_entity_new', {'entity': 'page'}) }}">New Page</a>
+{% include 'MaciAdminBundle:Modal:new.html.twig' with {'entity': 'page', 'label': 'Page'} %}
 
 {% endblock %}
 
@@ -68,52 +68,10 @@
 {% endblock %}
 
 
+{% block content %}
 
-{% block container %}
+{% set stt = ( "MaciPageBundle:Terms:refunds_" ~ app.request.locale ~ ".html.twig" ) %}
 
-
-<div class="page">
-
-
-{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
-
-
-{% if page.content %}
-
-<section class="page_content page_container row">
-
-	{{ page.content|raw }}
-
-</section>
-
-{% endif %}
-
-
-<section class="page_contact page_container row">
-<div class="col-xs-6">
-
-	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
-
-	<div class="page_content">
-		{{ page.text|raw }}
-	</div>
-
-</div>
-<div class="col-xs-6">
-
-	{{ render(controller('MaciContactBundle:Default:form')) }}
-
-</div>
-</section>
-
-
-{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
-
-{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
-
-
-</div>
-
+{% include [stt, "MaciPageBundle:Terms:refunds_en.html.twig"] with { 'page': page } %}
 
 {% endblock %}
-

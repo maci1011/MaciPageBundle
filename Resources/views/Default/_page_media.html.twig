@@ -1,0 +1,45 @@
+
+
+{% if page.category and page.category.currentItems|length %}
+
+<section class="page_products page_container row">
+
+	{% include "MaciProductBundle:Default:_category_list.html.twig" with { 'category': page.category }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.album and page.album.images|length %}
+
+<section class="page_album page_container row">
+
+	{% include "MaciMediaBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.gallery and page.gallery.images|length %}
+
+<section class="page_gallery page_container row">
+
+	{% include "MaciMediaBundle:Default:_gallery_preview.html.twig" with { 'album': page.gallery }  %}
+
+</section>
+
+{% endif %}
+
+
+{% if page.tag and page.tag.posts|length %}
+
+<section class="page_posts page_container row">
+
+	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
+
+</section>
+
+{% endif %}
+
