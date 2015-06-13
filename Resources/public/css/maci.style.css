@@ -44,11 +44,8 @@ select {
     padding: 51px 0 0;
 }
 
-#header,
-#maciadmin,
-#mainContainer,
-#footer {
-    background-color: #fff;
+#mainContainer {
+    padding: 0 15px;
 }
 
 #header {
