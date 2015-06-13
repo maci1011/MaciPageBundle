@@ -28,8 +28,47 @@ Austria, Belgio, Bulgaria, Croazia, Cipro, Danimarca, Estonia, Finlandia, Franci
 
 <p>Per i Paesi Europei i tempi di consegna saranno 3-5 giorni lavorativi, per Cipro e Malta 8-10 giorni.</p>
 
-<p>I costi delle spedizioni possono variare da Paese a Paese. Di seguito la tabella con le tariffe applicate per ogni Nazione:</p>
+<p>I costi delle spedizioni possono variare da Paese a Paese.</p>
 
+
+{% if maci_orders.countriesArray|length %}
+
+<p>Di seguito la tabella con le tariffe applicate per ogni Nazione:</p>
+
+<table cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td valign="top" style="width: 171px;">
+            <p style="text-align: center;"><strong>NAZIONE</strong></p>
+            </td>
+            <td valign="top" style="width: 166px; text-align: center;">
+            <p><strong>CORRIERE</strong></p>
+            </td>
+            <td valign="top" style="width: 167px;">
+            <p style="text-align: center;"><strong>COSTO DI SPEDIZIONE</strong></p>
+            </td>
+        </tr>
+
+        {% for key, item in maci_orders.shippingsArray %}
+
+        <tr>
+            <td valign="top" style="width: 171px;">
+            <p>{{ maci_orders.countryName(item.country) }}</p>
+            </td>
+            <td valign="top" style="width: 166px;">
+            <p>{{ item.courier_label }}</p>
+            </td>
+            <td valign="top" style="width: 167px;">
+            <p>{{ item.cost }} EUR</p>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endif %}
 
 
 <p>Le spedizioni dello Shop Online di {{ company_title }} sono limitate ai paesi che fanno parte dell&rsquo;Unione Europea.</p>

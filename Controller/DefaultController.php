@@ -44,6 +44,8 @@ class DefaultController extends Controller
 
     public function renderByPath($path, $template)
     {
+        // var_dump( $this->get('maci.orders')->getCountriesArray() ); die();
+
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
                 ->findOneBy(array(
                     'path' => $path,
