@@ -31,6 +31,18 @@ $(document).ready(function(e) {
 		});
 	});
 
+	$('.set-cookie').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'GET',
+				data: {},
+				url: $(el).attr('href')
+			});
+			$(el).parents('.container, .popup').first().hide();
+		});
+	});
+
 	$(window).scroll(function(e) {
 		$('.page_container, .page_slides > .slide .tgglscrn').not('.page_slides').each(function(i,el) {
 			var
@@ -52,10 +64,6 @@ $(document).ready(function(e) {
 			}
 		});
 	}).scroll();
-
-	// $('[dropdown=dropdown]').dropdown();
-
-	// $(".maci-album-item").fancybox();
 
 });
 

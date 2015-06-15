@@ -69,11 +69,35 @@ class PageMenuBuilder
 		return $menu;
 	}
 
+    public function createTermsMenu(Request $request)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$menu->addChild($this->translator->getText('menu.terms.privacy', 'Privacy Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'privacy')));
+
+		$menu->addChild($this->translator->getText('menu.terms.cookie', 'Cookie Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'cookie')));
+
+		return $menu;
+	}
+
+    public function createContactsMenu(Request $request)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'maci_page', 'routeParameters' => array('path' => 'contacts'))));
+
+		return $menu;
+	}
+
     public function addPages($menu, $children = false)
 	{
 		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null, 'removed' => false));
 		foreach ($pages as $page) {
-			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
+			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts' || preg_match(':Terms:', $page->getTemplate()) ) {
 				continue;
 			}
 			$title = $page->getTitle();

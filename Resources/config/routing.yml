@@ -1,7 +1,8 @@
 
-maci_start_popup:
-    pattern:  /session/start-popup
-    defaults: { _controller: MaciPageBundle:Default:startPopup }
+# ---> Set Cookie
+maci_set_cookie:
+    pattern:  /set-cookie/{{cookie}}
+    defaults: { _controller: MaciPageBundle:Default:setCookie }
 
 # ---> Page Not Found
 maci_page_not_found:

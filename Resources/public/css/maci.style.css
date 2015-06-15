@@ -36,6 +36,10 @@ select {
     color: #000;
 }
 
+table, table th, table td {
+    padding: 10px;
+}
+
 /*
  *      Layout
  */
@@ -46,6 +50,10 @@ select {
 
 #mainContainer {
     padding: 0 15px;
+}
+
+#menuContainer {
+    padding: 15px 0;
 }
 
 #header {
@@ -87,11 +95,14 @@ select {
  */
 
 .page_container {
-    padding: 60px 40px;
+    padding: 15px 40px;
     margin: 0;
 }
 
-.page_title {}
+.page_title {
+    margin-top: 0;
+}
+
 .page_subtitle {}
 
 /*

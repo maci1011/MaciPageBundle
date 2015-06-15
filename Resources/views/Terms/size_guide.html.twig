@@ -1,5 +1,5 @@
 
-{% extends "MaciPageBundle::terms_layout.html.twig" %}
+{% extends "MaciPageBundle::cs_layout.html.twig" %}
 
 
 {% block bodyTag %}<body id="bodyTerms">{% endblock %}
@@ -70,8 +70,8 @@
 
 {% block content %}
 
-{% set stt = ( "MaciPageBundle:Terms:gcs_" ~ app.request.locale ~ ".html.twig" ) %}
+{% set stt = ( "MaciPageBundle:Terms:size_guide_" ~ app.request.locale ~ ".html.twig" ) %}
 
-{% include [stt, "MaciPageBundle:Terms:gcs_en.html.twig"] with { 'page': page } %}
+{% include [stt, "MaciPageBundle:Terms:size_guide_en.html.twig"] with { 'page': page } %}
 
 {% endblock %}
