@@ -180,6 +180,7 @@ class Page
         return array(
             'MaciPageBundle:Default:page.html.twig' => 'Page',
             'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
+            'MaciPageBundle:Default:slidepage.html.twig' => 'Slide Page',
             'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
             'MaciPageBundle:Default:about.html.twig' => 'About',
             'MaciPageBundle:Default:contacts.html.twig' => 'Contacts',
