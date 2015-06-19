@@ -10,7 +10,7 @@ body {
     font-weight: lighter;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, span, a, em, div, button, input {
+body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, div, button, input {
     font-family: 'Gill Sans', 'Gill Sans MT';
     text-decoration: none;
 }
@@ -135,7 +135,6 @@ table, table th, table td {
 }
 
 .slide .slide-caption {
-    width: 50%;
     margin: 0 auto;
     transform: translatez(0);
     transition: all 1s ease 0s;

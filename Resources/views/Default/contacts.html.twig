@@ -75,35 +75,19 @@
 <div class="page">
 
 
+{% include "MaciPageBundle:Default:_page_slider.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_slides.html.twig" with { 'page': page } %}
+
 {% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
 
-
-{% if page.content %}
-
-<section class="page_content page_container row">
-
-	{{ page.content|raw }}
-
-</section>
-
-{% endif %}
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
 
 
 <section class="page_contact page_container row">
-<div class="col-xs-6">
 
-	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
+{% include "MaciPageBundle:Default:_page_contacts.html.twig" with { 'page': page } %}
 
-	<div class="page_content">
-		{{ page.text|raw }}
-	</div>
-
-</div>
-<div class="col-xs-6">
-
-	{{ render(controller('MaciContactBundle:Default:form')) }}
-
-</div>
 </section>
 
 
