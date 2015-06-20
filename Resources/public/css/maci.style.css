@@ -180,6 +180,10 @@ table, table th, table td {
 
 /*      Slide Style: Center       */
 
+.slide.center .slide-caption {
+    margin-top: 90px;
+}
+
 .slide.center.active .slide-caption {
     opacity: 1;
 }
@@ -238,9 +242,8 @@ table, table th, table td {
 
 /*      Slide Style: Slider & Gallery       */
 
-.slide.slider, .slide.gallery {
+.slide.slider {
     padding: 0;
-    background-color: #ccc;
 }
 
 .slide.slider > .carousel.slide,
