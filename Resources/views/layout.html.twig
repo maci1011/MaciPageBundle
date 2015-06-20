@@ -89,7 +89,7 @@
 
         <div class="col-xs-12 col-sm-3">
             <a href="{{ path('homepage') }}">
-                <h1>{{ 'layout.title'|matra( company_title ) }}</h1>
+                <h1>{{ company_title }}</h1>
             </a>
             <h2>{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
         </div>
@@ -169,6 +169,8 @@
 
     {% block footer %}
 
+    <div class="navbar">
+
         <nav>
 
             <!--
@@ -196,6 +198,8 @@
                 </ul>
 
         </nav>
+
+    </div>
 
     {% endblock footer %}
 

@@ -140,16 +140,24 @@ table, table th, table td {
     transition: all 1s ease 0s;
 }
 
-.slide .button-next span {
+.slide .button-next a {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    padding: 15px 0 0 0;
-    background-color: #000;
+    border: 2px solid #fff;
+    padding: 9px 0 0 0;
     display: block;
     margin: 20px auto;
+    text-align: center;
+}
+
+.slide .button-next a:hover {
+    background-color: rgba(255,255,255,0.35);
+}
+
+.slide .button-next a > i{
     color: #fff;
-    font-size: 16pt;
+    font-size: 24pt;
 }
 
 .slide .header-wrapper {
@@ -266,10 +274,7 @@ table, table th, table td {
  */
 
 #footer {
-	clear: both;
     padding: 40px;
-    text-align: center;
-    margin-bottom: 40px;
 }
 
 #footer p {
