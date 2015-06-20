@@ -247,7 +247,9 @@ table, table th, table td {
 }
 
 .slide.slider > .carousel.slide,
-.slide.gallery > .carousel.slide {
+.slide.gallery > .carousel.slide,
+.slide.gallery_one > .carousel.slide,
+.slide.gallery_two > .carousel.slide {
     max-height: 100%;
 }
 
@@ -255,7 +257,9 @@ table, table th, table td {
     padding: 0;
 }
 
-.slide.gallery .carousel-inner > .item {
+.slide.gallery .carousel-inner > .item,
+.slide.gallery_one .carousel-inner > .item,
+.slide.gallery_two .carousel-inner > .item {
     padding: 90px 0;
     max-height: 100%;
 }
