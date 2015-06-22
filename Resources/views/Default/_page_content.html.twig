@@ -3,9 +3,11 @@
 {% if page.content %}
 
 <section class="page_content page_container row">
+<div class="page_content_wrapper">
 
 	{{ page.content|raw }}
 
+</div>
 </section>
 
 {% endif %}
@@ -14,9 +16,11 @@
 {% if page.text %}
 
 <section class="page_text row">
+<div class="page_text_wrapper">
 
 	{{ page.text|raw }}
 
+</div>
 </section>
 
 {% endif %}

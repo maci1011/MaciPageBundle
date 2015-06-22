@@ -22,7 +22,7 @@ $(document).ready(function(e) {
 		});
 	}).resize();
 
-	$('.page_slides .slide .button-next').each(function(i,el) {
+	$('.slide .button-next').each(function(i,el) {
 		$(el).click(function(e) {
 			e.preventDefault();
 			var nxt = $(el).parents('.slide').first();

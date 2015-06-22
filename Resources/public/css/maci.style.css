@@ -10,7 +10,7 @@ body {
     font-weight: lighter;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, div, button, input {
+body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
     font-family: 'Gill Sans', 'Gill Sans MT';
     text-decoration: none;
 }
@@ -49,13 +49,12 @@ table, table th, table td {
 }
 
 #mainContainer,
-#header,
-#mainMenu {
+#header {
     padding: 0 15px;
 }
 
 #mainMenu {
-    padding-top: 30px;
+    padding-top: 30px 15px 0;
 }
 
 #mainMenu ul {
@@ -132,6 +131,14 @@ table, table th, table td {
     margin: 0;
     overflow: hidden;
     text-align: center;
+}
+
+.slide .slide-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .slide .slide-caption {
