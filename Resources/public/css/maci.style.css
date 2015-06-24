@@ -97,6 +97,10 @@ table, table th, table td {
     margin: 0 -15px;
 }
 
+#mainContainer > .row {
+    margin: 0;
+}
+
 .page_container {
     padding: 15px 40px;
     margin: 0;
@@ -127,18 +131,10 @@ table, table th, table td {
 
 .page_slides .slide {
     position: relative;
-    padding: 90px 0;
+    padding: 0;
     margin: 0;
     overflow: hidden;
     text-align: center;
-}
-
-.slide .slide-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
 }
 
 .slide .slide-caption {
@@ -151,7 +147,7 @@ table, table th, table td {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 2px solid #333;
     padding: 9px 0 0 0;
     display: block;
     margin: 20px auto;
@@ -162,8 +158,8 @@ table, table th, table td {
     background-color: rgba(255,255,255,0.35);
 }
 
-.slide .button-next a > i{
-    color: #fff;
+.slide .button-next a > i {
+    color: #333;
     font-size: 24pt;
 }
 
@@ -188,7 +184,7 @@ table, table th, table td {
 /*      Slide Style: Center       */
 
 .slide.center .slide-caption {
-    margin-top: 90px;
+    padding-top: 90px;
 }
 
 .slide.center.active .slide-caption {

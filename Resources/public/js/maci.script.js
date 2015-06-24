@@ -20,6 +20,13 @@ $(document).ready(function(e) {
 		$('.page_slides > .slide.slider .item').each(function(i,el) {
 			$(el).css('height', ( $(window).height() ) + 'px' );
 		});
+		$('.slide > .slide-wrapper').each(function(i,el) {
+			var _p = ( $(el).parent().innerHeight() - $(el).parent().height() ),
+				_w = $(window).height()
+			;
+			_p = ( _p < 0 ? 0 : _p );
+			$(el).css('height', ( _w - _p ) + 'px' );
+		});
 	}).resize();
 
 	$('.slide .button-next').each(function(i,el) {
