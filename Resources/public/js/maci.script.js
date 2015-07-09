@@ -21,11 +21,12 @@ $(document).ready(function(e) {
 			$(el).css('height', ( $(window).height() ) + 'px' );
 		});
 		$('.slide > .slide-wrapper').each(function(i,el) {
-			var _p = ( $(el).parent().innerHeight() - $(el).parent().height() ),
-				_w = $(window).height()
+			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
+				_b = ( $(window).height() - ( _a < 0 ? 0 : _a ) )
 			;
-			_p = ( _p < 0 ? 0 : _p );
-			$(el).css('height', ( _w - _p ) + 'px' );
+			_a = ( $(el).children().height() );
+			_b = ( _b < _a ? _a : _b );
+			$(el).css('height', ( _b ) + 'px' );
 		});
 	}).resize();
 

@@ -137,13 +137,21 @@ table, table th, table td {
     text-align: center;
 }
 
+.slide > .slide-wrapper {
+    overflow: hidden;
+}
+
 .slide .slide-caption {
     margin: 0 auto;
     transform: translatez(0);
     transition: all 1s ease 0s;
 }
 
-.slide .button-next a {
+.btn-out {
+    display: none;
+}
+
+.slide .button-next > a {
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -154,11 +162,11 @@ table, table th, table td {
     text-align: center;
 }
 
-.slide .button-next a:hover {
+.slide .button-next > a:hover {
     background-color: rgba(255,255,255,0.35);
 }
 
-.slide .button-next a > i {
+.slide .button-next > a > i {
     color: #333;
     font-size: 24pt;
 }
@@ -197,10 +205,10 @@ table, table th, table td {
 
 /*      Slide Style: Left and Right       */
 
-.slide.left > div,
-.slide.right > div,
-.slide.left_divided > div,
-.slide.right_divided > div {
+.slide.left > .slide-wrapper > div,
+.slide.right > .slide-wrapper > div,
+.slide.left_divided > .slide-wrapper > div,
+.slide.right_divided > .slide-wrapper > div {
     padding: 0;
 }
 
