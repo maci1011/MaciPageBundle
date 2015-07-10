@@ -22,11 +22,12 @@ $(document).ready(function(e) {
 		});
 		$('.slide > .slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
-				_b = ( $(window).height() - ( _a < 0 ? 0 : _a ) )
+				_b = ( $(window).height() - ( _a < 0 ? 0 : _a ) ),
+				_c = ( $(el).innerHeight() - $(el).height() ),
 			;
 			_a = ( $(el).children().height() );
 			_b = ( _b < _a ? _a : _b );
-			$(el).css('height', ( _b ) + 'px' );
+			$(el).css('height', ( _b + _c  ) + 'px' );
 		});
 	}).resize();
 

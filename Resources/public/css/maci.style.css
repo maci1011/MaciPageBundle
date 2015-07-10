@@ -224,8 +224,6 @@ table, table th, table td {
 .slide.right_divided .slide-caption {
     padding: 40px;
     background-color: #fff;
-    position: relative;
-    left: 0;
 }
 
 .slide.left.active .slide-caption,
