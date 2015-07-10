@@ -222,9 +222,7 @@ table, table th, table td {
 .slide.right .slide-caption,
 .slide.left_divided .slide-caption,
 .slide.right_divided .slide-caption {
-    width: 100%;
     padding: 40px;
-    margin: 0;
     background-color: #fff;
     position: relative;
     left: 0;
