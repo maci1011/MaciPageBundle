@@ -24,7 +24,7 @@ $(document).ready(function(e) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
 				_b = ( $(window).height() - ( _a < 0 ? 0 : _a ) )
 			;
-			_a = ( $(el).children().height() + $(el).innerHeight() - $(el).height() );
+			_a = ( $(el).children().outerHeight() + $(el).innerHeight() - $(el).height() );
 			_b = ( _b < _a ? _a : _b );
 			$(el).css('height', ( _b  ) + 'px' );
 		});
