@@ -40,6 +40,9 @@ table, table th, table td {
     padding: 10px;
 }
 
+h1, .h1, h2, .h2, h3, .h3 {
+    margin: 0;
+}
 /*
  *      Layout
  */
