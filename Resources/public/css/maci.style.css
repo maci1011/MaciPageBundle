@@ -142,9 +142,11 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 .slide > .slide-wrapper {
     overflow: hidden;
+    position: relative;
 }
 
 .slide .slide-caption {
+    margin-top: 65px;
     transform: translatez(0);
     transition: all 1s ease 0s;
 }
@@ -193,10 +195,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 /*      Slide Style: Center       */
 
-.slide.center .slide-caption {
-    padding-top: 90px;
-}
-
 .slide.center.active .slide-caption {
     opacity: 1;
 }
@@ -206,13 +204,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 /*      Slide Style: Left and Right       */
-
-.slide.left > .slide-wrapper > div,
-.slide.right > .slide-wrapper > div,
-.slide.left_divided > .slide-wrapper > div,
-.slide.right_divided > .slide-wrapper > div {
-    padding: 0;
-}
 
 .slide.left.inactive .header-wrapper > header,
 .slide.right.inactive .header-wrapper > header,
@@ -225,7 +216,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 .slide.right .slide-caption,
 .slide.left_divided .slide-caption,
 .slide.right_divided .slide-caption {
-    padding: 40px;
+    padding: 15px;
     background-color: #fff;
 }
 
@@ -251,7 +242,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 /*      Slide Style: Slider & Gallery       */
 
-.slide.slider {
+.slide.slider, .slide.slider_one, .slide.slider_two {
     padding: 0;
 }
 
