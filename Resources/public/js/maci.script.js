@@ -22,12 +22,15 @@ $(document).ready(function(e) {
 		});
 		$('.slide > .slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
-				_b = ( $(window).height() - ( _a < 0 ? 0 : _a ) )
-			;
-			_a = ( $(el).children('.carousel').length ? _b : ( $(el).children('.slide-caption').outerHeight(true) + $(el).outerHeight() - $(el).height() ) );
-			_a = ( 350 < _a ? _a : 350 );
-			_b = ( _b < _a ? _a : _b );
-			$(el).css('height', ( _b  ) + 'px' );
+				_h = $(el).innerHeight() - $(el).height();
+			_a = ( _h < 0 ? 0 : _h );
+			$(el).children(':visible').each(function() {
+				_h += $(this).outerHeight(true);
+			});
+			var _b = ( $(window).height() - _a ),
+				_t = ( ( _a + _h ) < $(window).height() ? _b : _h );
+			_t = ( 300 < _t ? _t : 300 );
+			$(el).css('height', ( _t  ) + 'px' );
 		});
 	}).resize();
 

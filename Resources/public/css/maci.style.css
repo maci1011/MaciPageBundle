@@ -155,6 +155,10 @@ h1, .h1, h2, .h2, h3, .h3 {
     display: none;
 }
 
+.slide .button-next {
+    padding: 15px 0;
+}
+
 .slide .button-next > a {
     height: 50px;
     width: 50px;
@@ -162,7 +166,7 @@ h1, .h1, h2, .h2, h3, .h3 {
     border: 2px solid #333;
     padding: 9px 0 0 0;
     display: block;
-    margin: 20px auto;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -246,11 +250,17 @@ h1, .h1, h2, .h2, h3, .h3 {
     padding: 0;
 }
 
-.slide.slider > .carousel.slide,
-.slide.gallery > .carousel.slide,
-.slide.gallery_one > .carousel.slide,
-.slide.gallery_two > .carousel.slide {
-    max-height: 100%;
+.slide.gallery .btn-in,
+.slide.gallery_one .btn-in,
+.slide.gallery_two .btn-in {
+    display: none;
+}
+
+.slide.gallery .btn-out,
+.slide.gallery_one .btn-out,
+.slide.gallery_two .btn-out {
+    display: block;
+    padding: 15px;
 }
 
 .slide > .carousel.slide {
