@@ -23,12 +23,13 @@ $(document).ready(function(e) {
 		$('.slide > .slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
 				_h = $(el).innerHeight() - $(el).height();
-			_a = ( _h < 0 ? 0 : _h );
+			_a = ( _a < 0 ? 0 : _a );
+			_h = ( _h < 0 ? 0 : _h );
 			$(el).children(':visible').each(function() {
 				_h += $(this).outerHeight(true);
 			});
 			var _b = ( $(window).height() - _a ),
-				_t = ( ( _a + _h ) < $(window).height() ? _b : _h );
+				_t = ( ( _a + _h ) < _b ? _b : _h );
 			_t = ( 300 < _t ? _t : 300 );
 			$(el).css('height', ( _t  ) + 'px' );
 		});
