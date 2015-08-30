@@ -26,7 +26,11 @@ $(document).ready(function(e) {
 			_a = ( _a < 0 ? 0 : _a );
 			_h = ( _h < 0 ? 0 : _h );
 			$(el).children(':visible').each(function() {
-				_h += $(this).outerHeight(true);
+				if ($(this).hasClass('carousel')) {
+					_h += 350;
+				} else {
+					_h += $(this).outerHeight(true);
+				}
 			});
 			var _b = ( $(window).height() - _a ),
 				_t = ( ( _a + _h ) < _b ? _b : _h );
