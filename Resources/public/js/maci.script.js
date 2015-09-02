@@ -63,7 +63,7 @@ $(document).ready(function(e) {
 		});
 	});
 
-	$(window).resize(function(e) {
+	$(window).scroll(function(e) {
 		$('.page_container, .page_slides > .slide, .tgglscrn').not('.page_slides').each(function(i,el) {
 			var
 				wnd = $(window).height(),
@@ -90,7 +90,7 @@ $(document).ready(function(e) {
 			$('.navbar-fixed-top').removeClass('on-top');
 			$('.navbar-fixed-top').addClass('on-scrolling');
 		}
-	}).resize();
+	}).scroll();
 
 });
 
