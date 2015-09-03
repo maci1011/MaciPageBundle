@@ -64,12 +64,12 @@ h1, .h1, h2, .h2, h3, .h3 {
     margin: 0;
 }
 
-#mainMenu li a, #pathMenu li a {
+#mainMenu ul > li > a, #pathMenu li > a {
     color: #000;
     margin: 0 5px;
 }
 
-#mainMenu li.active a {
+#mainMenu ul > li.active > a {
     background-color: #ddd;
 }
 
