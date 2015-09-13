@@ -22,19 +22,22 @@ $(document).ready(function(e) {
 		});
 		$('.slide > .slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
-				_h = $(el).innerHeight() - $(el).height();
+				_h = $(el).innerHeight() - $(el).height(), _b, _t;
 			_a = ( _a < 0 ? 0 : _a );
 			_h = ( _h < 0 ? 0 : _h );
 			$(el).children(':visible').each(function() {
-				if ($(this).hasClass('carousel')) {
+				if ($(this).hasClass('carousel default')) {
 					_h += 350;
+				} else if ($(this).hasClass('carousel multiple')) {
+					_h += $(this).height();
 				} else {
 					_h += $(this).outerHeight(true);
 				}
 			});
-			var _b = ( $(window).height() - _a ),
-				_t = ( ( _a + _h ) < _b ? _b : _h );
+			_b = ( $(window).height() - _a );
+			_t = ( ( _a + _h ) < _b ? _b : _h );
 			_t = ( 350 < _t ? _t : 350 );
+			_t = ( _t < 1080 ? _t : 1080 );
 			$(el).height( _t + 'px' );
 			if ( $(el).children(':visible').length == 1 && $(el).children(':visible').first().hasClass('carousel') ) {
 				$(el).children(':visible').first().height(_t + 'px');
