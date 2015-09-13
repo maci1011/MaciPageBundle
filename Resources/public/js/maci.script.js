@@ -28,8 +28,6 @@ $(document).ready(function(e) {
 			$(el).children(':visible').each(function() {
 				if ($(this).hasClass('carousel default')) {
 					_h += 350;
-				} else if ($(this).hasClass('carousel multiple')) {
-					_h += $(this).height();
 				} else {
 					_h += $(this).outerHeight(true);
 				}
@@ -37,7 +35,7 @@ $(document).ready(function(e) {
 			_b = ( $(window).height() - _a );
 			_t = ( ( _a + _h ) < _b ? _b : _h );
 			_t = ( 350 < _t ? _t : 350 );
-			_t = ( _t < 1080 ? _t : 1080 );
+			_t = ( _t < 1280 ? _t : 1280 );
 			$(el).height( _t + 'px' );
 			if ( $(el).children(':visible').length == 1 && $(el).children(':visible').first().hasClass('carousel') ) {
 				$(el).children(':visible').first().height(_t + 'px');
