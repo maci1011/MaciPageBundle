@@ -207,6 +207,10 @@ h1, .h1, h2, .h2, h3, .h3 {
     opacity: 0;
 }
 
+.slider-center-image > img {
+    margin: 0 auto;
+}
+
 /*      Slide Style: Left and Right       */
 
 .slide.left.inactive .header-wrapper > header,
