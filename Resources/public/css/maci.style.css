@@ -43,17 +43,22 @@ table, table th, table td {
 h1, .h1, h2, .h2, h3, .h3 {
     margin: 0;
 }
+
 /*
  *      Layout
  */
 
 #main {
-    padding: 51px 0 0;
+    padding: 67px 0 0;
 }
 
 #mainContainer,
 #header {
     padding: 0 15px;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: 0;
 }
 
 #mainMenu {
@@ -71,10 +76,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 #mainMenu ul > li.active > a {
     background-color: #ddd;
-}
-
-#menuContainer {
-    padding: 15px 0;
 }
 
 .carousel.slide .item img {
@@ -105,7 +106,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .page_container {
-    padding: 15px 40px;
+    padding: 15px;
     margin: 0;
 }
 
@@ -340,12 +341,13 @@ h1, .h1, h2, .h2, h3, .h3 {
  *      Orders
  */
 
-.cart-list {
-    padding: 15px 30px;
+.cart-list > .container > .row {
+    padding: 0 0 15px 0;
 }
 
-.checkout-options {
-    padding: 15px 30px;
+.checkout-options .controls > div {
+    padding: 10px 0 5px 30px;
+    margin: 0;
 }
 
 .order-item-quantity-form, .order-item-remove-form {

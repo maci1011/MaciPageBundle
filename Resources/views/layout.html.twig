@@ -85,22 +85,23 @@
 
     {% block header %}
 
+    <div class="container">
+
     <div class="row">
 
-        <div class="col-xs-12 col-md-3">
+        <div class="col-xs-12 col-sm-3">
             <a href="{{ path('homepage') }}">
                 <h1>{{ company_title }}</h1>
             </a>
             <h2>{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
         </div>
 
-        <div id="mainMenu" class="col-xs-12 col-md-9">
+        <div id="mainMenu" class="col-xs-12 col-sm-9">
             <nav>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a id="searchLink" class="navbar-btn btn btn-primary" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
+                        <a id="searchLink" class="navbar-btn" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            Search
                         </a>
                     </li>
                 </ul>
@@ -110,13 +111,15 @@
 
     </div>
 
-    {% endblock %}
-
     <div id="pathBar" class="row">
 
         {% block pathBar %}{% endblock %}
 
     </div>
+
+    </div>
+
+    {% endblock %}
 
     </header>
 
@@ -169,6 +172,8 @@
 
     {% block footer %}
 
+    <div class="container">
+
     <div class="navbar">
 
         <nav>
@@ -198,6 +203,8 @@
                 </ul>
 
         </nav>
+
+    </div>
 
     </div>
 
