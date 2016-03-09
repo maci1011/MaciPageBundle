@@ -147,7 +147,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .slide .slide-caption {
-    margin-top: 65px;
     transform: translatez(0);
     transition: all 1s ease 0s;
 }
@@ -198,13 +197,29 @@ h1, .h1, h2, .h2, h3, .h3 {
     margin-top: -120px;
 }
 
-/*      Slide Style: Center       */
+/*      --- Slide Style ---       */
 
-.slide.center.active .slide-caption {
+.slide.center > .slide-wrapper > .slide-caption,
+.slide.center_fix > .slide-wrapper > .slide-caption,
+.slide.left > .slide-wrapper,
+.slide.right > .slide-wrapper,
+.slide.left_divided > .slide-wrapper > .row > .slide-caption,
+.slide.right_divided > .slide-wrapper > .row > .slide-caption,
+.slide.text_only > .slide-wrapper > .slide-caption,
+.slide.contact_info > .slide-wrapper > .slide-caption,
+.slide.contact_form > .slide-wrapper > .slide-caption {
+    padding-top: 65px;
+}
+
+/*      Slide Style: Center, Center Fix       */
+
+.slide.center.active .slide-caption,
+.slide.center_fix.active .slide-caption {
     opacity: 1;
 }
 
-.slide.center.inactive .slide-caption {
+.slide.center.inactive .slide-caption,
+.slide.center_fix.inactive .slide-caption {
     opacity: 0;
 }
 

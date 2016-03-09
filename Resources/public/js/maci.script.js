@@ -18,23 +18,21 @@ $(document).ready(function(e) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
 		});
 		$('.page_slides > .slide.slider .item').each(function(i,el) {
-			$(el).css('height', ( $(window).height() ) + 'px' );
+			var _h = ( 500 < $(window).height() ? $(window).height() : 500 );
+			$(el).css('height', ( _h ) + 'px' );
 		});
-		$('.slide > .slide-wrapper').each(function(i,el) {
+		$('.slide').not('.slider').children('.slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
 				_h = $(el).innerHeight() - $(el).height(), _b, _t;
+			_a += _h;
 			_a = ( _a < 0 ? 0 : _a );
 			_h = ( _h < 0 ? 0 : _h );
 			$(el).children(':visible').each(function() {
-				if ($(this).hasClass('carousel default')) {
-					_h += 350;
-				} else {
-					_h += $(this).outerHeight(true);
-				}
+				_h += $(this).outerHeight(true);
 			});
 			_b = ( $(window).height() - _a );
 			_t = ( ( _a + _h ) < _b ? _b : _h );
-			_t = ( 350 < _t ? _t : 350 );
+			_t = ( 500 < _t ? _t : 500 );
 			_t = ( _t < 1280 ? _t : 1280 );
 			$(el).height( _t + 'px' );
 			if ( $(el).children(':visible').length == 1 && $(el).children(':visible').first().hasClass('carousel') ) {
