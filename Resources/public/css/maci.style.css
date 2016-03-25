@@ -146,10 +146,32 @@ h1, .h1, h2, .h2, h3, .h3 {
     position: relative;
 }
 
+/*      --- Slide Header ---       */
+
+.slide .header-wrapper > header {
+    transform: translatez(0);
+    transition: all 1s ease 0s;
+}
+
+.slide .header-wrapper {
+    height: 120px;
+    overflow: hidden;
+}
+
+.slide.inactive .header-wrapper > header {
+    margin-top: -120px;
+}
+
+.slide.active .header-wrapper > header {
+    margin-top: 0;
+}
+
 .slide .slide-caption {
     transform: translatez(0);
     transition: all 1s ease 0s;
 }
+
+/*      --- Slide Button Next ---       */
 
 .btn-out {
     display: none;
@@ -177,24 +199,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 .slide .button-next > a > i {
     color: #333;
     font-size: 24pt;
-}
-
-.slide .header-wrapper {
-    height: 120px;
-    overflow: hidden;
-}
-
-.slide .header-wrapper > header {
-    transform: translatez(0);
-    transition: all 1s ease 0s;
-}
-
-.slide.active .header-wrapper > header {
-    margin-top: 0;
-}
-
-.slide.inactive .header-wrapper > header {
-    margin-top: -120px;
 }
 
 /*      --- Slide Style ---       */
