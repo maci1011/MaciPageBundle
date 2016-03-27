@@ -201,6 +201,11 @@ h1, .h1, h2, .h2, h3, .h3 {
     font-size: 24pt;
 }
 
+#bodyHomepage .slide .button-next:last-child,
+#bodySlidepage .slide .button-next:last-child {
+    display: none;
+}
+
 /*      --- Slide Style ---       */
 
 .slide.center > .slide-wrapper > .slide-caption,
@@ -211,7 +216,8 @@ h1, .h1, h2, .h2, h3, .h3 {
 .slide.right_divided > .slide-wrapper > .row > .slide-caption,
 .slide.text_only > .slide-wrapper > .slide-caption,
 .slide.contact_info > .slide-wrapper > .slide-caption,
-.slide.contact_form > .slide-wrapper > .slide-caption {
+.slide.contact_form > .slide-wrapper > .slide-caption,
+.slide.contact_form_bg > .slide-wrapper > .slide-caption {
     padding-top: 65px;
 }
 
