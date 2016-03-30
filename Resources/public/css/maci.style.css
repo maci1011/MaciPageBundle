@@ -15,6 +15,11 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, i
     text-decoration: none;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 10px 0 5px;
+}
+
 canvas {
     width: 100%;
     height: 100%;
@@ -40,36 +45,20 @@ table, table th, table td {
     padding: 10px;
 }
 
-h1, .h1, h2, .h2, h3, .h3 {
-    margin: 0;
-}
-
 /*
  *      Layout
  */
 
 #main {
-    padding: 67px 0 0;
-}
-
-#mainContainer,
-#header {
-    padding: 0 15px;
+    padding: 65px 0 0;
 }
 
 .navbar-nav.navbar-right:last-child {
     margin-right: 0;
 }
 
-#mainMenu {
-    padding-top: 30px 15px 0;
-}
-
-#mainMenu ul {
-    margin: 0;
-}
-
-#mainMenu ul > li > a, #pathMenu li > a {
+#mainMenu ul > li > a,
+#pathMenu li > a {
     color: #000;
     margin: 0 5px;
 }
@@ -82,46 +71,24 @@ h1, .h1, h2, .h2, h3, .h3 {
     margin: 0 auto;
 }
 
-/*      Search Form       */
-
-#searchForm form {
-    text-align: right;
+#mainContainer {
+    padding-bottom: 15px;
 }
 
-#searchForm .form-group {
-    padding-top: 8px;
-    text-align: right;
-}
-
-/*
- *      Pages
- */
-
-#mainContainer > .page {
+#mainContainer > .page-container {
     margin: 0 -15px;
 }
 
-#mainContainer > .row {
-    margin: 0;
+#mainContainer > .page-container {
+    margin: 0 -15px;
 }
 
-.page_container {
-    padding: 15px;
-    margin: 0;
+.header-title {
+    padding: 0;
 }
 
-.page_title {
-    margin-top: 0;
-}
-
-.page_subtitle {}
-
-/*
- *      Media
- */
-
-.maci-album {
-    padding: 0 15px;
+.header-subtitle {
+    padding: 0 0 10px;
 }
 
 /*
@@ -307,18 +274,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 .media-description {
     padding: 0 6px;
-}
-
-/*
- *      Footer
- */
-
-#footer {
-    padding: 40px;
-}
-
-#footer p {
-    margin: 0;
 }
 
 /*
