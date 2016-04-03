@@ -83,6 +83,10 @@ table, table th, table td {
     margin: 0 -15px;
 }
 
+#menuContainer {
+    padding: 15px 0;
+}
+
 .header-title {
     padding: 0;
 }
