@@ -172,8 +172,7 @@ table, table th, table td {
     font-size: 24pt;
 }
 
-#bodyHomepage .slide .button-next:last-child,
-#bodySlidepage .slide .button-next:last-child {
+.slide:last-child .button-next {
     display: none;
 }
 
@@ -183,8 +182,8 @@ table, table th, table td {
 .slide.center_fix > .slide-wrapper > .slide-caption,
 .slide.left > .slide-wrapper,
 .slide.right > .slide-wrapper,
-.slide.left_divided > .slide-wrapper > .row > .slide-caption,
-.slide.right_divided > .slide-wrapper > .row > .slide-caption,
+.slide.left_divided > .slide-wrapper,
+.slide.right_divided > .slide-wrapper,
 .slide.text_only > .slide-wrapper > .slide-caption,
 .slide.contact_info > .slide-wrapper > .slide-caption,
 .slide.contact_form > .slide-wrapper > .slide-caption,
@@ -192,15 +191,27 @@ table, table th, table td {
     padding-top: 65px;
 }
 
+.slide.left > .slide-wrapper > .slide-caption,
+.slide.right > .slide-wrapper > .slide-caption,
+.slide.left_divided > .slide-wrapper > .row > .slide-caption,
+.slide.right_divided > .slide-wrapper > .row > .slide-caption {
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
 /*      Slide Style: Center, Center Fix       */
 
 .slide.center.active .slide-caption,
-.slide.center_fix.active .slide-caption {
+.slide.center_fix.active .slide-caption,
+.slide.center_ov.active .slide-caption,
+.slide.center_fix_ov.active .slide-caption {
     opacity: 1;
 }
 
 .slide.center.inactive .slide-caption,
-.slide.center_fix.inactive .slide-caption {
+.slide.center_fix.inactive .slide-caption,
+.slide.center_ov.inactive .slide-caption,
+.slide.center_fix_ov.inactive .slide-caption {
     opacity: 0;
 }
 
@@ -218,10 +229,7 @@ table, table th, table td {
 }
 
 .slide.left .slide-caption,
-.slide.right .slide-caption,
-.slide.left_divided .slide-caption,
-.slide.right_divided .slide-caption {
-    padding: 15px;
+.slide.right .slide-caption {
     background-color: #fff;
 }
 
@@ -243,6 +251,21 @@ table, table th, table td {
 .slide.right.inactive .slide-caption,
 .slide.right_divided.inactive .slide-caption {
     left: 100%;
+}
+
+.slide.left_divided > .slide-wrapper > .row,
+.slide.right_divided > .slide-wrapper > .row {
+    position: relative;
+}
+
+.slide.left_divided .slide-image,
+.slide.right_divided .slide-image {
+    height: 100%;
+    position: absolute;
+}
+
+.slide.left_divided .slide-image {
+    right: 0;
 }
 
 /*      Slide Style: Slider & Gallery       */
