@@ -180,6 +180,8 @@ table, table th, table td {
 
 .slide.center > .slide-wrapper > .slide-caption,
 .slide.center_fix > .slide-wrapper > .slide-caption,
+.slide.center_ov > .slide-wrapper > .slide-caption,
+.slide.center_fix_ov > .slide-wrapper > .slide-caption,
 .slide.left > .slide-wrapper,
 .slide.right > .slide-wrapper,
 .slide.left_divided > .slide-wrapper,
