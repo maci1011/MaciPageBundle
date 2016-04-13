@@ -18,7 +18,7 @@ $(document).ready(function(e) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
 		});
 		$('.page_slides > .slide.slider .item').each(function(i,el) {
-			var _h = ( 500 < $(window).height() ? $(window).height() : 500 );
+			var _h = ( 400 < $(window).height() ? $(window).height() : 400 );
 			$(el).css('height', ( _h ) + 'px' );
 		});
 		$('.slide').not('.slider').children('.slide-wrapper').each(function(i,el) {
