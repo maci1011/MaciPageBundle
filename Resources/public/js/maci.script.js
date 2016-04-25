@@ -17,8 +17,8 @@ $(document).ready(function(e) {
 		$('.page_slides > .slide, .fllscrn').each(function(i,el) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
 		});
-		$('.page_slides > .slide.slider .item, .page_slider > .carousel.slide .item').each(function(i,el) {
-			var _h = ( 400 < $(window).height() ? $(window).height() : 400 );
+		$('.page_slides > .slide.slider .item, .page_slider > .carousel.slide.full .item').each(function(i,el) {
+			var _h = ( $(window).height() < 800 ? $(window).height() : 800 );
 			$(el).css('height', ( _h ) + 'px' );
 		});
 		$('.slide').not('.slider').children('.slide-wrapper').each(function(i,el) {
@@ -33,7 +33,7 @@ $(document).ready(function(e) {
 			_b = ( $(window).height() - _a );
 			_t = ( ( _a + _h ) < _b ? _b : _h );
 			_t = ( 500 < _t ? _t : 500 );
-			_t = ( _t < 1280 ? _t : 1280 );
+			_t = ( _t < 800 ? _t : 800 );
 			$(el).height( _t + 'px' );
 			if ( $(el).children(':visible').length == 1 && $(el).children(':visible').first().hasClass('carousel') ) {
 				$(el).children(':visible').first().height(_t + 'px');

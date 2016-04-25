@@ -51,6 +51,7 @@ table, table th, table td {
 
 #main {
     padding: 65px 0 0;
+    max-width: 1400px;
 }
 
 .navbar-nav.navbar-right:last-child {
@@ -73,10 +74,6 @@ table, table th, table td {
 
 #mainContainer {
     padding-bottom: 15px;
-}
-
-#mainContainer > .page-container {
-    margin: 0 -15px;
 }
 
 #mainContainer > .page-container {
@@ -116,6 +113,8 @@ table, table th, table td {
     overflow: hidden;
     position: relative;
 }
+
+.slide h4
 
 /*      --- Slide Header ---       */
 
