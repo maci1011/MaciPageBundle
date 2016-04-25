@@ -17,10 +17,10 @@ $(document).ready(function(e) {
 		$('.page_slides > .slide, .fllscrn').each(function(i,el) {
 			$(el).css('min-height', ( $(window).height() ) + 'px' );
 		});
-		$('.page_slides > .slide.slider .item, .page_slider > .carousel.slide.full .item').each(function(i,el) {
-			var _h = ( $(window).height() < 800 ? $(window).height() : 800 );
-			$(el).css('height', ( _h ) + 'px' );
-		});
+		// $('.page_slides > .slide.slider .item, .page_slider > .carousel.slide.full .item').each(function(i,el) {
+		// 	var _h = ( $(window).height() < 800 ? $(window).height() : 800 );
+		// 	$(el).css('height', ( _h ) + 'px' );
+		// });
 		$('.slide').not('.slider').children('.slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
 				_h = $(el).innerHeight() - $(el).height(), _b, _t;
