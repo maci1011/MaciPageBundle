@@ -16,9 +16,9 @@ $(document).ready(function(e) {
 	$(window).resize(function(e) {
 		$('.page_slides > .slide.slider > .slide-wrapper > .carousel.slide, .page_slider > .carousel.slide').each(function(i,el) {
 			var _h = ( $(window).height() < 800 ? $(window).height() : 800 );
-			$(el).css('height', ( _h ) + 'px' );
+			$(el).css('maxHeight', ( _h ) + 'px' );
 		});
-		$('.page_slides > .slide').not('.slider').children('.slide-wrapper').each(function(i,el) {
+		$('.page_slides > .slide').not('.slider').not('.gallery').children('.slide-wrapper').each(function(i,el) {
 			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
 				_h = $(el).innerHeight() - $(el).height(), _b, _t;
 			_a += _h;
