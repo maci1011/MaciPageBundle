@@ -103,9 +103,6 @@ table, table th, table td {
 
 .page_slides > .slide {
     position: relative;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
     text-align: center;
 }
 
