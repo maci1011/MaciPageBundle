@@ -97,6 +97,8 @@ $(window).load(function(e) {
 
 	$(window).resize();
 
+	$('.button-next').last().hide();
+
 });
 
 })(jQuery);
