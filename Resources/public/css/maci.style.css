@@ -51,7 +51,7 @@ table, table th, table td {
 
 #main {
     padding: 65px 0 0;
-    max-width: 1400px;
+    max-width: 1920px;
     margin: 0 auto;
 }
 
@@ -67,10 +67,6 @@ table, table th, table td {
 
 #mainMenu ul > li.active > a {
     background-color: #ddd;
-}
-
-.carousel.slide .item img {
-    margin: 0 auto;
 }
 
 #mainContainer {
@@ -182,6 +178,7 @@ table, table th, table td {
 .slide.right > .slide-wrapper,
 .slide.left_divided > .slide-wrapper,
 .slide.right_divided > .slide-wrapper,
+.slide.gallery > .slide-wrapper > .slide-caption,
 .slide.text_only > .slide-wrapper > .slide-caption,
 .slide.contact_info > .slide-wrapper > .slide-caption,
 .slide.contact_form > .slide-wrapper > .slide-caption,
@@ -285,8 +282,29 @@ table, table th, table td {
     padding: 15px;
 }
 
+/*      Carousel Slide       */
+
+.carousel.slide .item img {
+    margin: 0 auto;
+}
+
 .slide > .carousel.slide {
     padding: 0;
+}
+
+.page_slider .carousel.slide .item img,
+.slide.slider .carousel.slide .item img {
+    width: 100%;
+}
+
+/*
+ *      General Forms
+ */
+
+.optional_fields {
+    font-style: italic;
+    padding: 10px;
+    display: block;
 }
 
 /*
@@ -362,6 +380,14 @@ table, table th, table td {
 .edit-quantity-field, #cart_edit_item_quantity {
     width: 75px;
     margin-right: 5px;
+}
+
+/*
+ *      User
+ */
+
+.user_message > p {
+    font-size: 12pt;
 }
 
 /*

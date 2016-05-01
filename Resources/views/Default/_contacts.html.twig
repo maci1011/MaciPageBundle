@@ -1,8 +1,18 @@
 
 <address>
-	<strong>{{ company_name }}</strong><br/>
-	{{ company_address }}<br/>
-	{{ company_cccs }}<br/>
-	<abbr title="Phone">Tel.</abbr> {{ company_phone }}<br/>
-	E-Mail: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+
+	<span class="address-detail name">{{ company_name }}</span><br/>
+
+	<span class="address-detail address">{{ company_address }}</span><br/>
+
+	<span class="address-detail cccs">{{ company_cccs }}</span><br/>
+
+	<span class="address-detail country">
+		<abbr title="Phone">Tel.</abbr> {{ company_phone }}
+	</span><br/>
+
+	<span class="address-detail mail">
+		E-Mail: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+	</span>
+
 </address>
