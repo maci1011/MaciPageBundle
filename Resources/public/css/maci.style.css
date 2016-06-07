@@ -348,6 +348,14 @@ table, table th, table td {
 }
 
 /*
+ *      Blog
+ */
+
+.post-preview {
+    margin: 0 auto;
+}
+
+/*
  *      Products
  */
 
