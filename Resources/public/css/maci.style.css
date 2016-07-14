@@ -298,6 +298,74 @@ table, table th, table td {
 }
 
 /*
+ *      Media Video
+ */
+
+.media-preview-video {
+    position: relative;
+}
+
+.media-preview-video > img {
+    position: relative;
+}
+
+.media-preview-video-icon {
+    height: 90px;
+    margin: -180px 0 90px 0;
+    text-align: center;
+}
+
+.media-preview-video .media-preview-video-icon > span {
+    font-size: 60pt;
+    line-height: 90px;
+    color: #333;
+}
+
+.media-preview-video:hover .media-preview-video-icon > span {
+    color: #999;
+}
+
+.media-preview-video-content {
+    display: none;
+}
+
+.media-video-container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    background-color: rgba(0,0,0,0.85);
+}
+
+.media-video-content {
+    margin: 0 auto;
+}
+
+.media-video-close {
+    position: absolute;
+    height: 75px;
+    width: 75px;
+    top: 0;
+    right: 0;
+    background-color: #333;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.media-video-close > span {
+    font-size: 30pt;
+    line-height: 75px;
+    color: #ccc;
+}
+
+.media-video-close:hover > span {
+    color: #fff;
+}
+
+/*
  *      General Forms
  */
 
@@ -305,6 +373,11 @@ table, table th, table td {
     font-style: italic;
     padding: 10px;
     display: block;
+}
+
+.tab-content > .tab-pane {
+    padding: 10px;
+    background-color: #eee;
 }
 
 /*
