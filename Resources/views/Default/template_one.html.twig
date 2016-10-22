@@ -7,9 +7,7 @@
 
 {% block maciadmin %}
 
-{% include 'MaciAdminBundle:Modal:edit.html.twig' with {'entity': 'page', 'item': page, 'label': 'Page'} %}
-
-{% include 'MaciAdminBundle:Modal:new.html.twig' with {'entity': 'page', 'label': 'Page'} %}
+{% render(controller('MaciAdminBundle:Default:adminBar', { 'entity': 'page', 'item': page } )) %}
 
 {% endblock %}
 
