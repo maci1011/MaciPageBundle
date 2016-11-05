@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Maci\TranslatorBundle\Controller\TranslatorController;
+
 class PageMenuBuilder
 {
 	private $factory;
@@ -17,46 +19,39 @@ class PageMenuBuilder
 
     private $om;
 
-	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om)
+	private $translator;
+
+	private $locales;
+
+	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om, TranslatorController $tc)
 	{
 	    $this->factory = $factory;
 	    $this->securityContext = $securityContext;
 	    $this->user = $securityContext->getToken()->getUser();
         $this->om = $om;
+	    $this->translator = $tc;
+	    $this->locales = $tc->getLocales();
 	}
 
     public function createMainMenu(Request $request)
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav navbar-nav');
+		$menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
 
-		$menu->addChild('Home', array('route' => 'maci_homepage'));
+		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
-		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
+		$menu->addChild($this->translator->getText('menu.about', 'About'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'about')));
 
-		foreach ($pages as $page) {
+		$menu->addChild($this->translator->getText('menu.gallery', 'Gallery'), array('route' => 'maci_media_gallery'));
 
-			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
-				continue;
-			}
+		$menu->addChild($this->translator->getText('menu.shop', 'Shop'), array('route' => 'maci_product'));
 
-			$menu->addChild($page->getTitle(), array(
-			    'route' => 'maci_page',
-			    'routeParameters' => array('path' => $page->getPath())
-			));
+		$menu->addChild($this->translator->getText('menu.blog', 'Blog'), array('route' => 'maci_blog'));
 
-		}
+		$menu->addChild($this->translator->getText('menu.list', 'List'), array('route' => 'maci_list'));
 
-		$menu->addChild('Media', array('route' => 'maci_media'));
-
-		$menu->addChild('Shop', array('route' => 'maci_product'));
-
-		$menu->addChild('Blog', array('route' => 'maci_blog'));
-
-		$menu->addChild('List', array('route' => 'maci_list'));
-
-		$menu->addChild('Contacts', array('route' => 'maci_page_contacts'));
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'contacts')));
 
 		return $menu;
 	}
@@ -65,23 +60,71 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->addChild('Home', array('route' => 'maci_homepage'));
+		$menu->setChildrenAttribute('class', 'nav');
 
-		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null));
+		$menu->addChild($this->translator->getText('menu.home', 'Home'), array('route' => 'maci_homepage'));
 
+		$this->addPages($menu, true);
+
+		return $menu;
+	}
+
+    public function createTermsMenu(Request $request)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$menu->addChild($this->translator->getText('menu.terms.privacy', 'Privacy Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'privacy')));
+
+		$menu->addChild($this->translator->getText('menu.terms.cookie', 'Cookie Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'cookie')));
+
+		return $menu;
+	}
+
+    public function createContactsMenu(Request $request)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'maci_page', 'routeParameters' => array('path' => 'contacts'))));
+
+		return $menu;
+	}
+
+    public function addPages($menu, $children = false)
+	{
+		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null, 'removed' => false));
 		foreach ($pages as $page) {
-
-			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts') {
+			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts' || preg_match(':Terms:', $page->getTemplate()) ) {
 				continue;
 			}
-
-			$menu->addChild($page->getTitle(), array(
+			$title = $page->getTitle();
+			$menu->addChild($title, array(
 			    'route' => 'maci_page',
 			    'routeParameters' => array('path' => $page->getPath())
 			));
-
+			if ($children) {
+				$this->addChildren($menu[$title], $page);
+			}
 		}
+	}
 
-		return $menu;
+    public function addChildren($menu, $item, $dropdown = false)
+	{
+		if (count($item->getCurrentChildren())) {
+			$menu->setChildrenAttribute('class', 'nav');
+			if ($dropdown) {
+				$menu->setAttribute('dropdown', true);
+			}
+			foreach ($item->getCurrentChildren() as $child) {
+				$menu->addChild($child->getTitle(), array(
+				    'route' => 'maci_page',
+				    'routeParameters' => array('path' => $child->getPath())
+				));
+				$this->addChildren($menu[$child->getTitle()], $child);
+			}
+		}
 	}
 }

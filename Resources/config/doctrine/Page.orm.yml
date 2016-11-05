@@ -2,6 +2,7 @@
 Maci\PageBundle\Entity\Page:
     type:  entity
     table: maci_page
+    repositoryClass: Maci\PageBundle\Repository\PageRepository
     id:
         id:
             type: integer
@@ -35,6 +36,8 @@ Maci\PageBundle\Entity\Page:
         gallery:
             targetEntity: Maci\MediaBundle\Entity\Album
         slider:
+            targetEntity: Maci\MediaBundle\Entity\Album
+        slides:
             targetEntity: Maci\MediaBundle\Entity\Album
         category:
             targetEntity: Maci\ProductBundle\Entity\Category

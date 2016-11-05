@@ -4,23 +4,21 @@
 
 {% block maciadmin %}
 
-<a class="btn btn-primary ma-form" href="{{ path('maci_admin_entity_new', {'entity': 'page'}) }}">New Page</a>
+{% render(controller('MaciAdminBundle:Default:adminBar', { 'entity': 'page' } )) %}
 
 {% endblock %}
 
 
-{% block content %}
+{% block container %}
 
-<section class="row">
+<div class="container-fluid notfound-page">
 
-	<p>{{ 'page.notfound' | matra('Page not found.') }}</p>
+<section>
 
-	{% if is_granted("ROLE_ADMIN") %}
-
-	<a class="btn btn-success ma-form" href="{{ path('maci_admin_entity_form', {'entity': 'language', 'id': ('page.notfound'|matraid)}) }}" alt="page.notfound">Edit</a>
-
-	{% endif %}
+	<h3>{{ 'page.notfound' | matra('Page not found.') }}</h3>
 
 </section>
+
+</div>
 
 {% endblock %}

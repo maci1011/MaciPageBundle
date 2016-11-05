@@ -1,0 +1,24 @@
+
+
+<header class="page_header container-fluid">
+
+	<h1 class="page-title">
+		{{ page.title }}
+	</h1>
+
+	<div class="page-spacer"></div>
+
+	{% if page.subtitle %}
+	<h2 class="page-subtitle">
+		{{ page.subtitle }}
+	</h2>
+	{% endif %}
+
+	{% if page.header %}
+	<div class="page-header">
+		{{ page.header|raw }}
+	</div>
+	{% endif %}
+
+</header>
+

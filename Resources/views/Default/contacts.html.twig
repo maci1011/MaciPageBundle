@@ -7,9 +7,7 @@
 
 {% block maciadmin %}
 
-<a class="btn btn-success ma-form" href="{{ path('maci_admin_entity_form', {'entity': 'page', 'id': page.id}) }}">Edit Page</a>
-
-<a class="btn btn-primary ma-form" href="{{ path('maci_admin_entity_new', {'entity': 'page'}) }}">New Page</a>
+{% render(controller('MaciAdminBundle:Default:adminBar', { 'entity': 'page', 'item': page } )) %}
 
 {% endblock %}
 
@@ -35,108 +33,62 @@
 {% endblock %}
 
 
+{% block pathBar %}
+<nav>
+<ul class="nav navbar-nav">
+
+    <li>
+    	<a href="{{ path('homepage') }}">
+    		Home
+			<span class="glyphicon glyphicon-chevron-right"></span>
+    	</a>
+    </li>
+
+	{% for parentItem in page.parentsList %}
+
+	<li class="product-category-parent">
+		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">
+			{{ parentItem }}
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</li>
+
+	{% endfor %}
+
+    <li>
+    	<a href="{{ path('maci_page', {'path': page.path}) }}">
+    		{{ page }}
+    	</a>
+    </li>
+
+</ul>
+</nav>
+{% endblock %}
+
+
+
 {% block container %}
 
 
-<section class="page">
+<div class="page-container contacts-page">
 
 
-{% if page.slider %}
+{% include "MaciPageBundle:Default:_page_slider.html.twig" with { 'page': page } %}
 
-<section class="page_slider row">
+{% include "MaciPageBundle:Default:_page_slides.html.twig" with { 'page': page } %}
 
-	{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
+{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
 
-</section>
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
 
-{% endif %}
+{% include "MaciPageBundle:Default:_page_contacts.html.twig" with { 'page': page } %}
 
+{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
 
-<header class="page_header page_container row">
+{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
 
-	<h1 class="page_title">
-		{{ page.title }}
-	</h1>
-
-	{% if page.subtitle %}
-	<h2 class="page_subtitle">
-		{{ page.subtitle }}
-	</h2>
-	{% endif %}
-
-	{% if page.header %}
-	<div class="page_header-content">
-		{{ page.header }}
-	</div>
-	{% endif %}
-
-</header>
-
-
-{% if page.map %}
-
-<section class="page_map row">
-
-	{{ page.map|raw }}
-
-</section>
-
-{% endif %}
-
-
-<section class="page_content page_container row">
-<div class="col-xs-6">
-
-	{% include "MaciPageBundle:Default:_contacts.html.twig" %}
 
 </div>
-<div class="col-xs-6">
-
-	{{ render(controller('MaciContactBundle:Default:form')) }}
-
-	<div>
-		{{ page.content|raw }}
-	</div>
-
-</div>
-</section>
-
-
-{% if page.category %}
-
-<section class="page_products page_container row">
-
-	{% include "MaciProductBundle:Default:_list.html.twig" with { 'list': page.category.products }  %}
-
-</section>
-
-{% endif %}
-
-
-{% if page.tag %}
-
-<section class="page_posts page_container row">
-
-	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
-
-</section>
-
-{% endif %}
-
-
-{% if page.gallery %}
-
-<section class="page_gallery page_container row">
-
-	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
-
-</section>
-
-{% endif %}
-
-
-
-</section>
 
 
 {% endblock %}

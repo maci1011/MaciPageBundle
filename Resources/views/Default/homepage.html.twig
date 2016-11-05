@@ -7,9 +7,7 @@
 
 {% block maciadmin %}
 
-<a class="btn btn-success ma-form" href="{{ path('maci_admin_entity_form', {'entity': 'page', 'id': page.id}) }}">Edit Page</a>
-
-<a class="btn btn-primary ma-form" href="{{ path('maci_admin_entity_new', {'entity': 'page'}) }}">New Page</a>
+{% render(controller('MaciAdminBundle:Default:adminBar', { 'entity': 'page', 'item': page } )) %}
 
 {% endblock %}
 
@@ -37,6 +35,20 @@
 
 {% block container %}
 
-{% include "MaciPageBundle:Default:_page.html.twig" with { 'page': page } %}
+<div class="page-container homepage">
+
+{% include "MaciPageBundle:Default:_page_slider.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_slides.html.twig" with { 'page': page } %}
+
+{#% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %#}
+
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
+
+</div>
 
 {% endblock %}

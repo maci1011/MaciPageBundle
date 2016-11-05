@@ -1,0 +1,75 @@
+
+{% extends "MaciPageBundle::cs_layout.html.twig" %}
+
+
+{% block bodyTag %}<body id="bodyTerms">{% endblock %}
+
+
+{% block maciadmin %}
+
+{% render(controller('MaciAdminBundle:Default:adminBar', { 'entity': 'page', 'item': page } )) %}
+
+{% endblock %}
+
+
+{% block title %}
+
+{% if page.metaTitle %}
+{{ page.metaTitle }}
+{% else %}
+{{ page.title }} - {{ parent() }}
+{% endif %}
+
+{% endblock %}
+
+{% block description %}
+
+{% if page.metaDescription %}
+<meta name="description" content="{{ page.metaDescription }}" />
+{% else %}
+<meta name="description" content="{{ page.description|length > 180 ? page.description|slice(0, 163) : page.description  }}" />
+{% endif %}
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ul class="nav navbar-nav">
+
+    <li>
+    	<a href="{{ path('homepage') }}">
+    		Home
+			<span class="glyphicon glyphicon-chevron-right"></span>
+    	</a>
+    </li>
+
+	{% for parentItem in page.parentsList %}
+
+	<li class="product-category-parent">
+		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">
+			{{ parentItem }}
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</li>
+
+	{% endfor %}
+
+    <li>
+    	<a href="{{ path('maci_page', {'path': page.path}) }}">
+    		{{ page }}
+    	</a>
+    </li>
+
+</ul>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% set stt = ( "MaciPageBundle:Terms:shipping_" ~ app.request.locale ~ ".html.twig" ) %}
+
+{% include [stt, "MaciPageBundle:Terms:shipping_en.html.twig"] with { 'page': page } %}
+
+{% endblock %}

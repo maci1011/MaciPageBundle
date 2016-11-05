@@ -39,6 +39,16 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     /**
      * @var string
      */
+    private $text;
+
+    /**
+     * @var string
+     */
+    private $footer;
+
+    /**
+     * @var string
+     */
     private $meta_title;
 
     /**
@@ -82,18 +92,6 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
         return $this->subtitle;
     }
 
-    public function setHeader($header)
-    {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    public function getHeader()
-    {
-        return $this->header;
-    }
-
     /**
      * Set description
      *
@@ -117,12 +115,18 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
         return $this->description;
     }
 
-    /**
-     * Set content
-     *
-     * @param string $content
-     * @return PageTranslation
-     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    public function getHeader()
+    {
+        return $this->header;
+    }
+
     public function setContent($content)
     {
         $this->content = $content;
@@ -130,14 +134,33 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
         return $this;
     }
 
-    /**
-     * Get content
-     *
-     * @return string 
-     */
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+
+        return $this;
+    }
+
+    public function getFooter()
+    {
+        return $this->footer;
     }
 
     /**

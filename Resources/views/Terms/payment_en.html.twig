@@ -1,0 +1,61 @@
+
+
+<div class="page">
+
+
+{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
+
+
+<section class="page_terms page_container row">
+
+<h3>METHODS OF PAYMENT</h3>
+
+<p>You may pay for your purchases in one of the following ways:</p>
+
+<ul>
+	<li>Payment by credit card: Visa, Visa Electron, Maestro, Mastercard, American Express, Paypal and Postepay.</li>
+	<li>Cash on delivery.</li>
+</ul>
+
+<h3>PAYMENT BY CREDIT CARD</h3>
+
+<p>We accept all Visa, American Express, Mastercard, Postepay cards as well as Maestro and Visa Electron.<br />
+On order confirmation, the amount is authorised on the card and charged only on dispatch.</p>
+
+<h3>PAYMENT BY PAYPAL</h3>
+
+<p>After confirming your order data, you will be requested to access your PayPal account to complete the payment. If you don&#39;t yet have a PayPal account, you can create one from the log-in page, prior to completing your order. Your PayPal account is charged as soon as you have completed the order.&nbsp;</p>
+
+<h3>PAYMENT SECURITY</h3>
+
+<p>The payment procedure is managed via a protected connection to the bank in charge of the on-line payment. The payment data is encrypted by SSL protocol to protect the data transmitted from deciphering and/or theft.<br />
+To protect your credit card purchases, you will always be asked to enter your CCV code. Please rest assured that we only use secure connections, as demonstrated by the padlock symbol that appears in your browser and the prefix &ldquo;https&rdquo; in the address bar.<br />
+To prevent Internet fraud, {{ company_title }} may contact the Customer to request more details concerning the payment prior to confirming the order. {{ company_title }} does not have access to your credit card details and is therefore not able to file or store such data.<br />
+For greater security, all orders placed by credit or debit card must be approved by {{ company_title }}.</p>
+
+<h3>INVOICING AND VAT</h3>
+
+<p>All products shown on-line are inclusive of VAT.<br />
+Purchases from the {{ company_title }} On-line Store are reserved for final consumers. Consequently purchasing is not permitted by companies.</p>
+
+<p>Our invoicing system is fully automated and it is not possible to modify the invoicing data entered at the time of order or issue a new document at a later date.</p>
+
+<p>Only for Italy, during registration you will be asked to enter your Tax ID number.</p>
+
+<p>You must fill in this field carefully, as if your Tax ID is incorrect we will not be able to modify it.</p>
+
+<p>The invoice will be sent by e-mail when the order is dispatched.</p>
+
+
+</section>
+
+
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
+
+
+</div>
+

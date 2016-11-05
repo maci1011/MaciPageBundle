@@ -3,6 +3,8 @@
 namespace Maci\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -21,29 +23,64 @@ class DefaultController extends Controller
         return $this->renderByPath($path, false);
     }
 
-    public function contactsAction()
-    {
-        return $this->renderByPath('contacts', false);
-    }
-
-    public function privacyAction()
-    {
-        return $this->render('MaciPageBundle:Default:privacy.html.twig');
-    }
-
-    public function renderByPath($path, $template)
+    public function pageNotFoundAction()
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
-                ->findOneByPath($path);
+            ->findOneBy(array(
+                'path' => 'page-not-found',
+                'removed' => false
+            ));
 
         if (!$page) {
             return $this->render('MaciPageBundle:Default:notfound.html.twig');
         }
 
-        if (!$template = $page->getTemplate()) {
+        $template = $page->getTemplate();
+
+        if (!$template || !$this->get('templating')->exists($template)) {
             $template = 'MaciPageBundle:Default:page.html.twig';
         }
 
         return $this->render($template, array( 'page' => $page ));
+    }
+
+    public function renderByPath($path, $template)
+    {
+        // var_dump( $this->get('maci.orders')->getCountriesArray() ); die();
+
+        $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
+                ->findOneBy(array(
+                    'path' => $path,
+                    'removed' => false
+                ));
+
+        if (!$page) {
+            return $this->redirect($this->generateUrl('maci_page_not_found'));
+        }
+
+        $template = $page->getTemplate();
+
+        if (!$template || !$this->get('templating')->exists($template)) {
+            $template = 'MaciPageBundle:Default:page.html.twig';
+        }
+
+        return $this->render($template, array( 'page' => $page ));
+    }
+
+    public function setCookieAction(Request $request, $cookie)
+    {
+        $session = $this->get('session');
+
+        if ($cookie === 'start-popup') {
+            $session->set('start-popup', true);
+        } else if ($cookie === 'cookie-message') {
+            $session->set('cookie-message', true);
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(array('success' => true), 200);
+        }
+
+        return $this->redirect($this->generateUrl('homepage'));
     }
 }

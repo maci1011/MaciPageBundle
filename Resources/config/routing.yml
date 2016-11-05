@@ -1,21 +1,29 @@
 
-maci_page_contacts:
-    pattern:  /{_locale}/contacts
-    defaults: { _controller: MaciPageBundle:Default:contacts }
+# ---> Set Cookie
+maci_set_cookie:
+    pattern:  /set-cookie/{{cookie}}
+    defaults: { _controller: MaciPageBundle:Default:setCookie }
 
-maci_page_privacy:
-    pattern:  /{_locale}/privacy
-    defaults: { _controller: MaciPageBundle:Default:privacy }
+# ---> Page Not Found
+maci_page_not_found:
+    pattern:  /{_locale}/page-not-found
+    defaults: { _controller: MaciPageBundle:Default:pageNotFound }
+    requirements:
+        _locale: %r_locales%
 
-# ---> SHow Page
+# ---> Show Page
 maci_page:
     pattern:  /{_locale}/{path}
     defaults: { _controller: MaciPageBundle:Default:page }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Local Homepage
 maci_homepage:
     pattern:  /{_locale}
     defaults: { _controller: MaciPageBundle:Default:localIndex }
+    requirements:
+        _locale: %r_locales%
 
 # ---> Locale Redirect
 homepage:

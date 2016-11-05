@@ -1,8 +1,18 @@
 
 <address>
-	<strong>Mah! S.r.l.</strong><br>
-	Via Delle Vie 88<br>
-	Lido di Jesolo, VE 30016<br>
-	<abbr title="Phone">Tel.</abbr> 0123456789
-	E-Mail: <a href="mailto:mah@mah.com">mah@mah.com</a>
+
+	<span class="address-detail name">{{ company_name }}</span><br/>
+
+	<span class="address-detail address">{{ company_address }}</span><br/>
+
+	<span class="address-detail cccs">{{ company_cccs }}</span><br/>
+
+	<span class="address-detail country">
+		<abbr title="Phone">Tel.</abbr> {{ company_phone }}
+	</span><br/>
+
+	<span class="address-detail mail">
+		E-Mail: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+	</span>
+
 </address>

@@ -1,0 +1,110 @@
+
+
+<div class="page">
+
+
+{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
+
+
+<section class="page_terms page_container row">
+
+
+<h3>DESTINATIONS</h3>
+
+<p>At the {{ company_title }} On-line Store, orders may be dispatched to all countries in the European Union and to Russia.</p>
+
+<p>In detail, orders are accepted from the countries in the table below.</p>
+
+<h3>SHIPPING TIMES AND COSTS</h3>
+
+<p>Orders placed on the {{ company_title }} On-line Store will be processed, prepared and delivered to the courier within 24/72 hours from the Order Confirmation, from Monday to Friday.</p>
+
+<p>Shipment and delivery of orders may be delayed when placed during sale periods or during the following holidays: 1 January,&nbsp; 6 January, Easter and Easter Monday, 25 April, 1 May, 2 June, 15 August, 1 November, 8 December, 25 December, 26 December.</p>
+
+<p>All orders are processed automatically and we are unable to modify the shipping and delivery times.</p>
+
+<p>STANDARD shipments in Italy will take place approx. in 1- 3 working days following shipment from our warehouse in Bologna (delivery times to the islands are approx. 3-4 working days).</p>
+
+<p>Delivery times to European countries are 3-5 working days, for Cyprus and Malta 8-10 days and Russia approximately 15 days.</p>
+
+<p>Shipping costs may vary from country to country.</p>
+
+
+{% if maci_orders.countriesArray|length %}
+
+The table below indicates the tariffs applied for each country:</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td valign="top" style="width: 171px;">
+            <p style="text-align: center;"><strong>COUNTRY</strong></p>
+            </td>
+            <td valign="top" style="width: 166px; text-align: center;">
+            <p><strong>COURIER</strong></p>
+            </td>
+            <td valign="top" style="width: 167px;">
+            <p style="text-align: center;"><strong>SHIPPING COST</strong></p>
+            </td>
+        </tr>
+
+        {% for key, item in maci_orders.shippingsArray %}
+
+        <tr>
+            <td valign="top" style="width: 171px;">
+            <p>{{ maci_orders.countryName(item.country) }}</p>
+            </td>
+            <td valign="top" style="width: 166px;">
+            <p>{{ item.courier_label }}</p>
+            </td>
+            <td valign="top" style="width: 167px;">
+            <p>{{ item.cost }} EUR</p>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endif %}
+
+
+<p>At the {{ company_title }} On-line Store, orders may be dispatched to all countries in the European Union and to Russia.</p>
+
+<p>You may place an order for a different country from your country of residence, but you must select the products and complete your purchases on the site of the country you wish the delivery to be made to.</p>
+
+<p>You can always change the country of destination by selecting the correct country in the COUNTRY area in the menu on the bottom right.</p>
+
+<p>The same product shown in different Countries may have different prices.</p>
+
+<h3>MONITORING DELIVERIES</h3>
+
+<p>When the shipping is provided of a trackin number, after the order is dispatched, you will receive an e-mail indicating the tracking number and the istructions to monitor the status of your shipment in real time on the website of the courier. For the other cases, only on request the tracking number will be sent.</p>
+
+<p>You can always contact the Customer Service if the tracking number is not traceable.</p>
+
+<p>For delivery of on-line orders, you can choose the most practical delivery address: your home, your office or to another person. Please note however that we cannot dispatch goods to a P.O. box.</p>
+
+<h4>NATIONAL SHIPPINGS</h4>
+
+<p>The courier delivers from Monday to Friday during office hours. The courier will make 2 attempts to deliver the parcel.&nbsp; If there is nobody at the indicated shipping address, the courier will leave a note with the address of the closest branch where you may collect your parcel in person.</p>
+
+<h4>INTERNATIONAL SHIPPINGS</h4>
+
+<p>The courier delivers from Monday to Friday during office hours. The courier will make 3 attempts to deliver the parcel.&nbsp; After the third attempt, the parcel will automatically be returned to the {{ company_title }} On-line Store warehouse and Customer Care will contact the Customer by e-mail when the parcel is received.</p>
+
+
+
+</section>
+
+
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
+
+{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
+
+
+</div>
+

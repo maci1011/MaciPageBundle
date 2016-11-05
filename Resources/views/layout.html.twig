@@ -8,9 +8,7 @@
 
     {% if is_granted("ROLE_ADMIN") %}
 
-    <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/font-awesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/jquery-ui.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/bundles/maciadmin/css/maci.admin.css') }}" />
 
     {% endif %}
 
@@ -40,9 +38,28 @@
 
 <div id="main">
 
-    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-
     {% block navbar %}
+
+    <div class="navbar navbar-fixed-top navbar-default" role="navigation">
+
+    {% block cookieMessage %}
+
+    {% if not app.session.get('cookie-message', false) %}
+
+    <div id="cookieMessage" class="container">
+
+        <nav><ul class="nav navbar-nav">
+
+        <li><p class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</p></li>
+        <li><a class="set-cookie" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
+
+        </ul></nav>
+
+    </div>
+
+    {% endif %}
+
+    {% endblock %}
 
     <div class="container">
         <div class="navbar-header">
@@ -52,25 +69,52 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('homepage') }}">Mah!</a>
         </div>
         <div class="collapse navbar-collapse">
-            <nav>{{ knp_menu_render('main', {'currentClass': 'active'}) }}</nav>
+
+            <nav>{{ knp_menu_render('language', {'currentClass': 'active'}) }}</nav>
+            <nav>{{ knp_menu_render('user_cart', {'currentClass': 'active'}) }}</nav>
             <nav>{{ knp_menu_render('user', {'currentClass': 'active'}) }}</nav>
+
         </div>
+    </div>
+
     </div>
 
     {% endblock %}
-
-    </div>
 
     <header id="header" class="container">
 
     {% block header %}
 
-    <div>
-        <h1>Mah!</h1>
-        <h2>A Base Project</h2>
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-3">
+            <a href="{{ path('homepage') }}">
+                <h1 class="header-title">{{ company_title }}</h1>
+            </a>
+            <h2 class="header-subtitle">{{ 'layout.subtitle'|matra('A Base Project') }}</h2>
+        </div>
+
+        <div id="mainMenu" class="col-xs-12 col-sm-9">
+            <nav>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="searchLink" class="navbar-btn" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                </ul>
+                {{ knp_menu_render('main', {'currentClass': 'active'}) }}
+            </nav>
+        </div>
+
+    </div>
+
+    <div id="pathBar" class="row">
+
+        {% block pathBar %}{% endblock %}
+
     </div>
 
     {% endblock %}
@@ -78,25 +122,24 @@
     </header>
 
 
-	{% if is_granted("ROLE_ADMIN") %}
+    {% if is_granted("ROLE_ADMIN") %}
 
-	<div id="maciadmin" class="container">
-		<div class="btn-group">
+    <div id="maciadmin" class="container">
 
-			{% block maciadmin %}{% endblock %}
+        {% block maciadmin %}{% endblock %}
 
-		</div>
-	</div>
+    </div>
 
-	{% endif %}
+    {% endif %}
 
 
-    <div id="mainContainer" class="container">
+    <div id="mainContainer" class="container-fluid">
 
     {% block container %}
 
-        <div class="col-md-2">
-        <div id="menuContainer">
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+        <div id="menuContainer" class="row">
 
             {% block leftMenu %}
 
@@ -106,28 +149,95 @@
 
         </div>
         </div>
-        <div class="col-md-10">
-        <div id="pageContainer">
+        <div class="col-sm-9 col-md-10">
 
             {% block content %}{% endblock %}
 
         </div>
-        </div>
+    </div>
 
     {% endblock container %}
 
     </div>
 
-    <footer id="footer" class="container">
+    <footer id="footer">
 
-	{% block footer %}
+    {% block footer %}
 
-    	<p>Footer</p>
+    <div class="container">
 
-	{% endblock footer %}
+    <div class="navbar">
+
+        <nav>
+
+            <!--
+                 Social Icons
+                 
+                 Use anything from here: http://fortawesome.github.io/Font-Awesome/cheatsheet/)
+            -->
+                <ul class="nav navbar-nav">
+                    <li><a href="http://www.facebook.com/" target="_blank"><span>Facebook</span></a></li>
+                    <li><a href="http://plus.google.com/" target="_blank"><span>Google Plus</span></a></li>
+                </ul>
+
+            <!-- Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="navbar-text">{{ company_title }} | {{ company_address }} {{ company_cccs }} | <abbr title="Phone">Tel.</abbr> {{ company_phone }}</span></li>
+                    <li><a href="mailto:{{ contact_email }}"><span>{{ contact_email }}</span></a></li>
+                    <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">{{ 'menu.terms_and_conditions' | matra('Terms & Conditions') }}</a></li>
+                    <li><a href="{{ path('maci_page', {'path':'customer-service'}) }}">{{ 'menu.shopping.customer_service' | matra('Customer Service') }}</a></li>
+                    {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('maci_media') }}">Media</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{{ path('maci_user_login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+
+        </nav>
+
+    </div>
+
+    </div>
+
+    {% endblock footer %}
 
     </footer>
 
 </div>
+
+
+{% block startPopUp %}
+
+{% if not app.session.get('start-popup', false) %}
+<section id="startPopUp" class="popup">
+
+    <div class="popup-container">
+
+        <h1>{{ 'layout.title'|matra('Title') }}</h1>
+
+        <h2>{{ 'layout.subtitle'|matra('Subtitle') }}</h2>
+
+        <p>{{ 'popup.start.text'|matra('Text') }}</p>
+
+        <div>
+
+            <a class="btn btn-danger" href="http://en.wikipedia.org/">
+                {{ 'form.deny'|matra('Deny') }}
+            </a>
+
+            <a class="btn btn-primary popup-close set-cookie" href="{{ path('maci_set_cookie', {'cookie': 'start-popup'}) }}">
+                {{ 'form.ok'|matra('Ok') }}
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+{% endif %}
+
+{% endblock %}
+
 
 {% endblock body %}

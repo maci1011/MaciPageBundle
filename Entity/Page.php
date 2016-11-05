@@ -39,26 +39,6 @@ class Page
     /**
      * @var string
      */
-    private $album;
-
-    /**
-     * @var string
-     */
-    private $gallery;
-
-    /**
-     * @var string
-     */
-    private $slider;
-
-    /**
-     * @var string
-     */
-    private $category;
-
-    /**
-     * @var string
-     */
     private $tag;
 
     /**
@@ -75,6 +55,31 @@ class Page
      * @var boolean
      */
     private $removed;
+
+    /**
+     * @var string
+     */
+    private $album;
+
+    /**
+     * @var string
+     */
+    private $gallery;
+
+    /**
+     * @var string
+     */
+    private $slider;
+
+    /**
+     * @var string
+     */
+    private $slides;
+
+    /**
+     * @var string
+     */
+    private $category;
 
     /**
      * @var \Maci\PageBundle\Entity\Page
@@ -99,6 +104,7 @@ class Page
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->status = 'active';
         $this->removed = false;
+        $this->path = ( 'page-' . rand( 100000, 999999 ) );
     }
 
     /**
@@ -167,6 +173,42 @@ class Page
     public function getTemplate()
     {
         return $this->template;
+    }
+
+    public function getTemplateArray()
+    {
+        return array(
+            'MaciPageBundle:Default:page.html.twig' => 'Page',
+            'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
+            'MaciPageBundle:Default:slidepage.html.twig' => 'Slide Page',
+            'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
+            'MaciPageBundle:Default:about.html.twig' => 'About',
+            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts',
+            'MaciPageBundle:Default:template_zero.html.twig' => 'Zero',
+            'MaciPageBundle:Default:template_one.html.twig' => 'One',
+            'MaciPageBundle:Default:template_two.html.twig' => 'Two',
+            'MaciPageBundle:Default:template_three.html.twig' => 'Three',
+            'MaciPageBundle:Default:foo.html.twig' => 'Foo',
+            'MaciPageBundle:Terms:customer_service.html.twig' => 'Customer Service',
+            'MaciPageBundle:Terms:shopping_guide.html.twig' => 'Shopping Guide',
+            'MaciPageBundle:Terms:size_guide.html.twig' => 'Size Guide',
+            'MaciPageBundle:Terms:shipping.html.twig' => 'Shipping',
+            'MaciPageBundle:Terms:payment.html.twig' => 'Payment',
+            'MaciPageBundle:Terms:refunds.html.twig' => 'Returns and Refunds',
+            'MaciPageBundle:Terms:gcs.html.twig' => 'General Condititions of Sale',
+            'MaciPageBundle:Terms:cookie.html.twig' => 'Cookie Policy',
+            'MaciPageBundle:Terms:privacy.html.twig' => 'Privacy Policy'
+        );
+    }
+
+    public function getTemplateLabel()
+    {
+        $array = $this->getTemplateArray();
+        if (array_key_exists($this->template, $array)) {
+            return $array[$this->template];
+        }
+        $str = str_replace('_', ' ', $this->template);
+        return ucwords($str);
     }
 
     /**
@@ -259,6 +301,29 @@ class Page
     public function getSlider()
     {
         return $this->slider;
+    }
+
+    /**
+     * Set slides
+     *
+     * @param string $slides
+     * @return Page
+     */
+    public function setSlides($slides)
+    {
+        $this->slides = $slides;
+
+        return $this;
+    }
+
+    /**
+     * Get slides
+     *
+     * @return string 
+     */
+    public function getSlides()
+    {
+        return $this->slides;
     }
 
     public function setCategory($category)
@@ -366,6 +431,17 @@ class Page
         return $this->parent;
     }
 
+    public function getParentsList()
+    {
+        $list = array();
+        $obj = $this->parent;
+        while (is_object($obj)) {
+            $list[] = $obj;
+            $obj = $obj->getParent();
+        }
+        return array_reverse($list);
+    }
+
     /**
      * Add children
      *
@@ -397,6 +473,13 @@ class Page
     public function getChildren()
     {
         return $this->children;
+    }
+
+    public function getCurrentChildren()
+    {
+        return $this->children->filter(function($e){
+            return !$e->getRemoved();
+        });
     }
 
     /**

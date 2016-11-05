@@ -1,102 +1,14 @@
 
 
-<section class="page">
+{% include "MaciPageBundle:Default:_page_slider.html.twig" with { 'page': page } %}
 
+{% include "MaciPageBundle:Default:_page_slides.html.twig" with { 'page': page } %}
 
-{% if page.slider %}
+{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
 
-<section class="page_slider row">
+{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
 
-	{% include "MaciMediaBundle:Default:_slider.html.twig" with {'album': page.slider}  %}
+{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
 
-</section>
-
-{% endif %}
-
-
-<header class="page_header page_container row">
-
-	<h1 class="page_title">
-		{{ page.title }}
-	</h1>
-
-	{% if page.subtitle %}
-	<h2 class="page_subtitle">
-		{{ page.subtitle }}
-	</h2>
-	{% endif %}
-
-	{% if page.header %}
-	<div class="page_header-content">
-		{{ page.header|raw }}
-	</div>
-	{% endif %}
-
-</header>
-
-
-{% if page.map %}
-
-<section class="page_map row">
-
-	{{ page.map|raw }}
-
-</section>
-
-{% endif %}
-
-
-<section class="page_content page_container row">
-
-	{{ page.content|raw }}
-
-</section>
-
-
-{% if page.category and page.category.products|length %}
-
-<section class="page_products page_container row">
-
-	{% include "MaciProductBundle:Default:_list.html.twig" with { 'list': page.category.products }  %}
-
-</section>
-
-{% endif %}
-
-
-{% if page.tag and page.tag.posts|length %}
-
-<section class="page_posts page_container row">
-
-	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
-
-</section>
-
-{% endif %}
-
-
-{% if page.album and page.album.images|length %}
-
-<section class="page_album page_container row">
-
-	{% include "MaciMediaBundle:Default:_album_media_list.html.twig" with { 'album': page.album }  %}
-
-</section>
-
-{% endif %}
-
-
-{% if page.gallery and page.gallery.images|length %}
-
-<section class="page_gallery page_container row">
-
-	{% include "MaciMediaBundle:Default:_list.html.twig" with { 'list': page.gallery.images }  %}
-
-</section>
-
-{% endif %}
-
-
-
-</section>
+{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
 

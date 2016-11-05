@@ -1,0 +1,27 @@
+
+
+{% if page.content %}
+
+<section class="page_content container-fluid">
+<div class="page_content_wrapper">
+
+	{{ page.content|raw }}
+
+</div>
+</section>
+
+{% endif %}
+
+
+{% if page.text %}
+
+<section class="page_text container-fluid">
+<div class="page_text_wrapper">
+
+	{{ page.text|raw }}
+
+</div>
+</section>
+
+{% endif %}
+

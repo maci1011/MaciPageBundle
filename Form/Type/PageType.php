@@ -39,6 +39,12 @@ class PageType extends AbstractType
                     'content' => array(
                         'required' => false
                     ),
+                    'text' => array(
+                        'required' => false
+                    ),
+                    'footer' => array(
+                        'required' => false
+                    ),
                     'meta_title' => array(
                         'required' => false
                     ),
@@ -50,27 +56,33 @@ class PageType extends AbstractType
 			// ->add('status')
 			->add('path')
 			->add('template', 'choice', array(
-                'choices' => $this->getTypeArray()
+                'choices' => $builder->getData()->getTemplateArray()
             ))
 			->add('album', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
-						->where('a.type = :type')
-						->setParameter(':type', 'page_album')
+						->where('a.type = :type1')
+						->orWhere('a.type = :type2')
+						->setParameter(':type1', 'gallery')
+						->setParameter(':type2', 'page_album')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('gallery', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
-						->where('a.type = :type')
-						->setParameter(':type', 'page_gallery')
+						->where('a.type = :type1')
+						->orWhere('a.type = :type2')
+						->setParameter(':type1', 'gallery')
+						->setParameter(':type2', 'page_album')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('slider', 'entity', array(
 				'class' => 'MaciMediaBundle:Album',
@@ -80,31 +92,40 @@ class PageType extends AbstractType
 						->setParameter(':type', 'page_slider')
 					;
 				},
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
+			))
+			->add('slides', 'entity', array(
+				'class' => 'MaciMediaBundle:Album',
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->where('a.type = :type')
+						->setParameter(':type', 'page_slides')
+					;
+				},
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('category', 'entity', array(
 				'class' => 'MaciProductBundle:Category',
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('tag', 'entity', array(
 				'class' => 'MaciBlogBundle:Tag',
-				'empty_value' => ''
+				'empty_value' => '',
+				'required' => false
+			))
+			->add('parent', 'entity', array(
+				'class' => 'MaciPageBundle:Page',
+				'empty_value' => '',
+				'required' => false
 			))
 			->add('map', null, array('attr'=>array('class'=>'noeditor')))
 			->add('cancel', 'reset')
 			->add('send', 'submit')
 		;
 	}
-
-    public function getTypeArray()
-    {
-        return array(
-            'MaciPageBundle:Default:page.html.twig' => 'Page',
-            'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
-            'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
-            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts'
-        );
-    }
 
 	public function getName()
 	{
