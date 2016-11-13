@@ -9,6 +9,36 @@ Maci\PageBundle\Entity\Page:
             generator:
                 strategy: AUTO
     fields:
+        title:
+            type: string
+            length: 127
+        subtitle:
+            type: string
+            length: 127
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        header:
+            type: text
+            nullable: true
+        content:
+            type: text
+            nullable: true
+        text:
+            type: text
+            nullable: true
+        footer:
+            type: text
+            nullable: true
+        meta_title:
+            type: string
+            length: 63
+            nullable: true
+        meta_description:
+            type: string
+            length: 191
+            nullable: true
         status:
             type: string
             length: 15
@@ -24,6 +54,9 @@ Maci\PageBundle\Entity\Page:
             type: string
             length: 63
             nullable: true
+        locale:
+            type: string
+            length: 10
         created:
             type: datetime
         updated:

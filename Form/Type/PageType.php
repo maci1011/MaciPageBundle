@@ -23,37 +23,17 @@ class PageType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('translations', 'a2lix_translations', array(
-                'fields' => array(
-                    'title' => array(),
-                    'subtitle' => array(
-                        'required' => false
-                    ),
-                    'description' => array(
-                        'required' => false,
-                        'attr' => array('class'=>'noeditor')
-                    ),
-                    'header' => array(
-                        'required' => false
-                    ),
-                    'content' => array(
-                        'required' => false
-                    ),
-                    'text' => array(
-                        'required' => false
-                    ),
-                    'footer' => array(
-                        'required' => false
-                    ),
-                    'meta_title' => array(
-                        'required' => false
-                    ),
-                    'meta_description' => array(
-                        'required' => false
-                    )
-                )
-            ))
+			->add('title')
+			->add('subtitle', null, array('required' => false))
+			->add('description', null, array('required' => false))
+			->add('header', null, array('required' => false))
+			->add('content', null, array('required' => false))
+			->add('text', null, array('required' => false))
+			->add('footer', null, array('required' => false))
+			->add('meta_title', null, array('required' => false))
+			->add('meta_description', null, array('required' => false))
 			// ->add('status')
+			->add('locale')
 			->add('path')
 			->add('template', 'choice', array(
                 'choices' => $builder->getData()->getTemplateArray()

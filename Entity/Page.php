@@ -2,19 +2,60 @@
 
 namespace Maci\PageBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Page
  */
 class Page
 {
-    use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translatable;
-
     /**
      * @var integer
      */
     private $id;
+
+    /**
+     * @var string
+     */
+    private $title;
+
+    /**
+     * @var string
+     */
+    private $subtitle;
+
+    /**
+     * @var text
+     */
+    private $description;
+
+    /**
+     * @var text
+     */
+    private $header;
+
+    /**
+     * @var string
+     */
+    private $content;
+
+    /**
+     * @var string
+     */
+    private $text;
+
+    /**
+     * @var string
+     */
+    private $footer;
+
+    /**
+     * @var string
+     */
+    private $meta_title;
+
+    /**
+     * @var text
+     */
+    private $meta_description;
 
     /**
      * @var integer
@@ -92,16 +133,15 @@ class Page
     protected $children;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var string
      */
-    protected $translations;
+    private $locale;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->status = 'active';
         $this->removed = false;
         $this->path = ( 'page-' . rand( 100000, 999999 ) );
@@ -115,6 +155,146 @@ class Page
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setHeader($header)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    public function getHeader()
+    {
+        return $this->header;
+    }
+
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+
+        return $this;
+    }
+
+    public function getFooter()
+    {
+        return $this->footer;
+    }
+
+    /**
+     * Set title
+     */
+    public function setMetaTitle($meta_title)
+    {
+        $this->meta_title = $meta_title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     */
+    public function getMetaTitle()
+    {
+        return $this->meta_title;
+    }
+
+    /**
+     * Set description
+     */
+    public function setMetaDescription($meta_description)
+    {
+        $this->meta_description = $meta_description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     */
+    public function getMetaDescription()
+    {
+        return $this->meta_description;
     }
 
     /**
@@ -498,60 +678,16 @@ class Page
         $this->updated = new \DateTime();
     }
 
-    /**
-     * getTitle
-     */
-    public function getTitle()
+    public function setLocale($locale)
     {
-        return $this->__call('title', null);
+        $this->locale = $locale;
+
+        return $this;
     }
 
-    /**
-     * getSubtitle
-     */
-    public function getSubitle()
+    public function getLocale()
     {
-        return $this->__call('subtitle', null);
-    }
-
-    /**
-     * getDescription()
-     */
-    public function getDescription()
-    {
-        return $this->__call('description', null);
-    }
-
-    /**
-     * getHeader
-     */
-    public function getHeader()
-    {
-        return $this->__call('header', null);
-    }
-
-    /**
-     * getContent
-     */
-    public function getContent()
-    {
-        return $this->__call('content', null);
-    }
-
-    /**
-     * getContent
-     */
-    public function getMetaTitle()
-    {
-        return $this->__call('metaTitle', null);
-    }
-
-    /**
-     * getContent
-     */
-    public function getMetaDescription()
-    {
-        return $this->__call('metaDescription', null);
+        return $this->locale;
     }
 
     /**

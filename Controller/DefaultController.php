@@ -13,14 +13,14 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('maci_homepage'));
     }
 
-    public function localIndexAction()
+    public function localIndexAction(Request $request)
     {
-        return $this->renderByPath('homepage', false);
+        return $this->renderByPath($request, 'homepage', false);
     }
 
-    public function pageAction($path)
+    public function pageAction(Request $request, $path)
     {
-        return $this->renderByPath($path, false);
+        return $this->renderByPath($request, $path, false);
     }
 
     public function pageNotFoundAction()
@@ -44,12 +44,13 @@ class DefaultController extends Controller
         return $this->render($template, array( 'page' => $page ));
     }
 
-    public function renderByPath($path, $template)
+    public function renderByPath($request, $path, $template)
     {
         // var_dump( $this->get('maci.orders')->getCountriesArray() ); die();
 
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
                 ->findOneBy(array(
+                    'locale' => $request->getLocale(),
                     'path' => $path,
                     'removed' => false
                 ));
