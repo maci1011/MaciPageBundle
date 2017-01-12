@@ -1,33 +1,33 @@
 
 # ---> Set Cookie
 maci_set_cookie:
-    pattern:  /set-cookie/{{cookie}}
+    path:  /set-cookie/{{cookie}}
     defaults: { _controller: MaciPageBundle:Default:setCookie }
 
 # ---> Page Not Found
 maci_page_not_found:
-    pattern:  /{_locale}/page-not-found
+    path:  /{_locale}/page-not-found
     defaults: { _controller: MaciPageBundle:Default:pageNotFound }
     requirements:
         _locale: %r_locales%
 
 # ---> Show Page
 maci_page:
-    pattern:  /{_locale}/{path}
+    path:  /{_locale}/{path}
     defaults: { _controller: MaciPageBundle:Default:page }
     requirements:
         _locale: %r_locales%
 
 # ---> Local Homepage
 maci_homepage:
-    pattern:  /{_locale}
+    path:  /{_locale}
     defaults: { _controller: MaciPageBundle:Default:localIndex }
     requirements:
         _locale: %r_locales%
 
 # ---> Locale Redirect
 homepage:
-    pattern:  /
+    path:  /
     defaults: { _controller: MaciPageBundle:Default:index }
 
 

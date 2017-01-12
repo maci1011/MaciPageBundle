@@ -3,19 +3,12 @@
 namespace Maci\PageBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class PageMenuBuilder
 {
 	private $factory;
-
-	private $securityContext;
-
-	private $user;
 
     private $om;
 
@@ -23,17 +16,15 @@ class PageMenuBuilder
 
 	private $locales;
 
-	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om, TranslatorController $tc)
+	public function __construct(FactoryInterface $factory, ObjectManager $objectManager, TranslatorController $tc)
 	{
 	    $this->factory = $factory;
-	    $this->securityContext = $securityContext;
-	    $this->user = $securityContext->getToken()->getUser();
-        $this->om = $om;
+        $this->om = $objectManager;
 	    $this->translator = $tc;
 	    $this->locales = $tc->getLocales();
 	}
 
-    public function createMainMenu(Request $request)
+    public function createMainMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -56,7 +47,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createLeftMenu(Request $request)
+    public function createLeftMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -69,7 +60,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createTermsMenu(Request $request)
+    public function createTermsMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -82,7 +73,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createContactsMenu(Request $request)
+    public function createContactsMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 

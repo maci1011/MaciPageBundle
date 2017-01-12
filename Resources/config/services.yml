@@ -8,62 +8,16 @@ services:
 
     maci_page.menu_builder:
         class: Maci\PageBundle\Menu\PageMenuBuilder
-        arguments: ["@knp_menu.factory","@security.context","@doctrine.orm.entity_manager","@maci.translator"]
-
-    maci_page.menu.main:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.menu_builder
-        factory_method: createMainMenu
-        arguments: ["@request"]
-        scope: request
+        arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager","@maci.translator"]
         tags:
-            - { name: knp_menu.menu, alias: main }
-
-    maci_page.menu.left:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.menu_builder
-        factory_method: createLeftMenu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: left }
-
-    maci_page.menu.terms:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.menu_builder
-        factory_method: createTermsMenu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: terms }
-
-    maci_page.menu.contacts:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.menu_builder
-        factory_method: createContactsMenu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: shop_contacts }
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+            - { name: knp_menu.menu_builder, method: createLeftMenu, alias: left }
+            - { name: knp_menu.menu_builder, method: createTermsMenu, alias: terms }
+            - { name: knp_menu.menu_builder, method: createContactsMenu, alias: shop_contacts }
 
     maci_page.shop_menu_builder:
         class: Maci\PageBundle\Menu\ShopMenuBuilder
-        arguments: ["@knp_menu.factory","@security.context","@doctrine.orm.entity_manager","@maci.translator"]
-
-    maci_page.menu.shop_customer_service:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.shop_menu_builder
-        factory_method: createCustomerServiceMenu
-        arguments: ["@request"]
-        scope: request
+        arguments: ["@knp_menu.factory","@maci.translator"]
         tags:
-            - { name: knp_menu.menu, alias: shop_customer_service }
-
-    maci_page.menu.shop_terms:
-        class: Knp\Menu\MenuItem
-        factory_service: maci_page.shop_menu_builder
-        factory_method: createTermsMenu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: shop_terms }
+            - { name: knp_menu.menu_builder, method: createCustomerServiceMenu, alias: shop_customer_service }
+            - { name: knp_menu.menu_builder, method: createTermsMenu, alias: shop_terms }

@@ -3,37 +3,25 @@
 namespace Maci\PageBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class ShopMenuBuilder
 {
 	private $factory;
 
-	private $securityContext;
-
-	private $user;
-
-    private $om;
-
 	private $translator;
 
 	private $locales;
 
-	public function __construct(FactoryInterface $factory, SecurityContext $securityContext, ObjectManager $om, TranslatorController $tc)
+	public function __construct(FactoryInterface $factory, TranslatorController $tc)
 	{
 	    $this->factory = $factory;
-	    $this->securityContext = $securityContext;
-	    $this->user = $securityContext->getToken()->getUser();
-        $this->om = $om;
 	    $this->translator = $tc;
 	    $this->locales = $tc->getLocales();
 	}
 
-    public function createCustomerServiceMenu(Request $request)
+    public function createCustomerServiceMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -54,7 +42,7 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
-    public function createTermsMenu(Request $request)
+    public function createTermsMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
