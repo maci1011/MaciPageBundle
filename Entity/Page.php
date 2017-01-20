@@ -358,34 +358,35 @@ class Page
     public function getTemplateArray()
     {
         return array(
-            'MaciPageBundle:Default:page.html.twig' => 'Page',
-            'MaciPageBundle:Default:fullpage.html.twig' => 'Full Page',
-            'MaciPageBundle:Default:slidepage.html.twig' => 'Slide Page',
-            'MaciPageBundle:Default:homepage.html.twig' => 'Homepage',
-            'MaciPageBundle:Default:about.html.twig' => 'About',
-            'MaciPageBundle:Default:contacts.html.twig' => 'Contacts',
-            'MaciPageBundle:Default:template_zero.html.twig' => 'Zero',
-            'MaciPageBundle:Default:template_one.html.twig' => 'One',
-            'MaciPageBundle:Default:template_two.html.twig' => 'Two',
-            'MaciPageBundle:Default:template_three.html.twig' => 'Three',
-            'MaciPageBundle:Default:foo.html.twig' => 'Foo',
-            'MaciPageBundle:Terms:customer_service.html.twig' => 'Customer Service',
-            'MaciPageBundle:Terms:shopping_guide.html.twig' => 'Shopping Guide',
-            'MaciPageBundle:Terms:size_guide.html.twig' => 'Size Guide',
-            'MaciPageBundle:Terms:shipping.html.twig' => 'Shipping',
-            'MaciPageBundle:Terms:payment.html.twig' => 'Payment',
-            'MaciPageBundle:Terms:refunds.html.twig' => 'Returns and Refunds',
-            'MaciPageBundle:Terms:gcs.html.twig' => 'General Condititions of Sale',
-            'MaciPageBundle:Terms:cookie.html.twig' => 'Cookie Policy',
-            'MaciPageBundle:Terms:privacy.html.twig' => 'Privacy Policy'
+            'Page' => 'MaciPageBundle:Default:page.html.twig',
+            'Full Page' => 'MaciPageBundle:Default:fullpage.html.twig',
+            'Slide Page' => 'MaciPageBundle:Default:slidepage.html.twig',
+            'Homepage' => 'MaciPageBundle:Default:homepage.html.twig',
+            'About' => 'MaciPageBundle:Default:about.html.twig',
+            'Contacts' => 'MaciPageBundle:Default:contacts.html.twig',
+            'Zero' => 'MaciPageBundle:Default:template_zero.html.twig',
+            'One' => 'MaciPageBundle:Default:template_one.html.twig',
+            'Two' => 'MaciPageBundle:Default:template_two.html.twig',
+            'Three' => 'MaciPageBundle:Default:template_three.html.twig',
+            'Foo' => 'MaciPageBundle:Default:foo.html.twig',
+            'Customer Service' => 'MaciPageBundle:Terms:customer_service.html.twig',
+            'Shopping Guide' => 'MaciPageBundle:Terms:shopping_guide.html.twig',
+            'Size Guide' => 'MaciPageBundle:Terms:size_guide.html.twig',
+            'Shipping' => 'MaciPageBundle:Terms:shipping.html.twig',
+            'Payment' => 'MaciPageBundle:Terms:payment.html.twig',
+            'Returns and Refunds' => 'MaciPageBundle:Terms:refunds.html.twig',
+            'General Condititions of Sale' => 'MaciPageBundle:Terms:gcs.html.twig',
+            'Cookie Policy' => 'MaciPageBundle:Terms:cookie.html.twig',
+            'Privacy Policy' => 'MaciPageBundle:Terms:privacy.html.twig'
         );
     }
 
     public function getTemplateLabel()
     {
         $array = $this->getTemplateArray();
-        if (array_key_exists($this->template, $array)) {
-            return $array[$this->template];
+        $key = array_search($this->template, $array);
+        if ($key) {
+            return $key;
         }
         $str = str_replace('_', ' ', $this->template);
         return ucwords($str);
