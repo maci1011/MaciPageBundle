@@ -17,6 +17,7 @@ maci_page:
     defaults: { _controller: MaciPageBundle:Default:page }
     requirements:
         _locale: %r_locales%
+        path: .+
 
 # ---> Local Homepage
 maci_homepage:
