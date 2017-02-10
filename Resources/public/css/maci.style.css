@@ -73,10 +73,6 @@ table, table th, table td {
     padding-bottom: 15px;
 }
 
-#mainContainer > .page-container {
-    margin: 0 -15px;
-}
-
 #menuContainer {
     padding: 15px 0;
 }

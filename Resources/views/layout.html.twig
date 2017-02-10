@@ -10,6 +10,8 @@
 
     <div class="navbar navbar-fixed-top navbar-default" role="navigation">
 
+
+
     {% block cookieMessage %}
 
     {% if not app.session.get('cookie-message', false) %}
@@ -28,6 +30,8 @@
     {% endif %}
 
     {% endblock %}
+
+
 
     <div class="container">
         <div class="navbar-header">
@@ -50,6 +54,8 @@
     </div>
 
     {% endblock %}
+
+
 
     <header id="header" class="container">
 
@@ -90,21 +96,12 @@
     </header>
 
 
-    {% if is_granted("ROLE_ADMIN") %}
 
-    <div id="maciadmin" class="container">
-
-        {% block maciadmin %}{% endblock %}
-
-    </div>
-
-    {% endif %}
-
-
-    <div id="mainContainer" class="container-fluid">
+    <div id="mainContainer">
 
     {% block container %}
 
+    <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2">
         <div id="menuContainer" class="row">
@@ -123,14 +120,29 @@
 
         </div>
     </div>
+    </div>
 
     {% endblock container %}
 
     </div>
 
+
+
     <footer id="footer">
 
     {% block footer %}
+
+
+    {% if is_granted("ROLE_ADMIN") %}
+
+    <div id="maciadmin" class="container">
+
+        {% block maciadmin %}{% endblock %}
+
+    </div>
+
+    {% endif %}
+
 
     <div class="container">
 
@@ -175,6 +187,7 @@
 </div>
 
 
+
 {% block startPopUp %}
 
 {% if not app.session.get('start-popup', false) %}
@@ -206,6 +219,7 @@
 {% endif %}
 
 {% endblock %}
+
 
 
 {% endblock body %}
