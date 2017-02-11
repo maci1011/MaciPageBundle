@@ -179,7 +179,8 @@ table, table th, table td {
 .slide.text_only > .slide-wrapper > .slide-caption,
 .slide.contact_info > .slide-wrapper > .slide-caption,
 .slide.contact_form > .slide-wrapper > .slide-caption,
-.slide.contact_form_bg > .slide-wrapper > .slide-caption {
+.slide.contact_form_bg > .slide-wrapper > .slide-caption,
+.slide.album_preview {
     padding-top: 65px;
 }
 
@@ -215,6 +216,14 @@ table, table th, table td {
 
 .slider-center-image > img {
     margin: 0 auto;
+}
+
+.slide.company .slide-title {
+    font-size: 42pt;
+}
+
+.slide.company .slide-description {
+    font-size: 32pt;
 }
 
 /*      Slide Style: Left and Right       */
@@ -301,8 +310,12 @@ table, table th, table td {
 }
 
 /*
- *      Media Video Preview
+ *      Media
  */
+
+.media-preview > a > img {
+    margin: 0 auto;
+}
 
 .media-preview-video {
     position: relative;

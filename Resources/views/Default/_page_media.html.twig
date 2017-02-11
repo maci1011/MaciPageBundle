@@ -13,11 +13,7 @@
 
 {% if page.album and ( page.album.children|length or page.album.images|length ) %}
 
-<section class="page_album container-fluid">
-
-	{% include "MaciMediaBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
-
-</section>
+{% include "MaciMediaBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
 
 {% endif %}
 
