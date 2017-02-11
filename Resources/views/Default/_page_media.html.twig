@@ -11,7 +11,7 @@
 {% endif %}
 
 
-{% if page.album and page.album.images|length %}
+{% if page.album and ( page.album.children|length or page.album.images|length ) %}
 
 <section class="page_album container-fluid">
 

@@ -170,6 +170,7 @@ table, table th, table td {
 .slide.center_fix > .slide-wrapper > .slide-caption,
 .slide.center_ov > .slide-wrapper > .slide-caption,
 .slide.center_fix_ov > .slide-wrapper > .slide-caption,
+.slide.company > .slide-wrapper,
 .slide.left > .slide-wrapper,
 .slide.right > .slide-wrapper,
 .slide.left_divided > .slide-wrapper,
@@ -190,19 +191,25 @@ table, table th, table td {
     padding-bottom: 15px;
 }
 
-/*      Slide Style: Center, Center Fix       */
+.slide.company > .slide-wrapper > .slide-caption {
+    padding-top: 4%;
+}
+
+/*      Slide Style: Center, Center Fix, Company       */
 
 .slide.center.active .slide-caption,
 .slide.center_fix.active .slide-caption,
 .slide.center_ov.active .slide-caption,
-.slide.center_fix_ov.active .slide-caption {
+.slide.center_fix_ov.active .slide-caption,
+.slide.company > .slide-wrapper > .slide-caption {
     opacity: 1;
 }
 
 .slide.center.inactive .slide-caption,
 .slide.center_fix.inactive .slide-caption,
 .slide.center_ov.inactive .slide-caption,
-.slide.center_fix_ov.inactive .slide-caption {
+.slide.center_fix_ov.inactive .slide-caption,
+.slide.company.inactive > .slide-wrapper > .slide-caption {
     opacity: 0;
 }
 
