@@ -46,6 +46,7 @@ $(document).ready(function(e) {
 			$(window).scrollTo( nxt , 600 );
 		});
 	});
+	$('.slide .button-next').last().parents('.slide').find('.button-next').hide();
 
 	$('.set-cookie').each(function(i,el) {
 		$(el).click(function(e) {
@@ -117,8 +118,6 @@ $(document).ready(function(e) {
 $(window).load(function(e) {
 
 	$(window).resize();
-
-	$('.button-next').last().hide();
 
 });
 
