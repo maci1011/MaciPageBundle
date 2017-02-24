@@ -1,7 +1,7 @@
 
 # ---> Set Cookie
 maci_set_cookie:
-    path:  /set-cookie/{{cookie}}
+    path:  /set-cookie/{cookie}
     defaults: { _controller: MaciPageBundle:Default:setCookie }
 
 # ---> Page Not Found
