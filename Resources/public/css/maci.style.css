@@ -85,6 +85,10 @@ table, table th, table td {
     padding: 0 0 10px;
 }
 
+.g-recaptcha > div {
+    margin: 0 auto;
+}
+
 /*
  *      Slider & Slides
  */
@@ -225,6 +229,10 @@ table, table th, table td {
 
 .slide.company .slide-description {
     font-size: 32pt;
+}
+
+.slide.company .header-wrapper > header > img {
+    margin: 15px auto 0;
 }
 
 /*      Slide Style: Left and Right       */
