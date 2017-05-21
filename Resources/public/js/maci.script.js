@@ -45,8 +45,7 @@ $(document).ready(function(e) {
 			nxt = nxt.next().length ? nxt.next() : nxt.parent().next();
 			$(window).scrollTo( nxt , 600 );
 		});
-	});
-	$('.slide').last().find('.button-next').hide();
+	}).last().hide();
 
 	$('.set-cookie').each(function(i,el) {
 		$(el).click(function(e) {
