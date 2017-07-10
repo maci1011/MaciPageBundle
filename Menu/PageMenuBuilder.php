@@ -72,30 +72,11 @@ class PageMenuBuilder
 
 		$parent = ( $page->getParent() ? $page->getParent() : false );
 
-		if ($parent) {
+		$gparent = ( $parent && $parent->getParent() ? $parent->getParent() : false );
 
-			$menu->addChild($parent->getTitle(), array('route' => 'maci_page', 'routeParameters' => array('path' => $parent->getPath(), '_locale' => $parent->getLocale())));
+		if ($page->hasCurrentChildren()) $this->threeLevel($menu, ( $parent ? $parent : $page ));
 
-			$menu[$parent->getTitle()]->setChildrenAttribute('class', 'nav');
-
-			foreach ($parent->getCurrentChildren() as $child) {
-
-				$menu[$parent->getTitle()]->addChild($child->getTitle(), array(
-				    'route' => 'maci_page',
-				    'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
-				));
-
-				if ($child->getId() === $page->getId()) $this->addChildren($menu[$parent->getTitle()][$child->getTitle()], $child);
-
-			}
-
-		} else {
-
-			$menu->addChild($page->getTitle(), array('route' => 'maci_page', 'routeParameters' => array('path' => $page->getPath(), '_locale' => $page->getLocale())));
-
-			$this->addChildren($menu[$page->getTitle()], $page);
-
-		}
+		else $this->threeLevel($menu, ( $gparent ? $gparent : ( $parent ? $parent : $page )));
 
 		return $menu;
 	}
@@ -142,7 +123,7 @@ class PageMenuBuilder
 		}
 	}
 
-    public function addChildren($menu, $item, $dropdown = false)
+    public function addChildren($menu, $item, $dropdown = false, $rec = false)
 	{
 		if (count($item->getCurrentChildren())) {
 			$menu->setChildrenAttribute('class', 'nav');
@@ -154,8 +135,47 @@ class PageMenuBuilder
 				    'route' => 'maci_page',
 				    'routeParameters' => array('path' => $child->getPath())
 				));
-				// $this->addChildren($menu[$child->getTitle()], $child);
+				if ($rec) $this->addChildren($menu[$child->getTitle()], $child, $dropdown, true);
 			}
 		}
+	}
+
+    public function threeLevel($menu, $ancestor)
+	{
+		$menu->addChild($ancestor->getTitle(), array(
+			'route' => 'maci_page',
+			'routeParameters' => array('path' => $ancestor->getPath(), '_locale' => $ancestor->getLocale())
+		));
+
+		if (count($ancestor->getCurrentChildren())) {
+
+			$menu[$ancestor->getTitle()]->setChildrenAttribute('class', 'nav');
+
+			foreach ($ancestor->getCurrentChildren() as $child) {
+
+				$menu[$ancestor->getTitle()]->addChild($child->getTitle(), array(
+				    'route' => 'maci_page',
+				    'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
+				));
+
+				if (count($child->getCurrentChildren())) {
+
+					$menu[$ancestor->getTitle()][$child->getTitle()]->setChildrenAttribute('class', 'nav');
+
+					foreach ($child->getCurrentChildren() as $gchild) {
+
+						$menu[$ancestor->getTitle()][$child->getTitle()]->addChild($gchild->getTitle(), array(
+						    'route' => 'maci_page',
+						    'routeParameters' => array('path' => $gchild->getPath(), '_locale' => $gchild->getLocale())
+						));
+
+					}
+
+				}
+
+			}
+
+		}
+
 	}
 }

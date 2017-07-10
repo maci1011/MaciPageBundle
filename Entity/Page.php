@@ -663,6 +663,11 @@ class Page
         });
     }
 
+    public function hasCurrentChildren()
+    {
+        return !!count($this->getCurrentChildren());
+    }
+
     /**
      * setUpdatedValue
      */
