@@ -454,6 +454,14 @@ table, table th, table td {
  *      Blog
  */
 
+.post-preview {
+    margin: 0 auto;
+}
+
+/*
+ *      Contacts
+ */
+
 .contacts_address > address {
     padding-top: 15px;
 }
@@ -463,14 +471,6 @@ table, table th, table td {
     font-size: 13pt;
     display: inline-block;
     letter-spacing: 0.8px;
-}
-
-/*
- *      Contacts
- */
-
-.post-preview {
-    margin: 0 auto;
 }
 
 /*
