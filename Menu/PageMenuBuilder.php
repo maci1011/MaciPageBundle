@@ -89,7 +89,7 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getText('menu.terms.privacy', 'Privacy Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'privacy')));
 
-		$menu->addChild($this->translator->getText('menu.terms.cookie', 'Cookie Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'cookie')));
+		$menu->addChild($this->translator->getText('menu.terms.cookie', 'Cookie Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'cookies')));
 
 		return $menu;
 	}
@@ -109,7 +109,7 @@ class PageMenuBuilder
 	{
 		$pages = $this->om->getRepository('MaciPageBundle:Page')->findBy(array('parent' => null, 'removed' => false));
 		foreach ($pages as $page) {
-			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts' || preg_match(':Terms:', $page->getTemplate()) ) {
+			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts' || $page->getPath() === 'contacts_success' || preg_match(':Terms:', $page->getTemplate()) ) {
 				continue;
 			}
 			$title = $page->getTitle();
