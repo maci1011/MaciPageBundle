@@ -12,6 +12,15 @@
 {% endblock %}
 
 
+{% block leftMenu %}
+
+    {% set menu = knp_menu_get('page_left', [], {'page': page} ) %}
+
+    <nav>{{ knp_menu_render(menu, {'currentClass': 'active'}) }}</nav>
+
+{% endblock %}
+
+
 {% block title %}
 
 {% if page.metaTitle %}
@@ -21,6 +30,7 @@
 {% endif %}
 
 {% endblock %}
+
 
 {% block description %}
 
@@ -35,40 +45,28 @@
 
 {% block pathBar %}
 <nav>
-<ul class="nav navbar-nav">
-
+<ol class="breadcrumb">
     <li>
-    	<a href="{{ path('homepage') }}">
-    		Home
-			<span class="glyphicon glyphicon-chevron-right"></span>
-    	</a>
+    	<a href="{{ path('homepage') }}">Home</a>
     </li>
 
 	{% for parentItem in page.parentsList %}
 
 	<li class="product-category-parent">
-		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">
-			{{ parentItem }}
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		</a>
+		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem }}</a>
 	</li>
 
 	{% endfor %}
 
-    <li>
-    	<a href="{{ path('maci_page', {'path': page.path}) }}">
-    		{{ page }}
-    	</a>
-    </li>
-
-</ul>
+    <li class="active">{{ page }}</li>
+</ol>
 </nav>
 {% endblock %}
 
 
 {% block content %}
 
-<div class="page-container default-page">
+<div class="page-container default-page row">
 
 {% include "MaciPageBundle:Default:_page.html.twig" with { 'page': page } %}
 

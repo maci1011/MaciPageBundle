@@ -60,6 +60,46 @@ class PageMenuBuilder
 		return $menu;
 	}
 
+    public function createPageLeftMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$page = ( isset($options['page']) ? $options['page'] : false );
+
+		if (!$page) return $menu;
+
+		$parent = ( $page->getParent() ? $page->getParent() : false );
+
+		if ($parent) {
+
+			$menu->addChild($parent->getTitle(), array('route' => 'maci_page', 'routeParameters' => array('path' => $parent->getPath(), '_locale' => $parent->getLocale())));
+
+			$menu[$parent->getTitle()]->setChildrenAttribute('class', 'nav');
+
+			foreach ($parent->getCurrentChildren() as $child) {
+
+				$menu[$parent->getTitle()]->addChild($child->getTitle(), array(
+				    'route' => 'maci_page',
+				    'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
+				));
+
+				if ($child->getId() === $page->getId()) $this->addChildren($menu[$parent->getTitle()][$child->getTitle()], $child);
+
+			}
+
+		} else {
+
+			$menu->addChild($page->getTitle(), array('route' => 'maci_page', 'routeParameters' => array('path' => $page->getPath(), '_locale' => $page->getLocale())));
+
+			$this->addChildren($menu[$page->getTitle()], $page);
+
+		}
+
+		return $menu;
+	}
+
     public function createTermsMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
@@ -114,7 +154,7 @@ class PageMenuBuilder
 				    'route' => 'maci_page',
 				    'routeParameters' => array('path' => $child->getPath())
 				));
-				$this->addChildren($menu[$child->getTitle()], $child);
+				// $this->addChildren($menu[$child->getTitle()], $child);
 			}
 		}
 	}

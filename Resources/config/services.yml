@@ -12,6 +12,7 @@ services:
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: left }
+            - { name: knp_menu.menu_builder, method: createPageLeftMenu, alias: page_left }
             - { name: knp_menu.menu_builder, method: createTermsMenu, alias: terms }
             - { name: knp_menu.menu_builder, method: createContactsMenu, alias: shop_contacts }
 

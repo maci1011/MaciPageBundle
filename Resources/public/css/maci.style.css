@@ -55,6 +55,19 @@ table, table th, table td {
     margin: 0 auto;
 }
 
+#mainContainer > .row {
+    margin: 0;
+}
+
+#menuContainer {
+    padding: 0 0 0 15px;
+}
+
+#pathBar,
+#pageContainer {
+    clear: both;
+}
+
 .navbar-nav.navbar-right:last-child {
     margin-right: 0;
 }
@@ -67,14 +80,6 @@ table, table th, table td {
 
 #mainMenu ul > li.active > a {
     background-color: #ddd;
-}
-
-#mainContainer {
-    padding-bottom: 15px;
-}
-
-#menuContainer {
-    padding: 15px 0;
 }
 
 .header-title {
