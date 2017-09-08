@@ -142,29 +142,29 @@ class PageMenuBuilder
 
     public function threeLevel($menu, $ancestor)
 	{
-		$menu->addChild($ancestor->getTitle(), array(
+		$menu->addChild($ancestor->getMenuLabel(), array(
 			'route' => 'maci_page',
 			'routeParameters' => array('path' => $ancestor->getPath(), '_locale' => $ancestor->getLocale())
 		));
 
 		if (count($ancestor->getCurrentChildren())) {
 
-			$menu[$ancestor->getTitle()]->setChildrenAttribute('class', 'nav');
+			$menu[$ancestor->getMenuLabel()]->setChildrenAttribute('class', 'nav');
 
 			foreach ($ancestor->getCurrentChildren() as $child) {
 
-				$menu[$ancestor->getTitle()]->addChild($child->getTitle(), array(
+				$menu[$ancestor->getMenuLabel()]->addChild($child->getMenuLabel(), array(
 				    'route' => 'maci_page',
 				    'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
 				));
 
 				if (count($child->getCurrentChildren())) {
 
-					$menu[$ancestor->getTitle()][$child->getTitle()]->setChildrenAttribute('class', 'nav');
+					$menu[$ancestor->getMenuLabel()][$child->getMenuLabel()]->setChildrenAttribute('class', 'nav');
 
 					foreach ($child->getCurrentChildren() as $gchild) {
 
-						$menu[$ancestor->getTitle()][$child->getTitle()]->addChild($gchild->getTitle(), array(
+						$menu[$ancestor->getMenuLabel()][$child->getMenuLabel()]->addChild($gchild->getMenuLabel(), array(
 						    'route' => 'maci_page',
 						    'routeParameters' => array('path' => $gchild->getPath(), '_locale' => $gchild->getLocale())
 						));

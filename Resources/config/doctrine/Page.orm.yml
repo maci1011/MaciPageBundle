@@ -31,6 +31,10 @@ Maci\PageBundle\Entity\Page:
         footer:
             type: text
             nullable: true
+        menu_title:
+            type: string
+            length: 127
+            nullable: true
         meta_title:
             type: string
             length: 63

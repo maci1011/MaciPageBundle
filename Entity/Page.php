@@ -53,6 +53,11 @@ class Page
     private $meta_title;
 
     /**
+     * @var string
+     */
+    private $menu_title;
+
+    /**
      * @var text
      */
     private $meta_description;
@@ -144,7 +149,7 @@ class Page
     {
         $this->status = 'active';
         $this->removed = false;
-        $this->path = ( 'page-' . rand( 100000, 999999 ) );
+        $this->path = ( 'page-' . uniqid() );
     }
 
     /**
@@ -262,7 +267,33 @@ class Page
     }
 
     /**
-     * Set title
+     * Set menu_title
+     */
+    public function setMenuTitle($menu_title)
+    {
+        $this->menu_title = $menu_title;
+
+        return $this;
+    }
+
+    /**
+     * Get menu_title
+     */
+    public function getMenuTitle()
+    {
+        return $this->menu_title;
+    }
+
+    /**
+     * Get menu_title
+     */
+    public function getMenuLabel()
+    {
+        return ( strlen($this->menu_title) ? $this->menu_title : $this->title );
+    }
+
+    /**
+     * Set meta_title
      */
     public function setMetaTitle($meta_title)
     {
@@ -272,7 +303,7 @@ class Page
     }
 
     /**
-     * Get title
+     * Get meta_title
      */
     public function getMetaTitle()
     {
@@ -280,7 +311,7 @@ class Page
     }
 
     /**
-     * Set description
+     * Set meta_description
      */
     public function setMetaDescription($meta_description)
     {
@@ -290,7 +321,7 @@ class Page
     }
 
     /**
-     * Get description
+     * Get meta_description
      */
     public function getMetaDescription()
     {
