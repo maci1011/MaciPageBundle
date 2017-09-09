@@ -12,11 +12,7 @@
     <meta name="author" content="Maci, http://macister.com/" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>
-    {% block title %}
-    {{ company_title }}
-    {% endblock %}
-    </title>
+    <title>{% block title company_title %}</title>
 
     {% block description %}
     <meta name="description" content="" />

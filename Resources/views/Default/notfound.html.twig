@@ -9,13 +9,31 @@
 {% endblock %}
 
 
+{% block title %}
+
+{% if page.metaTitle %}
+404 - {{ 'page.notfound' | matra('Page not found') }} - {{ company_title }}
+{% endif %}
+
+{% endblock %}
+
+
+{% block description %}
+
+{% if page.metaDescription %}
+<meta name="description" content="404 - {{ 'page.notfound' | matra('Page not found') }}." />
+{% endif %}
+
+{% endblock %}
+
+
 {% block container %}
 
 <div class="container-fluid notfound-page">
 
 <section>
 
-	<h3>{{ 'page.notfound' | matra('Page not found.') }}</h3>
+	<h3>{{ 'page.notfound' | matra('Page not found') }}.</h3>
 
 </section>
 

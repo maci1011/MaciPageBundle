@@ -1,36 +1,7 @@
 
 {% extends "MaciPageBundle::layout.html.twig" %}
 
-
-{% block bodyTag %}<body id="bodyHomepage">{% endblock %}
-
-
-{% block maciadmin %}
-
-{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'page', 'item': page } )) }}
-
-{% endblock %}
-
-
-{% block title %}
-
-{% if page.metaTitle %}
-{{ page.metaTitle }}
-{% else %}
-{{ page.title }} - {{ parent() }}
-{% endif %}
-
-{% endblock %}
-
-{% block description %}
-
-{% if page.metaDescription %}
-<meta name="description" content="{{ page.metaDescription }}" />
-{% else %}
-<meta name="description" content="{{ page.description|length > 180 ? page.description|slice(0, 163) : page.description  }}" />
-{% endif %}
-
-{% endblock %}
+{% use "MaciPageBundle:Default:_page_default_blocks.html.twig" %}
 
 
 {% block container %}

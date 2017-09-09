@@ -4,7 +4,7 @@
 
 {% block title %}
 
-{{ 'search.page' | matra('Search a Page:') }} {{ query }}
+{{ 'search.page_title' | matra('Search a Page') }}: {{ query }}
 
 {% endblock %}
 
@@ -21,8 +21,12 @@
 	<header class="page-header container-fluid">
 
 		<h1 class="page_title">
-			{{ 'search.page' | matra('Search a Page') }} for "{{ query }}"
+			{{ 'search.page_title' | matra('Search a Page') }}
 		</h1>
+
+		<h2 class="page_title">
+			{{ 'search.current_search' | matra('Current Search') }}: "{{ query }}"
+		</h2>
 
 	</header>
 
