@@ -112,7 +112,7 @@ class PageMenuBuilder
 			if (!$page->getPath() || $page->getPath() === 'homepage' || $page->getPath() === 'contacts' || $page->getPath() === 'contacts_success' || preg_match(':Terms:', $page->getTemplate()) ) {
 				continue;
 			}
-			$title = $page->getTitle();
+			$title = $page->getMenuLabel();
 			$menu->addChild($title, array(
 			    'route' => 'maci_page',
 			    'routeParameters' => array('path' => $page->getPath())
@@ -131,11 +131,11 @@ class PageMenuBuilder
 				$menu->setAttribute('dropdown', true);
 			}
 			foreach ($item->getCurrentChildren() as $child) {
-				$menu->addChild($child->getTitle(), array(
+				$menu->addChild($child->getMenuLabel(), array(
 				    'route' => 'maci_page',
 				    'routeParameters' => array('path' => $child->getPath())
 				));
-				if ($rec) $this->addChildren($menu[$child->getTitle()], $child, $dropdown, true);
+				if ($rec) $this->addChildren($menu[$child->getMenuLabel()], $child, $dropdown, true);
 			}
 		}
 	}

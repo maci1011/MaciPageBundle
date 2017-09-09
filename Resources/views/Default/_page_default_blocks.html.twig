@@ -50,7 +50,7 @@
 	{% for parentItem in page.parentsList %}
 
 	<li class="product-category-parent">
-		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem }}</a>
+		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem.menuLabel }}</a>
 	</li>
 
 	{% endfor %}
