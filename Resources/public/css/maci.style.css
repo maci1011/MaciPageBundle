@@ -442,10 +442,6 @@ table, table th, table td {
  *      Addresses
  */
 
-.maci-user-address-form label {
-    display: none;
-}
-
 .maci-user-address-form .method label {
     display: inline;
 }
