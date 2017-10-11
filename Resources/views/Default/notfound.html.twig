@@ -1,6 +1,8 @@
 
 {% extends "MaciPageBundle::layout.html.twig" %}
 
+{% block bodyTag %}<body id="bodyNotFoundPage">{% endblock %}
+
 
 {% block maciadmin %}
 
@@ -11,18 +13,14 @@
 
 {% block title %}
 
-{% if page.metaTitle %}
 404 - {{ 'page.notfound' | matra('Page not found') }} - {{ company_title }}
-{% endif %}
 
 {% endblock %}
 
 
 {% block description %}
 
-{% if page.metaDescription %}
 <meta name="description" content="404 - {{ 'page.notfound' | matra('Page not found') }}." />
-{% endif %}
 
 {% endblock %}
 
