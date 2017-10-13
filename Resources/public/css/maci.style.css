@@ -33,16 +33,9 @@ li {
     list-style: none;
 }
 
-li > ul, li > ul.nav {
+li > ul,
+li > ul.nav {
     padding-left: 15px;
-}
-
-select {
-    color: #000;
-}
-
-table, table th, table td {
-    padding: 10px;
 }
 
 /*
@@ -63,23 +56,12 @@ table, table th, table td {
     padding: 0 0 0 15px;
 }
 
-#pathBar,
 #pageContainer {
     clear: both;
 }
 
 .navbar-nav.navbar-right:last-child {
     margin-right: 0;
-}
-
-#mainMenu ul > li > a,
-#pathMenu li > a {
-    color: #000;
-    margin: 0 5px;
-}
-
-#mainMenu ul > li.active > a {
-    background-color: #ddd;
 }
 
 .header-title {
