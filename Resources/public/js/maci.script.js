@@ -80,6 +80,19 @@ $(document).ready(function(e) {
 		});
 	});
 
+	$('.product-child-cart').hide();
+	$('.product-select-variant-container').show();
+
+	$('button.product-child-btn.btn').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			$('.product-select-variant-container').hide();
+			$('.product-child-cart').hide();
+			$( $(el).attr('data') ).show();
+		});
+	});
+
+
 	$(window).scroll(function(e) {
 
 		$('.page_container, .page_slides > .slide, .tgglscrn').not('.page_slides').each(function(i,el) {

@@ -459,9 +459,8 @@ li > ul.nav {
     text-decoration: line-through;
 }
 
-.product-category.sortable .btn {
-    display: inline;
-    padding: 6px;
+.product-select-variant-container {
+    display: none;
 }
 
 /*
