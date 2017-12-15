@@ -23,6 +23,30 @@ class DefaultController extends Controller
         return $this->renderByPath($request, $path, false);
     }
 
+    public function redirectAction(Request $request, $redirect)
+    {
+        $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')
+            ->findOneBy(array(
+                'redirect' => $redirect,
+                'removed' => false
+            ));
+
+        if ($page) {
+            return $this->redirect($this->generateUrl('maci_page', array('path' => $page->getPath())));
+        }
+
+        $album = $this->getDoctrine()->getManager()->getRepository('MaciMediaBundle:Album')
+            ->findOneBy(array(
+                'redirect' => $redirect
+            ));
+
+        if ($album) {
+            return $this->redirect($this->generateUrl('maci_media_album', array('id' => $album->getId())));
+        }
+
+        return $this->render('MaciPageBundle:Default:notfound.html.twig');
+    }
+
     public function pageNotFoundAction()
     {
         $page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page')

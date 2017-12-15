@@ -54,6 +54,10 @@ Maci\PageBundle\Entity\Page:
             type: string
             length: 63
             nullable: true
+        redirect:
+            type: string
+            length: 63
+            nullable: true
         template:
             type: string
             length: 63

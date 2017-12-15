@@ -26,6 +26,11 @@ maci_homepage:
     requirements:
         _locale: %r_locales%
 
+# ---> Redirect
+maci_redirect:
+    path:  /{redirect}
+    defaults: { _controller: MaciPageBundle:Default:redirect }
+
 # ---> Locale Redirect
 homepage:
     path:  /

@@ -75,6 +75,11 @@ class Page
     /**
      * @var string
      */
+    private $redirect;
+
+    /**
+     * @var string
+     */
     private $template;
 
     /**
@@ -372,6 +377,29 @@ class Page
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set redirect
+     *
+     * @param string $redirect
+     * @return string
+     */
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect
+     *
+     * @return string 
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
 
     public function setTemplate($template)
