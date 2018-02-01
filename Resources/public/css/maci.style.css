@@ -381,6 +381,14 @@ li > ul.nav {
  *      General Forms
  */
 
+.form-group > label:after {
+    content: '*';
+}
+
+.form-group > label.required:after {
+    content: '';
+}
+
 .optional_fields {
     font-style: italic;
     padding: 10px;
