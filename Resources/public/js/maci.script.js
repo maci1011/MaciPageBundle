@@ -47,6 +47,8 @@ $(document).ready(function(e) {
 		});
 	}).last().hide();
 
+	$('.page_slides > .slide').last().find('.button-next').hide();
+
 	$('.set-cookie').each(function(i,el) {
 		$(el).click(function(e) {
 			e.preventDefault();
