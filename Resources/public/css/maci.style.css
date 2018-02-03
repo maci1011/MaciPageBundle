@@ -124,7 +124,7 @@ li > ul.nav {
 
 /*      --- Slide Button Next ---       */
 
-.btn-out {
+.slide .button-out {
     display: none;
 }
 
@@ -141,6 +141,10 @@ li > ul.nav {
     display: block;
     margin: 0 auto;
     text-align: center;
+}
+
+.slide .button-next.button-top > a {
+    padding: 5px 0 0 0;
 }
 
 .slide .button-next > a:hover {
@@ -248,23 +252,17 @@ li > ul.nav {
 
 .slide.right.active .slide-caption,
 .slide.right_divided.active .slide-caption {
-    left: 0;
+    right: 0;
 }
 
 .slide.right.inactive .slide-caption,
 .slide.right_divided.inactive .slide-caption {
-    left: 100%;
-}
-
-.slide.left_divided > .slide-wrapper > .row,
-.slide.right_divided > .slide-wrapper > .row {
-    position: relative;
+    right: -100%;
 }
 
 .slide.left_divided .slide-image,
 .slide.right_divided .slide-image {
     height: 100%;
-    position: absolute;
 }
 
 .slide.left_divided .slide-image {

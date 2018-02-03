@@ -38,16 +38,23 @@ $(document).ready(function(e) {
 		});
 	}).resize();
 
-	$('.slide .button-next').each(function(i,el) {
-		$(el).click(function(e) {
-			e.preventDefault();
-			var nxt = $(el).parents('.slide').first();
-			nxt = nxt.next().length ? nxt.next() : nxt.parent().next();
-			$(window).scrollTo( nxt , 600 );
+	var lastSlide = $('.page_slides > .slide').last();
+
+	$('.page_slides > .slide').not(lastSlide).each(function(j,slide) {
+		$(slide).find('.button-next > a').each(function(i,el) {
+			$(el).click(function(e) {
+				e.preventDefault();
+				$(window).scrollTo( $(slide).next() , 600 );
+			});
 		});
 	});
 
-	$('.page_slides > .slide').last().find('.button-next').hide();
+	$(lastSlide).find('.button-next > a').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			$(window).scrollTo( $('.page_slides > .slide').first() , 600 );
+		});
+	});
 
 	$('.set-cookie').each(function(i,el) {
 		$(el).click(function(e) {
