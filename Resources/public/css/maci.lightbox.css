@@ -23,6 +23,19 @@
 	padding-bottom: 15px;
 }
 
-.maci-lightbox-image {
+.maci-lightbox-image,
+.maci-lightbox-image-brand-image {
 	margin: 0 auto;
+}
+
+.maci-lightbox-image-info {
+	background-color: #000;
+}
+
+.maci-lightbox-image-brand,
+.maci-lightbox-image-description {
+	padding: 30px 15px;
+	color: #fff;
+	font-size: 14pt;
+	letter-spacing: 0.4px;
 }

@@ -1,3 +1,7 @@
+/*
+ * 		Maci Lightbox jQuery plugin
+ *		Version for Bootstrap 3.4
+ */
 
 var maciLightbox = function (options) {
 
@@ -30,7 +34,7 @@ var maciLightbox = function (options) {
 		// View [+]
 		$('<a/>', {'target': '_blank', 'href': ($(a).attr('data-full') ? $(a).attr('data-full') : $(a).attr('href'))}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Close [X]
-		$('<a href />').click(function(e) {
+		$('<a/>', {'class': 'maci-lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
 			lightbox.hide();
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
@@ -44,13 +48,17 @@ var maciLightbox = function (options) {
 				slider.height($(window).height() + 'px');
 			}
 		}).attr('src', $(a).attr('href'));
+		var image_info = $('<div/>', {'class': 'maci-lightbox-image-info'});
 		// Brand
 		if ($(a).attr('data-brand')) {
-			$('<img/>', {'src': $(a).attr('data-brand')}).html($(a).attr('data-description')).appendTo(container).wrap($('<div/>', {'class': 'maci-lightbox-image-brand container'}));
+			$('<img/>', {'src': $(a).attr('data-brand'), 'class': 'maci-lightbox-image-brand-image'}).html($(a).attr('data-description')).appendTo(image_info).wrap($('<div/>', {'class': 'maci-lightbox-image-brand container'}));
 		}
 		// Description
 		if ($(a).attr('data-description')) {
-			$('<div/>', {'class': 'maci-lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(container);
+			$('<div/>', {'class': 'maci-lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(image_info);
+		}
+		if ($(image_info).children().length) {
+			$(image_info).appendTo(container);
 		}
 		// Album Controllers
 		if (!$(a).attr('data-lightbox')) {
