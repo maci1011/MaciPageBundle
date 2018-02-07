@@ -32,10 +32,26 @@ var maciLightbox = function (options) {
 			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li/>');
 		}
 		// View [+]
-		$('<a/>', {'target': '_blank', 'href': $(a).attr('href')}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
+		$('<a/>', {'class': 'maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
+		// Fullscreen
+		if (document.body.requestFullScreen || document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.msRequestFullScreen) {
+			var icon_full = $('<span class="icon-full glyphicon glyphicon-resize-full" aria-hidden="true"/>');
+			var icon_reduce = $('<span class="icon-reduce glyphicon glyphicon-resize-small" aria-hidden="true"/>');
+			var fullscreen_button = $('<a/>', {'class': 'maci-lightbox-fullscreen-button', 'href': ''}).click(function(e) {
+				e.preventDefault();
+				_obj.toggleFullscreen();
+				$(this).toggleClass('on-fullscreen');
+			}).append(icon_full).append(icon_reduce).appendTo(bar_ul).wrap('<li/>');
+			if (_obj.isInFullscreen(document.body)) {
+				$(fullscreen_button).addClass('on-fullscreen');
+			}
+		}
 		// Close [X]
 		$('<a/>', {'class': 'maci-lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
+			if (_obj.isInFullscreen(document.body)) {
+				_obj.toggleFullscreen();
+			}
 			lightbox.hide();
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Image
@@ -92,9 +108,44 @@ var maciLightbox = function (options) {
 			return;
 		}
 		_obj.set($(list).eq(index - 1));
-	}
+	},
 
-	};
+	fullscreen: function(element, requestMethod) {
+	    if (requestMethod) { // Native full screen.
+	        requestMethod.call(element);
+	    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+	        var wscript = new ActiveXObject("WScript.Shell");
+	        if (wscript !== null) {
+	            wscript.SendKeys("{F11}");
+	        }
+	    }
+	},
+
+	cancelFullscreen: function(element) {
+		var requestMethod = element.cancelFullScreen || element.webkitCancelFullScreen || element.mozCancelFullScreen || element.exitFullscreen;
+		_obj.fullscreen(element, requestMethod);
+	},
+
+	requestFullscreen: function(element) {
+		var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+		_obj.fullscreen(element, requestMethod);
+	},
+
+	isInFullscreen: function(element) {
+		return (document.fullScreenElement && document.fullScreenElement !== null) ||  (document.mozFullScreen || document.webkitIsFullScreen);
+	},
+
+	toggleFullscreen: function() {
+        var element = document.body; // Make the body go full screen.
+        if (_obj.isInFullscreen(element)) {
+            _obj.cancelFullscreen(document);
+        } else {
+            _obj.requestFullscreen(element);
+        }
+        return false;
+    }
+
+	}; // _obj
 
 	$('a[data-lightbox]').each(function(i,a) {
 		$(a).click(function(e) {

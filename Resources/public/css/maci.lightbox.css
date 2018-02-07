@@ -14,6 +14,11 @@
 	text-align: center;
 }
 
+.maci-lightbox-fullscreen-button > span.icon-full { display: block; }
+.maci-lightbox-fullscreen-button > span.icon-reduce { display: none; }
+.maci-lightbox-fullscreen-button.on-fullscreen > span.icon-full { display: none; }
+.maci-lightbox-fullscreen-button.on-fullscreen > span.icon-reduce { display: block; }
+
 .maci-lightbox-slider {
 	position: relative;
 }
