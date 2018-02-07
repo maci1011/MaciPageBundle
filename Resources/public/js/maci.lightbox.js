@@ -32,7 +32,7 @@ var maciLightbox = function (options) {
 			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li/>');
 		}
 		// View [+]
-		$('<a/>', {'target': '_blank', 'href': ($(a).attr('data-full') ? $(a).attr('data-full') : $(a).attr('href'))}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
+		$('<a/>', {'target': '_blank', 'href': $(a).attr('href')}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Close [X]
 		$('<a/>', {'class': 'maci-lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
@@ -47,7 +47,7 @@ var maciLightbox = function (options) {
 			if (slider.height() < $(window).height()) {
 				slider.height($(window).height() + 'px');
 			}
-		}).attr('src', $(a).attr('href'));
+		}).attr('src', ($(a).attr('data-image') ? $(a).attr('data-image') : $(a).attr('href')));
 		var image_info = $('<div/>', {'class': 'maci-lightbox-image-info'});
 		// Brand
 		if ($(a).attr('data-brand')) {
