@@ -7,10 +7,11 @@ var maciLightbox = function (options) {
 
 	var _defaults = {},
 		lightbox = $('<div/>', {'class': 'maci-lightbox'}).appendTo('body').hide(),
-		bar = $('<div/>', {'class': 'container'}).appendTo(lightbox).wrap($('<div/>', {'class': 'navbar navbar-fixed-top navbar-inverse'})),
+		bar = $('<div/>', {'class': 'container'}).appendTo(lightbox).wrap($('<div/>', {'class': 'navbar navbar-fixed-top navbar-default'})),
 		bar_header = $('<div/>', {'class': 'navbar-header'}).appendTo(bar),
 		bar_ul = $('<ul/>', {'class': 'nav navbar-nav navbar-right'}).appendTo(bar),
-		container = $('<div/>', {'class': 'maci-lightbox-container'}).appendTo(lightbox)
+		container = $('<div/>', {'class': 'maci-lightbox-container'}).appendTo(lightbox),
+		fullscreenElement = document.documentElement
 	;
 
 	_obj = {
@@ -34,7 +35,7 @@ var maciLightbox = function (options) {
 		// View [+]
 		$('<a/>', {'class': 'maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Fullscreen
-		if (document.body.requestFullScreen || document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.msRequestFullScreen) {
+		if (fullscreenElement.requestFullScreen || fullscreenElement.webkitRequestFullScreen || fullscreenElement.mozRequestFullScreen || fullscreenElement.msRequestFullScreen) {
 			var icon_full = $('<span class="icon-full glyphicon glyphicon-resize-full" aria-hidden="true"/>');
 			var icon_reduce = $('<span class="icon-reduce glyphicon glyphicon-resize-small" aria-hidden="true"/>');
 			var fullscreen_button = $('<a/>', {'class': 'maci-lightbox-fullscreen-button', 'href': ''}).click(function(e) {
@@ -42,16 +43,13 @@ var maciLightbox = function (options) {
 				_obj.toggleFullscreen();
 				$(this).toggleClass('on-fullscreen');
 			}).append(icon_full).append(icon_reduce).appendTo(bar_ul).wrap('<li/>');
-			if (_obj.isInFullscreen(document.body)) {
+			if (_obj.isInFullscreen(fullscreenElement)) {
 				$(fullscreen_button).addClass('on-fullscreen');
 			}
 		}
 		// Close [X]
 		$('<a/>', {'class': 'maci-lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
-			if (_obj.isInFullscreen(document.body)) {
-				_obj.toggleFullscreen();
-			}
 			lightbox.hide();
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Image
@@ -136,11 +134,10 @@ var maciLightbox = function (options) {
 	},
 
 	toggleFullscreen: function() {
-        var element = document.body; // Make the body go full screen.
-        if (_obj.isInFullscreen(element)) {
+        if (_obj.isInFullscreen(fullscreenElement)) {
             _obj.cancelFullscreen(document);
         } else {
-            _obj.requestFullscreen(element);
+            _obj.requestFullscreen(fullscreenElement);
         }
         return false;
     }

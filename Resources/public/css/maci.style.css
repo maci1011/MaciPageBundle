@@ -15,6 +15,10 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, i
     text-decoration: none;
 }
 
+*:fullscreen, *:-webkit-full-screen, *:-moz-full-screen {
+    background-color: rgba(255,255,255,0);
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     padding: 10px 0 5px;
