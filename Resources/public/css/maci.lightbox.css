@@ -1,0 +1,28 @@
+
+.maci-lightbox {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 4444;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.9);
+	overflow: auto;
+}
+
+.maci-lightbox-container > div {
+	text-align: center;
+}
+
+.maci-lightbox-slider {
+	position: relative;
+}
+
+.maci-lightbox-imape-wrapper {
+	padding-top: 66px;
+	padding-bottom: 15px;
+}
+
+.maci-lightbox-image {
+	margin: 0 auto;
+}
