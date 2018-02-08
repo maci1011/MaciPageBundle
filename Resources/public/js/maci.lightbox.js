@@ -54,12 +54,16 @@ var maciLightbox = function (options) {
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Image
 		var image = $('<img/>', {'class': 'maci-lightbox-image img-responsive'}).appendTo(container);
-		var image_wrapper =image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
+		var image_wrapper = image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
 		var slider = image_wrapper.wrap($('<div/>', {'class': 'maci-lightbox-slider'})).parent();
 		image.on('load', function(e) {
 			image_wrapper.show();
-			if (slider.height() < $(window).height()) {
-				slider.height($(window).height() + 'px');
+			if (container.height() < $(window).height()) {
+				var diff = container.height() - slider.height();
+				slider.height(($(window).height() - diff) + 'px');
+				image.css('marginTop', (
+					( $(window).height() - image.height() - parseInt(image_wrapper.css('paddingTop')) - parseInt(image_wrapper.css('paddingBottom')) - diff ) / 2 ) + 'px'
+				);
 			}
 		}).attr('src', ($(a).attr('data-image') ? $(a).attr('data-image') : $(a).attr('href')));
 		var image_info = $('<div/>', {'class': 'maci-lightbox-image-info'});
