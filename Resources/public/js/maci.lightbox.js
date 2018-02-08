@@ -52,20 +52,11 @@ var maciLightbox = function (options) {
 			e.preventDefault();
 			lightbox.hide();
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
-		// Image
+		// Image Containers
 		var image = $('<img/>', {'class': 'maci-lightbox-image img-responsive'}).appendTo(container);
 		var image_wrapper = image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
 		var slider = image_wrapper.wrap($('<div/>', {'class': 'maci-lightbox-slider'})).parent();
-		image.on('load', function(e) {
-			image_wrapper.show();
-			if (container.height() < $(window).height()) {
-				var diff = container.height() - slider.height();
-				slider.height(($(window).height() - diff) + 'px');
-				image.css('marginTop', (
-					( $(window).height() - image.height() - parseInt(image_wrapper.css('paddingTop')) - parseInt(image_wrapper.css('paddingBottom')) - diff ) / 2 ) + 'px'
-				);
-			}
-		}).attr('src', ($(a).attr('data-image') ? $(a).attr('data-image') : $(a).attr('href')));
+		// Image Infos Container
 		var image_info = $('<div/>', {'class': 'maci-lightbox-image-info'});
 		// Brand
 		if ($(a).attr('data-brand')) {
@@ -76,22 +67,36 @@ var maciLightbox = function (options) {
 			$('<div/>', {'class': 'maci-lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(image_info);
 		}
 		if ($(image_info).children().length) {
-			$(image_info).appendTo(container);
+			$(image_info).appendTo(container).hide();
 		}
 		// Album Controllers
-		if (!$(a).attr('data-lightbox')) {
-			return;
+		if ($(a).attr('data-lightbox')) {
+			// Prev
+			$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
+				e.preventDefault();
+				_obj.prev(a);
+			}).html('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"/>').appendTo(slider);
+			// Next
+			$('<a/>', {'class': 'maci-lightbox-controller carousel-control right', 'href': ''}).click(function(e) {
+				e.preventDefault();
+				_obj.next(a);
+			}).html('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"/>').appendTo(slider);
 		}
-		// Prev
-		$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
-			e.preventDefault();
-			_obj.prev(a);
-		}).html('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"/>').appendTo(slider);
-		// Next
-		$('<a/>', {'class': 'maci-lightbox-controller carousel-control right', 'href': ''}).click(function(e) {
-			e.preventDefault();
-			_obj.next(a);
-		}).html('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"/>').appendTo(slider);
+		// Loader Icon
+		var loader_icon = $('<div/>', {'class': 'maci-lightbox-loader-icon'}).appendTo(lightbox);
+		// Load Image !
+		image.on('load', function(e) {
+			loader_icon.remove();
+			$(image_info).show();
+			image_wrapper.show();
+			if (container.height() < $(window).height()) {
+				var diff = container.height() - slider.height();
+				slider.height(($(window).height() - diff) + 'px');
+				image.css('marginTop', (
+					( $(window).height() - image.height() - parseInt(image_wrapper.css('paddingTop')) - parseInt(image_wrapper.css('paddingBottom')) - diff ) / 2 ) + 'px'
+				);
+			}
+		}).attr('src', ($(a).attr('data-image') ? $(a).attr('data-image') : $(a).attr('href')));
 	},
 
 	next: function(a) {
