@@ -760,6 +760,6 @@ class Page
      */
     public function __toString()
     {
-        return $this->getTitle();
+        return strlen($this->getTitle()) ? $this->getTitle() : ('PageItem_' . ($this->id ? $this->id : 'new'));
     }
 }

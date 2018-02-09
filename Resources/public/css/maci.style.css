@@ -279,15 +279,15 @@ li > ul.nav {
     padding: 0;
 }
 
-.slide.gallery .btn-in,
-.slide.gallery_one .btn-in,
-.slide.gallery_two .btn-in {
+.slide.gallery .button-in,
+.slide.gallery_one .button-in,
+.slide.gallery_two .button-in {
     display: none;
 }
 
-.slide.gallery .btn-out,
-.slide.gallery_one .btn-out,
-.slide.gallery_two .btn-out {
+.slide.gallery .button-out,
+.slide.gallery_one .button-out,
+.slide.gallery_two .button-out {
     display: block;
     padding: 15px;
 }

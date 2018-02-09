@@ -66,8 +66,8 @@ var maciLightbox = function (options) {
 		if ($(a).attr('data-description')) {
 			$('<div/>', {'class': 'maci-lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(image_info);
 		}
-		if ($(image_info).children().length) {
-			$(image_info).appendTo(container).hide();
+		if (image_info.children().length) {
+			image_info.appendTo(container).hide();
 		}
 		// Album Controllers
 		if ($(a).attr('data-lightbox')) {
