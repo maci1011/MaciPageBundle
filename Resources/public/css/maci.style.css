@@ -130,6 +130,10 @@ li > ul.nav {
 
 .slide .button-out {
     display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
 
 .slide .button-next {
@@ -147,7 +151,7 @@ li > ul.nav {
     text-align: center;
 }
 
-.slide .button-next.button-top > a {
+.slide .button-next > a {
     padding: 5px 0 0 0;
 }
 
@@ -158,10 +162,6 @@ li > ul.nav {
 .slide .button-next > a > i {
     color: #333;
     font-size: 24pt;
-}
-
-.slide:last-child .button-next {
-    display: none;
 }
 
 /*      --- Slide Style ---       */
@@ -181,7 +181,7 @@ li > ul.nav {
 .slide.contact_form > .slide-wrapper > .slide-caption,
 .slide.contact_form_bg > .slide-wrapper > .slide-caption,
 .slide.album_preview {
-    padding-top: 65px;
+    padding-top: 80px;
 }
 
 .slide.left > .slide-wrapper > .slide-caption,
@@ -237,6 +237,7 @@ li > ul.nav {
 .slide.left_divided.inactive .header-wrapper > header,
 .slide.right_divided.inactive .header-wrapper > header {
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 .slide.left .slide-caption,
@@ -289,7 +290,6 @@ li > ul.nav {
 .slide.gallery_one .button-out,
 .slide.gallery_two .button-out {
     display: block;
-    padding: 15px;
 }
 
 /*      Carousel Slide       */
