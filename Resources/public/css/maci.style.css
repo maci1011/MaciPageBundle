@@ -182,6 +182,7 @@ li > ul.nav {
 .slide.contact_info > .slide-wrapper > .slide-caption,
 .slide.contact_form > .slide-wrapper > .slide-caption,
 .slide.contact_form_bg > .slide-wrapper > .slide-caption,
+.slide.album,
 .slide.album_preview {
     padding-top: 80px;
 }
