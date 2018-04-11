@@ -732,7 +732,7 @@ class Page
      */
     public function setUpdatedValue()
     {
-        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     /**
@@ -740,7 +740,7 @@ class Page
      */
     public function setCreatedValue()
     {
-        $this->updated = new \DateTime();
+        $this->created = new \DateTime();
     }
 
     public function setLocale($locale)

@@ -39,7 +39,7 @@ $(document).ready(function(e) {
 				data: {},
 				url: $(el).attr('href')
 			});
-			$(el).parents('.container, .popup').first().hide();
+			$(el).parents('#cookieMessage, .container, .container-fluid, .popup').first().hide();
 		});
 	});
 

@@ -20,9 +20,9 @@
 
         <nav><ul class="nav navbar-nav">
 
-        <li><p class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</p></li>
-        <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
-        <li><a class="set-cookie" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
+            <li><p class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</p></li>
+            <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
+            <li><a class="set-cookie" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
 
         </ul></nav>
 
@@ -170,7 +170,11 @@
                     <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">{{ 'menu.terms_and_conditions' | matra('Terms & Conditions') }}</a></li>
                     <li><a href="{{ path('maci_page', {'path':'customer-service'}) }}">{{ 'menu.shopping.customer_service' | matra('Customer Service') }}</a></li>
                     {% if is_granted('ROLE_USER') %}
-                    <li><a href="{{ path('maci_media') }}">Media</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('maci_admin') }}">Administration</a></li>
+                    {% else %}
+                    <li><a href="{{ path('maci_user') }}">@{{ app.user.username }}</a></li>
+                    {% endif %}
                     <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                     {% else %}
                     <li><a href="{{ path('maci_user_login') }}">Login</a></li>
