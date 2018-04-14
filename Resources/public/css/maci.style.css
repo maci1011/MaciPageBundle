@@ -166,10 +166,10 @@ li > ul.nav {
 
 /*      --- Slide Style ---       */
 
-.slide.center > .slide-wrapper > .slide-caption,
-.slide.center_fix > .slide-wrapper > .slide-caption,
-.slide.center_ov > .slide-wrapper > .slide-caption,
-.slide.center_fix_ov > .slide-wrapper > .slide-caption,
+.slide.center > .slide-wrapper,
+.slide.center_fix > .slide-wrapper,
+.slide.center_ov > .slide-wrapper,
+.slide.center_fix_ov > .slide-wrapper,
 .slide.company > .slide-wrapper,
 .slide.left > .slide-wrapper,
 .slide.right > .slide-wrapper,
@@ -177,11 +177,11 @@ li > ul.nav {
 .slide.right_ov > .slide-wrapper,
 .slide.left_divided > .slide-wrapper,
 .slide.right_divided > .slide-wrapper,
-.slide.gallery > .slide-wrapper > .slide-caption,
-.slide.text_only > .slide-wrapper > .slide-caption,
-.slide.contact_info > .slide-wrapper > .slide-caption,
-.slide.contact_form > .slide-wrapper > .slide-caption,
-.slide.contact_form_bg > .slide-wrapper > .slide-caption,
+.slide.gallery > .slide-wrapper,
+.slide.text_only > .slide-wrapper,
+.slide.contact_info > .slide-wrapper,
+.slide.contact_form > .slide-wrapper,
+.slide.contact_form_bg > .slide-wrapper,
 .slide.album,
 .slide.album_preview {
     padding-top: 80px;
@@ -193,7 +193,7 @@ li > ul.nav {
 .slide.right_ov > .slide-wrapper > .slide-caption,
 .slide.left_divided > .slide-wrapper > .row > .slide-caption,
 .slide.right_divided > .slide-wrapper > .row > .slide-caption {
-    padding-top: 30px;
+    padding-top: 15px;
     padding-bottom: 15px;
 }
 
