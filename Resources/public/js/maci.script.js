@@ -37,7 +37,7 @@ $(document).ready(function(e) {
 					e.preventDefault();
 					$(window).scrollTo( $('.page_slides > .slide').first() , 600 );
 				});
-			}).parent().addClass('button-top');
+			});
 
 		}
 	}
