@@ -345,8 +345,8 @@ li > ul.nav {
 
 /*      Other Slide       */
 
-.slide.static_image .slider-caption-image {
-    text-align: center;
+.slide.static_image .slider-caption-image > img {
+    margin: 0 auto;
 }
 
 /*
