@@ -9,14 +9,14 @@ maci_page_not_found:
     path:  /{_locale}/page-not-found
     defaults: { _controller: MaciPageBundle:Default:pageNotFound }
     requirements:
-        _locale: %r_locales%
+        _locale: "%r_locales%"
 
 # ---> Show Page
 maci_page:
     path:  /{_locale}/{path}
     defaults: { _controller: MaciPageBundle:Default:page }
     requirements:
-        _locale: %r_locales%
+        _locale: "%r_locales%"
         path: .+
 
 # ---> Local Homepage
@@ -24,7 +24,7 @@ maci_homepage:
     path:  /{_locale}
     defaults: { _controller: MaciPageBundle:Default:localIndex }
     requirements:
-        _locale: %r_locales%
+        _locale: "%r_locales%"
 
 # ---> Redirect
 maci_redirect:
