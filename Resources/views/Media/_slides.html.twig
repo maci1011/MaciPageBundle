@@ -1,0 +1,16 @@
+
+{% set list = album.slides %}
+
+{% if list|length %}
+
+{% for item in list %}
+
+{% set stt = ( "MaciPageBundle:Slides:" ~ item.style ~ ".html.twig" ) %}
+
+{% include [stt, "MaciPageBundle:Slides:default.html.twig"] with { 'item': item, 'loop': loop } %}
+
+{% include "MaciPageBundle:Slides:_slide_caption_admin.html.twig" with { 'item': item } %}
+
+{% endfor %}
+
+{% endif %}

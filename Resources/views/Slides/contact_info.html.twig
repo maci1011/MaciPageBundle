@@ -1,0 +1,44 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper">
+
+	<div class="slide-caption col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+
+		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" with { 'item': item } %}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" with { 'item': item } %}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-xs-12 col-sm-4">
+			<h4>{{ 'form.address' | matra('Address') }}</h4>
+			<p>
+				{{ company_address }}<br/>
+				{{ company_cccs }}
+			</p>
+		</div>
+
+		<div class="col-xs-12 col-sm-4">
+			<h4>{{ 'form.phone' | matra('Phone') }}</h4>
+			<p>
+				{{ company_phone }}
+			</p>
+		</div>
+
+		<div class="col-xs-12 col-sm-4">
+			<h4>{{ 'form.email' | matra('Email') }}</h4>
+			<p>
+				{{ contact_email }}
+			</p>
+		</div>
+
+	</div>
+
+	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
+
+</div>
+</div>

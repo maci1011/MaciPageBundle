@@ -1,0 +1,30 @@
+
+{% if post.images|length %}
+
+{% if is_granted("ROLE_ADMIN") %}
+<div sortable="{{ path('maci_admin_entity_reorder', {'entity': 'blog_media_item'}) }}">
+{% endif %}
+
+<div class="row">
+
+{% for item in post.images %}
+
+{% include "@MaciPage/Blog/_media_item.html.twig" with { 'post': post, 'item': item } %}
+
+{% if ( loop.index % 4 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+{% if is_granted("ROLE_ADMIN") %}
+</div>
+{% endif %}
+
+{% endif %}

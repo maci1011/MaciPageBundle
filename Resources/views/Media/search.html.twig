@@ -1,0 +1,19 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block title %}
+
+{{ 'search.media.title' | matra('Search Media for:') }} {{ query }}
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_list.html.twig" with { 'list': list } %}
+
+{% endblock %}
+
+
+

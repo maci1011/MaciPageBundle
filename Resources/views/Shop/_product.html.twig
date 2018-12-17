@@ -1,0 +1,307 @@
+
+<article id="maci-product_{{ item.id }}" class="show-product row">
+
+<div class="container-fluid">
+
+<div class="row">
+
+	<section class="col-xs-12 col-sm-{{ shop_is_live ? 2 : 3 }}">
+
+		<div class="product-media-list">
+
+			{% if item.images|length or item.cover is not null %}
+
+			{% include "MaciPageBundle:Shop:_media_list.html.twig" with { 'product': item } %}
+
+			{% endif %}
+
+		</div>
+
+	</section>
+
+	<section class="col-xs-12 col-sm-{{ shop_is_live ? 3 : 4 }}">
+
+		<div class="product-media-list row">
+
+			{% if item.preview %}
+
+			<a class="product-preview" href="{{ path('maci_media_get', {'path': item.preview.path}) }}" data-lightbox="product-preview" data-title="{{ item.preview }}">
+				<img class="img-responsive" src="{{ asset(item.preview.webPreview | imagine_filter('maci_product_preview')) }}" {% if item.preview.description %} title="{{ item.preview }}" alt="{{ item.preview.description }}" {% else %} alt="{{ item.preview }}" {% endif %} />
+			</a>
+
+			{% endif %}
+
+		</div>
+
+	</section>
+
+	<section class="col-xs-12 col-sm-{{ shop_is_live ? 4 : 5 }}">
+
+		<div class="product-details">
+
+			<ol class="product-details-list">
+
+
+				<li>
+					<h1 class="product-title">{{ item.name }}</h1>
+				</li>
+
+
+				{% if item.sale %}
+				<li>
+					<span class="product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
+					<span class="product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				<li>
+					<span class="product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				<li>
+					<span class="product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
+					<span class="product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% elseif item.price %}
+				<li>
+					<span class="product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% endif %}
+
+
+				<li>
+					<span class="product-description">{{ item.description }}</span>
+				</li>
+
+				{% if item.composition %}
+				<li>
+					<span class="product-composition">{{ item.composition }}</span>
+				</li>
+				{% endif %}
+
+				{% if item.code %}
+				<li>
+					<span class="product-code-label">{{ 'product.code' | matra('Code') }}:</span>
+					<span class="product-code">{{ item.code }}</span>
+				</li>
+				{% endif %}
+
+
+				{% if item.notTabbedChildren|length %}
+				<li>
+					<div class="product-children">
+					<ol>
+
+						{% for child in item.notTabbedChildren %}
+
+						{% if loop.first or child.variantLabel != item.notTabbedChildren[loop.index - 1].variantLabel %}
+						<li>
+							<span class="product-child-label">{{ child.variantLabel|capitalize }}:</span>
+						</li>
+						{% endif %}
+
+						<li>
+							<button class="product-child-btn btn" data="#product-child-cart-{{ child.id }}">{{ child.variantName }}</button>
+						</li>
+
+						{% endfor %}
+
+					</ol>
+					</div>
+				</li>
+				{% endif %}
+
+
+				{% if item.tabbedChildren|length %}
+				<li>
+					<div class="product-children">
+					<ol>
+
+						{% for child in item.tabbedChildren %}
+
+						{% if loop.first or child.variantLabel != item.tabbedChildren[loop.index - 1].variantLabel %}
+						<li>
+							<span class="product-child-label">{{ child.variantLabel|capitalize }}:</span>
+						</li>
+						{% endif %}
+
+						<li>
+							<a href="{{ path('maci_product_show', {'id': child.id}) }}" class="product-child btn">{{ child.variantName }}</a>
+						</li>
+
+						{% endfor %}
+
+					</ol>
+					</div>
+				</li>
+				{% endif %}
+
+
+				<li>
+				<div class="product-categories">
+
+					{% for childCategory in item.categoryItems %}
+
+					<nav>
+					<ol class="breadcrumb">
+
+						{% for categoryItem in childCategory.category.parentsList %}
+
+						<li class="product-category-parent">
+							<a href="{{ path('maci_product_category', {'id': categoryItem.category.id}) }}">{{ categoryItem }}</a>
+						</li>
+
+						{% endfor %}
+
+						<li class="product-category">
+							<a href="{{ path('maci_product_category', {'id': childCategory.category.id}) }}">{{ childCategory }}</a>
+						</li>
+
+					</ol>
+					</nav>
+
+					{% else %}
+
+					<nav>
+					<ol class="breadcrumb">
+
+						<li class="product-category-parent">
+							<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
+						</li>
+
+						<li class="product-category active">
+							<span>{{ item.name }}</span>
+						</li>
+
+					</ol>
+					</nav>
+
+					{% endfor %}
+
+				</div>
+				</li>
+
+			</ol>
+
+		</div>
+
+		{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}
+
+		<div class="product-books">
+
+			<h4>{{ 'product.documents' | matra('Documents') }}</h4>
+
+			{% for doc in item.privateDocuments %}
+
+			<div class="row">
+				<div class="col-xs-9">
+					<span>{{ doc }}</span>
+				</div>
+				<div class="col-xs-3">
+					<a class="btn btn-danger ma-remove" href="{{ path('maci_admin_entity_remove', {'entity': 'product_media_item', 'id': doc.id}) }}">
+						<span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+					</a>
+				</div>
+			</div>
+
+			{% endfor %}
+
+		</div>
+
+		{% endif %}
+
+	</section>
+
+	{% if shop_is_live %}
+
+	<section class="col-xs-12 col-sm-3">
+
+		<div class="product-form">
+
+			<ol class="product-form-list">
+
+				<li>
+					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}</h3>
+				</li>
+
+				{% if item.notTabbedChildren|length %}
+
+				<li class="product-select-variant-container">
+					<span class="product-select-variant">{{ 'form.product.select_variant' | matra('Select an Option') }}</span>
+				</li>
+
+				{% for child in item.notTabbedChildren %}
+				<li>
+				<ol id="product-child-cart-{{ child.id }}" class="product-child-cart">
+
+					<li>
+						{% if child.variantLabel %}<span class="product-child-label">{{ child.variantLabel }}:</span>{% endif %}
+						<span class="product-child-name">{{ child.variantName }}</span>
+					</li>
+
+					{% if child.limited and child.quantity < 9 %}
+					<li>
+						<span class="product-quantity_available">{{ 'product.quantity_available' | matra('Quantity Available') }}: {{ item.quantity }}</span>
+					</li>
+					{% else %}
+					<li>
+						<span class="product-available">{{ 'product.available' | matra('Product Available.') }}</span>
+					</li>
+					{% endif %}
+
+					<li>
+						{{ render(controller('MaciOrderBundle:Shop:addToCart', { '_product': child } )) }}
+					</li>
+
+				</ol>
+				</li>
+				{% endfor %}
+
+				{% else %}
+
+				{% if item.isAvailable %}
+
+				{% if item.limited and item.quantity < 9 %}
+				<li>
+					<span class="product-quantity_available">{{ 'product.quantity_available' | matra('Quantity Available') }}: {{ item.quantity }}</span>
+				</li>
+				{% else %}
+				<li>
+					<span class="product-available">{{ 'product.available' | matra('Product Available.') }}</span>
+				</li>
+				{% endif %}
+
+				<li>
+					{{ render(controller('MaciOrderBundle:Shop:addToCart', { '_product': item } )) }}
+				</li>
+
+				{% else %}
+
+				<li>
+					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
+				</li>
+
+				{% endif %}
+
+				{% endif %}
+
+			</ol>
+
+		</div>
+
+	</section>
+
+	{% endif %} {# shop_is_live #}
+
+</div>
+
+<div class="row">
+
+	<footer class="product-footer container-fluid">
+
+	</footer>
+
+</div>
+
+</div>
+
+</article>

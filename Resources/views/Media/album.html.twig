@@ -1,0 +1,61 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_album', 'item': album } )) }}
+
+{% endblock %}
+
+
+{% block leftMenu %}
+
+{% if album.type == 'album' %}
+{% set menu = knp_menu_get('album', [], {'album': album} ) %}
+<nav>{{ knp_menu_render(menu, {'currentClass': 'active'}) }}</nav>
+{% else %}
+<nav>{{ knp_menu_render('gallery', {'currentClass': 'active'}) }}</nav>
+{% endif %}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ album.metaTitle }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ album.metaDescription }}" />
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ol class="breadcrumb">
+
+	{% for albumItem in album.parentsList %}
+
+	<li class="product-category-parent">
+		<a href="{{ path('maci_media_album', {'id': albumItem.id}) }}">{{ albumItem }}</a>
+	</li>
+
+	{% endfor %}
+
+    <li class="active">{{ album }}</li>
+
+</ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_album.html.twig" with { 'album': album } %}
+
+{% endblock %}
+

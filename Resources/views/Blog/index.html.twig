@@ -1,0 +1,31 @@
+
+{% extends "@MaciPage/Layout/blog.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post' } )) }}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_tag' } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'blog.index.meta_title' | matra('Blog') }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ 'blog.index.meta_description' | matra('Read the blog and see the news!') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Blog/_list.html.twig" with { 'list': list } %}
+
+{% endblock %}

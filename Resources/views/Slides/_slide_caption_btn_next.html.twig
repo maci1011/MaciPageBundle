@@ -1,0 +1,10 @@
+
+{% if loop.last %}
+<a href="#" alt="{{ 'page.slide.button-top'|matra('Return to the Top') }}">
+	<i class="fa fa-angle-up animated"></i>
+</a>
+{% else %}
+<a href="#" alt="{{ 'page.slide.button-next'|matra('Go Down') }}">
+	<i class="fa fa-angle-down animated"></i>
+</a>
+{% endif %}

@@ -1,0 +1,61 @@
+
+<div class="media">
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+	<div class="media-preview">
+	{% if item.video %}
+	<a href="#" class="media-preview-video">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
+		<div class="media-preview-video-icon"><span class="glyphicon glyphicon-play-circle"></span></div>
+	</a><div class="media-preview-video-content">{{ item.video|raw }}</div>
+	{% else %}
+	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
+	</a>
+	{% endif %}
+	</div>
+
+	{% if item.brand %}
+	<div class="media-brand">
+		{% if item.brand.preview %}
+		<img class="media-brand-icon" src="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_icon')) }}" alt="{{ item.brand.name }}" />
+		{% else %}
+		<span class="media-brand-name">{{ item.brand.name }}</span>
+		{% endif %}
+	</div>
+	{% endif %}
+
+	<div class="media-info">
+
+	{% if item.name %}
+	<h4 class="media-title">{{ item.name }}</h4>
+	{% elseif item.media.name %}
+	<h4 class="media-title">{{ item.media.name }}</h4>
+	{% endif %}
+
+	{% if item.description|length %}
+	<div class="media-description">{{ item.description|raw }}</div>
+	{% elseif item.media.description|length %}
+	<div class="media-description">{{ item.media.description|raw }}</div>
+	{% endif %}
+
+	{% if item.tags|length %}
+
+	<div class="media-tags">
+
+	<span class="media-tags-label">Tags:</span>
+
+	{% for tag in item.tags %}
+
+	<em class="media-tag">{{ tag.name }}</em>
+
+	{% endfor %}
+
+	</div>
+
+	{% endif %}
+
+	</div>
+
+</div>

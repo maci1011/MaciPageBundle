@@ -1,0 +1,37 @@
+
+{% if item.preview is defined and item.preview %}
+
+<div class="product-preview">
+<a href="{{ path('maci_product_show', {'id': item.id}) }}">
+	<img class="img-responsive" src="{{ asset(item.preview.webPath | imagine_filter('maci_product_preview')) }}" {% if item.description %} title="{{ item }}" alt="{{ item.description }}" {% else %} alt="{{ item }}" {% endif %} {% if item.cover %} cover="{{ asset(item.cover.webPath | imagine_filter('maci_product_preview')) }}" {% endif %} />
+</a>
+</div>
+
+{% endif %}
+
+
+<div class="product-info">
+
+<a href="{{ path('maci_product_show', {'id': item.id}) }}">
+	<h4 class="product-title">{{ item.name }}</h4>
+</a>
+
+
+{% if item.price %}
+
+<h5 class="product-price">
+	{{ 'product.price' | matra('Price') }}: 
+	{% if item.sale %}
+	<span class="product-sale">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+	{% endif %}
+	{{ item.price | number_format(2, '.', ',') }} &euro;
+</h5>
+
+{% elseif shop_is_live %}
+
+<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
+
+{% endif %}
+
+
+</div>

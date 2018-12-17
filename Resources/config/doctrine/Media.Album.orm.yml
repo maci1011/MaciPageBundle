@@ -1,0 +1,61 @@
+
+Maci\PageBundle\Entity\Media\Album:
+    type:  entity
+    table: maci_media_album
+    repositoryClass: Maci\PageBundle\Repository\Media\AlbumRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 63
+            nullable: true
+        subtitle:
+            type: string
+            length: 255
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        meta_title:
+            type: string
+            length: 95
+            nullable: true
+        meta_description:
+            type: string
+            length: 191
+            nullable: true
+        locale:
+            type: string
+            length: 10
+        type:
+            type: string
+            length: 31
+        redirect:
+            type: string
+            length: 63
+            nullable: true
+        position:
+            type: integer
+            nullable: true
+    manyToOne:
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Media\Album
+            inversedBy: children
+        preview:
+            targetEntity: Media
+    oneToMany:
+        items:
+            targetEntity: Maci\PageBundle\Entity\Media\Item
+            mappedBy: album
+            orderBy: { 'position': ASC }
+        children:
+            targetEntity: Album
+            mappedBy: parent
+            orderBy: { 'position': ASC }
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]

@@ -1,0 +1,31 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_album' } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'media.gallery.meta_title' | matra('Gallery') }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ 'media.gallery.meta_description' | matra('Media Gallery') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_album_list.html.twig" with { 'list': list } %}
+
+{% endblock %}
+
+

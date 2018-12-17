@@ -1,0 +1,16 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if loop.index0 is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper">
+
+	<div class="slide-caption col-xs-12 col-sm-6">
+
+		{% include "MaciPageBundle:Slides:_slide_caption.html.twig" with { 'item': item } %}
+
+	</div>
+
+	<div class="slide-image col-xs-12 col-sm-6 hidden-xs" style="background: url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat center center / cover rgba(0, 0, 0, 0);"></div>
+
+	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
+
+</div>
+</div>

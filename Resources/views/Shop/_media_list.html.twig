@@ -1,0 +1,65 @@
+
+{% if product.images|length or product.cover is defined %}
+
+
+<div class="row">
+
+{% set c = 0 %}
+
+{% for item in product.images if not ( product.preview and product.preview.id == item.media.id ) %}
+
+{% set c = c + 1 %}
+
+<div class="col-xs-12 col-sm-6 {% if c is even %}even{% else %}odd{% endif %}">
+
+{% include "MaciPageBundle:Shop:_media_item.html.twig" with { 'product': product, 'item': item } %}
+
+</div>
+
+
+{% if ( c % 2 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% else %}
+
+<div class="clearfix visible-xs-block"></div>
+
+{% endif %}
+
+
+{% endfor %}
+
+
+{% if 0 < c %}
+{% if ( c % 2 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% else %}
+
+<div class="clearfix visible-xs-block"></div>
+
+{% endif %}
+{% endif %}
+
+
+{% if product.cover is defined and not product.isCoverInMediaList %}
+
+<div class="col-xs-12 col-sm-6 {% if c is even %}even{% else %}odd{% endif %}">
+
+{% include "MaciPageBundle:Shop:_media_preview.html.twig" with { 'item': product.cover } %}
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+
+{% endif %}

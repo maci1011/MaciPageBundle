@@ -1,0 +1,10 @@
+
+{% if is_granted("ROLE_ADMIN") %}
+
+<div class="slide-admin container-fluid">
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_item', 'item': item } )) }}
+
+</div>
+
+{% endif %}

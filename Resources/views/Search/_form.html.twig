@@ -1,0 +1,41 @@
+
+<form class="form-inline" action="{{ path('maci_search_form') }}" method="post">
+
+    {{ form_errors(form) }}
+
+	<div class="form-group">
+
+		{% if section is null %}
+
+    	{{ form_label(form.section) }}
+    	{{ form_widget(form.section) }}
+    	{{ form_errors(form.section) }}
+
+	</div>
+	<div class="form-group">
+
+		{% else %}
+
+		<input type="hidden" name="search[section]" value="{{ section }}" />
+    	{{ form_errors(form.section) }}
+
+		{% endif %}
+
+		{% if label is null %}
+		{% set label = ( 'form.search'|matra('Search') ) %}
+		{% endif %}
+
+		<label class="required sr-only" for="form_search">{{ label }}</label>
+		<input id="form_search" class="form-control" type="search" required="required" name="search[query]" placeholder="{{ label }}" value="{{ query }}" />
+    	{{ form_errors(form.query) }}
+
+    	{{ form_row(form._token) }}
+
+		<button id="form_send" class="btn btn-primary" name="search[submit]" type="submit">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
+	</div>
+
+</form>
+
+

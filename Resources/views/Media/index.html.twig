@@ -1,0 +1,34 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_album' } )) }}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_tag' } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'media.index.meta_title' | matra('All Media') }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ 'media.index.meta_description' | matra('Media List') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_list.html.twig" with { 'list': list } %}
+
+{% endblock %}
+
+
+

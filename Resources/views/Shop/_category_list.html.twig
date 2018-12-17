@@ -1,0 +1,36 @@
+
+{% set list = category.currentItems %}
+
+{% if list|length %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+{% for item in list %}
+
+<div class="col-xs-6 col-sm-3{% if is_granted("ROLE_ADMIN") %} sortable{% endif %}">
+<div class="row product">
+
+<input name="id" type="hidden" value="{{ item.id }}" />
+
+{% include "MaciPageBundle:Shop:_item.html.twig" with { 'item': item.product } %}
+
+</div>
+</div>
+
+{% if ( loop.index % 4 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endif %}

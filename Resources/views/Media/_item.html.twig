@@ -1,0 +1,43 @@
+
+<div class="media">
+
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+
+	<div class="media-preview">
+	<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.name }}">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
+	</a>
+	</div>
+
+
+	{% if item.name %}
+	<h4 class="media-title">{{ item.name }}</h4>
+	{% endif %}
+
+	{% if item.description %}
+	<div class="media-description">{{ item.description|raw }}</div>
+	{% endif %}
+
+
+	{% if item.tags|length %}
+
+	<div class="media-tags">
+	<nav class="navbar-nav">
+	<ul>
+
+	{% for tag in item.tags %}
+
+		<li><em class="media-tag">{{ tag }}</em></li>
+
+	{% endfor %}
+
+	</ul>
+	</nav>
+	</div>
+
+	{% endif %}
+
+
+</div>

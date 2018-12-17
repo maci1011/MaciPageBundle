@@ -1,0 +1,19 @@
+
+<div class="col-xs-12 col-sm-6{% if is_granted("ROLE_ADMIN") %} sortable{% endif %}">
+<div class="row media">
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+	{% if item.media %}
+
+	{% include "MaciPageBundle:Shop:_media_item.html.twig" with { 'item': item.media } %}
+
+	{% endif %}
+
+	{#}
+	<h4 class="media-title">{{ item }}</h4>
+	<div class="media-description">{{ item.description|raw }}</div>
+	{#}
+
+</div>
+</div>

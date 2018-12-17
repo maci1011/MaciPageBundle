@@ -1,0 +1,45 @@
+
+<article class="blog-post container-fluid">
+
+
+<header>
+
+	<h1 class="post-title">{{ post.title }}</h1>
+
+	{% if post.preview %}
+
+	<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
+
+	{% endif %}
+
+</header>
+
+
+<section>
+
+	<div class="post-header">{{ post.header|raw }}</div>
+
+	<div class="post-content">{{ post.content|raw }}</div>
+
+</section>
+
+
+{% if post.images|length %}
+
+<section>
+
+{% include "@MaciPage/Blog/_media_list.html.twig" with { 'post': post } %}
+
+</section>
+
+{% endif %}
+
+
+<footer>
+
+{% include "@MaciPage/Blog/_post_footer.html.twig" with { 'post': post } %}
+
+</footer>
+
+
+</article>

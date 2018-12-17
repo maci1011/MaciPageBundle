@@ -1,0 +1,30 @@
+
+{% if tag.media|length %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+{% for item in tag.media %}
+
+<div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is even %}even{% else %}odd{% endif %}">
+
+	{% include "@MaciPage/Media/_tag_media_item.html.twig" with { 'tag': tag, 'item': item } %}
+
+</div>
+
+{% if ( loop.index % 4 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endif %}

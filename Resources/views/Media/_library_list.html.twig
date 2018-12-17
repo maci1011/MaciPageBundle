@@ -1,0 +1,14 @@
+
+{% if list|length %}
+
+<div class="container-fluid">
+
+{% for item in list %}
+
+{% include "@MaciPage/Media/_library_item.html.twig" with { 'item': item.media } %}
+
+{% endfor %}
+
+</div>
+
+{% endif %}

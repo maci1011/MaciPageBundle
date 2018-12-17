@@ -1,0 +1,26 @@
+
+
+<article class="maci-tag container-fluid">
+
+<header class="row">
+
+	<h3>{{ tag.name }}</h3>
+	<p class="lead">{{ tag.description }}</p>
+
+</header>
+
+<section class="row">
+
+	{% include "@MaciPage/Media/_tag_media_list.html.twig" with { 'tag': tag } %}
+
+</section>
+
+{#}
+<footer class="row">
+
+	<p>{{ tag.created|date('d/m/Y') }}</p>
+
+</footer>
+{#}
+
+</article>

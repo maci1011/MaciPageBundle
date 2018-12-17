@@ -1,0 +1,17 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+
+{% block leftMenu %}
+
+    {% if shop_is_live %}
+
+    <nav>{{ knp_menu_render('shop_terms', {'currentClass': 'active'}) }}</nav>
+
+    {% else %}
+
+    <nav>{{ knp_menu_render('terms', {'currentClass': 'active'}) }}</nav>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,4 @@
+
+MaciPageBundle_ContactForm:
+    path:  /contacts/form
+    defaults: { _controller: MaciPageBundle:Contact:form }

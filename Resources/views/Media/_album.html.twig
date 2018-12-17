@@ -1,0 +1,41 @@
+
+<section class="album">
+
+<header class="album-header container-fluid">
+
+	<h3 class="album-title">{{ album.name }}</h3>
+	<p class="lead">{{ album.description|raw }}</p>
+
+</header>
+
+{% if album.children|length %}
+<section class="album-children">
+
+	{% include "@MaciPage/Media/_album_list.html.twig" with { 'list': album.children, 'album': album } %}
+
+</section>
+{% endif %}
+
+{% if album.subtitle %}
+<section class="album-subtitle container-fluid">
+
+	<h4 class="album-subtitle">{{ album.subtitle }}</h4>
+
+</section>
+{% endif %}
+
+<section class="album-media">
+
+	{% include "@MaciPage/Media/_album_media_list.html.twig" with { 'album': album } %}
+
+</section>
+
+{#}
+<footer class="row">
+
+	<p class="lead">{{ album.created|date('d/m/Y') }}</p>
+
+</footer>
+{#}
+
+</section>

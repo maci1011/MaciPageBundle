@@ -1,0 +1,102 @@
+
+Maci\PageBundle\Entity\Shop\Product:
+    type:  entity
+    table: maci_product
+    repositoryClass: Maci\PageBundle\Repository\Shop\ProductRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 127
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        composition:
+            type: text
+            nullable: true
+        meta_title:
+            type: string
+            length: 95
+            nullable: true
+        meta_description:
+            type: string
+            length: 191
+            nullable: true
+        locale:
+            type: string
+            length: 10
+        price:
+            type: decimal
+            nullable: true
+        sale:
+            type: decimal
+            nullable: true
+        type:
+            type: string
+            length: 31
+            nullable: true
+        shipment:
+            type: boolean
+        limited:
+            type: boolean
+        quantity:
+            type: decimal
+            nullable: true
+        status:
+            type: string
+            length: 31
+            nullable: true
+        code:
+            type: string
+            length: 31
+            nullable: true
+        tabbed:
+            type: boolean
+        variant_label:
+            type: string
+            length: 63
+            nullable: true
+        variant_name:
+            type: string
+            length: 63
+            nullable: true
+        position:
+            type: integer
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+        removed:
+            type: boolean
+    manyToOne:
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            inversedBy: children
+        preview:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+            cascade: ["persist"]
+        cover:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+    oneToMany:
+        children:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            mappedBy: parent
+            orderBy: { 'position': ASC }
+        categoryItems:
+            targetEntity: Maci\PageBundle\Entity\Shop\CategoryItem
+            mappedBy: product
+            orderBy: { 'position': ASC }
+        mediaItems:
+            targetEntity: Maci\PageBundle\Entity\Shop\MediaItem
+            mappedBy: product
+            orderBy: { 'position': ASC }
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]
+

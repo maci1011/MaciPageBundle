@@ -1,0 +1,16 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+
+{% block bodyTag %}<body id="bodyProduct">{% endblock %}
+
+
+{% block searchForm %}
+{{ render(controller('MaciSearchBundle:Search:form', {'section': 'shop', 'label': ('form.search.shop'|matra('Search Product')) })) }}
+{% endblock %}
+
+{% block leftMenu %}
+
+	<nav>{{ knp_menu_render('product_left', {'currentClass': 'active'}) }}</nav>
+
+{% endblock %}

@@ -1,0 +1,5 @@
+
+
+<a class="media-preview" href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="product-preview" data-title="{{ item }}">
+	<img class="img-responsive" src="{{ asset(item.webPreview | imagine_filter('maci_product_preview_list')) }}" {% if item.description %} title="{{ item }}" alt="{{ item.description }}" {% else %} alt="{{ item }}" {% endif %} />
+</a>

@@ -1,0 +1,51 @@
+
+Maci\PageBundle\Entity\Shop\Category:
+    type:  entity
+    table: maci_product_category
+    repositoryClass: Maci\PageBundle\Repository\Shop\CategoryRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 63
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        locale:
+            type: string
+            length: 10
+        type:
+            type: string
+            length: 31
+            nullable: true
+        position:
+            type: integer
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+        removed:
+            type: boolean
+    manyToOne:
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Shop\Category
+            inversedBy: children
+    oneToMany:
+        children:
+            targetEntity: Maci\PageBundle\Entity\Shop\Category
+            mappedBy: parent
+            orderBy: { 'position': ASC }
+        items:
+            targetEntity: Maci\PageBundle\Entity\Shop\CategoryItem
+            mappedBy: category
+            orderBy: { 'position': ASC }
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]
+

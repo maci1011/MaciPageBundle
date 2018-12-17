@@ -1,0 +1,22 @@
+
+Maci\PageBundle\Entity\Shop\MediaItem:
+    type:  entity
+    table: maci_product_media_item
+    repositoryClass: Maci\PageBundle\Repository\Shop\MediaItemRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        favourite:
+            type: boolean
+        position:
+            type: integer
+            nullable: true
+    manyToOne:
+        product:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            inversedBy: mediaItems
+        media:
+            targetEntity: Maci\PageBundle\Entity\Media\Media

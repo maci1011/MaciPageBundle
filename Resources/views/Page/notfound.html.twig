@@ -1,0 +1,40 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyNotFoundPage">{% endblock %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'page' } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+404 - {{ 'message.page_not_found' | matra('Page not found') }} - {{ company_title }}
+
+{% endblock %}
+
+
+{% block description %}
+
+<meta name="description" content="404 - {{ 'message.page_not_found' | matra('Page not found') }}." />
+
+{% endblock %}
+
+
+{% block container %}
+
+<div class="container-fluid not-found-page">
+
+<section>
+
+	<h3>404 - {{ 'message.page_not_found' | matra('Page not found') }}.</h3>
+
+</section>
+
+</div>
+
+{% endblock %}

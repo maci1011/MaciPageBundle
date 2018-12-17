@@ -1,23 +1,5 @@
 
 /*
- *      Bootstrap3 Corrections
- */
-
-@media (max-width: 768px) {
-
-    .navbar-text {
-        display: block;
-        margin: 0;
-        padding: 10px 15px;
-    }
-
-}
-
-.navbar-nav {
-    margin: 0 -15px;
-}
-
-/*
  *      Tags
  */
 
@@ -65,9 +47,13 @@ li > ul.nav {
  */
 
 #main {
-    padding: 65px 0 0;
+    padding: 65px 0 0 0;
     max-width: 1920px;
     margin: 0 auto;
+}
+
+#bodyHomepage #main {
+    padding: 51px 0 0 0;
 }
 
 #mainContainer > .row {
@@ -78,8 +64,9 @@ li > ul.nav {
     padding: 0 0 0 15px;
 }
 
-#pageContainer {
-    clear: both;
+.page-container.contacts-page .page-title,
+.page-container.fullpage .page-title {
+    text-align: center;
 }
 
 .navbar-nav.navbar-right:last-child {
@@ -99,6 +86,28 @@ li > ul.nav {
 }
 
 #footer .navbar {
+    margin: 0;
+}
+
+/*
+ *      Navbar
+ */
+
+@media (max-width: 768px) {
+
+    .navbar-text {
+        display: block;
+        margin: 0;
+        padding: 10px 15px;
+    }
+
+}
+
+.navbar-nav {
+    margin: 0 -15px;
+}
+
+#maciadmin .navbar-nav {
     margin: 0;
 }
 
@@ -421,33 +430,6 @@ li > ul.nav {
     color: #fff;
 }
 
-/*
- *      General Forms
- */
-
-.form-group > label:after {
-    content: '*';
-}
-
-.form-group > label.required:after {
-    content: '';
-}
-
-.optional_fields {
-    font-style: italic;
-    padding: 10px;
-    display: block;
-}
-
-.tab-content > .tab-pane {
-    padding: 10px;
-    background-color: #eee;
-}
-
-/*
- *      Lists
- */
-
 .media, .product {
     margin-bottom: 8px;
 }
@@ -538,14 +520,6 @@ li > ul.nav {
 }
 
 /*
- *      User
- */
-
-.user_message > p {
-    font-size: 12pt;
-}
-
-/*
  *      Start PopUp
  */
 
@@ -569,4 +543,51 @@ li > ul.nav {
     color: #FFF6F9;
     padding: 10px 30px;
     text-align: center;
+}
+
+/*
+ *      Forms
+ */
+
+.form-group > label:after {
+    content: ':';
+}
+
+.form-group > label.required:after {
+    content: ': *';
+}
+
+.checkbox.privacy {
+    margin: 30px 0;
+}
+
+.checkbox label {
+    padding-left: 20px;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-left: 0;
+}
+
+.form-required-fields {
+    padding: 15px 0 30px;
+    display: block;
+}
+
+.form-required-fields span {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.tab-content > .tab-pane {
+    padding: 10px;
+    background-color: #eee;
+}
+
+/*
+ *      User
+ */
+
+.user_message > p {
+    font-size: 12pt;
 }

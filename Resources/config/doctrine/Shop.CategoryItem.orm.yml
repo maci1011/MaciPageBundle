@@ -1,0 +1,23 @@
+
+Maci\PageBundle\Entity\Shop\CategoryItem:
+    type:  entity
+    table: maci_product_category_item
+    repositoryClass: Maci\PageBundle\Repository\Shop\CategoryItemRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        favourite:
+            type: boolean
+        position:
+            type: integer
+            nullable: true
+    manyToOne:
+        product:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            inversedBy: categoryItems
+        category:
+            targetEntity: Maci\PageBundle\Entity\Shop\Category
+            inversedBy: items

@@ -1,0 +1,17 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+
+{% block bodyTag %}<body id="bodyMediapage">{% endblock %}
+
+
+{% block searchForm %}
+{{ render(controller('MaciSearchBundle:Search:form', {'section': 'media', 'label': ('form.search.media'|matra('Search Media')) })) }}
+{% endblock %}
+
+
+{% block leftMenu %}
+
+	<nav>{{ knp_menu_render('gallery', {'currentClass': 'active'}) }}</nav>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+
+maci_search_blog:
+    path:  /{_locale}/search/blog/{query}
+    defaults: { _controller: MaciPageBundle:Search:blog, query: null }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_search_media:
+    path:  /{_locale}/search/media/{query}
+    defaults: { _controller: MaciPageBundle:Search:media, query: null }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_search_shop:
+    path:  /{_locale}/search/shop/{query}
+    defaults: { _controller: MaciPageBundle:Search:shop, query: null }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_search_page:
+    path:  /{_locale}/search/page/{query}
+    defaults: { _controller: MaciPageBundle:Search:page, query: null }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_search_form:
+    path:  /{_locale}/search/form
+    defaults: { _controller: MaciPageBundle:Search:form }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_search:
+    path:  /{_locale}/search
+    defaults: { _controller: MaciPageBundle:Search:index }
+    requirements:
+        _locale: "%r_locales%"

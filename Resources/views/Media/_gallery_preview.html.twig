@@ -1,0 +1,8 @@
+
+{% include "@MaciPage/Media/_album_preview.html.twig" with { 'album': album } %}
+
+{% for child in album.children %}
+
+{% include "@MaciPage/Media/_album_preview.html.twig" with { 'album': child } %}
+
+{% endfor %}

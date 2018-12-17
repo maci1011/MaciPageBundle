@@ -1,0 +1,30 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block leftMenu %}
+
+<nav>{{ knp_menu_render('user_left', {'currentClass': 'active'}) }}</nav>
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'media.documents.meta_title' | matra('User Library') }}
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page_container user_page">
+
+<h1>{{ 'menu.user.library'|matra('Library') }}</h1>
+
+{% include "@MaciPage/Media/_library_list.html.twig" with { 'list': list } %}
+
+</section>
+
+{% endblock %}
+

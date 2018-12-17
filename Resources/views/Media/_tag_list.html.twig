@@ -1,0 +1,38 @@
+
+{% if list|length %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+{% for item in list %}
+
+<div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is even %}even{% else %}odd{% endif %}">
+
+	{% include "@MaciPage/Media/_tag_item.html.twig" with { 'item': item } %}
+
+</div>
+
+{% if ( loop.index % 4 ) == 0 %}
+
+</div>
+
+<div class="row">
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% else %}
+
+<div class="container-fluid">
+
+	<h3 class="noitems">No Items.</h3>
+
+</div>
+
+{% endif %}

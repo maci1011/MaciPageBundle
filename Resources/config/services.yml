@@ -1,8 +1,10 @@
 
 services:
 
+    # ---> Page
+
     maci_page.form.type.page:
-        class: Maci\PageBundle\Form\Type\PageType
+        class: Maci\PageBundle\Form\Page\PageType
         tags:
             - { name: form.type, alias: page }
 
@@ -14,11 +16,72 @@ services:
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: left }
             - { name: knp_menu.menu_builder, method: createPageLeftMenu, alias: page_left }
             - { name: knp_menu.menu_builder, method: createTermsMenu, alias: terms }
-            - { name: knp_menu.menu_builder, method: createContactsMenu, alias: shop_contacts }
 
-    maci_page.shop_menu_builder:
-        class: Maci\PageBundle\Menu\ShopMenuBuilder
-        arguments: ["@knp_menu.factory","@maci.translator"]
+    # ---> Blog
+
+    maci_page.blog.menu_builder:
+        class: Maci\PageBundle\Menu\BlogMenuBuilder
+        arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager"]
         tags:
+            - { name: knp_menu.menu_builder, method: createLeftMenu, alias: blog_left }
+
+    # ---> Media
+
+    maci_media.form.type.media_album:
+        class: Maci\PageBundle\Form\Media\AlbumType
+        tags:
+            - { name: form.type, alias: media_album }
+
+    maci_media.form.type.media_item:
+        class: Maci\PageBundle\Form\Media\ItemType
+        tags:
+            - { name: form.type, alias: media_item }
+
+    maci_media.form.type.media:
+        class: Maci\PageBundle\Form\Media\MediaType
+        tags:
+            - { name: form.type, alias: media }
+
+    maci_media.form.type.media_tag:
+        class: Maci\PageBundle\Form\Media\TagType
+        tags:
+            - { name: form.type, alias: media_tag }
+
+    maci_media.menu_builder:
+        class: Maci\PageBundle\Menu\MediaMenuBuilder
+        arguments: ["@knp_menu.factory","@security.authorization_checker","@doctrine.orm.entity_manager","@maci.translator"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createGalleryMenu, alias: gallery }
+            - { name: knp_menu.menu_builder, method: createAlbumMenu, alias: album }
+
+    # ---> Shop
+
+    maci_page.shop.menu_builder:
+        class: Maci\PageBundle\Menu\ShopMenuBuilder
+        arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager",'@request_stack',"@maci.translator"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: product_main }
+            - { name: knp_menu.menu_builder, method: createLeftMenu, alias: product_left }
             - { name: knp_menu.menu_builder, method: createCustomerServiceMenu, alias: shop_customer_service }
             - { name: knp_menu.menu_builder, method: createTermsMenu, alias: shop_terms }
+            - { name: knp_menu.menu_builder, method: createContactsMenu, alias: shop_contacts }
+
+    maci_product.form.type.product:
+        class: Maci\PageBundle\Form\Shop\ProductType
+        tags:
+            - { name: form.type, alias: product }
+
+    maci_product.form.type.category:
+        class: Maci\PageBundle\Form\Shop\CategoryType
+        tags:
+            - { name: form.type, alias: category }
+
+    maci_product.form.type.category_item:
+        class: Maci\PageBundle\Form\Shop\CategoryItemType
+        tags:
+            - { name: form.type, alias: category_item }
+
+    maci_product.form.type.media_item:
+        class: Maci\PageBundle\Form\Shop\MediaItemType
+        tags:
+            - { name: form.type, alias: product_media_item }

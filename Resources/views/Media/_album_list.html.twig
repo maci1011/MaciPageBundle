@@ -1,0 +1,46 @@
+
+{% if album is not defined %}
+{% set album = false %}
+{% endif %}
+
+
+{% if list|length %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+
+{% for item in list %}
+
+
+<div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is odd %}odd{% else %}even{% endif %}">
+
+	{% include "@MaciPage/Media/_album_item.html.twig" with { 'item': item, 'album': album } %}
+
+</div>
+
+
+{% if ( loop.index % 2 ) == 0 and not ( loop.index % 4 ) == 0 %}
+
+<div class="clearfix visible-sm-block"></div>
+
+{% endif %}
+
+
+{% if ( loop.index % 4 ) == 0 and not loop.last %}
+
+</div><div class="row">
+
+{% endif %}
+
+
+{% endfor %}
+
+
+</div>
+
+</div>
+
+{% endif %}
+

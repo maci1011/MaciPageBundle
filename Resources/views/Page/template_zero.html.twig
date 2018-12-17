@@ -1,0 +1,17 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% use "@MaciPage/Page/_page_default_blocks.html.twig" %}
+
+{% block bodyTag %}<body id="bodyTemplateZeroPage">{% endblock %}
+
+
+{% block content %}
+
+<div class="page-container template-zero row">
+
+{% include "@MaciPage/Page/_page.html.twig" with { 'page': page } %}
+
+</div>
+
+{% endblock %}

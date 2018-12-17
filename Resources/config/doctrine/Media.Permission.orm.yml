@@ -1,0 +1,36 @@
+
+Maci\PageBundle\Entity\Media\Permission:
+    type:  entity
+    table: maci_media_permission
+    repositoryClass: Maci\PageBundle\Repository\Media\PermissionRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: string
+            length: 15
+        note:
+            type: text
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    manyToOne:
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        media:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+            inversedBy: permissions
+            joinColumn:
+                name: media_id
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]

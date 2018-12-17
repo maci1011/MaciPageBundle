@@ -1,0 +1,32 @@
+
+<div class="row media">
+
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+	<div class="media-preview">
+	{% if item.preview is not null %}
+	{% if item.type == 'brand' %}
+	<a href="{{ path('maci_media_brand', {'id': item.id}) }}">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
+	</a>
+	{% else %}
+	<a href="{{ path('maci_media_tag', {'id': item.id}) }}">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
+	</a>
+	{% endif %}
+	{% endif %}
+	</div>
+
+	<div class="media-info">
+
+	<a href="{{ path('maci_media_brand', {'id': item.id}) }}">
+		<h4 class="media-title">{{ item.name ? item.name : null }}</h4>
+	</a>
+
+	<div class="media-description">{{ item.description|raw }}</div>
+
+	</div>
+
+
+</div>

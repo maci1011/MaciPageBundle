@@ -1,0 +1,17 @@
+
+<section class="page_contact container-fluid">
+
+<div class="contacts_address col-xs-12 col-sm-6 col-md-5 col-md-offset-1">
+
+	{% include "@MaciPage/Page/_contacts.html.twig" %}
+
+	{% include "@MaciPage/Page/_opening_hours.html.twig" %}
+
+</div>
+<div class="col-xs-12 col-sm-6 col-md-5">
+
+	{{ render(controller('MaciPageBundle:Contact:form')) }}
+
+</div>
+
+</section>

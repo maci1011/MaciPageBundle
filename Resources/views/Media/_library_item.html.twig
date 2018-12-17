@@ -1,0 +1,20 @@
+
+<div class="row">
+
+	<div class="col-xs-9">
+
+		<h4>{{ item }}</h4>
+		<div>{{ item.description|raw }}</div>
+
+	</div>
+
+	<div class="col-xs-3">
+
+		<a href="{{ path('maci_media_get', {'path': item.path}) }}" class="btn btn-primary" target="_blank">
+			Open
+		</a>
+
+	</div>
+
+</div>
+

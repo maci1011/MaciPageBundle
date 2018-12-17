@@ -1,0 +1,43 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_tag' } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'media.brands.meta_title' | matra('Our Brands') }} - {{ parent() }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ 'media.brands.meta_description' | matra('Our Brands') }}" />
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ol class="breadcrumb">
+
+    <li class="active">
+    	{{ 'menu.media.brands' | matra('Brands') }}
+    </li>
+
+</ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_tag_list.html.twig" with { 'list': list } %}
+
+{% endblock %}
+

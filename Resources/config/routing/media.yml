@@ -1,0 +1,54 @@
+
+maci_media_album:
+    path:  /{_locale}/album/{id}
+    defaults: { _controller: MaciPageBundle:Media:album }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_brand:
+    path:  /{_locale}/brand/{id}
+    defaults: { _controller: MaciPageBundle:Media:tag }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_tag:
+    path:  /{_locale}/tag/{id}
+    defaults: { _controller: MaciPageBundle:Media:tag }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_tags:
+    path:  /{_locale}/tags/{type}
+    defaults: { _controller: MaciPageBundle:Media:tags, type: tag }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_gallery:
+    path:  /{_locale}/gallery/{type}
+    defaults: { _controller: MaciPageBundle:Media:gallery, type: gallery }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_get:
+    path:  /{_locale}/media/{path}
+    defaults: { _controller: MaciPageBundle:Media:get }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_brands:
+    path:  /{_locale}/brands
+    defaults: { _controller: MaciPageBundle:Media:brands }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media:
+    path:  /{_locale}/media
+    defaults: { _controller: MaciPageBundle:Media:index }
+    requirements:
+        _locale: "%r_locales%"
+
+
+
+maci_user_library:
+    path:  /library/
+    defaults: { _controller: MaciPageBundle:Media:library }

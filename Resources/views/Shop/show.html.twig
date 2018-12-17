@@ -1,0 +1,37 @@
+
+{% extends "@MaciPage/Layout/shop.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'product', 'item': item } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{% if item.metaTitle %}
+{{ item.metaTitle }}
+{% else %}
+{{ item }}
+{% endif %}
+
+{% endblock %}
+
+{% block description %}
+
+{% if item.metaDescription %}
+<meta name="description" content="{{ item.metaDescription }}" />
+{% else %}
+<meta name="description" content="{{ item.description }}" />
+{% endif %}
+
+{% endblock %}
+
+
+{% block container %}
+
+{% include "MaciPageBundle:Shop:_product.html.twig" with { 'item': item } %}
+
+{% endblock %}

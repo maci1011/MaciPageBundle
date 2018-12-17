@@ -1,0 +1,12 @@
+
+Maci\PageBundle\Entity\Contact:
+    properties:
+        name:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
+        message:
+            - NotBlank: ~
+
+
+

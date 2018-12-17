@@ -4,6 +4,7 @@ namespace Maci\PageBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class ShopMenuBuilder
@@ -14,9 +15,11 @@ class ShopMenuBuilder
 
 	private $locales;
 
-	public function __construct(FactoryInterface $factory, TranslatorController $tc)
+	public function __construct(FactoryInterface $factory, ObjectManager $om, RequestStack $requestStack, TranslatorController $tc)
 	{
 	    $this->factory = $factory;
+        $this->om = $om;
+        $this->request = $requestStack->getCurrentRequest();
 	    $this->translator = $tc;
 	    $this->locales = $tc->getLocales();
 	}
@@ -55,5 +58,55 @@ class ShopMenuBuilder
 		$menu->addChild($this->translator->getText('menu.terms.privacy', 'Privacy Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'privacy')));
 
 		return $menu;
+	}
+
+    public function createMainMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav navbar-nav');
+
+		$this->addCategories($menu);
+
+		return $menu;
+	}
+
+    public function createLeftMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$this->addCategories($menu);
+
+		return $menu;
+	}
+
+    public function createContactsMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav');
+
+		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'maci_page', 'routeParameters' => array('path' => 'contacts'))));
+
+		return $menu;
+	}
+
+    public function addCategories($menu)
+	{
+		$categories = $this->om->getRepository('MaciPageBundle:Category')->findBy(array(
+			'locale' => $this->request->getLocale(),
+			'removed' => false
+		));
+
+		foreach ($categories as $category) {
+
+			$menu->addChild($category->getName(), array(
+			    'route' => 'maci_product_category',
+			    'routeParameters' => array('id' => $category->getId())
+			));
+
+		}
 	}
 }

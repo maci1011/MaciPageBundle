@@ -1,0 +1,46 @@
+
+{% if album.images|length %}
+
+{% if limit is defined and limit %}
+{% set list = album.images|slice(0, limit) %}
+{% else %}
+{% set list = album.images %}
+{% endif %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+
+{% for item in list %}
+
+
+<div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is even %}even{% else %}odd{% endif %}">
+
+	{% include "@MaciPage/Media/_album_media_item.html.twig" with { 'album': album, 'item': item } %}
+
+</div>
+
+
+{% if ( loop.index % 2 ) == 0 and not ( loop.index % 4 ) == 0 %}
+
+<div class="clearfix visible-sm-block"></div>
+
+{% endif %}
+
+
+{% if ( loop.index % 4 ) == 0 and not loop.last %}
+
+</div><div class="row">
+
+{% endif %}
+
+
+{% endfor %}
+
+
+</div>
+
+</div>
+
+{% endif %}

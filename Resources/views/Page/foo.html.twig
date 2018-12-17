@@ -1,0 +1,15 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% use "@MaciPage/Page/_page_default_blocks.html.twig" %}
+
+
+{% block content %}
+
+<div class="page-container foo-page">
+
+{% include "@MaciPage/Page/_page.html.twig" with { 'page': page } %}
+
+</div>
+
+{% endblock %}

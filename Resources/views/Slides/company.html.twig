@@ -1,0 +1,37 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper" style="background: url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat center center / cover rgba(0, 0, 0, 0);">
+
+	<div class="slide-caption">
+
+		{% if company_title is defined %}
+
+		<div class="header-wrapper">
+		<header>
+			{% if item.link %}
+			<a href="{{ item.link }}" alt="{{ item.name }}">
+				<h3 class="slide-title">{{ 'company_title'|matra(company_title) }}</h3>
+			</a>
+			{% else %}
+			<h3 class="slide-title">{{ 'company_title'|matra(company_title) }}</h3>
+			{% endif %}
+			<i class="fa fa-2x fa-angle-down"></i>
+		</header>
+		</div>
+
+		{% endif %}
+
+		{% if company_subtitle is defined %}
+		<div class="slide-description">
+			{{ 'company_subtitle'|matra(company_subtitle) }}
+		</div>
+		{% endif %}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
+
+	</div>
+
+	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
+
+</div>
+</div>

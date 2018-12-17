@@ -1,0 +1,18 @@
+
+maci_product_show:
+    path:  /{_locale}/shop/product/{id}
+    defaults: { _controller: MaciPageBundle:Shop:show }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_product_category:
+    path:  /{_locale}/shop/category/{id}
+    defaults: { _controller: MaciPageBundle:Shop:category }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_product:
+    path:  /{_locale}/shop
+    defaults: { _controller: MaciPageBundle:Shop:index }
+    requirements:
+        _locale: "%r_locales%"

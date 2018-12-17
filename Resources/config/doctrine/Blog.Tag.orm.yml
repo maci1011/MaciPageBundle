@@ -1,0 +1,26 @@
+
+Maci\PageBundle\Entity\Blog\Tag:
+    type:  entity
+    table: maci_blog_tag
+    repositoryClass: Maci\PageBundle\Repository\Blog\TagRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        favourite:
+            type: boolean
+        name:
+            type: string
+            length: 63
+        description:
+            type: text
+            nullable: true
+        locale:
+            type: string
+            length: 10
+    manyToMany:
+        posts:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            mappedBy: tags

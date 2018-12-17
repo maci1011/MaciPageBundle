@@ -1,0 +1,45 @@
+
+Maci\PageBundle\Entity\Media\Item:
+    type:  entity
+    table: maci_media_item
+    repositoryClass: Maci\PageBundle\Repository\Media\ItemRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 63
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        favourite:
+            type: boolean
+        link:
+            type: string
+            length: 255
+            nullable: true
+        style:
+            type: string
+            length: 15
+            nullable: true
+        video:
+            type: text
+            nullable: true
+        position:
+            type: integer
+            nullable: true
+    manyToOne:
+        album:
+            targetEntity: Maci\PageBundle\Entity\Media\Album
+            inversedBy: items
+        brand:
+            targetEntity: Maci\PageBundle\Entity\Media\Tag
+            inversedBy: brand_items
+        gallery:
+            targetEntity: Maci\PageBundle\Entity\Media\Album
+        media:
+            targetEntity: Maci\PageBundle\Entity\Media\Media

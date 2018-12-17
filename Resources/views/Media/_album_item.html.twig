@@ -1,0 +1,20 @@
+
+<div class="media row">
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+	<div class="media-preview">
+	<a href="{{ path('maci_media_album', {'id': item.id}) }}">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
+	</a>
+	</div>
+
+	<div class="media-info">
+
+	<a href="{{ path('maci_media_album', {'id': item.id}) }}">
+		<h4 class="media-title">{{ item }}</h4>
+	</a>
+
+	</div>
+
+</div>

@@ -1,0 +1,27 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+
+{% block title %}
+
+{{ 'search.page' | matra('Search a Page') }}
+
+{% endblock %}
+
+
+{% block searchForm %}
+{{ render(controller('MaciPageBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')) })) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-container search-page">
+
+	<h1>{{ 'search.page' | matra('Search a Page') }}</h1>
+
+	{{ render(controller('MaciPageBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')) })) }}
+
+</div>
+
+{% endblock %}

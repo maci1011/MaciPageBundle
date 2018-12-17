@@ -3,7 +3,7 @@
 <div class="page row">
 
 
-{% include "MaciPageBundle:Default:_page_header.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
 
 
 <section class="page_terms page_container container-fluid">
@@ -96,11 +96,11 @@
 </section>
 
 
-{% include "MaciPageBundle:Default:_page_content.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
-{% include "MaciPageBundle:Default:_page_media.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
 
-{% include "MaciPageBundle:Default:_page_footer.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
 
 </div>

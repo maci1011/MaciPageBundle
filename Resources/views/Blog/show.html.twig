@@ -1,0 +1,56 @@
+
+{% extends "@MaciPage/Layout/blog.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{% if post.metaTitle %}
+{{ post.metaTitle }}
+{% else %}
+{{ post.title }} - {{ parent() }}
+{% endif %}
+
+{% endblock %}
+
+{% block description %}
+
+{% if post.metaDescription %}
+<meta name="description" content="{{ post.metaDescription }}" />
+{% else %}
+<meta name="description" content="{{ post.header|raw  }}" />
+{% endif %}
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ol class="breadcrumb">
+
+    <li>
+    	<a href="{{ path('maci_blog') }}">
+    		Blog
+    	</a>
+    </li>
+
+    <li>
+    	{{ post }}
+    </li>
+
+</ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Blog/_article.html.twig" with { 'post': post } %}
+
+{% endblock %}

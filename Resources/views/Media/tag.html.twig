@@ -1,0 +1,61 @@
+
+{% extends "@MaciPage/Layout/media.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'media_tag', 'item': tag } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ tag.metaTitle }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ tag.metaDescription }}" />
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ol class="breadcrumb">
+
+	{% if tag.type == 'brand' %}
+
+    <li>
+    	<a href="{{ path('maci_media_brands') }}">
+    		{{ 'menu.media.brands' | matra('Brands') }}
+    	</a>
+    </li>
+
+	{% else %}
+
+    <li>
+        <a href="{{ path('maci_media_tags') }}">
+            {{ 'menu.media.tags' | matra('Media Tags') }}
+        </a>
+    </li>
+
+	{% endif %}
+
+    <li class="active">
+    	{{ tag }}
+    </li>
+
+</ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% include "@MaciPage/Media/_tag.html.twig" with { 'tag': tag } %}
+
+{% endblock %}
+

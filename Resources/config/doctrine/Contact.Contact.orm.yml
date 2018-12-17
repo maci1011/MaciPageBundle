@@ -1,0 +1,35 @@
+
+Maci\PageBundle\Entity\Contact\Contact:
+  type: entity
+  table: maci_contact
+  repositoryClass: Maci\PageBundle\Repository\Contact\ContactRepository
+  fields:
+    id:
+      type: bigint
+      id: true
+      generator:
+        strategy: AUTO
+    name:
+      type: string
+      length: 32
+    surname:
+      type: string
+      length: 32
+      nullable: true
+    email:
+      type: string
+      length: 64
+    message:
+      type: text
+      nullable: true
+  manyToMany:
+      media:
+          targetEntity: Maci\PageBundle\Entity\Media\Media
+          joinTable:
+              name: maci_contact_media
+              joinColumns:
+                  item_id:
+                      referencedColumnName: id
+              inverseJoinColumns:
+                  media_id:
+                      referencedColumnName: id

@@ -1,0 +1,45 @@
+
+Maci\PageBundle\Entity\Media\Tag:
+    type:  entity
+    table: maci_media_tag
+    repositoryClass: Maci\PageBundle\Repository\Media\TagRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 63
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        meta_title:
+            type: string
+            length: 95
+            nullable: true
+        meta_description:
+            type: string
+            length: 191
+            nullable: true
+        locale:
+            type: string
+            length: 10
+        type:
+            type: string
+            length: 31
+        favourite:
+            type: boolean
+    manyToMany:
+        media:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+            mappedBy: tags
+    manyToOne:
+        preview:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+    oneToMany:
+        brand_items:
+            targetEntity: Maci\PageBundle\Entity\Media\Item
+            mappedBy: brand

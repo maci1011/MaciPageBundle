@@ -1,0 +1,20 @@
+
+maci_page_blog:
+    resource: "@MaciPageBundle/Resources/config/routing/blog.yml"
+
+maci_page_contact:
+    resource: "@MaciPageBundle/Resources/config/routing/contact.yml"
+
+maci_page_media:
+    resource: "@MaciPageBundle/Resources/config/routing/media.yml"
+
+maci_page_search:
+    resource: "@MaciPageBundle/Resources/config/routing/search.yml"
+
+maci_page_shop:
+    resource: "@MaciPageBundle/Resources/config/routing/shop.yml"
+
+# ---> End: Pages
+
+maci_pages:
+    resource: "@MaciPageBundle/Resources/config/routing/pages.yml"

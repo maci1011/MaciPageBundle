@@ -1,0 +1,14 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide fix_height {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper">
+
+	<div class="slide-caption col-xs-12">
+
+		{% include "MaciPageBundle:Slides:_slide_caption.html.twig" with { 'item': item } %}
+
+	</div>
+
+	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
+
+</div>
+</div>

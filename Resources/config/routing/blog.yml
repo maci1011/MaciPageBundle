@@ -1,0 +1,18 @@
+
+maci_blog_tag:
+    path:  /{_locale}/blog/tag/{id}
+    defaults: { _controller: MaciPageBundle:Blog:tag }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_blog_show:
+    path:  /{_locale}/blog/post/{id}
+    defaults: { _controller: MaciPageBundle:Blog:show }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_blog:
+    path:  /{_locale}/blog
+    defaults: { _controller: MaciPageBundle:Blog:index }
+    requirements:
+        _locale: "%r_locales%"

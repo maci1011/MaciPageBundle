@@ -1,0 +1,46 @@
+
+<article class="blog-post container-fluid">
+
+
+<header>
+
+	<a href="{{ path('maci_blog_show', { 'id': post.id }) }}">
+		<h1 class="post-title">{{ post.title }}</h1>
+	</a>
+
+	{% if post.preview %}
+
+	<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
+
+	{% endif %}
+
+</header>
+
+
+<section>
+
+	{% if post.header %}
+
+	<div class="post-header">{{ post.header|raw }}</div>
+
+	{% else %}
+
+	<div class="post-content">{{ post.content|raw }}</div>
+
+	{% endif %}
+
+	<a class="post-read-more btn" href="{{ path('maci_blog_show', { 'id': post.id }) }}">
+		{{ 'blog.list.read-more' | matra('Read More...') }}
+	</a>
+
+</section>
+
+
+<footer>
+
+{% include "@MaciPage/Blog/_post_footer.html.twig" with { 'post': post } %}
+
+</footer>
+
+
+</article>

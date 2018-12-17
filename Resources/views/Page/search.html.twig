@@ -1,0 +1,57 @@
+
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodySearchPage">{% endblock %}
+
+
+{% block title %}
+
+{{ 'search.page_title' | matra('Search a Page') }}: {{ query }}
+
+{% endblock %}
+
+
+{% block searchForm %}
+{{ render(controller('MaciPageBundle:Search:form', {'section': 'page', 'label': ('search.page'|matra('Search a Page')), 'query': query })) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-container search-page">
+
+	<header class="page-header container-fluid">
+
+		<h1 class="page_title">
+			{{ 'search.page_title' | matra('Search a Page') }}
+		</h1>
+
+		<h2 class="page_title">
+			{{ 'search.current_search' | matra('Current Search') }}: "{{ query }}"
+		</h2>
+
+	</header>
+
+	{% for page in list %}
+
+	<div class="search-page-item">
+
+		<a href="{{ path('maci_page', { 'path': page.path }) }}">
+			<h3>{{ page }}</h3>
+		</a>
+
+		{% if page.subtitle %}
+		<h4>{{ page.subtitle }}</h4>
+		{% endif %}
+
+		{% if page.description %}
+		<p>{{ page.description }}</p>
+		{% endif %}
+
+	</div>
+
+	{% endfor %}
+
+</div>
+
+{% endblock %}

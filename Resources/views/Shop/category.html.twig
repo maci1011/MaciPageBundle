@@ -1,0 +1,63 @@
+
+{% extends "@MaciPage/Layout/shop.html.twig" %}
+
+
+{% block maciadmin %}
+
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'category', 'item': category } )) }}
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ category }}
+
+{% endblock %}
+
+{% block description %}
+
+<meta name="description" content="{{ category.description }}" />
+
+{% endblock %}
+
+
+{% block pathBar %}
+<nav>
+<ol class="breadcrumb">
+    <li>
+    	<a href="{{ path('maci_product') }}">Shop</a>
+    </li>
+
+	{% for categoryItem in category.parentsList %}
+
+	<li class="product-category-parent">
+		<a href="{{ path('maci_product_category', {'id': categoryItem.id}) }}">{{ categoryItem.name }}</a>
+	</li>
+
+	{% endfor %}
+
+    <li class="active">{{ category.name }}</li>
+</ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+<header class="category-header container-fluid">
+
+	<h3 class="category-title">{{ category.name }}</h3>
+
+	{% if category.description %}
+	<div class="category-description">{{ category.description|raw }}</div>
+	{% endif %}
+
+</header>
+
+{% include "MaciPageBundle:Shop:_category_list.html.twig" with { 'category': category } %}
+
+{% endblock %}
+
+
+
