@@ -39,7 +39,7 @@ class PageType extends AbstractType
                 'choices' => $builder->getData()->getTemplateArray()
             ))
 			->add('album', 'entity', array(
-				'class' => 'MaciMediaBundle:Album',
+				'class' => 'MaciPageBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type1')
@@ -52,7 +52,7 @@ class PageType extends AbstractType
 				'required' => false
 			))
 			->add('gallery', 'entity', array(
-				'class' => 'MaciMediaBundle:Album',
+				'class' => 'MaciPageBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type1')
@@ -65,7 +65,7 @@ class PageType extends AbstractType
 				'required' => false
 			))
 			->add('slider', 'entity', array(
-				'class' => 'MaciMediaBundle:Album',
+				'class' => 'MaciPageBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type')
@@ -76,7 +76,7 @@ class PageType extends AbstractType
 				'required' => false
 			))
 			->add('slides', 'entity', array(
-				'class' => 'MaciMediaBundle:Album',
+				'class' => 'MaciPageBundle:Album',
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->where('a.type = :type')

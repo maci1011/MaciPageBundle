@@ -133,10 +133,10 @@ class Tag
     /**
      * Add posts
      *
-     * @param \Maci\PageBundle\Entity\Post $posts
+     * @param \Maci\PageBundle\Entity\Blog\Post $posts
      * @return Post
      */
-    public function addPost(\Maci\PageBundle\Entity\Post $posts)
+    public function addPost(\Maci\PageBundle\Entity\Blog\Post $posts)
     {
         $this->posts[] = $posts;
 
@@ -146,9 +146,9 @@ class Tag
     /**
      * Remove posts
      *
-     * @param \Maci\PageBundle\Entity\Post $posts
+     * @param \Maci\PageBundle\Entity\Blog\Post $posts
      */
-    public function removePost(\Maci\PageBundle\Entity\Post $posts)
+    public function removePost(\Maci\PageBundle\Entity\Blog\Post $posts)
     {
         $this->posts->removeElement($posts);
     }

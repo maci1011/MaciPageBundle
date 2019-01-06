@@ -23,12 +23,12 @@ class CategoryItem
     private $position;
 
     /**
-     * @var \Maci\PageBundle\Entity\Product
+     * @var \Maci\PageBundle\Entity\Shop\Product
      */
     private $product;
 
     /**
-     * @var \Maci\CategoryBundle\Entity\Category
+     * @var \Maci\CategoryBundle\Entity\Shop\Category
      */
     private $category;
 
@@ -104,7 +104,7 @@ class CategoryItem
      * @param  Product $product
      * @return CategoryItem
      */
-    public function setProduct(\Maci\PageBundle\Entity\Product $product = null)
+    public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
     {
         $this->product = $product;
 
@@ -127,7 +127,7 @@ class CategoryItem
      * @param Category $category
      * @return CategoryItem
      */
-    public function setCategory(\Maci\PageBundle\Entity\Category $category = null)
+    public function setCategory(\Maci\PageBundle\Entity\Shop\Category $category = null)
     {
         $this->category = $category;
 

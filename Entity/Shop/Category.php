@@ -48,7 +48,7 @@ class Category
     private $removed;
 
     /**
-     * @var \Maci\PageBundle\Entity\Category
+     * @var \Maci\PageBundle\Entity\Shop\Category
      */
     private $parent;
 
@@ -244,14 +244,14 @@ class Category
         return $this->removed;
     }
 
-    public function addChild(\Maci\PageBundle\Entity\Category $children)
+    public function addChild(\Maci\PageBundle\Entity\Shop\Category $children)
     {
         $this->children[] = $children;
 
         return $this;
     }
 
-    public function removeChild(\Maci\PageBundle\Entity\Category $children)
+    public function removeChild(\Maci\PageBundle\Entity\Shop\Category $children)
     {
         $this->children->removeElement($children);
     }
@@ -261,7 +261,7 @@ class Category
         return $this->children;
     }
 
-    public function setParent(\Maci\PageBundle\Entity\Category $parent = null)
+    public function setParent(\Maci\PageBundle\Entity\Shop\Category $parent = null)
     {
         $this->parent = $parent;
 
@@ -287,10 +287,10 @@ class Category
     /**
      * Add items
      *
-     * @param \Maci\PageBundle\Entity\CategoryItem $items
+     * @param \Maci\PageBundle\Entity\Shop\CategoryItem $items
      * @return Category
      */
-    public function addItem(\Maci\PageBundle\Entity\CategoryItem $items)
+    public function addItem(\Maci\PageBundle\Entity\Shop\CategoryItem $items)
     {
         $this->items[] = $items;
 
@@ -300,9 +300,9 @@ class Category
     /**
      * Remove items
      *
-     * @param \Maci\PageBundle\Entity\CategoryItem $items
+     * @param \Maci\PageBundle\Entity\Shop\CategoryItem $items
      */
-    public function removeItem(\Maci\PageBundle\Entity\CategoryItem $items)
+    public function removeItem(\Maci\PageBundle\Entity\Shop\CategoryItem $items)
     {
         $this->items->removeElement($items);
     }

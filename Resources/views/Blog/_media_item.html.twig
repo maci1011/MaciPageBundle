@@ -7,7 +7,7 @@
 	{% if item.media %}
 
 	<a class="media-preview" href="{{ path('maci_media_get', {'path': item.media.path}) }}" data-lightbox="product-preview" data-title="{{ item }}">
-		{% include "MaciMediaBundle:Blog:_media_preview.html.twig" with { 'item': item.media } %}
+		{% include "MaciPageBundle:Blog:_media_preview.html.twig" with { 'item': item.media } %}
 	</a>
 
 	{% endif %}

@@ -121,7 +121,7 @@ class Product
     private $removed;
 
     /**
-     * @var \Maci\PageBundle\Entity\Category
+     * @var \Maci\PageBundle\Entity\Shop\Category
      */
     private $parent;
 
@@ -611,14 +611,14 @@ class Product
         return $this->removed;
     }
 
-    public function addChild(\Maci\PageBundle\Entity\Product $child)
+    public function addChild(\Maci\PageBundle\Entity\Shop\Product $child)
     {
         $this->children[] = $child;
 
         return $this;
     }
 
-    public function removeChild(\Maci\PageBundle\Entity\Product $child)
+    public function removeChild(\Maci\PageBundle\Entity\Shop\Product $child)
     {
         $this->children->removeElement($child);
     }
@@ -663,7 +663,7 @@ class Product
         });
     }
 
-    public function setParent(\Maci\PageBundle\Entity\Product $parent = null)
+    public function setParent(\Maci\PageBundle\Entity\Shop\Product $parent = null)
     {
         $this->parent = $parent;
 
@@ -696,10 +696,10 @@ class Product
     /**
      * Add categoryItems
      *
-     * @param \Maci\PageBundle\Entity\CategoryItem $categoryItems
+     * @param \Maci\PageBundle\Entity\Shop\CategoryItem $categoryItems
      * @return Product
      */
-    public function addCategoryItem(\Maci\PageBundle\Entity\CategoryItem $categoryItems)
+    public function addCategoryItem(\Maci\PageBundle\Entity\Shop\CategoryItem $categoryItems)
     {
         $this->categoryItems[] = $categoryItems;
 
@@ -709,9 +709,9 @@ class Product
     /**
      * Remove categoryItems
      *
-     * @param \Maci\PageBundle\Entity\CategoryItem $categoryItems
+     * @param \Maci\PageBundle\Entity\Shop\CategoryItem $categoryItems
      */
-    public function removeCategoryItem(\Maci\PageBundle\Entity\CategoryItem $categoryItems)
+    public function removeCategoryItem(\Maci\PageBundle\Entity\Shop\CategoryItem $categoryItems)
     {
         $this->categoryItems->removeElement($categoryItems);
     }
@@ -729,10 +729,10 @@ class Product
     /**
      * Add mediaItems
      *
-     * @param \Maci\PageBundle\Entity\Media\MediaItem $mediaItems
+     * @param \Maci\PageBundle\Entity\Shop\MediaItem $mediaItems
      * @return Product
      */
-    public function addMediaItem(\Maci\PageBundle\Entity\Media\MediaItem $mediaItems)
+    public function addMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItems)
     {
         $this->mediaItems[] = $mediaItems;
 
@@ -742,9 +742,9 @@ class Product
     /**
      * Remove mediaItems
      *
-     * @param \Maci\PageBundle\Entity\Media\MediaItem $mediaItems
+     * @param \Maci\PageBundle\Entity\Shop\MediaItem $mediaItems
      */
-    public function removeMediaItem(\Maci\PageBundle\Entity\Media\MediaItem $mediaItems)
+    public function removeMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItems)
     {
         $this->mediaItems->removeElement($mediaItems);
     }
@@ -790,10 +790,10 @@ class Product
     /**
      * Set preview
      *
-     * @param \Maci\MediaBundle\Entity\Media $preview
+     * @param \Maci\PageBundle\Entity\Media\Media $preview
      * @return Product
      */
-    public function setPreview(\Maci\MediaBundle\Entity\Media $preview = null)
+    public function setPreview(\Maci\PageBundle\Entity\Media\Media $preview = null)
     {
         $this->preview = $preview;
 
@@ -803,7 +803,7 @@ class Product
     /**
      * Get preview
      *
-     * @return \Maci\MediaBundle\Entity\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getPreview()
     {
@@ -813,10 +813,10 @@ class Product
     /**
      * Set cover
      *
-     * @param \Maci\MediaBundle\Entity\Media $cover
+     * @param \Maci\PageBundle\Entity\Media\Media $cover
      * @return Product
      */
-    public function setCover(\Maci\MediaBundle\Entity\Media $cover = null)
+    public function setCover(\Maci\PageBundle\Entity\Media\Media $cover = null)
     {
         $this->cover = $cover;
 
@@ -826,7 +826,7 @@ class Product
     /**
      * Get cover
      *
-     * @return \Maci\MediaBundle\Entity\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getCover()
     {

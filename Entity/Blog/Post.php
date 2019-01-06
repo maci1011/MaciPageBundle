@@ -78,7 +78,7 @@ class Post
     private $mediaItems;
 
     /**
-     * @var \Maci\MediaBundle\Entity\Media
+     * @var \Maci\PageBundle\Entity\Media
      */
     private $preview;
 
@@ -337,10 +337,10 @@ class Post
     /**
      * Add tags
      *
-     * @param \Maci\PageBundle\Entity\Tag $tags
+     * @param \Maci\PageBundle\Entity\Blog\Tag $tags
      * @return Post
      */
-    public function addTag(\Maci\PageBundle\Entity\Tag $tags)
+    public function addTag(\Maci\PageBundle\Entity\Blog\Tag $tags)
     {
         $this->tags[] = $tags;
 
@@ -350,9 +350,9 @@ class Post
     /**
      * Remove tags
      *
-     * @param \Maci\PageBundle\Entity\Tag $tags
+     * @param \Maci\PageBundle\Entity\Blog\Tag $tags
      */
-    public function removeTag(\Maci\PageBundle\Entity\Tag $tags)
+    public function removeTag(\Maci\PageBundle\Entity\Blog\Tag $tags)
     {
         $this->tags->removeElement($tags);
     }
@@ -370,10 +370,10 @@ class Post
     /**
      * Add mediaItems
      *
-     * @param \Maci\PageBundle\Entity\MediaItem $mediaItems
+     * @param \Maci\PageBundle\Entity\Blog\MediaItem $mediaItems
      * @return Post
      */
-    public function addMediaItem(\Maci\PageBundle\Entity\MediaItem $mediaItems)
+    public function addMediaItem(\Maci\PageBundle\Entity\Blog\MediaItem $mediaItems)
     {
         $this->mediaItems[] = $mediaItems;
 
@@ -383,9 +383,9 @@ class Post
     /**
      * Remove mediaItems
      *
-     * @param \Maci\PageBundle\Entity\MediaItem $mediaItems
+     * @param \Maci\PageBundle\Entity\Blog\MediaItem $mediaItems
      */
-    public function removeMediaItem(\Maci\PageBundle\Entity\MediaItem $mediaItems)
+    public function removeMediaItem(\Maci\PageBundle\Entity\Blog\MediaItem $mediaItems)
     {
         $this->mediaItems->removeElement($mediaItems);
     }
@@ -427,10 +427,10 @@ class Post
     /**
      * Set preview
      *
-     * @param \Maci\MediaBundle\Entity\Media $preview
+     * @param \Maci\PageBundle\Entity\Media\Media $preview
      * @return Post
      */
-    public function setPreview(\Maci\MediaBundle\Entity\Media $preview = null)
+    public function setPreview(\Maci\PageBundle\Entity\Media\Media $preview = null)
     {
         $this->preview = $preview;
 
@@ -440,7 +440,7 @@ class Post
     /**
      * Get preview
      *
-     * @return \Maci\MediaBundle\Entity\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getPreview()
     {

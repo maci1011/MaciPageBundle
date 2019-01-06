@@ -23,12 +23,12 @@ class MediaItem
     private $position;
 
     /**
-     * @var \Maci\PageBundle\Entity\Product
+     * @var \Maci\PageBundle\Entity\Shop\Product
      */
     private $product;
 
     /**
-     * @var \Maci\MediaBundle\Entity\Media\Media
+     * @var \Maci\PageBundle\Entity\Media\Media
      */
     private $media;
 
@@ -101,10 +101,10 @@ class MediaItem
     /**
      * Set product
      *
-     * @param \Maci\PageBundle\Entity\Product $product
+     * @param \Maci\PageBundle\Entity\Shop\Product $product
      * @return MediaItem
      */
-    public function setProduct(\Maci\PageBundle\Entity\Product $product = null)
+    public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
     {
         $this->product = $product;
 
@@ -114,7 +114,7 @@ class MediaItem
     /**
      * Get product
      *
-     * @return \Maci\PageBundle\Entity\Product 
+     * @return \Maci\PageBundle\Entity\Shop\Product 
      */
     public function getProduct()
     {
@@ -124,10 +124,10 @@ class MediaItem
     /**
      * Set media
      *
-     * @param \Maci\MediaBundle\Entity\Media\Media $media
+     * @param \Maci\PageBundle\Entity\Media\Media $media
      * @return MediaItem
      */
-    public function setMedia(\Maci\MediaBundle\Entity\Media\Media $media = null)
+    public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
     {
         $this->media = $media;
 
@@ -137,7 +137,7 @@ class MediaItem
     /**
      * Get media
      *
-     * @return \Maci\MediaBundle\Entity\Media\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getMedia()
     {

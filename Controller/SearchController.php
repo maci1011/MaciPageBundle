@@ -22,9 +22,9 @@ class SearchController extends Controller
 
     public function mediaAction(Request $request, $query)
     {
-        return $this->render('MaciMediaBundle:Default:search.html.twig', array(
+        return $this->render('MaciPageBundle:Default:search.html.twig', array(
             'query' => $query,
-            'list' => $this->search($request, 'MaciMediaBundle:Media')
+            'list' => $this->search($request, 'MaciPageBundle:Media')
         ));
     }
 

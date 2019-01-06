@@ -143,10 +143,10 @@ class Contact
     /**
      * Add media
      *
-     * @param \Maci\MediaBundle\Entity\Media $media
+     * @param \Maci\PageBundle\Entity\Media $media
      * @return Contact
      */
-    public function addMedia(\Maci\MediaBundle\Entity\Media\Media $media)
+    public function addMedia(\Maci\PageBundle\Entity\Media\Media $media)
     {
         $this->media[] = $media;
 
@@ -156,9 +156,9 @@ class Contact
     /**
      * Remove media
      *
-     * @param \Maci\MediaBundle\Entity\Media $media
+     * @param \Maci\PageBundle\Entity\Media $media
      */
-    public function removeMedia(\Maci\MediaBundle\Entity\Media\Media $media)
+    public function removeMedia(\Maci\PageBundle\Entity\Media\Media $media)
     {
         $this->media->removeElement($media);
     }

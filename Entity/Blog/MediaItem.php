@@ -28,7 +28,7 @@ class MediaItem
     private $post;
 
     /**
-     * @var \Maci\MediaBundle\Entity\Blog\Media
+     * @var \Maci\PageBundle\Entity\Blog\Media
      */
     private $media;
 
@@ -124,10 +124,10 @@ class MediaItem
     /**
      * Set media
      *
-     * @param \Maci\MediaBundle\Entity\Media\Media $media
+     * @param \Maci\PageBundle\Entity\Media\Media $media
      * @return MediaItem
      */
-    public function setMedia(\Maci\MediaBundle\Entity\Media\Media $media = null)
+    public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
     {
         $this->media = $media;
 
@@ -137,7 +137,7 @@ class MediaItem
     /**
      * Get media
      *
-     * @return \Maci\MediaBundle\Entity\Media\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getMedia()
     {

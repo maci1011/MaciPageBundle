@@ -55,7 +55,7 @@ class Tag
     private $brand_items;
 
     /**
-     * @var \Maci\MediaBundle\Entity\Media
+     * @var \Maci\PageBundle\Entity\Media\Media
      */
     private $preview;
 
@@ -250,9 +250,9 @@ class Tag
     /**
      * Add media
      *
-     * @param \Maci\MediaBundle\Entity\Media $media
+     * @param \Maci\PageBundle\Entity\Media\Media $media
      */
-    public function addMedia(\Maci\MediaBundle\Entity\Media $media)
+    public function addMedia(\Maci\PageBundle\Entity\Media\Media $media)
     {
         $this->media[] = $media;
 
@@ -262,9 +262,9 @@ class Tag
     /**
      * Remove media
      *
-     * @param \Maci\MediaBundle\Entity\Media $media
+     * @param \Maci\PageBundle\Entity\Media\Media $media
      */
-    public function removeMedia(\Maci\MediaBundle\Entity\Media $media)
+    public function removeMedia(\Maci\PageBundle\Entity\Media\Media $media)
     {
         $this->media->removeElement($media);
     }
@@ -282,10 +282,10 @@ class Tag
     /**
      * Add brand_items
      *
-     * @param \Maci\MediaBundle\Entity\Item $brand_items
+     * @param \Maci\PageBundle\Entity\Media\Item $brand_items
      * @return Album
      */
-    public function addBrandItem(\Maci\MediaBundle\Entity\Item $brand_items)
+    public function addBrandItem(\Maci\PageBundle\Entity\Media\Item $brand_items)
     {
         $this->brand_items[] = $brand_items;
 
@@ -295,9 +295,9 @@ class Tag
     /**
      * Remove brand_items
      *
-     * @param \Maci\MediaBundle\Entity\Item $brand_items
+     * @param \Maci\PageBundle\Entity\Media\Item $brand_items
      */
-    public function removeBrandItem(\Maci\MediaBundle\Entity\Item $brand_items)
+    public function removeBrandItem(\Maci\PageBundle\Entity\Media\Item $brand_items)
     {
         $this->brand_items->removeElement($brand_items);
     }
@@ -315,10 +315,10 @@ class Tag
     /**
      * Set preview
      *
-     * @param \Maci\MediaBundle\Entity\Media $preview
+     * @param \Maci\PageBundle\Entity\Media\Media $preview
      * @return Album
      */
-    public function setPreview(\Maci\MediaBundle\Entity\Media $preview = null)
+    public function setPreview(\Maci\PageBundle\Entity\Media\Media $preview = null)
     {
         $this->preview = $preview;
 
@@ -328,7 +328,7 @@ class Tag
     /**
      * Get preview
      *
-     * @return \Maci\MediaBundle\Entity\Media 
+     * @return \Maci\PageBundle\Entity\Media\Media 
      */
     public function getPreview()
     {

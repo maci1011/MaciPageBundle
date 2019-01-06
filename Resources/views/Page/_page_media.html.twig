@@ -13,7 +13,7 @@
 
 {% if page.album and ( page.album.children|length or page.album.images|length ) %}
 
-{% include "MaciMediaBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
+{% include "MaciPageBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
 
 {% endif %}
 
@@ -22,7 +22,7 @@
 
 <section class="page_gallery container-fluid">
 
-	{% include "MaciMediaBundle:Default:_gallery_preview.html.twig" with { 'album': page.gallery }  %}
+	{% include "MaciPageBundle:Default:_gallery_preview.html.twig" with { 'album': page.gallery }  %}
 
 </section>
 

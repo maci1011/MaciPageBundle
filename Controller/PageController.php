@@ -35,7 +35,7 @@ class PageController extends Controller
             return $this->redirect($this->generateUrl('maci_page', array('path' => $page->getPath())));
         }
 
-        $album = $this->getDoctrine()->getManager()->getRepository('MaciMediaBundle:Media\Album')
+        $album = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Media\Album')
             ->findOneBy(array(
                 'redirect' => $redirect
             ));
