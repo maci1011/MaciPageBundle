@@ -228,7 +228,7 @@ class Media
      */
     public function getUploadRootDir()
     {
-        return ( __DIR__.'/../../../../../../public/' . $this->getUploadDir() );
+        return ( __DIR__.'/../../../../../../../public/' . $this->getUploadDir() );
     }
 
     /**
