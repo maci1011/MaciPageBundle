@@ -23,7 +23,8 @@ Maci\PageBundle\Entity\Blog\Post:
             type: text
             nullable: true
         status:
-            type: integer
+            type: string
+            length: 15
             nullable: true
         meta_title:
             type: string

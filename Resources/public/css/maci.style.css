@@ -47,13 +47,9 @@ li > ul.nav {
  */
 
 #main {
-    padding: 65px 0 0 0;
+    padding: 51px 0 0 0;
     max-width: 1920px;
     margin: 0 auto;
-}
-
-#bodyHomepage #main {
-    padding: 51px 0 0 0;
 }
 
 #mainContainer > .row {
@@ -109,6 +105,10 @@ li > ul.nav {
 
 #maciadmin .navbar-nav {
     margin: 0;
+}
+
+#navbarBrand {
+    margin-right: 15px;
 }
 
 /*

@@ -101,6 +101,7 @@ class Post
         $this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->removed = false;
+        $this->status = 'new';
     }
 
     /**
@@ -215,6 +216,30 @@ class Post
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get Status Array
+     */
+    public function getStatusArray()
+    {
+        return array(
+            'New' => 'new',
+            'Draft' => 'draft',
+            // 'Scheduled' => 'scheduled',
+            'Pubblished' => 'pubblished'
+        );
+    }
+
+    public function getStatusLabel()
+    {
+        $array = $this->getStatusArray();
+        $key = array_search($this->status, $array);
+        if ($key) {
+            return $key;
+        }
+        $str = str_replace('_', ' ', $this->status);
+        return ucwords($str);
     }
 
     /**
@@ -445,6 +470,14 @@ class Post
     public function getPreview()
     {
         return $this->preview;
+    }
+
+    public function getWebPreview()
+    {
+        if (!$this->preview) {
+            return '/images/defaults/document-icon.png';
+        }
+        return $this->preview->getWebPath();
     }
 
     public function setLocale($locale)
