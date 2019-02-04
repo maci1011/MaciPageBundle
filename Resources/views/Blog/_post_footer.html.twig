@@ -3,20 +3,22 @@
 
 	<ul class="post-footer-nav nav navbar-nav">
 
+		{% if post.pubblished is not null %}
 		<li>
-			<span class="navbar-text">{{ 'blog.post.published' | matra('Published') }}: {{ post.created|date('d/m/Y') }}</span>
+			<span class="navbar-text">{{ 'blog.post.published' | matra('Published') }}: {{ post.pubblished|date('d/m/Y') }}</span>
 		</li>
+		{% else %}
+		<li>
+			<span class="navbar-text">{{ 'blog.post.created' | matra('Created') }}: {{ post.created|date('d/m/Y') }}</span>
+		</li>
+		{% endif %}
 
 		{% if post.tags|length %}
-
 		{% for tag in post.tags %}
-
 		<li>
 			<a href="{{ path('maci_blog_tag', { 'id': tag.id }) }}">{{ tag }}</a>
 		</li>
-
 		{% endfor %}
-
 		{% endif %}
 
 	</ul>

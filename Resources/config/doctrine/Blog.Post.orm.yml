@@ -16,10 +16,13 @@ Maci\PageBundle\Entity\Blog\Post:
             type: string
             length: 255
             nullable: true
-        content:
+        header:
             type: text
             nullable: true
-        header:
+        markdown:
+            type: text
+            nullable: true
+        content:
             type: text
             nullable: true
         status:
@@ -41,6 +44,9 @@ Maci\PageBundle\Entity\Blog\Post:
             type: datetime
         updated:
             type: datetime
+        pubblished:
+            type: datetime
+            nullable: true
         removed:
             type: boolean
     manyToOne:

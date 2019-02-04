@@ -23,6 +23,10 @@
 
 	<div class="post-header">{{ post.header|raw }}</div>
 
+	{% elseif post.markdown %}
+
+	<div class="post-header markdown-content">{{ post.markdown|markdown|nl2br }}</div>
+
 	{% else %}
 
 	<div class="post-content">{{ post.content|raw }}</div>

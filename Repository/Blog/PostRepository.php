@@ -20,6 +20,8 @@ class PostRepository extends EntityRepository
 		$q
 			->where('p.removed = :removed')
 			->setparameter(':removed', false)
+			->andWhere('p.status = :status')
+			->setparameter(':status', 'pubblished')
 			->andWhere('p.locale = :locale')
 			->setparameter(':locale', $locale)
 			->orderBy('p.created', 'DESC')
@@ -35,6 +37,8 @@ class PostRepository extends EntityRepository
 			->leftJoin('p.tags', 't')
 			->where('t.id = :id')
 			->setParameter('id', $id)
+			->andWhere('p.status = :status')
+			->setparameter(':status', 'pubblished')
 			->orderBy('p.created', 'DESC')
 			;
 		return $q->getQuery()->getResult();
@@ -77,9 +81,11 @@ class PostRepository extends EntityRepository
             ->orWhere('t.subtitle LIKE :query')
             ->orWhere('t.header LIKE :query')
             ->orWhere('t.content LIKE :query')
-            ->andWhere('t.locale = :locale')
             ->setParameter(':query', "%$query%")
+            ->andWhere('t.locale = :locale')
             ->setParameter(':locale', $locale)
+			->andWhere('p.status = :status')
+			->setparameter(':status', 'pubblished')
             ->getQuery()
         ;
 

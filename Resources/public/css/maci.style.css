@@ -42,6 +42,11 @@ li > ul.nav {
     padding-left: 15px;
 }
 
+p {
+    margin: 0;
+    padding: 0 0 10px;
+}
+
 /*
  *      Layout
  */
@@ -99,16 +104,8 @@ li > ul.nav {
 
 }
 
-.navbar-nav {
-    margin: 0 -15px;
-}
-
 #maciadmin .navbar-nav {
     margin: 0;
-}
-
-#navbarBrand {
-    margin-right: 15px;
 }
 
 /*

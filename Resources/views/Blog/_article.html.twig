@@ -17,9 +17,23 @@
 
 <section>
 
+	{% if post.header|length %}
+
 	<div class="post-header">{{ post.header|raw }}</div>
 
+	{% endif %}
+
+	{% if post.markdown|length %}
+
+	<div class="post-markdown markdown-content">{{ post.markdown|markdown|nl2br }}</div>
+
+	{% endif %}
+
+	{% if post.content|length %}
+
 	<div class="post-content">{{ post.content|raw }}</div>
+
+	{% endif %}
 
 </section>
 

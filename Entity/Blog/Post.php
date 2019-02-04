@@ -30,6 +30,11 @@ class Post
     /**
      * @var string
      */
+    private $markdown;
+
+    /**
+     * @var string
+     */
     private $header;
 
     /**
@@ -56,6 +61,11 @@ class Post
      * @var \DateTime
      */
     private $updated;
+
+    /**
+     * @var \DateTime
+     */
+    private $pubblished;
 
     /**
      * @var boolean
@@ -170,6 +180,29 @@ class Post
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set markdown
+     *
+     * @param string $markdown
+     * @return PostTranslation
+     */
+    public function setMarkdown($markdown)
+    {
+        $this->markdown = $markdown;
+
+        return $this;
+    }
+
+    /**
+     * Get markdown
+     *
+     * @return string 
+     */
+    public function getMarkdown()
+    {
+        return $this->markdown;
     }
 
     /**
@@ -322,6 +355,29 @@ class Post
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set pubblished
+     *
+     * @param \DateTime $pubblished
+     * @return Post
+     */
+    public function setPubblished($pubblished)
+    {
+        $this->pubblished = $pubblished;
+
+        return $this;
+    }
+
+    /**
+     * Get pubblished
+     *
+     * @return \DateTime 
+     */
+    public function getPubblished()
+    {
+        return $this->pubblished;
     }
 
     public function setRemoved($removed)
@@ -497,6 +553,9 @@ class Post
      */
     public function setUpdatedValue()
     {
+        if ($this->status == 'pubblished' && $this->pubblished == null) {
+            $this->pubblished = new \DateTime();
+        }
         $this->created = new \DateTime();
     }
 
@@ -505,6 +564,9 @@ class Post
      */
     public function setCreatedValue()
     {
+        if ($this->status == 'new') {
+            $this->status = 'draft';
+        }
         $this->updated = new \DateTime();
     }
 
