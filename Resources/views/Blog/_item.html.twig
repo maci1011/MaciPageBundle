@@ -1,8 +1,14 @@
 
+{% if col_class is not defined %}
+{% set col_class = "col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1" %}
+{% endif %}
+
+
 <article class="blog-post container-fluid">
 
 
-<header>
+<header class="row">
+<div class="{{ col_class }}">
 
 	<a href="{{ path('maci_blog_show', { 'id': post.id }) }}">
 		<h1 class="post-title">{{ post.title }}</h1>
@@ -14,10 +20,12 @@
 
 	{% endif %}
 
+</div>
 </header>
 
 
-<section>
+<section class="row">
+<div class="{{ col_class }}">
 
 	{% if post.header %}
 
@@ -37,13 +45,18 @@
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
 
+</div>
 </section>
 
 
-<footer>
+<footer class="row">
+<div class="{{ col_class }}">
 
-{% include "@MaciPage/Blog/_post_footer.html.twig" with { 'post': post } %}
+{% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
+{% include "@MaciPage/Blog/_post_tags_nav.html.twig" with { 'post': post } %}
+
+</div>
 </footer>
 
 

@@ -13,12 +13,10 @@
 		</li>
 		{% endif %}
 
-		{% if post.tags|length %}
-		{% for tag in post.tags %}
+		{% if post.pubblished is not null and post.pubblished != post.updated or post.created != post.updated %}
 		<li>
-			<a href="{{ path('maci_blog_tag', { 'id': tag.id }) }}">{{ tag }}</a>
+			<span class="navbar-text">{{ 'blog.post.last_update' | matra('Last Update') }}: {{ post.updated|date('d/m/Y') }}</span>
 		</li>
-		{% endfor %}
 		{% endif %}
 
 	</ul>
