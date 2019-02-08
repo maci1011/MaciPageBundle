@@ -417,26 +417,26 @@ class Page
     public function getTemplateArray()
     {
         return array(
-            'Page' => 'MaciPageBundle:Page:page.html.twig',
-            'Full Page' => 'MaciPageBundle:Page:fullpage.html.twig',
-            'Slide Page' => 'MaciPageBundle:Page:slidepage.html.twig',
-            'Homepage' => 'MaciPageBundle:Page:homepage.html.twig',
-            'About' => 'MaciPageBundle:Page:about.html.twig',
-            'Contacts' => 'MaciPageBundle:Page:contacts.html.twig',
-            'Zero' => 'MaciPageBundle:Page:template_zero.html.twig',
-            'One' => 'MaciPageBundle:Page:template_one.html.twig',
-            'Two' => 'MaciPageBundle:Page:template_two.html.twig',
-            'Three' => 'MaciPageBundle:Page:template_three.html.twig',
-            'Foo' => 'MaciPageBundle:Page:foo.html.twig',
-            'Customer Service' => 'MaciPageBundle:Terms:customer_service.html.twig',
-            'Shopping Guide' => 'MaciPageBundle:Terms:shopping_guide.html.twig',
-            'Size Guide' => 'MaciPageBundle:Terms:size_guide.html.twig',
-            'Shipping' => 'MaciPageBundle:Terms:shipping.html.twig',
-            'Payment' => 'MaciPageBundle:Terms:payment.html.twig',
-            'Returns and Refunds' => 'MaciPageBundle:Terms:refunds.html.twig',
-            'General Condititions of Sale' => 'MaciPageBundle:Terms:gcs.html.twig',
-            'Cookie Policy' => 'MaciPageBundle:Terms:cookie.html.twig',
-            'Privacy Policy' => 'MaciPageBundle:Terms:privacy.html.twig'
+            'Page' => '@MaciPage/Page/page.html.twig',
+            'Full Page' => '@MaciPage/Page/fullpage.html.twig',
+            'Slide Page' => '@MaciPage/Page/slidepage.html.twig',
+            'Homepage' => '@MaciPage/Page/homepage.html.twig',
+            'About' => '@MaciPage/Page/about.html.twig',
+            'Contacts' => '@MaciPage/Page/contacts.html.twig',
+            'Zero' => '@MaciPage/Page/template_zero.html.twig',
+            'One' => '@MaciPage/Page/template_one.html.twig',
+            'Two' => '@MaciPage/Page/template_two.html.twig',
+            'Three' => '@MaciPage/Page/template_three.html.twig',
+            'Foo' => '@MaciPage/Page/foo.html.twig',
+            'Customer Service' => '@MaciPage/Terms/customer_service.html.twig',
+            'Shopping Guide' => '@MaciPage/Terms/shopping_guide.html.twig',
+            'Size Guide' => '@MaciPage/Terms/size_guide.html.twig',
+            'Shipping' => '@MaciPage/Terms/shipping.html.twig',
+            'Payment' => '@MaciPage/Terms/payment.html.twig',
+            'Returns and Refunds' => '@MaciPage/Terms/refunds.html.twig',
+            'General Condititions of Sale' => '@MaciPage/Terms/gcs.html.twig',
+            'Cookie Policy' => '@MaciPage/Terms/cookie.html.twig',
+            'Privacy Policy' => '@MaciPage/Terms/privacy.html.twig'
         );
     }
 

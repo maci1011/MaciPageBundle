@@ -44,7 +44,7 @@ class PageController extends Controller
             return $this->redirect($this->generateUrl('maci_media_album', array('id' => $album->getId())));
         }
 
-        return $this->render('MaciPageBundle:Page:notfound.html.twig');
+        return $this->render('@MaciPage/Page/notfound.html.twig');
     }
 
     public function pageNotFoundAction()
@@ -62,7 +62,7 @@ class PageController extends Controller
         $template = $page->getTemplate();
 
         if (!$template || !$this->get('templating')->exists($template)) {
-            $template = 'MaciPageBundle:Page:page.html.twig';
+            $template = '@MaciPage/Page/page.html.twig';
         }
 
         return $this->render($template, array( 'page' => $page ));
@@ -86,7 +86,7 @@ class PageController extends Controller
         $template = $page->getTemplate();
 
         if (!$template || !$this->get('templating')->exists($template)) {
-            $template = 'MaciPageBundle:Page:page.html.twig';
+            $template = '@MaciPage/Page/page.html.twig';
         }
 
         return $this->render($template, array( 'page' => $page ));
