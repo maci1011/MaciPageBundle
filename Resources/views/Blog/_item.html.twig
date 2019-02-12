@@ -4,26 +4,26 @@
 {% endif %}
 
 
-<article class="blog-post container-fluid">
+<article class="blog-post blog-post-preview container-fluid">
 <div class="blog-post-wrapper {{ col_class }}">
 
 
-<header class="row">
+<header class="blog-post-header row">
 
 	<a href="{{ path('maci_blog_show', { 'id': post.id }) }}">
 		<h1 class="post-title">{{ post.title }}</h1>
 	</a>
 
 	{% if post.preview %}
-
-	<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
-
+	<div class="post-preview-wrapper">
+		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
+	</div>
 	{% endif %}
 
 </header>
 
 
-<section class="row">
+<section class="blog-post-content row">
 
 	{% if post.header %}
 
@@ -39,6 +39,10 @@
 
 	{% endif %}
 
+</section>
+
+
+<section class="blog-post-read-more row">
 	<a class="post-read-more btn" href="{{ path('maci_blog_show', { 'id': post.id }) }}">
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
@@ -46,7 +50,7 @@
 </section>
 
 
-<footer class="row">
+<footer class="blog-post-footer row">
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 

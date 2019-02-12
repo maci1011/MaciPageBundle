@@ -8,20 +8,20 @@
 <div class="blog-post-wrapper {{ col_class }}">
 
 
-<header class="row">
+<header class="blog-post-header row">
 
 	<h1 class="post-title">{{ post.title }}</h1>
 
 	{% if post.preview %}
-
-	<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
-
+	<div class="post-preview-wrapper">
+		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
+	</div>
 	{% endif %}
 
 </header>
 
 
-<section class="row">
+<section class="blog-post-content row">
 
 	{% if post.preheader is not null %}
 	<div class="post-preheader">{{ post.preheader|raw }}</div>
@@ -43,7 +43,7 @@
 
 
 {% if post.images|length %}
-<section class="row">
+<section class="blog-post-images row">
 
 {% include "@MaciPage/Blog/_media_list.html.twig" with { 'post': post } %}
 
@@ -51,7 +51,7 @@
 {% endif %}
 
 
-<footer class="row">
+<footer class="blog-post-footer row">
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
