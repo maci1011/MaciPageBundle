@@ -12,6 +12,8 @@
 
 	<h1 class="post-title">{{ post.title }}</h1>
 
+	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
+
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
 		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
@@ -45,7 +47,7 @@
 {% if post.images|length %}
 <section class="blog-post-images row">
 
-{% include "@MaciPage/Blog/_media_list.html.twig" with { 'post': post } %}
+{% include "@MaciPage/Blog/_media_list.html.twig" %}
 
 </section>
 {% endif %}
@@ -53,9 +55,9 @@
 
 <footer class="blog-post-footer row">
 
-{% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
+{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
 
-{% include "@MaciPage/Blog/_post_tags_nav.html.twig" with { 'post': post } %}
+{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
 
 </footer>
 

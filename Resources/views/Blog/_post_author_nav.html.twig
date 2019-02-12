@@ -1,0 +1,16 @@
+
+{% if post.author %}
+<nav>
+
+	<ul class="post-author-nav nav navbar-nav">
+
+		<li>
+			<span class="navbar-text post-author-label">
+				{{ 'blog.post.author' | matra('Author') }}:
+				<em class="post-author-name">{{ post.author }}</em>
+			</span>
+		</li>
+
+	</ul>
+</nav>
+{% endif %}
