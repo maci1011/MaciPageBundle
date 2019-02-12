@@ -105,6 +105,10 @@ p {
 }
 
 #pathBar,
+#maciadmin {
+    padding-top: 15px;
+}
+
 #maciadmin .navbar-nav {
     padding-top: 15px;
     margin: 0;
