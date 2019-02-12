@@ -104,7 +104,9 @@ p {
 
 }
 
+#pathBar,
 #maciadmin .navbar-nav {
+    padding-top: 15px;
     margin: 0;
 }
 

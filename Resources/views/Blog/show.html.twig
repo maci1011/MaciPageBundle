@@ -17,17 +17,17 @@
 {{ post.title }} - {{ parent() }}
 {% endif %}
 
-{% endblock %}
+{% endblock title %}
 
 {% block description %}
 
 {% if post.metaDescription %}
 <meta name="description" content="{{ post.metaDescription }}" />
 {% else %}
-<meta name="description" content="{{ post.header|raw  }}" />
+<meta name="description" content="{{ post.header|striptags  }}" />
 {% endif %}
 
-{% endblock %}
+{% endblock description %}
 
 
 {% block pathBar %}
@@ -46,11 +46,11 @@
 
 </ol>
 </nav>
-{% endblock %}
+{% endblock pathBar %}
 
 
 {% block content %}
 
 {% include "@MaciPage/Blog/_article.html.twig" with { 'post': post } %}
 
-{% endblock %}
+{% endblock content %}

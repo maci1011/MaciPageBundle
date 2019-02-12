@@ -9,7 +9,7 @@ class BlogController extends Controller
 {
     public function indexAction(Request $request)
     {
-        return $this->render('MaciPageBundle:Blog:index.html.twig', array(
+        return $this->render('@MaciPage/Blog/index.html.twig', array(
         	'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
         		->getLatestPosts($request->getLocale())
     	));
@@ -24,7 +24,7 @@ class BlogController extends Controller
             return $this->redirect($this->generateUrl('maci_blog'));
         }
 
-        return $this->render('MaciPageBundle:Blog:tag.html.twig', array(
+        return $this->render('@MaciPage/Blog/tag.html.twig', array(
             'tag' => $tag
         ));
     }
@@ -41,7 +41,7 @@ class BlogController extends Controller
             return $this->redirect($this->generateUrl('maci_blog'));
         }
 
-        return $this->render('MaciPageBundle:Blog:show.html.twig', array(
+        return $this->render('@MaciPage/Blog/show.html.twig', array(
             'post' => $post
         ));
     }

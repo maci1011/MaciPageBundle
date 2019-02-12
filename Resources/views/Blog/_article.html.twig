@@ -1,6 +1,6 @@
 
 {% if col_class is not defined %}
-{% set col_class = "col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1" %}
+{% set col_class = "col-xs-12" %}
 {% endif %}
 
 
@@ -25,22 +25,20 @@
 <section class="row">
 <div class="{{ col_class }}">
 
-	{% if post.header|length %}
+	{% if post.preheader is not null %}
+	<div class="post-preheader">{{ post.preheader|raw }}</div>
+	{% endif %}
 
+	{% if post.header is not null %}
 	<div class="post-header">{{ post.header|raw }}</div>
-
 	{% endif %}
 
-	{% if post.markdown|length %}
-
+	{% if post.markdown is not null %}
 	<div class="post-markdown markdown-content">{{ post.markdown|markdown|nl2br }}</div>
-
 	{% endif %}
 
-	{% if post.content|length %}
-
+	{% if post.content is not null %}
 	<div class="post-content">{{ post.content|raw }}</div>
-
 	{% endif %}
 
 </div>

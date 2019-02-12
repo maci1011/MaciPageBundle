@@ -16,6 +16,9 @@ Maci\PageBundle\Entity\Blog\Post:
             type: string
             length: 255
             nullable: true
+        preheader:
+            type: text
+            nullable: true
         header:
             type: text
             nullable: true

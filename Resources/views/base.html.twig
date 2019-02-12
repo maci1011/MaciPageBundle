@@ -27,9 +27,9 @@
     {% endblock %}
 
 </head>
-{% block bodyTag %}<body>{% endblock %}
+{% block bodyTag %}<body>{% endblock bodyTag %}
 
-    {% block body %}{% endblock %}
+    {% block body %}<h1>Hello World!</h1>{% endblock %}
 
     {% block _ga %}
     {% if app.environment == 'prod' %}

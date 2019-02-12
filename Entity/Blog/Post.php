@@ -35,6 +35,11 @@ class Post
     /**
      * @var string
      */
+    private $preheader;
+
+    /**
+     * @var string
+     */
     private $header;
 
     /**
@@ -203,6 +208,29 @@ class Post
     public function getMarkdown()
     {
         return $this->markdown;
+    }
+
+    /**
+     * Set preheader
+     *
+     * @param string $preheader
+     * @return PostTranslation
+     */
+    public function setPreheader($preheader)
+    {
+        $this->preheader = $preheader;
+
+        return $this;
+    }
+
+    /**
+     * Get preheader
+     *
+     * @return string 
+     */
+    public function getPreheader()
+    {
+        return $this->preheader;
     }
 
     /**
@@ -556,7 +584,7 @@ class Post
         if ($this->status == 'pubblished' && $this->pubblished == null) {
             $this->pubblished = new \DateTime();
         }
-        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     /**
@@ -567,7 +595,7 @@ class Post
         if ($this->status == 'new') {
             $this->status = 'draft';
         }
-        $this->updated = new \DateTime();
+        $this->created = new \DateTime();
     }
 
     /**

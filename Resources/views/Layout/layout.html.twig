@@ -6,14 +6,13 @@
 
 <div id="main">
 
-    {% block navbar %}
+    {% block navbarTop %}
 
     <div id="navbarTop" class="navbar navbar-fixed-top navbar-default" role="navigation">
 
         {% block cookieMessage %}
 
         {% if not app.session.get('cookie-message', false) %}
-
         <div id="cookieMessage" class="container">
 
             <nav><ul class="nav navbar-nav">
@@ -25,7 +24,6 @@
             </ul></nav>
 
         </div>
-
         {% endif %}
 
         {% endblock %}
@@ -66,25 +64,14 @@
 
     </div>
 
-    {% endblock navbar %}
+    {% endblock navbarTop %}
 
-
-
-    <header id="header" class="container-fluid">
 
     {% block header %}
 
-    <div class="row">
-
-        <div id="mainMenu" class="col-xs-12 col-sm-9">
-        </div>
-
-    </div>
+    <header id="header"></header>
 
     {% endblock header %}
-
-    </header>
-
 
 
     <div id="mainContainer">

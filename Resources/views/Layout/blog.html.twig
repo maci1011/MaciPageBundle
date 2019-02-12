@@ -2,16 +2,21 @@
 {% extends "@MaciPage/Layout/layout.html.twig" %}
 
 
-{% block bodyTag %}<body id="bodyBlog">{% endblock %}
+{% set col_class = "col-xs-12 col-sm-12 col-md-9 col-md-offset-1 col-lg-9 col-lg-offset-1" %}
+
+
+{% block bodyTag %}<body id="bodyBlog">{% endblock bodyTag %}
 
 
 {% block searchForm %}
+
 {{ render(controller('MaciSearchBundle:Search:form', {'section': 'blog', 'label': ('form.search.blog'|matra('Search Post')) })) }}
-{% endblock %}
+
+{% endblock searchForm %}
 
 
 {% block leftMenu %}
 
 	<nav>{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}</nav>
 
-{% endblock %}
+{% endblock leftMenu %}
