@@ -5,10 +5,10 @@
 
 
 <article class="blog-post container-fluid">
+<div class="blog-post-wrapper {{ col_class }}">
 
 
 <header class="row">
-<div class="{{ col_class }}">
 
 	<h1 class="post-title">{{ post.title }}</h1>
 
@@ -18,12 +18,10 @@
 
 	{% endif %}
 
-</div>
 </header>
 
 
 <section class="row">
-<div class="{{ col_class }}">
 
 	{% if post.preheader is not null %}
 	<div class="post-preheader">{{ post.preheader|raw }}</div>
@@ -41,30 +39,25 @@
 	<div class="post-content">{{ post.content|raw }}</div>
 	{% endif %}
 
-</div>
 </section>
 
 
 {% if post.images|length %}
 <section class="row">
-<div class="{{ col_class }}">
 
 {% include "@MaciPage/Blog/_media_list.html.twig" with { 'post': post } %}
 
-</div>
 </section>
 {% endif %}
 
 
 <footer class="row">
-<div class="{{ col_class }}">
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
 {% include "@MaciPage/Blog/_post_tags_nav.html.twig" with { 'post': post } %}
 
-</div>
 </footer>
 
-
+</div>
 </article>
