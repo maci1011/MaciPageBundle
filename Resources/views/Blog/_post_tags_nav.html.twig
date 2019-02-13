@@ -3,6 +3,10 @@
 <nav class="navbar">
 	<ul class="post-tags-nav nav navbar-nav">
 
+		<li>
+			<span class="navbar-text">{{ 'blog.post.tags' | matra('Tag') }}:</span>
+		</li>
+
 		{% for tag in post.tags %}
 		<li>
 			<a href="{{ path('maci_blog_tag', { 'id': tag.id }) }}">{{ tag }}</a>
