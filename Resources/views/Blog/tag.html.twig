@@ -23,12 +23,12 @@
 
 
 {% block pathBar %}
-<nav>
+<nav class="{{ col_class }}">
 <ol class="breadcrumb">
 
     <li>
     	<a href="{{ path('maci_blog') }}">
-    		Blog
+    		{{ 'page.blog' | matme('Blog') }}
     	</a>
     </li>
 
