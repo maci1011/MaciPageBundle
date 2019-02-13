@@ -10,6 +10,8 @@
 		<h1 class="post-title">{{ post.title }}</h1>
 	</a>
 
+	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
+
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
 		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
