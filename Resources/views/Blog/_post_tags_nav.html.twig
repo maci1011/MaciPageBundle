@@ -1,7 +1,6 @@
 
 {% if post.tags|length %}
-
-<nav>
+<nav class="navbar">
 	<ul class="post-tags-nav nav navbar-nav">
 
 		{% for tag in post.tags %}
@@ -12,5 +11,4 @@
 
 	</ul>
 </nav>
-
 {% endif %}
