@@ -3,13 +3,6 @@
  *      Tags
  */
 
-body {
-    background-color: #fff;
-    margin: 0;
-    color: #000;
-    font-weight: lighter;
-}
-
 body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
     font-family: 'Gill Sans', 'Gill Sans MT';
     text-decoration: none;
@@ -552,11 +545,11 @@ p {
  */
 
 .form-group > label:after {
-    content: ':';
+    content: ': *';
 }
 
 .form-group > label.required:after {
-    content: ': *';
+    content: ':';
 }
 
 .checkbox.privacy {

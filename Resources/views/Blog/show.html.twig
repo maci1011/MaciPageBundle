@@ -2,13 +2,6 @@
 {% extends "@MaciPage/Layout/blog.html.twig" %}
 
 
-{% block maciadmin %}
-
-{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
-
-{% endblock %}
-
-
 {% block title %}
 
 {% if post.metaTitle %}

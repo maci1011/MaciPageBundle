@@ -54,6 +54,8 @@
 
 {% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
 
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+
 </footer>
 
 </div>
