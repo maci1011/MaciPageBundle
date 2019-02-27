@@ -45,19 +45,9 @@ class ContactController extends Controller
             $message = new \Swift_Message();
             $message->setSubject('Contatti da '.$contact->getName().' '.$contact->getSurname());
             $message->setReplyTo(array($contact->getEmail()));
-
-                /**
-                 * Set From
-                 */
-                ->setFrom($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
-
-                /**
-                 * Set To
-                 */
-                ->setTo($this->get('service_container')->getParameter('contact_email'))
-
-                ->setBody($this->renderView('MaciPageBundle:Contact:email.txt.twig', array('contact' => $contact)))
-            ;
+            $message->setFrom($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'));
+            $message->setTo($this->get('service_container')->getParameter('contact_email'));
+            $message->setBody($this->renderView('MaciPageBundle:Contact:email.txt.twig', array('contact' => $contact)));
 
             $this->get('mailer')->send($message);
 
