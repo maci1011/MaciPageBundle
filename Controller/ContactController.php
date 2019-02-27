@@ -61,7 +61,9 @@ class ContactController extends Controller
 
             $this->get('mailer')->send($message);
 
-            return $this->redirect($this->generateUrl('maci_page', array('path' => 'contacts_success')));
+            return $this->redirect($this->generateUrl(
+                'maci_page', array('path' => $this->get('maci.translator')->getRoute('contacts.message-sent', 'message-sent'))
+            ));
         }
 
         return $this->render('MaciPageBundle:Contact:form.html.twig', array(
