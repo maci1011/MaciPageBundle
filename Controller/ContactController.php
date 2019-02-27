@@ -42,9 +42,9 @@ class ContactController extends Controller
             $em->persist($contact);
             $em->flush();
 
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Contatti da '.$contact->getName().' '.$contact->getSurname())
-                ->setReplyTo(array($contact->getEmail()))
+            $message = new \Swift_Message();
+            $message->setSubject('Contatti da '.$contact->getName().' '.$contact->getSurname());
+            $message->setReplyTo(array($contact->getEmail()));
 
                 /**
                  * Set From
