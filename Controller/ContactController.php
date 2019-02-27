@@ -43,7 +43,7 @@ class ContactController extends Controller
             $em->flush();
 
             $name = trim($contact->getName().' '.$contact->getSurname());
-            $message = (new \Swift_Message());
+            $message = new \Swift_Message();
             $message->setSubject('Contatti da '.$name);
             $message->setReplyTo(array($contact->getEmail()));
             $message->setFrom($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'));
