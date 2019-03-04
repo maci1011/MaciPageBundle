@@ -22,9 +22,9 @@
 		{% endif %}
 
 		{% set post_permalink = url('maci_blog_post_permalink', {'id': post.id}) %}
-		<li>
+		<li class="post-permalink">
 			<span class="navbar-text">{{ 'page.permalink' | matra('Permalink') }}: 
-				<a class="post permalink" href="{{ post_permalink }}">{{ post_permalink }}</a>
+				<a class="" href="{{ post_permalink }}">{{ post_permalink }}</a>
 			</span>
 		</li>
 
