@@ -2,21 +2,31 @@
 <nav class="navbar">
 	<ul class="post-dates-nav nav navbar-nav">
 
-		{% if post.pubblished is not null %}
+		{% if post.isPubblished and post.pubblished %}
 		<li>
 			<span class="navbar-text">{{ 'blog.post.published' | matra('Published') }}: {{ post.pubblished|date('d/m/Y') }}</span>
 		</li>
-		{% else %}
+		{% elseif post.created %}
 		<li>
 			<span class="navbar-text">{{ 'blog.post.created' | matra('Created') }}: {{ post.created|date('d/m/Y') }}</span>
 		</li>
 		{% endif %}
 
-		{% if post.pubblished is not null and post.pubblished != post.updated or post.created != post.updated %}
+		{% if post.updated and (
+			( post.pubblished and post.updated != post.pubblished )
+			or ( post.pubblished is null and post.created and post.created != post.updated )
+		) %}
 		<li>
 			<span class="navbar-text">{{ 'blog.post.last_update' | matra('Last Update') }}: {{ post.updated|date('d/m/Y') }}</span>
 		</li>
 		{% endif %}
+
+		{% set post_permalink = url('maci_blog_post_permalink', {'id': post.id}) %}
+		<li>
+			<span class="navbar-text">{{ 'page.permalink' | matra('Permalink') }}: 
+				<a class="post permalink" href="{{ post_permalink }}">{{ post_permalink }}</a>
+			</span>
+		</li>
 
 	</ul>
 </nav>

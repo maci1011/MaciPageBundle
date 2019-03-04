@@ -50,7 +50,7 @@ class BlogController extends Controller
     public function postPermalinkAction($id)
     {
         $params = array('id' => $id);
-        if (!$this->getUser()->isGranted('ROLE_ADMIN')) $params['removed'] = false;
+        if (!$this->isGranted('ROLE_ADMIN')) $params['removed'] = false;
 
         $post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')->findOneBy($params);
 

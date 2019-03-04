@@ -309,6 +309,11 @@ class Post
         return ucwords($str);
     }
 
+    public function isPubblished()
+    {
+        return ($this->status == 'pubblished');
+    }
+
     /**
      * Set path
      *
