@@ -32,6 +32,10 @@ Maci\PageBundle\Entity\Blog\Post:
             type: string
             length: 15
             nullable: true
+        path:
+            type: string
+            length: 63
+            nullable: true
         meta_title:
             type: string
             length: 63

@@ -1,49 +1,49 @@
 
 maci_media_album:
-    path:  /{_locale}/album/{id}
+    path:  /{_locale}/media/album/{id}
     defaults: { _controller: MaciPageBundle:Media:album }
     requirements:
         _locale: "%r_locales%"
 
 maci_media_brand:
-    path:  /{_locale}/brand/{id}
+    path:  /{_locale}/media/brand/{id}
     defaults: { _controller: MaciPageBundle:Media:tag }
     requirements:
         _locale: "%r_locales%"
 
-maci_media_tag:
-    path:  /{_locale}/tag/{id}
-    defaults: { _controller: MaciPageBundle:Media:tag }
-    requirements:
-        _locale: "%r_locales%"
-
-maci_media_tags:
-    path:  /{_locale}/tags/{type}
-    defaults: { _controller: MaciPageBundle:Media:tags, type: tag }
+maci_media_brands:
+    path:  /{_locale}/media/brands
+    defaults: { _controller: MaciPageBundle:Media:brands }
     requirements:
         _locale: "%r_locales%"
 
 maci_media_gallery:
-    path:  /{_locale}/gallery
+    path:  /{_locale}/media/gallery
     defaults: { _controller: MaciPageBundle:Media:gallery, type: gallery }
     requirements:
         _locale: "%r_locales%"
 
 maci_media_products:
-    path:  /{_locale}/products
+    path:  /{_locale}/media/products
     defaults: { _controller: MaciPageBundle:Media:gallery, type: products }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_tag:
+    path:  /{_locale}/media/tag/{id}
+    defaults: { _controller: MaciPageBundle:Media:tag }
+    requirements:
+        _locale: "%r_locales%"
+
+maci_media_tags:
+    path:  /{_locale}/media/tags/{type}
+    defaults: { _controller: MaciPageBundle:Media:tags, type: tag }
     requirements:
         _locale: "%r_locales%"
 
 maci_media_get:
     path:  /{_locale}/media/{path}
     defaults: { _controller: MaciPageBundle:Media:get }
-    requirements:
-        _locale: "%r_locales%"
-
-maci_media_brands:
-    path:  /{_locale}/brands
-    defaults: { _controller: MaciPageBundle:Media:brands }
     requirements:
         _locale: "%r_locales%"
 

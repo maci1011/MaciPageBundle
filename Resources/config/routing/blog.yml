@@ -1,4 +1,10 @@
 
+maci_blog_post_permalink:
+    path:  /pl/post/{id}
+    defaults: { _controller: MaciPageBundle:Blog:postPermalink }
+    requirements:
+        _locale: "%r_locales%"
+
 maci_blog_tag:
     path:  /{_locale}/blog/tag/{id}
     defaults: { _controller: MaciPageBundle:Blog:tag }
@@ -6,7 +12,7 @@ maci_blog_tag:
         _locale: "%r_locales%"
 
 maci_blog_show:
-    path:  /{_locale}/blog/post/{id}
+    path:  /{_locale}/blog/{path}
     defaults: { _controller: MaciPageBundle:Blog:show }
     requirements:
         _locale: "%r_locales%"

@@ -29,11 +29,12 @@ class BlogController extends Controller
         ));
     }
 
-    public function showAction($id)
+    public function showAction($_locale, $path)
     {
         $post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
             ->findOneBy(array(
-                'id' => $id,
+                'path' => $path,
+                'locale' => $_locale,
                 'removed' => false
             ));
 
@@ -44,5 +45,19 @@ class BlogController extends Controller
         return $this->render('@MaciPage/Blog/show.html.twig', array(
             'post' => $post
         ));
+    }
+
+    public function postPermalinkAction($id)
+    {
+        $params = array('id' => $id);
+        if (!$this->getUser()->isGranted('ROLE_ADMIN')) $params['removed'] = false;
+
+        $post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')->findOneBy($params);
+
+        if (!$post) {
+            return $this->redirect($this->generateUrl('maci_page', array('path' => 'post-not-found')));
+        }
+
+        return $this->redirect($this->generateUrl('maci_blog_show', array('path' => $post->getPath(), '_locale' => $post->getLocale())));
     }
 }

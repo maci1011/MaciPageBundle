@@ -50,6 +50,11 @@ class Post
     /**
      * @var string
      */
+    private $path;
+
+    /**
+     * @var string
+     */
     private $meta_title;
 
     /**
@@ -117,6 +122,7 @@ class Post
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->removed = false;
         $this->status = 'new';
+        $this->path = ( 'post-' . uniqid() );
     }
 
     /**
@@ -301,6 +307,29 @@ class Post
         }
         $str = str_replace('_', ' ', $this->status);
         return ucwords($str);
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Page
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

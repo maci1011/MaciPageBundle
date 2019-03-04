@@ -3,14 +3,17 @@
 <div class="{{ col_class }}">
 <div class="blog-post-wrapper container-fluid">
 
+{% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
 <header class="blog-post-header row">
 
-	<a href="{{ path('maci_blog_show', { 'id': post.id }) }}">
+	<a href="{{ post_link }}">
 		<h1 class="post-title">{{ post.title }}</h1>
 	</a>
 
-	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
+	{% if post.subtitle %}
+	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
+	{% endif %}
 
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
@@ -41,13 +44,15 @@
 
 
 <section class="blog-post-read-more row">
-	<a class="post-read-more btn" href="{{ path('maci_blog_show', { 'id': post.id }) }}">
+	<a class="post-read-more btn" href="{{ post_link }}">
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
 </section>
 
 
 <footer class="blog-post-footer row">
+
+{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 

@@ -37,9 +37,11 @@
 
 	{% include "@MaciPage/Form/_required_fields.html.twig" %}
 
+    {% if app.environment == 'prod' %}
 	<div class="form-group">
     	{{ form_row(form.recaptcha) }}
 	</div>
+    {% endif %}
 
 	<div class="checkbox privacy">
 		<input id="form_privacy" type="checkbox" value="1" checked="checked" required="required" name="contact[privacy]" />
