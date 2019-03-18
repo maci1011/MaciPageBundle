@@ -1,0 +1,15 @@
+
+{% if post.link %}
+<nav class="post-permalink-nav navbar">
+	<ul class="nav navbar-nav">
+
+		{% set post_permalink = url('maci_blog_post_permalink', {'link': post.link}) %}
+		<li class="post-permalink">
+			<span class="navbar-text">{{ 'page.permalink' | matra('Permalink') }}: 
+				<a class="" href="{{ post_permalink }}">{{ post_permalink }}</a>
+			</span>
+		</li>
+
+	</ul>
+</nav>
+{% endif %}

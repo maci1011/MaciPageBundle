@@ -50,10 +50,6 @@ p {
     margin: 0 auto;
 }
 
-#mainContainer > .row {
-    margin: 0;
-}
-
 #menuContainer {
     padding: 0 0 0 15px;
 }

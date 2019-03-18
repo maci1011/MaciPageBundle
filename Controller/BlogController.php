@@ -47,9 +47,9 @@ class BlogController extends Controller
         ));
     }
 
-    public function postPermalinkAction($id)
+    public function postPermalinkAction($link)
     {
-        $params = array('id' => $id);
+        $params = array('link' => $link);
         if (!$this->isGranted('ROLE_ADMIN')) $params['removed'] = false;
 
         $post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')->findOneBy($params);

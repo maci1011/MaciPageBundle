@@ -55,6 +55,11 @@ class Post
     /**
      * @var string
      */
+    private $link;
+
+    /**
+     * @var string
+     */
     private $meta_title;
 
     /**
@@ -122,7 +127,9 @@ class Post
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->removed = false;
         $this->status = 'new';
-        $this->path = ( 'post-' . uniqid() );
+        $uniqid = uniqid();
+        $this->path = ( 'post-' . $uniqid );
+        $this->link = $uniqid;
     }
 
     /**
@@ -335,6 +342,29 @@ class Post
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return Page
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string 
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 
     /**

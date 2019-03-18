@@ -12,9 +12,19 @@
 	{% endif %}
 
 	{% if post.preview %}
-	<div class="post-preview-wrapper">
-		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }}">
-	</div>
+	<figure class="post-preview-wrapper">
+		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		{% if post.preview.name or post.preview.description %}
+		<figcaption>
+			{% if post.preview.name %}
+			<span class="post-preview-name">{{ post.preview.name }}</span>
+			{% endif %}
+			{% if post.preview.name or post.preview.description %}
+			{{ post.preview.description|raw }}
+			{% endif %}
+		</figcaption>
+		{% endif %}
+	</figure>
 	{% endif %}
 
 </header>
@@ -55,6 +65,8 @@
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
+
+{% include "@MaciPage/Blog/_post_permalink_nav.html.twig" %}
 
 {% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
 

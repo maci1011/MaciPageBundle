@@ -74,34 +74,30 @@
     {% endblock header %}
 
 
-    <div id="mainContainer">
+    <div id="mainContainer" class="clearfix">
 
     {% block container %}
 
-    <div class="row">
+    <div id="menuContainer" class="col-xs-12 col-sm-3 col-md-2">
 
-        <div id="menuContainer" class="col-xs-12 col-sm-3 col-md-2">
+        {% block leftMenu %}
 
-            {% block leftMenu %}
+            <nav>{{ knp_menu_render('left', {'currentClass': 'active'}) }}</nav>
 
-                <nav>{{ knp_menu_render('left', {'currentClass': 'active'}) }}</nav>
+        {% endblock %}
 
-            {% endblock %}
+    </div>
+    <div id="contentContainer" class="col-xs-12 col-sm-9 col-md-10">
+
+        <div id="pathBar">
+
+            {% block pathBar %}{% endblock pathBar %}
 
         </div>
-        <div id="contentContainer" class="col-xs-12 col-sm-9 col-md-10">
 
-            <div id="pathBar">
+        <div id="pageContainer">
 
-                {% block pathBar %}{% endblock pathBar %}
-
-            </div>
-
-            <div id="pageContainer">
-
-            {% block content %}{% endblock %}
-
-            </div>
+        {% block content %}{% endblock %}
 
         </div>
 
