@@ -14,7 +14,9 @@
 
 </aside>
 
-<section class="col-xs-12 col-sm-9">
+<div class="col-xs-12 col-sm-9">
+
+<header class="blog-post-header row">
 
 	<a href="{{ post_link }}">
 		<h1 class="post-title">{{ post.title }}</h1>
@@ -24,11 +26,7 @@
 	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
 	{% endif %}
 
-</section>
-
-<header class="blog-post-header row">
 </header>
-
 
 <section class="blog-post-content row">
 
@@ -55,6 +53,8 @@
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
 </footer>
+
+</div>
 
 </div>
 </article>
