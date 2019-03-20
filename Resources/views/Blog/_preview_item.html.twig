@@ -1,10 +1,20 @@
 
-<article class="blog-post blog-post-list-item clearfix">
-<div class="blog-post-wrapper container-fluid">
+<article class="blog-post blog-post-preview-item clearfix">
+<div class="blog-post-wrapper">
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-<header class="blog-post-header row">
+<aside class="col-xs-12 col-sm-3">
+
+	{% if post.preview %}
+	<div class="post-preview-wrapper">
+		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+	</div>
+	{% endif %}
+
+</aside>
+
+<section class="col-xs-12 col-sm-9">
 
 	<a href="{{ post_link }}">
 		<h1 class="post-title">{{ post.title }}</h1>
@@ -14,12 +24,9 @@
 	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
 	{% endif %}
 
-	{% if post.preview %}
-	<div class="post-preview-wrapper">
-		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
-	</div>
-	{% endif %}
+</section>
 
+<header class="blog-post-header row">
 </header>
 
 
@@ -28,14 +35,6 @@
 	{% if post.header %}
 
 	<div class="post-header">{{ post.header|raw }}</div>
-
-	{% elseif post.markdown %}
-
-	<div class="post-header markdown-content">{{ post.markdown|markdown|nl2br }}</div>
-
-	{% else %}
-
-	<div class="post-content">{{ post.content|raw }}</div>
 
 	{% endif %}
 
@@ -54,8 +53,6 @@
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
-
-{% include "@MaciPage/Blog/_post_tags_nav.html.twig" with { 'post': post } %}
 
 </footer>
 

@@ -14,7 +14,7 @@ class PostRepository extends EntityRepository
 {
 	protected $allCount = null;
 
-	public function getLatestPosts($locale, $max = 30)
+	public function getLatestPosts($locale, $max = 13)
 	{
 		$q = $this->createQueryBuilder('p');
 		$q

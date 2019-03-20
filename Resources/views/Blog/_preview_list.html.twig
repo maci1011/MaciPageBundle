@@ -1,0 +1,10 @@
+
+<div class="blog-post-list preview-list">
+
+{% for item in list %}
+
+{% include "@MaciPage/Blog/_preview_item.html.twig" with { 'post': item } %}
+
+{% endfor %}
+
+</div>

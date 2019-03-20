@@ -10,9 +10,17 @@ class BlogController extends Controller
     public function indexAction(Request $request)
     {
         return $this->render('@MaciPage/Blog/index.html.twig', array(
-        	'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
-        		->getLatestPosts($request->getLocale())
-    	));
+            'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
+                ->getLatestPosts($request->getLocale())
+        ));
+    }
+
+    public function lastPostsAction(Request $request)
+    {
+        return $this->render('@MaciPage/Blog/last_posts.html.twig', array(
+            'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
+                ->getLatestPosts($request->getLocale(), 7)
+        ));
     }
 
     public function tagAction($id)

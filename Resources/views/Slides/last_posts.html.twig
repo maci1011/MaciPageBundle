@@ -1,0 +1,19 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper" style="background: url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat center center / cover rgba(0, 0, 0, 0);">
+
+	<div class="slide-caption col-xs-12 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+
+		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" with { 'item': item } %}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" with { 'item': item } %}
+
+		{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
+
+	</div>
+
+</div>
+</div>
+
