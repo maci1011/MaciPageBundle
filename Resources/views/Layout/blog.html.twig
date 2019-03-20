@@ -2,7 +2,13 @@
 {% extends "@MaciPage/Layout/layout.html.twig" %}
 
 
-{% set col_class = "col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1" %}
+{% block menuContainerTag %}
+<div id="menuContainer" class="col-xs-12 col-sm-3 col-md-3">
+{% endblock menuContainerTag %}
+
+{% block contentContainerTag %}
+<div id="contentContainer" class="col-xs-12 col-sm-9 col-md-7 col-md-offset-1">
+{% endblock contentContainerTag %}
 
 
 {% block bodyTag %}<body id="bodyBlog">{% endblock bodyTag %}

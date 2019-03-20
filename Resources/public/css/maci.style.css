@@ -51,7 +51,11 @@ p {
 }
 
 #menuContainer {
-    padding: 0 0 0 15px;
+    padding: 15px 15px 0;
+}
+
+#contentContainer {
+    padding: 0;
 }
 
 .page-container.contacts-page .page-title,
@@ -93,13 +97,20 @@ p {
 
 }
 
-#pathBar,
 #maciadmin {
     padding-top: 15px;
 }
 
 #maciadmin .navbar-nav {
     margin: 0;
+}
+
+.breadcrumb-wrapper {
+    padding: 15px 0 15px;
+}
+
+.breadcrumb {
+    margin-bottom: 0;
 }
 
 /*
@@ -459,6 +470,10 @@ p {
 
 .post-preview {
     margin: 0 auto;
+}
+
+.blog-post-footer.row {
+    margin: 0;
 }
 
 /*
