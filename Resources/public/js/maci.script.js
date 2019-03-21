@@ -34,7 +34,7 @@ $(document).ready(function(e) {
 			slides.last().find('.button-next > a').each(function(i,el) {
 				$(el).click(function(e) {
 					e.preventDefault();
-					$(window).scrollTo( $('.page_slides > .slide').first() , 600 );
+					$(window).scrollTo($('#main'), 600 );
 				});
 			});
 

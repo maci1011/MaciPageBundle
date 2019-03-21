@@ -1,6 +1,6 @@
 
-<article class="blog-post blog-post-preview-item clearfix">
-<div class="blog-post-wrapper">
+<article class="blog-post blog-post-preview-item">
+<div class="blog-post-wrapper clearfix">
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
@@ -47,8 +47,6 @@
 
 
 <footer class="blog-post-footer row">
-
-{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
 {% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
