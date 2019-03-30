@@ -4,19 +4,13 @@
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-<aside class="col-xs-12 col-sm-3">
+<header class="blog-post-header row">
 
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
-		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_gallery')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
 	</div>
 	{% endif %}
-
-</aside>
-
-<div class="col-xs-12 col-sm-9">
-
-<header class="blog-post-header row">
 
 	<a href="{{ post_link }}">
 		<h1 class="post-title">{{ post.title }}</h1>
@@ -25,6 +19,10 @@
 	{% if post.subtitle %}
 	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
 	{% endif %}
+
+{% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
+
+{% include "@MaciPage/Blog/_post_author_nav.html.twig" with { 'post': post } %}
 
 </header>
 
@@ -46,13 +44,7 @@
 </section>
 
 
-<footer class="blog-post-footer row">
-
-{% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
-
-</footer>
-
-</div>
+<footer class="blog-post-footer row"></footer>
 
 </div>
 </article>
