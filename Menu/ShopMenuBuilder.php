@@ -95,7 +95,7 @@ class ShopMenuBuilder
 
     public function addCategories($menu)
 	{
-		$categories = $this->om->getRepository('MaciPageBundle:Category')->findBy(array(
+		$categories = $this->om->getRepository('MaciPageBundle:Shop\Category')->findBy(array(
 			'locale' => $this->request->getLocale(),
 			'removed' => false
 		));

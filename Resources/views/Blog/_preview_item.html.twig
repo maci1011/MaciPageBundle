@@ -1,50 +1,41 @@
 
-<article class="blog-post blog-post-preview-item">
-<div class="blog-post-wrapper clearfix">
+<div class="media">
 
-{% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-<header class="blog-post-header row">
+	<input name="id" type="hidden" value="{{ item.id }}" />
 
-	{% if post.preview %}
-	<div class="post-preview-wrapper">
-		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_gallery')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+
+	{% if item.preview %}
+	<div class="media-preview">
+	<a href="{{ path('maci_media_get', {'path': item.preview.path}) }}" data-lightbox="media-preview" data-title="{{ item.title }}">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
+	</a>
 	</div>
 	{% endif %}
 
-	<a href="{{ post_link }}">
-		<h1 class="post-title">{{ post.title }}</h1>
-	</a>
 
-	{% if post.subtitle %}
-	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
+	{% if item.title %}
+	<h4 class="media-title">{{ item.title }}</h4>
 	{% endif %}
 
-{% include "@MaciPage/Blog/_post_dates_nav.html.twig" with { 'post': post } %}
 
-{% include "@MaciPage/Blog/_post_author_nav.html.twig" with { 'post': post } %}
+	{% if item.tags|length %}
 
-</header>
+	<div class="media-tags">
+	<nav class="navbar-nav">
+	<ul>
 
-<section class="blog-post-content row">
+	{% for tag in item.tags %}
 
-	{% if post.header %}
+		<li><em class="media-tag">{{ tag }}</em></li>
 
-	<div class="post-header">{{ post.header|raw }}</div>
+	{% endfor %}
+
+	</ul>
+	</nav>
+	</div>
 
 	{% endif %}
 
-</section>
-
-
-<section class="blog-post-read-more row">
-	<a class="btn btn-primary" href="{{ post_link }}">
-		{{ 'blog.list.read-more' | matra('Read More...') }}
-	</a>
-</section>
-
-
-<footer class="blog-post-footer row"></footer>
 
 </div>
-</article>
