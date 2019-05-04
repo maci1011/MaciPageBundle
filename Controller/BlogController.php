@@ -19,7 +19,7 @@ class BlogController extends Controller
     {
         return $this->render('@MaciPage/Blog/last_posts.html.twig', array(
             'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
-                ->getLatestPosts($request->getLocale(), 7)
+                ->getLatestPosts($request->getLocale(), 6)
         ));
     }
 

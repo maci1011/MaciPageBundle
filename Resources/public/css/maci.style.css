@@ -217,7 +217,8 @@ p {
 .slide.contact_form_bg > .slide-wrapper,
 .slide.static_image,
 .slide.album,
-.slide.album_preview {
+.slide.album_preview,
+.slide.last_posts {
     padding-top: 80px;
 }
 
