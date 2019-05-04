@@ -2,12 +2,12 @@
 <div class="media">
 
 
-	<input name="id" type="hidden" value="{{ item.id }}" />
+	{% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
 
 	{% if item.preview %}
 	<div class="media-preview">
-	<a href="{{ path('maci_media_get', {'path': item.preview.path}) }}" data-lightbox="media-preview" data-title="{{ item.title }}">
+	<a href="{{ post_link }}" alt="{{ item.title }}">
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
 	</a>
 	</div>
@@ -15,7 +15,9 @@
 
 
 	{% if item.title %}
-	<h4 class="media-title">{{ item.title }}</h4>
+	<a href="{{ post_link }}" alt="{{ item.title }}">
+		<h4 class="media-title">{{ item.title }}</h4>
+	</a>
 	{% endif %}
 
 
@@ -27,7 +29,11 @@
 
 	{% for tag in item.tags %}
 
-		<li><em class="media-tag">{{ tag }}</em></li>
+		<li>
+			<a class="media-tag" href="{{ path('maci_blog_tag', { 'id': tag.id, '_locale': tag.locale }) }}" alt="{{ tag }}">
+				{{ tag }}
+			</a>
+		</li>
 
 	{% endfor %}
 
