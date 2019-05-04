@@ -15,8 +15,8 @@
 
 
 	{% if item.title %}
-	<a href="{{ post_link }}" alt="{{ item.title }}">
-		<h4 class="media-title">{{ item.title }}</h4>
+	<a class="media-title" href="{{ post_link }}" alt="{{ item.title }}">
+		{{ item.title }}
 	</a>
 	{% endif %}
 
