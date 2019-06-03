@@ -18,7 +18,7 @@
             <nav><ul class="nav navbar-nav">
 
                 <li><p class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</p></li>
-                <li><a href="{{ path('maci_page', {'path':'privacy'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
+                <li><a href="{{ path('maci_page', {'path':'cookies'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
                 <li><a class="set-cookie" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
 
             </ul></nav>
