@@ -16,7 +16,9 @@
 
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
-		<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		<a href="{{ post_link }}">
+			<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_preview')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		</a>
 	</div>
 	{% endif %}
 
@@ -24,6 +26,10 @@
 
 
 <section class="blog-post-content row">
+
+	{% if post.preheader %}
+	<div class="post-preheader">{{ post.preheader|raw }}</div>
+	{% endif %}
 
 	{% if post.header %}
 

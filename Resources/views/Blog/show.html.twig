@@ -2,6 +2,31 @@
 {% extends "@MaciPage/Layout/blog.html.twig" %}
 
 
+{% block metaData %}
+
+<meta property="og:title" content="{{ post.title }}" />
+<meta property="og:site_name" content="{{ url('homepage') }}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{{ url('maci_blog_show', { 'path': post.path, '_locale': post.locale }) }}" />
+
+{% if post.preview %}
+<meta property="og:image" content="{{ asset(post.webPreview | imagine_filter('maci_media_preview')) }}" />
+{% endif %}
+
+{% if post.header %}
+<meta property="og:description" content="{{ post.header|striptags }}" />
+{% endif %}
+
+{% if post.author %}
+<meta property="og:article:author" content="{{ post.author }}" />
+{% endif %}
+
+{% if post.pubblished %}
+<meta property="og:article:pubblished_time" content="{{ post.pubblished|date('c') }}" />
+{% endif %}
+
+{% endblock metaData %}
+
 {% block title %}
 
 {% if post.metaTitle %}
@@ -17,7 +42,7 @@
 {% if post.metaDescription %}
 <meta name="description" content="{{ post.metaDescription }}" />
 {% else %}
-<meta name="description" content="{{ post.header|striptags  }}" />
+<meta name="description" content="{{ post.header|striptags }}" />
 {% endif %}
 
 {% endblock description %}
