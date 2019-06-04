@@ -301,7 +301,8 @@ class Post
             'New' => 'new',
             'Draft' => 'draft',
             // 'Scheduled' => 'scheduled',
-            'Pubblished' => 'pubblished'
+            'Pubblished' => 'pubblished',
+            'Updated' => 'updated'
         );
     }
 
@@ -318,7 +319,12 @@ class Post
 
     public function isPubblished()
     {
-        return ($this->status == 'pubblished');
+        return ($this->status == 'pubblished' || $this->status == 'updated');
+    }
+
+    public function isUpdated()
+    {
+        return ($this->status == 'updated');
     }
 
     /**

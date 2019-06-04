@@ -8,6 +8,7 @@
 <meta property="og:site_name" content="{{ url('homepage') }}" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="{{ url('maci_blog_show', { 'path': post.path, '_locale': post.locale }) }}" />
+<meta property="og:locale" content="{{ post.locale }}" />
 
 {% if post.preview %}
 <meta property="og:image" content="{{ asset(post.webPreview | imagine_filter('maci_media_preview')) }}" />
@@ -21,8 +22,12 @@
 <meta property="og:article:author" content="{{ post.author }}" />
 {% endif %}
 
-{% if post.pubblished %}
+{% if post.isPubblished %}
 <meta property="og:article:pubblished_time" content="{{ post.pubblished|date('c') }}" />
+{% endif %}
+
+{% if post.isUpdated %}
+<meta property="og:article:modified_time" content="{{ post.pubblished|date('c') }}" />
 {% endif %}
 
 {% endblock metaData %}

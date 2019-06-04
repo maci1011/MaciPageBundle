@@ -12,21 +12,35 @@
     <meta name="author" content="Maci, http://macister.com/" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>{% block title company_title %}</title>
+    <title>
+        {% block title company_title %}
+    </title>
 
     {% block description %}
+
     <meta name="description" content="" />
+
     {% endblock %}
 
-
     {% block stylesheets %}
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.lightbox.css') }}" />
     <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.style.css') }}" />
+
     {% endblock %}
 
-    {% block metaData %}{% endblock metaData %}
+    {% block metaData %}
+
+    <meta property="og:title" content="{{ company_title }}" />
+    <meta property="og:description" content="{{ company_subtitle }} | {{ company_address }}" />
+    <meta property="og:site_name" content="{{ url('homepage') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+    <meta property="og:locale" content="{{ app.request.locale }}" />
+
+    {% endblock metaData %}
 
 </head>
 {% block bodyTag %}<body>{% endblock bodyTag %}

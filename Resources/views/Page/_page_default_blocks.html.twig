@@ -9,6 +9,21 @@
 {% endblock %}
 
 
+{% block metaData %}
+
+<meta property="og:title" content="{{ page.title }} | {{ company_title }}" />
+<meta property="og:description" content="{{ page.metaDescription ? page.metaDescription : (
+    page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
+    company_subtitle ~ " | " ~ company_address
+) }}" />
+<meta property="og:site_name" content="{{ url('homepage') }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+<meta property="og:locale" content="{{ page.locale }}" />
+
+{% endblock metaData %}
+
+
 {% block leftMenu %}
 
     {% set menu = knp_menu_get('page_left', [], {'page': page} ) %}
@@ -31,11 +46,10 @@
 
 {% block description %}
 
-{% if page.metaDescription %}
-<meta name="description" content="{{ page.metaDescription }}" />
-{% else %}
-<meta name="description" content="{{ page.description|length > 180 ? page.description|slice(0, 163) : page.description  }}" />
-{% endif %}
+<meta name="description" content="{{ page.metaDescription ? page.metaDescription : (
+    page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
+    company_subtitle ~ " | " ~ company_address
+) }}" />
 
 {% endblock %}
 
