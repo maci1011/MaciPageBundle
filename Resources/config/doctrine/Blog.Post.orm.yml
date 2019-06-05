@@ -73,6 +73,14 @@ Maci\PageBundle\Entity\Blog\Post:
             targetEntity: Maci\PageBundle\Entity\Blog\MediaItem
             mappedBy: post
             orderBy: { 'position': ASC }
+        relatedSources:
+            targetEntity: Maci\PageBundle\Entity\Blog\RelatedPosts
+            mappedBy: sourcePost
+            orderBy: { 'position': ASC }
+        relatedTargets:
+            targetEntity: Maci\PageBundle\Entity\Blog\RelatedPosts
+            mappedBy: targetPost
+            orderBy: { 'position': ASC }
     manyToMany:
         tags:
             targetEntity: Maci\PageBundle\Entity\Blog\Tag

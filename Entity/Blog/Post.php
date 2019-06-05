@@ -110,7 +110,12 @@ class Post
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    protected $translations;
+    private $relatedSources;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $relatedTargets;
 
     /**
      * @var string
@@ -124,7 +129,8 @@ class Post
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->relatedSources = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->relatedTargets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->removed = false;
         $this->status = 'new';
         $uniqid = uniqid();
@@ -544,6 +550,78 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Add relatedSource.
+     *
+     * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource
+     *
+     * @return Post
+     */
+    public function addRelatedSource(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource)
+    {
+        $this->relatedSources[] = $relatedSource;
+
+        return $this;
+    }
+
+    /**
+     * Remove relatedSource.
+     *
+     * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRelatedSource(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource)
+    {
+        return $this->relatedSources->removeElement($relatedSource);
+    }
+
+    /**
+     * Get relatedSources.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelatedSources()
+    {
+        return $this->relatedSources;
+    }
+
+    /**
+     * Add relatedTarget.
+     *
+     * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget
+     *
+     * @return Post
+     */
+    public function addRelatedTarget(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget)
+    {
+        $this->relatedTargets[] = $relatedTarget;
+
+        return $this;
+    }
+
+    /**
+     * Remove relatedTarget.
+     *
+     * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRelatedTarget(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget)
+    {
+        return $this->relatedTargets->removeElement($relatedTarget);
+    }
+
+    /**
+     * Get relatedTargets.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelatedTargets()
+    {
+        return $this->relatedTargets;
     }
 
     /**

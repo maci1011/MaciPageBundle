@@ -140,6 +140,16 @@ class Item
     }
 
     /**
+     * Get favourite.
+     *
+     * @return bool
+     */
+    public function getFavourite()
+    {
+        return $this->favourite;
+    }
+
+    /**
      * Set favourite
      *
      * @param boolean $favourite

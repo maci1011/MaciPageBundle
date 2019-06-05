@@ -1,0 +1,24 @@
+
+Maci\PageBundle\Entity\Blog\RelatedPosts:
+    type:  entity
+    table: maci_blog_related_posts
+    repositoryClass: Maci\PageBundle\Repository\Blog\RelatedPostsRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 15
+        position:
+            type: integer
+            nullable: true
+    manyToOne:
+        sourcePost:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            inversedBy: relatedTargets
+        targetPost:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            inversedBy: relatedSources
