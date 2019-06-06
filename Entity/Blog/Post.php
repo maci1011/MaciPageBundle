@@ -588,6 +588,29 @@ class Post
         return $this->relatedSources;
     }
 
+
+    public function getPreviousSourcePosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getTargetPost()) && $e->getType() == 'prev' );
+        });
+    }
+
+    public function getNextSourcePosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getTargetPost()) && $e->getType() == 'next' );
+        });
+    }
+
+    public function getRelatedSourcePosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getTargetPost()) && $e->getType() == 'related' );
+        });
+    }
+
+
     /**
      * Add relatedTarget.
      *
@@ -623,6 +646,51 @@ class Post
     {
         return $this->relatedTargets;
     }
+
+
+    public function getPreviousTargetPosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getSourcePost()) && $e->getType() == 'prev' );
+        });
+    }
+
+    public function getNextTargetPosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getSourcePost()) && $e->getType() == 'next' );
+        });
+    }
+
+    public function getRelatedTargetPosts()
+    {
+        return $this->relatedSources->filter(function($e){
+            return ( is_object($e->getSourcePost()) && $e->getType() == 'related' );
+        });
+    }
+
+
+    public function getPreviousPosts()
+    {
+        return new \Doctrine\Common\Collections\ArrayCollection(
+            $this->getPreviousSourcePosts()->toArray(), $this->getNextTargetPosts()->toArray()
+        );
+    }
+
+    public function getNextPosts()
+    {
+        return new \Doctrine\Common\Collections\ArrayCollection(
+            $this->getPreviousSourcePosts()->toArray(), $this->getNextTargetPosts()->toArray()
+        );
+    }
+
+    public function getRelatedPosts()
+    {
+        return new \Doctrine\Common\Collections\ArrayCollection(
+            $this->getRelatedSourcePosts()->toArray(), $this->getRelatedTargetPosts()->toArray()
+        );
+    }
+
 
     /**
      * Add mediaItems

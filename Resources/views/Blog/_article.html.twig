@@ -31,6 +31,23 @@
 </header>
 
 
+{% if post.nextPosts|length %}
+<section class="blog-post-related related-next row">
+
+	<h3 class="related-list-title">
+	{% if post.nextPosts|length == 1 %}
+		{{ 'blog.post.related.prev-post' | matra('Previous Post') }}:
+	{% else %}
+		{{ 'blog.post.related.prev-posts' | matra('Previous Posts') }}:
+	{% endif %}
+	</h3>
+
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.previousPosts } %}
+
+</section>
+{% endif %}
+
+
 <section class="blog-post-content row">
 
 	{% if post.preheader is not null %}
@@ -56,6 +73,40 @@
 <section class="blog-post-images row">
 
 {% include "@MaciPage/Blog/_media_list.html.twig" %}
+
+</section>
+{% endif %}
+
+
+{% if post.nextPosts|length %}
+<section class="blog-post-related related-next row">
+
+	<h3 class="related-list-title">
+	{% if post.nextPosts|length == 1 %}
+		{{ 'blog.post.related.next-post' | matra('Next Post') }}:
+	{% else %}
+		{{ 'blog.post.related.next-posts' | matra('Next Posts') }}:
+	{% endif %}
+	</h3>
+
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.nextPosts } %}
+
+</section>
+{% endif %}
+
+
+{% if post.relatedPosts|length %}
+<section class="blog-post-related related-next row">
+
+	<h3 class="related-list-title">
+	{% if post.relatedPosts|length == 1 %}
+		{{ 'blog.post.related-post' | matra('Related Post') }}:
+	{% else %}
+		{{ 'blog.post.related-posts' | matra('Related Posts') }}:
+	{% endif %}
+	</h3>
+
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.relatedPosts } %}
 
 </section>
 {% endif %}

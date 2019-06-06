@@ -1,0 +1,19 @@
+
+<ul class="related-posts">
+
+{% for related_item in list %}
+
+{% set related_post = post.id == related_item.sourcePost.id ? related_item.targetPost : related_item.sourcePost %}
+
+<li>
+	<a href="{{ path('maci_blog_show', { 'path': related_post.path, '_locale': related_post.locale }) }}">
+		{% if related_post.preview %}
+		<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" />
+		{% endif %}
+		<span class="related-post-title">{{ related_post.title }}</span>
+	</a>
+</li>
+
+{% endfor %}
+
+</ul>
