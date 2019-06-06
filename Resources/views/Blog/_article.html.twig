@@ -31,11 +31,11 @@
 </header>
 
 
-{% if post.nextPosts|length %}
+{% if post.previousPosts|length %}
 <section class="blog-post-related related-next row">
 
 	<h3 class="related-list-title">
-	{% if post.nextPosts|length == 1 %}
+	{% if post.previousPosts|length == 1 %}
 		{{ 'blog.post.related.prev-post' | matra('Previous Post') }}:
 	{% else %}
 		{{ 'blog.post.related.prev-posts' | matra('Previous Posts') }}:
