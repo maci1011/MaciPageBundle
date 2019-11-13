@@ -931,7 +931,7 @@ class Product
     public function getInhPreview()
     {
         if (is_object($this->preview)) return $this->preview;
-        $preview = false;
+        $preview = null;
         $list = $this->getParentsList();
         foreach ($list as $item) {
             if (is_object($item->getPreview())) $preview = $item->getPreview();

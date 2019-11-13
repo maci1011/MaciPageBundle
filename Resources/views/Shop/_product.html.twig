@@ -249,7 +249,7 @@
 					{% endif %}
 
 					<li>
-						{{ render(controller('MaciOrderBundle:Order:addToCart', { '_product': child } )) }}
+						{{ render(controller('MaciOrderBundle:Default:addToCart', { '_product': child } )) }}
 					</li>
 
 				</ol>
@@ -271,7 +271,7 @@
 				{% endif %}
 
 				<li>
-					{{ render(controller('MaciOrderBundle:Order:addToCart', { '_product': item } )) }}
+					{{ render(controller('MaciOrderBundle:Default:addToCart', { '_product': item } )) }}
 				</li>
 
 				{% else %}
