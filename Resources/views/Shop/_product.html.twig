@@ -39,6 +39,20 @@
 
 		<div class="product-details">
 
+			<nav>
+			<ol class="breadcrumb">
+
+				<li class="product-category-parent">
+					<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
+				</li>
+
+				<li class="product-category active">
+					<span>{{ item.name }}</span>
+				</li>
+
+			</ol>
+			</nav>
+
 			<ol class="product-details-list">
 
 
@@ -142,7 +156,7 @@
 					{% for childCategory in item.categoryItems %}
 
 					<nav>
-					<ol class="breadcrumb">
+					<ul>
 
 						{% for categoryItem in childCategory.category.parentsList %}
 
@@ -156,24 +170,10 @@
 							<a href="{{ path('maci_product_category', {'id': childCategory.category.id}) }}">{{ childCategory }}</a>
 						</li>
 
-					</ol>
+					</ul>
 					</nav>
 
 					{% else %}
-
-					<nav>
-					<ol class="breadcrumb">
-
-						<li class="product-category-parent">
-							<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
-						</li>
-
-						<li class="product-category active">
-							<span>{{ item.name }}</span>
-						</li>
-
-					</ol>
-					</nav>
 
 					{% endfor %}
 
