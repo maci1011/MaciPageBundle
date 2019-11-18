@@ -526,6 +526,14 @@ p {
     margin-right: 5px;
 }
 
+.cart-list td.order-item-preview {
+    width: 160px;
+}
+
+.cart-list td.order-item-preview > img {
+    margin: 0 auto;
+}
+
 /*
  *      Start PopUp
  */

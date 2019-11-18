@@ -1,5 +1,5 @@
 
-<article id="maci-product_{{ item.id }}" class="show-product row">
+<article id="maci-product_{{ item.id }}" class="show-product">
 
 <div class="container-fluid">
 
@@ -21,7 +21,7 @@
 
 	<section class="col-xs-12 col-sm-{{ shop_is_live ? 3 : 4 }}">
 
-		<div class="product-media-list row">
+		<div class="product-media-list">
 
 			{% if item.preview %}
 
@@ -172,8 +172,6 @@
 
 					</ul>
 					</nav>
-
-					{% else %}
 
 					{% endfor %}
 
