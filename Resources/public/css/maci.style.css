@@ -526,14 +526,15 @@ p {
     margin-right: 5px;
 }
 
-.cart-list td.order-item-preview {
+.cart-list .order-item-preview {
     width: 160px;
 }
 
-.cart-list td.order-item-preview > img {
+.cart-list .order-item-preview > img {
     margin: 0 auto;
 }
 
+.user-orders-list td > span,
 .user-mails-list td > span {
     display: block;
     padding: 6px;
