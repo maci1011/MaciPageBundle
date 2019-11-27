@@ -25,6 +25,13 @@ use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
  */
 class ContactType extends AbstractType
 {
+	private $kernel;
+
+    public function __construct(\App\Kernel $kernel)
+    {
+	    $this->kernel = $kernel;
+    }
+
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		$resolver->setDefaults(array(
@@ -51,13 +58,19 @@ class ContactType extends AbstractType
 	            	'message' => 'Please accept the Terms and Conditions'
 	            ))
 	        ))
-	        ->add('recaptcha', EWZRecaptchaType::class, array(
-	        	'label_attr'  => array('class'=> 'sr-only'),
-    	        'mapped'      => false,
+	    ;
+
+	    if($this->kernel->getEnvironment() === "prod") {
+			$builder->add('recaptcha', EWZRecaptchaType::class, array(
+		    	'label_attr'  => array('class'=> 'sr-only'),
+		        'mapped'      => false,
 				'constraints' => array(
 				    new RecaptchaTrue()
 				)
-	        ))
+		    ));
+		}
+
+		$builder
             ->add('cancel', ResetType::class)
             ->add('send', SubmitType::class)
 		;

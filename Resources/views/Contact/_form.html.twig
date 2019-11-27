@@ -37,7 +37,7 @@
 
 	{% include "@MaciPage/Form/_required_fields.html.twig" %}
 
-    {% if app.environment == 'prod' %}
+    {% if form.recaptcha is defined %}
 	<div class="form-group">
     	{{ form_row(form.recaptcha) }}
 	</div>
