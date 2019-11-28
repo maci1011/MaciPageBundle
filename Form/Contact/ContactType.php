@@ -4,8 +4,7 @@ namespace Maci\PageBundle\Form\Contact;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Email;
@@ -21,21 +20,15 @@ use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 /**
- * Category
+ * Contact
  */
 class ContactType extends AbstractType
 {
-	private $kernel;
-
-    public function __construct(\App\Kernel $kernel)
-    {
-	    $this->kernel = $kernel;
-    }
-
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
 			'data_class' => 'Maci\PageBundle\Entity\Contact\Contact',
+			'env' => 'prod'
 			// 'cascade_validation' => true,
 		));
 	}
@@ -60,7 +53,7 @@ class ContactType extends AbstractType
 	        ))
 	    ;
 
-	    if($this->kernel->getEnvironment() === "prod") {
+	    if($options['env'] === "prod") {
 			$builder->add('recaptcha', EWZRecaptchaType::class, array(
 		    	'label_attr'  => array('class'=> 'sr-only'),
 		        'mapped'      => false,

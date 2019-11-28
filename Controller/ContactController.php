@@ -19,7 +19,8 @@ class ContactController extends Controller
 
         $form = $this->createForm(ContactType::class, $contact, array(
             'action' => $this->generateUrl('MaciPageBundle_ContactForm'),
-            'method' => 'POST'
+            'method' => 'POST',
+            'env' => $this->get('kernel')->getEnvironment()
         ));
 
         $form->handleRequest($request);

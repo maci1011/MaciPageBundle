@@ -17,12 +17,6 @@ services:
             - { name: knp_menu.menu_builder, method: createPageLeftMenu, alias: page_left }
             - { name: knp_menu.menu_builder, method: createTermsMenu, alias: terms }
 
-    maci_page.form.type.contacts:
-        class: Maci\PageBundle\Form\Contact\ContactType
-        arguments: ["%kernel.environment%"]
-        tags:
-            - { name: form.type, alias: page }
-
     # ---> Blog
 
     maci_page.blog.menu_builder:
