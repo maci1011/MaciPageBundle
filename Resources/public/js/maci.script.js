@@ -41,7 +41,7 @@ $(document).ready(function(e) {
 		}
 	}
 
-	$('.set-cookie').each(function(i,el) {
+	$('.set-cookie-button').each(function(i,el) {
 		$(el).click(function(e) {
 			e.preventDefault();
 			$.ajax({
@@ -49,7 +49,7 @@ $(document).ready(function(e) {
 				data: {},
 				url: $(el).attr('href')
 			});
-			$(el).parents('#cookieMessage, .container, .container-fluid, .popup').first().hide();
+			$(el).parents('.cookieContainer').first().remove();
 		});
 	});
 

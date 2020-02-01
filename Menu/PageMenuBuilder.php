@@ -28,7 +28,7 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
+		$menu->setChildrenAttribute('class', 'navbar-nav mr-auto');
 
 		$menu->addChild($this->translator->getMenu('page.home', 'Home'), array('route' => 'maci_homepage'));
 
