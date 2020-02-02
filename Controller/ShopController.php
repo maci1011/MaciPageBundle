@@ -2,10 +2,10 @@
 
 namespace Maci\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ShopController extends Controller
+class ShopController extends AbstractController
 {
     public function indexAction()
     {

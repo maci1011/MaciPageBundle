@@ -2,7 +2,7 @@
 
 namespace Maci\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -11,7 +11,7 @@ use Maci\PageBundle\Entity\Media\Media;
 use Maci\PageBundle\Entity\Contact\Contact;
 use Maci\PageBundle\Form\Contact\ContactType;
 
-class ContactController extends Controller
+class ContactController extends AbstractController
 {
     public function formAction(Request $request)
     {

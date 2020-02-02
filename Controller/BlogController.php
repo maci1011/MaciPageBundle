@@ -2,10 +2,10 @@
 
 namespace Maci\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class BlogController extends Controller
+class BlogController extends AbstractController
 {
     public function indexAction(Request $request)
     {

@@ -54,7 +54,7 @@ class PageMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$menu->addChild($this->translator->getMenu('page.home', 'Home'), array('route' => 'maci_homepage'));
 

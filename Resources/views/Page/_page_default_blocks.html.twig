@@ -29,7 +29,9 @@
 
     {% set menu = knp_menu_get('page_left', [], {'page': page} ) %}
 
-    <nav>{{ knp_menu_render(menu, {'currentClass': 'active'}) }}</nav>
+    <nav>
+        {{ knp_menu_render(menu, {'currentClass': 'active'}) }}
+    </nav>
 
 {% endblock %}
 
@@ -56,22 +58,22 @@
 
 
 {% block pathBar %}
-<nav>
-<ol class="breadcrumb">
-    <li>
-    	<a href="{{ path('homepage') }}">Home</a>
-    </li>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+        	<a href="{{ path('homepage') }}">Home</a>
+        </li>
 
-	{% for parentItem in page.parentsList %}
+    	{% for parentItem in page.parentsList %}
 
-	<li class="product-category-parent">
-		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem.menuLabel }}</a>
-	</li>
+    	<li class="breadcrumb-item product-category-parent">
+    		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem.menuLabel }}</a>
+    	</li>
 
-	{% endfor %}
+    	{% endfor %}
 
-    <li class="active">{{ page.menuLabel }}</li>
-</ol>
+        <li class="breadcrumb-item active" aria-current="page">{{ page.menuLabel }}</li>
+    </ol>
 </nav>
 {% endblock %}
 
