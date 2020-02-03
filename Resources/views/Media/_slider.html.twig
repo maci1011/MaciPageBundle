@@ -45,7 +45,7 @@
 
 {% set crs_id = 'carousel_' ~ random() %}
 
-<div id="{{ crs_id }}" class="carousel slide {% if multiple %}multiple{% else %}default{% endif %} {% if full %}full{% endif %}" {{ interval|raw }}>
+<div id="{{ crs_id }}" class="carousel slide {% if multiple %}multiple{% else %}default{% endif %} {% if full %}full{% endif %}" data-ride="carousel" {{ interval|raw }}>
 
 
   <!-- Indicators -->
@@ -54,7 +54,7 @@
 
 	{% for i in 0..(len - 1) %}
 
-    <li data-target="#carousel-example-generic" data-slide-to="{{ i }}"{% if loop.first %} class="active"{% endif %}></li>
+    <li data-target="#{{ crs_id }}" data-slide-to="{{ i }}"{% if loop.first %} class="active"{% endif %}></li>
 
 	{% endfor %}
 
@@ -144,7 +144,7 @@
     {% for item in list %}
 
       
-    <div class="item image {% if loop.first %} active{% endif %}{% if full %} full{% endif %}">
+    <div class="carousel-item image {% if loop.first %} active{% endif %}{% if full %} full{% endif %}">
 
       {% if item.media is defined and item.media.webPath is defined %}
       {% set image = item.media %}
@@ -154,15 +154,15 @@
 
       {% if item.link is defined and item.link %}
       <a href="{{ item.link }}" alt="{{ item.name }}">
-        <img src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+        <img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
       </a>
       {% else %}
-      <img src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+      <img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
       {% endif %}
 
       <!-- Caption -->
       {% if caption and ( item.name or item.description ) %}
-      <div class="carousel-caption">
+      <div class="carousel-caption d-none d-md-block">
         {% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
         {% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
       </div>
@@ -179,11 +179,13 @@
 
   <!-- Controls -->
   {% if controls and 1 < list|length %}
-  <a class="left carousel-control" href="#{{ crs_id }}" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
+  <a class="carousel-control carousel-control-prev" href="#{{ crs_id }}" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
   </a>
-  <a class="right carousel-control" href="#{{ crs_id }}" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
+  <a class="carousel-control carousel-control-next" href="#{{ crs_id }}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
   </a>
   {% endif %}
 
