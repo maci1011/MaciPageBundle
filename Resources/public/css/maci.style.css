@@ -45,7 +45,7 @@ p {
  */
 
 #main {
-    padding: 51px 0 0 0;
+    padding: 56px 0 0 0;
     max-width: 1920px;
     margin: 0 auto;
 }
@@ -95,10 +95,6 @@ p {
         padding: 10px 15px;
     }
 
-}
-
-#maciadmin {
-    padding-top: 15px;
 }
 
 #maciadmin .navbar-nav {
