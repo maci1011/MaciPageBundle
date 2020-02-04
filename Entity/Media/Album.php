@@ -90,6 +90,7 @@ class Album
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->type = 'album';
     }
 
     /**
