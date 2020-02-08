@@ -136,11 +136,11 @@ $(document).ready(function(e) {
 		});
 
 		if ($(window).scrollTop() < 350) {
-			$('.navbar-fixed-top').addClass('on-top');
-			$('.navbar-fixed-top').removeClass('on-scrolling');
+			$('.navbar.fixed-top').addClass('on-top');
+			$('.navbar.fixed-top').removeClass('on-scrolling');
 		} else {
-			$('.navbar-fixed-top').removeClass('on-top');
-			$('.navbar-fixed-top').addClass('on-scrolling');
+			$('.navbar.fixed-top').removeClass('on-top');
+			$('.navbar.fixed-top').addClass('on-scrolling');
 		}
 
 	}).scroll();
