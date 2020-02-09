@@ -1,7 +1,9 @@
 
-{% if added %}
+{% if send %}
 
-	<div class="send_message">Mail Inviata</div>
+<div class="alert alert-success" role="alert">
+	<span class="send_confirm">{{ 'contacts.form.send_confirm'|matra('Message sent.') }}</span>
+</div>
 
 {% endif %}
 

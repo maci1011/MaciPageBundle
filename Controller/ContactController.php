@@ -60,7 +60,7 @@ class ContactController extends AbstractController
 
         return $this->render('MaciPageBundle:Contact:form.html.twig', array(
             'form' => $form->createView(),
-            'added' => false
+            'send' => false
         ));
     }
 }
