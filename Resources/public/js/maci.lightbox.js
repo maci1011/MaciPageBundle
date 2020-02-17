@@ -53,7 +53,7 @@ var maciLightbox = function (options) {
 			lightbox.hide();
 		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
 		// Image Containers
-		var image = $('<img/>', {'class': 'maci-lightbox-image img-responsive'}).appendTo(container);
+		var image = $('<img/>', {'class': 'maci-lightbox-image img-fluid'}).appendTo(container);
 		var image_wrapper = image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
 		var slider = image_wrapper.wrap($('<div/>', {'class': 'maci-lightbox-slider'})).parent();
 		// Image Infos Container

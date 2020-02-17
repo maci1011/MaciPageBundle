@@ -17,7 +17,7 @@
 	{% if post.preview %}
 	<div class="post-preview-wrapper">
 		<a href="{{ post_link }}">
-			<img class="post-preview img-responsive" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+			<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
 		</a>
 	</div>
 	{% endif %}

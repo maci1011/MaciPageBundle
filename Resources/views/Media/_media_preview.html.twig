@@ -1,2 +1,2 @@
 
-<img class="img-responsive" src="{{ asset(item.webPreview | imagine_filter('maci_media_preview')) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
+<img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_media_preview')) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />

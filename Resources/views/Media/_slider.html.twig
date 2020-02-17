@@ -104,7 +104,7 @@
         {% endif %}
 
         <div class="slide-image">
-          <img class="img-responsive" src="{{ asset(item.webPreview | imagine_filter('maci_media_gallery')) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
+          <img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_media_gallery')) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
         </div>
 
         {% if item.link %}

@@ -3,7 +3,7 @@
 
 <div class="product-preview">
 <a href="{{ path('maci_product_show', {'id': item.id}) }}">
-	<img class="img-responsive" src="{{ asset(item.preview.webPath | imagine_filter('maci_product_preview')) }}" {% if item.description %} title="{{ item }}" alt="{{ item.description }}" {% else %} alt="{{ item }}" {% endif %} {% if item.cover %} cover="{{ asset(item.cover.webPath | imagine_filter('maci_product_preview')) }}" {% endif %} />
+	<img class="img-fluid" src="{{ asset(item.preview.webPath | imagine_filter('maci_product_preview')) }}" {% if item.description %} title="{{ item }}" alt="{{ item.description }}" {% else %} alt="{{ item }}" {% endif %} {% if item.cover %} cover="{{ asset(item.cover.webPath | imagine_filter('maci_product_preview')) }}" {% endif %} />
 </a>
 </div>
 
