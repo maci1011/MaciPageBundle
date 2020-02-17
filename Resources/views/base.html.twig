@@ -24,8 +24,17 @@
 
     {% block stylesheets %}
 
+        
+    <link href="{{ 'layout.font.link' | matop('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&display=swap') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+
+    body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
+        font-family: {{ 'layout.font.family' | matop("'Open Sans', sans-serif") }};
+    }
+
+    </style>
     
-    <link href="{{ 'layout.font.link' | matop('https://fonts.googleapis.com/css?family=Lato:700,400,300,700italic,400italic,300italic') }}" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/all.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/font-awesome.min.css') }}" />
