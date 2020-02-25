@@ -211,7 +211,6 @@ class Item
     {
         return array(
             'Default' => 'default',
-            'Image & Text - Image' => 'image',
             'Image & Text - Center' => 'center',
             'Image & Text - Center Overlay' => 'center_ov',
             'Image & Text - Center Fix' => 'center_fix',
@@ -228,9 +227,10 @@ class Item
             'Company' => 'company',
             'Contacts - Contact Info' => 'contact_info',
             'Contacts - Contact Form' => 'contact_form',
-            'Contacts - Contact Form Bg' => 'contact_form_bg',
+            'Contacts - Contact Form Overlay' => 'contact_form_ov',
             'Gallery - Album Preview' => 'album_preview',
             'Gallery - Album' => 'album',
+            'Gallery - Grid' => 'quads',
             'Gallery - Gallery 3IA' => 'gallery',
             'Gallery - Gallery 2IA' => 'gallery_a',
             'Gallery - Gallery 4IA' => 'gallery_b',

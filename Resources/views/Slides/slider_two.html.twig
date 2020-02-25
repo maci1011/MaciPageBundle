@@ -1,10 +1,10 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide slider {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide slider {{ item.style }} {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	{% if item.gallery.images|length %}
 
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'album': item.gallery, 'full': true, 'caption': true } %}
+	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.gallery.images, 'caption': true } %}
 
 	{% endif %}
 

@@ -1,24 +1,11 @@
 
-{% set list = album.images %}
+{% if list|length %}
 
-{% if indicators is not defined %}
-{% set indicators = true %}
-{% endif %}
+{% set len = list|length %}
 
-{% if multiple is not defined %}
-{% set multiple = false %}
-{% endif %}
-
-{% if full is not defined %}
-{% set full = false %}
-{% endif %}
 
 {% if caption is not defined %}
 {% set caption = false %}
-{% endif %}
-
-{% if controls is not defined %}
-{% set controls = true %}
 {% endif %}
 
 {% if interval is not defined %}
@@ -29,165 +16,27 @@
 {% set interval = '' %}
 {% endif %}
 
-{% if slider_filter is not defined %}
-{% set slider_filter = 'maci_media_slider' %}
+{% if template is not defined %}
+{% if type is not defined %}
+{% set type = "default" %}
+{% set template = "@MaciPage/Media/_slider_default.html.twig" %}
+{% elseif type == 'multiple' %}
+{% set template = "@MaciPage/Media/_slider_multiple.html.twig" %}
+{% elseif type == 'quads' %}
+{% set template = "@MaciPage/Media/_slider_quads.html.twig" %}
+{% endif %}
+{% endif %}
+
+{% if image_filter is not defined %}
+{% set image_filter = 'maci_media_slider' %}
 {% endif %}
 
 
-{% if list|length %}
+{% set carousel_id = 'carousel_' ~ random() %}
 
+<div id="{{ carousel_id }}" class="carousel slide {{ type }}" data-ride="carousel" {{ interval|raw }}>
 
-{% if multiple %}
-{% set len = ( list|length / 3 ) | round(0, 'ceil') %}
-{% else %}
-{% set len = list|length %}
-{% endif %}
-
-{% set crs_id = 'carousel_' ~ random() %}
-
-<div id="{{ crs_id }}" class="carousel slide {% if multiple %}multiple{% else %}default{% endif %} {% if full %}full{% endif %}" data-ride="carousel" {{ interval|raw }}>
-
-
-  <!-- Indicators -->
-  {% if indicators and 1 < len %}
-  <ol class="carousel-indicators">
-
-	{% for i in 0..(len - 1) %}
-
-    <li data-target="#{{ crs_id }}" data-slide-to="{{ i }}"{% if loop.first %} class="active"{% endif %}></li>
-
-	{% endfor %}
-
-  </ol>
-  {% endif %}
-
-
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-
-  {% if multiple %}
-
-    <div class="item multiple active">
-
-    <div class="row">
-
-    {% if multiple_len is not defined %}
-    {% set multiple_len = 3 %}
-    {% endif %}
-
-    {% if multiple_len == 1 %}
-    {% set multiple_class = 'col-xs-12' %}
-    {% elseif multiple_len == 2 %}
-    {% set multiple_class = 'col-xs-12 col-sm-6' %}
-    {% elseif multiple_len == 3 %}
-    {% set multiple_class = 'col-xs-12 col-sm-4' %}
-    {% elseif multiple_len == 4 %}
-    {% set multiple_class = 'col-xs-12 col-sm-3' %}
-    {% elseif multiple_len == 6 %}
-    {% set multiple_class = 'col-xs-12 col-sm-4' %}
-    {% endif %}
-
-    {% for item in list %}
-
-      <div class="{{ multiple_class }}">
-
-        <!-- Caption -->
-        {% if caption == 'before' %}
-        <div class="slide-caption">
-          <h4>{{ item.name }}</h4>
-          <div>{{ item.description|raw }}</div>
-        </div>
-        {% endif %}
-
-        {% if item.link %}
-        <a href="{{ item.link }}" alt="{{ item.name }}">
-        {% endif %}
-
-        <div class="slide-image">
-          <img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_media_gallery')) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
-        </div>
-
-        {% if item.link %}
-        </a>
-        {% endif %}
-
-        <!-- Caption -->
-        {% if caption == 'after' %}
-        <div class="slide-caption">
-          <h4>{{ item.name }}</h4>
-          <div>{{ item.description|raw }}</div>
-        </div>
-        {% endif %}
-
-      </div>
-
-    {% if ( loop.index % multiple_len ) == 0 and not loop.last %}
-
-    </div>
-
-    </div>
-
-    <div class="item multiple">
-
-    <div class="row">
-
-    {% endif %}
-
-    {% endfor %}
-
-    </div>
-
-    </div>
-
-  {% else %}
-
-    {% for item in list %}
-
-      
-    <div class="carousel-item image {% if loop.first %} active{% endif %}{% if full %} full{% endif %}">
-
-      {% if item.media is defined and item.media.webPath is defined %}
-      {% set image = item.media %}
-      {% else %}
-      {% set image = item %}
-      {% endif %}
-
-      {% if item.link is defined and item.link %}
-      <a href="{{ item.link }}" alt="{{ item.name }}">
-        <img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
-      </a>
-      {% else %}
-      <img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(slider_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
-      {% endif %}
-
-      <!-- Caption -->
-      {% if caption and ( item.name or item.description ) %}
-      <div class="carousel-caption d-none d-md-block">
-        {% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-        {% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
-      </div>
-      {% endif %}
-
-    </div>
-
-    {% endfor %}
-
-  {% endif %}
-
-  </div>
-
-
-  <!-- Controls -->
-  {% if controls and 1 < list|length %}
-  <a class="carousel-control carousel-control-prev" href="#{{ crs_id }}" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control carousel-control-next" href="#{{ crs_id }}" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-  {% endif %}
+	{% include template %}
 
 </div>
 

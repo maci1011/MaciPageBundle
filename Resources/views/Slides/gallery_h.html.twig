@@ -10,7 +10,7 @@
 
 	{% if item.gallery.images|length %}
 
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'album': item.gallery, 'multiple': true, 'controls': true, 'indicators': true, 'multiple_len': 2, 'caption': false } %}
+	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.gallery.images, 'type': 'multiple', 'controls': true, 'indicators': true, 'multiple_len': 2, 'caption': false } %}
 
 	{% endif %}
 

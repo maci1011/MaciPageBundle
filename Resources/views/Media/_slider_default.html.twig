@@ -1,0 +1,43 @@
+
+{% if slider_filter is not defined %}
+{% set slider_filter = 'maci_media_slider' %}
+{% endif %}
+
+{% include "@MaciPage/Media/_slider_indicators.html.twig" %}
+
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+
+{% for item in list %}
+
+<div class="carousel-item image {% if loop.first %} active{% endif %}">
+
+	{% if item.media is defined and item.media.webPath is defined %}
+	{% set image = item.media %}
+	{% else %}
+	{% set image = item %}
+	{% endif %}
+
+	{% if item.link is defined and item.link %}
+	<a href="{{ item.link }}" alt="{{ item.name }}">
+		<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+	</a>
+	{% else %}
+	<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+	{% endif %}
+
+	<!-- Caption -->
+	{% if caption and ( item.name or item.description ) %}
+	<div class="carousel-caption d-none d-md-block">
+		{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
+		{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+	</div>
+	{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% include "@MaciPage/Media/_slider_controls.html.twig" %}

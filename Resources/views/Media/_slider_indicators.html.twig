@@ -1,0 +1,16 @@
+
+{% if indicators is not defined %}
+{% set indicators = true %}
+{% endif %}
+
+{% if indicators and 1 < len %}
+<ol class="carousel-indicators">
+
+	{% for i in 0..(len - 1) %}
+
+	<li data-target="#{{ carousel_id }}" data-slide-to="{{ i }}"{% if loop.first %} class="active"{% endif %}></li>
+
+	{% endfor %}
+
+</ol>
+{% endif %}

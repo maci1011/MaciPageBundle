@@ -1,0 +1,69 @@
+
+{% if slider_filter is not defined %}
+{% set slider_filter = 'maci_media_gallery' %}
+{% endif %}
+
+{% include "@MaciPage/Media/_slider_indicators.html.twig" with { 'len': ((list|length / 4)|number_format + 1) } %}
+
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+
+<div class="carousel-item image quads active">
+
+	<div class="row">
+
+	{% for item in list %}
+
+		<div class="quads-item col-xs-12 col-sm-6">
+
+			<!-- Caption -->
+			{% if caption == 'before' and caption and ( item.name or item.description ) %}
+			<div class="carousel-caption d-none d-md-block">
+				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
+				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+			</div>
+			{% endif %}
+
+			{% if item.link %}
+			<a href="{{ item.link }}" alt="{{ item.name }}">
+			{% endif %}
+
+			<img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
+
+			{% if item.link %}
+			</a>
+			{% endif %}
+
+			<!-- Caption -->
+			{% if caption == 'after' and caption and ( item.name or item.description ) %}
+			<div class="carousel-caption d-none d-md-block">
+				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
+				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+			</div>
+			{% endif %}
+
+		</div>
+
+	{% if ( loop.index % 2 ) == 0 and not loop.last %}
+
+	</div>
+
+{% if ( loop.index % 4 ) == 0 and not loop.last %}
+
+</div>
+<div class="carousel-item image quads">
+
+{% endif %}
+
+	<div class="row index">
+
+	{% endif %}
+
+	{% endfor %}
+
+	</div>
+</div>
+
+</div>
+
+{% include "@MaciPage/Media/_slider_controls.html.twig" %}

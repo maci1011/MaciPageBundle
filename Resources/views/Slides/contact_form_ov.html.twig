@@ -1,14 +1,18 @@
 
 <div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
-<div class="slide-wrapper" style="background: url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat center center / cover rgba(0, 0, 0, 0);">
+<div class="slide-wrapper">
 
+	{% include "MaciPageBundle:Slides:_slide_background.html.twig" %}
+
+	<div class="slide-background-overlay"></div>
+
+	<div class="slide-caption-wrapper">
 	<div class="slide-caption col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
 
 		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" with { 'item': item } %}
 
 		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" with { 'item': item } %}
 
-		{#}
 		<div class="contacts_address row">
 
 			{% include "@MaciPage/Media/_contacts.html.twig" %}
@@ -16,7 +20,6 @@
 			{% include "@MaciPage/Media/_opening_hours.html.twig" %}
 
 		</div>
-		{#}
 
 		<div class="row">
 
@@ -27,8 +30,7 @@
 		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
 
 	</div>
-
-	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
+	</div>
 
 </div>
 </div>

@@ -1,0 +1,79 @@
+
+{% if slider_filter is not defined %}
+{% set slider_filter = 'maci_media_gallery' %}
+{% endif %}
+
+{% if multiple_len is defined %}
+{% if multiple_len == 2 %}
+{% set multiple_class = 'col-xs-12 col-sm-6' %}
+{% elseif multiple_len == 3 %}
+{% set multiple_class = 'col-xs-12 col-sm-4' %}
+{% elseif multiple_len == 4 %}
+{% set multiple_class = 'col-xs-12 col-sm-3' %}
+{% endif %}
+{% endif %}
+
+{% if multiple_class is not defined %}
+{% set multiple_len = 3 %}
+{% set multiple_class = 'col-xs-12 col-sm-4' %}
+{% endif %}
+
+{% include "@MaciPage/Media/_slider_indicators.html.twig" with { 'len': ((list|length / multiple_len)|number_format + 1) } %}
+
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+
+<div class="carousel-item image multiple active">
+
+	<div class="row">
+
+	{% for item in list %}
+
+		<div class="multiple-item {{ multiple_class }}">
+
+			<!-- Caption -->
+			{% if caption == 'before' and caption and ( item.name or item.description ) %}
+			<div class="carousel-caption d-none d-md-block">
+				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
+				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+			</div>
+			{% endif %}
+
+			{% if item.link %}
+			<a href="{{ item.link }}" alt="{{ item.name }}">
+			{% endif %}
+
+			<img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
+
+			{% if item.link %}
+			</a>
+			{% endif %}
+
+			<!-- Caption -->
+			{% if caption == 'after' and caption and ( item.name or item.description ) %}
+			<div class="carousel-caption d-none d-md-block">
+				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
+				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+			</div>
+			{% endif %}
+
+		</div>
+
+	{% if ( loop.index % multiple_len ) == 0 and not loop.last %}
+
+	</div>
+</div>
+<div class="item multiple">
+	<div class="row">
+
+	{% endif %}
+
+
+	{% endfor %}
+
+	</div>
+</div>
+
+</div>
+
+{% include "@MaciPage/Media/_slider_controls.html.twig" %}

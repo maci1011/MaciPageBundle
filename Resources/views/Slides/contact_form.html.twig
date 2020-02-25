@@ -2,6 +2,9 @@
 <div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
+	{% include "MaciPageBundle:Slides:_slide_background.html.twig" %}
+
+	<div class="slide-caption-wrapper">
 	<div class="slide-caption col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
 
 		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" with { 'item': item } %}
@@ -22,8 +25,7 @@
 
 		</div>
 
-		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
-
+	</div>
 	</div>
 
 	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}

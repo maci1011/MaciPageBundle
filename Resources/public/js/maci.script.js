@@ -88,31 +88,6 @@ $(document).ready(function(e) {
 
 	// Window
 
-	$(window).resize(function(e) {
-		$('.page_slides > .slide.slider > .slide-wrapper > .carousel.slide, .page_slider > .carousel.slide').each(function(i,el) {
-			var _h = ( $(window).height() < 800 ? $(window).height() : 800 );
-			$(el).css('maxHeight', ( _h ) + 'px' );
-		});
-		$('.page_slides > .slide').not('.slider').not('.gallery').not('.fix_height').children('.slide-wrapper').each(function(i,el) {
-			var _a = ( $(el).parent().innerHeight() - $(el).parent().height() ),
-				_h = $(el).innerHeight() - $(el).height(), _b, _t;
-			_a += _h;
-			_a = ( _a < 0 ? 0 : _a );
-			_h = ( _h < 0 ? 0 : _h );
-			$(el).children(':visible').each(function() {
-				_h += $(this).outerHeight(true);
-			});
-			_b = ( $(window).height() - _a );
-			_t = ( ( _a + _h ) < _b ? _b : _h );
-			_t = ( 400 < _t ? _t : 400 );
-			_t = ( _t < 800 ? _t : 800 );
-			$(el).height( _t + 'px' );
-			if ( $(el).children(':visible').length == 1 && $(el).children(':visible').first().hasClass('carousel') ) {
-				$(el).children(':visible').first().height(_t + 'px');
-			}
-		});
-	});
-
 	$(window).scroll(function(e) {
 
 		$('.page_container, .page_slides > .slide, .tgglscrn').not('.page_slides').each(function(i,el) {
@@ -153,7 +128,7 @@ $(document).ready(function(e) {
 
 $(window).on('load', function(e) {
 
-	$(window).resize();
+	$(window).scroll();
 
 });
 

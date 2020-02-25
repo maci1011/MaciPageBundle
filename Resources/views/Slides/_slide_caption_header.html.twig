@@ -1,8 +1,7 @@
 
 {% if item.name is not null %}
-
-<div class="header-wrapper">
-<header>
+<div class="slide-header-wrapper">
+<header class="slide-header">
 	{% if item.link %}
 	<a href="{{ item.link }}" alt="{{ item.name }}">
 		<h3 class="slide-title">{{ item.name }}</h3>
@@ -10,8 +9,6 @@
 	{% else %}
 	<h3>{{ item.name }}</h3>
 	{% endif %}
-	<i class="fa fa-2x fa-angle-down"></i>
 </header>
 </div>
-
 {% endif %}
