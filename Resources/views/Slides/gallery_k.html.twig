@@ -1,24 +1,4 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide gallery {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
-<div class="slide-wrapper">
-
-	<div class="slide-caption">
-
-		{% include "MaciPageBundle:Slides:_slide_caption.html.twig" with { 'item': item } %}
-
-	</div>
-
-	{% if item.gallery.images|length %}
-
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.gallery.images, 'type': 'multiple', 'controls': true, 'indicators': true, 'multiple_len': 6, 'caption': false } %}
-
-	{% endif %}
-
-	<div class="button-next btn-out">
-
-	{% include "MaciPageBundle:Slides:_slide_caption_btn_next.html.twig" %}
-
-	</div>
-
-</div>
-</div>
+{% include "@MaciPage/Slides/gallery.html.twig" with { 'gallery_params':
+	{ 'list': item.gallery.images, 'type': 'multiple', 'controls': true, 'indicators': true, 'multiple_len': 6, 'caption': false }
+} %}
