@@ -24,10 +24,18 @@
 	text-align: center;
 }
 
+.maci-lightbox .nav-item {
+	padding-left: 15px;
+}
+
+.maci-lightbox-fullscreen-button > span.icon-full,
+.maci-lightbox-fullscreen-button > span.icon-reduce { padding-top: 4px; }
 .maci-lightbox-fullscreen-button > span.icon-full { display: block; }
 .maci-lightbox-fullscreen-button > span.icon-reduce { display: none; }
 .maci-lightbox-fullscreen-button.on-fullscreen > span.icon-full { display: none; }
 .maci-lightbox-fullscreen-button.on-fullscreen > span.icon-reduce { display: block; }
+.maci-lightbox-close-button { padding: 8px 8px 0; }
+.maci-lightbox-close-button > span { font-size: 18pt; }
 
 .maci-lightbox-slider {
 	position: relative;

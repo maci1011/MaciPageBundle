@@ -7,7 +7,7 @@ var maciLightbox = function (options) {
 
 	var _defaults = {},
 		lightbox = $('<div/>', {'class': 'maci-lightbox'}).appendTo('body').hide(),
-		bar = $('<div/>', {'class': 'container'}).appendTo(lightbox).wrap($('<div/>', {'class': 'navbar navbar-fixed-top navbar-default'})),
+		bar = $('<div/>', {'class': 'container'}).appendTo(lightbox).wrap($('<div/>', {'class': 'navbar navbar-expand-lg navbar-light bg-light flex-column'})),
 		bar_header = $('<div/>', {'class': 'navbar-header'}).appendTo(bar),
 		bar_ul = $('<ul/>', {'class': 'nav navbar-nav navbar-right'}).appendTo(bar),
 		container = $('<div/>', {'class': 'maci-lightbox-container'}).appendTo(lightbox),
@@ -23,35 +23,35 @@ var maciLightbox = function (options) {
 		container.html(null);
 		// Album Title
 		if ($(a).attr('data-title')) {
-			$('<span/>', {'class': 'navbar-brand'}).html($(a).attr('data-title')).appendTo(bar_header);
+			$('<span/>', {'class': 'navbar-brand mr-4'}).html($(a).attr('data-title')).appendTo(bar_header);
 		}
 		// Album Index
 		if ($(a).attr('data-lightbox')) {
 			var list = $('a[data-lightbox=' + $(a).attr('data-lightbox') + ']'),
 				str = ($(list).index(a) + 1) + ' / ' + $(list).length
 			;
-			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li/>');
+			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		}
 		// View [+]
-		$('<a/>', {'class': 'maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
+		$('<a/>', {'class': 'nav-link maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="fas fa-search-plus" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		// Fullscreen
 		if (fullscreenElement.requestFullScreen || fullscreenElement.webkitRequestFullScreen || fullscreenElement.mozRequestFullScreen || fullscreenElement.msRequestFullScreen) {
-			var icon_full = $('<span class="icon-full glyphicon glyphicon-resize-full" aria-hidden="true"/>');
-			var icon_reduce = $('<span class="icon-reduce glyphicon glyphicon-resize-small" aria-hidden="true"/>');
-			var fullscreen_button = $('<a/>', {'class': 'maci-lightbox-fullscreen-button', 'href': ''}).click(function(e) {
+			var icon_full = $('<span class="icon-full fas fa-expand-arrows-alt" aria-hidden="true"/>');
+			var icon_reduce = $('<span class="icon-reduce fas fa-compress-arrows-alt" aria-hidden="true"/>');
+			var fullscreen_button = $('<a/>', {'class': 'nav-link maci-lightbox-fullscreen-button', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.toggleFullscreen();
 				$(this).toggleClass('on-fullscreen');
-			}).append(icon_full).append(icon_reduce).appendTo(bar_ul).wrap('<li/>');
+			}).append(icon_full).append(icon_reduce).appendTo(bar_ul).wrap('<li class="nav-item"/>');
 			if (_obj.isInFullscreen(fullscreenElement)) {
 				$(fullscreen_button).addClass('on-fullscreen');
 			}
 		}
 		// Close [X]
-		$('<a/>', {'class': 'maci-lightbox-close-button', 'href': ''}).click(function(e) {
+		$('<a/>', {'class': 'nav-link maci-lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
 			lightbox.hide();
-		}).html('<span class="glyphicon glyphicon-remove" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li/>');
+		}).html('<span class="fas fa-times" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		// Image Containers
 		var image = $('<img/>', {'class': 'maci-lightbox-image img-fluid'}).appendTo(container);
 		var image_wrapper = image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
@@ -75,12 +75,12 @@ var maciLightbox = function (options) {
 			$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.prev(a);
-			}).html('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"/>').appendTo(slider);
+			}).html('<span class="fas fa-angle-left" aria-hidden="true"/>').appendTo(slider);
 			// Next
 			$('<a/>', {'class': 'maci-lightbox-controller carousel-control right', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.next(a);
-			}).html('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"/>').appendTo(slider);
+			}).html('<span class="fas fa-angle-right" aria-hidden="true"/>').appendTo(slider);
 		}
 		// Loader Icon
 		var loader_icon = $('<div/>', {'class': 'maci-lightbox-loader-icon'}).appendTo(lightbox);
