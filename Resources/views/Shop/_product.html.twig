@@ -39,21 +39,21 @@
 
 		<div class="product-details">
 
-			<nav>
+			<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 
-				<li class="product-category-parent">
+				<li class="breadcrumb-item product-category-parent">
 					<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
 				</li>
 
-				<li class="product-category active">
+				<li class="breadcrumb-item product-category active">
 					<span>{{ item.name }}</span>
 				</li>
 
 			</ol>
 			</nav>
 
-			<ol class="product-details-list">
+			<ul class="product-details-list">
 
 
 				<li>
@@ -103,7 +103,7 @@
 				{% if item.notTabbedChildren|length %}
 				<li>
 					<div class="product-children">
-					<ol>
+					<ul>
 
 						{% for child in item.notTabbedChildren %}
 
@@ -119,7 +119,7 @@
 
 						{% endfor %}
 
-					</ol>
+					</ul>
 					</div>
 				</li>
 				{% endif %}
@@ -128,7 +128,7 @@
 				{% if item.tabbedChildren|length %}
 				<li>
 					<div class="product-children">
-					<ol>
+					<ul>
 
 						{% for child in item.tabbedChildren %}
 
@@ -144,7 +144,7 @@
 
 						{% endfor %}
 
-					</ol>
+					</ul>
 					</div>
 				</li>
 				{% endif %}
@@ -178,7 +178,7 @@
 				</div>
 				</li>
 
-			</ol>
+			</ul>
 
 		</div>
 
@@ -215,7 +215,7 @@
 
 		<div class="product-form">
 
-			<ol class="product-form-list">
+			<ul class="product-form-list">
 
 				<li>
 					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}</h3>
@@ -229,14 +229,14 @@
 
 				{% for child in item.notTabbedChildren %}
 				<li>
-				<ol id="product-child-cart-{{ child.id }}" class="product-child-cart">
+				<ul id="product-child-cart-{{ child.id }}" class="product-child-cart">
 
 					<li>
 						{% if child.variantLabel %}<span class="product-child-label">{{ child.variantLabel }}:</span>{% endif %}
 						<span class="product-child-name">{{ child.variantName }}</span>
 					</li>
 
-					{% if child.limited and child.quantity < 9 %}
+					{% if child.limited and child.quantity < 10 %}
 					<li>
 						<span class="product-quantity_available">{{ 'product.quantity_available' | matra('Quantity Available') }}: {{ item.quantity }}</span>
 					</li>
@@ -250,7 +250,7 @@
 						{{ render(controller('MaciOrderBundle:Default:addToCart', { '_product': child } )) }}
 					</li>
 
-				</ol>
+				</ul>
 				</li>
 				{% endfor %}
 
@@ -282,7 +282,7 @@
 
 				{% endif %}
 
-			</ol>
+			</ul>
 
 		</div>
 
