@@ -1,5 +1,5 @@
 
-{% if item.media.path %}
+{% if item.media.path is defined %}
 <div class="slide-background">
 	<img class="img-fluid" src="{{ path('maci_media_get', {'path': item.media.path}) }}" alt="{{ item.media }}" />
 </div>

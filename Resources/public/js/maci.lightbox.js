@@ -26,14 +26,14 @@ var maciLightbox = function (options) {
 			$('<span/>', {'class': 'navbar-brand mr-4'}).html($(a).attr('data-title')).appendTo(bar_header);
 		}
 		// Album Index
-		if ($(a).attr('data-lightbox')) {
+		if ($(a).attr('data-lightbox') && 1 < $(list).length) {
 			var list = $('a[data-lightbox=' + $(a).attr('data-lightbox') + ']'),
 				str = ($(list).index(a) + 1) + ' / ' + $(list).length
 			;
 			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		}
 		// View [+]
-		$('<a/>', {'class': 'nav-link maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="fas fa-search-plus" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
+		$('<a/>', {'class': 'nav-link maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="fas fa-search" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		// Fullscreen
 		if (fullscreenElement.requestFullScreen || fullscreenElement.webkitRequestFullScreen || fullscreenElement.mozRequestFullScreen || fullscreenElement.msRequestFullScreen) {
 			var icon_full = $('<span class="icon-full fas fa-expand-arrows-alt" aria-hidden="true"/>');
@@ -70,7 +70,7 @@ var maciLightbox = function (options) {
 			image_info.appendTo(container).hide();
 		}
 		// Album Controllers
-		if ($(a).attr('data-lightbox')) {
+		if ($(a).attr('data-lightbox') && 1 < $(list).length) {
 			// Prev
 			$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
 				e.preventDefault();
