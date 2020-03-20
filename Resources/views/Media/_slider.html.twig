@@ -9,9 +9,9 @@
 {% endif %}
 
 {% if interval is not defined %}
-{% set interval = 'data-ride="carousel" data-pause="false" data-interval="5000"' %}
+{% set interval = 'data-interval="5000"' %}
 {% elseif 1 < interval %}
-{% set interval = 'data-ride="carousel" data-pause="false" data-interval="' + interval + '"' %}
+{% set interval = 'data-interval="' + interval + '"' %}
 {% else %}
 {% set interval = '' %}
 {% endif %}
@@ -24,6 +24,8 @@
 {% set template = "@MaciPage/Media/_slider_multiple.html.twig" %}
 {% elseif type == 'quads' %}
 {% set template = "@MaciPage/Media/_slider_quads.html.twig" %}
+{% elseif type == 'quads-sliders' %}
+{% set template = "@MaciPage/Media/_slider_quads.html.twig" %}
 {% endif %}
 {% endif %}
 
@@ -31,13 +33,28 @@
 {% set image_filter = 'maci_media_slider' %}
 {% endif %}
 
-
 {% set carousel_id = 'carousel_' ~ random() %}
 
-<div id="{{ carousel_id }}" class="carousel slide {{ type }}" data-ride="carousel" {{ interval|raw }}>
+
+
+{% if type == 'quads-sliders' %}
+
+<div id="{{ carousel_id }}" class="carousel-quads slide {{ type }}" {{ interval|raw }}>
 
 	{% include template %}
 
 </div>
+
+{% else %}
+
+<div id="{{ carousel_id }}" class="carousel slide {{ type }}" data-ride="carousel" data-pause="false" {{ interval|raw }}>
+
+	{% include template %}
+
+</div>
+
+{% endif %}
+
+
 
 {% endif %}
