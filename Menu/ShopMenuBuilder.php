@@ -28,7 +28,7 @@ class ShopMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$menu->addChild($this->translator->getText('menu.shopping.customer_service', 'Customer Service'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'customer-service')));
 
@@ -49,7 +49,7 @@ class ShopMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$menu->addChild($this->translator->getText('menu.terms.sale', 'Sale Terms'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'sale-terms')));
 
@@ -64,7 +64,7 @@ class ShopMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav navbar-nav');
+		$menu->setChildrenAttribute('class', 'navbar-nav mr-auto');
 
 		$this->addCategories($menu);
 
@@ -75,7 +75,7 @@ class ShopMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$this->addCategories($menu);
 
@@ -86,7 +86,7 @@ class ShopMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$menu->addChild($this->translator->getText('menu.contacts', 'Contacts'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'maci_page', 'routeParameters' => array('path' => 'contacts'))));
 

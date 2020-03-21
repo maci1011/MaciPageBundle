@@ -34,7 +34,7 @@ class MediaMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		if (!array_key_exists('album', $options)) {
 			return $menu;
@@ -60,7 +60,7 @@ class MediaMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
         if (true === $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
 

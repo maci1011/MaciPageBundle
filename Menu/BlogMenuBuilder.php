@@ -21,7 +21,7 @@ class BlogMenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->setChildrenAttribute('class', 'nav');
+		$menu->setChildrenAttribute('class', 'nav flex-column');
 
 		$tags = $this->om->getRepository('MaciPageBundle:Blog\Tag')->findAll();
 
