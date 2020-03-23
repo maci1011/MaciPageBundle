@@ -1,6 +1,6 @@
 
+{% if item.name is not null and item.description is not null %}
 <div class="button-in button-next{% if loop.last %} button-top{% endif %}">
-
 {% include "MaciPageBundle:Slides:_slide_caption_btn_next.html.twig" %}
-
 </div>
+{% endif %}
