@@ -4,7 +4,7 @@
 
 	{% if item.gallery.images|length %}
 
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.gallery.images, 'full': true, 'caption': true, 'interval': false } %}
+	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.gallery.images, 'caption': true, 'interval': false } %}
 
 	{% endif %}
 
