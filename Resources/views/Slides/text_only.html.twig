@@ -2,7 +2,7 @@
 <div id="slide-{{ loop.index0 }}" class="slide fix_height {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
-	<div class="slide-caption col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+	<div class="slide-caption col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
 
 		{% include "MaciPageBundle:Slides:_slide_caption.html.twig" with { 'item': item } %}
 
