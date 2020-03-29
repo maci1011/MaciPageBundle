@@ -736,6 +736,20 @@ class Product
     {
         $this->mediaItems[] = $mediaItems;
 
+        if(is_null($this->preview)
+            && 0 < $this->mediaItems->count()
+            && is_object($this->mediaItems->get(0)->getMedia())
+        ) {
+            $this->preview = $this->mediaItems[0]->getMedia();
+        }
+
+        if(is_null($this->cover)
+            && 1 < $this->mediaItems->count()
+            && is_object($this->mediaItems->get(0)->getMedia())
+        ) {
+            $this->cover = $this->mediaItems[0]->getMedia();
+        }
+
         return $this;
     }
 

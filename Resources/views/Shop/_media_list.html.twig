@@ -6,13 +6,14 @@
 
 {% set c = 0 %}
 
-{% for item in product.images if not ( product.preview and product.preview.id == item.media.id ) %}
+
+{% for item in product.images if item.media is not null and not ( product.preview and product.preview.id == item.media.id ) %}
 
 {% set c = c + 1 %}
 
 <div class="col-xs-12 col-sm-6 {% if c is even %}even{% else %}odd{% endif %}">
 
-{% include "MaciPageBundle:Shop:_media_item.html.twig" with { 'product': product, 'item': item } %}
+{% include "MaciPageBundle:Shop:_media_preview.html.twig" with {'item': item.media} %}
 
 </div>
 
@@ -48,7 +49,9 @@
 {% endif %}
 
 
-{% if product.cover is defined and not product.isCoverInMediaList %}
+{% if product.cover is not null and not product.isCoverInMediaList %}
+
+{% set c = c + 1 %}
 
 <div class="col-xs-12 col-sm-6 {% if c is even %}even{% else %}odd{% endif %}">
 

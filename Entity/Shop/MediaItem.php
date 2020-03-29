@@ -159,7 +159,7 @@ class MediaItem
      */
     public function getName()
     {
-        return $this->getMedia()->getName();
+        return is_object($this->getMedia()) ? $this->getMedia()->getName() : '';
     }
 
     /**
@@ -167,7 +167,15 @@ class MediaItem
      */
     public function getDescription()
     {
-        return $this->getMedia()->getDescription();
+        return is_object($this->getMedia()) ? $this->getMedia()->getDescription() : '';
+    }
+
+    public function getWebPreview()
+    {
+        if ($this->media) {
+            return $this->media->getWebPreview();
+        }
+        return '/images/defaults/document-icon.png';
     }
 
     /**
@@ -175,6 +183,6 @@ class MediaItem
      */
     public function __toString()
     {
-        return $this->getName();
+        return ( 'MediaItem(' . (is_int($this->id) ? $this->id : 'new') . ')' );
     }
 }
