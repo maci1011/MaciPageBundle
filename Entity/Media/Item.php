@@ -82,7 +82,6 @@ class Item
         $this->style = 'default';
     }
 
-
     /**
      * Get id
      *
@@ -277,6 +276,7 @@ class Item
     {
         return $this->video;
     }
+
     /**
      * Set position
      *
