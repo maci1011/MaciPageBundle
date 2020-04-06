@@ -40,12 +40,14 @@ maci_media_tags:
     defaults: { _controller: MaciPageBundle:Media:tags, type: tag }
     requirements:
         _locale: "%r_locales%"
+        type: .+
 
 maci_media_get:
     path:  /{_locale}/media/{path}
     defaults: { _controller: MaciPageBundle:Media:get }
     requirements:
         _locale: "%r_locales%"
+        path: .+
 
 maci_media:
     path:  /{_locale}/media
