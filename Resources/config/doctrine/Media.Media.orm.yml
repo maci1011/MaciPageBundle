@@ -54,6 +54,12 @@ Maci\PageBundle\Entity\Media\Media:
                 inverseJoinColumns:
                     tag_id:
                         referencedColumnName: id
+    manyToOne:
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
     oneToMany:
         permissions:
             targetEntity: Permission

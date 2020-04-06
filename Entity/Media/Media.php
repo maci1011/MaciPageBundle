@@ -76,9 +76,9 @@ class Media
     private $tags;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Maci\UserBundle\Entity\User
      */
-    protected $translations;
+    private $user;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -93,7 +93,6 @@ class Media
         $this->name = null;
         $this->public = true;
         $this->type = 'media';
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -467,7 +466,7 @@ class Media
         $smime = explode('/', $this->mimetype);
         if ($smime[0] === 'image') {
             $this->type = 'image';
-        } else if (in_array($this->mimetype, array('application/pdf', 'text/plain'))) {
+        } else if (in_array($this->mimetype, array('application/pdf', 'text/plain', 'application/epub+zip', 'application/msword'))) {
             $this->type = 'document';
         } else {
             $this->type = 'media';
@@ -549,10 +548,33 @@ class Media
     }
 
     /**
+     * Set user
+     *
+     * @param \Maci\UserBundle\Entity\User $user
+     * @return Media
+     */
+    public function setUser(\Maci\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maci\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * Add permissions
      *
      * @param \Maci\PageBundle\Entity\Media\Permission $permission
-     * @return Post
+     * @return Media
      */
     public function addPermission(\Maci\PageBundle\Entity\Media\Permission $permission)
     {
