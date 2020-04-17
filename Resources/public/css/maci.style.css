@@ -344,6 +344,10 @@ ul, ol {
     content: ':';
 }
 
+.form-group.checkbox > label:after {
+    content: '';
+}
+
 .checkbox.privacy {
     margin: 30px 0;
 }
