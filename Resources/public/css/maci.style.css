@@ -341,10 +341,6 @@ ul, ol {
  */
 
 .form-group > label:after {
-    content: ': *';
-}
-
-.form-group > label.required:after {
     content: ':';
 }
 
