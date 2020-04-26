@@ -96,4 +96,3 @@ Maci\PageBundle\Entity\Blog\Post:
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue ]
         preUpdate: [ setUpdatedValue ]
-
