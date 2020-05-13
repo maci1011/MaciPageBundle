@@ -23,6 +23,11 @@ class Category
     private $description;
 
     /**
+     * @var boolean
+     */
+    private $favourite;
+
+    /**
      * @var string
      */
     private $type;
@@ -77,6 +82,7 @@ class Category
      */
     public function __construct()
     {
+        $this->favourite = false;
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
@@ -144,6 +150,39 @@ class Category
         $this->locale = $locale;
 
         return $this;
+    }
+
+    /**
+     * Get favourite.
+     *
+     * @return bool
+     */
+    public function getFavourite()
+    {
+        return $this->favourite;
+    }
+
+    /**
+     * Set favourite
+     *
+     * @param boolean $favourite
+     * @return Category
+     */
+    public function setFavourite($favourite)
+    {
+        $this->favourite = $favourite;
+
+        return $this;
+    }
+
+    /**
+     * Get favourite
+     *
+     * @return boolean 
+     */
+    public function isFavourite()
+    {
+        return $this->getFavourite();
     }
 
     public function getLocale()

@@ -1,5 +1,8 @@
 
-<!-- Caption -->
+{% if item.link %}
+<a href="{{ item.link }}" alt="{{ item.name }}">
+{% endif %}
+
 {% if caption == 'before' and caption and ( item.name or item.description ) %}
 <div class="carousel-caption d-none d-md-block">
 	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
@@ -7,20 +10,15 @@
 </div>
 {% endif %}
 
-{% if item.link %}
-<a href="{{ item.link }}" alt="{{ item.name }}">
-{% endif %}
-
 <img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
 
-{% if item.link %}
-</a>
-{% endif %}
-
-<!-- Caption -->
 {% if caption == 'after' and caption and ( item.name or item.description ) %}
 <div class="carousel-caption d-none d-md-block">
 	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
 	{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
 </div>
+{% endif %}
+
+{% if item.link %}
+</a>
 {% endif %}

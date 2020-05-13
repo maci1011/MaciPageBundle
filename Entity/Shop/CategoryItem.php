@@ -7,166 +7,166 @@ namespace Maci\PageBundle\Entity\Shop;
  */
 class CategoryItem
 {
-    /**
-     * @var integer
-     */
-    private $id;
+	/**
+	 * @var integer
+	 */
+	private $id;
 
-    /**
-     * @var boolean
-     */
-    private $favourite;
+	/**
+	 * @var boolean
+	 */
+	private $favourite;
 
-    /**
-     * @var integer
-     */
-    private $position;
+	/**
+	 * @var integer
+	 */
+	private $position;
 
-    /**
-     * @var \Maci\PageBundle\Entity\Shop\Product
-     */
-    private $product;
+	/**
+	 * @var \Maci\PageBundle\Entity\Shop\Product
+	 */
+	private $product;
 
-    /**
-     * @var \Maci\CategoryBundle\Entity\Shop\Category
-     */
-    private $category;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->favourite = false;
-    }
+	/**
+	 * @var \Maci\CategoryBundle\Entity\Shop\Category
+	 */
+	private $category;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->favourite = false;
+	}
 
-    /**
-     * Get favourite.
-     *
-     * @return bool
-     */
-    public function getFavourite()
-    {
-        return $this->favourite;
-    }
 
-    /**
-     * Set favourite
-     *
-     * @param boolean $favourite
-     * @return Item
-     */
-    public function setFavourite($favourite)
-    {
-        $this->favourite = $favourite;
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get favourite.
+	 *
+	 * @return bool
+	 */
+	public function getFavourite()
+	{
+		return $this->favourite;
+	}
 
-    /**
-     * Get favourite
-     *
-     * @return boolean 
-     */
-    public function isFavourite()
-    {
-        return $this->favourite;
-    }
+	/**
+	 * Set favourite
+	 *
+	 * @param boolean $favourite
+	 * @return Item
+	 */
+	public function setFavourite($favourite)
+	{
+		$this->favourite = $favourite;
 
-    /**
-     * Set position
-     *
-     * @param integer $position
-     * @return Item
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get favourite
+	 *
+	 * @return boolean 
+	 */
+	public function isFavourite()
+	{
+		return $this->getFavourite();
+	}
 
-    /**
-     * Get position
-     *
-     * @return integer 
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
+	/**
+	 * Set position
+	 *
+	 * @param integer $position
+	 * @return Item
+	 */
+	public function setPosition($position)
+	{
+		$this->position = $position;
 
-    /**
-     * Set product
-     *
-     * @param  Product $product
-     * @return CategoryItem
-     */
-    public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
-    {
-        $this->product = $product;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get position
+	 *
+	 * @return integer 
+	 */
+	public function getPosition()
+	{
+		return $this->position;
+	}
 
-    /**
-     * Get product
-     *
-     * @return Product 
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
+	/**
+	 * Set product
+	 *
+	 * @param  Product $product
+	 * @return CategoryItem
+	 */
+	public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
+	{
+		$this->product = $product;
 
-    /**
-     * Set category
-     *
-     * @param Category $category
-     * @return CategoryItem
-     */
-    public function setCategory(\Maci\PageBundle\Entity\Shop\Category $category = null)
-    {
-        $this->category = $category;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get product
+	 *
+	 * @return Product 
+	 */
+	public function getProduct()
+	{
+		return $this->product;
+	}
 
-    /**
-     * Get category
-     *
-     * @return Category 
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
+	/**
+	 * Set category
+	 *
+	 * @param Category $category
+	 * @return CategoryItem
+	 */
+	public function setCategory(\Maci\PageBundle\Entity\Shop\Category $category = null)
+	{
+		$this->category = $category;
 
-    /**
-     * Get category name
-     */
-    public function getName()
-    {
-        return $this->getCategory()->getName();
-    }
+		return $this;
+	}
 
-    /**
-     * __toString()
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
+	/**
+	 * Get category
+	 *
+	 * @return Category 
+	 */
+	public function getCategory()
+	{
+		return $this->category;
+	}
+
+	/**
+	 * Get category name
+	 */
+	public function getName()
+	{
+		return $this->getCategory()->getName();
+	}
+
+	/**
+	 * __toString()
+	 */
+	public function __toString()
+	{
+		return $this->getName();
+	}
 }
