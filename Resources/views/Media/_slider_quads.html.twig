@@ -3,7 +3,30 @@
 {% set slider_filter = 'maci_media_gallery' %}
 {% endif %}
 
-{% include "@MaciPage/Media/_slider_indicators.html.twig" with { 'len': ((list|length / 4)|number_format + 1) } %}
+<!-- Quads slides mobile -->
+<div id="{{ carousel_id }}" class="carousel-quads slide {{ type }} d-md-none" data-ride="carousel" data-pause="false" data-interval="5000">
+
+<!-- Wrapper for slides -->
+<div class="carousel-inner">
+
+{% for item in list %}
+
+<div class="carousel-item image {% if loop.first %} active{% endif %}">
+
+	{% include "@MaciPage/Media/_slider_quads_content.html.twig" %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+
+
+<!-- Quads slides desktop -->
+<div id="{{ carousel_id }}" class="carousel-quads slide {{ type }} d-none d-md-block" data-ride="carousel" data-pause="false" data-interval="7500">
 
 <!-- Wrapper for slides -->
 <div class="carousel-inner">
@@ -16,31 +39,7 @@
 
 		<div class="quads-item col-xs-12 col-sm-6 px-0">
 
-			<!-- Caption -->
-			{% if caption == 'before' and caption and ( item.name or item.description ) %}
-			<div class="carousel-caption d-none d-md-block">
-				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
-			</div>
-			{% endif %}
-
-			{% if item.link %}
-			<a href="{{ item.link }}" alt="{{ item.name }}">
-			{% endif %}
-
-			<img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
-
-			{% if item.link %}
-			</a>
-			{% endif %}
-
-			<!-- Caption -->
-			{% if caption == 'after' and caption and ( item.name or item.description ) %}
-			<div class="carousel-caption d-none d-md-block">
-				{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-				{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
-			</div>
-			{% endif %}
+			{% include "@MaciPage/Media/_slider_quads_content.html.twig" %}
 
 		</div>
 
@@ -66,4 +65,4 @@
 
 </div>
 
-{% include "@MaciPage/Media/_slider_controls.html.twig" %}
+</div>

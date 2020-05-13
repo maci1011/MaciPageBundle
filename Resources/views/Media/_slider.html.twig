@@ -8,14 +8,6 @@
 {% set caption = false %}
 {% endif %}
 
-{% if interval is not defined %}
-{% set interval = 'data-interval="5000"' %}
-{% elseif 1 < interval %}
-{% set interval = 'data-interval="' + interval + '"' %}
-{% else %}
-{% set interval = '' %}
-{% endif %}
-
 {% if template is not defined %}
 {% if type is not defined %}
 {% set type = "default" %}
@@ -24,9 +16,15 @@
 {% set template = "@MaciPage/Media/_slider_multiple.html.twig" %}
 {% elseif type == 'quads' %}
 {% set template = "@MaciPage/Media/_slider_quads.html.twig" %}
-{% elseif type == 'quads-sliders' %}
-{% set template = "@MaciPage/Media/_slider_quads.html.twig" %}
 {% endif %}
+{% endif %}
+
+{% if interval is not defined %}
+{% set interval = 'data-interval="5000"' %}
+{% elseif 1 < interval %}
+{% set interval = 'data-interval="' + interval + '"' %}
+{% else %}
+{% set interval = '' %}
 {% endif %}
 
 {% if image_filter is not defined %}
@@ -37,13 +35,9 @@
 
 
 
-{% if type == 'quads-sliders' %}
+{% if type == 'quads' %}
 
-<div id="{{ carousel_id }}" class="carousel-quads slide {{ type }}" {{ interval|raw }}>
-
-	{% include template %}
-
-</div>
+{% include template %}
 
 {% else %}
 
