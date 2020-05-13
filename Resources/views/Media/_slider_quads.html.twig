@@ -7,11 +7,11 @@
 <div id="{{ carousel_id }}" class="carousel-quads slide {{ type }} d-md-none" data-ride="carousel" data-pause="false" data-interval="5000">
 
 <!-- Wrapper for slides -->
-<div class="carousel-inner">
+<div class="carousel-inner quads">
 
 {% for item in list %}
 
-<div class="carousel-item image {% if loop.first %} active{% endif %}">
+<div class="carousel-item image quads-item {% if loop.first %} active{% endif %}">
 
 	{% include "@MaciPage/Media/_slider_quads_content.html.twig" %}
 
@@ -29,15 +29,15 @@
 <div id="{{ carousel_id }}" class="carousel-quads slide {{ type }} d-none d-md-block" data-ride="carousel" data-pause="false" data-interval="7500">
 
 <!-- Wrapper for slides -->
-<div class="carousel-inner">
+<div class="carousel-inner quads">
 
-<div class="carousel-item image quads active">
+<div class="carousel-item image active">
 
 	<div class="row">
 
 	{% for item in list %}
 
-		<div class="quads-item col-xs-12 col-sm-6 px-0">
+		<div class="quads col-xs-12 col-sm-6 px-0">
 
 			{% include "@MaciPage/Media/_slider_quads_content.html.twig" %}
 

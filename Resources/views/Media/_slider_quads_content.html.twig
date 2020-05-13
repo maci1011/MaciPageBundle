@@ -4,7 +4,7 @@
 {% endif %}
 
 {% if caption == 'before' and caption and ( item.name or item.description ) %}
-<div class="carousel-caption d-none d-md-block">
+<div class="carousel-caption">
 	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
 	{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
 </div>
@@ -13,7 +13,7 @@
 <img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
 
 {% if caption == 'after' and caption and ( item.name or item.description ) %}
-<div class="carousel-caption d-none d-md-block">
+<div class="carousel-caption">
 	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
 	{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
 </div>
