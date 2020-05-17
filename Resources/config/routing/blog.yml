@@ -4,7 +4,7 @@ maci_blog_post_permalink:
     defaults: { _controller: MaciPageBundle:Blog:postPermalink }
 
 maci_blog_tag:
-    path:  /{_locale}/blog/tag/{path}
+    path:  /{_locale}/blog/{path}
     defaults: { _controller: MaciPageBundle:Blog:tag }
     requirements:
         _locale: "%r_locales%"
