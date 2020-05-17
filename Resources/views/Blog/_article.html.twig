@@ -12,7 +12,7 @@
 
 	{% if post.preview %}
 	<figure class="post-preview-wrapper">
-		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		<img class="post-preview img-fluid mr-auto" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
 		{% if post.preview.name or post.preview.description %}
 		<div class="row">
 		<figcaption class="post-preview-description col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
@@ -94,24 +94,7 @@
 {% endif %}
 
 
-{% if post.relatedPosts|length %}
-<section class="blog-post-related related-next row">
-
-	<h3 class="related-list-title">
-	{% if post.relatedPosts|length == 1 %}
-		{{ 'blog.post.related-post' | matra('Related Post') }}:
-	{% else %}
-		{{ 'blog.post.related-posts' | matra('Related Posts') }}:
-	{% endif %}
-	</h3>
-
-	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.relatedPosts } %}
-
-</section>
-{% endif %}
-
-
-<footer class="blog-post-footer row">
+<section class="blog-post-details row">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
@@ -123,7 +106,24 @@
 
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
 
+</section>
+
+
+{% if post.relatedPosts|length %}
+<footer class="blog-post-related related-next row">
+
+	<h3 class="related-list-title">
+	{% if post.relatedPosts|length == 1 %}
+		{{ 'blog.post.related-post' | matra('Related Post') }}:
+	{% else %}
+		{{ 'blog.post.related-posts' | matra('Related Posts') }}:
+	{% endif %}
+	</h3>
+
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.relatedPosts } %}
+
 </footer>
+{% endif %}
 
 </div>
 </article>

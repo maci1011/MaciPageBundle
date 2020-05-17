@@ -4,12 +4,12 @@
  */
 
 body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 ul, ol {
-    list-style: none;
-    padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 /*
@@ -17,18 +17,18 @@ ul, ol {
  */
 
 #main {
-    padding: 56px 0 0 0;
-    max-width: 1920px;
-    margin: 0 auto;
+	padding: 56px 0 0 0;
+	max-width: 1920px;
+	margin: 0 auto;
 }
 
 .page-container.contacts-page .page-title,
 .page-container.fullpage .page-title {
-    text-align: center;
+	text-align: center;
 }
 
 .g-recaptcha > div {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 /*
@@ -39,54 +39,54 @@ ul, ol {
 .page_slides > .slide,
 .slide > .slide-wrapper,
 .slide-wrapper > .slide-background {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
+	position: relative;
+	overflow: hidden;
+	text-align: center;
 }
 
 .slide-wrapper > .slide-caption-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 
 /*      --- Slide Button Next ---       */
 
 .slide .button-out {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
+	display: none;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
 }
 
 .slide .button-next {
-    padding: 15px 0;
+	padding: 15px 0;
 }
 
 .slide .button-next > a {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    border: 2px solid #333;
-    padding: 9px 0 0 0;
-    display: block;
-    margin: 0 auto;
-    text-align: center;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	border: 2px solid #333;
+	padding: 9px 0 0 0;
+	display: block;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .slide .button-next.button-top > a {
-    padding: 6px 0 0 0;
+	padding: 6px 0 0 0;
 }
 
 .slide .button-next > a:hover {
-    background-color: rgba(255,255,255,0.35);
+	background-color: rgba(255,255,255,0.35);
 }
 
 .slide .button-next > a > i {
-    color: #333;
-    font-size: 24pt;
+	color: #333;
+	font-size: 24pt;
 }
 
 /*      --- Slide Style ---       */
@@ -95,40 +95,40 @@ ul, ol {
 .slide.right .slide-caption,
 .slide.left_ov .slide-caption,
 .slide.right_ov .slide-caption {
-    background-color: #fff;
+	background-color: #fff;
 }
 
 .slide.left.active .slide-caption,
 .slide.left_ov.active .slide-caption,
 .slide.left_divided.active .slide-caption {
-    left: 0;
+	left: 0;
 }
 
 .slide.left.inactive .slide-caption,
 .slide.left_ov.inactive .slide-caption,
 .slide.left_divided.inactive .slide-caption {
-    left: -100%;
+	left: -100%;
 }
 
 .slide.right.active .slide-caption,
 .slide.right_ov.active .slide-caption,
 .slide.right_divided.active .slide-caption {
-    right: 0;
+	right: 0;
 }
 
 .slide.right.inactive .slide-caption,
 .slide.right_ov.inactive .slide-caption,
 .slide.right_divided.inactive .slide-caption {
-    right: -100%;
+	right: -100%;
 }
 
 .slide.left_divided .slide-image,
 .slide.right_divided .slide-image {
-    height: 100%;
+	height: 100%;
 }
 
 .slide.left_divided .slide-image {
-    right: 0;
+	right: 0;
 }
 
 /*
@@ -136,79 +136,79 @@ ul, ol {
  */
 
 .media-preview > a > img {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 .media-preview-video {
-    position: relative;
+	position: relative;
 }
 
 .media-preview-video > img {
-    position: relative;
+	position: relative;
 }
 
 .media-preview-video-icon {
-    height: 90px;
-    margin: -180px 0 90px 0;
-    text-align: center;
+	height: 90px;
+	margin: -180px 0 90px 0;
+	text-align: center;
 }
 
 .media-preview-video .media-preview-video-icon > span {
-    font-size: 60pt;
-    line-height: 90px;
-    color: #333;
+	font-size: 60pt;
+	line-height: 90px;
+	color: #333;
 }
 
 .media-preview-video:hover .media-preview-video-icon > span {
-    color: #999;
+	color: #999;
 }
 
 .media-preview-video-content {
-    display: none;
+	display: none;
 }
 
 .media-video-container {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    z-index: 10000;
-    background-color: rgba(0,0,0,0.85);
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	z-index: 10000;
+	background-color: rgba(0,0,0,0.85);
 }
 
 .media-video-content {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 .media-video-close {
-    position: absolute;
-    height: 75px;
-    width: 75px;
-    top: 0;
-    right: 0;
-    background-color: #333;
-    display: block;
-    text-align: center;
-    cursor: pointer;
+	position: absolute;
+	height: 75px;
+	width: 75px;
+	top: 0;
+	right: 0;
+	background-color: #333;
+	display: block;
+	text-align: center;
+	cursor: pointer;
 }
 
 .media-video-close > span {
-    font-size: 30pt;
-    line-height: 75px;
-    color: #ccc;
+	font-size: 30pt;
+	line-height: 75px;
+	color: #ccc;
 }
 
 .media-video-close:hover > span {
-    color: #fff;
+	color: #fff;
 }
 
 .media, .product {
-    margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .media-description {
-    padding: 0 6px;
+	padding: 0 6px;
 }
 
 /*
@@ -216,15 +216,15 @@ ul, ol {
  */
 
 .modal {
-    color: #000;
+	color: #000;
 }
 
 .modal-body .media {
-    margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .modal-body .media.selected {
-    background-color: #F1F6F7;
+	background-color: #F1F6F7;
 }
 
 /*
@@ -232,19 +232,7 @@ ul, ol {
  */
 
 .maci-user-address-form .method label {
-    display: inline;
-}
-
-/*
- *      Blog
- */
-
-.post-preview {
-    margin: 0 auto;
-}
-
-.blog-post-footer.row {
-    margin: 0;
+	display: inline;
 }
 
 /*
@@ -252,14 +240,14 @@ ul, ol {
  */
 
 .contacts_address > address {
-    padding-top: 15px;
+	padding-top: 15px;
 }
 
 .contacts_address > address > span {
-    padding-top: 15px;
-    font-size: 13pt;
-    display: inline-block;
-    letter-spacing: 0.8px;
+	padding-top: 15px;
+	font-size: 13pt;
+	display: inline-block;
+	letter-spacing: 0.8px;
 }
 
 /*
@@ -267,11 +255,11 @@ ul, ol {
  */
 
 .product-list-price {
-    text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 .product-select-variant-container {
-    display: none;
+	display: none;
 }
 
 /*
@@ -279,35 +267,35 @@ ul, ol {
  */
 
 .cart-list > .container > .row {
-    padding: 0 0 15px 0;
+	padding: 0 0 15px 0;
 }
 
 .checkout-options .controls > div {
-    padding: 10px 0 5px 30px;
-    margin: 0;
+	padding: 10px 0 5px 30px;
+	margin: 0;
 }
 
 .order-item-quantity-form, .order-item-remove-form {
-    display: inline;
+	display: inline;
 }
 
 .edit-quantity-field, #cart_edit_item_quantity {
-    width: 75px;
-    margin-right: 5px;
+	width: 75px;
+	margin-right: 5px;
 }
 
 .cart-list .order-item-preview {
-    width: 160px;
+	width: 160px;
 }
 
 .cart-list .order-item-preview > img {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 .user-orders-list td > span,
 .user-mails-list td > span {
-    display: block;
-    padding: 6px;
+	display: block;
+	padding: 6px;
 }
 
 /*
@@ -315,25 +303,25 @@ ul, ol {
  */
 
 #startPopUp {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(36,30,32,0.9);
-    z-index: 1300;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(36,30,32,0.9);
+	z-index: 1300;
 }
 
 .popup-container {
-    height: 450px;
-    width: 500px;
-    margin: 80px auto;
-    border: 4px solid #ccc;
-    background-color: #241E20;
-    border-radius: 6px;
-    color: #FFF6F9;
-    padding: 10px 30px;
-    text-align: center;
+	height: 450px;
+	width: 500px;
+	margin: 80px auto;
+	border: 4px solid #ccc;
+	background-color: #241E20;
+	border-radius: 6px;
+	color: #FFF6F9;
+	padding: 10px 30px;
+	text-align: center;
 }
 
 /*
@@ -341,38 +329,38 @@ ul, ol {
  */
 
 .form-group > label:after {
-    content: ':';
+	content: ':';
 }
 
 .form-group.checkbox > label:after {
-    content: '';
+	content: '';
 }
 
 .checkbox.privacy {
-    margin: 30px 0;
+	margin: 30px 0;
 }
 
 .checkbox label {
-    padding-left: 20px;
+	padding-left: 20px;
 }
 
 .checkbox input[type="checkbox"] {
-    margin-left: 0;
+	margin-left: 0;
 }
 
 .form-required-fields {
-    padding: 15px 0 30px;
-    display: block;
+	padding: 15px 0 30px;
+	display: block;
 }
 
 .form-required-fields span {
-    font-style: italic;
-    font-weight: bold;
+	font-style: italic;
+	font-weight: bold;
 }
 
 .tab-content > .tab-pane {
-    padding: 10px;
-    background-color: #eee;
+	padding: 10px;
+	background-color: #eee;
 }
 
 /*
@@ -380,5 +368,5 @@ ul, ol {
  */
 
 .user_message > p {
-    font-size: 12pt;
+	font-size: 12pt;
 }

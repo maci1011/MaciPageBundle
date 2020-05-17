@@ -1,6 +1,4 @@
-
 {% extends "@MaciPage/Layout/layout.html.twig" %}
-
 
 {% block menuContainerTag %}
 <div id="menuContainer" class="col-xs-12 col-sm-3 col-md-3">
@@ -10,19 +8,12 @@
 <div id="contentContainer" class="col-xs-12 col-sm-9 col-md-7 col-md-offset-1">
 {% endblock contentContainerTag %}
 
-
 {% block bodyTag %}<body id="bodyBlog">{% endblock bodyTag %}
 
-
 {% block searchForm %}
-
 {{ render(controller('MaciSearchBundle:Search:form', {'section': 'blog', 'label': ('form.search.blog'|matra('Search Post')) })) }}
-
 {% endblock searchForm %}
 
-
 {% block leftMenu %}
-
-	<nav>{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}</nav>
-
+<nav>{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}</nav>
 {% endblock leftMenu %}

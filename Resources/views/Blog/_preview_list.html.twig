@@ -1,31 +1,17 @@
-
 {% if list|length %}
-
 <div class="container-fluid">
-
 <div class="row">
 
 {% for item in list %}
-
 <div class="col-xs-12 col-sm-6 col-md-4 {% if loop.index is odd %}odd{% else %}even{% endif %}">
-
 	{% include "@MaciPage/Blog/_preview_item.html.twig" with { 'post': item } %}
-
 </div>
-
 {% if ( loop.index % 3 ) == 0 %}
-
 </div>
-
 <div class="row">
-
 {% endif %}
-
 {% endfor %}
 
 </div>
-
 </div>
-
 {% endif %}
-
