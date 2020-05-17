@@ -94,7 +94,8 @@
 {% endif %}
 
 
-<section class="blog-post-details row">
+<div class="row">
+<section class="blog-post-details">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
@@ -107,6 +108,7 @@
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
 
 </section>
+</div>
 
 
 {% if post.relatedPosts|length %}

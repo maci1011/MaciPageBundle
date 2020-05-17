@@ -1,7 +1,7 @@
 
 {% if post.link %}
-<nav class="post-permalink-nav navbar">
-	<ul class="nav navbar-nav">
+<nav class="post-permalink-nav navbar navbar-expand flex-column">
+	<ul class="navbar-nav mr-auto">
 
 		{% set post_permalink = url('maci_blog_post_permalink', {'link': post.link}) %}
 		<li class="post-permalink">
