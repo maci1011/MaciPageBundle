@@ -14,6 +14,9 @@ Maci\PageBundle\Entity\Blog\Tag:
         name:
             type: string
             length: 63
+        path:
+            type: string
+            length: 31
         description:
             type: text
             nullable: true

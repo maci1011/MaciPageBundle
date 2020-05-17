@@ -20,6 +20,11 @@ class Tag
     /**
      * @var string
      */
+    private $path;
+
+    /**
+     * @var string
+     */
     private $description;
 
     /**
@@ -47,6 +52,7 @@ class Tag
      */
     public function __construct()
     {
+        $this->path = uniqid();
         $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -82,6 +88,29 @@ class Tag
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Page
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

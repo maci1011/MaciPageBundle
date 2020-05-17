@@ -23,10 +23,10 @@ class BlogController extends AbstractController
         ));
     }
 
-    public function tagAction($id)
+    public function tagAction($path)
     {
         $tag = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Tag')
-            ->findOneById($id);
+            ->findOneById($path);
 
         if (!$tag) {
             return $this->redirect($this->generateUrl('maci_blog'));

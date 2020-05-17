@@ -10,7 +10,7 @@ maci_blog_show:
         _locale: "%r_locales%"
 
 maci_blog_tag:
-    path:  /{_locale}/blog/tag/{id}
+    path:  /{_locale}/blog/tag/{path}
     defaults: { _controller: MaciPageBundle:Blog:tag }
     requirements:
         _locale: "%r_locales%"

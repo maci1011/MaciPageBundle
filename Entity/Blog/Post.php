@@ -133,8 +133,7 @@ class Post
 		$this->relatedTargets = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->removed = false;
 		$this->status = 'new';
-		$uniqid = uniqid();
-		$this->path = ( 'post-' . $uniqid );
+        $this->path = uniqid();
 		$this->link = $uniqid;
 	}
 
