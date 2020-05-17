@@ -1,6 +1,4 @@
-
 {% extends "@MaciPage/Layout/blog.html.twig" %}
-
 
 {% block metaData %}
 
@@ -33,51 +31,39 @@
 {% endblock metaData %}
 
 {% block title %}
-
 {% if post.metaTitle %}
 {{ post.metaTitle }}
 {% else %}
 {{ post.title }} - {{ parent() }}
 {% endif %}
-
 {% endblock title %}
 
 {% block description %}
-
 {% if post.metaDescription %}
 <meta name="description" content="{{ post.metaDescription }}" />
 {% else %}
 <meta name="description" content="{{ post.header|striptags }}" />
 {% endif %}
-
 {% endblock description %}
 
-
 {% block pathBar %}
-<nav class="breadcrumb-wrapper">
+<nav class="breadcrumb-wrapper" aria-label="breadcrumb">
 <ol class="breadcrumb">
-
-    <li>
+    <li class="breadcrumb-item">
     	<a href="{{ path('maci_blog') }}">
     		{{ 'page.blog' | matme('Blog') }}
     	</a>
     </li>
-
-    <li>
+    <li class="breadcrumb-item">
     	{{ 'blog.post' | matme('Post') }}
     </li>
-
-    <li class="active">
+    <li class="breadcrumb-item active">
     	{{ post }}
     </li>
-
 </ol>
 </nav>
 {% endblock pathBar %}
 
-
 {% block content %}
-
 {% include "@MaciPage/Blog/_article.html.twig" with { 'post': post } %}
-
 {% endblock content %}
