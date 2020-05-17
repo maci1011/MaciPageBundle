@@ -4,9 +4,9 @@
 	<ul class="navbar-nav mr-auto">
 
 		{% set post_permalink = url('maci_blog_post_permalink', {'link': post.link}) %}
-		<li class="post-permalink">
+		<li class="nav-item post-permalink">
 			<span class="navbar-text">{{ 'page.permalink' | matra('Permalink') }}: 
-				<a class="" href="{{ post_permalink }}">{{ post_permalink }}</a>
+				<a href="{{ post_permalink }}">{{ post_permalink }}</a>
 			</span>
 		</li>
 

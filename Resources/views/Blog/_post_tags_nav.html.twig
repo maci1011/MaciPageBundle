@@ -3,13 +3,13 @@
 <nav class="post-tags-nav navbar navbar-expand flex-column">
 	<ul class="navbar-nav mr-auto">
 
-		<li>
+		<li class="nav-item">
 			<span class="navbar-text">{{ 'blog.post.tags' | matra('Tag') }}:</span>
 		</li>
 
 		{% for tag in post.tags %}
-		<li>
-			<a href="{{ path('maci_blog_tag', { 'id': tag.id }) }}">{{ tag }}</a>
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path('maci_blog_tag', { 'id': tag.id }) }}">{{ tag }}</a>
 		</li>
 		{% endfor %}
 
