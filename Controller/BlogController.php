@@ -26,7 +26,7 @@ class BlogController extends AbstractController
     public function tagAction($path)
     {
         $tag = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Tag')
-            ->findOneById($path);
+            ->findOneByPath($path);
 
         if (!$tag) {
             return $this->redirect($this->generateUrl('maci_blog'));
@@ -37,12 +37,12 @@ class BlogController extends AbstractController
         ));
     }
 
-    public function showAction($_locale, $path)
+    public function showAction(Request $request, $path)
     {
         $post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
             ->findOneBy(array(
                 'path' => $path,
-                'locale' => $_locale,
+                'locale' => $request->getLocale(),
                 'removed' => false
             ));
 

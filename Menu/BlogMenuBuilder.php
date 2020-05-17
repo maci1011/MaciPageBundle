@@ -29,7 +29,7 @@ class BlogMenuBuilder
 
 			$menu->addChild($tag->getName(), array(
 			    'route' => 'maci_blog_tag',
-			    'routeParameters' => array('id' => $tag->getId())
+			    'routeParameters' => array('path' => $tag->getPath())
 			));
 
 		}

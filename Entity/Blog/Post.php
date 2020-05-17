@@ -134,7 +134,7 @@ class Post
 		$this->removed = false;
 		$this->status = 'new';
         $this->path = uniqid();
-		$this->link = $uniqid;
+		$this->link = $this->path;
 	}
 
 	/**

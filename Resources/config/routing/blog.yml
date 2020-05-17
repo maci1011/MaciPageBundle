@@ -3,15 +3,16 @@ maci_blog_post_permalink:
     path:  /post/{link}
     defaults: { _controller: MaciPageBundle:Blog:postPermalink }
 
-maci_blog_show:
-    path:  /{_locale}/post/{path}
-    defaults: { _controller: MaciPageBundle:Blog:show }
-    requirements:
-        _locale: "%r_locales%"
-
 maci_blog_tag:
     path:  /{_locale}/blog/tag/{path}
     defaults: { _controller: MaciPageBundle:Blog:tag }
+    requirements:
+        _locale: "%r_locales%"
+        path: .+
+
+maci_blog_show:
+    path:  /{_locale}/post/{path}
+    defaults: { _controller: MaciPageBundle:Blog:show }
     requirements:
         _locale: "%r_locales%"
 

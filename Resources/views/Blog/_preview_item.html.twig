@@ -30,7 +30,7 @@
 	{% for tag in item.tags %}
 
 		<li>
-			<a class="media-tag" href="{{ path('maci_blog_tag', { 'id': tag.id, '_locale': tag.locale }) }}" alt="{{ tag }}">
+			<a class="media-tag" href="{{ path('maci_blog_tag', { 'path': tag.path, '_locale': tag.locale }) }}" alt="{{ tag }}">
 				{{ tag }}
 			</a>
 		</li>
