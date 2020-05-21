@@ -4,6 +4,7 @@ namespace Maci\PageBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class BlogMenuBuilder
 {
@@ -11,10 +12,13 @@ class BlogMenuBuilder
 
     private $om;
 
-	public function __construct(FactoryInterface $factory, ObjectManager $objectManager)
+	private $request;
+
+	public function __construct(FactoryInterface $factory, ObjectManager $objectManager, RequestStack $requestStack)
 	{
 	    $this->factory = $factory;
         $this->om = $objectManager;
+        $this->request = $requestStack->getCurrentRequest();
 	}
 
     public function createLeftMenu(array $options)
@@ -23,7 +27,7 @@ class BlogMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'nav flex-column');
 
-		$tags = $this->om->getRepository('MaciPageBundle:Blog\Tag')->findAll();
+		$tags = $this->om->getRepository('MaciPageBundle:Blog\Tag')->findByLocale($this->request->getLocale());
 
 		foreach ($tags as $tag) {
 

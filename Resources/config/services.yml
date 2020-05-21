@@ -21,7 +21,7 @@ services:
 
     maci_page.blog.menu_builder:
         class: Maci\PageBundle\Menu\BlogMenuBuilder
-        arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager"]
+        arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager","@request_stack"]
         tags:
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: blog_left }
 
