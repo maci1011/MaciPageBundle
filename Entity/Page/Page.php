@@ -427,7 +427,7 @@ class Page
 			'One' => '@MaciPage/Page/template_one.html.twig',
 			'Two' => '@MaciPage/Page/template_two.html.twig',
 			'Three' => '@MaciPage/Page/template_three.html.twig',
-			'Foo' => '@MaciPage/Page/foo.html.twig',
+			'Foo' => '@MaciPage/Page/foo.html.twig'
 		);
 	}
 
