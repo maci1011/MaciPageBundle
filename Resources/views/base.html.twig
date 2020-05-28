@@ -2,92 +2,86 @@
 <html lang="{{ app.request.locale }}">
 <head>
 
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="{{ company_title }}" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="{{ company_title }}" />
+	<link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>
-        {% block title company_title %}
-    </title>
+	<title>
+		{% block title company_title %}
+	</title>
 
-    {% block description %}
+	{% block description %}
 
-    <meta name="description" content="" />
+	<meta name="description" content="{{ company_subtitle ~ " | " ~ company_address }}" />
 
-    {% endblock %}
+	{% endblock %}
 
-    {% block stylesheets %}
+	{% block stylesheets %}
 
-        
-    <link href="{{ 'layout.font.link' | matop('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&display=swap') }}" rel="stylesheet" type="text/css" />
+		
+	<link href="{{ 'layout.font.link' | matop('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&display=swap') }}" rel="stylesheet" type="text/css" />
 
-    <style type="text/css">
+	<style type="text/css">
 
-    body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
-        font-family: {{ 'layout.font.family' | matop("'Open Sans', sans-serif") }};
-    }
+	body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, input {
+		font-family: {{ 'layout.font.family' | matop("'Open Sans', sans-serif") }};
+	}
 
-    </style>
-    
+	</style>
+	
 
-    <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/all.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/font-awesome.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.lightbox.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.style.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/font-awesome.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.lightbox.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/maci.style.css') }}" />
 
-    {% endblock %}
+	{% endblock %}
 
-    {% block metaData %}
+	{% block metaData %}
 
-    <meta property="og:title" content="{{ company_title }}" />
-    <meta property="og:description" content="{{ company_subtitle }} | {{ company_address }}" />
-    <meta property="og:site_name" content="{{ url('homepage') }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
-    <meta property="og:locale" content="{{ app.request.locale }}" />
-    <meta property="og:image" content="{{ asset('/images/cmm/logo.png' | imagine_filter('maci_media_preview')) }}" />
+	{% include "@MaciPage/Page/_page_default_og_metadata.html.twig" %}
 
-    {% endblock metaData %}
+	{% endblock metaData %}
 
 </head>
 {% block bodyTag %}<body>{% endblock bodyTag %}
 
-    {% block body %}<h1>Hello World!</h1>{% endblock %}
+	{% block body %}<h1>Hello World!</h1>{% endblock %}
 
-    {% block _ga %}
-    {% if app.environment == 'prod' %}
-    <script type="text/javascript">
+	{% block _ga %}
+	{% if app.environment == 'prod' %}
+	<script type="text/javascript">
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
-        _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+		_gaq.push(['_trackPageview']);
 
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 
-    </script>
-    {% endif %}
-    {% endblock %}
+	</script>
+	{% endif %}
+	{% endblock %}
 
-    {% block javascripts %}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script> window.jQuery || document.write("<script src=\"/bundles/macipage/js/jquery-3.4.1.min.js\"><\/script>"); </script>
-    <script type="text/javascript" src="{{ asset('/bundles/macipage/js/jquery.scrollTo.min.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap.min.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('/bundles/macipage/js/maci.lightbox.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('/bundles/macipage/js/maci.script.js') }}" ></script>
-    {% endblock %}
+	{% block javascripts %}
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script> window.jQuery || document.write("<script src=\"/bundles/macipage/js/jquery-3.4.1.min.js\"><\/script>"); </script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/jquery.scrollTo.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/maci.lightbox.js') }}" ></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/maci.script.js') }}" ></script>
+	{% endblock %}
 
 
 </body>

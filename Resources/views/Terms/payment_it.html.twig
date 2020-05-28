@@ -1,13 +1,10 @@
-
-
 <div class="page row">
 
-
+{% if page %}
 {% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-
+{% endif %}
 
 <section class="page_terms page_container container-fluid">
-
 
 <h2>MODALIT&Aacute; DI PAGAMENTO</h2>
 
@@ -51,9 +48,9 @@ Quando l&rsquo;ordine &egrave; confermato il relativo importo viene autorizzato 
 
 <p>Il documento di fatturazione sar&agrave; inviato via e-mail al momento della spedizione dell&rsquo;ordine.</p>
 
-
 </section>
 
+{% if page %}
 
 {% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
@@ -61,6 +58,6 @@ Quando l&rsquo;ordine &egrave; confermato il relativo importo viene autorizzato 
 
 {% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
+{% endif %}
 
 </div>
-

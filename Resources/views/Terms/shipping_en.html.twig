@@ -1,13 +1,10 @@
-
-
 <div class="page row">
 
-
+{% if page %}
 {% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-
+{% endif %}
 
 <section class="page_terms page_container container-fluid">
-
 
 <h3>DESTINATIONS</h3>
 
@@ -69,7 +66,6 @@ The table below indicates the tariffs applied for each country:</p>
 
 {% endif %}
 
-
 <p>At the {{ company_title }} On-line Store, orders may be dispatched to all countries in the European Union and to Russia.</p>
 
 <p>You may place an order for a different country from your country of residence, but you must select the products and complete your purchases on the site of the country you wish the delivery to be made to.</p>
@@ -94,10 +90,9 @@ The table below indicates the tariffs applied for each country:</p>
 
 <p>The courier delivers from Monday to Friday during office hours. The courier will make 3 attempts to deliver the parcel.&nbsp; After the third attempt, the parcel will automatically be returned to the {{ company_title }} On-line Store warehouse and Customer Care will contact the Customer by e-mail when the parcel is received.</p>
 
-
-
 </section>
 
+{% if page %}
 
 {% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
@@ -105,6 +100,6 @@ The table below indicates the tariffs applied for each country:</p>
 
 {% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
+{% endif %}
 
 </div>
-

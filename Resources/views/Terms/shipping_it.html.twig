@@ -1,13 +1,10 @@
-
-
 <div class="page row">
 
-
+{% if page %}
 {% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-
+{% endif %}
 
 <section class="page_terms page_container container-fluid">
-
 
 <h3>PAESI DI SPEDIZIONE</h3>
 
@@ -94,9 +91,9 @@
 
 <p>Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 3 tentativi di consegna.&nbsp; Dopo il terzo tentativo senza avvenuta consegna, il pacco viene automaticamente rispedito al magazzino dello Shop Online di {{ company_title }} e il Servizio Clienti contatter&agrave; il Cliente via email al momento del rientro del pacco.</p>
 
-
 </section>
 
+{% if page %}
 
 {% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
@@ -104,6 +101,6 @@
 
 {% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
+{% endif %}
 
 </div>
-

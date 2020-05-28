@@ -1,89 +1,87 @@
-
 {% block bodyTag %}<body id="bodyPage">{% endblock %}
 
-
 {% block maciadmin %}
-
+{% if page %}
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'page', 'item': page } )) }}
-
+{% endif %}
 {% endblock %}
 
-
 {% block metaData %}
-
+{% if page %}
 <meta property="og:title" content="{{ page.title }} | {{ company_title }}" />
 <meta property="og:description" content="{{ page.metaDescription ? page.metaDescription : (
-    page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
-    company_subtitle ~ " | " ~ company_address
+	page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
+	company_subtitle ~ " | " ~ company_address
 ) }}" />
 <meta property="og:site_name" content="{{ url('homepage') }}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
 <meta property="og:locale" content="{{ page.locale }}" />
 <meta property="og:image" content="{{ asset('/images/cmm/logo.png' | imagine_filter('maci_media_preview')) }}" />
-
+{% else %}
+{% include "@MaciPage/Page/_page_default_og_metadata.html.twig" %}
+{% endif %}
 {% endblock metaData %}
 
-
 {% block leftMenu %}
-
-    {% set menu = knp_menu_get('page_left', [], {'page': page} ) %}
-
-    <nav>
-        {{ knp_menu_render(menu, {'currentClass': 'active'}) }}
-    </nav>
-
+{% if page %}
+	{% set menu = knp_menu_get('page_left', [], {'page': page} ) %}
+	<nav>
+		{{ knp_menu_render(menu, {'currentClass': 'active'}) }}
+	</nav>
+{% else %}
+{{ knp_menu_render('left', {'currentClass': 'active'}) }}
+{% endif %}
 {% endblock %}
 
-
 {% block title %}
-
+{% if page %}
 {% if page.metaTitle %}
 {{ page.metaTitle }}
 {% else %}
 {{ page.title }} - {{ company_title }}
 {% endif %}
-
+{{ company_title }}
+{% endif %}
 {% endblock %}
-
 
 {% block description %}
-
+{% if page %}
 <meta name="description" content="{{ page.metaDescription ? page.metaDescription : (
-    page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
-    company_subtitle ~ " | " ~ company_address
+	page.description ? ( page.description|length > 180 ? page.description|slice(0, 163) : page.description ) :
+	company_subtitle ~ " | " ~ company_address
 ) }}" />
-
+{% else %}
+<meta name="description" content="{{ company_subtitle ~ " | " ~ company_address }}" />
+{% endif %}
 {% endblock %}
-
 
 {% block pathBar %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-        	<a href="{{ path('homepage') }}">Home</a>
-        </li>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Home</a>
+		</li>
 
-    	{% for parentItem in page.parentsList %}
+		{% if page %}
+		{% for parentItem in page.parentsList %}
 
-    	<li class="breadcrumb-item product-category-parent">
-    		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem.menuLabel }}</a>
-    	</li>
+		<li class="breadcrumb-item product-category-parent">
+			<a href="{{ path('maci_page', {'path': parentItem.path}) }}">{{ parentItem.menuLabel }}</a>
+		</li>
 
-    	{% endfor %}
+		{% endfor %}
 
-        <li class="breadcrumb-item active" aria-current="page">{{ page.menuLabel }}</li>
-    </ol>
+		<li class="breadcrumb-item active" aria-current="page">{{ page.menuLabel }}</li>
+		{% endif %}
+	</ol>
 </nav>
 {% endblock %}
 
-
 {% block content %}
-
+{% if page %}
 <div class="page-container default-page row">
-
 {% include "@MaciPage/Page/_page.html.twig" with { 'page': page } %}
-
 </div>
-
+{% endif %}
 {% endblock %}

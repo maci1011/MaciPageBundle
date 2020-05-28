@@ -1,0 +1,8 @@
+
+<meta property="og:title" content="{{ company_title }}" />
+<meta property="og:description" content="{{ company_subtitle }} | {{ company_address }}" />
+<meta property="og:site_name" content="{{ url('homepage') }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+<meta property="og:locale" content="{{ app.request.locale }}" />
+<meta property="og:image" content="{{ asset('/images/cmm/logo.png' | imagine_filter('maci_media_preview')) }}" />

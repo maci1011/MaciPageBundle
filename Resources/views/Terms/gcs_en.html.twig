@@ -1,13 +1,10 @@
-
-
 <div class="page row">
 
-
+{% if page %}
 {% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-
+{% endif %}
 
 <section class="page_terms page_container container-fluid">
-
 
 <h3>1. PURPOSE</h3>
 
@@ -128,9 +125,9 @@ b) choose a courier other than that used by {{ company_title|upper }} and send {
 <p>14.1. The GCS are regulated by Italian law and in particular by the CODE and by the legislative decree no. 70 dated 9 April 2003 relating to particular e-commerce aspects.<br />
 14.2. For any disputes arising relating to the validity, construal, execution and cancellation of these GCS and/or individual purchase orders, the only competent law court, without competition, shall be that of Rimini (Italy) with express and total reciprocal waiver of any other law court.</p>
 
-
 </section>
 
+{% if page %}
 
 {% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
@@ -138,6 +135,6 @@ b) choose a courier other than that used by {{ company_title|upper }} and send {
 
 {% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
+{% endif %}
 
 </div>
-

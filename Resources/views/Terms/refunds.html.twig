@@ -1,71 +1,8 @@
-
-{% extends "@MaciPage/Layout/cs_layout.html.twig" %}
-
-
-{% block bodyTag %}<body id="bodyTerms">{% endblock %}
-
-
-{% block maciadmin %}
-
-{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'page', 'item': page } )) }}
-
-{% endblock %}
-
-
-{% block title %}
-
-{% if page.metaTitle %}
-{{ page.metaTitle }}
-{% else %}
-{{ page.title }} - {{ parent() }}
-{% endif %}
-
-{% endblock %}
-
-{% block description %}
-
-{% if page.metaDescription %}
-<meta name="description" content="{{ page.metaDescription }}" />
-{% else %}
-<meta name="description" content="{{ page.description|length > 180 ? page.description|slice(0, 163) : page.description  }}" />
-{% endif %}
-
-{% endblock %}
-
-
-{% block pathBar %}
-<nav>
-<ol class="breadcrumb">
-
-    <li>
-    	<a href="{{ path('homepage') }}">
-    		Home
-    	</a>
-    </li>
-
-	{% for parentItem in page.parentsList %}
-
-	<li class="product-category-parent">
-		<a href="{{ path('maci_page', {'path': parentItem.path}) }}">
-			{{ parentItem }}
-		</a>
-	</li>
-
-	{% endfor %}
-
-    <li>
-    	{{ page }}
-    </li>
-
-</ol>
-</nav>
-{% endblock %}
-
+{% extends "@MaciPage/Layout/terms_layout.html.twig" %}
+{% use "@MaciPage/Page/_page_default_blocks.html.twig" %}
+{% use "@MaciPage/Terms/_terms_default_blocks.html.twig" %}
 
 {% block content %}
-
 {% set stt = ( "MaciPageBundle:Terms:refunds_" ~ app.request.locale ~ ".html.twig" ) %}
-
 {% include [stt, "MaciPageBundle:Terms:refunds_en.html.twig"] with { 'page': page } %}
-
 {% endblock %}

@@ -1,13 +1,10 @@
-
-
 <div class="page row">
 
-
+{% if page %}
 {% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-
+{% endif %}
 
 <section class="page_terms page_container container-fluid">
-
 
 <p>{{ company_name }} ( {{ company_title }} ) pays utmost attention to the confidentiality, protection and security of the pertinent data concerning any persons it comes into contact with.<br>
 Visitors to this website are therefore invited firstly to consult all chapters of this document, which describes the management methods concerning the processing of personal data of visitors to the website. This information note is also issued pursuant to Article 13 of Italian Legislative Decree (D.Lgs.) no. 196 of 30 June 2003, “Data Protection Act”, to anyone interacting with the {{ company_name }} web services, which are accessible via the web at: {{ url('homepage') }}</p>
@@ -91,9 +88,9 @@ The data is not notified or disclosed to third parties.</p>
 
 <p>Any requests should be sent to the Person in charge of Privacy and Information {{ company_name }} - {{ company_address }} – {{ company_cccs }}, phone {{ company_phone }}, email {{ contact_email }}, VAT {{ company_vat }}.</p>
 
-
 </section>
 
+{% if page %}
 
 {% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
 
@@ -101,6 +98,6 @@ The data is not notified or disclosed to third parties.</p>
 
 {% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
+{% endif %}
 
 </div>
-
