@@ -1,18 +1,9 @@
 <div class="page row">
 
-{% if page %}
-{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-{% endif %}
-
 <section class="page_terms page_container container-fluid">
 
+<h2>{{ title }}</h2>
 
 </section>
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
 
 </div>

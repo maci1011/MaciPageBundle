@@ -428,15 +428,6 @@ class Page
 			'Two' => '@MaciPage/Page/template_two.html.twig',
 			'Three' => '@MaciPage/Page/template_three.html.twig',
 			'Foo' => '@MaciPage/Page/foo.html.twig',
-			'Customer Service' => '@MaciPage/Terms/customer_service.html.twig',
-			'Shopping Guide' => '@MaciPage/Terms/shopping_guide.html.twig',
-			'Size Guide' => '@MaciPage/Terms/size_guide.html.twig',
-			'Shipping' => '@MaciPage/Terms/shipping.html.twig',
-			'Payment' => '@MaciPage/Terms/payment.html.twig',
-			'Returns and Refunds' => '@MaciPage/Terms/refunds.html.twig',
-			'General Condititions of Sale' => '@MaciPage/Terms/gcs.html.twig',
-			'Cookie Policy' => '@MaciPage/Terms/cookie.html.twig',
-			'Privacy Policy' => '@MaciPage/Terms/privacy.html.twig'
 		);
 	}
 

@@ -1,10 +1,8 @@
 <div class="page row">
 
-{% if page %}
-{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-{% endif %}
-
 <section class="page_terms page_container container-fluid">
+
+<h2>{{ title }}</h2>
 
 <p>Lo Shop Online di {{ company_title }} vuole garantire la massima soddisfazione durante la Shopping Experience. Se per qualunque motivo il Cliente non fosse soddisfatto del proprio ordine e i prodotti recapitati risultassero qualitativamente non conformi a quanto richiesto, il Cliente pu&ograve; restituire il prodotto acquistato entro 14 giorni dalla data di consegna. Il Diritto di Recesso pu&ograve; essere esercitato esclusivamente dal Cliente e in nessun caso dal destinatario di un eventuale regalo.</p>
 
@@ -78,15 +76,5 @@ E&rsquo; possibile rendere due ordini diversi nella stessa scatola. L&rsquo;impo
 <p>{{ company_title }} si riserva il diritto di rifiutare restituzioni comunicate o inviate dopo il periodo prefissato o per prodotti che non siano nelle stesse condizioni in cui sono stati ricevuti.</p>
 
 </section>
-
-{% if page %}
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
-
-{% endif %}
 
 </div>

@@ -1,10 +1,8 @@
 <div class="page row">
 
-{% if page %}
-{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-{% endif %}
-
 <section class="page_terms page_container container-fluid">
+
+<h2>{{ title }}</h2>
 
 <p>La ditta {{ company_name }} ( {{ company_title }} ) pone la massima attenzione alla riservatezza, alla tutela e alla sicurezza dei dati personali relativi ai soggetti con cui entra in contatto.</p>
 
@@ -90,15 +88,5 @@ L’utente ha la possibilità, in funzione del browser in uso, di disabilitare o
 <p>Le eventuali richieste vanno rivolte al responsabile privacy e sicurezza delle informazioni {{ company_name }} - {{ company_address }} – {{ company_cccs }}, telefono e fax {{ company_phone }}, email {{ contact_email }}, partita iva {{ company_vat }}.</p>
 
 </section>
-
-{% if page %}
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
-
-{% endif %}
 
 </div>

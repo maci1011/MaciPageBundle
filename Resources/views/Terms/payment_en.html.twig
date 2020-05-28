@@ -1,12 +1,8 @@
 <div class="page row">
 
-{% if page %}
-{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-{% endif %}
-
 <section class="page_terms page_container container-fluid">
 
-<h3>METHODS OF PAYMENT</h3>
+<h2>METHODS OF PAYMENT</h2>
 
 <p>You may pay for your purchases in one of the following ways:</p>
 
@@ -45,15 +41,5 @@ Purchases from the {{ company_title }} On-line Store are reserved for final cons
 <p>The invoice will be sent by e-mail when the order is dispatched.</p>
 
 </section>
-
-{% if page %}
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
-
-{% endif %}
 
 </div>

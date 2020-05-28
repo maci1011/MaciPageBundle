@@ -3,3 +3,19 @@
 {% block leftMenu %}
 <nav>{{ knp_menu_render('terms', {'currentClass': 'active'}) }}</nav>
 {% endblock %}
+
+{% block title %}
+{{ title }} | {{ company_title }}
+{% endblock %}
+
+{% block pathBar %}
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Home</a>
+		</li>
+
+		<li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+	</ol>
+</nav>
+{% endblock %}

@@ -1,10 +1,8 @@
 <div class="page row">
 
-{% if page %}
-{% include "@MaciPage/Page/_page_header.html.twig" with { 'page': page } %}
-{% endif %}
-
 <section class="page_terms page_container container-fluid">
+
+<h2>{{ title }}</h2>
 
 <h3>1. OGGETTO</h3>
 
@@ -143,15 +141,5 @@ ai sensi dell&#39;articolo 13 del DECRETO, al CLIENTE al momento della registraz
 <p>14.2. Per qualsiasi controversia che dovesse sorgere circa la validità, l&#39;interpretazione, l&#39;esecuzione, la risoluzione delle presenti CGV e/o dei singoli ordini di acquisto, sarà competente in via esclusiva e senza fori concorrenti il Foro di Rimini (Italia) con espressa e totale rinuncia reciproca ad ogni altro foro.</p>
 
 </section>
-
-{% if page %}
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
-
-{% endif %}
 
 </div>

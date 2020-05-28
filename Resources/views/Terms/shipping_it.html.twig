@@ -6,6 +6,8 @@
 
 <section class="page_terms page_container container-fluid">
 
+<h2>{{ title }}</h2>
+
 <h3>PAESI DI SPEDIZIONE</h3>
 
 <p>Le spedizioni dello Shop Online di {{ company_title }} sono limitate ai Paesi che fanno parte dell&rsquo;Unione Europea e la Russia.</p>
@@ -92,15 +94,5 @@
 <p>Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 3 tentativi di consegna.&nbsp; Dopo il terzo tentativo senza avvenuta consegna, il pacco viene automaticamente rispedito al magazzino dello Shop Online di {{ company_title }} e il Servizio Clienti contatter&agrave; il Cliente via email al momento del rientro del pacco.</p>
 
 </section>
-
-{% if page %}
-
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
-
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
-
-{% endif %}
 
 </div>
