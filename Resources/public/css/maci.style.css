@@ -364,6 +364,16 @@ ul, ol {
 }
 
 /*
+ *      Terms
+ */
+
+.page_terms ul,
+.page_terms ol {
+	list-style: disc;
+	padding-left: 20px;
+}
+
+/*
  *      User
  */
 
