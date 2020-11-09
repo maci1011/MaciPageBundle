@@ -54,13 +54,13 @@ ul, ol {
 }
 
 #sidebarWrapper {
-	background-color: #3a3a3a;
 	width: 100%;
 	max-width: 480px;
 	height: 100%;
 	z-index: 9942;
 	position: relative;
 	overflow: scroll;
+	padding-top: 40px;
 }
 
 #sidebar.active {
@@ -130,8 +130,9 @@ ul, ol {
 
 @media (min-width: 991px) {
 
-	#main {
+	#bodyBlog #main {
 		display: flex;
+		padding-right: 40px;
 	}
 
 	#sidebarCollapse {
@@ -149,6 +150,10 @@ ul, ol {
 		position: fixed;
 		left: 40px;
 		width: 400px;
+	}
+
+	#bodyBlog #content {
+		padding: 0 7%;
 	}
 
 }

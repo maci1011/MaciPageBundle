@@ -12,7 +12,7 @@
 
 	{% block navbarTop %}
 
-	<nav id="navbarTop" class="navbar navbar-expand-lg fixed-top navbar-light bg-light flex-column" role="navigation">
+	<nav id="navbarTop" class="navbar navbar-expand-lg fixed-top flex-column" role="navigation">
 
 		{% block cookieMessage %}
 		{% if not app.session.get('cookie-message', false) %}
@@ -148,7 +148,7 @@
 
 	<footer id="footer" class="container-fluid p-0">
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand">
 
 		<!--
 			 Social Icons
