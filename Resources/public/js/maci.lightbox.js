@@ -70,7 +70,7 @@ var maciLightbox = function (options) {
 			image_info.appendTo(container).hide();
 		}
 		// Album Controllers
-		if ($(a).attr('data-lightbox') && 1 < $(list).length) {
+		if ($(a).attr('data-lightbox') && 1 < $('a[data-lightbox=' + $(a).attr('data-lightbox') + ']').length) {
 			// Prev
 			$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
 				e.preventDefault();

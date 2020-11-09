@@ -9,6 +9,10 @@
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
 		<div class="media-preview-video-icon"><span class="glyphicon glyphicon-play-circle"></span></div>
 	</a><div class="media-preview-video-content">{{ item.video|raw }}</div>
+	{% elseif item.link %}
+	<a href="{{ item.link }}" target="_blank">
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
+	</a>
 	{% else %}
 	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}

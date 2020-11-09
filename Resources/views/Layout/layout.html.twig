@@ -7,7 +7,7 @@
 
 {% block main %}
 
-<div id="main">
+{% block mainTag %}<div id="main" class="navTop">{% endblock mainTag %}
 
 
 	{% block navbarTop %}
@@ -42,17 +42,31 @@
 			</button>
 			<div id="navbarMainCollapse" class="collapse navbar-collapse">
 
-				{{ knp_menu_render('language', {'currentClass': 'active'}) }}
-				{{ knp_menu_render('main', {'currentClass': 'active'}) }}
-				{{ knp_menu_render('user', {'currentClass': 'active'}) }}
-				{{ knp_menu_render('user_cart', {'currentClass': 'active'}) }}
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a id="searchLink" class="nav-link" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
-							<span class="fa fa-search" aria-hidden="true"></span>
-						</a>
-					</li>
-				</ul>
+				<nav class="mr-4">
+					{{ knp_menu_render('language', {'currentClass': 'active'}) }}
+				</nav>
+
+				<nav class="mr-auto">
+					{{ knp_menu_render('main', {'currentClass': 'active'}) }}
+				</nav>
+
+				<nav>
+					{{ knp_menu_render('user', {'currentClass': 'active'}) }}
+				</nav>
+
+				<nav class="ml-4">
+					{{ knp_menu_render('user_cart', {'currentClass': 'active'}) }}
+				</nav>
+
+				<nav class="ml-4">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a id="searchLink" class="nav-link" name="search[submit]" href="{{ path('maci_page', {'path': 'search'}) }}">
+								<span class="fa fa-search" aria-hidden="true"></span>
+							</a>
+						</li>
+					</ul>
+				</nav>
 
 			</div>
 		</div>

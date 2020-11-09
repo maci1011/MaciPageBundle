@@ -7,6 +7,10 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, i
 	text-decoration: none;
 }
 
+h1, h2, h3, h4, h5, h6, p, a, span {
+	margin: 0;
+}
+
 ul, ol {
 	list-style: none;
 	padding: 0;
@@ -17,9 +21,12 @@ ul, ol {
  */
 
 #main {
-	padding: 56px 0 0 0;
 	max-width: 1920px;
 	margin: 0 auto;
+}
+
+#main.navTop {
+	padding: 50px 0 0 0;
 }
 
 .page-container.contacts-page .page-title,
@@ -29,6 +36,121 @@ ul, ol {
 
 .g-recaptcha > div {
 	margin: 0 auto;
+}
+
+/*
+ *      Blog Sidebar
+ */
+
+#sidebar {
+	width: 100%;
+	height: 100%;
+	padding-right: 40px;
+	left: -520px;
+	top: 0;
+	z-index: 9940;
+	position: fixed;
+	transition: all 0.6s ease-in-out;
+}
+
+#sidebarWrapper {
+	background-color: #3a3a3a;
+	width: 100%;
+	max-width: 480px;
+	height: 100%;
+	z-index: 9942;
+	position: relative;
+	overflow: scroll;
+}
+
+#sidebar.active {
+	left: 0;
+}
+
+#sidebar .dismiss {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 9941;
+	display: none;
+}
+
+#sidebar.active .dismiss {
+	display: block;
+}
+
+.dismiss {
+	cursor: pointer;
+}
+
+.dismiss > i {
+	text-align: right;
+	display: block;
+	padding: 10px 15px;
+	color: #e6e6e6;
+	width: 40px;
+	position: absolute;
+	left: 480px;
+	top: 0;
+}
+
+@media (max-width: 520px) {
+
+	.dismiss {
+		background-color: #2a2a2a;
+	}
+
+	.dismiss > i {
+		left: auto;
+		right: 0;
+	}
+
+}
+
+.dismiss:hover > i {
+	color: #127bff;
+}
+
+.overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 9930;
+}
+
+.overlay {
+	display: none;
+	opacity: 1;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+@media (min-width: 991px) {
+
+	#main {
+		display: flex;
+	}
+
+	#sidebarCollapse {
+		display: none;
+	}
+
+	#sidebar {
+		position: static;
+		padding: 0;
+		width: 480px;
+		flex-shrink: 0;
+	}
+
+	#sidebarWrapper {
+		position: fixed;
+		left: 40px;
+		width: 400px;
+	}
+
 }
 
 /*
@@ -203,7 +325,7 @@ ul, ol {
 	color: #fff;
 }
 
-.media, .product {
+.media-item, .product {
 	margin-bottom: 8px;
 }
 
