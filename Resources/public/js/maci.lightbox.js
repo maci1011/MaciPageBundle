@@ -6,11 +6,11 @@
 var maciLightbox = function (options) {
 
 	var _defaults = {},
-		lightbox = $('<div/>', {'class': 'maci-lightbox'}).appendTo('body').hide(),
+		lightbox = $('<div/>', {'class': 'lightbox'}).appendTo('body').hide(),
 		bar = $('<div/>', {'class': 'container'}).appendTo(lightbox).wrap($('<div/>', {'class': 'navbar navbar-expand-lg navbar-light bg-light flex-column'})),
 		bar_header = $('<div/>', {'class': 'navbar-header'}).appendTo(bar),
 		bar_ul = $('<ul/>', {'class': 'nav navbar-nav navbar-right'}).appendTo(bar),
-		container = $('<div/>', {'class': 'maci-lightbox-container'}).appendTo(lightbox),
+		container = $('<div/>', {'class': 'lightbox-container'}).appendTo(lightbox),
 		fullscreenElement = document.documentElement
 	;
 
@@ -33,12 +33,12 @@ var maciLightbox = function (options) {
 			$('<span/>', {'class': 'navbar-text'}).text(str).appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		}
 		// View [+]
-		$('<a/>', {'class': 'nav-link maci-lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="fas fa-search" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
+		$('<a/>', {'class': 'nav-link lightbox-open-button', 'target': '_blank', 'href': $(a).attr('href')}).html('<span class="fas fa-search" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		// Fullscreen
 		if (fullscreenElement.requestFullScreen || fullscreenElement.webkitRequestFullScreen || fullscreenElement.mozRequestFullScreen || fullscreenElement.msRequestFullScreen) {
 			var icon_full = $('<span class="icon-full fas fa-expand-arrows-alt" aria-hidden="true"/>');
 			var icon_reduce = $('<span class="icon-reduce fas fa-compress-arrows-alt" aria-hidden="true"/>');
-			var fullscreen_button = $('<a/>', {'class': 'nav-link maci-lightbox-fullscreen-button', 'href': ''}).click(function(e) {
+			var fullscreen_button = $('<a/>', {'class': 'nav-link lightbox-fullscreen-button', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.toggleFullscreen();
 				$(this).toggleClass('on-fullscreen');
@@ -48,23 +48,23 @@ var maciLightbox = function (options) {
 			}
 		}
 		// Close [X]
-		$('<a/>', {'class': 'nav-link maci-lightbox-close-button', 'href': ''}).click(function(e) {
+		$('<a/>', {'class': 'nav-link lightbox-close-button', 'href': ''}).click(function(e) {
 			e.preventDefault();
 			lightbox.hide();
 		}).html('<span class="fas fa-times" aria-hidden="true"/>').appendTo(bar_ul).wrap('<li class="nav-item"/>');
 		// Image Containers
-		var image = $('<img/>', {'class': 'maci-lightbox-image img-fluid'}).appendTo(container);
-		var image_wrapper = image.wrap($('<div/>', {'class': 'maci-lightbox-imape-wrapper container'})).parent().hide();
-		var slider = image_wrapper.wrap($('<div/>', {'class': 'maci-lightbox-slider'})).parent();
+		var image = $('<img/>', {'class': 'lightbox-image img-fluid'}).appendTo(container);
+		var image_wrapper = image.wrap($('<div/>', {'class': 'lightbox-imape-wrapper container'})).parent().hide();
+		var slider = image_wrapper.wrap($('<div/>', {'class': 'lightbox-slider'})).parent();
 		// Image Infos Container
-		var image_info = $('<div/>', {'class': 'maci-lightbox-image-info'});
+		var image_info = $('<div/>', {'class': 'lightbox-image-info'});
 		// Brand
 		if ($(a).attr('data-brand')) {
-			$('<img/>', {'src': $(a).attr('data-brand'), 'class': 'maci-lightbox-image-brand-image'}).html($(a).attr('data-description')).appendTo(image_info).wrap($('<div/>', {'class': 'maci-lightbox-image-brand container'}));
+			$('<img/>', {'src': $(a).attr('data-brand'), 'class': 'lightbox-image-brand-image'}).html($(a).attr('data-description')).appendTo(image_info).wrap($('<div/>', {'class': 'lightbox-image-brand container'}));
 		}
 		// Description
 		if ($(a).attr('data-description')) {
-			$('<div/>', {'class': 'maci-lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(image_info);
+			$('<div/>', {'class': 'lightbox-image-description container'}).html($(a).attr('data-description')).appendTo(image_info);
 		}
 		if (image_info.children().length) {
 			image_info.appendTo(container).hide();
@@ -72,18 +72,18 @@ var maciLightbox = function (options) {
 		// Album Controllers
 		if ($(a).attr('data-lightbox') && 1 < $('a[data-lightbox=' + $(a).attr('data-lightbox') + ']').length) {
 			// Prev
-			$('<a/>', {'class': 'maci-lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
+			$('<a/>', {'class': 'lightbox-controller carousel-control left', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.prev(a);
 			}).html('<span class="fas fa-angle-left" aria-hidden="true"/>').appendTo(slider);
 			// Next
-			$('<a/>', {'class': 'maci-lightbox-controller carousel-control right', 'href': ''}).click(function(e) {
+			$('<a/>', {'class': 'lightbox-controller carousel-control right', 'href': ''}).click(function(e) {
 				e.preventDefault();
 				_obj.next(a);
 			}).html('<span class="fas fa-angle-right" aria-hidden="true"/>').appendTo(slider);
 		}
 		// Loader Icon
-		var loader_icon = $('<div/>', {'class': 'maci-lightbox-loader-icon'}).appendTo(lightbox);
+		var loader_icon = $('<div/>', {'class': 'lightbox-loader-icon'}).appendTo(lightbox);
 		// Load Image !
 		image.on('load', function(e) {
 			loader_icon.remove();
