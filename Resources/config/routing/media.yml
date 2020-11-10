@@ -18,13 +18,13 @@ maci_media_brands:
         _locale: "%r_locales%"
 
 maci_media_gallery:
-    path:  /{_locale}/media/gallery
+    path:  /{_locale}/gallery/{type}
     defaults: { _controller: MaciPageBundle:Media:gallery, type: gallery }
     requirements:
         _locale: "%r_locales%"
 
 maci_media_products:
-    path:  /{_locale}/media/products
+    path:  /{_locale}/gallery/products
     defaults: { _controller: MaciPageBundle:Media:gallery, type: products }
     requirements:
         _locale: "%r_locales%"

@@ -55,6 +55,11 @@ class MediaController extends AbstractController
 
 	public function galleryAction($type)
 	{
+		$item = new \Maci\PageBundle\Entity\Media\Album;
+		if (!in_array($type, array_values($item->getTypeArray()))) {
+			$type = 'gallery';
+		}
+
 		$list = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Media\Album')
 			->getGallery($type);

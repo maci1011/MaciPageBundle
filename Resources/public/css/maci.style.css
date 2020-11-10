@@ -334,6 +334,10 @@ ul, ol {
 	margin-bottom: 8px;
 }
 
+.media-title {
+	word-wrap: break-word;
+}
+
 .media-description {
 	padding: 0 6px;
 }

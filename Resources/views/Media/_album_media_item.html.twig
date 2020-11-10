@@ -1,5 +1,5 @@
 
-<div class="media">
+<div class="media-item">
 
 	<input name="id" type="hidden" value="{{ item.id }}" />
 
@@ -34,14 +34,14 @@
 
 	{% if item.name %}
 	<h4 class="media-title">{{ item.name }}</h4>
-	{% elseif item.media.name %}
-	<h4 class="media-title">{{ item.media.name }}</h4>
+	{#}{% elseif item.media.name %}
+	<h4 class="media-title">{{ item.media.name }}</h4>{#}
 	{% endif %}
 
 	{% if item.description|length %}
 	<div class="media-description">{{ item.description|raw }}</div>
-	{% elseif item.media.description|length %}
-	<div class="media-description">{{ item.media.description|raw }}</div>
+	{#}{% elseif item.media.description|length %}
+	<div class="media-description">{{ item.media.description|raw }}</div>{#}
 	{% endif %}
 
 	{% if item.tags|length %}

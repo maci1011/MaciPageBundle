@@ -13,22 +13,25 @@
 
 <div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is odd %}odd{% else %}even{% endif %}">
 
-	{% include "@MaciPage/Media/_item.html.twig" with { 'item': item } %}
+	{% if album is defined %}
+	{% include "@MaciPage/Media/_album_media_item.html.twig" %}
+	{% else %}
+	{% include "@MaciPage/Media/_item.html.twig" %}
+	{% endif %}
 
 </div>
 
-{% if ( loop.index % 4 ) == 0 %}
+{% if ( loop.index % 2 ) == 0 and not ( loop.index % 4 ) == 0 %}
+<div class="clearfix visible-sm-block"></div>
+{% endif %}
 
-</div>
-
-<div class="row">
-
+{% if ( loop.index % 4 ) == 0 and not loop.last %}
+</div><div class="row">
 {% endif %}
 
 {% endfor %}
 
 </div>
-
 </div>
 
 {% endif %}
