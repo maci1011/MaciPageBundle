@@ -99,8 +99,6 @@ class PageController extends AbstractController
 	public function getTemplateByPath($path)
 	{
 		$templates = array(
-			'homepage' => '@MaciPage/Page/homepage.html.twig',
-			'contacts' => '@MaciPage/Page/contacts.html.twig',
 			'customer-service' => '@MaciPage/Terms/customer_service.html.twig',
 			'shopping-guide' => '@MaciPage/Terms/shopping_guide.html.twig',
 			'size-guide' => '@MaciPage/Terms/size_guide.html.twig',

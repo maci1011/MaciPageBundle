@@ -17,12 +17,12 @@
 		{% block cookieMessage %}
 		{% if not app.session.get('cookie-message', false) %}
 
-		<div id="cookieMessage" class="container cookieContainer">
+		<div id="cookieMessage" class="container cookieContainer navbar-dark bg-dark py-2">
 			<ul class="navbar-nav">
 
 				<li class="nav-item"><span class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</span></li>
-				<li class="nav-item"><a class="nav-link" href="{{ path('maci_page', {'path':'cookies'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
-				<li class="nav-item"><a class="nav-link set-cookie-button" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
+				<li class="nav-item"><a class="btn btn-secondary ml-2 nav-link" href="{{ path('maci_page', {'path':'cookies'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
+				<li class="nav-item"><a class="btn btn-primary ml-2 nav-link set-cookie-button" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
 
 			</ul>
 		</div>

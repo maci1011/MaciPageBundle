@@ -26,28 +26,6 @@
 
 {% block body %}
 
-<!-- Main -->
-{% block mainTag %}<div id="main">{% endblock mainTag %}
-
-<!-- Sidebar -->
-<div id="sidebar">
-
-	<div class="dismiss">
-		<i class="fas fa-times"></i>
-	</div>
-
-	<nav id="sidebarWrapper">
-
-		{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}
-
-	</nav>
-
-</div>
-<!-- /#sidebar -->
-
-<!-- Overlay -->
-<div class="overlay"></div>
-
 {% block navbarTop %}
 
 {% block cookieMessage %}
@@ -55,12 +33,12 @@
 
 <nav id="navbarTop" class="navbar navbar-expand-lg fixed-top flex-column" role="navigation">
 
-	<div id="cookieMessage" class="container cookieContainer">
+	<div id="cookieMessage" class="container cookieContainer navbar-dark bg-dark py-2">
 		<ul class="navbar-nav">
 
 			<li class="nav-item"><span class="navbar-text">{{ 'cookie-message' | matra(('By using ' ~ app.request.host ~ ', you agree to our use of cookies to enhance your experience.')) }}</span></li>
-			<li class="nav-item"><a class="nav-link" href="{{ path('maci_page', {'path':'cookies'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
-			<li class="nav-item"><a class="nav-link set-cookie-button" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
+			<li class="nav-item"><a class="btn btn-secondary ml-2 nav-link" href="{{ path('maci_page', {'path':'cookies'}) }}">{{ 'menu.cookie-message-link' | matra('Read') }}</a></li>
+			<li class="nav-item"><a class="btn btn-primary ml-2 nav-link set-cookie-button" href="{{ path('maci_set_cookie', {'cookie': 'cookie-message'}) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{ 'form.close' | matra('Close') }}</a></li>
 
 		</ul>
 	</div>
@@ -71,6 +49,28 @@
 {% endblock %}
 
 {% endblock navbarTop %}
+
+<!-- Main -->
+{% block mainTag %}<div id="main">{% endblock mainTag %}
+
+<!-- Sidebar -->
+<div id="sidebar">
+
+	<div class="dismiss">
+		<i class="fas fa-times"></i>
+	</div>
+
+	<nav id="sidebarWrapper" class="navbar-expand-lg navbar-dark bg-dark">
+
+		{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}
+
+	</nav>
+
+</div>
+<!-- /#sidebar -->
+
+<!-- Overlay -->
+<div class="overlay"></div>
 
 <!-- Content -->
 <div id="content" class="container">

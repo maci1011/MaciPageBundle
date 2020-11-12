@@ -128,7 +128,7 @@ ul, ol {
 	background: rgba(0, 0, 0, 0.8);
 }
 
-@media (min-width: 991px) {
+@media (min-width: 960px) {
 
 	#bodyBlog #main {
 		display: flex;
@@ -144,16 +144,18 @@ ul, ol {
 		padding: 0;
 		width: 480px;
 		flex-shrink: 0;
+		z-index: 980;
 	}
 
 	#sidebarWrapper {
 		position: fixed;
 		left: 40px;
 		width: 400px;
+		z-index: 981;
 	}
 
 	#bodyBlog #content {
-		padding: 0 7%;
+		padding: 0 6%;
 	}
 
 }
