@@ -95,7 +95,7 @@
 
 
 <div class="row">
-<section class="blog-post-details">
+<footer class="blog-post-footer">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
@@ -107,12 +107,12 @@
 
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
 
-</section>
+</footer>
 </div>
 
 
 {% if post.relatedPosts|length %}
-<footer class="blog-post-related related-next row">
+<section class="blog-post-related related-next row">
 
 	<h3 class="related-list-title">
 	{% if post.relatedPosts|length == 1 %}
@@ -124,7 +124,7 @@
 
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.relatedPosts } %}
 
-</footer>
+</section>
 {% endif %}
 
 </div>
