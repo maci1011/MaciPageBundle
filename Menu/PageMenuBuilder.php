@@ -38,7 +38,15 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getMenu('page.shop', 'Shop'), array('route' => 'maci_product'));
 
-		$menu->addChild($this->translator->getMenu('page.blog', 'Blog'), array('route' => 'maci_blog'));
+		$menu->addChild($this->translator->getMenu('page.blog', 'Blog'), array(
+			'route' => 'maci_blog',
+			'extras' => [
+				'routes' => [
+					['route' => 'maci_blog_tag'],
+					['route' => 'maci_blog_show']
+				],
+			],
+		));
 
 		$menu->addChild(
 			$this->translator->getMenu('page.contacts', 'Contacts'),
