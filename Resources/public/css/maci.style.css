@@ -135,6 +135,10 @@ ul, ol {
 		padding-right: 40px;
 	}
 
+	#main > .overlay {
+		display: none;
+	}
+
 	#sidebarCollapse {
 		display: none;
 	}
