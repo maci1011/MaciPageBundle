@@ -136,7 +136,7 @@ ul, ol {
 	}
 
 	#main > .overlay {
-		display: none;
+		left: -100%;
 	}
 
 	#sidebarCollapse {
