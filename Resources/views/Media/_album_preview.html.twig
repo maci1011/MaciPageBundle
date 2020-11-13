@@ -13,7 +13,7 @@
 {% if album.children|length %}
 <section class="album-children">
 
-	{% include "@MaciPage/Media/_album_list.html.twig" with { 'list': album.children, 'album': album } %}
+	{% include "@MaciPage/Media/_album_list.html.twig" with { 'list': album.children } %}
 
 </section>
 {% endif %}
@@ -28,7 +28,7 @@
 
 <section class="album-media">
 
-	{% include "@MaciPage/Media/_album_media_list.html.twig" with { 'album': album, 'limit': 12 } %}
+	{% include "@MaciPage/Media/_album_media_list.html.twig" with { 'limit': 12 } %}
 
 </section>
 
