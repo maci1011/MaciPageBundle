@@ -38,6 +38,10 @@ ul, ol {
 	margin: 0 auto;
 }
 
+#bodyBlog #content {
+	padding: 0;
+}
+
 /*
  *      Blog Sidebar
  */
@@ -165,7 +169,7 @@ ul, ol {
 	}
 
 	#bodyBlog #content {
-		padding: 0 5%;
+		padding: 0 6%;
 	}
 
 	#sidebar {

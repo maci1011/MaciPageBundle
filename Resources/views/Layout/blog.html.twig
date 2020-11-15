@@ -80,7 +80,7 @@
 <div id="content" class="container">
 
 
-	<div class="navbar navbar-expand p-0">
+	<div class="navbar navbar-expand px-2">
 
 		<nav class="ml-auto">
 			{{ knp_menu_render('user', {'currentClass': 'active'}) }}
@@ -102,16 +102,16 @@
 
 	</div>
 
-	<div class="navbar navbar-expand p-0">
+	<div class="navbar navbar-expand px-2">
 
 		<!-- <img id="navbarTopLogo" src="{{ asset('/images/cmm/logo.png') }}" alt="{{ company_title }}" /> -->
-		 <a id="navbarBrand" class="navbar-brand ml-auto mr-2" href="/" title="{{ company_title }}">
+		 <a id="navbarBrand" class="navbar-brand ml-auto px-2 mr-0" href="/" title="{{ company_title }}">
 			{{ company_title }}
 		</a>
 
 	</div>
 
-	<div class="navbar navbar-expand p-0">
+	<div class="navbar navbar-expand px-2 mb-4">
 
 		<nav class="ml-auto">
 			{{ knp_menu_render('main', {'currentClass': 'active'}) }}
@@ -126,7 +126,7 @@
 	</header>
 
 
-	<section class="page-container">
+	<section class="page-container px-3">
 
 		{% block content %}{% endblock content %}
 
