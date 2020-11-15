@@ -131,7 +131,6 @@ ul, ol {
 
 	#bodyBlog #main {
 		display: flex;
-		padding-right: 40px;
 	}
 
 	#main > .overlay {
@@ -145,20 +144,36 @@ ul, ol {
 	#sidebar {
 		position: static;
 		padding: 0;
-		width: 480px;
+		width: 400px;
 		flex-shrink: 0;
 		z-index: 980;
 	}
 
 	#sidebarWrapper {
 		position: fixed;
-		left: 40px;
+		left: 0;
 		width: 400px;
 		z-index: 981;
 	}
 
+}
+
+@media (min-width: 1200px) {
+
+	#bodyBlog #main {
+		padding-right: 40px;
+	}
+
 	#bodyBlog #content {
-		padding: 0 6%;
+		padding: 0 5%;
+	}
+
+	#sidebar {
+		width: 480px;
+	}
+
+	#sidebarWrapper {
+		left: 40px;
 	}
 
 }
