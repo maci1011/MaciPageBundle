@@ -60,11 +60,15 @@
 		<i class="fas fa-times"></i>
 	</div>
 
-	<nav id="sidebarWrapper" class="navbar-expand-lg navbar-dark bg-dark">
+	<div id="sidebarWrapper" class="navbar-expand-lg navbar-dark bg-dark">
 
-		{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}
+		{% block leftMenu %}
+		<nav>
+			{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}
+		</nav>
+		{% endblock leftMenu %}
 
-	</nav>
+	</div>
 
 </div>
 <!-- /#sidebar -->
