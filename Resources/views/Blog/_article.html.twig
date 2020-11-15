@@ -94,8 +94,7 @@
 {% endif %}
 
 
-<div class="row">
-<footer class="blog-post-footer">
+<footer class="blog-post-footer row">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
@@ -105,10 +104,11 @@
 
 {% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
 
+{% if is_granted('ROLE_ADMIN') %}
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+{% endif %}
 
 </footer>
-</div>
 
 
 {% if post.relatedPosts|length %}
