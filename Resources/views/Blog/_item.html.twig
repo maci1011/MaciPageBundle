@@ -1,10 +1,10 @@
 
-<article class="blog-post blog-post-list-item clearfix">
-<div class="blog-post-wrapper container-fluid">
+<article class="blog-post blog-post-list-item">
+<div class="blog-post-wrapper flex">
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-<header class="blog-post-header row">
+<header class="blog-post-header">
 
 	<a href="{{ post_link }}">
 		<h1 class="post-title">{{ post.title }}</h1>
@@ -25,7 +25,7 @@
 </header>
 
 
-<section class="blog-post-content row">
+<section class="blog-post-content">
 
 	{% if post.preheader %}
 	<div class="post-preheader">{{ post.preheader|raw }}</div>
@@ -48,14 +48,14 @@
 </section>
 
 
-<section class="blog-post-read-more row">
+<section class="blog-post-read-more">
 	<a class="btn btn-primary" href="{{ post_link }}">
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
 </section>
 
 
-<footer class="blog-post-footer row">
+<footer class="blog-post-footer">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 
