@@ -60,7 +60,6 @@ ul, ol {
 	z-index: 9942;
 	position: relative;
 	overflow: scroll;
-	padding-top: 40px;
 }
 
 #sidebar.active {
