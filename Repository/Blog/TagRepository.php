@@ -16,9 +16,9 @@ class TagRepository extends EntityRepository
 	{
 		$q = $this->createQueryBuilder('t');
 		$q
-			->where('p.locale = :locale')
+			->where('t.locale = :locale')
 			->setparameter(':locale', $locale)
-			->orderBy('p.name', 'ASC')
+			->orderBy('t.name', 'ASC')
 			;
 		return $q->getQuery()->getResult();
 	}
