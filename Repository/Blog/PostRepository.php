@@ -37,6 +37,8 @@ class PostRepository extends EntityRepository
 			->leftJoin('p.tags', 't')
 			->where('t.id = :id')
 			->setParameter('id', $id)
+			->andWhere('p.removed = :removed')
+			->setparameter(':removed', false)
 			->andWhere('p.status = :status')
 			->setparameter(':status', 'pubblished')
 			->orderBy('p.created', 'DESC')

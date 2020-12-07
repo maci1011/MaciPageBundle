@@ -27,7 +27,8 @@ class BlogMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'navbar-nav flex-column');
 
-		$tags = $this->om->getRepository('MaciPageBundle:Blog\Tag')->findByLocale($this->request->getLocale());
+		$tags = $this->om->getRepository('MaciPageBundle:Blog\Tag')
+			->getlist($this->request->getLocale());
 
 		foreach ($tags as $tag) {
 

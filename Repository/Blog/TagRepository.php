@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+	public function getList($locale)
+	{
+		$q = $this->createQueryBuilder('t');
+		$q
+			->where('p.locale = :locale')
+			->setparameter(':locale', $locale)
+			->orderBy('p.name', 'ASC')
+			;
+		return $q->getQuery()->getResult();
+	}
 }
