@@ -42,6 +42,14 @@ ul, ol {
 	padding: 0;
 }
 
+.dropdown-toggle {
+	position: relative;
+}
+
+.dropdown-menu {
+	left: -32px;
+}
+
 /*
  *      Blog Sidebar
  */
@@ -484,10 +492,15 @@ ul, ol {
  */
 
 .form-group > label:after {
+	content: '*:';
+}
+
+.form-group > label.required:after {
 	content: ':';
 }
 
-.form-group.checkbox > label:after {
+.form-group.checkbox > label:after,
+.form-group.checkbox > label.required:after {
 	content: '';
 }
 
@@ -503,11 +516,13 @@ ul, ol {
 	margin-left: 0;
 }
 
+.form-optional-fields,
 .form-required-fields {
 	padding: 15px 0 30px;
 	display: block;
 }
 
+.form-optional-fields span,
 .form-required-fields span {
 	font-style: italic;
 	font-weight: bold;
