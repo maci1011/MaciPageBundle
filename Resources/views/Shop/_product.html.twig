@@ -1,11 +1,11 @@
 
 <article id="maci-product_{{ item.id }}" class="show-product">
 
-<div class="container-fluid">
+<div id="productWrapper" class="container-fluid">
 
 <div class="row">
 
-	<section class="col-xs-12 col-sm-{{ shop_is_live ? 2 : 3 }}">
+	<section class="col-xs-12 col-sm-1">
 
 		<div class="product-media-list">
 
@@ -19,7 +19,7 @@
 
 	</section>
 
-	<section class="col-xs-12 col-sm-{{ shop_is_live ? 4 : 5 }}">
+	<section class="col-xs-12 col-sm-{{ shop_is_live ? 4 : 5 }} pr-sm-0">
 
 		<div class="product-media-list">
 
@@ -35,7 +35,7 @@
 
 	</section>
 
-	<section class="col-xs-12 col-sm-4">
+	<section class="col-xs-12 col-sm-{{ shop_is_live ? '4 pr-sm-0' : 6 }}">
 
 		<div class="product-details">
 
@@ -211,7 +211,7 @@
 
 	{% if shop_is_live %}
 
-	<section class="col-xs-12 col-sm-2">
+	<section class="col-xs-12 col-sm-3">
 
 		<div class="product-form">
 

@@ -164,6 +164,7 @@ class Product
         $this->categoryItems = new \Doctrine\Common\Collections\ArrayCollection();
         $this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->code = uniqid();
         $this->shipment = true;
         $this->limited = true;
         $this->quantity = 1;

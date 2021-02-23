@@ -38,7 +38,7 @@ Maci\PageBundle\Entity\Shop\Product:
             nullable: true
         type:
             type: string
-            length: 31
+            length: 15
             nullable: true
         shipment:
             type: boolean
@@ -49,11 +49,11 @@ Maci\PageBundle\Entity\Shop\Product:
             nullable: true
         status:
             type: string
-            length: 31
+            length: 15
             nullable: true
         code:
             type: string
-            length: 31
+            length: 15
             nullable: true
         tabbed:
             type: boolean
