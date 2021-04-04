@@ -8,7 +8,7 @@
 	{% if item.path %}
 
 	<div class="media-preview">
-	<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.name ? item.name : null }}">
+	<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.title ? item.title : null }}">
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
 	</a>
 	</div>
@@ -18,12 +18,12 @@
 
 	<div class="media-info">
 
-	{% if item.name %}
-	<h4 class="media-title">{{ item.name }}</h4>
+	{% if item.title %}
+	<h4 class="media-title">{{ item.title }}</h4>
 	{% endif %}
 
-	{% if item.description %}
-	<div class="media-description">{{ item.description|raw }}</div>
+	{% if item.content %}
+	<div class="media-description">{{ item.content|raw }}</div>
 	{% endif %}
 
 	{% if item.tags|length %}

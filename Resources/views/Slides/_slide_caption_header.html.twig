@@ -1,13 +1,13 @@
 
-{% if item.name is not null %}
+{% if item.title is not null %}
 <div class="slide-header-wrapper">
 <header class="slide-header">
 	{% if item.link %}
-	<a href="{{ item.link }}" alt="{{ item.name }}">
-		<h3 class="slide-title">{{ item.name }}</h3>
+	<a href="{{ item.link }}" alt="{{ item.title }}">
+		<h3 class="slide-title">{{ item.title }}</h3>
 	</a>
 	{% else %}
-	<h3>{{ item.name }}</h3>
+	<h3>{{ item.title }}</h3>
 	{% endif %}
 </header>
 </div>

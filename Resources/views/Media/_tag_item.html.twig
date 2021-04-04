@@ -21,10 +21,10 @@
 	<div class="media-info">
 
 	<a href="{{ path('maci_media_brand', {'id': item.id}) }}">
-		<h4 class="media-title">{{ item.name ? item.name : null }}</h4>
+		<h4 class="media-title">{{ item.title ? item.title : null }}</h4>
 	</a>
 
-	<div class="media-description">{{ item.description|raw }}</div>
+	<div class="media-description">{{ item.content|raw }}</div>
 
 	</div>
 

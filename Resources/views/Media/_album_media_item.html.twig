@@ -14,7 +14,7 @@
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
 	</a>
 	{% else %}
-	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
+	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.title ? item.title : item.media.name }}" data-description="{{ item.content ? item.content : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
 	</a>
 	{% endif %}
@@ -32,14 +32,14 @@
 
 	<div class="media-info">
 
-	{% if item.name %}
-	<h4 class="media-title">{{ item.name }}</h4>
+	{% if item.title %}
+	<h4 class="media-title">{{ item.title }}</h4>
 	{#}{% elseif item.media.name %}
 	<h4 class="media-title">{{ item.media.name }}</h4>{#}
 	{% endif %}
 
-	{% if item.description|length %}
-	<div class="media-description">{{ item.description|raw }}</div>
+	{% if item.content|length %}
+	<div class="media-description">{{ item.content|raw }}</div>
 	{#}{% elseif item.media.description|length %}
 	<div class="media-description">{{ item.media.description|raw }}</div>{#}
 	{% endif %}

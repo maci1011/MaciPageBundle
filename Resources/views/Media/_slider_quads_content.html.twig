@@ -1,21 +1,21 @@
 
 {% if item.link %}
-<a href="{{ item.link }}" alt="{{ item.name }}">
+<a href="{{ item.link }}" alt="{{ item.title }}">
 {% endif %}
 
-{% if caption == 'before' and caption and ( item.name or item.description ) %}
+{% if caption == 'before' and caption and ( item.title or item.content ) %}
 <div class="carousel-caption">
-	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-	{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+	{% if item.title %}<h4>{{ item.title }}</h4>{% endif %}
+	{% if item.content %}<div>{{ item.content|raw }}</div>{% endif %}
 </div>
 {% endif %}
 
-<img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.description %} title="{{ item.name }}" alt="{{ item.description }}" {% else %} alt="{{ item.name ? item.name : '#' }}" {% endif %} />
+<img class="d-block w-100" src="{{ asset(item.webPreview | imagine_filter(slider_filter)) }}" {% if item.content %} title="{{ item.title }}" alt="{{ item.content }}" {% else %} alt="{{ item.title ? item.title : '#' }}" {% endif %} />
 
-{% if caption == 'after' and caption and ( item.name or item.description ) %}
+{% if caption == 'after' and caption and ( item.title or item.content ) %}
 <div class="carousel-caption">
-	{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-	{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+	{% if item.title %}<h4>{{ item.title }}</h4>{% endif %}
+	{% if item.content %}<div>{{ item.content|raw }}</div>{% endif %}
 </div>
 {% endif %}
 

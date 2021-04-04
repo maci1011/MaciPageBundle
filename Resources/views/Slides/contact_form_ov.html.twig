@@ -1,5 +1,5 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} {% if album.id is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	{% include "MaciPageBundle:Slides:_slide_background.html.twig" %}

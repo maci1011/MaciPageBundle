@@ -1,5 +1,5 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide {{ item.style }} {% if loop.index0 is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} {% if loop.index0 is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	<div class="slide-image col-xs-12 col-sm-6 hidden-xs" style="background: url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat center center / cover rgba(0, 0, 0, 0);"></div>

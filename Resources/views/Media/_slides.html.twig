@@ -1,11 +1,9 @@
 
-{% set list = album.slides %}
-
 {% if list|length %}
 
 {% for item in list %}
 
-{% set stt = ( "@MaciPage/Slides/" ~ item.style ~ ".html.twig" ) %}
+{% set stt = ( "@MaciPage/Slides/" ~ item.type ~ ".html.twig" ) %}
 
 {% include [stt, "@MaciPage/Slides/default.html.twig"] with { 'item': item, 'loop': loop } %}
 

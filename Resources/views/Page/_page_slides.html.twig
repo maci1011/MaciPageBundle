@@ -1,9 +1,9 @@
 
-{% if page.slides and page.slides.slides|length %}
+{% if page.Slides|length %}
 
 <section class="page_slides container-fluid px-0">
 
-	{% include "MaciPageBundle:Media:_slides.html.twig" with {'album': page.slides}  %}
+	{% include "MaciPageBundle:Media:_slides.html.twig" with {'list': page.Slides}  %}
 
 </section>
 

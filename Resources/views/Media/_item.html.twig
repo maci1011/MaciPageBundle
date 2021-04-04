@@ -6,18 +6,18 @@
 
 
 	<div class="media-preview">
-	<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.name }}">
+	<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.title }}">
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item } %}
 	</a>
 	</div>
 
 
-	{% if item.name %}
-	<h4 class="media-title">{{ item.name }}</h4>
+	{% if item.title %}
+	<h4 class="media-title">{{ item.title }}</h4>
 	{% endif %}
 
-	{% if item.description %}
-	<div class="media-description">{{ item.description|raw }}</div>
+	{% if item.content %}
+	<div class="media-description">{{ item.content|raw }}</div>
 	{% endif %}
 
 

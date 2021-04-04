@@ -72,18 +72,6 @@ Maci\PageBundle\Entity\Page\Page:
         removed:
             type: boolean
     manyToOne:
-        album:
-            targetEntity: Maci\PageBundle\Entity\Media\Album
-        gallery:
-            targetEntity: Maci\PageBundle\Entity\Media\Album
-        slider:
-            targetEntity: Maci\PageBundle\Entity\Media\Album
-        slides:
-            targetEntity: Maci\PageBundle\Entity\Media\Album
-        category:
-            targetEntity: Maci\PageBundle\Entity\Shop\Category
-        tag:
-            targetEntity: Maci\PageBundle\Entity\Blog\Tag
         parent:
             targetEntity: Maci\PageBundle\Entity\Page\Page
             inversedBy: children
@@ -91,8 +79,9 @@ Maci\PageBundle\Entity\Page\Page:
         children:
             targetEntity: Maci\PageBundle\Entity\Page\Page
             mappedBy: parent
+        slides:
+            targetEntity: Maci\PageBundle\Entity\Page\Slide
+            mappedBy: page
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue ]
         preUpdate: [ setUpdatedValue ]
-
-

@@ -125,11 +125,6 @@ class Page
 	/**
 	 * @var string
 	 */
-	private $slides;
-
-	/**
-	 * @var string
-	 */
 	private $category;
 
 	/**
@@ -141,6 +136,11 @@ class Page
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
 	protected $children;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $slides;
 
 	/**
 	 * @var string
@@ -155,6 +155,8 @@ class Page
 		$this->status = 'active';
 		$this->removed = false;
 		$this->path = ( 'page-' . uniqid() );
+		$this->slides = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -535,22 +537,32 @@ class Page
 	}
 
 	/**
-	 * Set slides
+	 * Add slides
 	 *
-	 * @param string $slides
+	 * @param \Maci\PageBundle\Entity\Page\Slide $slides
 	 * @return Page
 	 */
-	public function setSlides($slides)
+	public function addSlide(\Maci\PageBundle\Entity\Page\Slide $slides)
 	{
-		$this->slides = $slides;
+		$this->slides[] = $slides;
 
 		return $this;
 	}
 
 	/**
+	 * Remove slides
+	 *
+	 * @param \Maci\PageBundle\Entity\Page\Slide $slides
+	 */
+	public function removeSlide(\Maci\PageBundle\Entity\Page\Slide $slides)
+	{
+		$this->slides->removeElement($slides);
+	}
+
+	/**
 	 * Get slides
 	 *
-	 * @return string 
+	 * @return \Doctrine\Common\Collections\Collection 
 	 */
 	public function getSlides()
 	{

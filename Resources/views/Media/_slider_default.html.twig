@@ -19,18 +19,18 @@
 	{% endif %}
 
 	{% if item.link is defined and item.link %}
-	<a href="{{ item.link }}" alt="{{ item.name }}">
-		<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+	<a href="{{ item.link }}" alt="{{ item.title }}">
+		<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.title ? item.title : '#' }}">
 	</a>
 	{% else %}
-	<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.name ? item.name : '#' }}">
+	<img class="d-block w-100" src="{{ asset( image.webPath | imagine_filter(image_filter) ) }}" alt="{{ item.title ? item.title : '#' }}">
 	{% endif %}
 
 	<!-- Caption -->
-	{% if caption and ( item.name or item.description ) %}
+	{% if caption and ( item.title or item.content ) %}
 	<div class="carousel-caption d-none d-md-block">
-		{% if item.name %}<h4>{{ item.name }}</h4>{% endif %}
-		{% if item.description %}<div>{{ item.description|raw }}</div>{% endif %}
+		{% if item.title %}<h4>{{ item.title }}</h4>{% endif %}
+		{% if item.content %}<div>{{ item.content|raw }}</div>{% endif %}
 	</div>
 	{% endif %}
 
