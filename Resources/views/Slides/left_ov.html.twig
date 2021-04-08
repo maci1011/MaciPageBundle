@@ -1,5 +1,5 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper" style="background: url('{{ asset('/images/defaults/overlay.png') }}') repeat fixed left top / 256px 256px, url('{{ path('maci_media_get', {'path': item.media.path}) }}') no-repeat fixed center center / cover rgba(0, 0, 0, 0);">
 
 	<div class="slide-caption col-xs-12 col-sm-6">

@@ -1,7 +1,7 @@
 
 {% if item.Slides|length %}
 
-<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} default {% if album.id is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} default {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	{% if gallery_params is not defined %}

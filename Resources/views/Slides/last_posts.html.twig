@@ -1,5 +1,5 @@
 
-<div id="slide-{{ loop.index0 }}" class="slide fix_height {{ item.type }} {% if album.id is even %}even{% else %}odd{% endif %}">
+<div id="slide-{{ loop.index0 }}" class="slide fix_height {{ item.type }} {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	<div class="slide-caption col-xs-12 col-sm-10 col-sm-offset-1">
