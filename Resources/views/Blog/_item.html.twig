@@ -1,5 +1,5 @@
 
-<article class="blog-post blog-post-list-item">
+<article class="blog-post post-item">
 <div class="blog-post-wrapper flex">
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
@@ -55,7 +55,7 @@
 </section>
 
 
-<footer class="blog-post-footer navbar navbar-expand-lg">
+<footer class="blog-post-footer flex">
 
 {% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
 

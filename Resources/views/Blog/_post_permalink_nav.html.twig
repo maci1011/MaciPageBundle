@@ -5,9 +5,10 @@
 
 		{% set post_permalink = url('maci_blog_post_permalink', {'link': post.link}) %}
 		<li class="nav-item post-permalink">
-			<span class="navbar-text">{{ 'page.permalink' | matra('Permalink') }}: 
-				<a href="{{ post_permalink }}">{{ post_permalink }}</a>
-			</span>
+			<p class="navbar-text">
+				<span class="post-permalink post-label" class="">{{ 'page.permalink' | matra('Permalink') }}:</span>
+				<a class="post-permalink post-val" href="{{ post_permalink }}">{{ post_permalink }}</a>
+			</p>
 		</li>
 
 	</ul>
