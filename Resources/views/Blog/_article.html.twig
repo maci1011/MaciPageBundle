@@ -14,8 +14,7 @@
 	<figure class="post-preview-wrapper">
 		<img class="post-preview img-fluid mr-auto" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
 		{% if post.preview.name or post.preview.description %}
-		<div class="row">
-		<figcaption class="post-preview-description col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+		<figcaption class="post-preview-description">
 			{% if post.preview.name %}
 			<span class="post-preview-name">{{ post.preview.name }}</span>
 			{% endif %}
@@ -23,7 +22,6 @@
 			{{ post.preview.description|raw }}
 			{% endif %}
 		</figcaption>
-		</div>
 		{% endif %}
 	</figure>
 	{% endif %}
