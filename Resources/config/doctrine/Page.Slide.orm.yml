@@ -43,3 +43,4 @@ Maci\PageBundle\Entity\Page\Slide:
         children:
             targetEntity: Maci\PageBundle\Entity\Page\Slide
             mappedBy: parent
+            orderBy: { 'position': ASC }

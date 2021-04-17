@@ -82,6 +82,7 @@ Maci\PageBundle\Entity\Page\Page:
         slides:
             targetEntity: Maci\PageBundle\Entity\Page\Slide
             mappedBy: page
+            orderBy: { 'position': ASC }
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue ]
         preUpdate: [ setUpdatedValue ]
