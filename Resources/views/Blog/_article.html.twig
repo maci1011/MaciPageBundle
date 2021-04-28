@@ -2,6 +2,7 @@
 <article class="blog-post post-article clearfix">
 <div class="blog-post-wrapper flex">
 
+
 <header class="blog-post-header">
 
 	<h1 class="post-title">{{ post.title }}</h1>
@@ -70,10 +71,28 @@
 {% if post.images|length %}
 <section class="blog-post-images">
 
-{% include "@MaciPage/Blog/_media_list.html.twig" %}
+	{% include "@MaciPage/Blog/_media_list.html.twig" %}
 
 </section>
 {% endif %}
+
+
+<footer class="blog-post-footer flex">
+
+	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_permalink_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
+
+	{% if is_granted('ROLE_ADMIN') %}
+	{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+	{% endif %}
+
+</footer>
+
 
 {% if post.nextPosts|length %}
 <section class="blog-post-related related-next">
@@ -90,23 +109,6 @@
 
 </section>
 {% endif %}
-
-
-<footer class="blog-post-footer flex">
-
-{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
-
-{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
-
-{% include "@MaciPage/Blog/_post_permalink_nav.html.twig" %}
-
-{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
-
-{% if is_granted('ROLE_ADMIN') %}
-{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
-{% endif %}
-
-</footer>
 
 
 {% if post.relatedPosts|length %}
