@@ -170,11 +170,19 @@ class MediaItem
         return $this->getMedia()->getDescription();
     }
 
+    public function getWebPreview()
+    {
+        if ($this->media) {
+            return $this->media->getWebPreview();
+        }
+        return '/images/defaults/document-icon.png';
+    }
+
     /**
      * __toString()
      */
     public function __toString()
     {
-        return $this->getName();
+        return 'BlogMediaItem_' . (is_int($this->getId()) ? $this->getId() : 'New');
     }
 }
