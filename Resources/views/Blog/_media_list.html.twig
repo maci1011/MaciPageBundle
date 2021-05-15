@@ -9,7 +9,7 @@
 
 {% for item in list %}
 
-{% include "@MaciPage/Blog/_media_item.html.twig" with { 'post': post, 'item': item } %}
+{% include "@MaciPage/Blog/_media_item.html.twig" %}
 
 {% if ( loop.index % 4 ) == 0 %}
 
