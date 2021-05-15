@@ -77,6 +77,15 @@
 {% endif %}
 
 
+{% if post.otherMedias|length %}
+<section class="blog-post-images">
+
+	{% include "@MaciPage/Blog/_media_list.html.twig" with {'list': post.otherMedias} %}
+
+</section>
+{% endif %}
+
+
 <footer class="blog-post-footer flex">
 
 	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
@@ -111,18 +120,18 @@
 {% endif %}
 
 
-{% if post.relatedPosts|length %}
-<section class="blog-post-related related-next">
+{% if post.related|length %}
+<section class="blog-post-related related-posts">
 
 	<h3 class="related-list-title">
-	{% if post.relatedPosts|length == 1 %}
+	{% if post.related|length == 1 %}
 		{{ 'blog.post.related-post' | matra('Related Post') }}:
 	{% else %}
 		{{ 'blog.post.related-posts' | matra('Related Posts') }}:
 	{% endif %}
 	</h3>
 
-	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.relatedPosts } %}
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.related } %}
 
 </section>
 {% endif %}

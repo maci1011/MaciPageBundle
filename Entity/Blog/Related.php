@@ -3,9 +3,9 @@
 namespace Maci\PageBundle\Entity\Blog;
 
 /**
- * RelatedPosts
+ * Related
  */
-class RelatedPosts
+class Related
 {
     /**
      * @var int
@@ -56,7 +56,7 @@ class RelatedPosts
      *
      * @param string $type
      *
-     * @return RelatedPosts
+     * @return Related
      */
     public function setType($type)
     {
@@ -106,7 +106,7 @@ class RelatedPosts
      *
      * @param int|null $position
      *
-     * @return RelatedPosts
+     * @return Related
      */
     public function setPosition($position = null)
     {
@@ -130,7 +130,7 @@ class RelatedPosts
      *
      * @param \Maci\PageBundle\Entity\Blog\Post|null $sourcePost
      *
-     * @return RelatedPosts
+     * @return Related
      */
     public function setSourcePost(\Maci\PageBundle\Entity\Blog\Post $sourcePost = null)
     {
@@ -164,7 +164,7 @@ class RelatedPosts
      *
      * @param \Maci\PageBundle\Entity\Blog\Post|null $targetPost
      *
-     * @return RelatedPosts
+     * @return Related
      */
     public function setTargetPost(\Maci\PageBundle\Entity\Blog\Post $targetPost = null)
     {
@@ -198,6 +198,6 @@ class RelatedPosts
      */
     public function __toString()
     {
-        return 'RelatedPosts_' . $this->getId();
+        return 'Related_' . $this->getId();
     }
 }

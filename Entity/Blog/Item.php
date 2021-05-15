@@ -5,7 +5,7 @@ namespace Maci\PageBundle\Entity\Blog;
 /**
  * Item
  */
-class MediaItem
+class Item
 {
     /**
      * @var integer
@@ -112,7 +112,7 @@ class MediaItem
      * Set post
      *
      * @param \Maci\PageBundle\Entity\Blog\Post $post
-     * @return MediaItem
+     * @return Item
      */
     public function setPost(\Maci\PageBundle\Entity\Blog\Post $post = null)
     {
@@ -135,7 +135,7 @@ class MediaItem
      * Set media
      *
      * @param \Maci\PageBundle\Entity\Media\Media $media
-     * @return MediaItem
+     * @return Item
      */
     public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
     {

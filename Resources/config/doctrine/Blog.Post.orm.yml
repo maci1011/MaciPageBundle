@@ -69,16 +69,16 @@ Maci\PageBundle\Entity\Blog\Post:
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
-        mediaItems:
-            targetEntity: Maci\PageBundle\Entity\Blog\MediaItem
+        items:
+            targetEntity: Maci\PageBundle\Entity\Blog\Item
             mappedBy: post
             orderBy: { 'position': ASC }
-        relatedSources:
-            targetEntity: Maci\PageBundle\Entity\Blog\RelatedPosts
+        sources:
+            targetEntity: Maci\PageBundle\Entity\Blog\Related
             mappedBy: sourcePost
             orderBy: { 'position': ASC }
-        relatedTargets:
-            targetEntity: Maci\PageBundle\Entity\Blog\RelatedPosts
+        targets:
+            targetEntity: Maci\PageBundle\Entity\Blog\Related
             mappedBy: targetPost
             orderBy: { 'position': ASC }
     manyToMany:

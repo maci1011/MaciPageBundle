@@ -1,8 +1,8 @@
 
-Maci\PageBundle\Entity\Blog\MediaItem:
+Maci\PageBundle\Entity\Blog\Item:
     type:  entity
     table: maci_blog_media_item
-    repositoryClass: Maci\PageBundle\Repository\Blog\MediaItemRepository
+    repositoryClass: Maci\PageBundle\Repository\Blog\ItemRepository
     id:
         id:
             type: integer
@@ -17,6 +17,6 @@ Maci\PageBundle\Entity\Blog\MediaItem:
     manyToOne:
         post:
             targetEntity: Maci\PageBundle\Entity\Blog\Post
-            inversedBy: mediaItems
+            inversedBy: items
         media:
             targetEntity: Maci\PageBundle\Entity\Media\Media

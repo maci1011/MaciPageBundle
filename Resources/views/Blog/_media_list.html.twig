@@ -1,13 +1,13 @@
 
-{% if post.images|length %}
-
-{% if is_granted("ROLE_ADMIN") %}
-<div sortable="{{ path('maci_admin_entity_reorder', {'entity': 'blog_media_item'}) }}">
+{% if list is not defined %}
+{% set list = post.images %}
 {% endif %}
+
+{% if list|length %}
 
 <div class="row">
 
-{% for item in post.images %}
+{% for item in list %}
 
 {% include "@MaciPage/Blog/_media_item.html.twig" with { 'post': post, 'item': item } %}
 
@@ -22,9 +22,5 @@
 {% endfor %}
 
 </div>
-
-{% if is_granted("ROLE_ADMIN") %}
-</div>
-{% endif %}
 
 {% endif %}

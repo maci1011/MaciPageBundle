@@ -1,8 +1,8 @@
 
-Maci\PageBundle\Entity\Blog\RelatedPosts:
+Maci\PageBundle\Entity\Blog\Related:
     type:  entity
     table: maci_blog_related_posts
-    repositoryClass: Maci\PageBundle\Repository\Blog\RelatedPostsRepository
+    repositoryClass: Maci\PageBundle\Repository\Blog\RelatedRepository
     id:
         id:
             type: integer
@@ -18,7 +18,7 @@ Maci\PageBundle\Entity\Blog\RelatedPosts:
     manyToOne:
         sourcePost:
             targetEntity: Maci\PageBundle\Entity\Blog\Post
-            inversedBy: relatedTargets
+            inversedBy: targets
         targetPost:
             targetEntity: Maci\PageBundle\Entity\Blog\Post
-            inversedBy: relatedSources
+            inversedBy: sources

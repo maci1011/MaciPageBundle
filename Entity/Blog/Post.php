@@ -100,7 +100,7 @@ class Post
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $mediaItems;
+	private $items;
 
 	/**
 	 * @var \Maci\PageBundle\Entity\Media
@@ -110,12 +110,12 @@ class Post
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $relatedSources;
+	private $sources;
 
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $relatedTargets;
+	private $targets;
 
 	/**
 	 * @var string
@@ -128,9 +128,9 @@ class Post
 	public function __construct()
 	{
 		$this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->relatedSources = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->relatedTargets = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->items = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->sources = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->targets = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->removed = false;
 		$this->status = 'new';
         $this->path = uniqid();
@@ -552,96 +552,96 @@ class Post
 	}
 
 	/**
-	 * Add relatedSource.
+	 * Add Source.
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource
+	 * @param \Maci\PageBundle\Entity\Blog\Related $source
 	 *
 	 * @return Post
 	 */
-	public function addRelatedSource(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource)
+	public function addSource(\Maci\PageBundle\Entity\Blog\Related $source)
 	{
-		$this->relatedSources[] = $relatedSource;
+		$this->sources[] = $source;
 
 		return $this;
 	}
 
 	/**
-	 * Remove relatedSource.
+	 * Remove Source.
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource
+	 * @param \Maci\PageBundle\Entity\Blog\Related $source
 	 *
 	 * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
 	 */
-	public function removeRelatedSource(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedSource)
+	public function removeSource(\Maci\PageBundle\Entity\Blog\Related $source)
 	{
-		return $this->relatedSources->removeElement($relatedSource);
+		return $this->sources->removeElement($source);
 	}
 
 	/**
-	 * Get relatedSources.
+	 * Get Sources.
 	 *
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
-	public function getRelatedSources()
+	public function getSources()
 	{
-		return $this->relatedSources;
+		return $this->sources;
 	}
 
 	/**
-	 * Add relatedTarget.
+	 * Add Target.
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget
+	 * @param \Maci\PageBundle\Entity\Blog\Related $target
 	 *
 	 * @return Post
 	 */
-	public function addRelatedTarget(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget)
+	public function addTarget(\Maci\PageBundle\Entity\Blog\Related $target)
 	{
-		$this->relatedTargets[] = $relatedTarget;
+		$this->targets[] = $target;
 
 		return $this;
 	}
 
 	/**
-	 * Remove relatedTarget.
+	 * Remove Target.
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget
+	 * @param \Maci\PageBundle\Entity\Blog\Related $target
 	 *
 	 * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
 	 */
-	public function removeRelatedTarget(\Maci\PageBundle\Entity\Blog\RelatedPosts $relatedTarget)
+	public function removeTarget(\Maci\PageBundle\Entity\Blog\Related $target)
 	{
-		return $this->relatedTargets->removeElement($relatedTarget);
+		return $this->targets->removeElement($target);
 	}
 
 	/**
-	 * Get relatedTargets.
+	 * Get Targets.
 	 *
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
-	public function getRelatedTargets()
+	public function getTargets()
 	{
-		return $this->relatedTargets;
+		return $this->targets;
 	}
 
 
 
 	public function getPreviousSourcePosts()
 	{
-		return $this->relatedSources->filter(function($e){
+		return $this->sources->filter(function($e){
 			return ( is_object($e->getTargetPost()) && $e->getType() == 'prev' );
 		});
 	}
 
 	public function getNextSourcePosts()
 	{
-		return $this->relatedSources->filter(function($e){
+		return $this->sources->filter(function($e){
 			return ( is_object($e->getTargetPost()) && $e->getType() == 'next' );
 		});
 	}
 
 	public function getRelatedSourcePosts()
 	{
-		return $this->relatedSources->filter(function($e){
+		return $this->sources->filter(function($e){
 			return ( is_object($e->getTargetPost()) && $e->getType() == 'related' );
 		});
 	}
@@ -650,21 +650,21 @@ class Post
 
 	public function getPreviousTargetPosts()
 	{
-		return $this->relatedTargets->filter(function($e){
+		return $this->targets->filter(function($e){
 			return ( is_object($e->getSourcePost()) && $e->getType() == 'prev' );
 		});
 	}
 
 	public function getNextTargetPosts()
 	{
-		return $this->relatedTargets->filter(function($e){
+		return $this->targets->filter(function($e){
 			return ( is_object($e->getSourcePost()) && $e->getType() == 'next' );
 		});
 	}
 
 	public function getRelatedTargetPosts()
 	{
-		return $this->relatedTargets->filter(function($e){
+		return $this->targets->filter(function($e){
 			return ( is_object($e->getSourcePost()) && $e->getType() == 'related' );
 		});
 	}
@@ -685,7 +685,7 @@ class Post
 		);
 	}
 
-	public function getRelatedPosts()
+	public function getRelated()
 	{
 		return new \Doctrine\Common\Collections\ArrayCollection(
 			array_merge($this->getRelatedSourcePosts()->toArray(), $this->getRelatedTargetPosts()->toArray())
@@ -695,52 +695,52 @@ class Post
 
 
 	/**
-	 * Add mediaItems
+	 * Add items
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\MediaItem $mediaItems
+	 * @param \Maci\PageBundle\Entity\Blog\Item $items
 	 * @return Post
 	 */
-	public function addMediaItem(\Maci\PageBundle\Entity\Blog\MediaItem $mediaItems)
+	public function addItem(\Maci\PageBundle\Entity\Blog\Item $items)
 	{
-		$this->mediaItems[] = $mediaItems;
+		$this->items[] = $items;
 
 		return $this;
 	}
 
 	/**
-	 * Remove mediaItems
+	 * Remove items
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\MediaItem $mediaItems
+	 * @param \Maci\PageBundle\Entity\Blog\Item $items
 	 */
-	public function removeMediaItem(\Maci\PageBundle\Entity\Blog\MediaItem $mediaItems)
+	public function removeItem(\Maci\PageBundle\Entity\Blog\Item $items)
 	{
-		$this->mediaItems->removeElement($mediaItems);
+		$this->items->removeElement($items);
 	}
 
 	/**
-	 * Get mediaItems
+	 * Get items
 	 *
 	 * @return \Doctrine\Common\Collections\Collection 
 	 */
-	public function getMediaItems()
+	public function getItems()
 	{
-		return $this->mediaItems;
+		return $this->items;
 	}
 
 	/**
-	 * Get public mediaItems
+	 * Get public items
 	 *
 	 * @return \Doctrine\Common\Collections\Collection 
 	 */
 	public function getPublicMedia()
 	{
-		return $this->getMediaItems()->filter(function($e){
+		return $this->getItems()->filter(function($e){
 			return $e->getMedia()->getPublic();
 		});
 	}
 
 	/**
-	 * Get mediaItems | Images
+	 * Get items | Images
 	 *
 	 * @return \Doctrine\Common\Collections\Collection 
 	 */
@@ -748,6 +748,18 @@ class Post
 	{
 		return $this->getPublicMedia()->filter(function($e){
 			return $e->getMedia()->getType() == 'image';
+		});
+	}
+
+	/**
+	 * Get items | !Images
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getOtherMedias()
+	{
+		return $this->getPublicMedia()->filter(function($e){
+			return $e->getMedia()->getType() != 'image';
 		});
 	}
 
