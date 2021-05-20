@@ -1,22 +1,30 @@
 
 {% if list is not defined %}
+{% if album is defined %}
+{% set list = album.images %}
+{% else %}
 {% set list = pager.result %}
+{% endif %}
 {% endif %}
 
 {% if list|length %}
 
-<div class="container-fluid">
+{% if limit is defined and limit %}
+{% set list = list|slice(0, limit) %}
+{% endif %}
+
+<div class="media-list container-fluid">
 
 <div class="row">
 
 {% for item in list %}
 
-<div class="col-xs-12 col-sm-6 col-md-3 {% if loop.index is odd %}odd{% else %}even{% endif %}">
+<div class="col-12 col-sm-6 col-md-3 {% if loop.index is odd %}odd{% else %}even{% endif %}">
 
 	{% if album is defined %}
 	{% include "@MaciPage/Media/_album_media_item.html.twig" %}
 	{% else %}
-	{% include "@MaciPage/Media/_item.html.twig" %}
+	{% include "@MaciPage/Media/_media_item.html.twig" %}
 	{% endif %}
 
 </div>

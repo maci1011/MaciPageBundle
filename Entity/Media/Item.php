@@ -398,7 +398,7 @@ class Item
 		if ($this->media) {
 			return $this->media->getWebPreview();
 		}
-		return '/images/defaults/document-icon.png';
+		return '/images/defaults/no-icon.png';
 	}
 
 

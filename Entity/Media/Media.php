@@ -37,6 +37,7 @@ class Media
 
 	/**
 	 * Unmapped property to handle file uploads
+	 * @var string
 	 */
 	private $file;
 

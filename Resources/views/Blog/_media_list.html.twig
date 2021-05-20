@@ -5,13 +5,18 @@
 
 {% if list|length %}
 
+<div class="media-list">
 <div class="row">
 
 {% for item in list %}
 
-{% include "@MaciPage/Blog/_media_item.html.twig" %}
+<div class="media-item{% if list|length == 1 %} unique{% else %} col-xs-6 col-sm-6 col-md-4{% endif %}">
 
-{% if ( loop.index % 4 ) == 0 %}
+{% include "@MaciPage/Media/_media_item.html.twig" %}
+
+</div>
+
+{% if ( loop.index % 3 ) == 0 %}
 
 </div>
 
@@ -21,6 +26,7 @@
 
 {% endfor %}
 
+</div>
 </div>
 
 {% endif %}

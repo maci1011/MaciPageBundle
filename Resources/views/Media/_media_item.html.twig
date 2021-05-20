@@ -1,0 +1,93 @@
+
+<div class="media-item">
+
+	<input name="id" type="hidden" value="{{ item.id }}" />
+
+	<div class="media-preview">
+
+		{% if item.video is defined and item.video|length %}
+
+		<a href="#" class="media-preview-video">
+
+			{% include "@MaciPage/Media/_media_preview.html.twig" %}
+
+			<div class="media-preview-video-icon">
+				<span class="glyphicon glyphicon-play-circle"></span>
+			</div>
+
+		</a><div class="media-preview-video-content">{{ item.video|raw }}</div>
+
+		{% elseif item.link is defined and item.link|length %}
+
+		<a href="{{ item.link }}" target="_blank">
+			{% include "@MaciPage/Media/_media_preview.html.twig" %}
+		</a>
+
+		{% elseif item.media is defined and item.media is not null %}
+
+		<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
+			{% include "@MaciPage/Media/_media_preview.html.twig" %}
+		</a>
+
+		{% elseif item.type is defined and item.type == 'image' %}
+
+		<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.name }}">
+			{% include "@MaciPage/Media/_media_preview.html.twig" %}
+		</a>
+
+		{% elseif item.type is defined and item.type != 'image' %}
+
+		<a href="{{ path('maci_media_get', {'path': item.path}) }}" target="_blank">
+			{% include "@MaciPage/Media/_media_preview.html.twig" %}
+		</a>
+
+		{% else %}
+
+		<img class="img-fluid" src="{{ asset('/images/defaults/no-icon.png' | imagine_filter('maci_media_preview')) }}" alt="No Preview">
+
+		{% endif %}
+	</div>
+
+	{% if item.brand is defined and item.brand %}
+	<div class="media-brand">
+		{% if item.brand.preview %}
+		<img class="media-brand-icon" src="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_icon')) }}" alt="{{ item.brand.name }}" />
+		{% else %}
+		<span class="media-brand-name">{{ item.brand.name }}</span>
+		{% endif %}
+	</div>
+	{% endif %}
+
+	<div class="media-info">
+
+		{% if item.name|length %}
+		<h4 class="media-title">{{ item.name }}</h4>
+		{% elseif item.media is defined and item.media.name|length %}
+		<h4 class="media-title">{{ item.media.name }}</h4>
+		{% endif %}
+
+		{% if item.description|length %}
+		<div class="media-description">{{ item.description|raw }}</div>
+		{% elseif item.media is defined and item.media.description|length %}
+		<div class="media-description">{{ item.media.description|raw }}</div>
+		{% endif %}
+
+		{% if item.tags is defined and item.tags|length %}
+
+		<nav class="media-tag">
+
+			<span class="media-tag-label">Tag:</span>
+
+		{% for tag in item.tags %}
+
+			<em class="media-tag">{{ tag }}</em>{% if not loop.last %},{% endif %}
+
+		{% endfor %}
+
+		</nav>
+
+		{% endif %}
+
+	</div>
+
+</div>

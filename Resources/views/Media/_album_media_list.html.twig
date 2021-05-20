@@ -1,12 +1,2 @@
 
-{% if album.images|length %}
-
-{% if limit is defined and limit %}
-{% set list = album.images|slice(0, limit) %}
-{% else %}
-{% set list = album.images %}
-{% endif %}
-
 {% include "@MaciPage/Media/_list.html.twig" %}
-
-{% endif %}

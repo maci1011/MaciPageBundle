@@ -1,19 +1,22 @@
 
-<div class="col-xs-6 col-sm-6 col-md-4{% if is_granted("ROLE_ADMIN") %} sortable{% endif %}">
-<div class="media-item">
+<div class="item-wrapper">
 
 	<input name="id" type="hidden" value="{{ item.id }}" />
 
 	{% if item.media %}
 
-	<a class="media-preview" href="{{ path('maci_media_get', {'path': item.media.path}) }}" data-lightbox="product-preview" data-title="{{ item }}">
+	<a class="item-preview" href="{{ path('maci_media_get', {'path': item.media.path}) }}" data-lightbox="product-preview" data-title="{{ item }}">
 		{% include "MaciPageBundle:Media:_media_preview.html.twig" with { 'item': item.media } %}
 	</a>
 
 	{% endif %}
 
-	{#}<h4>{{ item }}</h4>
-	<p>{{ item.description }}</p>{#}
+	{% if item.name|length %}
+	<h4 class="item-title">{{ item.name }}</h4>
+	{% endif %}
 
-</div>
+	{% if item.description|length %}
+	<p class="item-description">{{ item.description }}</p>
+	{% endif %}
+
 </div>
