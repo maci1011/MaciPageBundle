@@ -29,17 +29,23 @@
 			{% include "@MaciPage/Media/_media_preview.html.twig" %}
 		</a>
 
-		{% elseif item.type is defined and item.type == 'image' %}
+		{% elseif item.type is defined %}
+		{% if item.type == 'image' %}
 
 		<a href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="media-preview" data-title="{{ item.name }}">
 			{% include "@MaciPage/Media/_media_preview.html.twig" %}
 		</a>
 
-		{% elseif item.type is defined and item.type != 'image' %}
+		{% else %}
 
 		<a href="{{ path('maci_media_get', {'path': item.path}) }}" target="_blank">
 			{% include "@MaciPage/Media/_media_preview.html.twig" %}
 		</a>
+
+		{% endif %}
+		{% elseif item.webPreview is defined %}
+
+		{% include "@MaciPage/Media/_media_preview.html.twig" %}
 
 		{% else %}
 
@@ -72,20 +78,20 @@
 		<div class="media-description">{{ item.media.description|raw }}</div>
 		{% endif %}
 
+		{% if (item.type is defined and item.type != 'image') or (item.media is defined and item.media.type != 'image') %}
+		<a class="btn btn-success" href="{{ path('maci_media_get', {'path': (item.path is defined ? item.path : item.media.path)}) }}" target="_blank">
+			<i class="fas fa-file-download"></i>
+			Download
+		</a>
+		{% endif %}
+
 		{% if item.tags is defined and item.tags|length %}
-
 		<nav class="media-tag">
-
 			<span class="media-tag-label">Tag:</span>
-
-		{% for tag in item.tags %}
-
+			{% for tag in item.tags %}
 			<em class="media-tag">{{ tag }}</em>{% if not loop.last %},{% endif %}
-
-		{% endfor %}
-
+			{% endfor %}
 		</nav>
-
 		{% endif %}
 
 	</div>
