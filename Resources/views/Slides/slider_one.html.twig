@@ -6,6 +6,10 @@
 
 	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.Slides, 'controls': false, 'indicators': false } %}
 
+	{% elseif item.album is defined and item.album.images|length %}
+
+	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.album.images, 'controls': false, 'indicators': false } %}
+
 	{% endif %}
 
 </div>

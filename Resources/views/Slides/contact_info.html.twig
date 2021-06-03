@@ -4,12 +4,11 @@
 
 	{% include "MaciPageBundle:Slides:_slide_background.html.twig" %}
 
-	<div class="slide-caption-wrapper">
 	<div class="slide-caption col-sm-8 offset-sm-2 col-lg-6 offset-lg-3">
 
-		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" with { 'item': item } %}
+		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" %}
 
-		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" with { 'item': item } %}
+		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" %}
 
 		<div class="row">
 
@@ -37,7 +36,6 @@
 
 		</div>
 
-	</div>
 	</div>
 
 	{% include "MaciPageBundle:Slides:_slide_caption_btn_next_out.html.twig" %}
