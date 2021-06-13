@@ -18,6 +18,8 @@
 {% set multiple_class = 'col-xs-12 col-sm-4' %}
 {% endif %}
 
+{% set parent_id = item.id %}
+
 {% include "@MaciPage/Media/_slider_indicators.html.twig" with { 'len': ((list|length / multiple_len)|number_format) } %}
 
 <!-- Wrapper for slides -->
@@ -43,7 +45,7 @@
 			<a href="{{ item.link }}" alt="{{ item.title }}">
 			{% endif %}
 
-			<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-slide-{{ item.parent.id }}" data-title="{{ item.title ? item.title : item.media.name }}" data-description="{{ item.content ? item.content : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% endif %}>
+			<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-slide-{{ parent_id }}" data-title="{{ item.title ? item.title : item.media.name }}" data-description="{{ item.content ? item.content : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% endif %}>
 				<img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_media_preview')) }}" {% if item.content %} title="{{ item.title }}" alt="{{ item.content }}" {% else %} alt="{{ item.title ? item.title : '#' }}" {% endif %} />
 			</a>
 

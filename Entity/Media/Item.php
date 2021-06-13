@@ -15,12 +15,12 @@ class Item
 	/**
 	 * @var string
 	 */
-	private $name;
+	private $title;
 
 	/**
 	 * @var string
 	 */
-	private $description;
+	private $content;
 
 	/**
 	 * @var boolean
@@ -93,49 +93,49 @@ class Item
 	}
 
 	/**
-	 * Set name
+	 * Set title
 	 *
-	 * @param string $name
+	 * @param string $title
 	 * @return Item
 	 */
-	public function setName($name)
+	public function setTitle($title)
 	{
-		$this->name = $name;
+		$this->title = $title;
 	
 		return $this;
 	}
 
 	/**
-	 * Get name
+	 * Get title
 	 *
 	 * @return string 
 	 */
-	public function getName()
+	public function getTitle()
 	{
-		return $this->name;
+		return $this->title;
 	}
 
 	/**
-	 * Set description
+	 * Set content
 	 *
-	 * @param string $description
+	 * @param string $content
 	 * @return Item
 	 */
-	public function setDescription($description)
+	public function setContent($content)
 	{
-		$this->description = $description;
+		$this->content = $content;
 	
 		return $this;
 	}
 
 	/**
-	 * Get description
+	 * Get content
 	 *
 	 * @return string 
 	 */
-	public function getDescription()
+	public function getContent()
 	{
-		return $this->description;
+		return $this->content;
 	}
 
 	/**
@@ -415,6 +415,6 @@ class Item
 	 */
 	public function __toString()
 	{
-		return (strlen($this->getName()) ? $this->getName() : 'MediaItem:' . ($this->getId() ? $this->getId() : 'new'));
+		return (strlen($this->getTitle()) ? $this->getTitle() : 'MediaItem:' . ($this->getId() ? $this->getId() : 'new'));
 	}
 }

@@ -133,6 +133,16 @@ class Media
 	}
 
 	/**
+	 * Get title
+	 *
+	 * @return string 
+	 */
+	public function getTitle()
+	{
+		return $this->getName();
+	}
+
+	/**
 	 * Set description
 	 *
 	 * @param string $description
@@ -153,6 +163,16 @@ class Media
 	public function getDescription()
 	{
 		return $this->description;
+	}
+
+	/**
+	 * Get content
+	 *
+	 * @return string 
+	 */
+	public function getContent()
+	{
+		return $this->getDescription();
 	}
 
 	/**

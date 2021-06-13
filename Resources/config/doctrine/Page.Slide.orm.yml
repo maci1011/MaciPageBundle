@@ -31,6 +31,8 @@ Maci\PageBundle\Entity\Page\Slide:
         position:
             type: smallint
     manyToOne:
+        album:
+            targetEntity: Maci\PageBundle\Entity\Media\Album
         media:
             targetEntity: Maci\PageBundle\Entity\Media\Media
         page:

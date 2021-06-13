@@ -43,6 +43,11 @@ class Slide
 	private $position;
 
 	/**
+	 * @var \Maci\PageBundle\Entity\Media\Album
+	 */
+	private $album;
+
+	/**
 	 * @var \Maci\PageBundle\Entity\Media\Media
 	 */
 	private $media;
@@ -264,6 +269,29 @@ class Slide
 	public function getPosition()
 	{
 		return $this->position;
+	}
+
+	/**
+	 * Set album
+	 *
+	 * @param \Maci\PageBundle\Entity\Media\Album $album
+	 * @return Slide
+	 */
+	public function setAlbum(\Maci\PageBundle\Entity\Media\Album $album = null)
+	{
+		$this->album = $album;
+
+		return $this;
+	}
+
+	/**
+	 * Get album
+	 *
+	 * @return \Maci\PageBundle\Entity\Media\Album 
+	 */
+	public function getAlbum()
+	{
+		return $this->album;
 	}
 
 	/**

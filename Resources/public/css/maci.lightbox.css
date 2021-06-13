@@ -22,7 +22,7 @@
 .lightbox-loader-icon {
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-image: url('../images/defaults/loading.gif');
+	background-image: url('/images/defaults/loading.gif');
 }
 
 .lightbox-container > div {

@@ -9,11 +9,11 @@ Maci\PageBundle\Entity\Media\Item:
             generator:
                 strategy: AUTO
     fields:
-        name:
+        title:
             type: string
             length: 63
             nullable: true
-        description:
+        content:
             type: text
             nullable: true
         favourite:

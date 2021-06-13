@@ -1,14 +1,14 @@
 
-{% if item.Slides|length %}
+{% if item.slides|length or item.album.images|length %}
 
 <div id="slide-{{ loop.index0 }}" class="slide {{ item.type }} default {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
 	{% if gallery_params is not defined %}
-	{% set gallery_params = { 'list': item.Slides, 'type': 'multiple', 'controls': false, 'indicators': true, 'multiple_len': 3, 'caption': 'after' } %}
+	{% set gallery_params = { 'type': 'multiple', 'controls': false, 'indicators': true, 'multiple_len': 3, 'caption': 'after' } %}
 	{% endif %}
 
-	{% include "@MaciPage/Media/_slider.html.twig" with gallery_params %}
+	{% include "@MaciPage/Media/_slider.html.twig" with gallery_params|merge({'list': item.slides|length ? item.slides : item.album.images}) %}
 
 	<div class="slide-caption">
 

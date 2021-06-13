@@ -1,16 +1,12 @@
 
+{% if item.slides|length or item.album.images|length %}
+
 <div id="slide-{{ loop.index0 }}" class="slide slider {{ item.type }} {% if loop.index is even %}even{% else %}odd{% endif %}">
 <div class="slide-wrapper">
 
-	{% if item.Slides|length %}
-
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.Slides, 'caption': true, 'interval': false } %}
-
-	{% elseif item.album is defined and item.album.images|length %}
-
-	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.album.images, 'caption': true, 'interval': false } %}
-
-	{% endif %}
+	{% include "@MaciPage/Media/_slider.html.twig" with { 'list': item.slides|length ? item.slides : item.album.images, 'caption': true, 'interval': false } %}
 
 </div>
 </div>
+
+{% endif %}
