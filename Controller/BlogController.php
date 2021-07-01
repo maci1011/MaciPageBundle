@@ -55,7 +55,7 @@ class BlogController extends AbstractController
         ));
     }
 
-    public function postPermalinkAction($link)
+    public function postShortlinkAction($link)
     {
         $params = array('link' => $link);
         if (!$this->isGranted('ROLE_ADMIN')) $params['removed'] = false;

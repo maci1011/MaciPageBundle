@@ -86,23 +86,6 @@
 {% endif %}
 
 
-<footer class="blog-post-footer flex">
-
-	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
-
-	{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
-
-	{% include "@MaciPage/Blog/_post_permalink_nav.html.twig" %}
-
-	{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
-
-	{% if is_granted('ROLE_ADMIN') %}
-	{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
-	{% endif %}
-
-</footer>
-
-
 {% if post.nextPosts|length %}
 <section class="blog-post-related related-next">
 
@@ -118,6 +101,23 @@
 
 </section>
 {% endif %}
+
+
+<footer class="blog-post-footer flex">
+
+	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_links_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
+
+	{% if is_granted('ROLE_ADMIN') %}
+	{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
+	{% endif %}
+
+</footer>
 
 
 {% if post.related|length %}

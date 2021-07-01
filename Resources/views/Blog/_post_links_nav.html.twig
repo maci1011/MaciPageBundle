@@ -1,0 +1,45 @@
+
+<nav class="post-permalink-nav navbar navbar-expand flex-column">
+	<ul class="navbar-nav mr-auto">
+
+		{% set post_link = url('maci_blog_post', {'path': post.path, '_locale': post.locale}) %}
+		<li class="nav-item post-permalink">
+			<p class="navbar-text">
+				<span class="post-permalink post-nav-label" class="">{{ 'post.nav.url' | matra('Url') }}:</span>
+				<a class="post-permalink post-nav-val" href="{{ post_link }}">{{ post_link }}</a>
+			</p>
+		</li>
+
+	</ul>
+</nav>
+
+{% if post.link is not null %}
+<nav class="post-permalink-nav navbar navbar-expand flex-column">
+	<ul class="navbar-nav mr-auto">
+
+		{% set post_shortlink = url('maci_blog_post_shortlink', {'link': post.link}) %}
+		<li class="nav-item post-permalink">
+			<p class="navbar-text">
+				<span class="post-permalink post-nav-label" class="">{{ 'post.nav.shortlink' | matra('Shortlink') }}:</span>
+				<a class="post-permalink post-nav-val" href="{{ post_shortlink }}">{{ post_shortlink }}</a>
+			</p>
+		</li>
+
+	</ul>
+</nav>
+{% endif %}
+
+{% if post.permalink is not null %}
+<nav class="post-permalink-nav navbar navbar-expand flex-column">
+	<ul class="navbar-nav mr-auto">
+
+		<li class="nav-item post-permalink">
+			<p class="navbar-text">
+				<span class="post-permalink post-nav-label" class="">{{ 'post.nav.permalink' | matra('Permalink') }}:</span>
+				<a class="post-permalink post-nav-val" href="{{ post.permalink }}">{{ post.permalink }}</a>
+			</p>
+		</li>
+
+	</ul>
+</nav>
+{% endif %}

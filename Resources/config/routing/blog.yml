@@ -1,7 +1,11 @@
 
 maci_blog_post_permalink:
     path:  /post/{link}
-    defaults: { _controller: MaciPageBundle:Blog:postPermalink }
+    defaults: { _controller: MaciPageBundle:Blog:postShortlink }
+
+maci_blog_post_shortlink:
+    path:  /p/{link}
+    defaults: { _controller: MaciPageBundle:Blog:postShortlink }
 
 maci_blog_tag:
     path:  /{_locale}/blog/{path}

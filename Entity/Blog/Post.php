@@ -60,6 +60,11 @@ class Post
 	/**
 	 * @var string
 	 */
+	private $permalink;
+
+	/**
+	 * @var string
+	 */
 	private $meta_title;
 
 	/**
@@ -336,7 +341,7 @@ class Post
 	 * Set path
 	 *
 	 * @param string $path
-	 * @return Page
+	 * @return Post
 	 */
 	public function setPath($path)
 	{
@@ -359,7 +364,7 @@ class Post
 	 * Set link
 	 *
 	 * @param string $link
-	 * @return Page
+	 * @return Post
 	 */
 	public function setLink($link)
 	{
@@ -376,6 +381,29 @@ class Post
 	public function getLink()
 	{
 		return $this->link;
+	}
+
+	/**
+	 * Set permalink
+	 *
+	 * @param string $permalink
+	 * @return Post
+	 */
+	public function setPermalink($permalink)
+	{
+		$this->permalink = $permalink;
+
+		return $this;
+	}
+
+	/**
+	 * Get permalink
+	 *
+	 * @return string 
+	 */
+	public function getPermalink()
+	{
+		return $this->permalink;
 	}
 
 	/**
