@@ -42,7 +42,7 @@ Maci\PageBundle\Entity\Blog\Post:
             nullable: true
         permalink:
             type: string
-            length: 127
+            length: 255
             nullable: true
         meta_title:
             type: string
