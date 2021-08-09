@@ -24,7 +24,8 @@ Maci\PageBundle\Entity\Contact\Contact:
             nullable: true
         created:
             type: datetime
-            default: timestamp
+            options:
+                default: CURRENT_TIMESTAMP
     manyToMany:
         media:
             targetEntity: Maci\PageBundle\Entity\Media\Media
