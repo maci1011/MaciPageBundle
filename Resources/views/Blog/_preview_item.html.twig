@@ -1,17 +1,19 @@
 
-<div class="media flex-column">
+<div class="media-item">
 
 
 	{% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
 
-	{% if item.preview %}
 	<div class="media-preview">
 	<a href="{{ post_link }}" alt="{{ item.title }}">
+	{% if item.preview %}
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
+	{% else %}
+		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item, 'src': asset('/images/defaults/media-icon.png') } %}
+	{% endif %}
 	</a>
 	</div>
-	{% endif %}
 
 
 	{% if item.title %}
