@@ -8,7 +8,9 @@
 <li>
 	<a href="{{ path('maci_blog_show', { 'path': related_post.path, '_locale': related_post.locale }) }}">
 		{% if related_post.preview %}
-		<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" />
+		<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
+		{% else %}
+		<img class="related-post-preview" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
 		{% endif %}
 		<span class="related-post-title">{{ related_post.title }}</span>
 	</a>
