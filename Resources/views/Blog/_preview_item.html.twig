@@ -10,7 +10,7 @@
 	{% if item.preview %}
 		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item.preview } %}
 	{% else %}
-		{% include "@MaciPage/Media/_media_preview.html.twig" with { 'item': item, 'src': asset('/images/defaults/media-icon.png') } %}
+		<img src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ item.title ? item.title : 'PsyClub - Post Default Preview' }}" />
 	{% endif %}
 	</a>
 	</div>
