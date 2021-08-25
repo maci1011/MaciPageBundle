@@ -10,7 +10,7 @@
 		{% if related_post.preview %}
 		<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
 		{% else %}
-		<img class="related-post-preview" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
+		<img class="related-post-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
 		{% endif %}
 		<span class="related-post-title">{{ related_post.title }}</span>
 	</a>

@@ -4,13 +4,15 @@
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-{% if post.preview %}
 <div class="post-preview-wrapper">
 	<a href="{{ post_link }}">
+		{% if post.preview %}
 		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		{% else %}
+		<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
+		{% endif %}
 	</a>
 </div>
-{% endif %}
 
 <header class="blog-post-header">
 
