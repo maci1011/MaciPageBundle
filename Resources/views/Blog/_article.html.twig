@@ -5,7 +5,7 @@
 
 <figure class="post-preview-wrapper">
 	{% if post.preview %}
-	<img class="post-preview img-fluid mx-auto" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
+	<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
 	{% if post.preview.name or post.preview.description %}
 	<figcaption class="post-preview-description">
 		{% if post.preview.name %}
@@ -17,7 +17,7 @@
 	</figcaption>
 	{% endif %}
 	{% else %}
-	<img class="post-preview default img-fluid mx-auto" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
+	<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 	{% endif %}
 </figure>
 
