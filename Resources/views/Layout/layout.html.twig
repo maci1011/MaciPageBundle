@@ -78,9 +78,7 @@
 	{% endblock navbarTop %}
 
 
-	{% block header %}
-	<header id="header" class="container-fluid p-0"></header>
-	{% endblock header %}
+	{% block mainPathBar %}{% endblock mainPathBar %}
 
 
 	{% block flashBag %}
@@ -88,7 +86,7 @@
 	<div id="flashBagWrapper" class="container-fluid p-0">
 	{% for type, messages in app.session.flashbag.all() %}
 		{% for message in messages %}
-		<div class="flash-{{ type }}">
+		<div class="alert alert-{{ type }}">
 			{{ message }}
 		</div>
 		{% endfor %}
@@ -96,6 +94,11 @@
 	</div>
 	{% endif %}
 	{% endblock %}
+
+
+	{% block header %}
+	<header id="header" class="container-fluid p-0"></header>
+	{% endblock header %}
 
 
 	{% block container %}
