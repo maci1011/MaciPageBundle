@@ -906,15 +906,18 @@ class Product
     /**
     * Create a product from an image (used in the uploader)
     */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(UploadedFile $file = false)
     {
+        if (!$file) return;
+
         $preview = new Media();
         $preview->setFile($file);
         $this->setPreview($preview);
 
-        $name = explode('_', explode('.', $file->getClientOriginalName())[0]);
-        if (strlen($name[0])) $this->setCode(trim($name[0]));
-        if (1<count($name) && strlen($name[1])) $this->setName(trim($name[1]));
+        $name = explode('-', explode('.', $file->getClientOriginalName())[0]);
+        if (strlen($name[0])) $this->setName(trim($name[0]));
+        if (1<count($name) && strlen($name[1])) $this->setCode(trim($name[1]));
+        if (2<count($name) && strlen($name[2])) $this->setDescription(trim($name[2]));
     }
 
     /**
