@@ -906,9 +906,9 @@ class Product
     /**
     * Create a product from an image (used in the uploader)
     */
-    public function setFile(UploadedFile $file = false)
+    public function setFile(UploadedFile $file = null)
     {
-        if (!$file) return;
+        if ($file === null) return;
 
         $preview = new Media();
         $preview->setFile($file);
