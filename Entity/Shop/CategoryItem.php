@@ -167,6 +167,6 @@ class CategoryItem
 	 */
 	public function __toString()
 	{
-		return $this->getName();
+		return "CategoryItem#" . $this->id;
 	}
 }

@@ -161,13 +161,13 @@
 						{% for categoryItem in childCategory.category.parentsList %}
 
 						<li class="product-category-parent">
-							<a href="{{ path('maci_product_category', {'id': categoryItem.category.id}) }}">{{ categoryItem }}</a>
+							<a href="{{ path('maci_product_category', {'path': categoryItem.category.path}) }}">{{ categoryItem }}</a>
 						</li>
 
 						{% endfor %}
 
 						<li class="product-category">
-							<a href="{{ path('maci_product_category', {'id': childCategory.category.id}) }}">{{ childCategory }}</a>
+							<a href="{{ path('maci_product_category', {'path': childCategory.category.path}) }}">{{ childCategory }}</a>
 						</li>
 
 					</ul>
