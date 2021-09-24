@@ -19,6 +19,9 @@ Maci\PageBundle\Entity\Shop\Product:
         composition:
             type: text
             nullable: true
+        path:
+            type: string
+            length: 63
         meta_title:
             type: string
             length: 95

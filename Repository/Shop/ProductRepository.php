@@ -19,13 +19,13 @@ class ProductRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function getById($id)
+    public function getByPath($path)
     {
         $query = $this->createQueryBuilder('p')
-            ->where('p.id = :id')
+            ->where('p.path = :path')
+            ->setParameter(':path', $path)
             ->andWhere('p.removed = false')
             ->orderBy('p.position')
-            ->setParameter(':id', $id)
             ->getQuery()
         ;
 

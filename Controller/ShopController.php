@@ -15,13 +15,13 @@ class ShopController extends AbstractController
         ));
     }
 
-    public function categoryAction($id)
+    public function categoryAction($path)
     {
 
         $category = $this->getDoctrine()->getManager()
             ->getRepository('MaciPageBundle:Shop\Category')
             ->findOneBy(array(
-                'id' => $id
+                'path' => $path
             ));
 
         if (!$category) {
@@ -33,11 +33,11 @@ class ShopController extends AbstractController
         ));
     }
 
-    public function showAction($id)
+    public function showAction($path)
     {
 
         $product = $this->getDoctrine()->getManager()
-            ->getRepository('MaciPageBundle:Shop\Product')->getById($id);
+            ->getRepository('MaciPageBundle:Shop\Product')->getByPath($path);
 
         if (!$product) {
             return $this->redirect($this->generateUrl('maci_product'));

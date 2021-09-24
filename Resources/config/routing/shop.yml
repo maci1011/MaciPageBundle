@@ -1,12 +1,12 @@
 
 maci_product_show:
-    path:  /{_locale}/shop/product/{id}
+    path:  /{_locale}/product/{path}
     defaults: { _controller: MaciPageBundle:Shop:show }
     requirements:
         _locale: "%r_locales%"
 
 maci_product_category:
-    path:  /{_locale}/shop/category/{id}
+    path:  /{_locale}/shop/{path}
     defaults: { _controller: MaciPageBundle:Shop:category }
     requirements:
         _locale: "%r_locales%"

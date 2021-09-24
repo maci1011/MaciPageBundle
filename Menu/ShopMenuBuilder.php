@@ -104,7 +104,7 @@ class ShopMenuBuilder
 
 			$menu->addChild($category->getName(), array(
 			    'route' => 'maci_product_category',
-			    'routeParameters' => array('id' => $category->getId())
+			    'routeParameters' => array('path' => $category->getPath())
 			));
 
 		}

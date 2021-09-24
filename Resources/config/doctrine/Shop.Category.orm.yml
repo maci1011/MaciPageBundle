@@ -16,6 +16,9 @@ Maci\PageBundle\Entity\Shop\Category:
         description:
             type: text
             nullable: true
+        path:
+            type: string
+            length: 31
         favourite:
             type: boolean
         locale:

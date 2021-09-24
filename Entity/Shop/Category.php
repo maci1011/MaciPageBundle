@@ -23,6 +23,11 @@ class Category
     private $description;
 
     /**
+     * @var string
+     */
+    private $path;
+
+    /**
      * @var boolean
      */
     private $favourite;
@@ -150,6 +155,29 @@ class Category
         $this->locale = $locale;
 
         return $this;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Category
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

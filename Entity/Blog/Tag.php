@@ -7,208 +7,208 @@ namespace Maci\PageBundle\Entity\Blog;
  */
 class Tag
 {
-    /**
-     * @var integer
-     */
-    private $id;
+	/**
+	 * @var integer
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @var string
+	 */
+	private $name;
 
-    /**
-     * @var string
-     */
-    private $path;
+	/**
+	 * @var string
+	 */
+	private $path;
 
-    /**
-     * @var string
-     */
-    private $description;
+	/**
+	 * @var string
+	 */
+	private $description;
 
-    /**
-     * @var boolean
-     */
-    private $favourite;
+	/**
+	 * @var boolean
+	 */
+	private $favourite;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $posts;
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $posts;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    protected $translations;
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	protected $translations;
 
-    /**
-     * @var string
-     */
-    private $locale;
+	/**
+	 * @var string
+	 */
+	private $locale;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->path = uniqid();
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->path = uniqid();
+		$this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return TagTranslation
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return TagTranslation
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name
+	 *
+	 * @return string 
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Page
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
+	/**
+	 * Set path
+	 *
+	 * @param string $path
+	 * @return Page
+	 */
+	public function setPath($path)
+	{
+		$this->path = $path;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
+	/**
+	 * Get path
+	 *
+	 * @return string 
+	 */
+	public function getPath()
+	{
+		return $this->path;
+	}
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return TagTranslation
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
+	/**
+	 * Set description
+	 *
+	 * @param string $description
+	 * @return TagTranslation
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+	/**
+	 * Get description
+	 *
+	 * @return string 
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
 
-    /**
-     * Set favourite
-     *
-     * @param boolean $favourite
-     * @return Post
-     */
-    public function setFavourite($favourite)
-    {
-        $this->favourite = $favourite;
+	/**
+	 * Set favourite
+	 *
+	 * @param boolean $favourite
+	 * @return Post
+	 */
+	public function setFavourite($favourite)
+	{
+		$this->favourite = $favourite;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get favourite
-     *
-     * @return boolean 
-     */
-    public function getFavourite()
-    {
-        return $this->favourite;
-    }
+	/**
+	 * Get favourite
+	 *
+	 * @return boolean 
+	 */
+	public function getFavourite()
+	{
+		return $this->favourite;
+	}
 
-    /**
-     * Add posts
-     *
-     * @param \Maci\PageBundle\Entity\Blog\Post $posts
-     * @return Post
-     */
-    public function addPost(\Maci\PageBundle\Entity\Blog\Post $posts)
-    {
-        $this->posts[] = $posts;
+	/**
+	 * Add posts
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Post $posts
+	 * @return Post
+	 */
+	public function addPost(\Maci\PageBundle\Entity\Blog\Post $posts)
+	{
+		$this->posts[] = $posts;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove posts
-     *
-     * @param \Maci\PageBundle\Entity\Blog\Post $posts
-     */
-    public function removePost(\Maci\PageBundle\Entity\Blog\Post $posts)
-    {
-        $this->posts->removeElement($posts);
-    }
+	/**
+	 * Remove posts
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Post $posts
+	 */
+	public function removePost(\Maci\PageBundle\Entity\Blog\Post $posts)
+	{
+		$this->posts->removeElement($posts);
+	}
 
-    /**
-     * Get posts
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
+	/**
+	 * Get posts
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getPosts()
+	{
+		return $this->posts;
+	}
 
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
+	public function setLocale($locale)
+	{
+		$this->locale = $locale;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getLocale()
-    {
-        return $this->locale;
-    }
+	public function getLocale()
+	{
+		return $this->locale;
+	}
 
-    /**
-     * __toString()
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
+	/**
+	 * __toString()
+	 */
+	public function __toString()
+	{
+		return $this->getName();
+	}
 }
