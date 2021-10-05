@@ -23,21 +23,21 @@
 
 
 {% block pathBar %}
-<nav>
+<nav class="breadcrumb-wrapper" aria-label="breadcrumb">
 <ol class="breadcrumb">
-    <li>
+	<li class="breadcrumb-item">
     	<a href="{{ path('maci_product') }}">Shop</a>
     </li>
 
 	{% for categoryItem in category.parentsList %}
 
-	<li class="product-category-parent">
+	<li class="breadcrumb-item product-category-parent">
 		<a href="{{ path('maci_product_category', {'id': categoryItem.id}) }}">{{ categoryItem.name }}</a>
 	</li>
 
 	{% endfor %}
 
-    <li class="active">{{ category.name }}</li>
+    <li class="breadcrumb-item active">{{ category.name }}</li>
 </ol>
 </nav>
 {% endblock %}
