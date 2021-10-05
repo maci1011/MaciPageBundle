@@ -170,7 +170,6 @@ class Product
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->code = uniqid();
-		$this->path = $this->code . '-';
 		$this->shipment = true;
 		$this->limited = true;
 		$this->quantity = 1;
@@ -878,19 +877,29 @@ class Product
 	}
 
 	/**
-	 * setUpdatedValue
+	 * setCreatedValue
 	 */
-	public function setUpdatedValue()
+	public function setCreatedValue()
 	{
 		$this->created = new \DateTime();
 	}
 
 	/**
-	 * setCreatedValue
+	 * setUpdatedValue
 	 */
-	public function setCreatedValue()
+	public function setUpdatedValue()
 	{
 		$this->updated = new \DateTime();
+	}
+
+	/**
+	 * setCreatedValue
+	 */
+	public function setPathValue()
+	{
+		if ($this->path == null || $this->path == '') {
+			$this->path = $this->code . '-' . str_replace(' ', '-', trim(strtolower($this->name)));
+		}
 	}
 
 	public function isAvailable()
