@@ -20,7 +20,6 @@
 {% if item.price %}
 
 <h5 class="product-price">
-	{{ 'product.price' | matra('Price') }}: 
 	{% if item.sale %}
 	<span class="product-sale">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
 	{% endif %}
