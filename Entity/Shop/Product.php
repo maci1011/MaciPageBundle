@@ -965,7 +965,6 @@ class Product
 		if (strlen($name[$i])) $this->setDescription(trim($name[$i]));
 		if (count($name) - 1 <= $i) return;
 		if (strlen($name[$i])) $this->setComposition(trim($name[$i]));
-		if (count($name) - 1 <= $i) return;
 	}
 
 	public function getInhName()
