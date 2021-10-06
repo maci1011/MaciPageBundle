@@ -953,9 +953,19 @@ class Product
 		$this->setPreview($preview);
 
 		$name = explode('-', explode('.', $file->getClientOriginalName())[0]);
-		if (strlen($name[0])) $this->setName(trim($name[0]));
-		if (1<count($name) && strlen($name[1])) $this->setCode(trim($name[1]));
-		if (2<count($name) && strlen($name[2])) $this->setDescription(trim($name[2]));
+		$i = 0;
+
+		if (strlen($name[$i]) && is_numeric(trim($name[$i]))) { $this->setCode(trim($name[$i])); $i++; }
+		if (count($name) - 1 <= $i) return;
+		if (strlen($name[$i])) { $this->setName(trim($name[$i])); $i++; }
+		if (count($name) - 1 <= $i) return;
+		
+		if (strlen($name[$i]) && is_numeric(trim($name[$i]))) $this->setPrice(intval(trim($name[$i]))/100);
+		if (count($name) - 1 <= $i) return;
+		if (strlen($name[$i])) $this->setDescription(trim($name[$i]));
+		if (count($name) - 1 <= $i) return;
+		if (strlen($name[$i])) $this->setComposition(trim($name[$i]));
+		if (count($name) - 1 <= $i) return;
 	}
 
 	public function getInhName()
