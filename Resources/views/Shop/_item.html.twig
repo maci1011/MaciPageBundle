@@ -13,24 +13,20 @@
 <div class="product-info">
 
 <a href="{{ path('maci_product_show', {'path': item.path}) }}">
+
 	<h4 class="product-title">{{ item.name }}</h4>
+
+	{% if item.price %}
+	<h5 class="product-price">
+		{% if item.sale %}
+		<span class="product-sale">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+		{% endif %}
+		{{ item.price | number_format(2, '.', ',') }} &euro;
+	</h5>
+	{% endif %}
+
 </a>
 
 
-{% if item.price %}
-
-<h5 class="product-price">
-	{% if item.sale %}
-	<span class="product-sale">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
-	{% endif %}
-	{{ item.price | number_format(2, '.', ',') }} &euro;
-</h5>
-
-{% elseif shop_is_live %}
-
-<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
-
-{% endif %}
-
-
 </div>
+{#}<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>{#}
