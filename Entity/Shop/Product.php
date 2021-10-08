@@ -830,6 +830,13 @@ class Product
 		});
 	}
 
+	public function getSideImages()
+	{
+		return $this->getPublicMedia()->filter(function($e){
+			return $e->getMedia()->getType() == 'image' && $e->getMedia()->getId() != $this->preview->getId();
+		});
+	}
+
 	/**
 	 * Set preview
 	 *
@@ -838,9 +845,33 @@ class Product
 	 */
 	public function setPreview(\Maci\PageBundle\Entity\Media\Media $preview = null)
 	{
-		$this->preview = $preview;
-
+		if ($preview->getType() == 'image')
+		{
+			$this->preview = $preview;
+			if (!$this->hasMedia($preview)) {
+				$this->addImage($preview);
+			}
+		}
 		return $this;
+	}
+
+	public function hasMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
+	{
+		foreach ($this->mediaItems as $item) {
+			if ($item->getMedia()->getId() == $media->getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function addImage(\Maci\PageBundle\Entity\Media\Media $media = null)
+	{
+		$item = new \Maci\PageBundle\Entity\Shop\MediaItem();
+		$item->setMedia($media);
+		$item->setProduct($this);
+		$item->setPosition(count($this->mediaItems));
+		$this->addMediaItem($item);
 	}
 
 	/**
@@ -861,8 +892,13 @@ class Product
 	 */
 	public function setCover(\Maci\PageBundle\Entity\Media\Media $cover = null)
 	{
-		$this->cover = $cover;
-
+		if ($cover->getType() == 'image')
+		{
+			$this->cover = $cover;
+			if (!$this->hasMedia($cover)) {
+				$this->addImage($cover);
+			}
+		}
 		return $this;
 	}
 

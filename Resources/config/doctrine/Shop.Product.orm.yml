@@ -99,6 +99,7 @@ Maci\PageBundle\Entity\Shop\Product:
             targetEntity: Maci\PageBundle\Entity\Shop\MediaItem
             mappedBy: product
             orderBy: { 'position': ASC }
+            cascade: ["persist"]
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue, setPathValue ]
         preUpdate: [ setUpdatedValue ]
