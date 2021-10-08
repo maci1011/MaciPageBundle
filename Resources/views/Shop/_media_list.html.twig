@@ -1,18 +1,12 @@
 
-{% if product.images|length or product.cover is defined %}
+{% if item.sideImages|length %}
 <div class="row ml-0">
 
-{% for item in product.images if item.media is not null and not ( product.preview and product.preview.id == item.media.id ) %}
+{% for image in item.sideImages %}
 <div class="col-xs-12">
-{% include "MaciPageBundle:Shop:_media_preview.html.twig" with {'item': item.media} %}
+{% include "MaciPageBundle:Shop:_media_preview.html.twig" with {'item': image.media} %}
 </div>
 {% endfor %}
-
-{% if product.cover is not null and not product.isCoverInMediaList %}
-<div class="col-xs-12">
-{% include "MaciPageBundle:Shop:_media_preview.html.twig" with { 'item': product.cover } %}
-</div>
-{% endif %}
 
 </div>
 {% endif %}

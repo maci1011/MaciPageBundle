@@ -9,9 +9,9 @@
 
 		<div class="product-media-list">
 
-			{% if item.images|length or item.cover is not null %}
+			{% if item.sideImages|length %}
 
-			{% include "MaciPageBundle:Shop:_media_list.html.twig" with { 'product': item } %}
+			{% include "MaciPageBundle:Shop:_media_list.html.twig" %}
 
 			{% endif %}
 

@@ -805,14 +805,14 @@ class Product
 	public function getPrivateMedia()
 	{
 		return $this->getMediaItems()->filter(function($e){
-			return !$e->getMedia()->getPublic();
+			return $e->getMedia() != null && !$e->getMedia()->getPublic();
 		});
 	}
 
 	public function getPublicMedia()
 	{
 		return $this->getMediaItems()->filter(function($e){
-			return $e->getMedia()->getPublic();
+			return $e->getMedia() != null && $e->getMedia()->getPublic();
 		});
 	}
 
@@ -832,8 +832,8 @@ class Product
 
 	public function getSideImages()
 	{
-		return $this->getPublicMedia()->filter(function($e){
-			return $e->getMedia()->getType() == 'image' && $e->getMedia()->getId() != $this->preview->getId();
+		return $this->getImages()->filter(function($e){
+			return $e->getMedia()->getId() != $this->preview->getId();
 		});
 	}
 
@@ -964,17 +964,6 @@ class Product
 	{
 		if (0 < $this->sale) return $this->sale;
 		return $this->price;
-	}
-
-	public function isCoverInMediaList()
-	{
-		if (!is_object($this->cover)) {
-			return false;
-		}
-		foreach ($this->mediaItems as $item) {
-			if ($item->getId() === $this->cover->getId()) return true;
-		}
-		return false;
 	}
 
 	/**
