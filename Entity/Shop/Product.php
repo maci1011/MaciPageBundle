@@ -1026,6 +1026,14 @@ class Product
 		return $preview;
 	}
 
+	public function getWebPreview()
+	{
+		if ($this->preview) {
+			return $this->preview->getWebPreview();
+		}
+		return '/images/defaults/no-icon.png';
+	}
+
 	/**
 	 * __toString()
 	 */
