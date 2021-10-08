@@ -975,6 +975,7 @@ class Product
 
 		$preview = new Media();
 		$preview->setFile($file);
+		$preview->setType('image');
 		$this->setPreview($preview);
 
 		$name = explode('-', explode('.', $file->getClientOriginalName())[0]);
