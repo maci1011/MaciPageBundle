@@ -1,0 +1,29 @@
+
+Maci\PageBundle\Entity\Shop\Record:
+    type:  entity
+    table: maci_record
+    # repositoryClass: Maci\PageBundle\Repository\Shop\RecordRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 7
+        label:
+            type: string
+            length: 127
+        price:
+            type: decimal
+        quantity:
+            type: integer
+        data:
+            type: json
+            nullable: true
+        recorded:
+            type: datetime
+    lifecycleCallbacks:
+        prePersist: [ setRecordedValue ]
+
