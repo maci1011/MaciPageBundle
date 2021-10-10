@@ -47,7 +47,7 @@ class Record
 	 */
 	public function __construct()
 	{
-		$this->type = $this->getTypeArray()[0];
+		$this->type = $this->getTypes()[0];
 		$this->price = 0;
 		$this->quantity = 1;
 	}
@@ -111,7 +111,7 @@ class Record
 
 	static public function getTypes()
 	{
-		return array_values(Mail::getTypeArray());
+		return array_values(Record::getTypeArray());
 	}
 
 	/**
