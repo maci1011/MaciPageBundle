@@ -159,7 +159,7 @@ class CategoryItem
 	 */
 	public function getName()
 	{
-		return $this->getCategory()->getName();
+		return "CategoryItem#" . $this->id . ($this->getCategory() ? $this->getCategory()->getName() : '');
 	}
 
 	/**
@@ -167,6 +167,6 @@ class CategoryItem
 	 */
 	public function __toString()
 	{
-		return "CategoryItem#" . $this->id;
+		return $this->getName();
 	}
 }

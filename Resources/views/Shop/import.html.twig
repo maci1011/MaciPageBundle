@@ -1,0 +1,26 @@
+{% extends "MaciAdminBundle::layout.html.twig" %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/import.js') }}" ></script>
+{% endblock %}
+
+
+{% block content %}
+
+<h3>Import Order</h3>
+
+<form id="import_form" class="p-2">
+
+<div class="form-group">
+<label for="import_data">Data:</label>
+<textarea id="import_data" class="form-control" required="required" placeholder="Insert Data"></textarea>
+</div>
+
+<div class="form-group">
+	<button id="import_submit" class="btn btn-primary" type="submit">Import</button>
+</div>
+
+</form>
+
+{% endblock %}

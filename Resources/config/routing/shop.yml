@@ -16,3 +16,7 @@ maci_product:
     defaults: { _controller: MaciPageBundle:Shop:index }
     requirements:
         _locale: "%r_locales%"
+
+maci_shop_import:
+    path:     /shop/import
+    defaults: { _controller: MaciPageBundle:Shop:import, section: shop }

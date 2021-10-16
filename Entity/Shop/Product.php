@@ -845,7 +845,10 @@ class Product
 	 */
 	public function setPreview(\Maci\PageBundle\Entity\Media\Media $preview = null)
 	{
-		if ($preview->getType() == 'image')
+		if ($preview == null) {
+			$this->preview = null;
+		}
+		else if ($preview->getType() == 'image')
 		{
 			$this->preview = $preview;
 			if (!$this->hasMedia($preview)) {
@@ -892,7 +895,10 @@ class Product
 	 */
 	public function setCover(\Maci\PageBundle\Entity\Media\Media $cover = null)
 	{
-		if ($cover->getType() == 'image')
+		if ($preview == null) {
+			$this->preview = null;
+		}
+		else if ($cover->getType() == 'image')
 		{
 			$this->cover = $cover;
 			if (!$this->hasMedia($cover)) {

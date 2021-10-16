@@ -91,7 +91,7 @@ class Record
 	static public function getTypeArray()
 	{
 		return [
-			'Unknown' => 'unknown',
+			'Unset' => 'unset',
 			'Purchase' => 'purchas',
 			'Sale' => 'sale',
 			'Returned' => 'returne'
@@ -158,6 +158,16 @@ class Record
 	public function getPrice()
 	{
 		return $this->price;
+	}
+
+	/**
+	 * Get total price
+	 *
+	 * @return string 
+	 */
+	public function getTotal()
+	{
+		return $this->price * $this->quantity;
 	}
 
 	/**

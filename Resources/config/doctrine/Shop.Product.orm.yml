@@ -83,7 +83,6 @@ Maci\PageBundle\Entity\Shop\Product:
             inversedBy: children
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
-            cascade: ["persist"]
         cover:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
