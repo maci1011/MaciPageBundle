@@ -211,6 +211,21 @@ class Record
 
 	public function import($data)
 	{
+
+		// Articolo: "CFC0105018003"
+		// BARCODE13: "1000653322916"
+		// Composizione: "Parte Principale: -Poliestere 88% -Elastan 12%"
+		// "Descr.Cat.Comm.": "Pantalone"
+		// "Descr.Cat.Mer.": "Pantalone"
+		// "Descr.Colore": "Azzurro"
+		// "Descr.Marchio": "Rinascimento"
+		// "ID dogan.": "61046300"
+		// "M.In": "IT"
+		// "Quantità": "1"
+		// Tgl: "L"
+		// "Tot:XXEUR025": "27.99"
+		// "Uni:XXEUR025": "27.99"
+
 		foreach($data as $key => $value) {
 			switch ($key) {
 				case 'Articolo':
