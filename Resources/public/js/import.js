@@ -12,12 +12,11 @@ var maciShopImport = function (options) {
 			type: 'POST',
 			data: {
 				'data': {
-					'add': {
+					'remove': {
 						'section': 'shop',
 						'entity': 'product',
-						'item': 8,
-						'relation': 'preview',
-						'ids': [3]
+						'id': 4,
+						'trash': false
 					}
 				}
 			},
@@ -80,8 +79,9 @@ var maciShopImport = function (options) {
 			alert('No Data.');
 			_obj.end();
 		}
-		alertNode = $("<div/>").addClass('alert alert-info').appendTo(form.find("#import_data").parent());
+		alertNode = $("<div/>").addClass('alert alert-info mt-2').appendTo(form.find("#import_data").parent());
 		index = -1;
+		_obj.saveNext();
 	},
 
 	saveNext: function(_form) {
@@ -90,7 +90,7 @@ var maciShopImport = function (options) {
 		}
 		index++;
 		alertNode.text("Importing: " + index + " of " + records.length + ".");
-		_obj.saveRecord(records[index]);
+		if (index < 1) _obj.saveRecord(records[index]);
 	},
 
 	end: function() {
@@ -111,22 +111,18 @@ var maciShopImport = function (options) {
 		var fieldsLen = data.find('Row').first().find('Cell').length;
 		data.find('Row').not(':first').each(function(ri, row) {
 			if($(row).find('Cell').length != fieldsLen) return;
-			var _data = {};
+			var dt = {};
 			$(row).find('Cell').each(function(i, el) {
 				if (fields[i] == false) return;
-				_data[fields[i]] = $(el).text().trim();
+				dt[fields[i]] = $(el).text().trim();
 			});
 			records[index] = {
-				'type': 'purchas',
-				'label': (_data['Articolo'] + "/" + _data['Descr.Marchio'] + "/" + _data['Descr.Cat.Mer'] + "/" + _data['Descr.Colore'] + "/" + _data['Tgl']),
-				'price': _data['Uni:XXEUR025'],
-				'quantity': _data['Quantità'],
-				'data': {'original': _data}
+				'import': dt
 			};
 			index++;
 		});
 		console.log(records);
-		// _obj.start();
+		_obj.start();
 	},
 
 	set: function(_form) {
@@ -134,7 +130,7 @@ var maciShopImport = function (options) {
 		form.find("#import_submit").click(function(e) {
 			e.preventDefault();
 			// form.find("#import_submit").hide();
-			_obj.saveTestCategory();
+			_obj.importXml();
 		});
 	},
 

@@ -1,0 +1,26 @@
+
+Maci\PageBundle\Entity\Shop\RecordSet:
+    type:  entity
+    table: maci_record_set
+    # repositoryClass: Maci\PageBundle\Repository\Shop\RecordRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 7
+        label:
+            type: string
+            length: 127
+        recorded:
+            type: datetime
+    oneToMany:
+        children:
+            targetEntity: Maci\PageBundle\Entity\Shop\Record
+            mappedBy: parent
+            orderBy: { 'id': ASC }
+    lifecycleCallbacks:
+        prePersist: [ setRecordedValue ]

@@ -9,12 +9,15 @@ Maci\PageBundle\Entity\Shop\Record:
             generator:
                 strategy: AUTO
     fields:
-        type:
+        code:
             type: string
-            length: 7
-        label:
+            length: 13
+        barcode:
             type: string
-            length: 127
+            length: 13
+        category:
+            type: string
+            length: 15
         price:
             type: decimal
         quantity:
@@ -24,6 +27,10 @@ Maci\PageBundle\Entity\Shop\Record:
             nullable: true
         recorded:
             type: datetime
+    manyToOne:
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Shop\RecordSet
+            inversedBy: children
     lifecycleCallbacks:
         prePersist: [ setRecordedValue ]
 

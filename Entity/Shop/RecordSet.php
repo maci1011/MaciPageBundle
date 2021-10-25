@@ -5,7 +5,7 @@ namespace Maci\PageBundle\Entity\Shop;
 /**
  * Record
  */
-class Record
+class RecordSet
 {
 	/**
 	 * @var integer
@@ -15,32 +15,12 @@ class Record
 	/**
 	 * @var string
 	 */
-	private $code;
+	private $type;
 
 	/**
 	 * @var string
 	 */
-	private $barcode;
-
-	/**
-	 * @var string
-	 */
-	private $category;
-
-	/**
-	 * @var decimal
-	 */
-	private $price;
-
-	/**
-	 * @var integer
-	 */
-	private $quantity;
-
-	/**
-	 * @var json
-	 */
-	private $data;
+	private $label;
 
 	/**
 	 * @var \DateTime
@@ -48,17 +28,17 @@ class Record
 	private $recorded;
 
 	/**
-	 * @var \Maci\PageBundle\Entity\Shop\Record
+	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $parent;
+	private $children;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		$this->price = 0;
-		$this->quantity = 1;
+		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->type = $this->getTypes()[0];
 	}
 
 	/**
@@ -72,72 +52,78 @@ class Record
 	}
 
 	/**
-	 * Set code
+	 * Set type
 	 *
-	 * @param string $code
+	 * @param string $type
 	 * @return Record
 	 */
-	public function setCode($code)
+	public function setType($type)
 	{
-		$this->code = $code;
+		$this->type = $type;
 
 		return $this;
 	}
 
 	/**
-	 * Get code
+	 * Get type
 	 *
 	 * @return string 
 	 */
-	public function getCode()
+	public function getType()
 	{
-		return $this->code;
+		return $this->type;
 	}
 
 	/**
-	 * Set barcode
+	 * Get Type Array
+	 */
+	static public function getTypeArray()
+	{
+		return [
+			'Unset' => 'unset',
+			'Purchase' => 'pruchas',
+			'Sell' => 'sell',
+			'Return' => 'return'
+		];
+	}
+
+	public function getTypeLabel()
+	{
+		$array = $this->getTypeArray();
+		$key = array_search($this->type, $array);
+		if ($key) {
+			return $key;
+		}
+		$str = str_replace('_', ' ', $this->type);
+		return ucwords($str);
+	}
+
+	static public function getTypes()
+	{
+		return array_values(Record::getTypeArray());
+	}
+
+	/**
+	 * Set label
 	 *
-	 * @param string $barcode
+	 * @param string $label
 	 * @return Record
 	 */
-	public function setBarcode($barcode)
+	public function setLabel($label)
 	{
-		$this->barcode = $barcode;
-
-		return $this;
-	}
-
-	/**
-	 * Get barcode
-	 *
-	 * @return string 
-	 */
-	public function getBarcode()
-	{
-		return $this->barcode;
-	}
-
-	/**
-	 * Set category
-	 *
-	 * @param string $category
-	 * @return Record
-	 */
-	public function setCategory($category)
-	{
-		$this->category = $category;
+		$this->label = $label;
 	
 		return $this;
 	}
 
 	/**
-	 * Get category
+	 * Get label
 	 *
 	 * @return string 
 	 */
-	public function getCategory()
+	public function getLabel()
 	{
-		return $this->category;
+		return $this->label;
 	}
 
 	/**
@@ -209,36 +195,6 @@ class Record
 		return $this;
 	}
 
-	public function import($data)
-	{
-		foreach($data as $key => $value) {
-			switch ($key) {
-				case 'Articolo':
-					$this->code = $value;
-					break;
-				case 'BARCODE13':
-					$this->barcode = $value;
-					break;
-				case 'Descr.Cat.Mer.':
-					$this->category = $value;
-					break;
-				case 'Uni:XXEUR025':
-					$this->price = floatval($value);
-					break;
-				case 'Quantità':
-					$this->quantity = intval($value);
-					break;
-				default:
-					break;
-			}
-		}
-
-		if($this->data == null) $this->data = [];
-		$this->data['imported'] = $data;
-
-		return $this;
-	}
-
 	/**
 	 * Get data
 	 *
@@ -280,16 +236,21 @@ class Record
 		$this->recorded = new \DateTime();
 	}
 
-	public function setParent(\Maci\PageBundle\Entity\Shop\RecordSet $parent = null)
+	public function addChild(\Maci\PageBundle\Entity\Shop\Product $child)
 	{
-		$this->parent = $parent;
+		$this->children[] = $child;
 
 		return $this;
 	}
 
-	public function getParent()
+	public function removeChild(\Maci\PageBundle\Entity\Shop\Record $child)
 	{
-		return $this->parent;
+		$this->children->removeElement($child);
+	}
+
+	public function getChildren()
+	{
+		return $this->children;
 	}
 
 	/**
