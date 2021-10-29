@@ -1,0 +1,22 @@
+
+Maci\PageBundle\Entity\Shop\Supplier:
+    type:  entity
+    table: maci_shop_supplier
+    # repositoryClass: Maci\PageBundle\Repository\Shop\RecordRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 31
+    manyToOne:
+        address:
+            targetEntity: Maci\UserBundle\Entity\Address
+    oneToMany:
+        recordSets:
+            targetEntity: Maci\PageBundle\Entity\Shop\RecordSet
+            mappedBy: supplier
+            orderBy: { 'id': ASC }

@@ -15,6 +15,9 @@ Maci\PageBundle\Entity\Shop\Record:
         barcode:
             type: string
             length: 13
+        brand:
+            type: string
+            length: 15
         category:
             type: string
             length: 15

@@ -1,0 +1,19 @@
+
+Maci\PageBundle\Entity\Shop\SetCategory:
+    type:  entity
+    table: maci_record_set_category
+    # repositoryClass: Maci\PageBundle\Repository\Shop\SetCategory
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 31
+    oneToMany:
+        recordSets:
+            targetEntity: Maci\PageBundle\Entity\Shop\RecordSet
+            mappedBy: category
+            orderBy: { 'id': ASC }

@@ -3,51 +3,54 @@
 
 var maciShopImport = function (options) {
 
-	var form, records, index, alertNode,
+	var form, records, index, fileInput, alertNode,
 
 	_obj = {
 
-	saveTestCategory: function(data) {
+	getSets: function() {
+		var select = form.find('#import_set');
 		$.ajax({
 			type: 'POST',
 			data: {
 				'data': {
-					'remove': {
+					'list': {
 						'section': 'shop',
-						'entity': 'product',
-						'id': 4,
-						'trash': false
+						'entity': 'record_set'
 					}
 				}
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				console.log('end test');
+				var select = form.find('#import_set');
+				if (!d.list.length) {
+					select.parent().hide();
+					return;
+				}
+				for (var i = d.list.length - 1; i >= 0; i--) {
+					$('<option/>').attr('value', d.list[i].id).text(d.list[i].id + ": " + d.list[i].label).appendTo(select);
+					if (21 < select.find('option').length) break;
+				}
 			}
 		});
 	},
 
-	saveTestProduct: function(data) {
+	setParent: function(data) {
+		var select = form.find('#import_set');
+		if (select.val() == "null") return;
 		$.ajax({
 			type: 'POST',
 			data: {
 				'data': {
-					'new': {
+					'add': {
 						'section': 'shop',
-						'entity': 'product',
-						'data': {
-							'name': 'Prodotto di Prova',
-							'price': '120.00',
-							'locale': 'it',
-							'status': 'new'
-						}
+						'entity': 'record',
+						'id': data.new.id,
+						'relation': 'parent',
+						'ids': [select.val()]
 					}
 				}
 			},
-			url: '/mcm/ajax',
-			success: function(d,s,x) {
-				_obj.saveTestCategory(d);
-			}
+			url: '/mcm/ajax'
 		});
 	},
 
@@ -65,10 +68,10 @@ var maciShopImport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
+				_obj.setParent(d);
 				_obj.saveNext();
 			},
 			error: function(d,s,x) {
-				form.find("#import_data").val("Error at index " + index + ".\n" + form.find("#import_data").val());
 				_obj.saveNext();
 			}
 		});
@@ -77,9 +80,8 @@ var maciShopImport = function (options) {
 	start: function(_form) {
 		if (!records.length) {
 			alert('No Data.');
-			_obj.end();
 		}
-		alertNode = $("<div/>").addClass('alert alert-info mt-2').appendTo(form.find("#import_data").parent());
+		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form.find("#dataFile").parent());
 		index = -1;
 		_obj.saveNext();
 	},
@@ -90,17 +92,35 @@ var maciShopImport = function (options) {
 		}
 		index++;
 		alertNode.text("Importing: " + index + " of " + records.length + ".");
-		if (index < 1) _obj.saveRecord(records[index]);
+		// if (index < 1) _obj.saveRecord(records[index]);
+		else _obj.end();
 	},
 
 	end: function() {
-		alertNode.remove();
+		alertNode.text("End! Imported: " + index + " of " + records.length + ".");
+		setTimeout(function() {
+			alertNode.remove();
+		}, 7000);
 		form.find("#import_submit").show();
-		form.find("#import_data").val("End.");
+		form.find("#import_data").val('');
 	},
 
-	importXml: function() {
-		var data = $(form.find("#import_data").val());
+	setFileInput: function() {
+		fileInput = form.find("#dataFile");
+		fileInput.hide().on('change', function(e) {
+			if (!e.target.files.length) return;
+			var fr = new FileReader();
+			fr.onload = function() {
+				_obj.importXml(fr.result);
+			}
+			fr.readAsText(e.target.files[0]);
+		});
+	},
+
+	importXml: function(data) {
+		var s = data.indexOf('<Table');
+		var e = data.indexOf('</Table>') + 8;
+		data = $(data.substr(s, e - s));
 		var fields = [];
 		data.find('Row').first().find('Cell').each(function(i, el) {
 			if(!$(el).text().length) fields[i] = false;
@@ -121,8 +141,7 @@ var maciShopImport = function (options) {
 			};
 			index++;
 		});
-		console.log(records);
-		_obj.start();
+		if(confirm("Items to import: " + records.length + ".")) _obj.start();
 	},
 
 	set: function(_form) {
@@ -130,8 +149,10 @@ var maciShopImport = function (options) {
 		form.find("#import_submit").click(function(e) {
 			e.preventDefault();
 			// form.find("#import_submit").hide();
-			_obj.importXml();
+			fileInput.click();
 		});
+		_obj.getSets();
+		_obj.setFileInput();
 	},
 
 	foo: function() {}

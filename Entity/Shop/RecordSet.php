@@ -33,6 +33,16 @@ class RecordSet
 	private $children;
 
 	/**
+	 * @var \Maci\PageBundle\Entity\Shop\SetCategory
+	 */
+	private $category;
+
+	/**
+	 * @var \Maci\PageBundle\Entity\Shop\Supplier
+	 */
+	private $supplier;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -82,7 +92,7 @@ class RecordSet
 		return [
 			'Unset' => 'unset',
 			'Purchase' => 'pruchas',
-			'Sell' => 'sell',
+			'Sale' => 'sale',
 			'Return' => 'return'
 		];
 	}
@@ -100,7 +110,7 @@ class RecordSet
 
 	static public function getTypes()
 	{
-		return array_values(Record::getTypeArray());
+		return array_values(RecordSet::getTypeArray());
 	}
 
 	/**
@@ -236,7 +246,7 @@ class RecordSet
 		$this->recorded = new \DateTime();
 	}
 
-	public function addChild(\Maci\PageBundle\Entity\Shop\Product $child)
+	public function addChild(\Maci\PageBundle\Entity\Shop\Record $child)
 	{
 		$this->children[] = $child;
 
@@ -251,6 +261,30 @@ class RecordSet
 	public function getChildren()
 	{
 		return $this->children;
+	}
+
+	public function setCategory(\Maci\PageBundle\Entity\Shop\SetCategory $category = null)
+	{
+		$this->category = $category;
+
+		return $this;
+	}
+
+	public function getCategory()
+	{
+		return $this->category;
+	}
+
+	public function setSupplier(\Maci\PageBundle\Entity\Shop\Supplier $supplier = null)
+	{
+		$this->supplier = $supplier;
+
+		return $this;
+	}
+
+	public function getSupplier()
+	{
+		return $this->supplier;
 	}
 
 	/**

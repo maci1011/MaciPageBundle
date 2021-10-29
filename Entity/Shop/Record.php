@@ -25,6 +25,11 @@ class Record
 	/**
 	 * @var string
 	 */
+	private $brand;
+
+	/**
+	 * @var string
+	 */
 	private $category;
 
 	/**
@@ -118,6 +123,29 @@ class Record
 	}
 
 	/**
+	 * Set brand
+	 *
+	 * @param string $brand
+	 * @return Record
+	 */
+	public function setBrand($brand)
+	{
+		$this->brand = $brand;
+
+		return $this;
+	}
+
+	/**
+	 * Get brand
+	 *
+	 * @return string 
+	 */
+	public function getBrand()
+	{
+		return $this->brand;
+	}
+
+	/**
 	 * Set category
 	 *
 	 * @param string $category
@@ -163,12 +191,17 @@ class Record
 		return $this->price;
 	}
 
+	public function getPriceLabel()
+	{
+		return number_format($this->price, 2);
+	}
+
 	/**
 	 * Get total price
 	 *
 	 * @return string 
 	 */
-	public function getTotal()
+	public function getTotalPrice()
 	{
 		return $this->price * $this->quantity;
 	}
@@ -211,21 +244,9 @@ class Record
 
 	public function import($data)
 	{
-
-		// Articolo: "CFC0105018003"
-		// BARCODE13: "1000653322916"
-		// Composizione: "Parte Principale: -Poliestere 88% -Elastan 12%"
+		// Not used:
 		// "Descr.Cat.Comm.": "Pantalone"
-		// "Descr.Cat.Mer.": "Pantalone"
-		// "Descr.Colore": "Azzurro"
-		// "Descr.Marchio": "Rinascimento"
 		// "ID dogan.": "61046300"
-		// "M.In": "IT"
-		// "Quantità": "1"
-		// Tgl: "L"
-		// "Tot:XXEUR025": "27.99"
-		// "Uni:XXEUR025": "27.99"
-
 		foreach($data as $key => $value) {
 			switch ($key) {
 				case 'Articolo':
@@ -234,11 +255,20 @@ class Record
 				case 'BARCODE13':
 					$this->barcode = $value;
 					break;
+				case 'Descr.Colore':
+					$this->addVariant('Color', $value);
+					break;
+				case 'Descr.Marchio':
+					$this->brand = $value;
+					break;
 				case 'Descr.Cat.Mer.':
 					$this->category = $value;
 					break;
+				case 'Tgl':
+					$this->addVariant('Size', $value);
+					break;
 				case 'Uni:XXEUR025':
-					$this->price = floatval($value);
+					$this->price = (intval(floatval($value) * 0.26) + 1) * 10;
 					break;
 				case 'Quantità':
 					$this->quantity = intval($value);
@@ -261,7 +291,92 @@ class Record
 	 */
 	public function getData()
 	{
+		if (!is_array($this->data))
+		{
+			$this->data = [];
+		}
+
 		return $this->data;
+	}
+
+	public function getImported()
+	{
+		if (!array_key_exists('imported', $this->getData()))
+		{
+			return false;
+		}
+
+		return $this->data['imported'];
+	}
+
+	public function getImportedLocale()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('M.In', $this->data['imported'])) return strtolower($this->data['imported']['M.In']);
+		return null;
+	}
+
+	public function getImportedCurrency()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('Uni:XXEUR025', $this->data['imported'])) return 'EUR';
+		return null;
+	}
+
+	public function getImportedComposition()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('Composizione', $this->data['imported'])) return $this->data['imported']['Composizione'];
+		return null;
+	}
+
+	public function getImportedPrice()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('Uni:XXEUR025', $this->data['imported'])) return number_format(floatval($this->data['imported']['Uni:XXEUR025']), 2);
+		return null;
+	}
+
+	public function getBuyed()
+	{
+		return $this->getImportedPrice();
+	}
+
+	public function getImportedTotal()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('Tot:XXEUR025', $this->data['imported'])) return number_format(floatval($this->data['imported']['Tot:XXEUR025']), 2);
+		return null;
+	}
+
+	public function getVariants()
+	{
+		if (!array_key_exists('variants', $this->getData()))
+		{
+			$this->data['variants'] = [];
+		}
+
+		return $this->data['variants'];
+	}
+
+	public function getVariantsLabel()
+	{
+		$len = count($this->getVariants());
+		if ($len == 0) return '';
+		$label = implode(': ', $this->data['variants'][0]);
+		if ($len == 1) return $label;
+		for ($i = 1; $i < $len; $i++)
+		{
+			$label = $label . ", " . implode(': ', $this->data['variants'][$i]);
+		}
+		return $label;
+	}
+
+	public function addVariant($label, $value)
+	{
+		$index = count($this->getVariants());
+		$this->data['variants'][$index]['label'] = $label;
+		$this->data['variants'][$index]['value'] = $value;
 	}
 
 	/**
@@ -305,6 +420,11 @@ class Record
 	public function getParent()
 	{
 		return $this->parent;
+	}
+
+	public function getParentLabel()
+	{
+		return $this->parent ? $this->parent->getLabel() : '';
 	}
 
 	/**

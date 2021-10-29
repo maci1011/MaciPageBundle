@@ -17,6 +17,13 @@ Maci\PageBundle\Entity\Shop\RecordSet:
             length: 127
         recorded:
             type: datetime
+    manyToOne:
+        category:
+            targetEntity: Maci\PageBundle\Entity\Shop\SetCategory
+            inversedBy: recordSets
+        supplier:
+            targetEntity: Maci\PageBundle\Entity\Shop\Supplier
+            inversedBy: recordSets
     oneToMany:
         children:
             targetEntity: Maci\PageBundle\Entity\Shop\Record
