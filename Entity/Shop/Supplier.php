@@ -85,7 +85,7 @@ class Supplier
 		return $this->recordSets;
 	}
 
-	public function setAddress(\Maci\PageBundle\Entity\Shop\Address $address = null)
+	public function setAddress(\Maci\UserBundle\Entity\Address $address = null)
 	{
 		$this->address = $address;
 
