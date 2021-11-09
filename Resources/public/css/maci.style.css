@@ -7,7 +7,7 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, a:hover, em, i, strong, div, button, i
 	text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6, p, a, span {
+h1, h2, h3, h4, h5, h6, p, a, span, address {
 	margin: 0;
 }
 
