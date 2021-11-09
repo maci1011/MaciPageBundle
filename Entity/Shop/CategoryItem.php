@@ -159,7 +159,7 @@ class CategoryItem
 	 */
 	public function getName()
 	{
-		return "CategoryItem#" . $this->id . ($this->getCategory() ? $this->getCategory()->getName() : '');
+		return "CategoryItem#" . ($this->id ?? 'new');
 	}
 
 	/**

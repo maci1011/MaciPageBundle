@@ -1,0 +1,37 @@
+{% extends "MaciAdminBundle::layout.html.twig" %}
+
+{% block content %}
+
+<h3>Sales</h3>
+
+<form id="sales_form" class="p-2">
+
+<div class="form-group">
+	<label class="required" for="import_set">Set</label>
+	<select id="import_set" class="form-control" name="import[set]">
+		<option value="null">Select Record Set</option>
+	</select>
+</div>
+
+<div class="form-group">
+	<label class="required" for="data_barcode">Insert Barcode</label>
+	<input id="dataFile" class="form-control" type="text" />
+</div>
+
+<div class="form-group">
+	{#}<button id="import_submit" class="btn btn-primary" type="submit">Import</button>{#}
+
+</div>
+
+</form>
+
+<div id="output" style="padding: 32px 0;"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/sales.js') }}" ></script>
+
+{% endblock %}

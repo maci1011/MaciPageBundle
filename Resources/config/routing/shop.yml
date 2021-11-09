@@ -20,3 +20,7 @@ maci_product:
 maci_shop_import:
     path:     /shop/import
     defaults: { _controller: MaciPageBundle:Shop:import, section: shop }
+
+maci_shop_sales:
+    path:     /shop/sales
+    defaults: { _controller: MaciPageBundle:Shop:sales, section: shop }

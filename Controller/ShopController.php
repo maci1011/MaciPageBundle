@@ -55,4 +55,12 @@ class ShopController extends AbstractController
 		}
 		return $this->render('@MaciPage/Shop/import.html.twig');
 	}
+
+	public function salesAction()
+	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect('maci_homepage');
+		}
+		return $this->render('@MaciPage/Shop/sales.html.twig');
+	}
 }

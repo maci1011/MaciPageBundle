@@ -1,9 +1,9 @@
 
-(function($){
+(function($, d3){
 
 var maciShopImport = function (options) {
 
-	var form, records, index, fileInput, alertNode,
+	var form, records, index, barcodeInput, alertNode,
 
 	_obj = {
 
@@ -30,6 +30,27 @@ var maciShopImport = function (options) {
 					$('<option/>').attr('value', d.list[i].id).text(d.list[i].id + ": " + d.list[i].label).appendTo(select);
 					if (21 < select.find('option').length) break;
 				}
+			}
+		});
+	},
+
+	getRecords: function() {
+		$.ajax({
+			type: 'POST',
+			data: {
+				'data': {
+					'list': {
+						'section': 'shop',
+						'entity': 'record',
+						'data': {
+							'barcode': barcodeInput.val()
+						}
+					}
+				}
+			},
+			url: '/mcm/ajax',
+			success: function(d,s,x) {
+				// end
 			}
 		});
 	},
@@ -104,15 +125,10 @@ var maciShopImport = function (options) {
 		form.find("#import_data").val('');
 	},
 
-	setFileInput: function() {
-		fileInput = form.find("#dataFile");
-		fileInput.hide().on('change', function(e) {
-			if (!e.target.files.length) return;
-			var fr = new FileReader();
-			fr.onload = function() {
-				_obj.importXml(fr.result);
-			}
-			fr.readAsText(e.target.files[0]);
+	setBarcodeInput: function() {
+		barcodeInput = form.find("#data_barcode");
+		barcodeInput.hide().on('keypress', function(e) {
+			// code
 		});
 	},
 
@@ -151,7 +167,7 @@ var maciShopImport = function (options) {
 			fileInput.click();
 		});
 		_obj.getSets();
-		_obj.setFileInput();
+		_obj.setBarcodeInput();
 	},
 
 	foo: function() {}
@@ -172,4 +188,4 @@ $(document).ready(function(e) {
 
 });
 
-})(jQuery);
+})(jQuery, d3);
