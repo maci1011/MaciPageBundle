@@ -8,7 +8,7 @@ var maciShopImport = function (options) {
 	_obj = {
 
 	getSets: function() {
-		var select = form.find('#import_set');
+		var select = form.find('#sales_set');
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -21,7 +21,6 @@ var maciShopImport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				var select = form.find('#import_set');
 				if (!d.list.length) {
 					select.parent().hide();
 					return;
@@ -42,7 +41,8 @@ var maciShopImport = function (options) {
 					'list': {
 						'section': 'shop',
 						'entity': 'record',
-						'data': {
+						'filters': {
+							'type': 'purchas',
 							'barcode': barcodeInput.val()
 						}
 					}
@@ -50,7 +50,7 @@ var maciShopImport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				// end
+				_obj.showData(d);
 			}
 		});
 	},
@@ -89,93 +89,58 @@ var maciShopImport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				_obj.setParent(d);
-				_obj.saveNext();
-			},
-			error: function(d,s,x) {
-				_obj.saveNext();
+				console.log(d);
 			}
 		});
 	},
 
-	start: function(_form) {
-		if (!records.length) {
-			alert('No Data.');
+	showData: function(data) {
+		var wrapper = $("<div/>").addClass('container-fluid m-3').css('padding', '20px').insertAfter(barcodeInput);
+		for (var i = data.list.length - 1; i >= 0; i--) {
+			var item = data.list[i];
+			var row = $("<div/>").addClass('row').css('padding', '2px').prependTo(wrapper);
+			var vals = [data.list[i]['code'], data.list[i]['brand'], data.list[i]['category']];
+			for (var j = 0; j < data.list[i]['data']['variants'].length; j++) {
+				vals[vals.length] = data.list[i]['data']['variants'][j]['value'];
+			}
+			vals[vals.length] = data.list[i]['price'];
+			$("<div/>").addClass('col-xs-6').appendTo(row).text(vals.join(', '));
+			$("<button/>").addClass('btn btn-info').appendTo(row).click(function (e) {
+				e.preventDefault();
+				delete item['data']['imported'];
+				item['data']['original'] = "Record#" + item.id;
+				item['quantity'] = 1;
+				item['type'] = 'sale';
+				delete item['id'];
+				delete item['recorded'];
+				_obj.saveRecord(item);
+			}).text('Select').wrap("<div/>").parent().addClass('col-xs-6');
 		}
-		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form.find("#dataFile").parent());
-		index = -1;
-		_obj.saveNext();
-	},
-
-	saveNext: function(_form) {
-		if (records.length <= index) {
-			_obj.end();
-		}
-		index++;
-		alertNode.text("Importing: " + index + " of " + records.length + ".");
-		_obj.saveRecord(records[index]);
-	},
-
-	end: function() {
-		alertNode.text("End! Imported: " + index + " of " + records.length + ".");
-		setTimeout(function() {
-			alertNode.remove();
-		}, 7000);
-		form.find("#import_submit").show();
-		form.find("#import_data").val('');
 	},
 
 	setBarcodeInput: function() {
-		barcodeInput = form.find("#data_barcode");
-		barcodeInput.hide().on('keypress', function(e) {
-			// code
+		barcodeInput = form.find("#data-barcode");
+		barcodeInput.on('change', function(e) {
+			if (barcodeInput.val().length != 13) return;
+			_obj.getRecords();
 		});
-	},
-
-	importXml: function(data) {
-		var s = data.indexOf('<Table');
-		var e = data.indexOf('</Table>') + 8;
-		data = $(data.substr(s, e - s));
-		var fields = [];
-		data.find('Row').first().find('Cell').each(function(i, el) {
-			if(!$(el).text().length) fields[i] = false;
-			fields[i] = $(el).text().trim();
-		});
-		records = [];
-		index = 0;
-		var fieldsLen = data.find('Row').first().find('Cell').length;
-		data.find('Row').not(':first').each(function(ri, row) {
-			if($(row).find('Cell').length != fieldsLen) return;
-			var dt = {};
-			$(row).find('Cell').each(function(i, el) {
-				if (fields[i] == false) return;
-				dt[fields[i]] = $(el).text().trim();
-			});
-			records[index] = {
-				'import': dt
-			};
-			index++;
-		});
-		if(confirm("Items to import: " + records.length + ".")) _obj.start();
+		if (barcodeInput.val().length == 13) barcodeInput.change();
 	},
 
 	set: function(_form) {
 		form = _form;
 		form.find("#import_submit").click(function(e) {
 			e.preventDefault();
-			// form.find("#import_submit").hide();
 			fileInput.click();
 		});
 		_obj.getSets();
 		_obj.setBarcodeInput();
-	},
-
-	foo: function() {}
+	}
 
 	}; // end _obj
 
 	// Play!
-	_obj.set($('#import_form'));
+	_obj.set($('#sales_form'));
 
 	return _obj;
 

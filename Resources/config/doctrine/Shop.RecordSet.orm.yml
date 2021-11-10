@@ -9,9 +9,6 @@ Maci\PageBundle\Entity\Shop\RecordSet:
             generator:
                 strategy: AUTO
     fields:
-        type:
-            type: string
-            length: 7
         label:
             type: string
             length: 127

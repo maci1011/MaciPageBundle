@@ -136,6 +136,7 @@ var maciShopImport = function (options) {
 				dt[fields[i]] = $(el).text().trim();
 			});
 			records[index] = {
+				'type': 'purchas',
 				'import': dt
 			};
 			index++;

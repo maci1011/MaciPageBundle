@@ -15,6 +15,11 @@ class Record
 	/**
 	 * @var string
 	 */
+	private $type;
+
+	/**
+	 * @var string
+	 */
 	private $code;
 
 	/**
@@ -62,6 +67,7 @@ class Record
 	 */
 	public function __construct()
 	{
+		$this->type = $this->getTypes()[0];
 		$this->price = 0;
 		$this->quantity = 1;
 	}
@@ -74,6 +80,60 @@ class Record
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * Set type
+	 *
+	 * @param string $type
+	 * @return Record
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
+
+		return $this;
+	}
+
+	/**
+	 * Get type
+	 *
+	 * @return string 
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * Get Type Array
+	 */
+	static public function getTypeArray()
+	{
+		return [
+			'Unset' => 'unset',
+			'Purchase' => 'purchas',
+			'Sale' => 'sale',
+			'Return' => 'return'
+		];
+	}
+
+	public function getTypeLabel()
+	{
+		if($this->type == "")
+			return array_search($this->getTypes()[0], $this->getTypeArray());
+		$array = $this->getTypeArray();
+		$key = array_search($this->type, $array);
+		if ($key) {
+			return $key;
+		}
+		$str = str_replace('_', ' ', $this->type);
+		return ucwords($str);
+	}
+
+	static public function getTypes()
+	{
+		return array_values(Record::getTypeArray());
 	}
 
 	/**

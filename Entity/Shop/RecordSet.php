@@ -15,11 +15,6 @@ class RecordSet
 	/**
 	 * @var string
 	 */
-	private $type;
-
-	/**
-	 * @var string
-	 */
 	private $label;
 
 	/**
@@ -48,7 +43,6 @@ class RecordSet
 	public function __construct()
 	{
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->type = $this->getTypes()[0];
 	}
 
 	/**
@@ -59,58 +53,6 @@ class RecordSet
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	/**
-	 * Set type
-	 *
-	 * @param string $type
-	 * @return Record
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
-
-		return $this;
-	}
-
-	/**
-	 * Get type
-	 *
-	 * @return string 
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
-
-	/**
-	 * Get Type Array
-	 */
-	static public function getTypeArray()
-	{
-		return [
-			'Unset' => 'unset',
-			'Purchase' => 'pruchas',
-			'Sale' => 'sale',
-			'Return' => 'return'
-		];
-	}
-
-	public function getTypeLabel()
-	{
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
-	}
-
-	static public function getTypes()
-	{
-		return array_values(RecordSet::getTypeArray());
 	}
 
 	/**
