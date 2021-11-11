@@ -1,0 +1,22 @@
+
+<div class="maci-order-shipping-address-form">
+
+<form class="maci_order_shipping_address" action="{{ path('maci_order_checkout_set_shipping_address') }}" method="post">
+
+	<div class="form-group">
+    	{{ form_errors(form) }}
+	</div>
+
+    {{ form_row(form.shipping_address) }}
+
+    {{ form_row(form._token) }}
+
+    <div class="form-group">
+
+		<button id="cart_shipping_address_save" class="btn btn-primary" type="submit" name="cart_shipping_address[save]">{{ 'form.use_this_address'|matra('Use This Address') }}</button>
+
+	</div>
+
+</form>
+
+</div>

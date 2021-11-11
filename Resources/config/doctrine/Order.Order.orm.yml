@@ -1,0 +1,112 @@
+
+Maci\PageBundle\Entity\Order\Order:
+    type:  entity
+    table: maci_order
+    repositoryClass: Maci\PageBundle\Repository\Order\OrderRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 63
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        mail:
+            type: string
+            length: 63
+            nullable: true
+        type:
+            type: string
+            length: 31
+            nullable: true
+        payment:
+            type: string
+            length: 31
+            nullable: true
+        shipping:
+            type: string
+            length: 31
+            nullable: true
+        payment_cost:
+            type: decimal
+            nullable: true
+        shipping_cost:
+            type: decimal
+            nullable: true
+        code:
+            type: string
+            length: 31
+            nullable: true
+        status:
+            type: string
+            length: 31
+            nullable: true
+        checkout:
+            type: string
+            length: 31
+            nullable: true
+        amount:
+            type: decimal
+        token:
+            type: string
+            length: 63
+            nullable: true
+        locale:
+            type: string
+            length: 10
+            nullable: true
+        invoice:
+            type: datetime
+            nullable: true
+        paid:
+            type: datetime
+            nullable: true
+        due:
+            type: datetime
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+        removed:
+            type: boolean
+    manyToOne:
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        billing_address:
+            targetEntity: Maci\UserBundle\Entity\Address
+            joinColumn:
+                name: billing_id
+                referencedColumnName: id
+            cascade: ['persist']
+        shipping_address:
+            targetEntity: Maci\UserBundle\Entity\Address
+            joinColumn:
+                name: shipping_id
+                referencedColumnName: id
+            cascade: ['persist']
+    oneToMany:
+        items:
+            targetEntity: Item
+            mappedBy: order
+            orderBy: { 'created': ASC }
+        transactions:
+            targetEntity: Transaction
+            mappedBy: order
+            orderBy: { 'created': ASC }
+        payments:
+            targetEntity: Payment
+            mappedBy: order
+            orderBy: { 'created': ASC }
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue, setInvoiceValue ]
+        preUpdate: [ setUpdatedValue ]
+

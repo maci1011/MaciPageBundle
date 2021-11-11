@@ -1,0 +1,93 @@
+
+{% if list|length %}
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+<tr class="list-header">
+
+	<th class="list-header id">
+		<span class="list-title">Id</span>
+	</th>
+
+	<th class="list-header">
+		<span class="list-title">Name</span>
+	</th>
+
+	<th class="list-header">
+		<span class="list-title">User</span>
+	</th>
+
+	<th class="list-header">
+		<span class="list-title">Invoice</span>
+	</th>
+
+	<th class="list-header">
+		<span class="list-title">Status</span>
+	</th>
+
+	<th class="list-header">
+		<span class="list-title">Amount</span>
+	</th>
+
+	<th class="list-header-last list-header-actions">
+		<span class="list-title">Actions</span>
+	</th>
+
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in list %}
+
+<tr class="list-item">
+
+	<td class="list-item-id">
+		<span>{{ item.id }}</span>
+	</td>
+
+	<td>
+		<a href="{{ path('maci_order_admin_show_order', {'id': item.id}) }}">{{ item.name }}</a>
+	</td>
+
+	<td>
+		<span>{{ item.user }}</span>
+	</td>
+
+	<td>
+		<span>{{ item.invoice|date('d/m/Y') }}</span>
+	</td>
+
+	<td>
+		<span>{{ item.status }}</span>
+	</td>
+
+	<td>
+		<span>{{ item.amount }} EUR</span>
+	</td>
+
+	<td class="list-item-actions">
+		<a class="btn" href="{{ path('maci_order_admin_show_order', {'id': item.id}) }}">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Show
+		</a>
+		{#}
+		<a class="btn" href="#">
+			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			Remove
+		</a>
+		{#}
+	</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+</div>
+
+{% endif %}

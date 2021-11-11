@@ -1,0 +1,101 @@
+
+{% if list|length %}
+
+<section class="orders-list">
+<div class="container-fluid">
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+
+<tr class="list-header">
+
+	<th class="list-header order-header-code">
+		<span class="list-header-title">{{ 'order.code' | matra('Code') }}</span>
+	</th>
+
+	<th class="list-header order-header-amount">
+		<span class="list-header-title">{{ 'order.amount' | matra('Amount') }}</span>
+	</th>
+
+	<th class="list-header order-header-date">
+		<span class="list-header-title">{{ 'order.date' | matra('Date') }}</span>
+	</th>
+
+	<th class="list-header order-header-status">
+		<span class="list-header-title">{{ 'order.status' | matra('Status') }}</span>
+	</th>
+
+	<th class="list-header order-header-action">
+		<span class="list-header-action">{{ 'order.action' | matra('Action') }}</span>
+	</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in list %}
+
+<tr class="list-item">
+
+	<td>
+		<span>{{ item.code }}</span>
+	</td>
+
+	<td>
+		{% if item.status == 'current' %}
+		<span>{{ item.subAmount | number_format(2, '.', ',') }} &euro;</span>
+		{% else %}
+		<span>{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+		{% endif %}
+	</td>
+
+	<td>
+		<span>{{ item.created | date('d/m/Y') }}</span>
+	</td>
+
+	<td>
+		<span>{{ item.statusLabel }}</span>
+	</td>
+
+	<td>
+
+		{% if item.status == 'complete' %}
+
+		<a class="btn" href="{{ path('maci_order_invoice', {'id': item.id}) }}">
+			Show Invoice
+		</a>
+
+		{% elseif item.status == 'confirm' %}
+
+		<a class="btn" href="{{ path('maci_order_show', {'id': item.id}) }}">
+			Show Order
+		</a>
+
+		{% elseif item.status == 'current' %}
+
+		<a class="btn" href="{{ path('maci_order_checkout') }}">
+			Checkout
+		</a>
+
+		{% endif %}
+
+	</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+</div>
+
+</div>
+</section>
+
+
+{% endif %}

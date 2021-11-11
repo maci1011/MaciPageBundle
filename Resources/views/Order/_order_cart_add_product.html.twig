@@ -1,0 +1,17 @@
+
+<form {{ ( product ? ('id="maci_cart_add_product_' ~ product.id ~ '"')|raw ) }} class="maci_cart_add_product" action="{{ path('maci_order_cart_add') }}" method="POST">
+
+	{% if not form.vars.valid %}
+	<div class="form-group">
+    	{{ form_errors(form) }}
+	</div>
+	{% endif %}
+
+	{{ form_row(form.product) }}
+
+	{{ form_row(form.quantity) }}
+	{{ form_row(form._token) }}
+
+	{{ form_row(form.add_to_cart) }}
+
+</form>

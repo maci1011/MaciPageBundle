@@ -4,7 +4,7 @@
 
 <section class="page_products container-fluid">
 
-	{% include "MaciProductBundle:Default:_category_list.html.twig" with { 'category': page.category }  %}
+	{% include "MaciPageBundle:Product:_category_list.html.twig" with { 'category': page.category }  %}
 
 </section>
 
@@ -13,7 +13,7 @@
 
 {% if page.album and ( page.album.children|length or page.album.images|length ) %}
 
-{% include "MaciPageBundle:Default:_album_preview.html.twig" with { 'album': page.album }  %}
+{% include "MaciPageBundle:Media:_album_preview.html.twig" with { 'album': page.album }  %}
 
 {% endif %}
 
@@ -22,7 +22,7 @@
 
 <section class="page_gallery container-fluid">
 
-	{% include "MaciPageBundle:Default:_gallery_preview.html.twig" with { 'album': page.gallery }  %}
+	{% include "MaciPageBundle:Media:_gallery_preview.html.twig" with { 'album': page.gallery }  %}
 
 </section>
 
@@ -33,7 +33,7 @@
 
 <section class="page_posts container-fluid">
 
-	{% include "MaciBlogBundle:Default:_list.html.twig" with { 'list': page.tag.posts }  %}
+	{% include "MaciPageBundle:Blog:_list.html.twig" with { 'list': page.tag.posts }  %}
 
 </section>
 

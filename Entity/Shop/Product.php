@@ -133,6 +133,11 @@ class Product
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
+	private $records;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
 	private $children;
 
 	/**
@@ -165,6 +170,7 @@ class Product
 	 */
 	public function __construct()
 	{
+		$this->records = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->categoryItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
@@ -720,6 +726,25 @@ class Product
 		$list = $this->getParentsList();
 		$list[] = $this;
 		return $list;
+	}
+
+	public function addRecords(\Maci\PageBundle\Entity\Shop\Product $record)
+	{
+		$this->records[] = $record;
+
+		if($record->getType() == 'purchas') $this->quantity += $record->getQuantity();
+
+		return $this;
+	}
+
+	public function removeRecords(\Maci\PageBundle\Entity\Shop\Product $record)
+	{
+		$this->records->removeElement($record);
+	}
+
+	public function getRecords()
+	{
+		return $this->records;
 	}
 
 	/**

@@ -86,6 +86,10 @@ Maci\PageBundle\Entity\Shop\Product:
         cover:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
+        records:
+            targetEntity: Maci\PageBundle\Entity\Shop\Record
+            mappedBy: product
+            orderBy: { 'recorded': DESC }
         children:
             targetEntity: Maci\PageBundle\Entity\Shop\Product
             mappedBy: parent

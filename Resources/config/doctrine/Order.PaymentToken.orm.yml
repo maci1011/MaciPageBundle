@@ -1,0 +1,5 @@
+
+Maci\PageBundle\Entity\Order\PaymentToken:
+    type:  entity
+    table: maci_order_payment_token
+    #repositoryClass: Maci\PageBundle\Repository\Order\PaymentTokenRepository

@@ -1,0 +1,22 @@
+
+Maci\PageBundle\Entity\Order\PaymentDetails:
+    type:  entity
+    table: maci_order_payment_details
+    #repositoryClass: Maci\PageBundle\Repository\Order\PaymentDetailsRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 15
+            nullable: true
+    manyToOne:
+        payment:
+            targetEntity: Payment
+            inversedBy: paymentDetails
+            joinColumn:
+                name: payment_id
+                referencedColumnName: id

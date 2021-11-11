@@ -1,0 +1,16 @@
+{% extends "@MaciPage/Layout/order.html.twig" %}
+
+
+{% block title %}
+
+{{ 'order.gocheckout.meta_title' | matra('Go To Checkout') }}
+
+{% endblock %}
+
+
+{% block container %}
+
+{% include "MaciPageBundle:Order:_gocheckout.html.twig" %}
+
+{% endblock %}
+

@@ -12,18 +12,67 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
-    {
-        $treeBuilder = new TreeBuilder('maci_page');
-        $rootNode = $treeBuilder->getRootNode();
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getConfigTreeBuilder()
+	{
+		$treeBuilder = new TreeBuilder('maci_page');
+		$rootNode = $treeBuilder->getRootNode();
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+		$rootNode
+			->children()
+				->arrayNode('payments')
+					->prototype('array')
+						->beforeNormalization()
+							->ifString()
+							->then(function($v) { return array('gateway' => $v, 'cost' => 0); })
+						->end()
+						->children()
+							->scalarNode('gateway')->isRequired()->end()
+							->scalarNode('label')->end()
+							->integerNode('cost')->defaultValue(0)->min(0)->end()
+							->booleanNode('sandbox')->defaultValue(false)->end()
+						->end()
+					->end()
+				->end()
+				->arrayNode('couriers')
+					->prototype('array')
+						->children()
+							->integerNode('default_cost')->defaultValue(0)->min(0)->end()
+							->scalarNode('label')->end()
+							->scalarNode('note')->end()
+							->arrayNode('payments')
+								->beforeNormalization()
+									->ifString()
+									->then(function($v) { return array($v); })
+								->end()
+								->prototype('scalar')->end()
+							->end()
+							->arrayNode('countries')
+								->prototype('array')
+									->beforeNormalization()
+										->ifString()
+										->then(function($v) { return array('cost' => floatval($v)); })
+									->end()
+									->children()
+										->floatNode('cost')->min(0)->end()
+										->scalarNode('note')->end()
+									->end()
+								->end()
+							->end()
+						->end()
+					->end()
+				->end()
+				->scalarNode('default_tax')->defaultValue(22)->end()
+				->scalarNode('free_shipping_over')->defaultValue(0)->end()
+			->end()
+		;
 
-        return $treeBuilder;
-    }
+		// Here you should define the parameters that are allowed to
+		// configure your bundle. See the documentation linked above for
+		// more information on that topic.
+
+		return $treeBuilder;
+	}
 }

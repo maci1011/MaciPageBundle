@@ -85,3 +85,119 @@ services:
         class: Maci\PageBundle\Form\Shop\MediaItemType
         tags:
             - { name: form.type, alias: product_media_item }
+
+    # Ipn Action
+
+    Http\Message\MessageFactory\GuzzleMessageFactory:
+        arguments: []
+
+    httplug.message_factory.guzzle:
+        alias: Http\Message\MessageFactory\GuzzleMessageFactory
+        public: true
+
+    Maci\PageBundle\Action\StoreNotificationAction:
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    maci.payment.payum.action.store_notification:
+        alias: Maci\PageBundle\Action\StoreNotificationAction
+        public: true
+
+    Maci\PageBundle\Action\StoreNotificationSandboxAction:
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    maci.payment.payum.action.store_notification_sandbox:
+        alias: Maci\PageBundle\Action\StoreNotificationSandboxAction
+        public: true
+
+    # Controller Service
+
+    Maci\PageBundle\Controller\OrderService:
+        arguments: ["@doctrine.orm.entity_manager","@security.authorization_checker",'@security.token_storage',"@session","@kernel","@maci.addresses","%maci.page.configs%"]
+
+    maci.orders:
+        alias: Maci\PageBundle\Controller\OrderService
+        public: true
+
+    # Knp Menu
+    
+    maci.order.menu_builder:
+        class: Maci\PageBundle\Menu\OrderMenuBuilder
+        arguments: ["@knp_menu.factory","@maci.translator"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createShopAdminMenu, alias: shop_admin }
+
+    # Form
+
+    maci.order.form.type.cart_add_product_item:
+        class: Maci\PageBundle\Form\Order\CartAddProductItemType
+        arguments: ["@maci.translator"]
+        tags:
+            - { name: form.type, alias: cart_add_product_item }
+
+    maci.order.form.type.cart_edit_item:
+        class: Maci\PageBundle\Form\Order\CartEditItemType
+        tags:
+            - { name: form.type, alias: cart_edit_item }
+
+    maci.order.form.type.cart_remove_item:
+        class: Maci\PageBundle\Form\Order\CartRemoveItemType
+        tags:
+            - { name: form.type, alias: cart_remove_item }
+
+    maci.order.form.type.booking:
+        class: Maci\PageBundle\Form\Order\CartBookingType
+        tags:
+            - { name: form.type, alias: cart_booking }
+
+    maci.order.form.type.pickup:
+        class: Maci\PageBundle\Form\Order\CartPickupType
+        tags:
+            - { name: form.type, alias: cart_pickup }
+
+    maci.order.form.type.billing_address:
+        class: Maci\PageBundle\Form\Order\CartBillingAddressType
+        arguments: ["@maci.orders","@maci.addresses"]
+        tags:
+            - { name: form.type, alias: cart_billing_address }
+
+    maci.order.form.type.shipping_address:
+        class: Maci\PageBundle\Form\Order\CartShippingAddressType
+        arguments: ["@maci.orders","@maci.addresses"]
+        tags:
+            - { name: form.type, alias: cart_shipping_address }
+
+    maci.order.form.type.checkout:
+        class: Maci\PageBundle\Form\Order\CartCheckoutType
+        arguments: ["@maci.orders"]
+        tags:
+            - { name: form.type, alias: cart_checkout }
+
+    maci.order.form.type.checkout_payment:
+        class: Maci\PageBundle\Form\Order\CheckoutPaymentType
+        arguments: ["@maci.orders"]
+        tags:
+            - { name: form.type, alias: order_checkout_payment }
+
+    maci.order.form.type.checkout_shipping:
+        class: Maci\PageBundle\Form\Order\CheckoutShippingType
+        arguments: ["@maci.orders"]
+        tags:
+            - { name: form.type, alias: order_checkout_shipping }
+
+    maci.order.form.type.mail:
+        class: Maci\PageBundle\Form\Order\MailType
+        tags:
+            - { name: form.type, alias: order_mail }
+
+    maci.order.form.type.payment:
+        class: Maci\PageBundle\Form\Order\PaymentType
+        tags:
+            - { name: form.type, alias: order_payment }
+
+    # Orderly Bundle
+    # maci.order.paypal_im_received:
+    #     class: Maci\PageBundle\Event\OrderPayPalListener
+    #     arguments: ["@doctrine.orm.entity_manager"]
+    #     tags:
+    #         - { name: kernel.event_listener, event: paypal.ipn.receive, method: onIPNReceive }
+

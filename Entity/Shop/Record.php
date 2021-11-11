@@ -63,6 +63,11 @@ class Record
 	private $parent;
 
 	/**
+	 * @var \Maci\PageBundle\Entity\Shop\Product
+	 */
+	private $product;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -485,6 +490,23 @@ class Record
 	public function getParentLabel()
 	{
 		return $this->parent ? $this->parent->getLabel() : '';
+	}
+
+	public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
+	{
+		$this->product = $product;
+
+		return $this;
+	}
+
+	public function getProduct()
+	{
+		return $this->product;
+	}
+
+	public function getProductLabel()
+	{
+		return $this->product ? $this->product->getName() : '';
 	}
 
 	/**

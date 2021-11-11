@@ -1,0 +1,18 @@
+{% extends "@MaciPage/Layout/order.html.twig" %}
+
+
+{% block title %}
+
+{{ 'order.index.meta_title' | matra('Order List') }}
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "MaciPageBundle:Order:_list.html.twig" with { 'list': list } %}
+
+{% endblock %}
+
+
+

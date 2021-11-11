@@ -1,0 +1,43 @@
+
+Maci\PageBundle\Entity\Order\Item:
+    type:  entity
+    table: maci_order_item
+    repositoryClass: Maci\PageBundle\Repository\Order\ItemRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        info:
+            type: text
+            nullable: true
+        details:
+            type: text
+            nullable: true
+        quantity:
+            type: decimal
+            nullable: true
+        amount:
+            type: decimal
+            nullable: true
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    manyToOne:
+        order:
+            targetEntity: Maci\PageBundle\Entity\Order\Order
+            inversedBy: items
+            joinColumn:
+                name: order_id
+                referencedColumnName: id
+        product:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            joinColumn:
+                name: product_id
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [ setUpdatedValue, setCreatedValue ]
+        preUpdate: [ setUpdatedValue ]
+

@@ -1,0 +1,16 @@
+{% extends "@MaciPage/Layout/order.html.twig" %}
+
+
+{% block title %}
+
+{{ 'order.preview.meta_title' | matra('Order Preview') }}
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include "MaciPageBundle:Order:_preview.html.twig" with { 'order': order, 'edit': edit } %}
+
+{% endblock %}
+

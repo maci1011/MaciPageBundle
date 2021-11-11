@@ -22,7 +22,7 @@ class SearchController extends AbstractController
 
     public function mediaAction(Request $request, $query)
     {
-        return $this->render('MaciPageBundle:Default:search.html.twig', array(
+        return $this->render('MaciPageBundle:Page:search.html.twig', array(
             'query' => $query,
             'list' => $this->search($request, 'MaciPageBundle:Media')
         ));
@@ -30,7 +30,7 @@ class SearchController extends AbstractController
 
     public function blogAction(Request $request, $query)
     {
-        return $this->render('MaciBlogBundle:Default:search.html.twig', array(
+        return $this->render('MaciPageBundle:Blog:search.html.twig', array(
             'query' => $query,
             'list' => $this->search($request, 'MaciBlogBundle:Post')
         ));
@@ -38,7 +38,7 @@ class SearchController extends AbstractController
 
     public function shopAction(Request $request, $query)
     {
-        return $this->render('MaciProductBundle:Default:search.html.twig', array(
+        return $this->render('MaciPageBundle:Product:search.html.twig', array(
             'query' => $query,
             'list' => $this->search($request, 'MaciProductBundle:Product')
         ));

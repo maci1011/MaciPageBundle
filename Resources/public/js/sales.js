@@ -3,7 +3,7 @@
 
 var maciShopImport = function (options) {
 
-	var form, records, index, barcodeInput, alertNode,
+	var form, barcodeInput, wrapper,
 
 	_obj = {
 
@@ -95,7 +95,8 @@ var maciShopImport = function (options) {
 	},
 
 	showData: function(data) {
-		var wrapper = $("<div/>").addClass('container-fluid m-3').css('padding', '20px').insertAfter(barcodeInput);
+		if (wrapper) wrapper.remove();
+		wrapper = $("<div/>").addClass('container-fluid m-3').css('padding', '20px').insertAfter(barcodeInput);
 		for (var i = data.list.length - 1; i >= 0; i--) {
 			var item = data.list[i];
 			var row = $("<div/>").addClass('row').css('padding', '2px').prependTo(wrapper);
@@ -128,7 +129,11 @@ var maciShopImport = function (options) {
 	},
 
 	set: function(_form) {
+		wrapper = false;
 		form = _form;
+		form.submit(function(e) {
+			e.preventDefault();
+		});
 		form.find("#import_submit").click(function(e) {
 			e.preventDefault();
 			fileInput.click();

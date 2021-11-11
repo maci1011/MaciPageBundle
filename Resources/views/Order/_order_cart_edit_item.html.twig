@@ -1,0 +1,20 @@
+
+<form class="form-inline order-item-quantity-form" action="{{ path('maci_order_edit_cart_item', {'id': id}) }}" method="post">
+
+	{% if not form.vars.valid %}
+	<div class="form-group">
+		{{ form_errors(form) }}
+	</div>
+	{% endif %}
+
+	{{ form_label(form.quantity) }}
+	{{ form_widget(form.quantity) }}
+	{{ form_errors(form.quantity) }}
+
+	{{ form_row(form._token) }}
+
+	<button id="cart_edit_item_edit" class="btn-success btn-primary btn" name="cart_edit_item[edit]" type="submit">
+		<i class="fas fa-edit"></i>
+	</button>
+
+</form>

@@ -1,0 +1,244 @@
+<html>
+<head>
+<style type="text/css">
+
+body {
+	background-color: #e6e6e6;
+	font-family: 'Gill Sans';
+	margin: 0;
+}
+
+table {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+.main {
+	background-color: #fff;
+	margin: 0 auto;
+	padding: 0 20px;
+	width: 600px;
+}
+
+.main > tbody > tr > td {
+	padding: 10px 0;
+}
+
+td > table {
+	width: 100%;
+}
+
+</style>
+</head>
+<body>
+
+
+<table class="main">
+<tbody>
+<tr>
+	<td class="header">
+
+		<div class="title">
+			<h1>{{ company_title }}</h1>
+			<h2>{{ company_subtitle }}</h2>
+		</div>
+
+	</td>
+</tr>
+<tr>
+	<td class="order-status">
+		<h4>Dear Customer,</h4>
+		<p>you order has been confirmed.</p>
+		<span>Order Code: {{ order.code }}</span><br/>
+		<span>Order Status: {{ order.statusLabel }}</span>
+	</td>
+</tr>
+</tbody>
+</table>
+
+
+{% if order.billingAddress is not null or order.shippingAddress is not null %}
+<table class="main">
+<tbody>
+<tr>
+
+	{% if order.billingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.billing' | matra('Billing Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
+	</td>
+	{% endif %}
+
+	{% if order.shippingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.shipping' | matra('Shipping Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+	</td>
+	{% endif %}
+
+</tr>
+</tbody>
+</table>
+{% endif %}
+
+
+<table class="main">
+<tbody>
+<tr>
+	<td>
+		<h3>Order Details:</h3>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<table class="main">
+<tbody class="details">
+
+	{# HEADER #}
+	<tr>
+		<td>&nbsp;</td>
+		<th>Product</th>
+		<th>Quantity</th>
+		<th>Price</th>
+	</tr>
+
+	{# ORDER ITEMS #}
+	{% for item in order.items %}
+	{% if item.product %}
+	<tr>
+		<td>
+			{% if item.product.preview %}
+			<img src="{{ asset(item.product.preview.webPreview | imagine_filter('maci_product_preview_list'), null, true) }}" style="width: 100px;">
+			{% else %}
+			<img src="{{ asset('/images/defaults/no-icon.png' | imagine_filter('maci_product_preview_list'), null, true) }}" style="width: 100px;">
+			{% endif %}
+		</td>
+		<td>
+			{{ item.product }}
+		</td>
+		<td>
+			{{ item.quantity }}
+		</td>
+		<td>
+			{% if item.sale %}
+			<span style="text-decoration: line-through;">{{ item.sale | number_format(2, '.', ',') }} &euro;</span><br/>
+			{% endif %}
+			<span>{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+		</td>
+	</tr>
+	{% endif %}
+	{% endfor %}
+
+	{# FOOTER #}
+	<tr>
+		<td>&nbsp;</td>
+		<th>{{ 'product.cart_details' | matra('Details') }}</th>
+		<th>{{ 'product.cart_description' | matra('Description') }}</th>
+		<th>{{ 'product.price' | matra('Price') }}</th>
+	</tr>
+
+	{# SHIPPING COST #}
+	{% if order.shipping %}
+	<tr>
+		<td>&nbsp;</td>
+		<td>Shipping Cost:</td>
+		<td>
+			{% if maci_orders.shippingsArray[order.shipping] is defined %}
+			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
+			{% else %}
+			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if order.shippingCost %}
+			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			&nbsp;
+			{% endif %}
+		</td>
+	</tr>
+	{% endif %}
+
+	{# PAYMENT COST #}
+	{% if order.payment %}
+	<tr>
+		<td>&nbsp;</td>
+		<td>Payment Cost:</td>
+		<td>
+			{% if maci_orders.paymentsArray[order.payment] is defined %}
+			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}</span>
+			{% else %}
+			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if order.paymentCost %}
+			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			&nbsp;
+			{% endif %}
+		</td>
+	</tr>
+	{% endif %}
+
+
+	<tr>
+		<td>&nbsp;</td>
+		<td><h4>Amount:</h4></td>
+		<td>&nbsp;</td>
+		<td><h4>{{ order.amount | number_format(2, '.', ',') }} &euro;</h4></td>
+	</tr>
+
+</tbody>
+</table>
+
+
+{% if order.orderDocuments|length and 3 < order.progression %}
+<table class="main">
+<tbody>
+<tr>
+	<td>
+		<h3>E-Books:</h3>
+		{% if order.user %}
+		<table>
+			{% for item in order.orderDocuments %}
+			<tr>
+				<td>- {{ item }}</td>
+				<td><a href="{{ path('maci_media_get', {'path': item.path}) }}">Get E-Book</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+		<p>You can see all your ebooks in <a href="{{ path('maci_user_library') }}">Your Library</a></p>
+		{% else %}
+		<p>You should find your ebooks attached to this mail. If not, contact us.</p>
+		{% endif %}
+	</td>
+</tr>
+</tbody>
+</table>
+{% endif %}
+
+
+<table class="main">
+<tbody>
+<tr>
+<td>
+
+	<h3>Contact us for more informations.</h3>
+
+	<p>
+		{{ company_title }} | {{ company_address }} {{ company_cccs }} | 
+		<abbr title="Phone">Tel.</abbr> {{ company_phone }} |
+        <a href="mailto:{{ contact_email }}"><span>{{ contact_email }}</span></a>
+    </p>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+
+</body>
+</html>

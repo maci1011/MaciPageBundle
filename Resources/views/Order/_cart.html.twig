@@ -1,0 +1,25 @@
+<div class="container">
+
+<h3>{{ 'menu.user.cart' | matra('My Cart') }}</h3>
+
+<h5>{{ 'order.code' | matra('Order Identifier') }}: {{ cart.code }}</h5>
+
+
+{{ render(controller('MaciPageBundle:Order:showOrder', {'order': cart, 'edit': true})) }}
+
+
+{% if cart and cart.items|length %}
+
+<div class="checkout-options">
+
+		<h3>{{ 'page.cart.checkout' | matra('Checkout') }}</h3>
+		<p>{{ 'page.cart.checkout.description' | matra('Pay the order and get it at home.') }}</p>
+
+		<a class="btn btn-primary" href="{{ path('maci_order_checkout') }}">Checkout</a>
+
+</div>
+
+
+{% endif %}
+
+</div>

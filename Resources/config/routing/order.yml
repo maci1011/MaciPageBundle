@@ -1,0 +1,103 @@
+
+# maci_paypal_ipn:
+#     path:  /ipn/ipn-twig-email-notification
+#     defaults: { _controller: MaciPageBundle:TwigNotificationEmail:index }
+
+
+
+maci_order_cart_add:
+    path:  /cart/item/add
+    defaults: { _controller: MaciPageBundle:Order:addToCart }
+    methods:  [POST]
+
+maci_order_edit_cart_item:
+    path:  /cart/item/edit/{id}
+    defaults: { _controller: MaciPageBundle:Order:editCartItem }
+
+maci_order_remove_cart_item:
+    path:  /cart/item/remove/{id}
+    defaults: { _controller: MaciPageBundle:Order:removeCartItem }
+
+maci_order_gocheckout:
+    path:  /cart/gocheckout/{option}
+    defaults: { _controller: MaciPageBundle:Order:cartGoCheckout, option: checkout }
+
+maci_order_checkout_set_checkout:
+    path:  /cart/checkout/set-checkout/{checkout}
+    defaults: { _controller: MaciPageBundle:Order:cartSetCheckout, checkout: checkout }
+
+maci_order_checkout_set_mail:
+    path:  /cart/checkout/set-mail
+    defaults: { _controller: MaciPageBundle:Order:cartSetMail }
+
+maci_order_checkout_set_billing_address:
+    path:  /cart/checkout/set-billing-address
+    defaults: { _controller: MaciPageBundle:Order:cartSetBillingAddress }
+
+maci_order_checkout_set_shipping_address:
+    path:  /cart/checkout/set-shipping-address
+    defaults: { _controller: MaciPageBundle:Order:cartSetShippingAddress }
+
+maci_order_checkout_set_payment:
+    path:  /cart/checkout/set-payment
+    defaults: { _controller: MaciPageBundle:Order:cartSetPayment }
+
+maci_order_checkout_set_shipping:
+    path:  /cart/checkout/set-shipping
+    defaults: { _controller: MaciPageBundle:Order:cartSetShipping }
+
+maci_order_paypal_complete:
+    path:  /cart/checkout/complete/paypal
+    defaults: { _controller: MaciPageBundle:Order:paypalComplete }
+
+maci_order_checkout_complete:
+    path:  /cart/checkout/complete/{token}
+    defaults: { _controller: MaciPageBundle:Order:checkoutComplete }
+
+maci_order_checkout_confirm:
+    path:  /cart/checkout/confirm
+    defaults: { _controller: MaciPageBundle:Order:checkoutConfirm }
+
+maci_order_checkout:
+    path:  /cart/checkout
+    defaults: { _controller: MaciPageBundle:Order:cartCheckout }
+
+maci_order_payments_after_capture:
+    path:  /payements/after_capture
+    defaults: { _controller: MaciPageBundle:Order:afterCapture }
+
+maci_order_cart_form:
+    path:  /cart/form
+    defaults: { _controller: MaciPageBundle:Order:cartForm }
+
+maci_order_cart:
+    path:  /cart
+    defaults: { _controller: MaciPageBundle:Order:cart }
+
+
+
+maci_order_admin_confirmed:
+    path:  /admin/orders/confirmed
+    defaults: { _controller: MaciPageBundle:Order:confirmed }
+
+maci_order_admin_show_order:
+    path:  /admin/order/show/{id}
+    defaults: { _controller: MaciPageBundle:Order:adminShow }
+
+
+
+maci_order_show:
+    path:  /orders/show/{id}
+    defaults: { _controller: MaciPageBundle:Order:userShow }
+
+maci_order_invoice:
+    path:  /orders/invoice/{id}
+    defaults: { _controller: MaciPageBundle:Order:invoice }
+
+maci_order_notfound:
+    path:  /orders/notfound
+    defaults: { _controller: MaciPageBundle:Order:notfound }
+
+maci_order:
+    path:  /orders/
+    defaults: { _controller: MaciPageBundle:Order:index }

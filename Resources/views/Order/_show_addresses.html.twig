@@ -1,0 +1,31 @@
+
+<div id="order_show_addresses" class="clearfix">
+
+
+{% if order.billingAddress is not null %}
+
+<div class="col-xs-12 col-sm-6">
+
+	<h4>Billing Address</h4>
+
+	{% include "MaciUserBundle:Address:_item.html.twig" with { 'address': order.billingAddress } %}
+
+</div>
+
+{% endif %}
+
+
+{% if order.shippingAddress is not null %}
+
+<div class="col-xs-12 col-sm-6">
+
+	<h4>Shipping Address</h4>
+
+	{% include "MaciUserBundle:Address:_item.html.twig" with { 'address': order.shippingAddress } %}
+
+</div>
+
+{% endif %}
+
+
+</div>

@@ -1,0 +1,21 @@
+{% extends "@MaciPage/Layout/layout_admin.html.twig" %}
+
+
+{% block title %}
+
+{{ 'order.confirmed.meta_title' | matra('Confirmed Orders') }}
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page_container user_page">
+
+<h1>{{ 'menu.user.confirmed_orders'|matra('Confirmed Orders') }}</h1>
+
+{% include "MaciPageBundle:Order:_confirmed.html.twig" with { 'list': list } %}
+
+</section>
+
+{% endblock %}

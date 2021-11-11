@@ -1,0 +1,7 @@
+{% extends "@MaciPage/Layout/void.html.twig" %}
+
+{% block content %}
+
+{{ render(controller('MaciPageBundle:Order:paypalForm', {'order': order})) }}
+
+{% endblock %}

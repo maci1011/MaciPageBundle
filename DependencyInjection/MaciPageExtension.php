@@ -22,6 +22,15 @@ class MaciPageExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $result = array(
+            'payments' => $config['payments'],
+            'couriers' => $config['couriers'],
+            'default_tax' => $config['default_tax'],
+            'free_shipping_over' => $config['free_shipping_over']
+        );
+
+        $container->setParameter('maci.page.configs', $result);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

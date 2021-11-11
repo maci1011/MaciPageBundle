@@ -1,0 +1,8 @@
+
+{% extends "MaciAdminBundle::layout_custom.html.twig" %}
+
+
+{% block main_menu %}
+<h3>{{ 'menu.admin.shop_admin'|matra('Shop Admin') }}</h3>
+<nav>{{ knp_menu_render('shop_admin', {'currentClass': 'active'}) }}</nav>
+{% endblock %}

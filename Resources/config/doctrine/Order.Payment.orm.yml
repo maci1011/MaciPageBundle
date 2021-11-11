@@ -1,0 +1,27 @@
+
+Maci\PageBundle\Entity\Order\Payment:
+    type:  entity
+    table: maci_order_payment
+    #repositoryClass: Maci\PageBundle\Repository\Order\PaymentRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        created:
+            type: datetime
+    manyToOne:
+        order:
+            targetEntity: Order
+            inversedBy: payments
+            joinColumn:
+                name: order_id
+                referencedColumnName: id
+    oneToMany:
+        paymentDetails:
+            targetEntity: Maci\PageBundle\Entity\Order\PaymentDetails
+            mappedBy: payment
+            orderBy: { 'id': DESC }
+    lifecycleCallbacks:
+        prePersist: [ setCreatedValue ]

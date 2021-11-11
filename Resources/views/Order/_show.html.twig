@@ -1,0 +1,254 @@
+
+{% if order and order.items|length %}
+
+
+<section class="cart-list">
+<div class="container-fluid">
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+
+<tr class="list-header">
+
+	<th class="list-header order-header-preview hidden-xs">
+		&nbsp;
+	</th>
+
+	<th class="list-header order-header-product">
+		<span class="list-header-title">{{ 'product.cart_title' | matra('Product') }}</span>
+	</th>
+
+	<th class="list-header order-header-quantity">
+		<span class="list-header-title">{{ 'product.quantity' | matra('Quantity') }}</span>
+	</th>
+
+	<th class="list-header order-header-price">
+		<span class="list-header-title">{{ 'product.price' | matra('Price') }}</span>
+	</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in order.items %}
+
+{% if item.id %}
+{% set id = item.id %}
+{% else %}
+{% set id = loop.index0 %}
+{% endif %}
+
+<tr class="order-item">
+
+	<td class="order-item-preview hidden-xs">
+
+		{% if item.product.inhPreview is not null %}
+		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %} title="{{ item.product.inhDescription }}" {% else %} title="{{ item.product.inhName }}" {% endif %} />
+		{% else %}
+		&nbsp;
+		{% endif %}
+
+	</td>
+
+	<td class="order-item-description">
+
+		{% if edit is defined and edit %}
+		<a href="{{ path('maci_product_show', { 'id': item.product.id, 'path': item.product.path }) }}">
+			<h4 class="order-item-name">{{ item.product.inhName }}</h4>
+		</a>
+		{% else %}
+		<h4 class="order-item-name">{{ item.product.inhName }}</h4>
+		{% endif %}
+
+		<ol>
+			{% for obj in item.product.hierarchy if obj.variantName %}
+			<li>
+				{% if obj.variantLabel %}<span class="product-child-label">{{ obj.variantLabel }}:</span>{% endif %}
+				<span class="product-child-name">{{ obj.variantName }}</span>
+			</li>
+			{% endfor %}
+		</ol>
+
+	</td>
+
+	<td class="order-item-quantity">
+
+		{% if edit is defined and edit %}
+		{{ render(controller('MaciPageBundle:Order:editCartItem', { 'id': id, 'quantity': item.quantity } )) }}
+		{{ render(controller('MaciPageBundle:Order:removeCartItem', { 'id': id } )) }}
+		{% else %}
+		<span class="order-item-quantity">{{ item.quantity }}</span>
+		{% endif %}
+
+	</td>
+
+	<td class="order-item-price">
+
+		<ol>
+
+				{% if item.product.sale %}
+				<li>
+					<span class="product-list-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				<li>
+					<span class="product-sale-price">{{ item.product.sale | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% elseif item.product.price %}
+				<li>
+					<span class="product-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% endif %}
+
+		</ol>
+
+	</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+<tfoot>
+
+{# DETAILS #}
+
+<tr>
+
+	<th class="list-header hidden-xs">
+		&nbsp;
+	</th>
+
+	<th class="list-header">
+		<span class="list-header-title">{{ 'product.cart_details' | matra('Details') }}</h4>
+	</th>
+
+	<th class="list-header">
+		<span class="list-header-title">{{ 'product.cart_description' | matra('Description') }}</h4>
+	</th>
+
+	<th class="list-header">
+		<span class="list-header-title">{{ 'product.price' | matra('Price') }}</h4>
+	</th>
+
+</tr>
+
+
+{# SHIPPING COST #}
+
+{% if order.shipping and (edit is not defined or not edit) %}
+
+<tr>
+
+	<td>&nbsp;</td>
+
+	<td>
+		<span class="order-shippingCost-label">{{ 'order.shipping' | matra('Shipping') }}</span>
+	</td>
+
+	<td>
+		{% if maci_orders.shippingsArray[order.shipping] is defined %}
+		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
+		{% else %}
+		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}</span>
+		{% endif %}
+	</td>
+
+	<td>
+		<span class="order-shippingCost-value">
+			{% if 0 < order.shippingCost %}
+			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			&nbsp;
+			{% endif %}
+		</span>
+	</td>
+
+</tr>
+
+{% endif %}
+
+
+{# PAYMENT COST #}
+
+{% if order.payment and (edit is not defined or not edit) %}
+
+<tr>
+
+	<td>&nbsp;</td>
+
+	<td>
+		<span class="order-paymentCost-label">{{ 'order.payment' | matra('Payment') }}</span>
+	</td>
+
+	<td>
+		{% if maci_orders.paymentsArray[order.payment] is defined %}
+		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}</span>
+		{% else %}
+		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}</span>
+		{% endif %}
+	</td>
+
+	<td>
+		<span class="order-paymentCost-value">
+			{% if 0 < order.paymentCost %}
+			<span>{{ order.paymentCost | number_format(2, '.', ',') }} &euro;</span>
+			{% else %}
+			&nbsp;
+			{% endif %}
+		</span>
+	</td>
+
+</tr>
+
+{% endif %}
+
+
+{# AMOUNT #}
+
+<tr>
+
+	<td>&nbsp;</td>
+
+	{% if edit is defined and edit %}
+
+	<td>
+		<h4 class="order-amount-label">{{ 'order.subtotal' | matra('SubTotal') }}:</h4>
+	</td>
+
+	<td><h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}</h4></td>
+
+	<td>
+		<h4 class="order-amount-value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</h4>
+	</td>
+
+	{% else %}
+
+	<td>
+		<h4 class="order-amount-label">{{ 'order.amount' | matra('Amount') }}:</h4>
+	</td>
+
+	<td>
+		<h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}</h4>
+	</td>
+
+	<td>
+		<h4 class="order-amount-value">{{ order.amount | number_format(2, '.', ',') }} &euro;</h4>
+	</td>
+
+	{% endif %}
+
+</tr>
+
+</tfoot>
+</table>
+</div>
+
+</div>
+</section>
+
+
+{% endif %}

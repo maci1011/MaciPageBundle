@@ -8,6 +8,9 @@ maci_page_contact:
 maci_page_media:
     resource: "@MaciPageBundle/Resources/config/routing/media.yml"
 
+maci_page_order:
+    resource: "@MaciPageBundle/Resources/config/routing/order.yml"
+
 maci_page_search:
     resource: "@MaciPageBundle/Resources/config/routing/search.yml"
 

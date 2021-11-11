@@ -1,0 +1,47 @@
+
+<html>
+<head></head>
+<body>
+
+<form id="paypalform" action="{{ form.vars.action }}" method="post" target="_top">
+
+	<input type="hidden" name="cmd" value="{{ form.cmd.vars.value }}">
+	<input type="hidden" name="lc" value="{{ form.lc.vars.value }}">
+	<input type="hidden" name="business" value="{{ form.business.vars.value }}">
+
+	<input type="hidden" name="item_name" value="{{ form.item_name.vars.value }}">
+	<input type="hidden" name="item_number" value="{{ form.item_number.vars.value }}">
+	<input type="hidden" name="custom" value="{{ form.custom.vars.value }}">
+
+	<input type="hidden" name="amount" value="{{ form.amount.vars.value }}">
+	<input type="hidden" name="currency_code" value="{{ form.currency_code.vars.value }}">
+
+	<input type="hidden" name="button_subtype" value="{{ form.button_subtype.vars.value }}">
+	<input type="hidden" name="no_note" value="{{ form.no_note.vars.value }}">
+	<input type="hidden" name="no_shipping" value="{{ form.no_shipping.vars.value }}">
+	<input type="hidden" name="rm" value="{{ form.rm.vars.value }}">
+
+	<input type="hidden" name="return" value="{{ form.return.vars.value }}">
+	<input type="hidden" name="cancel_return" value="{{ form.cancel_return.vars.value }}">
+	<input type="hidden" name="notify_url" value="{{ form.notify_url.vars.value }}">
+
+{#}
+
+	<input class="btn btn-success" type="submit" value="Pay With PayPal" />
+
+	<input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
+
+	<img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
+
+{#}
+
+</form>
+
+<script type="text/javascript">
+
+paypalform.submit();
+
+</script>
+
+</body>
+</html>
