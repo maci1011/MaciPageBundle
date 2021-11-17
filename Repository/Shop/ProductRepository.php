@@ -10,7 +10,6 @@ class ProductRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.removed = false')
-            ->where('p.tabbed = true')
             ->orderBy('p.position')
             ->setMaxResults(60)
             ->getQuery()

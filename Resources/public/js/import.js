@@ -54,7 +54,18 @@ var maciShopImport = function (options) {
 		});
 	},
 
+	loadUnsettedRecords: function() {
+		$.ajax({
+			type: 'POST',
+			url: '/shop/load-unsetted-records',
+			success: function(d,s,x) {
+				console.log(d);
+			}
+		});
+	},
+
 	saveRecord: function(data) {
+		if (3 <= index) return;
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -102,6 +113,7 @@ var maciShopImport = function (options) {
 		}, 7000);
 		form.find("#import_submit").show();
 		form.find("#import_data").val('');
+		_obj.loadUnsettedRecords();
 	},
 
 	setFileInput: function() {
@@ -116,8 +128,16 @@ var maciShopImport = function (options) {
 		});
 	},
 
+	importTxt: function(data) {
+	},
+
 	importXml: function(data) {
 		var s = data.indexOf('<Table');
+		if(s == -1)
+		{
+			_obj.importTxt(data);
+			return;
+		}
 		var e = data.indexOf('</Table>') + 8;
 		data = $(data.substr(s, e - s));
 		var fields = [];
@@ -148,14 +168,11 @@ var maciShopImport = function (options) {
 		form = _form;
 		form.find("#import_submit").click(function(e) {
 			e.preventDefault();
-			// form.find("#import_submit").hide();
 			fileInput.click();
 		});
 		_obj.getSets();
 		_obj.setFileInput();
-	},
-
-	foo: function() {}
+	}
 
 	}; // end _obj
 

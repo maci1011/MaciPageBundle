@@ -294,6 +294,13 @@ class Record
 		return $this->quantity;
 	}
 
+	public function getDiffQuantity()
+	{
+		if($this->type == 'purchas') return $this->quantity;
+		if(in_array($this->type, ['sale', 'return'])) return -$this->quantity;
+		return 0;
+	}
+
 	/**
 	 * Set data
 	 *
@@ -305,6 +312,21 @@ class Record
 		$this->data = $data;
 
 		return $this;
+	}
+
+	/**
+	 * Get data
+	 *
+	 * @return string 
+	 */
+	public function getData()
+	{
+		if (!is_array($this->data))
+		{
+			return [];
+		}
+
+		return $this->data;
 	}
 
 	public function import($data)
@@ -320,17 +342,11 @@ class Record
 				case 'BARCODE13':
 					$this->barcode = $value;
 					break;
-				case 'Descr.Colore':
-					$this->addVariant('Color', $value);
-					break;
 				case 'Descr.Marchio':
 					$this->brand = $value;
 					break;
 				case 'Descr.Cat.Mer.':
 					$this->category = $value;
-					break;
-				case 'Tgl':
-					$this->addVariant('Size', $value);
 					break;
 				case 'Uni:XXEUR025':
 					$this->price = (intval(floatval($value) * 0.26) + 1) * 10;
@@ -345,23 +361,9 @@ class Record
 
 		if($this->data == null) $this->data = [];
 		$this->data['imported'] = $data;
+		$this->setVariant($data);
 
 		return $this;
-	}
-
-	/**
-	 * Get data
-	 *
-	 * @return string 
-	 */
-	public function getData()
-	{
-		if (!is_array($this->data))
-		{
-			$this->data = [];
-		}
-
-		return $this->data;
 	}
 
 	public function getImported()
@@ -376,9 +378,9 @@ class Record
 
 	public function getImportedLocale()
 	{
-		if (!$this->getImported()) return null;
+		if (!$this->getImported()) return false;
 		if (array_key_exists('M.In', $this->data['imported'])) return strtolower($this->data['imported']['M.In']);
-		return null;
+		return false;
 	}
 
 	public function getImportedCurrency()
@@ -414,34 +416,34 @@ class Record
 		return null;
 	}
 
-	public function getVariants()
+	public function getVariant()
 	{
-		if (!array_key_exists('variants', $this->getData()))
+		$data = $this->getData();
+		if(array_key_exists('variant', $data))
 		{
-			$this->data['variants'] = [];
+			return $data['variant'];
 		}
-
-		return $this->data['variants'];
+		$this->data['variant'] = ['type' => 'unset'];
+		return $this->data['variant'];
 	}
 
 	public function getVariantsLabel()
 	{
-		$len = count($this->getVariants());
-		if ($len == 0) return '';
-		$label = implode(': ', $this->data['variants'][0]);
-		if ($len == 1) return $label;
-		for ($i = 1; $i < $len; $i++)
-		{
-			$label = $label . ", " . implode(': ', $this->data['variants'][$i]);
-		}
-		return $label;
+		$variant = $this->getVariant();
+		if($variant['type'] == 'color-n-size') return "Color: " . $variant['color'] . " - Size: " . $variant['size'];
+		return $this->getVariant()['type'];
 	}
 
-	public function addVariant($label, $value)
+	public function setVariant($data)
 	{
-		$index = count($this->getVariants());
-		$this->data['variants'][$index]['label'] = $label;
-		$this->data['variants'][$index]['value'] = $value;
+		$variant = $this->getVariant();
+		if(array_key_exists('Descr.Colore', $data))
+		{
+			$variant['type'] = 'color-n-size';
+			$variant['color'] = $data['Descr.Colore'];
+			$variant['size'] = $data['Tgl'];
+		}
+		$this->data['variant'] = $variant;
 	}
 
 	/**

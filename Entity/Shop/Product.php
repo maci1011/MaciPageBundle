@@ -91,24 +91,14 @@ class Product
 	private $code;
 
 	/**
-	 * @var boolean
-	 */
-	private $tabbed;
-
-	/**
-	 * @var string
-	 */
-	private $variant_label;
-
-	/**
-	 * @var string
-	 */
-	private $variant_name;
-
-	/**
 	 * @var integer
 	 */
 	private $position;
+
+	/**
+	 * @var json
+	 */
+	private $data;
 
 	/**
 	 * @var \DateTime
@@ -175,12 +165,12 @@ class Product
 		$this->categoryItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->type = $this->getTypes()[0];
 		$this->code = uniqid();
 		$this->shipment = true;
 		$this->limited = true;
-		$this->quantity = 1;
-		$this->status = array_keys($this->getStatusArray())[0];
-		$this->tabbed = true;
+		$this->quantity = 0;
+		$this->status = array_keys($this->getStatusValues())[0];
 		$this->removed = false;
 	}
 
@@ -345,6 +335,11 @@ class Product
 		return $this->price;
 	}
 
+	public function getPriceLabel()
+	{
+		return number_format($this->price, 2);
+	}
+
 	public function setSale($sale)
 	{
 		$this->sale = $sale;
@@ -378,6 +373,36 @@ class Product
 	public function getType()
 	{
 		return $this->type;
+	}
+
+	/**
+	 * Get Type Array
+	 */
+	static public function getTypeArray()
+	{
+		return [
+			'Unset' => 'unset',
+			'Simple' => 'simple',
+			'Variants' => 'variants'
+		];
+	}
+
+	public function getTypeLabel()
+	{
+		if($this->type == "")
+			return array_search($this->getTypes()[0], $this->getTypeArray());
+		$array = $this->getTypeArray();
+		$key = array_search($this->type, $array);
+		if ($key) {
+			return $key;
+		}
+		$str = str_replace('_', ' ', $this->type);
+		return ucwords($str);
+	}
+
+	static public function getTypes()
+	{
+		return array_values(Record::getTypeArray());
 	}
 
 	public function setShipment($shipment)
@@ -488,22 +513,32 @@ class Product
 	public function getStatusArray()
 	{
 		return array(
-			'new' => 'New Product',
-			'available' => 'Available',
-			'on_sale' => 'On Sale',
-			'not_available' => 'Not Available',
-			'foo' => 'Foo'
+			'Unset' => 'unset',
+			'Stored Data' => 'stored',
+			'New Product' => 'new',
+			'Available' => 'availab',
+			'On Sale' => 'on_sale',
+			'Not Available' => 'not_ava',
+			'Archived' => 'archive'
 		);
 	}
 
 	public function getStatusLabel()
 	{
+		if($this->status == "")
+			return array_search($this->getStatusValues()[0], $this->getStatusArray());
 		$array = $this->getStatusArray();
-		if (array_key_exists($this->status, $array)) {
-			return $array[$this->status];
+		$key = array_search($this->status, $array);
+		if ($key) {
+			return $key;
 		}
 		$str = str_replace('_', ' ', $this->status);
 		return ucwords($str);
+	}
+
+	static public function getStatusValues()
+	{
+		return array_values(Product::getStatusArray());
 	}
 
 	/**
@@ -529,40 +564,32 @@ class Product
 		return $this->code;
 	}
 
-	public function setTabbed($tabbed)
+	/**
+	 * Set data
+	 *
+	 * @param string $data
+	 * @return Product
+	 */
+	public function setData($data)
 	{
-		$this->tabbed = $tabbed;
+		$this->data = $data;
 
 		return $this;
 	}
 
-	public function getTabbed()
+	/**
+	 * Get data
+	 *
+	 * @return string 
+	 */
+	public function getData()
 	{
-		return $this->tabbed;
-	}
+		if (!is_array($this->data))
+		{
+			return [];
+		}
 
-	public function setVariantName($variant_name)
-	{
-		$this->variant_name = $variant_name;
-
-		return $this;
-	}
-
-	public function getVariantName()
-	{
-		return $this->variant_name;
-	}
-
-	public function setVariantLabel($variant_label)
-	{
-		$this->variant_label = $variant_label;
-
-		return $this;
-	}
-
-	public function getVariantLabel()
-	{
-		return $this->variant_label;
+		return $this->data;
 	}
 
 	/**
@@ -670,34 +697,6 @@ class Product
 		});
 	}
 
-	public function getTabbedChildren()
-	{
-		return $this->getCurrentChildren()->filter(function($e){
-			return ( $e->getTabbed() && $e->isAvailable() );
-		});
-	}
-
-	public function getTabbedAndNotAvailableChildren()
-	{
-		return $this->getCurrentChildren()->filter(function($e){
-			return ( $e->getTabbed() && !$e->isAvailable() );
-		});
-	}
-
-	public function getNotTabbedChildren()
-	{
-		return $this->getCurrentChildren()->filter(function($e){
-			return ( !$e->getTabbed() && $e->isAvailable() );
-		});
-	}
-
-	public function getNotTabbedAndNotAvailableChildren()
-	{
-		return $this->getCurrentChildren()->filter(function($e){
-			return ( !$e->getTabbed() && !$e->isAvailable() );
-		});
-	}
-
 	public function setParent(\Maci\PageBundle\Entity\Shop\Product $parent = null)
 	{
 		$this->parent = $parent;
@@ -728,7 +727,7 @@ class Product
 		return $list;
 	}
 
-	public function addRecords(\Maci\PageBundle\Entity\Shop\Product $record)
+	public function addRecords(\Maci\PageBundle\Entity\Shop\Record $record)
 	{
 		$this->records[] = $record;
 
@@ -737,7 +736,7 @@ class Product
 		return $this;
 	}
 
-	public function removeRecords(\Maci\PageBundle\Entity\Shop\Product $record)
+	public function removeRecords(\Maci\PageBundle\Entity\Shop\Record $record)
 	{
 		$this->records->removeElement($record);
 	}
@@ -786,23 +785,12 @@ class Product
 	 * @param \Maci\PageBundle\Entity\Shop\MediaItem $mediaItems
 	 * @return Product
 	 */
-	public function addMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItems)
+	public function addMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItem)
 	{
-		$this->mediaItems[] = $mediaItems;
+		$this->mediaItems[] = $mediaItem;
 
-		if(is_null($this->preview)
-			&& 0 < $this->mediaItems->count()
-			&& is_object($this->mediaItems->get(0)->getMedia())
-		) {
-			$this->preview = $this->mediaItems[0]->getMedia();
-		}
-
-		if(is_null($this->cover)
-			&& 1 < $this->mediaItems->count()
-			&& is_object($this->mediaItems->get(0)->getMedia())
-		) {
-			$this->cover = $this->mediaItems[0]->getMedia();
-		}
+		// if($this->preview == null) $this->setPreview($mediaItem->getMedia());
+		// else if($this->cover == null) $this->setCover($mediaItem->getMedia());
 
 		return $this;
 	}
@@ -812,9 +800,9 @@ class Product
 	 *
 	 * @param \Maci\PageBundle\Entity\Shop\MediaItem $mediaItems
 	 */
-	public function removeMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItems)
+	public function removeMediaItem(\Maci\PageBundle\Entity\Shop\MediaItem $mediaItem)
 	{
-		$this->mediaItems->removeElement($mediaItems);
+		$this->mediaItems->removeElement($mediaItem);
 	}
 
 	/**
@@ -858,6 +846,7 @@ class Product
 	public function getSideImages()
 	{
 		return $this->getImages()->filter(function($e){
+			if(!$this->preview) return true;
 			return $e->getMedia()->getId() != $this->preview->getId();
 		});
 	}
@@ -979,8 +968,6 @@ class Product
 			return false;
 		} elseif ($this->limited && $this->quantity < 1) {
 			return false;
-		} elseif (0 < count($this->getNotTabbedAndNotAvailableChildren()) && 0 == count($this->getNotTabbedChildren())) {
-			return false;
 		}
 		return true;
 	}
@@ -1055,6 +1042,75 @@ class Product
 			if (is_object($item->getPreview())) $preview = $item->getPreview();
 		}
 		return $preview;
+	}
+
+	public function importRecord(\Maci\PageBundle\Entity\Shop\Record $record)
+	{
+		if($this->status == 'unset')
+		{
+			$this->setCode($record->getCode());
+			$this->setName($record->getCategory());
+			$this->setComposition($record->getImportedComposition());
+			$this->setPath($record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand()));
+			$this->setMetaTitle($record->getCategory() . "-" . $record->getBrand());
+			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
+			$this->setPrice($record->getPrice());
+			$this->setStatus($this->getStatusValues()[1]);
+			$locale = $record->getImportedLocale();
+			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+		}
+
+		$variant = $record->getVariant();
+		if($variant['type'] == 'unset')
+		{
+			$this->quantity += $record->getDiffQuantity();
+			$this->setType($this->getTypes()[1]);
+		}
+		else
+		{
+			$this->addVariant($variant, $record->getDiffQuantity());
+			$this->setType($this->getTypes()[2]);
+		}
+
+		$record->setProduct($this);
+	}
+
+	public function getVariants()
+	{
+		$data = $this->getData();
+		if(!array_key_exists('variants', $data))
+		{
+			return [];
+		}
+		return $this->data['variants'];
+	}
+
+	public function addVariant($variant, $quantity)
+	{
+		$index = count($this->getVariants());
+		if($index == 0)
+		{
+			$variant['quantity'] = $quantity;
+			$this->data['variants'] = [$variant];
+			return;
+		}
+		$data = $variant;
+		$data['quantity'] = 0;
+		foreach ($this->data['variants'] as $key => $value) {
+			if($variant['type'] == $value['type'])
+			{
+				if($variant['type'] == 'color-n-size' && $variant['color'] == $value['color'] && $variant['size'] == $value['size'])
+				{
+					$index = $key;
+					$data = $value;
+					break;
+				}
+			}
+		}
+		$qta = intval($data['quantity']);
+		$qta += $quantity;
+		$data['quantity'] = $qta;
+		$this->data['variants'][$index] = $data;
 	}
 
 	public function getWebPreview()

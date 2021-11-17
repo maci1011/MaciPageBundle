@@ -9,19 +9,23 @@ Maci\PageBundle\Entity\Shop\Product:
             generator:
                 strategy: AUTO
     fields:
+        code:
+            type: string
+            length: 15
+            nullable: true
         name:
             type: string
             length: 127
             nullable: true
+        path:
+            type: string
+            length: 63
         description:
             type: text
             nullable: true
         composition:
             type: text
             nullable: true
-        path:
-            type: string
-            length: 63
         meta_title:
             type: string
             length: 95
@@ -30,18 +34,19 @@ Maci\PageBundle\Entity\Shop\Product:
             type: string
             length: 191
             nullable: true
-        locale:
+        type:
             type: string
-            length: 10
+            length: 7
+            nullable: true
+        status:
+            type: string
+            length: 7
+            nullable: true
         price:
             type: decimal
             nullable: true
         sale:
             type: decimal
-            nullable: true
-        type:
-            type: string
-            length: 15
             nullable: true
         shipment:
             type: boolean
@@ -50,27 +55,15 @@ Maci\PageBundle\Entity\Shop\Product:
         quantity:
             type: decimal
             nullable: true
-        status:
-            type: string
-            length: 15
-            nullable: true
-        code:
-            type: string
-            length: 15
-            nullable: true
-        tabbed:
-            type: boolean
-        variant_label:
-            type: string
-            length: 63
-            nullable: true
-        variant_name:
-            type: string
-            length: 63
-            nullable: true
         position:
             type: integer
             nullable: true
+        data:
+            type: json
+            nullable: true
+        locale:
+            type: string
+            length: 10
         created:
             type: datetime
         updated:

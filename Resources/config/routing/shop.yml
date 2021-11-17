@@ -24,3 +24,7 @@ maci_shop_import:
 maci_shop_sales:
     path:     /shop/sales
     defaults: { _controller: MaciPageBundle:Shop:sales, section: shop }
+
+maci_shop_load_unsetted_records:
+    path:     /shop/load-unsetted-records
+    defaults: { _controller: MaciPageBundle:Shop:loadUnsettedRecords }
