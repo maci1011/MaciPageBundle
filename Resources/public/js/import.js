@@ -128,14 +128,11 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	importTxt: function(data) {
-	},
-
 	importXml: function(data) {
 		var s = data.indexOf('<Table');
 		if(s == -1)
 		{
-			_obj.importTxt(data);
+			// _obj.importTxt(data);
 			return;
 		}
 		var e = data.indexOf('</Table>') + 8;
@@ -162,6 +159,35 @@ var maciShopImport = function (options) {
 			index++;
 		});
 		if(confirm("Items to import: " + records.length + ".")) _obj.start();
+	},
+
+	importTxt: function(data) {
+		var rows = data.split("\n"), max = 0;
+		for (var i = 0; i < rows.length; i++) {
+			rows[i] = rows[i].trim().split(/\ +s*/);
+			max = max < rows[i].length ? rows[i].length : max;
+		}
+		console.log(rows);
+		console.log(max);
+		var fields, start;
+		for (var i = 0; i < rows.length; i++) {
+			if(rows[i].length == max) {
+				fields = rows[i];
+				start = i++;
+				break;
+			}
+		}
+		var list = [];
+		for (var i = start; i < rows.length; i++) {
+			if(rows[i].length == max) {
+				var el = [];
+				for (var j = 0; j < max; j++) {
+					el[fields[j]] = rows[i][j];
+				}
+				list[list.length] = el;
+			}
+		}
+		console.log(list);
 	},
 
 	set: function(_form) {
