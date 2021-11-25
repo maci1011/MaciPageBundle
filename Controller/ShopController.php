@@ -5,6 +5,8 @@ namespace Maci\PageBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf as Snappy;
 
 class ShopController extends AbstractController
 {
@@ -112,5 +114,50 @@ class ShopController extends AbstractController
 		$om->flush();
 
 		return new JsonResponse(['success' => true], 200);
+	}
+
+	public function labelsAction()
+	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect('maci_homepage');
+		}
+		return $this->render('@MaciPage/Shop/labels.html.twig');
+	}
+
+	public function getLabelsAction()
+	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect('maci_homepage');
+		}
+
+		$binary = $this->container->getParameter('knp_snappy.pdf.binary');
+		$snappy = new Snappy($binary);
+
+		// $url = 'http://base.localhost' . $this->generateUrl('maci_product', array()); 
+		$html = $this->renderView('@MaciPage/Shop/pdf_content.html.twig');
+
+		return new PdfResponse(
+			$snappy->getOutputFromHtml($html, array(
+				'orientation' => 'portrait',
+				'enable-javascript' => true,
+				'javascript-delay' => 1000,
+				'no-stop-slow-scripts' => true,
+				'no-background' => false,
+				'lowquality' => false,
+				'page-height' => 25,
+				'page-width'  => 50,
+				'margin-top'  => 4,
+				'margin-right'  => 4,
+				'margin-bottom'  => 4,
+				'margin-left'  => 4,
+				'encoding' => 'utf-8',
+				'images' => true,
+				'cookie' => array(),
+				'dpi' => 300,
+				'enable-external-links' => true,
+				'enable-internal-links' => true
+			)),
+			'file.pdf'
+		);
 	}
 }

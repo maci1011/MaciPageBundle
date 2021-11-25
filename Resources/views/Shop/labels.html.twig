@@ -1,0 +1,39 @@
+{% extends "MaciAdminBundle::layout.html.twig" %}
+
+{% block content %}
+
+<h3>labels</h3>
+
+<a class="btn btn-primary" href="{{ path('maci_shop_get_labels') }}" target="_black">Labels</a>
+
+{#}
+<form id="labels_form" class="p-2">
+
+<div class="form-group">
+	<label class="required" for="labels_set">Set</label>
+	<select id="labels_set" class="form-control" name="labels[set]">
+		<option value="null">Select Record Set</option>
+	</select>
+</div>
+
+<div class="form-group">
+	<label class="required" for="data_barcode">Insert Barcode</label>
+	<input id="data-barcode" class="form-control" type="text" />
+</div>
+
+<div class="form-group">
+	{# }<button id="labels_submit" class="btn btn-primary" type="submit">labels</button>{# }
+</div>
+
+</form>
+
+<div id="output" style="padding: 32px 0;"></div>
+{#}
+
+{% endblock %}
+
+{#% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/labels.js') }}" ></script>
+{% endblock %#}

@@ -28,3 +28,11 @@ maci_shop_sales:
 maci_shop_load_unsetted_records:
     path:     /shop/load-unsetted-records
     defaults: { _controller: MaciPageBundle:Shop:loadUnsettedRecords }
+
+maci_shop_labels:
+    path:     /shop/labels
+    defaults: { _controller: MaciPageBundle:Shop:labels, section: shop }
+
+maci_shop_get_labels:
+    path:     /shop/get-labels
+    defaults: { _controller: MaciPageBundle:Shop:getLabels }
