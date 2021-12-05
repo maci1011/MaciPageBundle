@@ -157,6 +157,14 @@ class CategoryItem
 	/**
 	 * Get category name
 	 */
+	public function getCategoryName()
+	{
+		return $this->category ? $this->category->getName() : '';
+	}
+
+	/**
+	 * Get category name
+	 */
 	public function getName()
 	{
 		return "CategoryItem#" . ($this->id ?? 'new');

@@ -66,6 +66,11 @@ class Product
 	private $type;
 
 	/**
+	 * @var string
+	 */
+	private $variant;
+
+	/**
 	 * @var boolean
 	 */
 	private $shipment;
@@ -565,6 +570,29 @@ class Product
 	}
 
 	/**
+	 * Set variant
+	 *
+	 * @param string $variant
+	 * @return Product
+	 */
+	public function setVariant($variant)
+	{
+		$this->variant = $variant;
+
+		return $this;
+	}
+
+	/**
+	 * Get variant
+	 *
+	 * @return string 
+	 */
+	public function getVariant()
+	{
+		return $this->variant;
+	}
+
+	/**
 	 * Set data
 	 *
 	 * @param string $data
@@ -909,8 +937,8 @@ class Product
 	 */
 	public function setCover(\Maci\PageBundle\Entity\Media\Media $cover = null)
 	{
-		if ($preview == null) {
-			$this->preview = null;
+		if ($cover == null) {
+			$this->cover = null;
 		}
 		else if ($cover->getType() == 'image')
 		{
@@ -1087,6 +1115,19 @@ class Product
 
 	public function addVariant($variant, $quantity)
 	{
+		if ($variant['type'] == 'color-n-size') $this->addColorAndSize($variant, $quantity);
+	}
+
+	public function addColorAndSize($variant, $quantity)
+	{
+		if (is_null($this->variant) && !isset($this->data['variant-type']))
+		{
+			$this->variant = $variant['color'];
+			$this->data['variant-type'] = 'color-n-size';
+		}
+		else if($this->variant != $variant['color'] || $this->data['variant-type'] != 'color-n-size') return false;
+		unset($variant['color']);
+		unset($variant['type']);
 		$index = count($this->getVariants());
 		if($index == 0)
 		{
@@ -1097,19 +1138,14 @@ class Product
 		$data = $variant;
 		$data['quantity'] = 0;
 		foreach ($this->data['variants'] as $key => $value) {
-			if($variant['type'] == $value['type'])
+			if($variant['size'] == $value['size'])
 			{
-				if($variant['type'] == 'color-n-size' && $variant['color'] == $value['color'] && $variant['size'] == $value['size'])
-				{
-					$index = $key;
-					$data = $value;
-					break;
-				}
+				$index = $key;
+				$data = $value;
+				break;
 			}
 		}
-		$qta = intval($data['quantity']);
-		$qta += $quantity;
-		$data['quantity'] = $qta;
+		$data['quantity'] = intval($data['quantity']) + $quantity;
 		$this->data['variants'][$index] = $data;
 	}
 

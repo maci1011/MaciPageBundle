@@ -12,19 +12,29 @@ Maci\PageBundle\Entity\Shop\Product:
         code:
             type: string
             length: 15
-            nullable: true
         name:
             type: string
             length: 127
-            nullable: true
         path:
             type: string
             length: 63
+        type:
+            type: string
+            length: 7
+            nullable: true
+        status:
+            type: string
+            length: 7
+            nullable: true
         description:
             type: text
             nullable: true
         composition:
             type: text
+            nullable: true
+        variant:
+            type: string
+            length: 15
             nullable: true
         meta_title:
             type: string
@@ -34,24 +44,12 @@ Maci\PageBundle\Entity\Shop\Product:
             type: string
             length: 191
             nullable: true
-        type:
-            type: string
-            length: 7
-            nullable: true
-        status:
-            type: string
-            length: 7
-            nullable: true
         price:
             type: decimal
             nullable: true
         sale:
             type: decimal
             nullable: true
-        shipment:
-            type: boolean
-        limited:
-            type: boolean
         quantity:
             type: decimal
             nullable: true
@@ -64,12 +62,16 @@ Maci\PageBundle\Entity\Shop\Product:
         locale:
             type: string
             length: 10
+        limited:
+            type: boolean
+        shipment:
+            type: boolean
+        removed:
+            type: boolean
         created:
             type: datetime
         updated:
             type: datetime
-        removed:
-            type: boolean
     manyToOne:
         parent:
             targetEntity: Maci\PageBundle\Entity\Shop\Product
@@ -91,11 +93,12 @@ Maci\PageBundle\Entity\Shop\Product:
             targetEntity: Maci\PageBundle\Entity\Shop\CategoryItem
             mappedBy: product
             orderBy: { 'position': ASC }
+            cascade: ["persist", "remove"]
         mediaItems:
             targetEntity: Maci\PageBundle\Entity\Shop\MediaItem
             mappedBy: product
             orderBy: { 'position': ASC }
-            cascade: ["persist"]
+            cascade: ["persist", "remove"]
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue, setPathValue ]
         preUpdate: [ setUpdatedValue ]
