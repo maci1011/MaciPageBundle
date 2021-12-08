@@ -11,9 +11,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Payum\Core\Request\GetHumanStatus;
 use Payum\Paypal\ExpressCheckout\Nvp\Api;
 
-use Maci\PageBundle\Entity\Order\Order;
-use Maci\PageBundle\Entity\Order\Item;
+use Maci\MailerBundle\Entity\Mail;
 
+use Maci\PageBundle\Entity\Order\Item;
+use Maci\PageBundle\Entity\Order\Order;
+use Maci\PageBundle\Entity\Order\Payment;
+use Maci\PageBundle\Entity\Order\PaymentDetails;
 use Maci\PageBundle\Form\Order\CartAddProductItemType;
 use Maci\PageBundle\Form\Order\CartBillingAddressType;
 use Maci\PageBundle\Form\Order\CartBookingType;
@@ -27,9 +30,6 @@ use Maci\PageBundle\Form\Order\CheckoutPaymentType;
 use Maci\PageBundle\Form\Order\CheckoutShippingType;
 use Maci\PageBundle\Form\Order\CheckoutConfirmType;
 
-use Maci\PageBundle\Entity\PaymentDetails;
-
-use Maci\MailerBundle\Entity\Mail;
 
 class OrderController extends AbstractController
 {
@@ -430,7 +430,7 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_checkout', array('error' => 'error.order_not_valid')));
 		}
 
-		$storage = $this->get('payum')->getStorage('Maci\PageBundle\Entity\Payment');
+		$storage = $this->get('payum')->getStorage(Payment::class);
 		
 		if ($cart->getUser()) {
 			$to = $cart->getUser()->getEmail();

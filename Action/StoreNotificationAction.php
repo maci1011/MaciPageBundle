@@ -4,6 +4,7 @@ namespace Maci\PageBundle\Action;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
@@ -12,8 +13,6 @@ use Payum\Core\Bridge\Guzzle\HttpClientFactory;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Request\Notify;
 use Payum\Paypal\Ipn\Api;
-
-use Symfony\Component\HttpFoundation\Request;
 
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 
@@ -28,11 +27,10 @@ class StoreNotificationAction implements ActionInterface, GatewayAwareInterface
     protected $sandbox;
 
     public function __construct(
-    	ObjectManager $om,
-    	Request $request
+    	ObjectManager $om, RequestStack $requestStack
     ) {
         $this->om = $om;
-        $this->request = $request;
+		$this->request = $requestStack->getCurrentRequest();
         $this->sandbox = false;
     }
 

@@ -96,7 +96,7 @@ services:
         public: true
 
     Maci\PageBundle\Action\StoreNotificationAction:
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager","@request_stack"]
 
     maci.payment.payum.action.store_notification:
         alias: Maci\PageBundle\Action\StoreNotificationAction

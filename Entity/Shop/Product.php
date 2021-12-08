@@ -893,9 +893,9 @@ class Product
 		else if ($preview->getType() == 'image')
 		{
 			$this->preview = $preview;
-			if (!$this->hasMedia($preview)) {
-				$this->addImage($preview);
-			}
+			// if (!$this->hasMedia($preview)) {
+			// 	$this->addImage($preview);
+			// }
 		}
 		return $this;
 	}
@@ -943,9 +943,9 @@ class Product
 		else if ($cover->getType() == 'image')
 		{
 			$this->cover = $cover;
-			if (!$this->hasMedia($cover)) {
-				$this->addImage($cover);
-			}
+			// if (!$this->hasMedia($cover)) {
+			// 	$this->addImage($cover);
+			// }
 		}
 		return $this;
 	}

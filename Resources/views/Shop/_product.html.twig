@@ -211,7 +211,7 @@
 			<ul class="product-form-list">
 
 				<li>
-					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}</h3>
+					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}:</h3>
 				</li>
 
 				{#% if item.notTabbedChildren|length %}
@@ -249,6 +249,14 @@
 
 				{% else %}
 
+				{% endif %#}
+
+				{% if item.type == 'variants' %}
+
+				Variants...
+
+				{% else %}
+
 				{% if item.isAvailable %}
 
 				{% if item.limited and item.quantity < 9 %}
@@ -273,7 +281,7 @@
 
 				{% endif %}
 
-				{% endif %#}
+				{% endif %}
 
 			</ul>
 

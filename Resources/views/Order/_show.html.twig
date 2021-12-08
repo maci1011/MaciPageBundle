@@ -64,6 +64,7 @@
 		<h4 class="order-item-name">{{ item.product.inhName }}</h4>
 		{% endif %}
 
+		{#}
 		<ol>
 			{% for obj in item.product.hierarchy if obj.variantName %}
 			<li>
@@ -72,6 +73,7 @@
 			</li>
 			{% endfor %}
 		</ol>
+		{#}
 
 	</td>
 
