@@ -39,97 +39,40 @@
 
 		<div class="product-details">
 
-			<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-
-				<li class="breadcrumb-item product-category-parent">
-					<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
-				</li>
-
-				<li class="breadcrumb-item product-category active">
-					<span>{{ item.name }}</span>
-				</li>
-
-			</ol>
-			</nav>
-
 			<ul class="product-details-list">
 
-				<li>
-					<h1 class="product-title">{{ item.name }}</h1>
-				</li>
-				<li>
-					<span class="product-description">{{ item.description }}</span>
-				</li>
-
-				{% if item.composition %}
-				<li>
-					<span class="product-composition">{{ item.composition }}</span>
-				</li>
-				{% endif %}
-
-				{% if item.code %}
-				<li>
-					<span class="product-code-label">{{ 'product.code' | matra('Code') }}:</span>
-					<span class="product-code">{{ item.code }}</span>
-				</li>
-				{% endif %}
-
-
-				{#% if item.notTabbedChildren|length %}
-				<li>
-					<div class="product-children">
-					<ul>
-
-						{% for child in item.notTabbedChildren %}
-
-						{% if loop.first or child.variantLabel != item.notTabbedChildren[loop.index - 1].variantLabel %}
-						<li>
-							<span class="product-child-label">{{ child.variantLabel|capitalize }}:</span>
-						</li>
-						{% endif %}
-
-						<li>
-							<button class="product-child-btn btn" data="#product-child-cart-{{ child.id }}">{{ child.variantName }}</button>
-						</li>
-
-						{% endfor %}
-
-					</ul>
-					</div>
-				</li>
-				{% endif %}
-
-
-				{% if item.tabbedChildren|length %}
-				<li>
-					<div class="product-children">
-					<ul>
-
-						{% for child in item.tabbedChildren %}
-
-						{% if loop.first or child.variantLabel != item.tabbedChildren[loop.index - 1].variantLabel %}
-						<li>
-							<span class="product-child-label">{{ child.variantLabel|capitalize }}:</span>
-						</li>
-						{% endif %}
-
-						<li>
-							<a href="{{ path('maci_product_show', {'id': child.id}) }}" class="product-child btn">{{ child.variantName }}</a>
-						</li>
-
-						{% endfor %}
-
-					</ul>
-					</div>
-				</li>
-				{% endif %#}
-
-
-				<li>
-				<div class="product-categories">
+				<li class="detail-item categories">
 
 					{% for childCategory in item.categoryItems %}
+					{% if loop.first %}
+
+					<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+
+						<li class="breadcrumb-item shop">
+							<a href="{{ path('maci_product') }}">{{ 'menu.shop' | matra('Shop') }}</a>
+						</li>
+
+						{% for categoryItem in childCategory.category.parentsList %}
+
+						<li class="breadcrumb-item product-category-parent">
+							<a href="{{ path('maci_product_category', {'path': categoryItem.category.path}) }}">{{ categoryItem.categoryName }}</a>
+						</li>
+
+						{% endfor %}
+
+						<li class="breadcrumb-item product-category">
+							<a href="{{ path('maci_product_category', {'path': childCategory.category.path}) }}">{{ childCategory.categoryName }}</a>
+						</li>
+
+						<li class="breadcrumb-item product-category active">
+							<span>{{ item.name }}</span>
+						</li>
+
+					</ol>
+					</nav>
+
+					{% else %}
 
 					<nav>
 					<ul>
@@ -149,11 +92,31 @@
 					</ul>
 					</nav>
 
+					{% endif %}
 					{% endfor %}
 
-				</div>
 				</li>
 
+				<li class="detail-item title">
+					<h1 class="product-title">{{ item.name }}</h1>
+				</li>
+
+				{% if item.code %}
+				<li class="detail-item code">
+					<span class="product-code-label">{{ 'product.code' | matra('Code') }}:</span>
+					<span class="product-code">{{ item.code }}</span>
+				</li>
+				{% endif %}
+
+				<li class="detail-item description">
+					<span class="product-description">{{ item.description }}</span>
+				</li>
+
+				{% if item.composition %}
+				<li class="detail-item composition">
+					<span class="product-composition">{{ item.composition }}</span>
+				</li>
+				{% endif %}
 
 				{% if item.sale %}
 				<li>
@@ -172,6 +135,18 @@
 				<li>
 					<span class="product-price-label">{{ 'product.price' | matra('Price') }}:</span>
 					<span class="product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% endif %}
+
+				{% if variants|length %}
+				<li>
+				<div class="product-variants">
+					{% for variant in variants %}
+					<a class="product-variant-item{% if variant.variant != item.variant %} current{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
+						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="variant.variant" />
+					</a>
+					{% endfor %}
+				</div>
 				</li>
 				{% endif %}
 

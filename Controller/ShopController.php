@@ -38,15 +38,25 @@ class ShopController extends AbstractController
 
 	public function showAction($path)
 	{
-		$item = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Shop\Product')->getByPath($path);
+		$om = $this->getDoctrine()->getManager();
+		$item = $om->getRepository('MaciPageBundle:Shop\Product')->getByPath($path);
 
 		if (!$item) {
 			return $this->redirect($this->generateUrl('maci_product'));
 		}
 
+		$variants = [];
+
+		if ($item->getVariant() != null) {
+			$variants = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
+				'code' => $item->getCode(),
+				'removed' => false
+			]);
+		}
+
 		return $this->render('MaciPageBundle:Shop:show.html.twig', array(
-			'item' => $item
+			'item' => $item,
+			'variants' => $variants
 		));
 	}
 
