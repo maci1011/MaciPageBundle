@@ -189,50 +189,11 @@
 					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}:</h3>
 				</li>
 
-				{#% if item.notTabbedChildren|length %}
-
-				<li class="product-select-variant-container">
-					<span class="product-select-variant">{{ 'form.product.select_variant' | matra('Select an Option') }}</span>
-				</li>
-
-				{% for child in item.notTabbedChildren %}
-				<li>
-				<ul id="product-child-cart-{{ child.id }}" class="product-child-cart">
-
-					<li>
-						{% if child.variantLabel %}<span class="product-child-label">{{ child.variantLabel }}:</span>{% endif %}
-						<span class="product-child-name">{{ child.variantName }}</span>
-					</li>
-
-					{% if child.limited and child.quantity < 10 %}
-					<li>
-						<span class="product-quantity_available">{{ 'product.quantity_available' | matra('Quantity Available') }}: {{ item.quantity }}</span>
-					</li>
-					{% else %}
-					<li>
-						<span class="product-available">{{ 'product.available' | matra('Product Available.') }}</span>
-					</li>
-					{% endif %}
-
-					<li>
-						{{ render(controller('MaciPageBundle:Order:addToCart', { '_product': child } )) }}
-					</li>
-
-				</ul>
-				</li>
-				{% endfor %}
-
-				{% else %}
-
-				{% endif %#}
-
 				{% if item.type == 'variants' %}
 
 				Variants...
 
-				{% else %}
-
-				{% if item.isAvailable %}
+				{% elseif item.isAvailable %}
 
 				{% if item.limited and item.quantity < 9 %}
 				<li>
@@ -245,7 +206,7 @@
 				{% endif %}
 
 				<li>
-					{{ render(controller('MaciPageBundle:Order:addToCart', { '_product': item } )) }}
+					{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item } )) }}
 				</li>
 
 				{% else %}
@@ -253,8 +214,6 @@
 				<li>
 					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 				</li>
-
-				{% endif %}
 
 				{% endif %}
 

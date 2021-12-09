@@ -99,10 +99,10 @@ class OrderController extends AbstractController
 		return $this->render('MaciPageBundle:Order:notfound.html.twig');
 	}
 
-	public function addToCartAction(Request $request, $_product = false)
+	public function addToCartAction(Request $request, $product = false)
 	{
 		$form = $this->createForm(CartAddProductItemType::class, null, array(
-			'product' => $_product
+			'product' => $product
 		));
 
 		$form->handleRequest($request);
@@ -110,24 +110,24 @@ class OrderController extends AbstractController
 		if ($form->isSubmitted()) {
 			if ($form->isValid()) {
 
-				$product = intval($form['product']->getData());
+				$item = intval($form['product']->getData());
 
-				if (is_numeric($product)) {
-					$product = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
-						->findOneById(intval($product));
+				if (is_numeric($item)) {
+					$item = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
+						->findOneById(intval($item));
 				}
 
-				if (!is_object($product) || !$product->isAvailable()) {
+				if (!is_object($item) || !$item->isAvailable()) {
 					return $this->redirect($this->generateUrl('maci_order_cart', array('error' => 'error.notAvailable')));
 				}
 
 				$quantity = intval($form['quantity']->getData());
 
-				if ($quantity < 1 || !$product->checkQuantity($quantity)) {
+				if ($quantity < 1 || !$item->checkQuantity($quantity)) {
 					return $this->redirect($this->generateUrl('maci_order_cart', array('error' => 'error.notAvailable')));
 				}
 
-				if ( $this->get('maci.orders')->addToCart($product, $quantity) ) {
+				if ( $this->get('maci.orders')->addToCart($item, $quantity) ) {
 					return $this->redirect($this->generateUrl('maci_order_cart'));
 				}
 
@@ -137,7 +137,7 @@ class OrderController extends AbstractController
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_cart_add_product.html.twig', array(
-			'product' => $_product,
+			'product' => $product,
 			'form' => $form->createView()
 		));
 	}
