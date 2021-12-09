@@ -38,7 +38,6 @@
 	<section class="col-12 col-sm-12 col-md-6">
 
 		<div class="product-details">
-
 			<ul class="product-details-list">
 
 				<li class="detail-item categories">
@@ -141,9 +140,14 @@
 				{% if variants|length %}
 				<li>
 				<div class="product-variants">
+					{% if item.variantFieldType != null %}
+					<div class="product-variant-field-wrapper">
+						<span class="product-variant-field">{{ 'product.varint-field.' ~ item.variantFieldType  | matra(item.variantFieldType|capitalize) }}:</span>
+					</div>
+					{% endif %}
 					{% for variant in variants %}
 					<a class="product-variant-item{% if variant.variant != item.variant %} current{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
-						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="variant.variant" />
+						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="{{ variant.variant }}" />
 					</a>
 					{% endfor %}
 				</div>
@@ -151,7 +155,6 @@
 				{% endif %}
 
 			</ul>
-
 		</div>
 
 		{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}

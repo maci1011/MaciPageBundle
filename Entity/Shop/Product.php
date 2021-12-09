@@ -1113,6 +1113,21 @@ class Product
 		return $this->data['variants'];
 	}
 
+	public function getVariantType()
+	{
+		return isset($variant['variant-type']) ? $variant['variant-type'] : null;
+	}
+
+	public function getVariantFieldType()
+	{
+		return isset($variant['variant-field']) ? $variant['variant-type'] : null;
+	}
+
+	public function getVariantDataType()
+	{
+		return isset($variant['variant-data']) ? $variant['variant-data'] : null;
+	}
+
 	public function addVariant($variant, $quantity)
 	{
 		if ($variant['type'] == 'color-n-size') $this->addColorAndSize($variant, $quantity);
@@ -1124,6 +1139,8 @@ class Product
 		{
 			$this->variant = $variant['color'];
 			$this->data['variant-type'] = 'color-n-size';
+			$this->data['variant-field'] = 'color';
+			$this->data['variant-data'] = 'size';
 		}
 		else if($this->variant != $variant['color'] || $this->data['variant-type'] != 'color-n-size') return false;
 		unset($variant['color']);
