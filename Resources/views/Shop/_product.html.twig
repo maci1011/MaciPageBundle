@@ -74,21 +74,21 @@
 					{% else %}
 
 					<nav>
-					<ul>
+					<ol class="beercrumb">
 
 						{% for categoryItem in childCategory.category.parentsList %}
 
-						<li class="product-category-parent">
+						<li class="breadcrumb-item product-category-parent">
 							<a href="{{ path('maci_product_category', {'path': categoryItem.category.path}) }}">{{ categoryItem.categoryName }}</a>
 						</li>
 
 						{% endfor %}
 
-						<li class="product-category">
+						<li class="breadcrumb-item product-category active">
 							<a href="{{ path('maci_product_category', {'path': childCategory.category.path}) }}">{{ childCategory.categoryName }}</a>
 						</li>
 
-					</ul>
+					</ol>
 					</nav>
 
 					{% endif %}
