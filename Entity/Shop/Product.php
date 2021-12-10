@@ -1140,30 +1140,38 @@ class Product
 			$this->variant = $variant['color'];
 			$this->data['variant-type'] = 'color-n-size';
 			$this->data['variant-field'] = 'color';
-			$this->data['variant-data'] = 'size';
+			$this->data['variants-type'] = 'size';
 		}
 		else if($this->variant != $variant['color'] || $this->data['variant-type'] != 'color-n-size') return false;
-		unset($variant['color']);
-		unset($variant['type']);
 		$index = count($this->getVariants());
+		$item = ['size' => $variant['size'], 'quantity' => $quantity];
 		if($index == 0)
 		{
-			$variant['quantity'] = $quantity;
-			$this->data['variants'] = [$variant];
+			$this->data['variants'] = [$item];
 			return;
 		}
-		$data = $variant;
-		$data['quantity'] = 0;
 		foreach ($this->data['variants'] as $key => $value) {
 			if($variant['size'] == $value['size'])
 			{
 				$index = $key;
-				$data = $value;
+				$item = $value;
 				break;
 			}
 		}
-		$data['quantity'] = intval($data['quantity']) + $quantity;
-		$this->data['variants'][$index] = $data;
+		$item['quantity'] = intval($item['quantity']) + $quantity;
+		$this->data['variants'][$index] = $item;
+	}
+
+	public function findVariant($value)
+	{
+		if(!$value) return false;
+		for ($i=0; $i < count($this->data['variants']); $i++) {
+			if($value == $this->data['variants'][$i]['size'])
+			{
+				return $i;
+			}
+		}
+		return false;
 	}
 
 	public function getWebPreview()
