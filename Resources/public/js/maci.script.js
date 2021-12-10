@@ -16,7 +16,7 @@ $(document).ready(function(e) {
 	var slides = $('.page_slides > .slide');
 
 	if (0 < slides.length) {
-		if (slides.length == 1) {
+		if (slides.length < 3) {
 
 			slides.find('.button-next').hide();
 
