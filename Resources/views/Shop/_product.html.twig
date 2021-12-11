@@ -102,43 +102,44 @@
 
 				{% if item.code %}
 				<li class="detail-item code">
-					<span class="product-code-label">{{ 'product.code' | matra('Code') }}:</span>
-					<span class="product-code">{{ item.code }}</span>
+					<span class="detail-label product-code-label">{{ 'product.code' | matra('Code') }}:</span>
+					<span class="detail-info product-code">{{ item.code }}</span>
 				</li>
 				{% endif %}
 
 				<li class="detail-item description">
-					<span class="product-description">{{ item.description }}</span>
+					<span class="detail-info product-description">{{ item.description }}</span>
 				</li>
 
 				{% if item.composition %}
 				<li class="detail-item composition">
-					<span class="product-composition">{{ item.composition }}</span>
+					<span class="detail-label product-code-label">{{ 'product.composition' | matra('Composition') }}:</span>
+					<span class="detail-info product-composition">{{ item.composition }}</span>
 				</li>
 				{% endif %}
 
 				{% if item.sale %}
-				<li>
-					<span class="product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
-					<span class="product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				<li class="detail-item list-price">
+					<span class="detail-label product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
+					<span class="detail-info product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
 				</li>
-				<li>
-					<span class="product-price-label">{{ 'product.price' | matra('Price') }}:</span>
-					<span class="product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+				<li class="detail-item sale-price">
+					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="detail-info product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
 				</li>
-				<li>
-					<span class="product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
-					<span class="product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
+				<li class="detail-item you-save">
+					<span class="detail-label product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
+					<span class="detail-info product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
 				</li>
 				{% elseif item.price %}
-				<li>
-					<span class="product-price-label">{{ 'product.price' | matra('Price') }}:</span>
-					<span class="product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				<li class="detail-item price">
+					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="detail-info product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
 				</li>
 				{% endif %}
 
 				{% if variants|length %}
-				<li>
+				<li class="detail-item variants">
 				<div class="product-variants">
 					{% if item.variantFieldType != null %}
 					<div class="product-variant-field-wrapper">
