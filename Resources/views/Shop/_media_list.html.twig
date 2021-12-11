@@ -1,10 +1,12 @@
 
 {% if item.sideImages|length %}
-<div class="row ml-0">
+<div class="product-media-list">
 
 {% for image in item.sideImages %}
-<div class="col-xs-12">
+<div class="product-media-wrapper">
+
 {% include "MaciPageBundle:Shop:_media_preview.html.twig" with {'item': image.media} %}
+
 </div>
 {% endfor %}
 
