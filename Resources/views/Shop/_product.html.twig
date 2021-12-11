@@ -13,7 +13,7 @@
 
 	<section class="col-12 col-sm-8 col-md-5">
 
-		<div class="product-media-list">
+		<div class="product-preview-wrapper">
 
 			{% if item.preview %}
 
@@ -110,6 +110,25 @@
 				</li>
 				{% endif %}
 
+				{% if variants|length %}
+				<li class="detail-item variants">
+				<div class="product-variants">
+					<div class="product-variant-label-wrapper">
+						{% if item.variantFieldType != null %}
+						<span class="detail-label product-variant-field">{{ 'product.varint-field.' ~ item.variantFieldType|matra(item.variantFieldType|capitalize) }}:</span>
+						{% else %}
+						<span class="detail-label product-variant-field">{{ 'product.varint-field.variants'|matra('Variants') }}:</span>
+						{% endif %}
+					</div>
+					{% for variant in variants %}
+					<a class="product-variant-item{% if variant.variant != item.variant %} current{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
+						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="{{ variant.variant }}" />
+					</a>
+					{% endfor %}
+				</div>
+				</li>
+				{% endif %}
+
 				{% if item.sale %}
 				<li class="detail-item list-price">
 					<span class="detail-label product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
@@ -127,23 +146,6 @@
 				<li class="detail-item price">
 					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
 					<span class="detail-info product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
-				</li>
-				{% endif %}
-
-				{% if variants|length %}
-				<li class="detail-item variants">
-				<div class="product-variants">
-					{% if item.variantFieldType != null %}
-					<div class="product-variant-field-wrapper">
-						<span class="product-variant-field">{{ 'product.varint-field.' ~ item.variantFieldType  | matra(item.variantFieldType|capitalize) }}:</span>
-					</div>
-					{% endif %}
-					{% for variant in variants %}
-					<a class="product-variant-item{% if variant.variant != item.variant %} current{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
-						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="{{ variant.variant }}" />
-					</a>
-					{% endfor %}
-				</div>
 				</li>
 				{% endif %}
 
