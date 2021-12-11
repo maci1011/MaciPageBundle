@@ -7,15 +7,7 @@
 
 {% for item in list %}
 
-<div class="col-xs-6 col-sm-3{% if is_granted("ROLE_ADMIN") %} sortable{% endif %}">
-<div class="row product">
-
-<input name="id" type="hidden" value="{{ item.id }}" />
-
 {% include "MaciPageBundle:Shop:_item.html.twig" %}
-
-</div>
-</div>
 
 {% if ( loop.index % 4 ) == 0 %}
 

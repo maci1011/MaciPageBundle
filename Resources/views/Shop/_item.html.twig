@@ -1,4 +1,8 @@
 
+<article class="product product-item col-xs-6 col-sm-3">
+
+<input name="id" type="hidden" value="{{ item.id }}" />
+
 {% if item.preview is defined and item.preview %}
 
 <div class="product-preview">
@@ -8,7 +12,6 @@
 </div>
 
 {% endif %}
-
 
 <div class="product-info">
 
@@ -27,6 +30,6 @@
 
 </a>
 
-
 </div>
-{#}<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>{#}
+
+</article>
