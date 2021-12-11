@@ -121,7 +121,7 @@
 						{% endif %}
 					</div>
 					{% for variant in variants %}
-					<a class="product-variant-item{% if variant.variant != item.variant %} current{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
+					<a class="product-variant-item{% if variant.variant == item.variant %} active{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
 						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ variant.name }}" title="{{ variant.variant }}" />
 					</a>
 					{% endfor %}
