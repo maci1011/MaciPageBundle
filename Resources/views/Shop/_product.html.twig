@@ -1,8 +1,6 @@
 
 <article id="product_{{ item.id }}" class="product-view">
-
 <div id="productWrapper" class="container-fluid">
-
 <div class="row">
 
 	<section class="col-12 col-sm-4 col-md-1">
@@ -103,13 +101,37 @@
 				</li>
 				{% endif %}
 
+				{% if item.code %}
+				<li class="detail-item code">
+					<span class="detail-label product-code-label">{{ 'product.code' | matra('Code') }}:</span>
+					<span class="detail-info product-code">{{ item.code }}</span>
+				</li>
+				{% endif %}
+
+				{% if item.variant %}
+				<li class="detail-item variant">
+					{% if item.variantFieldType != null %}
+					<span class="detail-label product-variant-field">{{ 'product.variant-field.' ~ item.variantFieldType|matra(item.variantFieldType|capitalize) }}:</span>
+					{% else %}
+					<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
+					{% endif %}
+					<span class="detail-info product-variant">{{ item.variant }}</span>
+				</li>
+				{% endif %}
+
+				{% if shop_is_live %}
+				<li class="detail-item select-title">
+					<h3 class="product-select-title">{{ 'product.select-title'|matra('Select Product') }}:</span>
+				</li>
+				{% endif %}
+
 				{% if 1 < variants|length %}
 				<li class="detail-item variants">
 				<div class="product-variant-label-wrapper">
 					{% if item.variantFieldType != null %}
-					<span class="detail-label product-variant-field">{{ 'product.varint-field.' ~ item.variantFieldType|matra(item.variantFieldType|capitalize) }}:</span>
+					<span class="detail-label product-variant-select">{{ 'product.variant-select.' ~ item.variantFieldType|matra(item.variantFieldType|capitalize) }}:</span>
 					{% else %}
-					<span class="detail-label product-variant-field">{{ 'product.varint-field.variants'|matra('Variants') }}:</span>
+					<span class="detail-label product-variant-select">{{ 'product.variant-select.variants'|matra('Variants') }}:</span>
 					{% endif %}
 				</div>
 				<div class="product-variants">
@@ -122,75 +144,20 @@
 				</li>
 				{% endif %}
 
-				{% if item.code %}
-				<li class="detail-item code">
-					<span class="detail-label product-code-label">{{ 'product.code' | matra('Code') }}:</span>
-					<span class="detail-info product-code">{{ item.code }}</span>
-				</li>
-				{% endif %}
-
-				{% if item.sale %}
-				<li class="detail-item list-price">
-					<span class="detail-label product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
-					<span class="detail-info product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
-				</li>
-				<li class="detail-item sale-price">
-					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
-					<span class="detail-info product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
-				</li>
-				<li class="detail-item you-save">
-					<span class="detail-label product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
-					<span class="detail-info product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
-				</li>
-				{% elseif item.price %}
-				<li class="detail-item price">
-					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
-					<span class="detail-info product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
-				</li>
-				{% endif %}
-
-			</ul>
-		</div>
-
-		{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}
-
-		<div class="product-books">
-
-			<h4>{{ 'product.documents' | matra('Documents') }}</h4>
-
-			{% for doc in item.privateDocuments %}
-
-			<div class="row">
-				<div class="col-xs-9">
-					<span>{{ doc }}</span>
-				</div>
-				<div class="col-xs-3">
-					<a class="btn btn-danger ma-remove" href="{{ path('maci_admin_entity_remove', {'entity': 'product_media_item', 'id': doc.id}) }}">
-						<span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
-					</a>
-				</div>
-			</div>
-
-			{% endfor %}
-
-		</div>
-
-		{% endif %}
-
-		{% if shop_is_live %}
-
-		<div class="product-form">
-
-			<ul class="product-form-list">
-
-				<li>
-					<h3 class="product-add_to_cart">{{ 'form.product.add_to_cart' | matra('Add To Cart') }}:</h3>
-				</li>
+				{% if shop_is_live %}
 
 				{% if item.type == 'variants' %}
+				<li>
+					<ul>
 
-				Variants...
+					{% for variant in item.variants %}
+					<li>
+						<span class="detail-label product-variants-label">{{ variant.label }}</span>
+					</li>
+					{% endfor %}
 
+					</ul>
+				</li>
 				{% elseif item.isAvailable %}
 
 				{% if item.limited and item.quantity < 9 %}
@@ -213,24 +180,60 @@
 					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 				</li>
 
+				{% endif %}{# end variants if #}
+
+				{% endif %}{# end shop_is_live #}
+
+				{% if item.sale %}
+				<li class="detail-item list-price">
+					<span class="detail-label product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
+					<span class="detail-info product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				<li class="detail-item sale-price">
+					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="detail-info product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				<li class="detail-item you-save">
+					<span class="detail-label product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
+					<span class="detail-info product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% elseif item.price %}
+				<li class="detail-item price">
+					<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+					<span class="detail-info product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+				</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}
+				<li class="detail-item books">
+				<div class="product-books">
+
+					<h4>{{ 'product.documents' | matra('Documents') }}</h4>
+
+					{% for doc in item.privateDocuments %}
+
+					<div class="row">
+						<div class="col-xs-9">
+							<span>{{ doc }}</span>
+						</div>
+						<div class="col-xs-3">
+							<a class="btn btn-danger ma-remove" href="{{ path('maci_admin_entity_remove', {'entity': 'product_media_item', 'id': doc.id}) }}">
+								<span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+							</a>
+						</div>
+					</div>
+
+					{% endfor %}
+
+				</div>
+				</li>
 				{% endif %}
 
 			</ul>
-
 		</div>
-
-		{% endif %} {# shop_is_live #}
 
 	</section>
 
 </div>
-
-<div class="row">
-
-	<footer class="product-footer container-fluid"></footer>
-
 </div>
-
-</div>
-
 </article>
