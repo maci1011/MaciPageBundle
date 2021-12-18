@@ -30,6 +30,11 @@ ul, ol {
 	padding: 56px 0 0 0;
 }
 
+#navbarTop {
+	overflow: scroll;
+	max-height: 100%;
+}
+
 .page-container.contacts-page .page-title,
 .page-container.fullpage .page-title {
 	text-align: center;
