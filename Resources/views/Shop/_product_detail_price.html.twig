@@ -1,0 +1,20 @@
+
+{% if item.sale %}
+<li class="detail-item list-price">
+	<span class="detail-label product-list-price-label">{{ 'product.list_price' | matra('List Price') }}:</span>
+	<span class="detail-info product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+</li>
+<li class="detail-item sale-price">
+	<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+	<span class="detail-info product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+</li>
+<li class="detail-item you-save">
+	<span class="detail-label product-you-save-label">{{ 'product.you_save' | matra('You Save') }}:</span>
+	<span class="detail-info product-you-save">{{ (item.price - item.sale) | number_format(2, '.', ',') }} &euro;</span>
+</li>
+{% elseif item.price %}
+<li class="detail-item price">
+	<span class="detail-label product-price-label">{{ 'product.price' | matra('Price') }}:</span>
+	<span class="detail-info product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+</li>
+{% endif %}

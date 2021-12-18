@@ -1,4 +1,12 @@
 
+maci_product_add_variant:
+    path:  /{_locale}/product/add-variant/{id}
+    defaults: { _controller: MaciPageBundle:Shop:addVariant }
+    methods:  [POST]
+    requirements:
+        id: \d+
+        _locale: "%r_locales%"
+
 maci_product_show:
     path:  /{_locale}/product/{path}
     defaults: { _controller: MaciPageBundle:Shop:show }

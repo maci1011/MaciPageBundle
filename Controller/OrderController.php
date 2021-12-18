@@ -99,7 +99,7 @@ class OrderController extends AbstractController
 		return $this->render('MaciPageBundle:Order:notfound.html.twig');
 	}
 
-	public function addToCartAction(Request $request, $product = false)
+	public function addToCartAction(Request $request, $product = false, $variant = false)
 	{
 		$form = $this->createForm(CartAddProductItemType::class, null, array(
 			'product' => $product
@@ -138,6 +138,7 @@ class OrderController extends AbstractController
 
 		return $this->render('MaciPageBundle:Order:_order_cart_add_product.html.twig', array(
 			'product' => $product,
+			'variant' => $variant,
 			'form' => $form->createView()
 		));
 	}

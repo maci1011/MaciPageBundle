@@ -96,6 +96,11 @@ class Product
 	private $code;
 
 	/**
+	 * @var string
+	 */
+	private $brand;
+
+	/**
 	 * @var integer
 	 */
 	private $position;
@@ -386,9 +391,8 @@ class Product
 	static public function getTypeArray()
 	{
 		return [
-			'Unset' => 'unset',
 			'Simple' => 'simple',
-			'Variants' => 'variants'
+			'Variants' => 'vrnts'
 		];
 	}
 
@@ -567,6 +571,29 @@ class Product
 	public function getCode()
 	{
 		return $this->code;
+	}
+
+	/**
+	 * Set brand
+	 *
+	 * @param string $brand
+	 * @return Record
+	 */
+	public function setBrand($brand)
+	{
+		$this->brand = $brand;
+
+		return $this;
+	}
+
+	/**
+	 * Get brand
+	 *
+	 * @return string 
+	 */
+	public function getBrand()
+	{
+		return $this->brand;
 	}
 
 	/**
@@ -1143,15 +1170,20 @@ class Product
 			$this->data['variants-type'] = 'size';
 		}
 		else if($this->variant != $variant['color'] || $this->data['variant-type'] != 'color-n-size') return false;
+		$this->addSize($variant, $quantity);
+	}
+
+	public function addSize($variant, $quantity)
+	{
 		$index = count($this->getVariants());
-		$item = ['size' => $variant['size'], 'quantity' => $quantity];
 		if($index == 0)
 		{
-			$this->data['variants'] = [$item];
+			$this->data['variants'] = [['name' => $variant['name'], 'quantity' => $quantity]];
 			return;
 		}
+		$item = ['name' => $variant['name'], 'quantity' => 0];
 		foreach ($this->data['variants'] as $key => $value) {
-			if($variant['size'] == $value['size'])
+			if($variant['name'] == $value['name'])
 			{
 				$index = $key;
 				$item = $value;
@@ -1166,7 +1198,7 @@ class Product
 	{
 		if(!$value) return false;
 		for ($i=0; $i < count($this->data['variants']); $i++) {
-			if($value == $this->data['variants'][$i]['size'])
+			if($value == $this->data['variants'][$i]['name'])
 			{
 				return $i;
 			}

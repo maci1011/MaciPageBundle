@@ -13,7 +13,7 @@ Maci\PageBundle\Entity\Order\Item:
             type: text
             nullable: true
         details:
-            type: text
+            type: json
             nullable: true
         quantity:
             type: decimal

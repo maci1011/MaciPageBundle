@@ -170,4 +170,31 @@ class ShopController extends AbstractController
 			'file.pdf'
 		);
 	}
+
+	public function addVariantAction(Request $request, $id)
+	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect('maci_homepage');
+		}
+
+		$om = $this->getDoctrine()->getManager();
+		$item = $om->getRepository('MaciPageBundle:Shop\Product')->findOneById($id);
+
+		if (!$item) {
+			return $this->redirect($this->generateUrl('maci_product'));
+		}
+
+		$type = $request->get('type');
+		$name = $request->get('name');
+		$quantity = $request->get('quantity');
+
+		if ($type != 'size') {
+			return $this->redirect('maci_homepage');
+		}
+
+		$item->addSize(['name' => $name], $quantity);
+		$om->flush();
+
+		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
+	}
 }

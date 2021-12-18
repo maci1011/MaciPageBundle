@@ -441,7 +441,7 @@ class Record
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Descr.Colore'];
-			$variant['size'] = $data['Tgl'];
+			$variant['name'] = $data['Tgl'];
 		}
 		$this->data['variant'] = $variant;
 	}

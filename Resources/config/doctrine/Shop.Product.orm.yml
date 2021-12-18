@@ -32,6 +32,10 @@ Maci\PageBundle\Entity\Shop\Product:
         composition:
             type: text
             nullable: true
+        brand:
+            type: string
+            length: 15
+            nullable: true
         variant:
             type: string
             length: 15

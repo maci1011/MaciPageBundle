@@ -119,7 +119,15 @@ $(document).ready(function(e) {
 		}
 
 	}).scroll();
-	
+
+	$('select.variants-selector').each(function(i,el) {
+		$(el).change(function(e) {
+			$(el).parent().find('.variant-add-wrapper').hide();
+			$(el).parent().find('#variant_' + $(el).val()).show();
+		});
+		$(el).parent().find('.variant-add-wrapper').hide().first().show();
+	});
+
 	// Lightbox
 
 	maciLightbox();
