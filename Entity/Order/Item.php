@@ -267,6 +267,21 @@ class Item
 		$this->created = new \DateTime();
 	}
 
+	public function setVariant($product, $variant)
+	{
+		if (is_null($this->details)) $this->details = [];
+		$this->details['variant'] = [
+			'name' => $variant['name'],
+			'type' => $product->getVariantsType()
+		];
+	}
+
+	public function getVariantLabel()
+	{
+		return is_null($this->details) || !array_key_exists('variant', $this->details) ?
+			'' : ucfirst($this->details['variant']['type']) . ': ' . $this->details['variant']['name'];
+	}
+
 	public function getPrivateDocuments()
 	{
 		$documents = array();

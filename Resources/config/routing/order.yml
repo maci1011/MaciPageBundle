@@ -6,9 +6,11 @@
 
 
 maci_order_cart_add:
-    path:  /cart/item/add
+    path:  /cart/item/add/{product}
     defaults: { _controller: MaciPageBundle:Order:addToCart }
     methods:  [POST]
+    requirements:
+        product: \d+
 
 maci_order_edit_cart_item:
     path:  /cart/item/edit/{id}

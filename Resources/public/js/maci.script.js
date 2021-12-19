@@ -125,7 +125,7 @@ $(document).ready(function(e) {
 			$(el).parent().find('.variant-add-wrapper').hide();
 			$(el).parent().find('#variant_' + $(el).val()).show();
 		});
-		$(el).parent().find('.variant-add-wrapper').hide().first().show();
+		$(el).change();
 	});
 
 	// Lightbox

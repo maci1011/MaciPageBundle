@@ -36,7 +36,15 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getMenu('page.gallery', 'Gallery'), array('route' => 'maci_media_gallery'));
 
-		$menu->addChild($this->translator->getMenu('page.shop', 'Shop'), array('route' => 'maci_product'));
+		$menu->addChild($this->translator->getMenu('page.shop', 'Shop'), array(
+			'route' => 'maci_product',
+			'extras' => [
+				'routes' => [
+					['route' => 'maci_product_category'],
+					['route' => 'maci_product_show']
+				],
+			]
+		));
 
 		$menu->addChild($this->translator->getMenu('page.blog', 'Blog'), array(
 			'route' => 'maci_blog',
@@ -45,7 +53,7 @@ class PageMenuBuilder
 					['route' => 'maci_blog_tag'],
 					['route' => 'maci_blog_show']
 				],
-			],
+			]
 		));
 
 		$menu->addChild(

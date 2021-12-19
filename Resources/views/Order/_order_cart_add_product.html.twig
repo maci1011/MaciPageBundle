@@ -1,5 +1,5 @@
 
-<form {{ ( product ? ('id="maci_cart_add_product_' ~ product.id ~ '"')|raw ) }} class="maci_cart_add_product" action="{{ path('maci_order_cart_add') }}" method="POST">
+<form {{ ( product ? ('id="maci_cart_add_product_' ~ product.id ~ '"')|raw ) }} class="maci_cart_add_product" action="{{ path('maci_order_cart_add', {'product': product.id, 'variant': variant}) }}" method="POST">
 
 	{% if not form.vars.valid %}
 	<div class="form-group">
@@ -8,6 +8,10 @@
 	{% endif %}
 
 	{{ form_row(form.product) }}
+
+	{% if form.variant is defined %}
+	{{ form_row(form.variant) }}
+	{% endif %}
 
 	{{ form_row(form.quantity) }}
 	{{ form_row(form._token) }}

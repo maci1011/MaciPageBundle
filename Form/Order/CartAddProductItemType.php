@@ -43,12 +43,12 @@ class CartAddProductItemType extends AbstractType
 		if ($product)
 		{
 			$index = $product->findVariant($options['variant']);
-			if ($index)
+			if (-1 < $index)
 			{
 				$variants = $product->getVariants();
 				$variant = $variants[$index];
 				$builder->add('variant', HiddenType::class, array(
-						'data' => $variant['size']
+						'data' => $variant['name']
 				));
 				$builder->add('quantity', IntegerType::class, array(
 					'data' => 1,

@@ -1145,14 +1145,14 @@ class Product
 		return isset($variant['variant-type']) ? $variant['variant-type'] : null;
 	}
 
-	public function getVariantFieldType()
+	public function getVariantField()
 	{
-		return isset($variant['variant-field']) ? $variant['variant-type'] : null;
+		return isset($variant['variant-field']) ? $variant['variant-field'] : null;
 	}
 
-	public function getVariantDataType()
+	public function getVariantsType()
 	{
-		return isset($variant['variant-data']) ? $variant['variant-data'] : null;
+		return isset($variant['variants-type']) ? $variant['variants-type'] : null;
 	}
 
 	public function addVariant($variant, $quantity)
@@ -1196,14 +1196,14 @@ class Product
 
 	public function findVariant($value)
 	{
-		if(!$value) return false;
+		if(!$value) return -1;
 		for ($i=0; $i < count($this->data['variants']); $i++) {
 			if($value == $this->data['variants'][$i]['name'])
 			{
 				return $i;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	public function getWebPreview()
