@@ -80,6 +80,11 @@ class Page
 	/**
 	 * @var string
 	 */
+	private $moved;
+
+	/**
+	 * @var string
+	 */
 	private $template;
 
 	/**
@@ -402,6 +407,29 @@ class Page
 	public function getRedirect()
 	{
 		return $this->redirect;
+	}
+
+	/**
+	 * Set moved
+	 *
+	 * @param string $moved
+	 * @return string
+	 */
+	public function setMoved($moved)
+	{
+		$this->moved = $moved;
+
+		return $this;
+	}
+
+	/**
+	 * Get moved
+	 *
+	 * @return string 
+	 */
+	public function getMoved()
+	{
+		return $this->moved;
 	}
 
 	public function setTemplate($template)

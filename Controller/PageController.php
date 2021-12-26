@@ -32,7 +32,7 @@ class PageController extends AbstractController
 			));
 
 		if ($page) {
-			return $this->redirect($this->generateUrl('maci_page', array('path' => $page->getPath())));
+			return $this->redirectTo($page);
 		}
 
 		$album = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Media\Album')
@@ -73,11 +73,11 @@ class PageController extends AbstractController
 		// var_dump( $this->get('maci.orders')->getCountriesArray() ); die();
 
 		$page = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Page\Page')
-				->findOneBy(array(
-					'locale' => $request->getLocale(),
-					'path' => $path,
-					'removed' => false
-				));
+			->findOneBy([
+				'locale' => $request->getLocale(),
+				'path' => $path,
+				'removed' => false
+			]);
 
 		if (!$page) {
 			$default = $this->getTemplateByPath($path);
@@ -85,6 +85,10 @@ class PageController extends AbstractController
 				return $this->render($default, array('page' => false));
 			}
 			return $this->redirect($this->generateUrl('maci_page_not_found'));
+		}
+
+		if (strlen($page->getMoved())) {
+			return $this->redirectTo($page->getMoved());
 		}
 
 		$template = $page->getTemplate();
@@ -130,5 +134,10 @@ class PageController extends AbstractController
 		}
 
 		return $this->redirect($this->generateUrl('homepage'));
+	}
+
+	public function redirectTo($page)
+	{
+		return $this->redirect($this->generateUrl('maci_page', ['path' => is_object($page) ? $page->getPath() : $page]));
 	}
 }

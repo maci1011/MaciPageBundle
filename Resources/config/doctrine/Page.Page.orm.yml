@@ -58,6 +58,10 @@ Maci\PageBundle\Entity\Page\Page:
             type: string
             length: 63
             nullable: true
+        moved:
+            type: string
+            length: 63
+            nullable: true
         template:
             type: string
             length: 63
