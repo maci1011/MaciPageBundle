@@ -22,9 +22,11 @@
 	{% if item.price %}
 	<h5 class="product-price">
 		{% if item.sale %}
-		<span class="product-sale">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+		<span class="product-list-price">{{ 'product.price' | matra(' ') }} {{ item.price | number_format(2, '.', ',') }} &euro;</span>
+		<span class="product-sale-price">{{ 'product.sale' | matra(' ') }} {{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+		{% else %}
+		<span class="product-price">{{ 'product.price' | matra(' ') }} {{ item.price | number_format(2, '.', ',') }} &euro;</span>
 		{% endif %}
-		{{ item.price | number_format(2, '.', ',') }} &euro;
 	</h5>
 	{% endif %}
 

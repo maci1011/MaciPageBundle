@@ -325,7 +325,7 @@ class Product
 	/**
 	 * Set price
 	 *
-	 * @param string $price
+	 * @param float $price
 	 * @return Product
 	 */
 	public function setPrice($price)
@@ -338,7 +338,7 @@ class Product
 	/**
 	 * Get price
 	 *
-	 * @return string 
+	 * @return float 
 	 */
 	public function getPrice()
 	{
@@ -360,6 +360,11 @@ class Product
 	public function getSale()
 	{
 		return $this->sale;
+	}
+
+	public function getSaved()
+	{
+		return intval(100 - $this->sale / $this->price * 100);
 	}
 
 	/**
