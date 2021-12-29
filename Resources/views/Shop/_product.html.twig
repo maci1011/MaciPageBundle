@@ -229,6 +229,10 @@
 
 				{% endif %}{# end variants if #}
 
+				{% else %}
+
+				{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
+
 				{% endif %}{# end shop_is_live #}
 
 				{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}
