@@ -45,17 +45,17 @@
 						{% for categoryItem in childCategory.category.parentsList %}
 
 						<li class="breadcrumb-item product-category-parent">
-							<a href="{{ path('maci_product_category', {'path': categoryItem.category.path}) }}">{{ categoryItem.categoryName }}</a>
+							<a href="{{ path('maci_product_category', {'path': categoryItem.category.path}) }}">{{ categoryItem.categoryName|capitalize }}</a>
 						</li>
 
 						{% endfor %}
 
 						<li class="breadcrumb-item product-category">
-							<a href="{{ path('maci_product_category', {'path': childCategory.category.path}) }}">{{ childCategory.categoryName }}</a>
+							<a href="{{ path('maci_product_category', {'path': childCategory.category.path}) }}">{{ childCategory.categoryName|capitalize }}</a>
 						</li>
 
 						<li class="breadcrumb-item product-category active">
-							<span>{{ item.name }}</span>
+							<span>{{ item.name|capitalize }}</span>
 						</li>
 
 					</ol>

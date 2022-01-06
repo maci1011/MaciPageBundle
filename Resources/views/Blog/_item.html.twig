@@ -4,16 +4,6 @@
 
 {% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
 
-<div class="post-preview-wrapper">
-	<a href="{{ post_link }}">
-		{% if post.preview %}
-		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
-		{% else %}
-		<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
-		{% endif %}
-	</a>
-</div>
-
 <header class="blog-post-header">
 
 	<a href="{{ post_link }}">
@@ -26,6 +16,15 @@
 
 </header>
 
+<div class="post-preview-wrapper">
+	<a href="{{ post_link }}">
+		{% if post.preview %}
+		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		{% else %}
+		<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
+		{% endif %}
+	</a>
+</div>
 
 <section class="blog-post-content">
 
@@ -49,21 +48,15 @@
 
 </section>
 
-
 <section class="blog-post-read-more">
 	<a class="btn btn-primary" href="{{ post_link }}">
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
 </section>
 
-
 <footer class="blog-post-footer flex">
 
-{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
-
-{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
-
-{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
+{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
 
 </footer>
 

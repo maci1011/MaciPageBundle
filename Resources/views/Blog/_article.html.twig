@@ -3,6 +3,17 @@
 <div class="blog-post-wrapper flex">
 
 
+<header class="blog-post-header">
+
+	<h1 class="post-title">{{ post.title }}</h1>
+
+	{% if post.subtitle %}
+	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
+	{% endif %}
+
+</header>
+
+
 <figure class="post-preview-wrapper">
 	{% if post.preview %}
 	<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
@@ -20,17 +31,6 @@
 	<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 	{% endif %}
 </figure>
-
-
-<header class="blog-post-header">
-
-	<h1 class="post-title">{{ post.title }}</h1>
-
-	{% if post.subtitle %}
-	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
-	{% endif %}
-
-</header>
 
 
 {% if post.previousPosts|length %}
