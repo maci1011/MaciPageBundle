@@ -2,7 +2,6 @@
 <article class="blog-post post-article clearfix">
 <div class="blog-post-wrapper flex">
 
-
 <header class="blog-post-header">
 
 	<h1 class="post-title">{{ post.title }}</h1>
@@ -12,7 +11,6 @@
 	{% endif %}
 
 </header>
-
 
 <figure class="post-preview-wrapper">
 	{% if post.preview %}
@@ -32,7 +30,6 @@
 	{% endif %}
 </figure>
 
-
 {% if post.previousPosts|length %}
 <section class="blog-post-related related-prev">
 
@@ -48,7 +45,6 @@
 
 </section>
 {% endif %}
-
 
 <section class="blog-post-content">
 
@@ -70,7 +66,6 @@
 
 </section>
 
-
 {% if post.images|length %}
 <section class="blog-post-images">
 
@@ -79,7 +74,6 @@
 </section>
 {% endif %}
 
-
 {% if post.otherMedias|length %}
 <section class="blog-post-images">
 
@@ -87,7 +81,6 @@
 
 </section>
 {% endif %}
-
 
 {% if post.nextPosts|length %}
 <section class="blog-post-related related-next">
@@ -105,9 +98,7 @@
 </section>
 {% endif %}
 
-
 {% include "@MaciPage/Blog/_license.html.twig" %}
-
 
 <footer class="blog-post-footer flex">
 
@@ -124,7 +115,6 @@
 	{% endif %}
 
 </footer>
-
 
 {% if post.related|length %}
 <section class="blog-post-related related-posts">
