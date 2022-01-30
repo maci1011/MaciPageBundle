@@ -480,7 +480,7 @@ class Product
 	public function checkQuantity($quantity = 0)
 	{
 		if ($this->limited) {
-			if ( ( $this->quantity - $quantity ) < 0 ) {
+			if (($this->quantity - $quantity) < 0) {
 				return false;
 			}
 		}
@@ -489,16 +489,12 @@ class Product
 
 	public function subQuantity($quantity)
 	{
-		if ($this->limited) {
-			$this->quantity -= $quantity;
-		}
+		if ($this->limited) $this->quantity -= $quantity;
 	}
 
 	public function addQuantity($quantity)
 	{
-		if ($this->limited) {
-			$this->quantity += $quantity;
-		}
+		if ($this->limited) $this->quantity += $quantity;
 	}
 
 	/**
@@ -1145,19 +1141,34 @@ class Product
 		return $this->data['variants'];
 	}
 
+	public function hasVariants()
+	{
+		return !!count($this->getVariants());
+	}
+
+	public function getVariantIndex($index)
+	{
+		if (!$this->hasVariants()) return false;
+		$variants = $this->getVariants();
+		return 0 <= $index && $index < count($variants) ? $variants[$index] : $variants[0];
+	}
+
 	public function getVariantType()
 	{
-		return isset($variant['variant-type']) ? $variant['variant-type'] : null;
+		$data = $this->getData();
+		return array_key_exists('variant-type', $data) ? $data['variant-type'] : null;
 	}
 
 	public function getVariantField()
 	{
-		return isset($variant['variant-field']) ? $variant['variant-field'] : null;
+		$data = $this->getData();
+		return array_key_exists('variant-field', $data) ? $data['variant-field'] : null;
 	}
 
 	public function getVariantsType()
 	{
-		return isset($variant['variants-type']) ? $variant['variants-type'] : null;
+		$data = $this->getData();
+		return array_key_exists('variants-type', $data) ? $data['variants-type'] : null;
 	}
 
 	public function addVariant($variant, $quantity)
@@ -1183,7 +1194,12 @@ class Product
 		$index = count($this->getVariants());
 		if($index == 0)
 		{
-			$this->data['variants'] = [['name' => $variant['name'], 'quantity' => $quantity]];
+			$newVariant = [['name' => $variant['name'], 'quantity' => $quantity]];
+			if (is_null($this->variant)) {
+				$this->addColorAndSize(array_merge($newVariant, ['color' => 'Unset']), $quantity);
+				return;
+			}
+			$this->data['variants'] = $newVariant;
 			return;
 		}
 		$item = ['name' => $variant['name'], 'quantity' => 0];

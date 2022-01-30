@@ -40,7 +40,7 @@ class SearchController extends AbstractController
     {
         return $this->render('MaciPageBundle:Product:search.html.twig', array(
             'query' => $query,
-            'list' => $this->search($request, 'MaciProductBundle:Product')
+            'list' => $this->search($request, 'MaciPageBundle:Shop\Product')
         ));
     }
 

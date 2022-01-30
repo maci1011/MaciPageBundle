@@ -269,17 +269,24 @@ class Item
 
 	public function setVariant($product, $variant)
 	{
+		if (!$product->hasVariants()) return;
 		if (is_null($this->details)) $this->details = [];
+		$variant = $product->getVariantIndex($variant);
 		$this->details['variant'] = [
 			'name' => $variant['name'],
 			'type' => $product->getVariantsType()
 		];
 	}
 
+	public function getVariant()
+	{
+		if (is_null($this->details) || !array_key_exists('variant', $this->details)) return false;
+		return $this->details['variant'];
+	}
+
 	public function getVariantLabel()
 	{
-		return is_null($this->details) || !array_key_exists('variant', $this->details) ?
-			'' : ucfirst($this->details['variant']['type']) . ': ' . $this->details['variant']['name'];
+		return !$this->getVariant() ? '' : ucfirst($this->details['variant']['type']) . ': ' . $this->details['variant']['name'];
 	}
 
 	public function getPrivateDocuments()

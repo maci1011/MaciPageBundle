@@ -131,23 +131,23 @@ class OrderController extends AbstractController
 			}
 
 			$variant = false;
+			$variants = $product->getVariants();
 			$quantity = intval($form['quantity']->getData());
 			if ($quantity < 1) $quantity = 1;
 
-			if (isset($form['variant'])) {
+			if (count($variants) && isset($form['variant'])) {
 				$index = $item->findVariant($form['variant']->getData());
 				if ($index == -1) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notFound']));
-				$variant = $product->getVariants()[$index];
-				if ($variant['quantity'] == 0) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
-				if ($variant['quantity'] < $quantity) $quantity = $variant['quantity'];
-			} else if (!$item->checkQuantity($quantity)) {
-				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
+				$variant = $item->getVariantIndex($index);
+				$variantQta = intval($variant['quantity']);
+				if ($variantQta == 0) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
+				if ($variantQta < $quantity) $quantity = $variantQta;
 			}
 
 			if ($this->get('maci.orders')->addToCart($item, $variant, $quantity) ) {
 				return $this->redirect($this->generateUrl('maci_order_cart'));
 			} else {
-				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAdded']));
+				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
 			}
 
 		}

@@ -87,7 +87,7 @@ class PageType extends AbstractType
 				'required' => false
 			))
 			->add('category', 'entity', array(
-				'class' => 'MaciProductBundle:Category',
+				'class' => 'MaciPageBundle:Shop\Category',
 				'empty_value' => '',
 				'required' => false
 			))

@@ -57,7 +57,7 @@
 	<td class="order-item-description">
 
 		{% if edit is defined and edit %}
-		<a href="{{ path('maci_product_show', { 'id': item.product.id, 'path': item.product.path }) }}">
+		<a href="{{ path('maci_product_show', { 'path': item.product.path }) }}">
 			<h4 class="order-item-name">{{ item.product.inhName }}</h4>
 		</a>
 		{% else %}
