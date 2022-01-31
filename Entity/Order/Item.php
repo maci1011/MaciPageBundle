@@ -271,7 +271,6 @@ class Item
 	{
 		if (!$product->hasVariants()) return;
 		if (is_null($this->details)) $this->details = [];
-		$variant = $product->getVariantIndex($variant);
 		$this->details['variant'] = [
 			'name' => $variant['name'],
 			'type' => $product->getVariantsType()

@@ -47,7 +47,7 @@
 	<td class="order-item-preview hidden-xs">
 
 		{% if item.product.inhPreview is not null %}
-		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %} title="{{ item.product.inhDescription }}" {% else %} title="{{ item.product.inhName }}" {% endif %} />
+		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %}title="{{ item.product.inhDescription }}"{% else %}title="{{ item.product.inhName }}"{% endif %} />
 		{% else %}
 		&nbsp;
 		{% endif %}
@@ -62,6 +62,15 @@
 		</a>
 		{% else %}
 		<h4 class="order-item-name">{{ item.product.inhName }}</h4>
+		{% endif %}
+
+		{% if item.product.variant %}
+		{% if item.product.variantField != null %}
+		<span class="detail-label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
+		{% else %}
+		<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
+		{% endif %}
+		<span class="detail-info product-variant">{{ item.product.variant }}</span><br/>
 		{% endif %}
 
 		{% if item.variantLabel|length %}

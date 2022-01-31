@@ -81,7 +81,7 @@ class OrderService extends AbstractController
 				break;
 			} else if ($item_product->getId() == $product->getId()) {
 				if ($variant) {
-					if ($item->getVariant()['name'] == $item_product->getVariantIndex($variant)['name']) {
+					if ($item->getVariant()['name'] == $variant['name']) {
 						$same_item = $item;
 						break;
 					}
