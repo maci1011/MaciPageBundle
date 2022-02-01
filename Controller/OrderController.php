@@ -554,10 +554,10 @@ class OrderController extends AbstractController
 			'payment' => $payment->getDetails()
 		);
 
-		return new JsonResponse($params);
+		// return new JsonResponse($params);
 
 		$em = $this->getDoctrine()->getManager();
-	
+
 		$cart = $payment->getOrder();
 		if (!$cart) {
 			return $this->redirect($this->generateUrl('maci_order_cart', array('error' => 'error.order_not_found')));
@@ -572,7 +572,7 @@ class OrderController extends AbstractController
 			)
 		);
 
-		return new JsonResponse($params);
+		// return new JsonResponse($params);
 
 		if($status->getValue() === "failed") {
 			return $this->redirect($this->generateUrl('maci_order_checkout', array('error' => 'error.payment_not_valid')));
@@ -599,7 +599,7 @@ class OrderController extends AbstractController
 			->setType('notify')
 			->setSubject('Order Confirmation')
 			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
-			->addTo([$to => $toint])
+			->addRecipients([$to => $toint])
 			->setLocale($request->getLocale())
 			->setContent($this->renderView('MaciPageBundle:Email:confirmation_email.html.twig', array('mail' => $mail, 'order' => $cart)))
 		;
@@ -608,11 +608,12 @@ class OrderController extends AbstractController
 			$mail->setUser($cart->getUser());
 		}
 
-		$message = $this->get('maci.mailer')->getSwiftMessage($mail);
+		// $message = $this->get('maci.mailer')->getSwiftMessage($mail);
+		$message = $mail->getSwiftMessage($mail);
 
 		$notify = clone $message;
 
-		$mail->end();
+		// $mail->end();
 
 		$em->persist($mail);
 
@@ -623,7 +624,7 @@ class OrderController extends AbstractController
 		// ---> send message
 		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($message);
 
-		$notify->addTo($this->get('service_container')->getParameter('order_email'));
+		$notify->addTo($this->get('service_container')->getParameter('order_email'), $this->get('service_container')->getParameter('order_email_int'));
 
 		// ---> send notify
 		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($notify);
@@ -634,16 +635,18 @@ class OrderController extends AbstractController
 
 	public function checkoutCompleteAction(Request $request, $token)
 	{
-		$order = $em->getDoctrine()->getManager()->getRepository('MaciPageBundle:Order\Order')->findOneByToken($token);
-
-		$page = $em->getRepository('MaciPageBundle:Page')
+		$em = $this->getDoctrine()->getManager();
+		$order = $em->getRepository('MaciPageBundle:Order\Order')->findOneByToken($token);
+		$page = $em->getRepository('MaciPageBundle:Page\Page')
 			->findOneByPath('order-complete');
 
 		if ($page) {
 			return $this->render($page->getTemplate(), $order);
 		}
 
-		return $this->render('MaciPageBundle:Order:complete.html.twig', $order);
+		return $this->render('@MaciPage/Order/complete.html.twig', [
+			'order' => $order
+		]);
 	}
 
 	public function invoiceAction($id)
