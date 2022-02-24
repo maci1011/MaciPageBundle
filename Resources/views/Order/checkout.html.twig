@@ -1,19 +1,9 @@
 {% extends "@MaciPage/Layout/order.html.twig" %}
 
-
 {% block title %}
-
 {{ 'order.checkout.meta_title' | matra('Order Checkout') }}
-
 {% endblock %}
-
 
 {% block container %}
-
-{% include "MaciPageBundle:Order:_checkout.html.twig" with {
-	'checkout': checkout,
-	'order': order
-} %}
-
+{% include "MaciPageBundle:Order:_checkout.html.twig" %}
 {% endblock %}
-

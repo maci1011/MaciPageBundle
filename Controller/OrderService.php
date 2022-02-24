@@ -316,13 +316,10 @@ class OrderService extends AbstractController
 			if ($order_arr['status'] === 'session') {
 				$cart = $this->loadCartFromSession($cart);
 				$cart->setStatus('current');
-				foreach ($cart->getItems() as $item) {
-					$this->om->persist($item);
-				}
-				$this->refreshSession($cart);
 			}
 
 			$cart->refreshAmount();
+			$this->refreshSession($cart);
 			$this->om->flush();
 
 		} else {
@@ -383,6 +380,14 @@ class OrderService extends AbstractController
 
 	public function refreshSession($order)
 	{
+		if (!$order->getStatus() == 'session') {
+			if ($this->session->has('order')) {
+				$this->session->remove('order');
+				$this->session->remove('order_items');
+			}
+			return;
+		}
+
 		$info = $this->getDefaultSession();
 
 		$order_arr = array(

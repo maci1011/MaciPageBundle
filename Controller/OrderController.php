@@ -221,7 +221,7 @@ class OrderController extends AbstractController
 	{
 		$cart = $this->get('maci.orders')->getCurrentCart();
 
-		if ( !$cart ) {
+		if (!$cart) {
 			return $this->redirect($this->generateUrl('maci_order_cart'));
 		}
 
@@ -229,7 +229,7 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_invoice', array('id'=>$cart->getId())));
 		}
 
-		if ( $this->get('service_container')->getParameter('registration_required') && false === $this->get('security.authorization_checker')->isGranted('ROLE_USER') ) {
+		if ($this->get('service_container')->getParameter('registration_required') && false === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
 			return $this->redirect($this->generateUrl('maci_order_gocheckout'));
 		}
 
