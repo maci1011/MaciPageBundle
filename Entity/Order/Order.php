@@ -996,13 +996,15 @@ class Order
 
 	public function confirmOrder()
 	{
-		$this->status = 'confirm';
-
-		$this->invoice = new \DateTime();
+		$this->subItemsQuantity();
 
 		$this->due = new \DateTime();
 
 		$this->due->modify('+1 month');
+
+		$this->invoice = new \DateTime();
+
+		$this->status = 'confirm';
 
 		return true;
 	}
@@ -1010,8 +1012,6 @@ class Order
 	public function completeOrder()
 	{
 		$this->status = 'complete';
-
-		$this->subItemsQuantity();
 
 		return true;
 	}

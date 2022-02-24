@@ -530,13 +530,20 @@ class OrderController extends AbstractController
 	public function afterCaptureAction(Request $request)
 	{
 		$token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
-		
 		$gatewayName = $token->getGatewayName();
 		$gateway = $this->get('payum')->getGateway($gatewayName);
-		
 		$gateway->execute($status = new GetHumanStatus($token));
-		$payment = $status->getFirstModel();
-		
+
+		if($status->getValue() === "failed") {
+			$this->get('session')->getFlashBag()->add('danger', 'error.payment_not_valid');
+			return $this->redirect($this->generateUrl('maci_product'));
+		}
+
+		if($status->getValue() === "canceled") {
+			$this->get('session')->getFlashBag()->add('info', 'error.payment_canceled');
+			return $this->redirect($this->generateUrl('maci_product'));
+		}
+
 		// Now you have order and payment status
 
 		// if 
@@ -549,51 +556,44 @@ class OrderController extends AbstractController
 		// PAYMENTREQUEST_0_PAYMENTSTATUS   "Pending"
 		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
-		$params = array(
-			'status' => $status->getValue(),
-			'payment' => $payment->getDetails()
-		);
-
-		// return new JsonResponse($params);
-
-		$em = $this->getDoctrine()->getManager();
-
+		$payment = $status->getFirstModel();
 		$cart = $payment->getOrder();
+
 		if (!$cart) {
-			return $this->redirect($this->generateUrl('maci_order_cart', array('error' => 'error.order_not_found')));
-		}
-
-		$params = array(
-			'status' => $status->getValue(),
-			'payment' => array(
-				'total_amount' => $payment->getTotalAmount(),
-				'currency_code' => $payment->getCurrencyCode(),
-				'details' => $payment->getDetails(),
-			)
-		);
-
-		// return new JsonResponse($params);
-
-		if($status->getValue() === "failed") {
-			return $this->redirect($this->generateUrl('maci_order_checkout', array('error' => 'error.payment_not_valid')));
+			$this->get('session')->getFlashBag()->add('danger', 'error.order_not_found');
+			return $this->redirect($this->generateUrl('maci_product'));
 		}
 
 		$payment_item = $this->get('maci.orders')->getPaymentItem($cart->getPayment());
-		$gateway = $payment_item['gateway'];
 
-		if($gateway == 'offline' && $status->getValue() == 'captured') {
+		$params = [
+			'status' => $status->getValue(),
+			'id' => $cart->getPayment(),
+			'label' => $payment_item['label'],
+			'gateway' => $payment_item['gateway'],
+			'sandbox' => $payment_item['sandbox'],
+			'payment' => [
+				'total_amount' => $payment->getTotalAmount(),
+				'currency_code' => $payment->getCurrencyCode(),
+				'details' => $payment->getDetails(),
+			]
+		];
+
+		// return new JsonResponse($params);
+
+		if($payment_item['gateway'] == 'offline') {
+			$params['payment']['details']['paid'] = false;
+		}
+
+		if($status->getValue() == 'captured') {
 			$cart->confirmOrder();
 		}
 
-		// Recipient
+		// ---> Send eMails <---
 
 		$to = $payment->getClientEmail();
 		$toint = $payment->getClientId();
-
-		// Create Mail
-
 		$mail = new Mail();
-
 		$mail
 			->setName($cart->getCode())
 			->setType('notify')
@@ -610,13 +610,11 @@ class OrderController extends AbstractController
 
 		// $message = $this->get('maci.mailer')->getSwiftMessage($mail);
 		$message = $mail->getSwiftMessage($mail);
-
 		$notify = clone $message;
-
 		// $mail->end();
 
+		$em = $this->getDoctrine()->getManager();
 		$em->persist($mail);
-
 		$em->flush();
 
 		// Send Mail
