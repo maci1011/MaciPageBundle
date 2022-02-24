@@ -144,7 +144,7 @@ class OrderController extends AbstractController
 				if ($variantQta < $quantity) $quantity = $variantQta;
 			}
 
-			if ($this->get('maci.orders')->addToCart($item, $variant, $quantity) ) {
+			if ($this->get('maci.orders')->addToCart($item, $quantity, $variant) ) {
 				return $this->redirect($this->generateUrl('maci_order_cart'));
 			} else {
 				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));

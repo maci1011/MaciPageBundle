@@ -53,13 +53,11 @@ class OrderService extends AbstractController
 		$this->cart = false;
 	}
 
-	public function addToCart($product, $variant, $quantity = 1)
+	public function addToCart($product, $quantity, $variant)
 	{
 		$cart = $this->getCurrentCart();
 
-		$item = $this->addProduct($cart, $product, $variant, $quantity);
-
-		if (!$item) {
+		if (!$this->addProduct($cart, $product, $quantity, $variant)) {
 			return false;
 		}
 
@@ -70,61 +68,19 @@ class OrderService extends AbstractController
 		return true;
 	}
 
-	public function addProduct($order, $product, $variant, $quantity = 1)
+	public function addProduct($order, $product, $quantity, $variant)
 	{
-		$same_item = false; $persist = false;
-		$index = -1;
-		foreach ($order->getItems() as $item) {
-			$index++;
-			$item_product = $item->getProduct();
-			if (!is_object($item_product)) {
-				break;
-			} else if ($item_product->getId() == $product->getId()) {
-				if ($variant) {
-					if ($item->getVariant()['name'] == $variant['name']) {
-						$same_item = $item;
-						break;
-					}
-				}
-				else {
-					$same_item = $item;
-					break;
-				}
-			}
-		}
-
-		if ($same_item) {
-			$item = $same_item;
-			$quantity = $item->getQuantity() + $quantity;
-			if ($quantity < 1) $quantity = 1;
-			$limit = intval($product->getVariantIndex($variant)['quantity']);
-			if ($variant && $limit < $quantity) $quantity = $limit;
-			if (!$variant && !$product->checkQuantity($quantity)) $quantity = $product->getQuantity();
-		} else {
-			$item = new Item;
-			$item->setProduct($product);
-			$item->setOrder($order);
-			if ($variant != false) $item->setVariant($product, $variant);
-			$persist = true;
-		}
-
-		$item->setQuantity($quantity < 1 ? 1 : $quantity);
-
-		if (!$item->checkAvailability()) {
-			if ($same_item) $this->removeItem($index);
-			else $persist = false;
+		$item = $order->addProduct($product, $quantity, $variant);
+		if (!$item) {
+			// $this->removeItem($item);
 			return false;
 		}
 
-		if ($persist) {
-			$order->addItem($item);
-			if (true === $this->authorizationChecker->isGranted('ROLE_USER')) {
-				$this->om->persist($item);
-			}
-			$this->om->flush();
+		if (is_object($item) && true === $this->authorizationChecker->isGranted('ROLE_USER')) {
+			$this->om->persist($item);
 		}
 
-		return $item;
+		return true;
 	}
 
 	public function editItemQuantity($id, $quantity)
@@ -307,6 +263,15 @@ class OrderService extends AbstractController
 		return false;
 	}
 
+	public function completeOrder($cart)
+	{
+		if ($cart->completeOrder()) {
+			$this->saveCart($cart);
+			return $cart;
+		}
+		return false;
+	}
+
 	public function resetCart()
 	{
 		$this->cart = false;
@@ -465,7 +430,7 @@ class OrderService extends AbstractController
 				$product = $this->om->getRepository('MaciPageBundle:Shop\Product')
 					->findOneById($item['id']);
 				if ($product && $product->isAvailable() && $product->checkQuantity($quantity)) {
-					$this->addProduct($cart, $product, $quantity);
+					$this->addProduct($cart, $quantity, $product);
 				}
 			}
 		}

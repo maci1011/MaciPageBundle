@@ -306,27 +306,12 @@ class Item
 		return false;
 	}
 
-	public function checkProduct($quantity = false)
+	public function checkAvailability()
 	{
-		if ($this->product) {
-			if ( !$this->product->isAvailable() ) {
-				return false;
-			}
-			$quantity = $quantity ? $quantity : $this->quantity;
-			if ( !$this->product->checkQuantity($quantity) ) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public function checkAvailability($quantity = false)
-	{
-		if ( $this->product ) {
-			if ( !$this->product->isAvailable() || !$this->checkProduct($quantity) ) {
-				return false;
-			}
-		}
+		if (!$this->product
+			|| !$this->product->isAvailable()
+			|| !$this->product->checkQuantity($this->quantity, $this->getVariant())
+		) return false;
 		return true;
 	}
 

@@ -98,6 +98,7 @@ Maci\PageBundle\Entity\Order\Order:
             targetEntity: Item
             mappedBy: order
             orderBy: { 'created': ASC }
+            cascade: ["persist", "remove"]
         transactions:
             targetEntity: Transaction
             mappedBy: order

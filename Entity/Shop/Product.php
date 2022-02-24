@@ -472,29 +472,43 @@ class Product
 	 *
 	 * @return string 
 	 */
-	public function getQuantity()
+	public function getQuantity($variant = false)
 	{
+		if (!$this->limited) return 1;
+		if ($this->getVariantType() != null) return $this->getVariantQuantity($variant);
 		return $this->quantity;
 	}
 
-	public function checkQuantity($quantity = 0)
+	public function checkQuantity($quantity, $variant = false)
 	{
-		if ($this->limited) {
-			if (($this->quantity - $quantity) < 0) {
-				return false;
-			}
+		if (!$this->limited) return true;
+		if ($this->getVariantType() != null) return $this->checkVariant($variant, $quantity);
+		if ($this->quantity < $quantity) {
+			return false;
 		}
 		return true;
 	}
 
-	public function subQuantity($quantity)
+	public function subQuantity($quantity, $variant = false)
 	{
-		if ($this->limited) $this->quantity -= $quantity;
+		if (!$this->limited) return true;
+		if ($this->getVariantType() != null) return $this->subVariant($variant, $quantity);
+		if ($this->quantity < $quantity) {
+			return false;
+		}
+		$this->quantity -= $quantity;
+		return true;
 	}
 
-	public function addQuantity($quantity)
+	public function addQuantity($quantity, $variant = false)
 	{
-		if ($this->limited) $this->quantity += $quantity;
+		if (!$this->limited) return true;
+		if ($this->getVariantType() != null) return $this->addVariant($variant, $quantity);
+		if ($this->quantity < $quantity) {
+			return false;
+		}
+		$this->quantity += $quantity;
+		return true;
 	}
 
 	/**
@@ -1153,6 +1167,25 @@ class Product
 		return 0 <= $index && $index < count($variants) ? $variants[$index] : $variants[0];
 	}
 
+	public function getVariantByName($name)
+	{
+		if (is_array($name)) $name = $name['name'];
+		foreach ($this->getVariants() as $key => $value) {
+			if ($name == $value['name'])
+			{
+				return $value;
+			}
+		}
+		return false;
+	}
+
+	public function getVariantQuantity($variant)
+	{
+		$variant = $this->getVariantByName($variant);
+		if (!$variant) return -1;
+		return $variant['quantity'];
+	}
+
 	public function getVariantType()
 	{
 		$data = $this->getData();
@@ -1173,20 +1206,62 @@ class Product
 
 	public function addVariant($variant, $quantity)
 	{
-		if ($variant['type'] == 'color-n-size') $this->addColorAndSize($variant, $quantity);
+		if (!$variant) return false;
+		if (!array_key_exists('type', $variant) || $variant['type'] == 'color-n-size') return $this->addColorAndSize($variant, $quantity);
+		return false;
+	}
+
+	public function checkVariant($variant, $quantity)
+	{
+		if (!$variant) return false;
+		foreach ($this->getVariants() as $key => $value) {
+			if ($variant['name'] == $value['name'])
+			{
+				if ($quantity <= $value['quantity']) {
+					return true;
+				}
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public function subVariant($variant, $quantity)
+	{
+		if (!$variant) return false;
+		foreach ($this->getVariants() as $key => $value) {
+			if ($variant['name'] == $value['name'])
+			{
+				if ($quantity <= $value['quantity']) {
+					$value['quantity'] -= $quantity;
+					$this->data['variants'][$key] = $value;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public function addColorAndSize($variant, $quantity)
 	{
 		if (is_null($this->variant) && !isset($this->data['variant-type']))
 		{
-			$this->variant = $variant['color'];
+			$this->variant = array_key_exists('color', $variant) ? $variant['color'] : 'Unique';
 			$this->data['variant-type'] = 'color-n-size';
 			$this->data['variant-field'] = 'color';
 			$this->data['variants-type'] = 'size';
 		}
-		else if($this->variant != $variant['color'] || $this->data['variant-type'] != 'color-n-size') return false;
-		$this->addSize($variant, $quantity);
+		if (array_key_exists('color', $variant) && $this->variant != $variant['color']) return false;
+		if (array_key_exists('type', $variant))
+		{
+			if ($this->data['variant-type'] != $variant['type']) return false;
+			if ($variant['type'] == 'color-n-size') return $this->addSize($variant, $quantity);
+		}
+		else
+		{
+			if ($this->data['variant-type'] == 'color-n-size') return $this->addSize($variant, $quantity);
+		}
+		return true;
 	}
 
 	public function addSize($variant, $quantity)
@@ -1203,7 +1278,7 @@ class Product
 			return;
 		}
 		$item = ['name' => $variant['name'], 'quantity' => 0];
-		foreach ($this->data['variants'] as $key => $value) {
+		foreach ($this->getVariants() as $key => $value) {
 			if($variant['name'] == $value['name'])
 			{
 				$index = $key;
@@ -1213,6 +1288,7 @@ class Product
 		}
 		$item['quantity'] = intval($item['quantity']) + $quantity;
 		$this->data['variants'][$index] = $item;
+		return true;
 	}
 
 	public function findVariant($value)

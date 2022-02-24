@@ -140,13 +140,12 @@
 				</li>
 				{% endif %}
 
+				{% if 1 < variants|length %}
 				{% if shop_is_live %}
 				<li class="detail-item select-title">
 					<h3 class="product-select-title">{{ 'product.select-title'|matra('Select Product') }}:</span>
 				</li>
 				{% endif %}
-
-				{% if 1 < variants|length %}
 				<li class="detail-item variants">
 				<div class="product-variant-label-wrapper">
 					{% if item.variantField != null %}
