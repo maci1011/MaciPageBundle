@@ -7,6 +7,10 @@
 
 {% for item in list %}
 
+{% if item.product is defined %}
+{% set item = item.product %}
+{% endif %}
+
 {% include "MaciPageBundle:Shop:_item.html.twig" %}
 
 {% if ( loop.index % 4 ) == 0 %}

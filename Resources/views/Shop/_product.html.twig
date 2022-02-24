@@ -212,11 +212,11 @@
 
 				{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
 
+				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
+
 				<li>
 					{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item } )) }}
 				</li>
-
-				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 
 				{% else %}
 

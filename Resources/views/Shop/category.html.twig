@@ -55,7 +55,7 @@
 
 </header>
 
-{% include "MaciPageBundle:Shop:_category_list.html.twig" with { 'category': category } %}
+{% include "MaciPageBundle:Shop:_list.html.twig" with { 'list': category.currentItems } %}
 
 {% endblock %}
 
