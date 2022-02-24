@@ -218,7 +218,7 @@ class OrderService extends AbstractController
 			$this->cart->setShippingAddress($address);
 			$this->om->flush();
 		} else {
-			$info = $this->getDefaultSession();
+			$info = $this->getSessionArray();
 			$info['shippingAddress'] = $address;
 			$this->session->set('order', $info);
 		}
@@ -231,7 +231,7 @@ class OrderService extends AbstractController
 			$this->cart->setBillingAddress($address);
 			$this->om->flush();
 		} else {
-			$info = $this->getDefaultSession();
+			$info = $this->getSessionArray();
 			$info['billingAddress'] = $address;
 			$this->session->set('order', $info);
 		}
@@ -275,8 +275,8 @@ class OrderService extends AbstractController
 	public function resetCart()
 	{
 		$this->cart = false;
-		$this->session->set('order', false);
-		$this->session->set('order_items', array());
+		$this->session->remove('order';
+		$this->session->remove('order_items');
 	}
 
 	public function saveCart($cart = false)
@@ -302,20 +302,21 @@ class OrderService extends AbstractController
 			$cart = $this->om->getRepository('MaciPageBundle:Order\Order')
 				->findOneBy(array('user'=>$this->tokenStorage->getToken()->getUser(), 'type'=>'cart', 'status'=>'current'));
 
-			$order_arr = $this->getDefaultSession();
-
 			if (!$cart) {
-				if (array_key_exists('status', $order_arr) && $order_arr['status'] !== 'current') {
-					$this->resetCart();
-				}
 				$cart = $this->setCart(new Order);
 				$cart->setUser($this->tokenStorage->getToken()->getUser());
 				$this->om->persist($cart);
 			}
 
+			$order_arr = $this->getSessionArray();
+
 			if ($order_arr['status'] === 'session') {
 				$cart = $this->loadCartFromSession($cart);
 				$cart->setStatus('current');
+				$cart->setPayment(null);
+				$cart->setPaymentCost(0);
+				$cart->setShipping(null);
+				$cart->setShippingCost(0);
 			}
 
 			$cart->refreshAmount();
@@ -323,18 +324,16 @@ class OrderService extends AbstractController
 			$this->om->flush();
 
 		} else {
-
-			$cart = $this->setCart(new Order);
-			$cart = $this->loadCartFromSession($cart);
-
+			$cart = $this->loadCartFromSession($this->setCart(new Order));
 		}
 
-		return $this->cart = $cart;
+		$this->cart = $cart;
+		return $this->cart;
 	}
 
 	public function setCart($cart)
 	{
-		$order_arr = $this->getDefaultSession();
+		$order_arr = $this->getSessionArray();
 		$cart->setName( $order_arr['name'] );
 		$cart->setCode( $order_arr['code'] );
 		$cart->setStatus( $order_arr['status'] );
@@ -348,34 +347,54 @@ class OrderService extends AbstractController
 		return $cart;
 	}
 
-	public function getDefaultSession()
+	public static function getDefaultSession()
+	{
+		return [
+			'name' => 'My Cart',
+			'code' => 'CRT-' . rand(10000, 99999) . '-' . 
+				date('h') . date('i') . date('s') . date('m') . date('d') . date('Y'),
+			'status' => 'session',
+			'type' => 'cart',
+			'mail' => null,
+			'checkout' => null,
+			'amount' => 0,
+			'shipping' => null,
+			'shipping_cost' => 0,
+			'payment' => null,
+			'payment_cost' => 0,
+			'shippingAddress' => null,
+			'billingAddress' => null
+		];
+	}
+
+	public function getSessionArray()
 	{
 		$order_arr = $this->session->get('order');
 		if (!is_array($order_arr)) {
-			if (true === $this->authorizationChecker->isGranted('ROLE_USER')) {
-				$status = 'current';
-			} else {
-				$status = 'session';
-			}
-			$this->session->set('order', $order_arr = array(
-				'name' => 'My Cart',
-				'code' => 'CRT-' . rand(10000, 99999) . '-' . 
-					date('h') . date('i') . date('s') . date('m') . date('d') . date('Y'),
-				'status' => $status,
-				'type' => 'cart',
-				'mail' => null,
-				'checkout' => null,
-				'shippingAddress' => null,
-				'billingAddress' => null,
-				'shipping' => null,
-				'shipping_cost' => 0,
-				'payment' => null,
-				'payment_cost' => 0,
-				'amount' => 0
-			));
-			$this->session->set('order_items', array());
+			$order_arr = $this->getDefaultSession();
+			$this->session->set('order', $order_arr);
+			$this->session->set('order_items', []);
 		}
 		return $order_arr;
+	}
+
+	public function orderToArray($order, $info = false)
+	{
+		return [
+			'name' => $order->getName(),
+			'code' => $order->getCode(),
+			'status' => $order->getStatus(),
+			'type' => $order->getType(),
+			'mail' => $order->getMail(),
+			'checkout' => $order->getCheckout(),
+			'amount' => $order->getAmount(),
+			'shipping' => $order->getShipping(),
+			'shipping_cost' => $order->getShippingCost(),
+			'payment' => $order->getPayment(),
+			'payment_cost' => $order->getPaymentCost(),
+			'shippingAddress' => $info ? $info['shippingAddress'] : null,
+			'billingAddress' => $info ? $info['billingAddress'] : null
+		];
 	}
 
 	public function refreshSession($order)
@@ -388,25 +407,9 @@ class OrderService extends AbstractController
 			return;
 		}
 
-		$info = $this->getDefaultSession();
+		$order_arr = $this->orderToArray($order);
 
-		$order_arr = array(
-			'name' => $order->getName(),
-			'code' => $order->getCode(),
-			'status' => $order->getStatus(),
-			'type' => $order->getType(),
-			'mail' => $order->getMail(),
-			'amount' => $order->getAmount(),
-			'shipping' => $order->getShipping(),
-			'shipping_cost' => $order->getShippingCost(),
-			'payment' => $order->getPayment(),
-			'payment_cost' => $order->getPaymentCost(),
-			'checkout' => $order->getCheckout(),
-			'shippingAddress' => $info['shippingAddress'],
-			'billingAddress' => $info['billingAddress']
-		);
-
-		$this->session->set('order', array_merge($info, $order_arr));
+		$this->session->set('order', $order_arr);
 
 		$items = array();
 
@@ -427,7 +430,7 @@ class OrderService extends AbstractController
 
 	public function loadCartFromSession($cart)
 	{
-		$order_arr = $this->getDefaultSession();
+		$order_arr = $this->getSessionArray();
 		$items = $this->session->get('order_items', array());
 		if (count($items)) {
 			foreach ($items as $item) {
@@ -461,7 +464,6 @@ class OrderService extends AbstractController
 		}
 
 		$cart->refreshAmount();
-
 		return $cart;
 	}
 
