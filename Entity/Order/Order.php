@@ -849,9 +849,7 @@ class Order
 
 	public function setInvoiceValue()
 	{
-		if (!$this->invoice) {
-			$this->invoice = new \DateTime();
-		}
+		$this->invoice = new \DateTime();
 	}
 
 	public function getTransactionsAmount()
@@ -998,11 +996,11 @@ class Order
 	{
 		$this->subItemsQuantity();
 
-		$this->due = new \DateTime();
+		$this->setInvoiceValue();
+
+		$this->due = $this->invoice;
 
 		$this->due->modify('+1 month');
-
-		$this->invoice = new \DateTime();
 
 		$this->status = 'confirm';
 

@@ -112,7 +112,7 @@ services:
     # Controller Service
 
     Maci\PageBundle\Controller\OrderService:
-        arguments: ["@doctrine.orm.entity_manager","@security.authorization_checker",'@security.token_storage',"@session","@kernel","@maci.addresses","%maci.page.configs%"]
+        arguments: ["@doctrine.orm.entity_manager","@request_stack","@security.authorization_checker",'@security.token_storage',"@session","@kernel","@maci.addresses","%maci.page.configs%"]
 
     maci.orders:
         alias: Maci\PageBundle\Controller\OrderService

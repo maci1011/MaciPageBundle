@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -20,6 +21,8 @@ use Maci\PageBundle\Entity\Order\Item;
 class OrderService extends AbstractController
 {
 	private $om;
+
+	private $request;
 
 	private $authorizationChecker;
 
@@ -41,9 +44,10 @@ class OrderService extends AbstractController
 
 	private $countries;
 
-	public function __construct(ObjectManager $objectManager, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage, Session $session, \App\Kernel $kernel, AddressServiceController $ac, $configs)
+	public function __construct(ObjectManager $objectManager, RequestStack $requestStack, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage, Session $session, \App\Kernel $kernel, AddressServiceController $ac, $configs)
 	{
 		$this->om = $objectManager;
+		$this->request = $requestStack->getCurrentRequest();
 		$this->authorizationChecker = $authorizationChecker;
 		$this->tokenStorage = $tokenStorage;
 		$this->session = $session;
@@ -282,7 +286,8 @@ class OrderService extends AbstractController
 	public function saveCart($cart = false)
 	{
 		if ($cart === false) $cart = $this->getCurrentCart();
-		if (true === $this->authorizationChecker->isGranted('ROLE_USER') || $cart->getStatus() === 'confirm') {
+		if (true === $this->authorizationChecker->isGranted('ROLE_USER') || $cart->getStatus() === 'confirm')
+		{
 			if (!$cart->getid() ) {
 				$this->om->persist($cart);
 			}
@@ -293,32 +298,41 @@ class OrderService extends AbstractController
 
 	public function getCurrentCart()
 	{
-		if ($this->cart) {
+		if ($this->cart)
+		{
 			return $this->cart;
 		}
 
-		if (true === $this->authorizationChecker->isGranted('ROLE_USER')) {
+		if (true === $this->authorizationChecker->isGranted('ROLE_USER'))
+		{
 
 			$cart = $this->om->getRepository('MaciPageBundle:Order\Order')
 				->findOneBy(array('user'=>$this->tokenStorage->getToken()->getUser(), 'type'=>'cart', 'status'=>'current'));
 
-			if (!$cart) {
+			if (!$cart)
+			{
 				$cart = $this->setCart(new Order);
 				$cart->setUser($this->tokenStorage->getToken()->getUser());
-				$this->om->persist($cart);
 			}
 
 			$order_arr = $this->getSessionArray();
-
-			if ($order_arr['status'] === 'session') {
+			if (is_array($order_arr) && $order_arr['status'] === 'session')
+			{
 				$cart = $this->loadCartFromSession($cart);
 				$cart->setStatus('current');
+				$cart->refreshAmount();
+				$cart->setPayment(null);
+				$cart->setPaymentCost(0);
+				$cart->setShipping(null);
+				$cart->setShippingCost(0);
 			}
 
-			$cart->refreshAmount();
-			$this->refreshSession($cart);
-			$this->om->flush();
+			if (!$cart->getLocale())
+			{
+				$cart->setLocale($this->request->getLocale());
+			}
 
+			$this->saveCart($cart);
 		}
 		else
 		{
@@ -372,6 +386,7 @@ class OrderService extends AbstractController
 			$order_arr = $this->getDefaultSession();
 			$this->session->set('order', $order_arr);
 			$this->session->set('order_items', []);
+			return false;
 		}
 		return $order_arr;
 	}
@@ -398,10 +413,7 @@ class OrderService extends AbstractController
 	public function refreshSession($order)
 	{
 		if (!$order->getStatus() == 'session') {
-			if ($this->session->has('order')) {
-				$this->session->remove('order');
-				$this->session->remove('order_items');
-			}
+			$this->resetCart();
 			return;
 		}
 
