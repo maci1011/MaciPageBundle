@@ -10,12 +10,11 @@
 
 {% endif %}
 
-{% if quantity < 9 %}
-<li>
-	<span class="product-quantity_available">{{ 'product.quantity_available' | matra('Quantity Available') }}: {{ quantity }}</span>
+<li class="detail-item quantity">
+	{% if quantity < 9 %}
+	<span class="detail-label product-quantity-available">{{ 'product.quantity_available' | matra('Quantity Available') }}:</span>
+	<span class="detail-info product-quantity-val">{{ quantity }}</span>
+	{% else %}
+	<span class="detail-label product-available">{{ 'product.available-immediately' | matra('Available Immediately') }}.</span>
+	{% endif %}
 </li>
-{% else %}
-<li>
-	<span class="product-available">{{ 'product.available-immediately' | matra('Available Immediately') }}.</span>
-</li>
-{% endif %}

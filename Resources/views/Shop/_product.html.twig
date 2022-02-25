@@ -181,10 +181,12 @@
 					{% for variant in item.variants %}
 					<div id="variant_{{ loop.index }}" class="variant-add-wrapper">
 						<ul class="variant-details-wrapper">
-							{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
 							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
+							{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
 						</ul>
-						{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
+						<div class="addToCartFormWrapper">
+							{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
+						</div>
 					</div>
 					{% endfor %}
 				</li>
@@ -210,11 +212,10 @@
 				{# "Simple" Product (->type) #}
 				{% elseif item.isAvailable %}
 
+				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 				{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
 
-				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
-
-				<li>
+				<li class="addToCartFormWrapper">
 					{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item } )) }}
 				</li>
 
