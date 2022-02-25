@@ -589,6 +589,8 @@ class OrderController extends AbstractController
 			$cart->confirmOrder();
 		}
 
+		$this->get('maci.orders')->resetCart();
+
 		// ---> Send eMails <---
 
 		$to = $payment->getClientEmail();
@@ -605,6 +607,8 @@ class OrderController extends AbstractController
 		;
 
 		if ($cart->getUser()) {
+			if (!$cart->getMail()) $cart->setMail($cart->getUser()->getEmail());
+			$cart->setDescription('Order Placed by ' . $cart->getUser()->getUsername() . '.');
 			$mail->setUser($cart->getUser());
 		}
 
@@ -628,7 +632,6 @@ class OrderController extends AbstractController
 		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($notify);
 
 		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
-
 	}
 
 	public function checkoutCompleteAction(Request $request, $token)

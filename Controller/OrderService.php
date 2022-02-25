@@ -275,7 +275,7 @@ class OrderService extends AbstractController
 	public function resetCart()
 	{
 		$this->cart = false;
-		$this->session->remove('order';
+		$this->session->remove('order');
 		$this->session->remove('order_items');
 	}
 
@@ -313,17 +313,15 @@ class OrderService extends AbstractController
 			if ($order_arr['status'] === 'session') {
 				$cart = $this->loadCartFromSession($cart);
 				$cart->setStatus('current');
-				$cart->setPayment(null);
-				$cart->setPaymentCost(0);
-				$cart->setShipping(null);
-				$cart->setShippingCost(0);
 			}
 
 			$cart->refreshAmount();
 			$this->refreshSession($cart);
 			$this->om->flush();
 
-		} else {
+		}
+		else
+		{
 			$cart = $this->loadCartFromSession($this->setCart(new Order));
 		}
 
