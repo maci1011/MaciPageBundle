@@ -1192,6 +1192,26 @@ class Product
 		return array_key_exists('variant-type', $data) ? $data['variant-type'] : null;
 	}
 
+	public function setVariantType($type)
+	{
+		if (is_string($this->getVariantsType()) || !is_string($type) || !in_array($type, $this->getVariantTypes())) return;
+		if (!$this->data) $this->data = [];
+		switch ($type) {
+			case 'color-n-size':
+				$this->data['variant-type'] = 'color-n-size';
+				$this->data['variant-field'] = 'color';
+				$this->data['variants-type'] = 'size';
+				break;
+		}
+	}
+
+	public static function getVariantTypes()
+	{
+		return [
+			'color-n-size'
+		];
+	}
+
 	public function getVariantField()
 	{
 		$data = $this->getData();
@@ -1202,13 +1222,6 @@ class Product
 	{
 		$data = $this->getData();
 		return array_key_exists('variants-type', $data) ? $data['variants-type'] : null;
-	}
-
-	public static function getVariantTypes()
-	{
-		return [
-			'color-n-size'
-		];
 	}
 
 	public function addVariant($variant, $quantity)
@@ -1251,12 +1264,13 @@ class Product
 
 	public function addColorAndSize($variant, $quantity)
 	{
-		if (is_null($this->variant) && !isset($this->data['variant-type']))
+		if (!$this->data || !array_key_exists('variant-type', $this->data)) {
+			$this->setVariantType('color-n-size');
+		}
+		else if ($this->data['variant-type'] != 'color-n-size') return false;
+		if (is_null($this->variant))
 		{
 			$this->variant = array_key_exists('color', $variant) ? $variant['color'] : 'Unique';
-			$this->data['variant-type'] = 'color-n-size';
-			$this->data['variant-field'] = 'color';
-			$this->data['variants-type'] = 'size';
 		}
 		if (array_key_exists('color', $variant) && $this->variant != $variant['color']) return false;
 		if (array_key_exists('type', $variant))

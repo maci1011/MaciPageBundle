@@ -7,6 +7,14 @@ maci_product_add_variant:
         id: \d+
         _locale: "%r_locales%"
 
+maci_product_set_variant_type:
+    path:  /{_locale}/product/set-variant-type/{id}
+    defaults: { _controller: MaciPageBundle:Shop:setVariantType }
+    methods:  [POST]
+    requirements:
+        id: \d+
+        _locale: "%r_locales%"
+
 maci_product_show:
     path:  /{_locale}/product/{path}
     defaults: { _controller: MaciPageBundle:Shop:show }

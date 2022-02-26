@@ -129,23 +129,7 @@
 				</li>
 				{% endif %}
 
-				{% if item.variant %}
-				<li class="detail-item variant">
-					{% if item.variantField != null %}
-					<span class="detail-label product-variant-field">{{ ('product.variant-field.' ~ item.variantField)|matra(item.variantField|capitalize) }}:</span>
-					{% else %}
-					<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
-					{% endif %}
-					<span class="detail-info product-variant">{{ item.variant }}</span>
-				</li>
-				{% endif %}
-
 				{% if 1 < variants|length %}
-				{% if shop_is_live %}
-				<li class="detail-item select-title">
-					<h3 class="detail-label product-select-title">{{ 'product.select-title'|matra('Select Product') }}:</span>
-				</li>
-				{% endif %}
 				<li class="detail-item variants">
 				<div class="product-variant-label-wrapper">
 					{% if item.variantField != null %}
@@ -162,20 +146,26 @@
 					{% endfor %}
 				</div>
 				</li>
+				{% elseif item.variant %}
+				<li class="detail-item variant">
+					{% if item.variantField != null %}
+					<span class="detail-label product-variant-field">{{ ('product.variant-field.' ~ item.variantField)|matra(item.variantField|capitalize) }}:</span>
+					{% else %}
+					<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
+					{% endif %}
+					<span class="detail-info product-variant">{{ item.variant }}</span>
+				</li>
 				{% endif %}
 
 				{% if shop_is_live %}
 
-				{# Product with Variants #}
-				{% if item.type == 'vrnts' %}
-
-				<li class="detail-item size-title">
-					<span class="detail-label product-size-label">{{ 'product.size' | matra('Size') }}:</span>
-				</li>
-
+				{% if item.type == 'vrnts' %}{# Product with Variants #}
 				{% if item.variantType == 'color-n-size' %}
 
 				{% if item.variants|length %}
+				<li class="detail-item size-title">
+					<span class="detail-label product-size-label">{{ 'product.size' | matra('Size') }}:</span>
+				</li>
 				<li class="detail-item size-list">
 					<select class="form-control variants-selector" name="product-variant">
 						{% for variant in item.variants %}
@@ -185,8 +175,8 @@
 					{% for variant in item.variants %}
 					<div id="variant_{{ loop.index }}" class="variant-add-wrapper">
 						<ul class="variant-details-wrapper">
-							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 							{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
+							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 						</ul>
 						{% if 0 < variant.quantity %}
 						<div class="addToCartFormWrapper">
@@ -219,21 +209,24 @@
 				{% if is_granted('ROLE_ADMIN') %}
 				<li>
 					<span class="detail-label add-variant">Set Variant Type:</span>
-					<select class="form-control variant-type-selector" name="product-variant-type">
-						{% for variant in item.variantTypes %}
-						<option value="{{ loop.index }}">{{ variant }}</option>
-						{% endfor %}
-					</select>
+					<form class="set-variant-type-form form-inline" action="{{ path('maci_product_set_variant_type', {'id': item.id}) }}" method="post">
+						<select class="form-control variant-type-selector" name="type">
+							{% for variant in item.variantTypes %}
+							<option value="{{ variant }}">{{ variant }}</option>
+							{% endfor %}
+						</select>
+						<button class="btn btn-primary">Set</button>
+					</form>
 				</li>
 				{% endif %}
 
-				{% endif %}{# end color-n-size variant #}
+				{% endif %}{# end variant types #}
 
-				{# "Simple" Product (->type) #}
+				{# "Simple" Product Type #}
 				{% elseif item.isAvailable %}
 
-				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 				{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
+				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 
 				<li class="addToCartFormWrapper">
 					{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item } )) }}

@@ -171,6 +171,25 @@ class ShopController extends AbstractController
 		);
 	}
 
+	public function setVariantTypeAction(Request $request, $id)
+	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect('maci_homepage');
+		}
+
+		$om = $this->getDoctrine()->getManager();
+		$item = $om->getRepository('MaciPageBundle:Shop\Product')->findOneById($id);
+
+		if (!$item) {
+			return $this->redirect($this->generateUrl('maci_product'));
+		}
+
+		$item->setVariantType($request->get('type'));
+		$om->flush();
+
+		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
+	}
+
 	public function addVariantAction(Request $request, $id)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
@@ -188,12 +207,10 @@ class ShopController extends AbstractController
 		$name = $request->get('name');
 		$quantity = $request->get('quantity');
 
-		if ($type != 'size') {
-			return $this->redirect('maci_homepage');
+		if ($type == 'size') {
+			$item->addSize(['name' => $name], $quantity);
+			$om->flush();
 		}
-
-		$item->addSize(['name' => $name], $quantity);
-		$om->flush();
 
 		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
 	}
