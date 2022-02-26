@@ -168,9 +168,13 @@
 
 				{# Product with Variants #}
 				{% if item.type == 'vrnts' %}
+
 				<li class="detail-item size-title">
 					<span class="detail-label product-size-label">{{ 'product.size' | matra('Size') }}:</span>
 				</li>
+
+				{% if item.variantType == 'color-n-size' %}
+
 				{% if item.variants|length %}
 				<li class="detail-item size-list">
 					<select class="form-control variants-selector" name="product-variant">
@@ -184,12 +188,19 @@
 							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 							{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" %}
 						</ul>
+						{% if 0 < variant.quantity %}
 						<div class="addToCartFormWrapper">
 							{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
 						</div>
+						{% endif %}
 					</div>
 					{% endfor %}
 				</li>
+				{% else %}
+				<li>
+					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
+				</li>
+				{% endif %}
 
 				{% if is_granted('ROLE_ADMIN') %}
 				<li>
@@ -203,11 +214,20 @@
 				</li>
 				{% endif %}
 
-				{% else %}
+				{% else %}{# no variant type mathed #}
+
+				{% if is_granted('ROLE_ADMIN') %}
 				<li>
-					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
+					<span class="detail-label add-variant">Set Variant Type:</span>
+					<select class="form-control variant-type-selector" name="product-variant-type">
+						{% for variant in item.variantTypes %}
+						<option value="{{ loop.index }}">{{ variant }}</option>
+						{% endfor %}
+					</select>
 				</li>
 				{% endif %}
+
+				{% endif %}{# end color-n-size variant #}
 
 				{# "Simple" Product (->type) #}
 				{% elseif item.isAvailable %}
@@ -225,22 +245,16 @@
 					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 				</li>
 
-				{% endif %}{# end variants if #}
-
-				{% else %}
-
+				{% endif %}{# end Types if #}
+				{% else %}{# !shop_is_live #}
 				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
-
 				{% endif %}{# end shop_is_live #}
 
 				{% if is_granted('ROLE_ADMIN') and item.privateDocuments|length %}
 				<li class="detail-item books">
 				<div class="product-books">
-
 					<h4>{{ 'product.documents' | matra('Documents') }}</h4>
-
 					{% for doc in item.privateDocuments %}
-
 					<div class="row">
 						<div class="col-xs-9">
 							<span>{{ doc }}</span>
@@ -251,16 +265,13 @@
 							</a>
 						</div>
 					</div>
-
 					{% endfor %}
-
 				</div>
 				</li>
 				{% endif %}
 
 			</ul>
 		</div>
-
 	</section>
 
 </div>

@@ -1204,6 +1204,13 @@ class Product
 		return array_key_exists('variants-type', $data) ? $data['variants-type'] : null;
 	}
 
+	public static function getVariantTypes()
+	{
+		return [
+			'color-n-size'
+		];
+	}
+
 	public function addVariant($variant, $quantity)
 	{
 		if (!$variant) return false;

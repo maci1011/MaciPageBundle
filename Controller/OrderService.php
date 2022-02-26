@@ -293,7 +293,11 @@ class OrderService extends AbstractController
 			}
 			$this->om->flush();
 		}
-		$this->refreshSession($cart);
+		else
+		{
+			$cart->setStatus('session');
+			$this->refreshSession($cart);
+		}
 	}
 
 	public function getCurrentCart()
@@ -311,20 +315,16 @@ class OrderService extends AbstractController
 
 			if (!$cart)
 			{
-				$cart = $this->setCart(new Order);
+				$cart = $this->getNewCart();
 				$cart->setUser($this->tokenStorage->getToken()->getUser());
+				$cart->setStatus('current');
 			}
 
 			$order_arr = $this->getSessionArray();
-			if (is_array($order_arr) && $order_arr['status'] === 'session')
+			if ($order_arr['status'] == 'session')
 			{
 				$cart = $this->loadCartFromSession($cart);
-				$cart->setStatus('current');
-				$cart->refreshAmount();
-				$cart->setPayment(null);
-				$cart->setPaymentCost(0);
-				$cart->setShipping(null);
-				$cart->setShippingCost(0);
+				$this->resetCart();
 			}
 
 			if (!$cart->getLocale())
@@ -336,36 +336,20 @@ class OrderService extends AbstractController
 		}
 		else
 		{
-			$cart = $this->loadCartFromSession($this->setCart(new Order));
+			$cart = $this->loadCartFromSession();
 		}
 
 		$this->cart = $cart;
 		return $this->cart;
 	}
 
-	public function setCart($cart)
-	{
-		$order_arr = $this->getSessionArray();
-		$cart->setName( $order_arr['name'] );
-		$cart->setCode( $order_arr['code'] );
-		$cart->setStatus( $order_arr['status'] );
-		$cart->setType( $order_arr['type'] );
-		$cart->setMail( $order_arr['mail'] );
-		$cart->setCheckout( $order_arr['checkout'] );
-		$cart->setShipping( $order_arr['shipping'] );
-		$cart->setShippingCost( $order_arr['shipping_cost'] );
-		$cart->setPayment( $order_arr['payment'] );
-		$cart->setPaymentCost( $order_arr['payment_cost'] );
-		return $cart;
-	}
-
-	public static function getDefaultSession()
+	public static function getCartDefaultValues()
 	{
 		return [
 			'name' => 'My Cart',
 			'code' => 'CRT-' . rand(10000, 99999) . '-' . 
 				date('h') . date('i') . date('s') . date('m') . date('d') . date('Y'),
-			'status' => 'session',
+			'status' => 'new',
 			'type' => 'cart',
 			'mail' => null,
 			'checkout' => null,
@@ -381,14 +365,20 @@ class OrderService extends AbstractController
 
 	public function getSessionArray()
 	{
-		$order_arr = $this->session->get('order');
-		if (!is_array($order_arr)) {
-			$order_arr = $this->getDefaultSession();
-			$this->session->set('order', $order_arr);
-			$this->session->set('order_items', []);
-			return false;
+		$order = $this->session->get('order');
+		if (!is_array($order)) {
+			return $this->getCartDefaultValues();
 		}
-		return $order_arr;
+		return $order;
+	}
+
+	public function getSessionItems()
+	{
+		$items = $this->session->get('order_items');
+		if (!is_array($items)) {
+			return [];
+		}
+		return $items;
 	}
 
 	public function orderToArray($order, $info = false)
@@ -410,38 +400,34 @@ class OrderService extends AbstractController
 		];
 	}
 
-	public function refreshSession($order)
+	public function setOrderValues($order, $values = false)
 	{
-		if (!$order->getStatus() == 'session') {
-			$this->resetCart();
-			return;
-		}
-
-		$order_arr = $this->orderToArray($order);
-
-		$this->session->set('order', $order_arr);
-
-		$items = array();
-
-		foreach ($order->getItems() as $item) {
-			if (is_object($product = $item->getProduct())) {
-				array_push($items, array(
-					'id' => $product->getId(),
-					'name' => $product->getName(),
-					'sale' => $product->getSale(),
-					'price' => $product->getAmount(),
-					'quantity' => $item->getQuantity()
-				));
-			}
-		}
-
-		$this->session->set('order_items', $items);
+		if (!$values) $values = $this->getCartDefaultValues();
+		$order->setName($values['name']);
+		$order->setCode($values['code']);
+		$order->setStatus($values['status']);
+		$order->setType($values['type']);
+		$order->setMail($values['mail']);
+		$order->setCheckout($values['checkout']);
+		$order->setShipping($values['shipping']);
+		$order->setShippingCost($values['shipping_cost']);
+		$order->setPayment($values['payment']);
+		$order->setPaymentCost($values['payment_cost']);
+		return $order;
 	}
 
-	public function loadCartFromSession($cart)
+	public function getNewCart()
 	{
-		$order_arr = $this->getSessionArray();
-		$items = $this->session->get('order_items', array());
+		return $this->setOrderValues(new Order);
+	}
+
+	public function loadCartFromSession($cart = false)
+	{
+		$values = $this->getSessionArray();
+		$items = $this->getSessionItems();
+
+		if (!$cart) $cart = $this->setOrderValues(new Order, $values);
+
 		if (count($items)) {
 			foreach ($items as $item) {
 				$quantity = $item['quantity'];
@@ -453,8 +439,8 @@ class OrderService extends AbstractController
 			}
 		}
 
-		if ($order_arr['shippingAddress'] !== null) {
-			$address = $order_arr['shippingAddress'];
+		if ($values['shippingAddress'] !== null) {
+			$address = $values['shippingAddress'];
 			if (is_numeric($address)) {
 				$address = $this->ac->getAddress($address);
 			}
@@ -463,8 +449,8 @@ class OrderService extends AbstractController
 			}
 		}
 
-		if ($order_arr['billingAddress'] !== null) {
-			$address = $order_arr['billingAddress'];
+		if ($values['billingAddress'] !== null) {
+			$address = $values['billingAddress'];
 			if (is_numeric($address)) {
 				$address = $this->ac->getAddress($address);
 			}
@@ -475,6 +461,31 @@ class OrderService extends AbstractController
 
 		$cart->refreshAmount();
 		return $cart;
+	}
+
+	public function refreshSession($order)
+	{
+		if (!$order->getStatus() == 'session') {
+			$this->resetCart();
+			return;
+		}
+
+		$order_arr = $this->orderToArray($order);
+		$this->session->set('order', $order_arr);
+
+		$items = array();
+		foreach ($order->getItems() as $item) {
+			if (is_object($product = $item->getProduct())) {
+				array_push($items, array(
+					'id' => $product->getId(),
+					'name' => $product->getName(),
+					'sale' => $product->getSale(),
+					'price' => $product->getAmount(),
+					'quantity' => $item->getQuantity()
+				));
+			}
+		}
+		$this->session->set('order_items', $items);
 	}
 
 	public function getConfigs()
