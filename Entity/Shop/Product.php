@@ -377,6 +377,8 @@ class Product
 	{
 		$this->type = $type;
 
+		if ($type == $this->getTypes()[1]) $this->setVariantType('color-n-size');
+
 		return $this;
 	}
 
@@ -403,8 +405,7 @@ class Product
 
 	public function getTypeLabel()
 	{
-		if($this->type == "")
-			return array_search($this->getTypes()[0], $this->getTypeArray());
+		if(!$this->type || $this->type == "") return array_search($this->getTypes()[0], $this->getTypeArray());
 		$array = $this->getTypeArray();
 		$key = array_search($this->type, $array);
 		if ($key) {
@@ -1134,12 +1135,12 @@ class Product
 		if($variant['type'] == 'unset')
 		{
 			$this->quantity += $record->getDiffQuantity();
-			$this->setType($this->getTypes()[1]);
+			$this->setType($this->getTypes()[0]);
 		}
 		else
 		{
 			$this->addVariant($variant, $record->getDiffQuantity());
-			$this->setType($this->getTypes()[2]);
+			$this->setType($this->getTypes()[1]);
 		}
 
 		$record->setProduct($this);
