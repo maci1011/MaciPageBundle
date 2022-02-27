@@ -1117,6 +1117,8 @@ class Product
 
 	public function importRecord(\Maci\PageBundle\Entity\Shop\Record $record)
 	{
+		if ($record->isLoaded()) return;
+
 		if($this->status == 'unset')
 		{
 			$this->setCode($record->getCode());
@@ -1143,7 +1145,7 @@ class Product
 			$this->setType($this->getTypes()[1]);
 		}
 
-		$record->setProduct($this);
+		$record->setLoadedValue();
 	}
 
 	public function getVariants()

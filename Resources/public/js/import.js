@@ -3,7 +3,7 @@
 
 var maciShopImport = function (options) {
 
-	var form, records, index, fileInput, alertNode,
+	var form, records, index, fileInput, alertNode, toLoad,
 
 	_obj = {
 
@@ -57,15 +57,20 @@ var maciShopImport = function (options) {
 	loadUnsettedRecords: function() {
 		$.ajax({
 			type: 'POST',
+			data: {
+				'ids': toLoad
+			},
 			url: '/record/load-unsetted-records',
 			success: function(d,s,x) {
-				console.log(d);
+				console.log('End of Import and Load.');
 			}
 		});
 	},
 
 	saveRecord: function(data) {
-		if (3 <= index) return;
+
+		if (0 < index) return _obj.end();;
+
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -80,21 +85,13 @@ var maciShopImport = function (options) {
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
 				_obj.setParent(d);
+				toLoad[toLoad.length] = d.new.id;
 				_obj.saveNext();
 			},
 			error: function(d,s,x) {
 				_obj.saveNext();
 			}
 		});
-	},
-
-	start: function(_form) {
-		if (!records.length) {
-			alert('No Data.');
-		}
-		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form.find("#dataFile").parent());
-		index = -1;
-		_obj.saveNext();
 	},
 
 	saveNext: function(_form) {
@@ -106,6 +103,16 @@ var maciShopImport = function (options) {
 		_obj.saveRecord(records[index]);
 	},
 
+	start: function(_form) {
+		if (!records.length) {
+			alert('No Data.');
+		}
+		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form.find("#dataFile").parent());
+		index = -1;
+		toLoad = [];
+		_obj.saveNext();
+	},
+
 	end: function() {
 		alertNode.text("End! Imported: " + index + " of " + records.length + ".");
 		setTimeout(function() {
@@ -114,51 +121,6 @@ var maciShopImport = function (options) {
 		form.find("#import_submit").show();
 		form.find("#import_data").val('');
 		_obj.loadUnsettedRecords();
-	},
-
-	setFileInput: function() {
-		fileInput = form.find("#dataFile");
-		fileInput.hide().on('change', function(e) {
-			if (!e.target.files.length) return;
-			var fr = new FileReader();
-			fr.onload = function() {
-				_obj.importXml(fr.result);
-			}
-			fr.readAsText(e.target.files[0]);
-		});
-	},
-
-	importXml: function(data) {
-		var s = data.indexOf('<Table');
-		if(s == -1)
-		{
-			// _obj.importTxt(data);
-			return;
-		}
-		var e = data.indexOf('</Table>') + 8;
-		data = $(data.substr(s, e - s));
-		var fields = [];
-		data.find('Row').first().find('Cell').each(function(i, el) {
-			if(!$(el).text().length) fields[i] = false;
-			fields[i] = $(el).text().trim();
-		});
-		records = [];
-		index = 0;
-		var fieldsLen = data.find('Row').first().find('Cell').length;
-		data.find('Row').not(':first').each(function(ri, row) {
-			if($(row).find('Cell').length != fieldsLen) return;
-			var dt = {};
-			$(row).find('Cell').each(function(i, el) {
-				if (fields[i] == false) return;
-				dt[fields[i]] = $(el).text().trim();
-			});
-			records[index] = {
-				'type': 'purchas',
-				'import': dt
-			};
-			index++;
-		});
-		if(confirm("Items to import: " + records.length + ".")) _obj.start();
 	},
 
 	importTxt: function(data) {
@@ -188,6 +150,53 @@ var maciShopImport = function (options) {
 			}
 		}
 		console.log(list);
+	},
+
+	importXml: function(data) {
+		var s = data.indexOf('<Table');
+		if(s == -1)
+		{
+			// _obj.importTxt(data);
+			return;
+		}
+		var e = data.indexOf('</Table>') + 8;
+		data = $(data.substr(s, e - s));
+		var fields = [];
+		data.find('Row').first().find('Cell').each(function(i, el) {
+			if($(el).text().length) fields[i] = $(el).text();
+			else fields[i] = false;
+		});
+		records = [];
+		index = 0;
+		var fieldsLen = data.find('Row').first().find('Cell').length - 1;
+		data.find('Row').not(':first').each(function(ri, row) {
+			if($(row).find('Cell').length != fieldsLen) return;
+			var dt = {};
+			$(row).find('Cell').each(function(i, el) {
+				if (fields[i] == false) return;
+				dt[fields[i]] = $(el).text().trim();
+			});
+			records[index] = {
+				'type': 'purchas',
+				'import': dt
+			};
+			index++;
+		});
+		// console.log(records);
+		// if(confirm("Items to import: " + records.length + "."))
+		_obj.start();
+	},
+
+	setFileInput: function() {
+		fileInput = form.find("#dataFile");
+		fileInput.hide().on('change', function(e) {
+			if (!e.target.files.length) return;
+			var fr = new FileReader();
+			fr.onload = function() {
+				_obj.importXml(fr.result);
+			}
+			fr.readAsText(e.target.files[0]);
+		});
 	},
 
 	set: function(_form) {

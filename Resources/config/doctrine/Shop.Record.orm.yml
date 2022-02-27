@@ -34,9 +34,6 @@ Maci\PageBundle\Entity\Shop\Record:
         recorded:
             type: datetime
     manyToOne:
-        product:
-            targetEntity: Maci\PageBundle\Entity\Shop\Product
-            inversedBy: records
         parent:
             targetEntity: Maci\PageBundle\Entity\Shop\RecordSet
             inversedBy: children

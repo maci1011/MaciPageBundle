@@ -63,11 +63,6 @@ class Record
 	private $parent;
 
 	/**
-	 * @var \Maci\PageBundle\Entity\Shop\Product
-	 */
-	private $product;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -296,9 +291,8 @@ class Record
 
 	public function getDiffQuantity()
 	{
-		if($this->type == 'purchas') return $this->quantity;
 		if(in_array($this->type, ['sale', 'return'])) return -$this->quantity;
-		return 0;
+		return $this->quantity;
 	}
 
 	/**
@@ -348,6 +342,7 @@ class Record
 				case 'Descr.Cat.Mer.':
 					$this->category = $value;
 					break;
+				case 'Prz.Lordo':
 				case 'Uni:XXEUR025':
 					$this->price = (intval(floatval($value) * 0.26) + 1) * 10;
 					break;
@@ -430,7 +425,10 @@ class Record
 	public function getVariantsLabel()
 	{
 		$variant = $this->getVariant();
-		if($variant['type'] == 'color-n-size') return "Color: " . $variant['color'] . " - Size: " . $variant['size'];
+		if($variant['type'] == 'color-n-size')
+		{
+			return "Color: " . $variant['color'] . " - Size: " . $variant['name'];
+		}
 		return $this->getVariant()['type'];
 	}
 
@@ -444,6 +442,26 @@ class Record
 			$variant['name'] = $data['Tgl'];
 		}
 		$this->data['variant'] = $variant;
+	}
+
+	public function isLoaded()
+	{
+		return array_key_exists('loaded', $this->getData());
+	}
+
+	public function getLoadedValue()
+	{
+		if (!$this->isLoaded())
+		{
+			return false;
+		}
+
+		return $this->data['loaded'];
+	}
+
+	public function setLoadedValue()
+	{
+		$this->data['loaded'] = date_format(new \DateTime(), 'r');
 	}
 
 	/**
@@ -492,23 +510,6 @@ class Record
 	public function getParentLabel()
 	{
 		return $this->parent ? $this->parent->getLabel() : '';
-	}
-
-	public function setProduct(\Maci\PageBundle\Entity\Shop\Product $product = null)
-	{
-		$this->product = $product;
-
-		return $this;
-	}
-
-	public function getProduct()
-	{
-		return $this->product;
-	}
-
-	public function getProductLabel()
-	{
-		return $this->product ? $this->product->getName() : '';
 	}
 
 	/**

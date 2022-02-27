@@ -46,10 +46,10 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['product' => null]);
+		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $request->get('ids')]);
 
 		if (!count($list)) {
-			return new JsonResponse(['success' => true], 200);
+			return new JsonResponse(['success' => true, 'len' => count($list)], 200);
 		}
 
 		$last = false;
