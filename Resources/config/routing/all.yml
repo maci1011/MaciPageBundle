@@ -11,6 +11,9 @@ maci_page_media:
 maci_page_order:
     resource: "@MaciPageBundle/Resources/config/routing/order.yml"
 
+maci_page_records:
+    resource: "@MaciPageBundle/Resources/config/routing/records.yml"
+
 maci_page_search:
     resource: "@MaciPageBundle/Resources/config/routing/search.yml"
 

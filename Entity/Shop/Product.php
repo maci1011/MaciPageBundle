@@ -417,7 +417,7 @@ class Product
 
 	static public function getTypes()
 	{
-		return array_values(Record::getTypeArray());
+		return array_values(Product::getTypeArray());
 	}
 
 	public function setShipment($shipment)

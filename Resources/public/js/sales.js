@@ -14,7 +14,7 @@ var maciShopImport = function (options) {
 			data: {
 				'data': {
 					'list': {
-						'section': 'shop',
+						'section': 'records',
 						'entity': 'record_set'
 					}
 				}
@@ -39,7 +39,7 @@ var maciShopImport = function (options) {
 			data: {
 				'data': {
 					'list': {
-						'section': 'shop',
+						'section': 'records',
 						'entity': 'record',
 						'filters': {
 							'type': 'purchas',
@@ -63,7 +63,7 @@ var maciShopImport = function (options) {
 			data: {
 				'data': {
 					'add': {
-						'section': 'shop',
+						'section': 'records',
 						'entity': 'record',
 						'id': data.new.id,
 						'relation': 'parent',
@@ -81,7 +81,7 @@ var maciShopImport = function (options) {
 			data: {
 				'data': {
 					'new': {
-						'section': 'shop',
+						'section': 'records',
 						'entity': 'record',
 						'data': data
 					}
