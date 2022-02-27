@@ -539,8 +539,8 @@ class Product
 	{
 		return array(
 			'Unset' => 'unset',
-			'Stored Data' => 'stored',
 			'New Product' => 'new',
+			'Stored Data' => 'stored',
 			'Available' => 'availab',
 			'On Sale' => 'on_sale',
 			'Not Available' => 'not_ava',
@@ -564,6 +564,11 @@ class Product
 	static public function getStatusValues()
 	{
 		return array_values(Product::getStatusArray());
+	}
+
+	static public function setStatusValue()
+	{
+		if ($this->status == 'unset') $this->status = 'new';
 	}
 
 	/**
