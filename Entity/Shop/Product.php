@@ -1124,6 +1124,7 @@ class Product
 			$this->setCode($record->getCode());
 			$this->setName($record->getCategory());
 			$this->setComposition($record->getImportedComposition());
+			$this->setBrand($record->getBrand());
 			$this->setPath($record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand()));
 			$this->setMetaTitle($record->getCategory() . "-" . $record->getBrand());
 			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
