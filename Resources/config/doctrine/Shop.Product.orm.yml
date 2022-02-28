@@ -100,5 +100,5 @@ Maci\PageBundle\Entity\Shop\Product:
             orderBy: { 'position': ASC }
             cascade: ["persist", "remove"]
     lifecycleCallbacks:
-        prePersist: [ setUpdatedValue, setCreatedValue, setPathValue, setStatusValue ]
+        prePersist: [ setUpdatedValue, setCreatedValue, setPathValue ]
         preUpdate: [ setUpdatedValue ]

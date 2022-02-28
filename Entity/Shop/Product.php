@@ -180,7 +180,7 @@ class Product
 		$this->shipment = true;
 		$this->limited = true;
 		$this->quantity = 0;
-		$this->status = array_keys($this->getStatusValues())[0];
+		$this->status = $this->getStatusValues()[0];
 		$this->removed = false;
 	}
 
@@ -535,9 +535,9 @@ class Product
 		return $this->status;
 	}
 
-	public function getStatusArray()
+	public static function getStatusArray()
 	{
-		return array(
+		return [
 			'Unset' => 'unset',
 			'New Product' => 'new',
 			'Stored Data' => 'stored',
@@ -545,7 +545,7 @@ class Product
 			'On Sale' => 'on_sale',
 			'Not Available' => 'not_ava',
 			'Archived' => 'archive'
-		);
+		];
 	}
 
 	public function getStatusLabel()
@@ -561,14 +561,9 @@ class Product
 		return ucwords($str);
 	}
 
-	static public function getStatusValues()
+	public static function getStatusValues()
 	{
 		return array_values(Product::getStatusArray());
-	}
-
-	static public function setStatusValue()
-	{
-		if ($this->status == 'unset') $this->status = 'new';
 	}
 
 	/**
@@ -1130,8 +1125,8 @@ class Product
 			$this->setName($record->getCategory());
 			$this->setComposition($record->getImportedComposition());
 			$this->setBrand($record->getBrand());
-			$this->setPath($record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand()));
-			$this->setMetaTitle($record->getCategory() . "-" . $record->getBrand());
+			$this->setPath(str_replace(' ', '-', $record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand())));
+			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
 			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
 			$this->setPrice($record->getPrice());
 			$this->setStatus($this->getStatusValues()[1]);
