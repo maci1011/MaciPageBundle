@@ -181,8 +181,8 @@ var maciShopImport = function (options) {
 			index++;
 		});
 		// console.log(records);
-		// if(confirm("Items to import: " + records.length + "."))
-		_obj.start();
+		if(confirm("Items to import: " + records.length + "."))
+			_obj.start();
 	},
 
 	setFileInput: function() {
