@@ -9,7 +9,11 @@ maci_record_sales:
 
 maci_record_load_unsetted_records:
     path:     /record/load-unsetted-records
-    defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords }
+    defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords, section: records }
+
+maci_record_export_record:
+    path:     /record/export-record
+    defaults: { _controller: MaciPageBundle:Record:exportRecord, section: records }
 
 maci_record_labels:
     path:     /record/labels
@@ -17,4 +21,4 @@ maci_record_labels:
 
 maci_record_get_labels:
     path:     /record/get-labels
-    defaults: { _controller: MaciPageBundle:Record:getLabels }
+    defaults: { _controller: MaciPageBundle:Record:getLabels, section: records }

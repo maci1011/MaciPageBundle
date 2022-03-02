@@ -33,16 +33,46 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	getRecords: function() {
+	setParent: function(item) {
+		var select = form.find('#import_set');
+		if (select.val() == "null") return;
+		$.ajax({
+			type: 'POST',
+			data: {
+				'data': {
+					'add': {
+						'section': 'records',
+						'entity': 'record',
+						'id': item.new.id,
+						'relation': 'parent',
+						'ids': [select.val()]
+					}
+				}
+			},
+			url: '/mcm/ajax'
+		});
+	},
+
+	saveRecord: function(item) {
+		$.ajax({
+			type: 'POST',
+			data: item,
+			url: '/record/export-record',
+			success: function(d,s,x) {
+				console.log(d);
+			}
+		});
+	},
+
+	getProducts: function() {
 		$.ajax({
 			type: 'POST',
 			data: {
 				'data': {
 					'list': {
-						'section': 'records',
-						'entity': 'record',
+						'section': 'shop',
+						'entity': 'product',
 						'filters': {
-							'type': 'purchas',
 							'barcode': barcodeInput.val()
 						}
 					}
@@ -55,67 +85,42 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	setParent: function(data) {
-		var select = form.find('#import_set');
-		if (select.val() == "null") return;
-		$.ajax({
-			type: 'POST',
-			data: {
-				'data': {
-					'add': {
-						'section': 'records',
-						'entity': 'record',
-						'id': data.new.id,
-						'relation': 'parent',
-						'ids': [select.val()]
-					}
-				}
-			},
-			url: '/mcm/ajax'
-		});
-	},
-
-	saveRecord: function(data) {
-		$.ajax({
-			type: 'POST',
-			data: {
-				'data': {
-					'new': {
-						'section': 'records',
-						'entity': 'record',
-						'data': data
-					}
-				}
-			},
-			url: '/mcm/ajax',
-			success: function(d,s,x) {
-				console.log(d);
-			}
-		});
-	},
-
 	showData: function(data) {
 		if (wrapper) wrapper.remove();
 		wrapper = $("<div/>").addClass('container-fluid m-3').css('padding', '20px').insertAfter(barcodeInput);
 		for (var i = data.list.length - 1; i >= 0; i--) {
 			var item = data.list[i];
-			var row = $("<div/>").addClass('row').css('padding', '2px').prependTo(wrapper);
-			var vals = [data.list[i]['code'], data.list[i]['brand'], data.list[i]['category']];
-			for (var j = 0; j < data.list[i]['data']['variants'].length; j++) {
-				vals[vals.length] = data.list[i]['data']['variants'][j]['value'];
+			var row = $("<div/>").addClass('row').css('padding', '12px 0 2px').appendTo(wrapper);
+			var vals = [data.list[i]['code'], data.list[i]['name'], data.list[i]['brand'], data.list[i]['price']];
+			if (data.list[i]['type'] == 'vrnts')
+			{
+				$("<div/>").addClass('col-xs-6').appendTo(row).html('<strong>' + vals.join(', ') + ':</strong>');
+				for (var j = 0; j < item.data.variants.length; j++) {
+					row = $("<div/>").addClass('row').css('padding', '2px').appendTo(wrapper);
+					$("<div/>").addClass('col-xs-6 text-right').css('paddingTop', '6px').html('<strong>' + data.list[i]['data']['variants'][j]['name'] + '</strong>').appendTo(row);
+					var variantItem = item.data.variants[j]
+					$("<button/>").addClass('btn btn-info').appendTo(row).click(function (e) {
+						e.preventDefault();
+						_obj.saveRecord({id: item.id, variant: variantItem});
+						barcodeInput.val('');
+						wrapper.remove();
+						wrapper = false;
+						barcodeInput.focus();
+					}).text('Select').wrap("<div/>").parent().addClass('col-xs-6');
+				}
 			}
-			vals[vals.length] = data.list[i]['price'];
-			$("<div/>").addClass('col-xs-6').appendTo(row).text(vals.join(', '));
-			$("<button/>").addClass('btn btn-info').appendTo(row).click(function (e) {
-				e.preventDefault();
-				delete item['data']['imported'];
-				item['data']['original'] = "Record#" + item.id;
-				item['quantity'] = 1;
-				item['type'] = 'sale';
-				delete item['id'];
-				delete item['recorded'];
-				_obj.saveRecord(item);
-			}).text('Select').wrap("<div/>").parent().addClass('col-xs-6');
+			else
+			{
+				$("<div/>").addClass('col-xs-6 text-right').css('paddingTop', '6px').appendTo(row).html('<strong>' + vals.join(', ') + '</strong>');
+				$("<button/>").addClass('btn btn-info').appendTo(row).click(function (e) {
+					e.preventDefault();
+					_obj.saveRecord({id: item.id});
+					barcodeInput.val('');
+					wrapper.remove();
+					wrapper = false;
+					barcodeInput.focus();
+				}).text('Select').wrap("<div/>").parent().addClass('col-xs-6');
+			}
 		}
 	},
 
@@ -123,9 +128,8 @@ var maciShopImport = function (options) {
 		barcodeInput = form.find("#data-barcode");
 		barcodeInput.on('change', function(e) {
 			if (barcodeInput.val().length != 13) return;
-			_obj.getRecords();
-		});
-		if (barcodeInput.val().length == 13) barcodeInput.change();
+			_obj.getProducts();
+		}).change();
 	},
 
 	set: function(_form) {
@@ -133,10 +137,6 @@ var maciShopImport = function (options) {
 		form = _form;
 		form.submit(function(e) {
 			e.preventDefault();
-		});
-		form.find("#import_submit").click(function(e) {
-			e.preventDefault();
-			fileInput.click();
 		});
 		_obj.getSets();
 		_obj.setBarcodeInput();

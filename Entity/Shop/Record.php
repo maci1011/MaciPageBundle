@@ -418,7 +418,7 @@ class Record
 		{
 			return $data['variant'];
 		}
-		$this->data['variant'] = ['type' => 'unset'];
+		return ['type' => 'unset'];
 		return $this->data['variant'];
 	}
 
@@ -429,13 +429,19 @@ class Record
 		{
 			return "Color: " . $variant['color'] . " - Size: " . $variant['name'];
 		}
-		return $this->getVariant()['type'];
+		return $variant['type'];
 	}
 
 	public function setVariant($data)
 	{
-		$variant = $this->getVariant();
-		if(array_key_exists('Descr.Colore', $data))
+		$variant = false;
+		if(array_key_exists('type', $data))
+		{
+			$variant['type'] = $data['type'];
+			$variant['color'] = $data['color'];
+			$variant['name'] = $data['name'];
+		}
+		else if(array_key_exists('Descr.Colore', $data))
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Descr.Colore'];

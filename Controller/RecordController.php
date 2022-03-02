@@ -76,6 +76,49 @@ class RecordController extends AbstractController
 		return new JsonResponse(['success' => true], 200);
 	}
 
+	public function exportRecordAction(Request $request)
+	{
+		// --- Check Request
+
+		if (!$request->isXmlHttpRequest()) {
+			return $this->redirect($this->generateUrl('homepage'));
+		}
+
+		$id = $request->get('id');
+
+		if ($request->getMethod() !== 'POST' || !$id) {
+			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
+		}
+
+		// --- Check Auth
+
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth()) {
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+		}
+
+		$om = $this->getDoctrine()->getManager();
+		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy(['id' => $id]);
+
+		if (!$product) {
+			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
+		}
+
+		$record = $product->exportRecord($request->get('variant'));
+
+		if (!$record) {
+			return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
+		}
+
+		$record->setType('sale');
+		$record->setQuantity(1);
+		$product->importRecord($record);
+		$om->persist($record);
+		$om->flush();
+
+		return new JsonResponse(['success' => true], 200);
+	}
+
 	public function labelsAction()
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {

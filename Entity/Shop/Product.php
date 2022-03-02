@@ -4,12 +4,18 @@ namespace Maci\PageBundle\Entity\Shop;
 
 use Maci\PageBundle\Entity\Media\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Maci\PageBundle\Entity\Shop\Record;
 
 /**
  * Product
  */
 class Product
 {
+	/**
+	 * @var string
+	 */
+	private $barcode;
+
 	/**
 	 * @var integer
 	 */
@@ -177,6 +183,7 @@ class Product
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->type = $this->getTypes()[0];
 		$this->code = uniqid();
+		$this->barcode = $this->code;
 		$this->shipment = true;
 		$this->limited = true;
 		$this->quantity = 0;
@@ -591,10 +598,33 @@ class Product
 	}
 
 	/**
+	 * Set barcode
+	 *
+	 * @param string $barcode
+	 * @return Product
+	 */
+	public function setBarcode($barcode)
+	{
+		$this->barcode = $barcode;
+
+		return $this;
+	}
+
+	/**
+	 * Get barcode
+	 *
+	 * @return string 
+	 */
+	public function getBarcode()
+	{
+		return $this->barcode;
+	}
+
+	/**
 	 * Set brand
 	 *
 	 * @param string $brand
-	 * @return Record
+	 * @return Product
 	 */
 	public function setBrand($brand)
 	{
@@ -799,7 +829,7 @@ class Product
 		return $list;
 	}
 
-	public function addRecords(\Maci\PageBundle\Entity\Shop\Record $record)
+	public function addRecords(Record $record)
 	{
 		$this->records[] = $record;
 
@@ -808,7 +838,7 @@ class Product
 		return $this;
 	}
 
-	public function removeRecords(\Maci\PageBundle\Entity\Shop\Record $record)
+	public function removeRecords(Record $record)
 	{
 		$this->records->removeElement($record);
 	}
@@ -973,6 +1003,14 @@ class Product
 		return $this->preview;
 	}
 
+	public function getWebPreview()
+	{
+		if ($this->preview) {
+			return $this->preview->getWebPreview();
+		}
+		return '/images/defaults/no-icon.png';
+	}
+
 	/**
 	 * Set cover
 	 *
@@ -1116,7 +1154,7 @@ class Product
 		return $preview;
 	}
 
-	public function importRecord(\Maci\PageBundle\Entity\Shop\Record $record)
+	public function importRecord(Record $record)
 	{
 		if ($record->isLoaded()) return;
 
@@ -1125,6 +1163,7 @@ class Product
 			$this->setCode($record->getCode());
 			$this->setName($record->getCategory());
 			$this->setComposition($record->getImportedComposition());
+			$this->setBarcode($record->getBarcode());
 			$this->setBrand($record->getBrand());
 			$this->setPath(str_replace(' ', '-', $record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand())));
 			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
@@ -1162,7 +1201,7 @@ class Product
 
 	public function hasVariants()
 	{
-		return !!count($this->getVariants());
+		return $this->type == 'vrnts' && $this->getVariantType() != null;
 	}
 
 	public function getVariantIndex($index)
@@ -1329,12 +1368,25 @@ class Product
 		return -1;
 	}
 
-	public function getWebPreview()
+	public function exportRecord($variant = false)
 	{
-		if ($this->preview) {
-			return $this->preview->getWebPreview();
-		}
-		return '/images/defaults/no-icon.png';
+		if (($this->hasVariants() && !$variant) || $this->findVariant($variant['name']) < 0) return false;
+
+		$record = new Record;
+		$record->setCode($this->getCode());
+		$record->setCategory($this->getName());
+		$record->setBarcode($this->getBarcode());
+		$record->setBrand($this->getBrand());
+		$record->setPrice($this->getPrice());
+
+		if (!$variant) return $record;
+
+		$variant['type'] = $this->getVariantType();
+		$variant['color'] = $this->getVariant();
+
+		$record->setVariant($variant);
+
+		return $record;
 	}
 
 	/**
