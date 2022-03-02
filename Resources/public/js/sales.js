@@ -33,7 +33,7 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	setParent: function(item) {
+	setParent: function(id) {
 		var select = form.find('#import_set');
 		if (select.val() == "null") return;
 		$.ajax({
@@ -43,7 +43,7 @@ var maciShopImport = function (options) {
 					'add': {
 						'section': 'records',
 						'entity': 'record',
-						'id': item.new.id,
+						'id': id,
 						'relation': 'parent',
 						'ids': [select.val()]
 					}
@@ -59,7 +59,8 @@ var maciShopImport = function (options) {
 			data: item,
 			url: '/record/export-record',
 			success: function(d,s,x) {
-				console.log(d);
+				_obj.setParent(d.id);
+				console.log('Saved.');
 			}
 		});
 	},

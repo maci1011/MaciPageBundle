@@ -116,7 +116,7 @@ class RecordController extends AbstractController
 		$om->persist($record);
 		$om->flush();
 
-		return new JsonResponse(['success' => true], 200);
+		return new JsonResponse(['success' => true, 'id' => $record->getId()], 200);
 	}
 
 	public function labelsAction()
