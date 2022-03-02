@@ -68,9 +68,7 @@ var maciShopImport = function (options) {
 	},
 
 	saveRecord: function(data) {
-
-		if (0 < index) return _obj.end();;
-
+		// if (0 < index) return _obj.end();;
 		$.ajax({
 			type: 'POST',
 			data: {
