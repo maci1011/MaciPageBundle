@@ -9,7 +9,8 @@ class ProductRepository extends EntityRepository
     public function getList()
     {
         $query = $this->createQueryBuilder('p')
-            ->where('p.removed = false')
+            ->where('p.public = true')
+            ->andWhere('p.removed = false')
             ->orderBy('p.position')
             ->setMaxResults(60)
             ->getQuery()

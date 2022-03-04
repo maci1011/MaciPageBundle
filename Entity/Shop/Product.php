@@ -117,6 +117,11 @@ class Product
 	private $data;
 
 	/**
+	 * @var boolean
+	 */
+	private $public;
+
+	/**
 	 * @var \DateTime
 	 */
 	private $created;
@@ -188,6 +193,7 @@ class Product
 		$this->limited = true;
 		$this->quantity = 0;
 		$this->status = $this->getStatusValues()[0];
+		$this->public = false;
 		$this->removed = false;
 	}
 
@@ -775,6 +781,29 @@ class Product
 		return $this->removed;
 	}
 
+	/**
+	 * Set public
+	 *
+	 * @param boolean $public
+	 * @return Product
+	 */
+	public function setPublic($public)
+	{
+		$this->public = $public;
+
+		return $this;
+	}
+
+	/**
+	 * Get public
+	 *
+	 * @return boolean 
+	 */
+	public function getPublic()
+	{
+		return $this->public;
+	}
+
 	public function addChild(\Maci\PageBundle\Entity\Shop\Product $child)
 	{
 		$this->children[] = $child;
@@ -1169,9 +1198,10 @@ class Product
 			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
 			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
 			$this->setPrice($record->getPrice());
-			$this->setStatus($this->getStatusValues()[1]);
+			$this->setStatus($this->getStatusValues()[2]);
 			$locale = $record->getImportedLocale();
 			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+			$this->setPublic(false);
 		}
 
 		$variant = $record->getVariant();

@@ -73,6 +73,8 @@ Maci\PageBundle\Entity\Shop\Product:
             type: boolean
         shipment:
             type: boolean
+        public:
+            type: boolean
         removed:
             type: boolean
         created:

@@ -93,8 +93,10 @@ var maciShopImport = function (options) {
 	},
 
 	saveNext: function(_form) {
-		if (records.length <= index) {
+		if (records.length <= index)
+		{
 			_obj.end();
+			return;
 		}
 		index++;
 		alertNode.text("Importing: " + index + " of " + records.length + ".");
@@ -102,8 +104,10 @@ var maciShopImport = function (options) {
 	},
 
 	start: function(_form) {
-		if (!records.length) {
+		if (!records.length)
+		{
 			alert('No Data.');
+			return;
 		}
 		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form.find("#dataFile").parent());
 		index = -1;
@@ -115,39 +119,10 @@ var maciShopImport = function (options) {
 		alertNode.text("End! Imported: " + index + " of " + records.length + ".");
 		setTimeout(function() {
 			alertNode.remove();
-		}, 7000);
+		}, 5000);
 		form.find("#import_submit").show();
 		form.find("#import_data").val('');
 		_obj.loadUnsettedRecords();
-	},
-
-	importTxt: function(data) {
-		var rows = data.split("\n"), max = 0;
-		for (var i = 0; i < rows.length; i++) {
-			rows[i] = rows[i].trim().split(/\ +s*/);
-			max = max < rows[i].length ? rows[i].length : max;
-		}
-		console.log(rows);
-		console.log(max);
-		var fields, start;
-		for (var i = 0; i < rows.length; i++) {
-			if(rows[i].length == max) {
-				fields = rows[i];
-				start = i++;
-				break;
-			}
-		}
-		var list = [];
-		for (var i = start; i < rows.length; i++) {
-			if(rows[i].length == max) {
-				var el = [];
-				for (var j = 0; j < max; j++) {
-					el[fields[j]] = rows[i][j];
-				}
-				list[list.length] = el;
-			}
-		}
-		console.log(list);
 	},
 
 	importXml: function(data) {
@@ -211,6 +186,35 @@ var maciShopImport = function (options) {
 
 	// Play!
 	_obj.set($('#import_form'));
+
+	// importTxt: function(data) {
+	// 	var rows = data.split("\n"), max = 0;
+	// 	for (var i = 0; i < rows.length; i++) {
+	// 		rows[i] = rows[i].trim().split(/\ +s*/);
+	// 		max = max < rows[i].length ? rows[i].length : max;
+	// 	}
+	// 	console.log(rows);
+	// 	console.log(max);
+	// 	var fields, start;
+	// 	for (var i = 0; i < rows.length; i++) {
+	// 		if(rows[i].length == max) {
+	// 			fields = rows[i];
+	// 			start = i++;
+	// 			break;
+	// 		}
+	// 	}
+	// 	var list = [];
+	// 	for (var i = start; i < rows.length; i++) {
+	// 		if(rows[i].length == max) {
+	// 			var el = [];
+	// 			for (var j = 0; j < max; j++) {
+	// 				el[fields[j]] = rows[i][j];
+	// 			}
+	// 			list[list.length] = el;
+	// 		}
+	// 	}
+	// 	console.log(list);
+	// },
 
 	return _obj;
 

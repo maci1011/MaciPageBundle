@@ -47,6 +47,7 @@ class ShopController extends AbstractController
 		if ($item->getVariant() != null) {
 			$variants = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
 				'code' => $item->getCode(),
+				'public' => true,
 				'removed' => false
 			]);
 		}
