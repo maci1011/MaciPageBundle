@@ -489,9 +489,7 @@ class Product
 	public function getQuantity($variant = false)
 	{
 		if (!$this->limited) return 1;
-		if (!$variant) {
-			return $this->quantity;
-		}
+		if (!$variant) return $this->quantity;
 		if ($this->getVariantType() != null) return $this->getVariantQuantity($variant);
 		return $this->quantity;
 	}
