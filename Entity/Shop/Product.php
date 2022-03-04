@@ -1400,7 +1400,7 @@ class Product
 
 	public function exportRecord($variant = false)
 	{
-		if (($this->hasVariants() && !$variant) || $this->findVariant($variant['name']) < 0) return false;
+		if (($this->hasVariants() && !$variant) || (is_array($variant) && $this->findVariant($variant['name'])) < 0) return false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());

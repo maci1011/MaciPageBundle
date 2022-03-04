@@ -424,12 +424,16 @@ class Record
 
 	public function getVariantsLabel()
 	{
-		$variant = $this->getVariant();
-		if($variant['type'] == 'color-n-size')
+		$data = $this->getData();
+		if(!array_key_exists('variant', $data))
 		{
-			return "Color: " . $variant['color'] . " - Size: " . $variant['name'];
+			return '';
 		}
-		return $variant['type'];
+		if($data['variant']['type'] == 'color-n-size')
+		{
+			return "Color: " . $data['variant']['color'] . " - Size: " . $data['variant']['name'];
+		}
+		return $data['variant']['type'];
 	}
 
 	public function setVariant($data)
