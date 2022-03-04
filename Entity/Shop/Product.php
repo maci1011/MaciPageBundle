@@ -490,7 +490,6 @@ class Product
 	{
 		if (!$this->limited) return 1;
 		if (!$variant) {
-			if ($this->type == 'vrnts') return $this->getTotalVariantQuantity();
 			return $this->quantity;
 		}
 		if ($this->getVariantType() != null) return $this->getVariantQuantity($variant);
