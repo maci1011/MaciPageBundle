@@ -116,7 +116,7 @@ var maciShopImport = function (options) {
 	},
 
 	end: function() {
-		alertNode.text("End! Imported: " + index + " of " + records.length + ".");
+		alertNode.text("Imported: " + index + " of " + records.length + ". End!");
 		setTimeout(function() {
 			alertNode.remove();
 		}, 5000);
