@@ -498,9 +498,7 @@ class Product
 	{
 		if (!$this->limited) return true;
 		if ($this->getVariantType() != null) return $this->checkVariant($variant, $quantity);
-		if ($this->quantity < $quantity) {
-			return false;
-		}
+		if ($this->quantity < $quantity) return false;
 		return true;
 	}
 
@@ -508,9 +506,7 @@ class Product
 	{
 		if (!$this->limited) return true;
 		if ($this->getVariantType() != null) return $this->subVariant($variant, $quantity);
-		if ($this->quantity < $quantity) {
-			return false;
-		}
+		if ($this->quantity < $quantity)  return false;
 		$this->quantity -= $quantity;
 		return true;
 	}
@@ -519,19 +515,14 @@ class Product
 	{
 		if (!$this->limited) return true;
 		if ($this->getVariantType() != null) return $this->addVariant($variant, $quantity);
-		if ($this->quantity < $quantity) {
-			return false;
-		}
+		if ($this->quantity < $quantity) return false;
 		$this->quantity += $quantity;
 		return true;
 	}
 
 	public function refreshQuantity()
 	{
-		if ($this->type == 'vrnts')
-		{
-			$this->quantity = $this->getTotalVariantQuantity();
-		}
+		if ($this->type == 'vrnts') $this->quantity = $this->getTotalVariantQuantity();
 	}
 
 	/**
