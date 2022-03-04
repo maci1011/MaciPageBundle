@@ -522,7 +522,7 @@ class Product
 
 	public function refreshQuantity()
 	{
-		if ($this->type == 'vrnts') $this->quantity = $this->getTotalVariantQuantity();
+		if ($this->type == 'vrnts') $this->quantity = $this->getTotalVariantsQuantity();
 	}
 
 	/**
@@ -1106,6 +1106,8 @@ class Product
 			return false;
 		} elseif ($this->limited && $this->quantity < 1) {
 			return false;
+		} elseif ($this->type == 'vrnts' && $this->getTotalVariantsQuantity() < 1) {
+			return false;
 		}
 		return true;
 	}
@@ -1260,7 +1262,7 @@ class Product
 		return $variant['quantity'];
 	}
 
-	public function getTotalVariantQuantity()
+	public function getTotalVariantsQuantity()
 	{
 		$t = 0;
 		foreach ($this->getVariants() as $key => $value) {
