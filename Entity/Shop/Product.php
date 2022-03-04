@@ -489,7 +489,10 @@ class Product
 	public function getQuantity($variant = false)
 	{
 		if (!$this->limited) return 1;
-		if (!$variant) return $this->quantity;
+		if (!$variant) {
+			if ($this->type == 'vrnts') return $this->getTotalVariantQuantity();
+			return $this->quantity;
+		}
 		if ($this->getVariantType() != null) return $this->getVariantQuantity($variant);
 		return $this->quantity;
 	}
@@ -524,6 +527,14 @@ class Product
 		}
 		$this->quantity += $quantity;
 		return true;
+	}
+
+	public function refreshQuantity()
+	{
+		if ($this->type == 'vrnts')
+		{
+			$this->quantity = $this->getTotalVariantQuantity();
+		}
 	}
 
 	/**
@@ -1214,6 +1225,7 @@ class Product
 		{
 			$this->addVariant($variant, $record->getDiffQuantity());
 			$this->setType($this->getTypes()[1]);
+			$this->refreshQuantity();
 		}
 
 		$record->setLoadedValue();
@@ -1258,6 +1270,15 @@ class Product
 		$variant = $this->getVariantByName($variant);
 		if (!$variant) return $this->quantity;
 		return $variant['quantity'];
+	}
+
+	public function getTotalVariantQuantity()
+	{
+		$t = 0;
+		foreach ($this->getVariants() as $key => $value) {
+			$t += intval($value['quantity']);
+		}
+		return $t;
 	}
 
 	public function getVariantType()
