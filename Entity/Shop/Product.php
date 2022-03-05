@@ -491,7 +491,7 @@ class Product
 	public function checkQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $this->checkVariant($variant, $quantity);
+		if ($this->getVariantType() != null) return $this->checkVariantQuantity($variant, $quantity);
 		if ($this->quantity < $quantity) return false;
 		return true;
 	}
@@ -1267,6 +1267,16 @@ class Product
 		];
 	}
 
+	public function hasVariantType()
+	{
+		return !is_null($this->getVariantType());
+	}
+
+	public function isColorNSize()
+	{
+		return $this->getVariantType() == 'color-n-size';
+	}
+
 	public function getVariantField()
 	{
 		$data = $this->getData();
@@ -1286,7 +1296,7 @@ class Product
 		return false;
 	}
 
-	public function checkVariant($variant, $quantity)
+	public function checkVariantQuantity($variant, $quantity)
 	{
 		if (!$variant) return false;
 		foreach ($this->getVariants() as $key => $value) {
@@ -1335,7 +1345,7 @@ class Product
 		}
 		else
 		{
-			if ($this->data['variant-type'] == 'color-n-size') return $this->addSize($variant, $quantity);
+			if ($this->isColorNSize()) return $this->addSize($variant, $quantity);
 		}
 		return true;
 	}
@@ -1379,12 +1389,20 @@ class Product
 		return -1;
 	}
 
+	public function checkVariant($variant)
+	{
+		if (!is_array($variant) ||
+			(!array_key_exists('type', $variant) || $variant['type'] == 'unset' || $variant['type'] != $this->getVariantType()) ||
+			(array_key_exists('variant', $variant) && $variant['variant'] != $this->getVariant()) ||
+			(array_key_exists('color', $variant) && $variant['color'] != $this->getVariant()) ||
+			(!array_key_exists('name', $variant) || $this->findVariant($variant['name']) < 0)
+		) return false;
+		return true;
+	}
+
 	public function createRecord($variant = false)
 	{
-		if (
-			($this->hasVariants() && (!$variant || $variant['type'] == 'unset')) ||
-			(is_array($variant) && $variant['type'] != 'unset' && $this->findVariant($variant['name'])) < 0
-		) return false;
+		if ($this->hasVariants() && !$this->checkVariant($variant)) return false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());
@@ -1392,10 +1410,7 @@ class Product
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
 
-		if (!$this->hasVariants() || !$variant) return $record;
-
-		$variant['type'] = $this->getVariantType();
-		$variant['color'] = $this->getVariant();
+		if (!$this->hasVariants()) return $record;
 
 		$record->setVariant($variant);
 

@@ -98,7 +98,7 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$record = $om->getRepository('MaciPageBundle:Shop\Record')->findOneBy(['barcode' => $barcode]);
+		$record = $om->getRepository('MaciPageBundle:Shop\Record')->findOneBy(['barcode' => $barcode, 'type' => 'purchas']);
 
 		if (!$record) {
 			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
