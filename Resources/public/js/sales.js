@@ -68,7 +68,13 @@ var maciShopImport = function (options) {
 	},
 
 	showAlert: function(data) {
-		if (!alertNode) alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(barcodeInput.parent());
+		if (!alertNode)
+			alertNode = $("<div/>").addClass('alert alert-info mt-2')
+				.css('marginTop', '16px').appendTo(barcodeInput.parent())
+				.click(function(e) {
+					alertNode.remove();
+					alertNode = false;
+				});
 		alertNode.text((data.success ? 'Saved! ' + data.variant : 'Error! ' + data.error) + '.');
 		barcodeInput.val('');
 		barcodeInput.focus();
