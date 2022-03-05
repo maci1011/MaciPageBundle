@@ -75,7 +75,7 @@ var maciShopImport = function (options) {
 					alertNode.remove();
 					alertNode = false;
 				});
-		alertNode.text((data.success ? 'Saved! ' + data.variant : 'Error! ' + data.error) + '.');
+		alertNode.text((data.success ? 'Saved! ' + (data.variant.length ? data.variant + ' - ' : '') + 'Leftovers: ' + data.quantity : 'Error! ' + data.error) + '.');
 		barcodeInput.val('');
 		barcodeInput.focus();
 	},

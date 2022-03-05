@@ -119,7 +119,7 @@ class RecordController extends AbstractController
 		$om->persist($saleRecord);
 		$om->flush();
 
-		return new JsonResponse(['success' => true, 'id' => $saleRecord->getId(), 'variant' => $saleRecord->getVariantLabel()], 200);
+		return new JsonResponse(['success' => true, 'id' => $saleRecord->getId(), 'variant' => $saleRecord->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
 	}
 
 	public function labelsAction()
