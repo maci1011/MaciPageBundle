@@ -9,9 +9,6 @@ Maci\PageBundle\Entity\Shop\Product:
             generator:
                 strategy: AUTO
     fields:
-        barcode:
-            type: string
-            length: 13
         code:
             type: string
             length: 15

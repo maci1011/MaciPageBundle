@@ -84,9 +84,9 @@ class RecordController extends AbstractController
 			return $this->redirect($this->generateUrl('homepage'));
 		}
 
-		$id = $request->get('id');
+		$barcode = $request->get('barcode');
 
-		if ($request->getMethod() !== 'POST' || !$id) {
+		if ($request->getMethod() !== 'POST' || !$barcode) {
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 		}
 
@@ -98,25 +98,28 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy(['id' => $id]);
+		$record = $om->getRepository('MaciPageBundle:Shop\Record')->findOneBy(['barcode' => $barcode]);
+
+		if (!$record) {
+			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
+		}
+
+		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy(['code' => $record->getCode(), 'variant' => $record->getProductVariant()]);
 
 		if (!$product) {
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
 		}
 
-		$record = $product->exportRecord($request->get('variant'));
+		$saleRecord = $product->exportSaleRecord($record->getVariant());
 
-		if (!$record) {
+		if (!$saleRecord) {
 			return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
 		}
 
-		$record->setType('sale');
-		$record->setQuantity(1);
-		$product->importRecord($record);
-		$om->persist($record);
+		$om->persist($saleRecord);
 		$om->flush();
 
-		return new JsonResponse(['success' => true, 'id' => $record->getId()], 200);
+		return new JsonResponse(['success' => true, 'id' => $saleRecord->getId(), 'variant' => $saleRecord->getVariantLabel()], 200);
 	}
 
 	public function labelsAction()

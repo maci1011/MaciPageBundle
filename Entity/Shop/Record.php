@@ -414,44 +414,39 @@ class Record
 	public function getVariant()
 	{
 		$data = $this->getData();
-		if(array_key_exists('variant', $data))
-		{
-			return $data['variant'];
-		}
+		if(array_key_exists('variant', $data)) return $data['variant'];
 		return ['type' => 'unset'];
 		return $this->data['variant'];
 	}
 
-	public function getVariantsLabel()
+	public function getProductVariant()
 	{
-		$data = $this->getData();
-		if(!array_key_exists('variant', $data))
-		{
-			return '';
-		}
-		if($data['variant']['type'] == 'color-n-size')
-		{
-			return "Color: " . $data['variant']['color'] . " - Size: " . $data['variant']['name'];
-		}
-		return $data['variant']['type'];
+		$variant = $this->getVariant();
+		if($variant['type'] == 'unset') return null;
+		else if($variant['type'] == 'color-n-size') return $variant['color'];
+		return null;
 	}
 
 	public function setVariant($data)
 	{
 		$variant = false;
-		if(array_key_exists('type', $data))
-		{
-			$variant['type'] = $data['type'];
-			$variant['color'] = $data['color'];
-			$variant['name'] = $data['name'];
-		}
-		else if(array_key_exists('Descr.Colore', $data))
+		if(array_key_exists('Descr.Colore', $data))
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Descr.Colore'];
 			$variant['name'] = $data['Tgl'];
 		}
+		else if(array_key_exists('type', $data)) $variant = $data;
 		$this->data['variant'] = $variant;
+	}
+
+	public function getVariantLabel()
+	{
+		$data = $this->getData();
+		if(!array_key_exists('variant', $data)) return '';
+		if($data['variant']['type'] == 'color-n-size')
+			return "Color: " . $data['variant']['color'] . " - Size: " . $data['variant']['name'];
+		return $data['variant']['type'];
 	}
 
 	public function isLoaded()

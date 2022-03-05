@@ -12,11 +12,6 @@ use Maci\PageBundle\Entity\Shop\Record;
 class Product
 {
 	/**
-	 * @var string
-	 */
-	private $barcode;
-
-	/**
 	 * @var integer
 	 */
 	private $id;
@@ -188,7 +183,6 @@ class Product
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->type = $this->getTypes()[0];
 		$this->code = uniqid();
-		$this->barcode = $this->code;
 		$this->shipment = true;
 		$this->limited = true;
 		$this->quantity = 0;
@@ -600,29 +594,6 @@ class Product
 	public function getCode()
 	{
 		return $this->code;
-	}
-
-	/**
-	 * Set barcode
-	 *
-	 * @param string $barcode
-	 * @return Product
-	 */
-	public function setBarcode($barcode)
-	{
-		$this->barcode = $barcode;
-
-		return $this;
-	}
-
-	/**
-	 * Get barcode
-	 *
-	 * @return string 
-	 */
-	public function getBarcode()
-	{
-		return $this->barcode;
 	}
 
 	/**
@@ -1193,7 +1164,6 @@ class Product
 			$this->setCode($record->getCode());
 			$this->setName($record->getCategory());
 			$this->setComposition($record->getImportedComposition());
-			$this->setBarcode($record->getBarcode());
 			$this->setBrand($record->getBrand());
 			$this->setPath(str_replace(' ', '-', $record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand())));
 			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
@@ -1409,23 +1379,39 @@ class Product
 		return -1;
 	}
 
-	public function exportRecord($variant = false)
+	public function createRecord($variant = false)
 	{
-		if (($this->hasVariants() && !$variant) || (is_array($variant) && $this->findVariant($variant['name'])) < 0) return false;
+		if (
+			($this->hasVariants() && (!$variant || $variant['type'] == 'unset')) ||
+			(is_array($variant) && $variant['type'] != 'unset' && $this->findVariant($variant['name'])) < 0
+		) return false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());
 		$record->setCategory($this->getName());
-		$record->setBarcode($this->getBarcode());
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
 
-		if (!$variant) return $record;
+		if (!$this->hasVariants() || !$variant) return $record;
 
 		$variant['type'] = $this->getVariantType();
 		$variant['color'] = $this->getVariant();
 
 		$record->setVariant($variant);
+
+		return $record;
+	}
+
+	public function exportSaleRecord($variant = false, $quantity = 1)
+	{
+		$record = $this->createRecord($variant);
+
+		if (!$record) return false;
+
+		$record->setType('sale');
+		$record->setQuantity($quantity);
+
+		$this->importRecord($record);
 
 		return $record;
 	}
