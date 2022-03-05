@@ -116,8 +116,8 @@ class RecordController extends AbstractController
 			return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
 		}
 
-		// $om->persist($saleRecord);
-		// $om->flush();
+		$om->persist($saleRecord);
+		$om->flush();
 
 		return new JsonResponse(['success' => true, 'id' => $saleRecord->getId(), 'variant' => $saleRecord->getVariantLabel()], 200);
 	}
