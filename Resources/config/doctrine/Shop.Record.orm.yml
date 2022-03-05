@@ -18,6 +18,7 @@ Maci\PageBundle\Entity\Shop\Record:
         barcode:
             type: string
             length: 13
+            nullable: true
         brand:
             type: string
             length: 15
