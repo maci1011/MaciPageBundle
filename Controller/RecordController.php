@@ -58,7 +58,8 @@ class RecordController extends AbstractController
 			if ($last && $last->getCode() == $record->getCode() && $last->getVariant() == $record->getProductVariant()) $product = $last;
 			else $product = $this->getDoctrine()->getManager()
 				->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-					'code' => $record->getCode()
+					'code' => $record->getCode(),
+					'variant' => $record->getProductVariant()
 				]);
 
 			if (!$product)
