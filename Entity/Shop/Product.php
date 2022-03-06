@@ -1391,11 +1391,21 @@ class Product
 
 	public function checkVariant($variant)
 	{
-		if (!is_array($variant) ||
-			(!array_key_exists('type', $variant) || $variant['type'] == 'unset' || $variant['type'] != $this->getVariantType()) ||
+		if (!is_array($variant) || !array_key_exists('type', $variant) || 
+			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
 			(array_key_exists('variant', $variant) && $variant['variant'] != $this->getVariant()) ||
 			(array_key_exists('color', $variant) && $variant['color'] != $this->getVariant()) ||
 			(!array_key_exists('name', $variant) || $this->findVariant($variant['name']) < 0)
+		) return false;
+		return true;
+	}
+
+	public function checkRecord($record)
+	{
+		if (!$record ||
+			$this->getCode() != $record->getCode() ||
+			$this->getVariant() != $record->getProductVariant() ||
+			$this->getVariantType() != $record->getVariantType()
 		) return false;
 		return true;
 	}

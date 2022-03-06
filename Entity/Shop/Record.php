@@ -416,7 +416,6 @@ class Record
 		$data = $this->getData();
 		if(array_key_exists('variant', $data)) return $data['variant'];
 		return ['type' => 'unset'];
-		return $this->data['variant'];
 	}
 
 	public function setVariant($data)
@@ -447,6 +446,11 @@ class Record
 		if($variant['type'] == 'unset') return null;
 		else if($variant['type'] == 'color-n-size') return $variant['color'];
 		return null;
+	}
+
+	public function getVariantType()
+	{
+		return $this->getVariant()['type'];
 	}
 
 	public function isLoaded()
