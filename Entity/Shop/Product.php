@@ -1417,18 +1417,35 @@ class Product
 		return $record;
 	}
 
-	public function exportSaleRecord($variant = false, $quantity = 1)
+	public function exportRecord($type, $variant = false, $quantity = 1)
 	{
+		if (!in_array($type, Record::getTypes())) return false;
+
 		$record = $this->createRecord($variant);
 
 		if (!$record) return false;
 
-		$record->setType('sale');
+		$record->setType($type);
 		$record->setQuantity($quantity);
 
 		$this->importRecord($record);
 
 		return $record;
+	}
+
+	public function exportSaleRecord($variant = false, $quantity = 1)
+	{
+		return $this->exportRecord('sale', $variant, $quantity);
+	}
+
+	public function exportPurchaseRecord($variant = false, $quantity = 1)
+	{
+		return $this->exportRecord('purchas', $variant, $quantity);
+	}
+
+	public function exportReturnRecord($variant = false, $quantity = 1)
+	{
+		return $this->exportRecord('return', $variant, $quantity);
 	}
 
 	/**

@@ -110,16 +110,33 @@ class RecordController extends AbstractController
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
 		}
 
-		$saleRecord = $product->exportSaleRecord($record->getVariant());
+		$type = $request->get('type');
+		$newRecord = false;
 
-		if (!$saleRecord) {
-			return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
+		switch ($type) {
+			case 'sale':
+				$newRecord = $product->exportSaleRecord($record->getVariant());
+				break;
+
+			case 'return':
+				$newRecord = $product->exportReturnRecord($record->getVariant());
+				break;
+
+			case 'purchas':
+				$newRecord = $product->exportPurchaseRecord($record->getVariant());
+				if ($newRecord) $newRecord->setBarcode($record->getBarcode());
+				break;
+
+			default:
+				break;
 		}
 
-		// $om->persist($saleRecord);
-		// $om->flush();
+		if (!$newRecord) return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
 
-		return new JsonResponse(['success' => true, 'id' => $saleRecord->getId(), 'variant' => $saleRecord->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
+		$om->persist($newRecord);
+		$om->flush();
+
+		return new JsonResponse(['success' => true, 'id' => $newRecord->getId(), 'variant' => $newRecord->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
 	}
 
 	public function labelsAction()

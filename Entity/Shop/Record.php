@@ -291,7 +291,7 @@ class Record
 
 	public function getDiffQuantity()
 	{
-		if(in_array($this->type, ['sale', 'return'])) return -$this->quantity;
+		if ($this->type == 'sale') return -$this->quantity;
 		return $this->quantity;
 	}
 
