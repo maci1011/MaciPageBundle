@@ -18,6 +18,11 @@ class RecordSet
 	private $label;
 
 	/**
+	 * @var string
+	 */
+	private $description;
+
+	/**
 	 * @var \DateTime
 	 */
 	private $recorded;
@@ -76,6 +81,29 @@ class RecordSet
 	public function getLabel()
 	{
 		return $this->label;
+	}
+
+	/**
+	 * Set description
+	 *
+	 * @param string $description
+	 * @return Record
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
+	
+		return $this;
+	}
+
+	/**
+	 * Get description
+	 *
+	 * @return string 
+	 */
+	public function getDescription()
+	{
+		return $this->description;
 	}
 
 	/**

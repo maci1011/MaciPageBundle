@@ -204,7 +204,7 @@ class Product
 	 * Set name
 	 *
 	 * @param string $name
-	 * @return Album
+	 * @return Product
 	 */
 	public function setName($name)
 	{
@@ -227,7 +227,7 @@ class Product
 	 * Set description
 	 *
 	 * @param string $description
-	 * @return Album
+	 * @return Product
 	 */
 	public function setDescription($description)
 	{
@@ -300,7 +300,7 @@ class Product
 	}
 
 	/**
-	 * Set description
+	 * Set meta description
 	 */
 	public function setMetaDescription($meta_description)
 	{
@@ -310,7 +310,7 @@ class Product
 	}
 
 	/**
-	 * Get description
+	 * Get meta description
 	 */
 	public function getMetaDescription()
 	{

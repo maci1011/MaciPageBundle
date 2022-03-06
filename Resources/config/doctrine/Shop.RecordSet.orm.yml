@@ -12,6 +12,9 @@ Maci\PageBundle\Entity\Shop\RecordSet:
         label:
             type: string
             length: 127
+        description:
+            type: text
+            nullable: true
         recorded:
             type: datetime
     manyToOne:
