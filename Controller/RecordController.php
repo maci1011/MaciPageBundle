@@ -127,6 +127,10 @@ class RecordController extends AbstractController
 				if ($newRecord) $newRecord->setBarcode($record->getBarcode());
 				break;
 
+			case 'quantity':
+				return new JsonResponse(['success' => true, 'quantity' => $product->getQuantity($record->getVariant())], 200);
+				break;
+
 			default:
 				break;
 		}
