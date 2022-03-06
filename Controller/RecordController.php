@@ -124,7 +124,6 @@ class RecordController extends AbstractController
 
 			case 'purchas':
 				$newRecord = $product->exportPurchaseRecord($record->getVariant());
-				if ($newRecord) $newRecord->setBarcode($record->getBarcode());
 				break;
 
 			case 'quantity':
@@ -137,6 +136,7 @@ class RecordController extends AbstractController
 
 		if (!$newRecord) return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
 
+		$newRecord->setBarcode($record->getBarcode());
 		$om->persist($newRecord);
 		$om->flush();
 
