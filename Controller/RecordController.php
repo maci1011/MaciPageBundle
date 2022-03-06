@@ -18,12 +18,12 @@ class RecordController extends AbstractController
 		return $this->render('@MaciPage/Record/import.html.twig');
 	}
 
-	public function salesAction()
+	public function exportAction()
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
 			return $this->redirect('maci_homepage');
 		}
-		return $this->render('@MaciPage/Record/sales.html.twig');
+		return $this->render('@MaciPage/Record/export.html.twig');
 	}
 
 	public function loadUnsettedRecordsAction(Request $request)

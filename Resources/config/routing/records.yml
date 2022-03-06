@@ -3,9 +3,9 @@ maci_record_import:
     path:     /record/import
     defaults: { _controller: MaciPageBundle:Record:import, section: records }
 
-maci_record_sales:
-    path:     /record/sales
-    defaults: { _controller: MaciPageBundle:Record:sales, section: records }
+maci_record_export:
+    path:     /record/export
+    defaults: { _controller: MaciPageBundle:Record:export, section: records }
 
 maci_record_load_unsetted_records:
     path:     /record/load-unsetted-records
