@@ -127,7 +127,7 @@ class RecordController extends AbstractController
 				break;
 
 			case 'quantity':
-				return new JsonResponse(['success' => true, 'quantity' => $product->getQuantity($record->getVariant())], 200);
+				return new JsonResponse(['success' => true, 'variant' => $record->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
 				break;
 
 			default:
