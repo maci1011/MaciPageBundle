@@ -419,14 +419,6 @@ class Record
 		return $this->data['variant'];
 	}
 
-	public function getProductVariant()
-	{
-		$variant = $this->getVariant();
-		if($variant['type'] == 'unset') return null;
-		else if($variant['type'] == 'color-n-size') return $variant['color'];
-		return null;
-	}
-
 	public function setVariant($data)
 	{
 		$variant = false;
@@ -447,6 +439,14 @@ class Record
 		if($data['variant']['type'] == 'color-n-size')
 			return "Color: " . $data['variant']['color'] . " - Size: " . $data['variant']['name'];
 		return $data['variant']['type'];
+	}
+
+	public function getProductVariant()
+	{
+		$variant = $this->getVariant();
+		if($variant['type'] == 'unset') return null;
+		else if($variant['type'] == 'color-n-size') return $variant['color'];
+		return null;
 	}
 
 	public function isLoaded()

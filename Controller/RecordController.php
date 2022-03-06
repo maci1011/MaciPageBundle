@@ -55,7 +55,7 @@ class RecordController extends AbstractController
 		$last = false;
 		foreach ($list as $record)
 		{
-			if ($last && $last->getCode() == $record->getCode()) $product = $last;
+			if ($last && $last->getCode() == $record->getCode() && $last->getVariant() == $record->getProductVariant()) $product = $last;
 			else $product = $this->getDoctrine()->getManager()
 				->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
 					'code' => $record->getCode()
@@ -65,6 +65,11 @@ class RecordController extends AbstractController
 			{
 				$product = new \Maci\PageBundle\Entity\Shop\Product();
 				$om->persist($product);
+			}
+			else
+			{
+				$last = $product;
+				continue;
 			}
 
 			$product->importRecord($record);
