@@ -81,7 +81,7 @@ var maciShopImport = function (options) {
 	},
 
 	barcodeChange: function(e) {
-		if (barcodeInput.val().length != 13) return;
+		if (barcodeInput.val().trim().length != 13) return;
 		_obj.saleRecord();
 	},
 
@@ -93,7 +93,7 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 		});
 		barcodeInput = form.find("#data-barcode");
-		barcodeInput.on('change', _obj.barcodeChange).on('keypress', _obj.barcodeChange).keypress();
+		barcodeInput.on('keypress', _obj.barcodeChange).keypress();
 		_obj.getSets();
 	}
 

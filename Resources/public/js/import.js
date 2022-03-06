@@ -87,6 +87,7 @@ var maciShopImport = function (options) {
 				_obj.saveNext();
 			},
 			error: function(d,s,x) {
+				console.log('Error!');
 				_obj.saveNext();
 			}
 		});
