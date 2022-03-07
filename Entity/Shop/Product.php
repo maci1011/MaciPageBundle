@@ -1172,7 +1172,12 @@ class Product
 			$this->setName($record->getCategory());
 			$this->setComposition($record->getImportedComposition());
 			$this->setBrand($record->getBrand());
-			$this->setPath(str_replace(' ', '-', $record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand())));
+			$this->setPath(str_replace(' ', '-',str_replace('.', '',
+				$record->getCode() . "-" . strtolower(
+					$record->getCategory() . "-" . $record->getBrand() .
+					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
+				)
+			)));
 			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
 			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
 			$this->setNewPrice($record->getPrice());

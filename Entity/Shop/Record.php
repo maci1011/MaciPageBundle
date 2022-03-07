@@ -411,11 +411,15 @@ class Record
 		return null;
 	}
 
+	public function hasVariant()
+	{
+		return is_array($this->data) && array_key_exists('variant', $this->data) && is_array($this->data['variant']);
+	}
+
 	public function getVariant()
 	{
-		$data = $this->getData();
-		if(array_key_exists('variant', $data)) return $data['variant'];
-		return ['type' => 'unset'];
+		if (!$this->hasVariant()) return ['type' => 'unset'];
+		return $this->data['variant'];
 	}
 
 	public function setVariant($data)
