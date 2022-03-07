@@ -20,4 +20,4 @@ Maci\PageBundle\Entity\Shop\MediaItem:
             inversedBy: mediaItems
         media:
             targetEntity: Maci\PageBundle\Entity\Media\Media
-            cascade: ["persist"]
+            cascade: ["persist", "remove"]

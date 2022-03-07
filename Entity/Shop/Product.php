@@ -181,6 +181,7 @@ class Product
 		$this->categoryItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->name = 'New Product';
 		$this->type = $this->getTypes()[0];
 		$this->code = uniqid();
 		$this->shipment = true;

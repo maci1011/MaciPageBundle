@@ -84,8 +84,10 @@ Maci\PageBundle\Entity\Shop\Product:
             inversedBy: children
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
+            cascade: ["persist", "remove"]
         cover:
             targetEntity: Maci\PageBundle\Entity\Media\Media
+            cascade: ["persist", "remove"]
     oneToMany:
         children:
             targetEntity: Maci\PageBundle\Entity\Shop\Product
