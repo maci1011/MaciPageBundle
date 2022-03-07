@@ -342,6 +342,13 @@ class Product
 		return $this;
 	}
 
+	public function setNewPrice($price)
+	{
+		$this->price = (intval(floatval($price) * 0.26) + 1) * 10;
+
+		return $this;
+	}
+
 	/**
 	 * Get price
 	 *
@@ -1168,7 +1175,7 @@ class Product
 			$this->setPath(str_replace(' ', '-', $record->getCode() . "-" . strtolower($record->getCategory() . "-" . $record->getBrand())));
 			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
 			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
-			$this->setPrice($record->getPrice());
+			$this->setNewPrice($record->getPrice());
 			$this->setStatus($this->getStatusValues()[2]);
 			$locale = $record->getImportedLocale();
 			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');

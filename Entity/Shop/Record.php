@@ -344,10 +344,10 @@ class Record
 					break;
 				case 'Prz.Lordo':
 				case 'Uni:XXEUR025':
-					$this->price = (intval(floatval($value) * 0.26) + 1) * 10;
+					$this->price = $value;
 					break;
 				case 'Quantità':
-					$this->quantity = intval($value);
+					$this->quantity = floatval($value);
 					break;
 				default:
 					break;
