@@ -183,6 +183,16 @@ class Record
 	}
 
 	/**
+	 * Get EAN13
+	 *
+	 * @return string 
+	 */
+	public function getEan13()
+	{
+		return \Maci\PageBundle\MaciPageBundle::ean13($this->barcode);
+	}
+
+	/**
 	 * Set brand
 	 *
 	 * @param string $brand

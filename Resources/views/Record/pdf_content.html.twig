@@ -1,9 +1,31 @@
 {% extends "@MaciPage/Layout/void.html.twig" %}
 
-{% block content %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+EAN13+Text&display=swap" rel="stylesheet" />
+{% endblock %}
 
-<h3>Sales</h3>
+{% block body %}
 
-<p>Ciao come va benone grazie. Ciao come va benone grazie. Ciao come va benone grazie. Ciao come va benone grazie. Ciao come va benone grazie. Ciao come va benone grazie.</p>
+<section class="label">
+	<p class="code">{{ code }}</p>
+</section>
+
+<style type="text/css">
+
+.label {
+	height: 25mm;
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.code {
+	font-family: 'Libre Barcode EAN13 Text', cursive;
+	font-size: 66.6pt;
+	text-align: right;
+	padding: 8pt 8pt 0 0;
+}
+
+</style>
 
 {% endblock %}

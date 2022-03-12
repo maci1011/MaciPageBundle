@@ -158,14 +158,19 @@ class RecordController extends AbstractController
 			return $this->redirect('maci_homepage');
 		}
 
+		$code = \Maci\PageBundle\MaciPageBundle::ean13('1000671790018');
+		// var_dump($code);die();
+
 		$binary = $this->container->getParameter('knp_snappy.pdf.binary');
 		$snappy = new Snappy($binary);
 
 		// $url = 'http://base.localhost' . $this->generateUrl('maci_product', array()); 
-		$html = $this->renderView('@MaciPage/Record/pdf_content.html.twig');
+		$html = $this->renderView('@MaciPage/Record/pdf_content.html.twig', [
+			'code' => $code
+		]);
 
 		return new PdfResponse(
-			$snappy->getOutputFromHtml($html, array(
+			$snappy->getOutputFromHtml($html, [
 				'orientation' => 'portrait',
 				'enable-javascript' => true,
 				'javascript-delay' => 1000,
@@ -174,17 +179,17 @@ class RecordController extends AbstractController
 				'lowquality' => false,
 				'page-height' => 25,
 				'page-width'  => 50,
-				'margin-top'  => 4,
-				'margin-right'  => 4,
-				'margin-bottom'  => 4,
-				'margin-left'  => 4,
+				'margin-top'  => 0,
+				'margin-right'  => 0,
+				'margin-bottom'  => 0,
+				'margin-left'  => 0,
 				'encoding' => 'utf-8',
 				'images' => true,
 				'cookie' => array(),
 				'dpi' => 300,
 				'enable-external-links' => true,
 				'enable-internal-links' => true
-			)),
+			]),
 			'file.pdf'
 		);
 	}
