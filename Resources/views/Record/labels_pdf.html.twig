@@ -14,8 +14,13 @@ table, tr, td, .ean, .title, .label {
 	font-weight: normal;
 }
 
+@media print {
+	table {
+		page-break-before: always;
+	}
+}
+
 .label {
-	height: 25mm;
 	width: 58mm;
 }
 
@@ -34,7 +39,6 @@ table, tr, td, .ean, .title, .label {
 	text-transform: uppercase;
 	font-size: 9pt;
 	line-height: 8pt;
-	padding: 0 4pt;
 }
 
 .title.price {
@@ -67,25 +71,12 @@ table, tr, td, .ean, .title, .label {
 <tr>
 	<td>
 		<div class="eanWrapper">
-			<p class="ean">{{ item.ean13Price }}</p>
+			<p class="ean">{{ products[index].ean13Price }}</p>
 		</div>
-	</td>
-</tr>
-<tr>
-	<td>
 		<h4 class="title">{{ item.code }}</h4>
 		<span class="title bold">{{ item.category }}</span><br/>
-		<span class="title">{{ item.variantLabel }}</span>
-	</td>
-</tr>
-<tr>
-	<td>
+		<span class="title">{{ item.variantLabel }}</span><br/>
 		<span class="title price bold">{{ products[index].priceLabel }} &euro;</span>
-	</td>
-</tr>
-<tr>
-	<td>
-		<span class="title bold link">MARANGONIMODA.IT</span>
 	</td>
 </tr>
 </tbody>
@@ -95,21 +86,5 @@ table, tr, td, .ean, .title, .label {
 {% endfor %}
 {% set index = index + 1 %}
 {% endfor %}
-
-<table>
-<tbody>
-<tr>
-	<td>
-		<br/>
-		<span>Items: {{ list|length }}</span>
-	</td>
-</tr>
-<tr>
-	<td>
-		<span>Tot: {{ tot }}</span>
-	</td>
-</tr>
-</tbody>
-</table>
 
 {% endblock %}

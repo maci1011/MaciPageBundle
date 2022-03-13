@@ -365,6 +365,11 @@ class Product
 		return number_format($this->price, 2);
 	}
 
+	public function getEan13Price()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getEan13((string)($this->price * 100));
+	}
+
 	public function setSale($sale)
 	{
 		$this->sale = $sale;
