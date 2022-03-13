@@ -71,7 +71,7 @@ class RecordController extends AbstractController
 			$product->importRecord($record);
 			$last = $product;
 		}
-		
+
 		$om->flush();
 
 		return new JsonResponse(['success' => true], 200);
@@ -152,21 +152,49 @@ class RecordController extends AbstractController
 		return $this->render('@MaciPage/Record/labels.html.twig');
 	}
 
-	public function getLabelsAction()
+	public function getLabelsAction(Request $request)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
 			return $this->redirect('maci_homepage');
 		}
 
-		$code = \Maci\PageBundle\MaciPageBundle::ean13('1000671790018');
+		$setId = $request->get('setId');
+
+		if (!$setId) {
+			$request->getSession()->getFlashBag()->add('danger', 'Bad Request.');
+			return $this->redirect($this->generateUrl('maci_record_labels'));
+		}
+
+		$om = $this->getDoctrine()->getManager();
+		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
+
+		$products = [];
+		$last = false;
+		foreach ($list as $record)
+		{
+			if ($last && $last->checkRecord($record)) $product = $last;
+			else $product = $this->getDoctrine()->getManager()
+				->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+					'code' => $record->getCode(),
+					'variant' => $record->getProductVariant()
+				]);
+
+			if (!$product)
+			{
+				$products[count($products)] = false;
+				continue;
+			}
+
+			$products[count($products)] = $product;
+		}
+
 		// var_dump($code);die();
 
-		$binary = $this->container->getParameter('knp_snappy.pdf.binary');
-		$snappy = new Snappy($binary);
-
-		// $url = 'http://base.localhost' . $this->generateUrl('maci_product', array()); 
-		$html = $this->renderView('@MaciPage/Record/pdf_content.html.twig', [
-			'code' => $code
+		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
+ 
+		$html = $this->renderView('@MaciPage/Record/labels_pdf.html.twig', [
+			'list' => $list,
+			'products' => $products
 		]);
 
 		return new PdfResponse(

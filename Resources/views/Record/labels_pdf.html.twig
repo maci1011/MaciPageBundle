@@ -1,0 +1,112 @@
+{% extends "@MaciPage/Layout/void.html.twig" %}
+
+
+{% block head %}
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+EAN13+Text&display=swap" rel="stylesheet" />
+
+<style type="text/css">
+
+table, tr, td, .ean, .title, .label {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	font-weight: normal;
+}
+
+.label {
+	height: 24mm;
+	width: 60mm;
+}
+
+.eanWrapper, .ean {
+	height: 8mm;
+	overflow: hidden;
+}
+
+.ean {
+	font-family: 'Libre Barcode EAN13 Text', cursive;
+	font-size: 122pt;
+	padding-right: 8pt;
+}
+
+.title {
+	text-transform: uppercase;
+	font-size: 9pt;
+	padding: 0 4pt;
+}
+
+.title.price {
+	font-size: 12pt;
+}
+
+.title.bold {
+	font-weight: bold;
+}
+
+.link {
+	letter-spacing: 0.43px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+{% set tot = 0 %}
+{% set index = 0 %}
+{% for item in list %}
+{% for i in 1..item.quantity %}
+
+<table class="label">
+<tbody>
+<tr>
+	<td>
+		<div class="eanWrapper">
+			<p class="ean">{{ item.ean13Price }}</p>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td>
+		<h4 class="title">{{ item.code }}</h4>
+		<span class="title bold">{{ item.category }}</span><br/>
+		<span class="title">{{ item.variantLabel }}</span>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="title price bold">{{ products[index].priceLabel }} &euro;</span>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="title bold link">MARANGONIMODA.IT</span>
+	</td>
+</tr>
+</tbody>
+</table>
+
+{% set tot = tot + 1 %}
+{% endfor %}
+{% set index = index + 1 %}
+{% endfor %}
+
+<table>
+<tbody>
+<tr>
+	<td>
+		<br/>
+		<span>Items: {{ list|length }}</span>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span>Tot: {{ tot }}</span>
+	</td>
+</tr>
+</tbody>
+</table>
+
+{% endblock %}
