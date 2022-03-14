@@ -1,7 +1,7 @@
 
-(function($, d3){
+(function($){
 
-var maciShopImport = function (options) {
+var maciShopExport = function (options) {
 
 	var form, setInput, typeInput, barcodeInput, wrapper, alertNode,
 
@@ -24,7 +24,7 @@ var maciShopImport = function (options) {
 					setInput.parent().hide();
 					return;
 				}
-				for (var i = d.list.length - 1; i >= 0; i--) {
+				for (var i = 0; i < d.list.length; i++) {
 					$('<option/>').attr('value', d.list[i].id).text(d.list[i].id + ": " + d.list[i].label).appendTo(setInput);
 					if (21 < setInput.find('option').length) break;
 				}
@@ -110,8 +110,8 @@ var maciShopImport = function (options) {
 
 $(document).ready(function(e) {
 
-	maciShopImport();
+	maciShopExport();
 
 });
 
-})(jQuery, d3);
+})(jQuery);

@@ -26,7 +26,7 @@ var maciShopImport = function (options) {
 					select.parent().hide();
 					return;
 				}
-				for (var i = d.list.length - 1; i >= 0; i--) {
+				for (var i = 0; i < d.list.length; i++) {
 					$('<option/>').attr('value', d.list[i].id).text(d.list[i].id + ": " + d.list[i].label).appendTo(select);
 					if (21 < select.find('option').length) break;
 				}

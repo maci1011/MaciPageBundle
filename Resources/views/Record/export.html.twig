@@ -1,18 +1,14 @@
 {% extends "MaciAdminBundle::layout.html.twig" %}
 
 {% block content %}
-
-<h3>Sales</h3>
-
+<h3>Export</h3>
 <form id="sales_form" class="p-2">
-
 <div class="form-group">
 	<label class="required" for="sales_set">Set</label>
 	<select id="sales_set" class="form-control">
 		<option value="null">Select Record Set</option>
 	</select>
 </div>
-
 <div class="form-group">
 	<label class="required" for="sales_type">Type</label>
 	<select id="sales_type" class="form-control">
@@ -22,26 +18,19 @@
 		<option value="quantity">Show Quantity</option>
 	</select>
 </div>
-
 <div class="form-group">
 	<label class="required" for="data_barcode">Insert Barcode</label>
 	<input id="data-barcode" class="form-control" type="text" />
 </div>
-
 <div class="form-group">
 	{#}<button id="sales_submit" class="btn btn-primary" type="submit">sales</button>{#}
-
 </div>
-
 </form>
-
 <div id="output" style="padding: 32px 0;"></div>
-
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
-	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/sales.js') }}" ></script>
-
+	{#}<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>{#}
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/export.js') }}" ></script>
 {% endblock %}
