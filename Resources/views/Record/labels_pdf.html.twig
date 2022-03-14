@@ -3,9 +3,12 @@
 
 {% block head %}
 
-<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+EAN13+Text&display=swap" rel="stylesheet" />
-
 <style type="text/css">
+
+@font-face {
+	font-family: "Libre Barcode EAN13 Text";
+	src: url("http://base.localhost/bundles/macipage/webfonts/ean13.ttf");
+}
 
 body, table, tr, td, p, div, span, h4 {
 	padding: 0;
@@ -31,7 +34,7 @@ body, table, tr, td, p, div, span, h4 {
 
 .ean {
 	font-family: 'Libre Barcode EAN13 Text', cursive;
-	font-size: 92pt;
+	font-size: 37pt;
 	padding-right: 8pt;
 }
 
