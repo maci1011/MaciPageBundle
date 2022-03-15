@@ -12,7 +12,8 @@ class MaciPageBundle extends Bundle
 		{
 			return null;
 		}
-		if (strlen($chaine) < 12)
+		if (strlen($chaine) == 12) {}
+		else if (strlen($chaine) < 12)
 		{
 			while (strlen($chaine) < 12)
 			{
@@ -23,11 +24,7 @@ class MaciPageBundle extends Bundle
 		{
 			$chaine = substr($chaine, 1, 12);
 		}
-
-		if (strlen($chaine) != 12)
-		{
-			return null;
-		}
+		else return null;
 
 		$isValid = true;
 
@@ -46,38 +43,28 @@ class MaciPageBundle extends Bundle
 		}
 
 		$checksum = 0;
-		$code = $chaine[0] . chr(65 + intval($chaine[1]));
-		$tableA = false;
-		$ean13 = "";
-
 		for ($i = 11; -1 < $i; $i-=2) $checksum += intval($chaine[$i]);
 		$checksum *= 3;
 		for ($i = 10; -1 < $i; $i-=2) $checksum += intval($chaine[$i]);
 		$chaine .= (10 - $checksum % 10) % 10;
 
-		$code .= self::getTableCode(2, $chaine);
-		$code .= self::getTableCode(3, $chaine);
-		$code .= self::getTableCode(4, $chaine);
-		$code .= self::getTableCode(5, $chaine);
-		$code .= self::getTableCode(6, $chaine);
-
+		$code = $chaine[0] . chr(65 + intval($chaine[1]));
+		for ($i = 2; $i < 6; $i++) $code .= self::getTableCode($i, $chaine);
 		$code .= "*";
 		for ($i = 7; $i < 13; $i++) $code .= chr(97 + intval($chaine[$i]));
-		$code .= "+";
 
-		return $code;
+		return $code . "+";
 	}
 
 	public static function getTableCode($index, $chaine)
 	{
-		$tableA = in_array(intval($chaine[0]), ([
+		If (in_array(intval($chaine[0]), ([
 			2 => [0,1,2,3],
 			3 => [0,4,7,8],
 			4 => [0,1,4,5,9],
 			5 => [0,2,5,6,7],
 			6 => [0,3,6,8,9]
-		])[$index]);
-		If ($tableA) return chr(65 + intval($chaine[$index]));
+		])[$index])) return chr(65 + intval($chaine[$index]));
 		return chr(75 + intval($chaine[$index]));
 	}
 
