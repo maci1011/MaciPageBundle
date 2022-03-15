@@ -48,7 +48,7 @@ class MaciPageBundle extends Bundle
 		$chaine .= (10 - $checksum % 10) % 10;
 
 		$code = $chaine[0] . chr(65 + intval($chaine[1]));
-		for ($i = 2; $i < 6; $i++) $code .= in_array(intval($chaine[0]), ([
+		for ($i = 2; $i < 7; $i++) $code .= in_array(intval($chaine[0]), ([
 			2 => [0,1,2,3],
 			3 => [0,4,7,8],
 			4 => [0,1,4,5,9],
