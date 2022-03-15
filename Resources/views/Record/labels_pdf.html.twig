@@ -64,7 +64,6 @@ body, table, tr, td, p, div, span, h4 {
 
 {% block body %}
 
-{% set tot = 0 %}
 {% set index = 0 %}
 {% for item in list %}
 {% for i in 1..item.quantity %}
@@ -85,7 +84,6 @@ body, table, tr, td, p, div, span, h4 {
 </tbody>
 </table>
 
-{% set tot = tot + 1 %}
 {% endfor %}
 {% set index = index + 1 %}
 {% endfor %}
