@@ -263,7 +263,9 @@ class Record
 
 	public function getEan13Price()
 	{
-		return \Maci\PageBundle\MaciPageBundle::getEan13((string)($this->price * 100));
+		return \Maci\PageBundle\MaciPageBundle::getEan13(
+			'2000030' . ($this->price < 100 ? '0' : '') . intval($this->price * 10)
+		);
 	}
 
 	/**
