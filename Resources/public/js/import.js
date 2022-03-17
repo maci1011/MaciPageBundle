@@ -3,12 +3,11 @@
 
 var maciShopImport = function (options) {
 
-	var form, records, index, fileInput, alertNode, toLoad,
+	var form, select, records, index, fileInput, alertNode, toLoad,
 
 	_obj = {
 
 	getSets: function() {
-		var select = form.find('#import_set');
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -35,7 +34,6 @@ var maciShopImport = function (options) {
 	},
 
 	setParent: function(data) {
-		var select = form.find('#import_set');
 		if (select.val() == "null") return;
 		$.ajax({
 			type: 'POST',
@@ -128,11 +126,7 @@ var maciShopImport = function (options) {
 
 	importXml: function(data) {
 		var s = data.indexOf('<Table');
-		if(s == -1)
-		{
-			// _obj.importTxt(data);
-			return;
-		}
+		if(s == -1) return;
 		var e = data.indexOf('</Table>') + 8;
 		data = $(data.substr(s, e - s));
 		var fields = [];
@@ -175,7 +169,13 @@ var maciShopImport = function (options) {
 
 	set: function(_form) {
 		form = _form;
-		form.find("#import_submit").click(function(e) {
+		select = form.find('#import_set');
+		submit = form.find("#import_submit");
+		select.change(function(e) {
+			if (select.val() == 'null') submit.hide();
+			else submit.show();
+		}).change();
+		submit.click(function(e) {
 			e.preventDefault();
 			fileInput.click();
 		});
@@ -187,35 +187,6 @@ var maciShopImport = function (options) {
 
 	// Play!
 	_obj.set($('#import_form'));
-
-	// importTxt: function(data) {
-	// 	var rows = data.split("\n"), max = 0;
-	// 	for (var i = 0; i < rows.length; i++) {
-	// 		rows[i] = rows[i].trim().split(/\ +s*/);
-	// 		max = max < rows[i].length ? rows[i].length : max;
-	// 	}
-	// 	console.log(rows);
-	// 	console.log(max);
-	// 	var fields, start;
-	// 	for (var i = 0; i < rows.length; i++) {
-	// 		if(rows[i].length == max) {
-	// 			fields = rows[i];
-	// 			start = i++;
-	// 			break;
-	// 		}
-	// 	}
-	// 	var list = [];
-	// 	for (var i = start; i < rows.length; i++) {
-	// 		if(rows[i].length == max) {
-	// 			var el = [];
-	// 			for (var j = 0; j < max; j++) {
-	// 				el[fields[j]] = rows[i][j];
-	// 			}
-	// 			list[list.length] = el;
-	// 		}
-	// 	}
-	// 	console.log(list);
-	// },
 
 	return _obj;
 

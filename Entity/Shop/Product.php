@@ -201,6 +201,7 @@ class Product
 	{
 		return $this->id;
 	}
+
 	/**
 	 * Set name
 	 *

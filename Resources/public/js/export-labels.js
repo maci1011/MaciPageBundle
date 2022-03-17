@@ -41,7 +41,12 @@ var maciShopExport = function (options) {
 		path = getLink.attr('href');
 		setInput = form.find('#labels_set');
 		setInput.change(function(e) {
-			getLink.attr('href', setInput.val() == 'null' ? '#' : path + '?setId=' + setInput.val())
+			if (setInput.val() == 'null') getLink.parent().hide();
+			else
+			{
+				getLink.parent().show();
+				getLink.attr('href', path + '?setId=' + setInput.val());
+			}
 		}).change();
 		_obj.getSets();
 	}

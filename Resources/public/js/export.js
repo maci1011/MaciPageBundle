@@ -80,6 +80,7 @@ var maciShopExport = function (options) {
 	},
 
 	barcodeChange: function(e) {
+		if (setInput.val() == 'null') return;
 		if (barcodeInput.val().trim().length != 13) return;
 		_obj.saleRecord();
 	},
@@ -88,12 +89,16 @@ var maciShopExport = function (options) {
 		wrapper = false;
 		alertNode = false;
 		form = _form;
-		form.submit(function(e) {
-			e.preventDefault();
-		});
 		setInput = form.find('#sales_set');
 		typeInput = form.find("#sales_type");
 		barcodeInput = form.find("#data-barcode");
+		form.submit(function(e) {
+			e.preventDefault();
+		});
+		setInput.change(function(e) {
+			if (setInput.val() == 'null') barcodeInput.parent().hide();
+			else barcodeInput.parent().show();
+		}).change();
 		barcodeInput.on('keypress', _obj.barcodeChange).keypress();
 		_obj.getSets();
 	}
