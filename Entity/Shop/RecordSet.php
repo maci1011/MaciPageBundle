@@ -23,6 +23,11 @@ class RecordSet
 	private $description;
 
 	/**
+	 * @var string
+	 */
+	private $type;
+
+	/**
 	 * @var \DateTime
 	 */
 	private $recorded;
@@ -48,6 +53,8 @@ class RecordSet
 	public function __construct()
 	{
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->type = $this->getTypes()[0];
+		$this->recorded = new \DateTime();
 	}
 
 	/**
@@ -107,82 +114,49 @@ class RecordSet
 	}
 
 	/**
-	 * Set price
+	 * Set type
 	 *
-	 * @param string $price
-	 * @return Record
-	 */
-	public function setPrice($price)
-	{
-		$this->price = $price;
-
-		return $this;
-	}
-
-	/**
-	 * Get price
-	 *
-	 * @return string 
-	 */
-	public function getPrice()
-	{
-		return $this->price;
-	}
-
-	/**
-	 * Get total price
-	 *
-	 * @return string 
-	 */
-	public function getTotal()
-	{
-		return $this->price * $this->quantity;
-	}
-
-	/**
-	 * Set quantity
-	 *
-	 * @param string $quantity
-	 * @return Record
-	 */
-	public function setQuantity($quantity)
-	{
-		$this->quantity = $quantity;
-
-		return $this;
-	}
-
-	/**
-	 * Get quantity
-	 *
-	 * @return string 
-	 */
-	public function getQuantity()
-	{
-		return $this->quantity;
-	}
-
-	/**
-	 * Set data
-	 *
-	 * @param string $data
+	 * @param string $type
 	 * @return Product
 	 */
-	public function setData($data)
+	public function setType($type)
 	{
-		$this->data = $data;
+		$this->type = $type;
+
+		if ($type == $this->getTypes()[1]) $this->setVariantType('color-n-size');
 
 		return $this;
 	}
 
 	/**
-	 * Get data
+	 * Get type
 	 *
 	 * @return string 
 	 */
-	public function getData()
+	public function getType()
 	{
-		return $this->data;
+		return $this->type;
+	}
+
+	/**
+	 * Get Type Array
+	 */
+	static public function getTypeArray()
+	{
+		return [
+			'Import' => 'imprt',
+			'Export' => 'exprt'
+		];
+	}
+
+	public function getTypeLabel()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
+	}
+
+	static public function getTypes()
+	{
+		return array_values(Product::getTypeArray());
 	}
 
 	/**
@@ -206,14 +180,6 @@ class RecordSet
 	public function getRecorded()
 	{
 		return $this->recorded;
-	}
-
-	/**
-	 * setRecordedValue
-	 */
-	public function setRecordedValue()
-	{
-		$this->recorded = new \DateTime();
 	}
 
 	public function addChild(\Maci\PageBundle\Entity\Shop\Record $child)
@@ -262,6 +228,6 @@ class RecordSet
 	 */
 	public function __toString()
 	{
-		return 'Record#' . ($this->id ? $this->id : 'new');
+		return 'RecordSet#' . ($this->id ? $this->id : 'new');
 	}
 }

@@ -15,8 +15,12 @@ Maci\PageBundle\Entity\Shop\RecordSet:
         description:
             type: text
             nullable: true
+        type:
+            type: string
+            length: 5
+            nullable: true
         recorded:
-            type: datetime
+            type: date
     manyToOne:
         category:
             targetEntity: Maci\PageBundle\Entity\Shop\SetCategory
@@ -29,5 +33,3 @@ Maci\PageBundle\Entity\Shop\RecordSet:
             targetEntity: Maci\PageBundle\Entity\Shop\Record
             mappedBy: parent
             orderBy: { 'id': ASC }
-    lifecycleCallbacks:
-        prePersist: [ setRecordedValue ]

@@ -6,6 +6,19 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class MaciPageBundle extends Bundle
 {
+	public static function getLabel($value, $haystack)
+	{
+		if(!is_array($haystack) || count($haystack) == 0) return null;
+		if(!$value || $value == "") return array_search(array_values($haystack)[0], $haystack);
+		$array = $haystack;
+		$key = array_search($value, $array);
+		if ($key) {
+			return $key;
+		}
+		$str = str_replace('_', ' ', $value);
+		return ucwords($str);
+	}
+
 	public static function getEan13($chaine)
 	{
 		if (!is_string($chaine) || !strlen($chaine))

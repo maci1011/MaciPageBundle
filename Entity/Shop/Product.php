@@ -428,14 +428,7 @@ class Product
 
 	public function getTypeLabel()
 	{
-		if(!$this->type || $this->type == "") return array_search($this->getTypes()[0], $this->getTypeArray());
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
 	}
 
 	static public function getTypes()
