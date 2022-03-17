@@ -22,3 +22,7 @@ maci_record_labels:
 maci_record_get_labels:
     path:     /record/get-labels
     defaults: { _controller: MaciPageBundle:Record:getLabels, section: records }
+
+maci_record_get_report:
+    path:     /record/get-report
+    defaults: { _controller: MaciPageBundle:Record:getLabels, section: records, template: report }

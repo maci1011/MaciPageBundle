@@ -152,7 +152,7 @@ class RecordController extends AbstractController
 		return $this->render('@MaciPage/Record/labels.html.twig');
 	}
 
-	public function getLabelsAction(Request $request)
+	public function getLabelsAction(Request $request, $template = false)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
 			return $this->redirect('maci_homepage');
@@ -191,34 +191,47 @@ class RecordController extends AbstractController
 		// var_dump($code);die();
 
 		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
- 
-		$html = $this->renderView('@MaciPage/Record/labels_pdf.html.twig', [
-			'list' => $list,
-			'products' => $products
-		]);
+
+		$defaults = [
+			'orientation' => 'portrait',
+			'enable-javascript' => true,
+			'javascript-delay' => 1000,
+			'no-stop-slow-scripts' => true,
+			'no-background' => false,
+			'lowquality' => false,
+			'margin-top'  => 0,
+			'margin-right'  => 0,
+			'margin-bottom'  => 0,
+			'margin-left'  => 0,
+			'encoding' => 'utf-8',
+			'images' => true,
+			'cookie' => array(),
+			'dpi' => 300,
+			'enable-external-links' => true,
+			'enable-internal-links' => true
+		];
+
+		if ($template == 'report')
+		{
+			$defaults['page-size'] = 'A4';
+			return new PdfResponse(
+				$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/report_pdf.html.twig', [
+					'list' => $list,
+					'products' => $products
+				]), $defaults),
+				'report.pdf'
+			);
+		}
+
+		$defaults['page-height'] = 25;
+		$defaults['page-width'] = 50;
 
 		return new PdfResponse(
-			$snappy->getOutputFromHtml($html, [
-				'orientation' => 'portrait',
-				'enable-javascript' => true,
-				'javascript-delay' => 1000,
-				'no-stop-slow-scripts' => true,
-				'no-background' => false,
-				'lowquality' => false,
-				'page-height' => 25,
-				'page-width'  => 50,
-				'margin-top'  => 0,
-				'margin-right'  => 0,
-				'margin-bottom'  => 0,
-				'margin-left'  => 0,
-				'encoding' => 'utf-8',
-				'images' => true,
-				'cookie' => array(),
-				'dpi' => 300,
-				'enable-external-links' => true,
-				'enable-internal-links' => true
-			]),
-			'file.pdf'
+			$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/labels_pdf.html.twig', [
+				'list' => $list,
+				'products' => $products
+			]), $defaults),
+			'labels.pdf'
 		);
 	}
 }
