@@ -13,12 +13,15 @@
 body, table, tr, td, p, div, span, h4 {
 	padding: 0;
 	margin: 0;
-	text-align: center;
 	font-weight: normal;
 }
 
+h4 {
+	display: inline;
+}
+
 .label {
-	width: 58mm;
+	padding: 2px 15px;
 }
 
 @media print {
@@ -68,9 +71,9 @@ body, table, tr, td, p, div, span, h4 {
 <tr>
 	<td>
 		<h4 class="title">{{ item.code }}</h4>
-		<span class="title bold">{{ item.category }}</span><br/>
-		<span class="title">{{ item.variantLabel }}</span><br/>
-		<span class="title price bold">{{ products[index].priceLabel }} &euro;</span>
+		<span class="title bold">{{ item.category }}</span>
+		<span class="title">{{ item.variantLabel }}</span>
+		<span class="title price bold">{{ products[loop.index0].priceLabel }} &euro;</span>
 	</td>
 </tr>
 {% endfor %}
