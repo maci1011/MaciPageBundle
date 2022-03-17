@@ -10,10 +10,16 @@
 	src: url("http://base.localhost/bundles/macipage/webfonts/ean13.ttf");
 }
 
-body, table, tr, td, p, div, span, h4 {
+body, table, tr, th, td, div, h4 {
+	padding: 0;
+	margin: 0;
+}
+
+body, p, span, h4, th {
 	padding: 0;
 	margin: 0;
 	font-weight: normal;
+	text-align: left;
 }
 
 h4 {
@@ -22,6 +28,8 @@ h4 {
 
 .label {
 	padding: 2px 15px;
+	width: 800px;
+	padding-left: 30px;
 }
 
 @media print {
@@ -33,23 +41,20 @@ h4 {
 	}
 }
 
-.eanWrapper, .ean {
-	height: 8mm;
-	overflow: hidden;
+th {
+	padding: 16px 0;
+}
+
+tbody td {
+	border-bottom: 0.5px solid gray;
 }
 
 .title {
 	text-transform: uppercase;
-	font-size: 9pt;
-	line-height: 10pt;
+	font-size: 11pt;
 }
 
-.title.price {
-	font-size: 12pt;
-	line-height: 13pt;
-	letter-spacing: 0.38px;
-}
-
+th,
 .title.bold {
 	font-weight: bold;
 }
@@ -65,15 +70,29 @@ h4 {
 {% block body %}
 
 <table class="label">
+<thead>
+<tr>
+	<th>Code</th>
+	<th>Category</th>
+	<th>Variants</th>
+	<th>Price</th>
+</tr>
+</thead>
 <tbody>
 
 {% for item in list %}
-<tr>
+<tr class="{{ loop.index is even ? 'even' : 'odd' }}">
 	<td>
 		<h4 class="title">{{ item.code }}</h4>
+	</td>
+	<td>
 		<span class="title bold">{{ item.category }}</span>
+	</td>
+	<td>
 		<span class="title">{{ item.variantLabel }}</span>
-		<span class="title price bold">{{ products[loop.index0].priceLabel }} &euro;</span>
+	</td>
+	<td>
+		<span class="title bold">{{ products[loop.index0].priceLabel }} &euro;</span>
 	</td>
 </tr>
 {% endfor %}
