@@ -14,7 +14,10 @@ var maciShopImport = function (options) {
 				'data': {
 					'list': {
 						'section': 'records',
-						'entity': 'record_set'
+						'entity': 'record_set',
+						'filters': {
+							'type': 'imprt'
+						}
 					}
 				}
 			},
