@@ -85,7 +85,7 @@ th,
 <table class="label">
 <thead>
 <tr>
-	<th>Code {{ list|length }}</th>
+	<th>Code</th>
 	<th>Category</th>
 	<th>Quantity</th>
 	<th>Price</th>
@@ -116,9 +116,9 @@ th,
 <tr><td class="spacer"></td></tr>
 <tr><td class="spacer"></td></tr>
 <tr>
+	<th>{{ loop.last ? 'i: ' ~ list|length : '&nbsp;' }}</th>
 	<th>&nbsp;</th>
-	<th>&nbsp;</th>
-	<th>&nbsp;</th>
+	<th>{{ loop.last ? 't: ' ~ qta : '&nbsp;' }}</th>
 	<th>p. {{ page }} / {{ (((list|length - 1) / page_limit) + 1)|intval }}</th>
 </tr>
 </tfoot>

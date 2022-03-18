@@ -207,6 +207,7 @@ class RecordController extends AbstractController
 		{
 			$list = [];
 			$i = 0;
+			$qta = 0;
 			foreach ($records as $record)
 			{
 				if (array_key_exists($record->getCode(), $list))
@@ -222,13 +223,15 @@ class RecordController extends AbstractController
 						'price' => $products[$i]->getPriceLabel()
 					];
 				}
+				$qta += $record->getQuantity();
 				$i++;
 			}
 			$defaults['page-size'] = 'A4';
 			return new PdfResponse(
 				$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/report_pdf.html.twig', [
 					'list' => $list,
-					'products' => $products
+					'products' => $products,
+					'qta' => $qta
 				]), $defaults),
 				'report.pdf'
 			);
