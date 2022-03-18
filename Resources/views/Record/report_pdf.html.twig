@@ -28,8 +28,8 @@ h4 {
 
 .label {
 	padding: 2px 15px;
-	width: 800px;
-	padding-left: 30px;
+	width: 970px;
+	padding: 32px;
 }
 
 @media print {
@@ -42,7 +42,15 @@ h4 {
 }
 
 th {
-	padding: 16px 0;
+	padding: 0 0 6px 0;
+}
+
+thead th {
+	border-bottom: 1px solid black;
+}
+
+.spacer {
+	padding: 0 0 12px 0;
 }
 
 tbody td {
@@ -74,25 +82,28 @@ th,
 <tr>
 	<th>Code</th>
 	<th>Category</th>
-	<th>Variants</th>
+	<th>Quantity</th>
 	<th>Price</th>
+</tr>
+<tr>
+	<td class="spacer"></td>
 </tr>
 </thead>
 <tbody>
 
-{% for item in list %}
+{% for code, item in list %}
 <tr class="{{ loop.index is even ? 'even' : 'odd' }}">
 	<td>
-		<h4 class="title">{{ item.code }}</h4>
+		<h4 class="title">{{ code }}</h4>
 	</td>
 	<td>
 		<span class="title bold">{{ item.category }}</span>
 	</td>
 	<td>
-		<span class="title">{{ item.variantLabel }}</span>
+		<span class="title">{{ item.quantity }}</span>
 	</td>
 	<td>
-		<span class="title bold">{{ products[loop.index0].priceLabel }} &euro;</span>
+		<span class="title bold">{{ item.price }} &euro;</span>
 	</td>
 </tr>
 {% endfor %}

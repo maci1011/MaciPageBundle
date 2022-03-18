@@ -174,9 +174,18 @@ var maciShopImport = function (options) {
 		form = _form;
 		select = form.find('#import_set');
 		submit = form.find("#import_submit");
+		getLabels = form.find('#getLabels');
+		labelsPath = getLabels.attr('href');
+		getReport = form.find('#getReport');
+		reportPath = getReport.attr('href');
 		select.change(function(e) {
-			if (select.val() == 'null') submit.hide();
-			else submit.show();
+			if (select.val() == 'null') submit.parent().hide();
+			else
+			{
+				submit.parent().show();
+				getLabels.attr('href', labelsPath + '?setId=' + select.val());
+				getReport.attr('href', reportPath + '?setId=' + select.val());
+			}
 		}).change();
 		submit.click(function(e) {
 			e.preventDefault();

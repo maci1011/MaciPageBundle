@@ -144,14 +144,6 @@ class RecordController extends AbstractController
 		return new JsonResponse(['success' => true, 'id' => $newRecord->getId(), 'variant' => $newRecord->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
 	}
 
-	public function labelsAction()
-	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
-		}
-		return $this->render('@MaciPage/Record/labels.html.twig');
-	}
-
 	public function getLabelsAction(Request $request, $template = false)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
@@ -166,11 +158,11 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
 
 		$products = [];
 		$last = false;
-		foreach ($list as $record)
+		foreach ($records as $record)
 		{
 			if ($last && $last->checkRecord($record)) $product = $last;
 			else $product = $this->getDoctrine()->getManager()
@@ -213,6 +205,25 @@ class RecordController extends AbstractController
 
 		if ($template == 'report')
 		{
+			$list = [];
+			$i = 0;
+			foreach ($records as $record)
+			{
+				if (array_key_exists($record->getCode(), $list))
+				{
+					$x = $list[$record->getCode()]['quantity'];
+					$list[$record->getCode()]['quantity'] = $x + $record->getQuantity();
+				}
+				else
+				{
+					$list[$record->getCode()] = [
+						'category' => $record->getCategory(),
+						'quantity' => $record->getQuantity(),
+						'price' => $products[$i]->getPriceLabel()
+					];
+				}
+				$i++;
+			}
 			$defaults['page-size'] = 'A4';
 			return new PdfResponse(
 				$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/report_pdf.html.twig', [
@@ -228,7 +239,7 @@ class RecordController extends AbstractController
 
 		return new PdfResponse(
 			$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/labels_pdf.html.twig', [
-				'list' => $list,
+				'list' => $records,
 				'products' => $products
 			]), $defaults),
 			'labels.pdf'
