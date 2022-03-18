@@ -85,10 +85,11 @@ th,
 <table class="label">
 <thead>
 <tr>
-	<th>Code</th>
-	<th>Category</th>
-	<th>Quantity</th>
-	<th>Price</th>
+	<th>CODE</th>
+	<th>CATEGORY</th>
+	<th>VARIANTS</th>
+	<th>QUANTITY</th>
+	<th>PRICE</th>
 </tr>
 <tr><td class="spacer"></td></tr>
 </thead>
@@ -97,10 +98,13 @@ th,
 
 <tr class="{{ loop.index is even ? 'even' : 'odd' }}">
 	<td>
-		<h4 class="title">{{ code }}</h4>
+		<h4 class="title">{{ item.code }}</h4>
 	</td>
 	<td>
-		<span class="title">{{ item.category }}</span>
+		<span class="title"><b>{{ item.category }}</b> - {{ item.variant }}</span>
+	</td>
+	<td>
+		<span class="title">{{ item.variants }}</span>
 	</td>
 	<td>
 		<span class="title bold">{{ item.quantity }}</span>
@@ -116,9 +120,10 @@ th,
 <tr><td class="spacer"></td></tr>
 <tr><td class="spacer"></td></tr>
 <tr>
-	<th>{{ loop.last ? 'i: ' ~ list|length : '&nbsp;' }}</th>
+	<th>{{ loop.last ? 'I: ' ~ list|length : '&nbsp;' }}</th>
 	<th>&nbsp;</th>
-	<th>{{ loop.last ? 't: ' ~ qta : '&nbsp;' }}</th>
+	<th>&nbsp;</th>
+	<th>{{ loop.last ? 'T: ' ~ qta : '&nbsp;' }}</th>
 	<th>p. {{ page }} / {{ (((list|length - 1) / page_limit) + 1)|intval }}</th>
 </tr>
 </tfoot>

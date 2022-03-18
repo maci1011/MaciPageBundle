@@ -1414,6 +1414,16 @@ class Product
 		return true;
 	}
 
+	public function getVariantsLabel()
+	{
+		if (!$this->hasVariants() || !is_array($this->data['variants'])) return '';
+		$list = [];
+		for ($i=0; $i < count($this->data['variants']); $i++) {
+			$list[] = $this->data['variants'][$i]['name'];
+		}
+		return join(', ', $list);
+	}
+
 	public function checkRecord($record)
 	{
 		if (!$record ||

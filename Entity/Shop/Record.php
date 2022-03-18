@@ -450,9 +450,18 @@ class Record
 	public function getVariantLabel()
 	{
 		$data = $this->getData();
-		if(!array_key_exists('variant', $data)) return '';
+		if(!array_key_exists('variant', $data)) return null;
 		if($data['variant']['type'] == 'color-n-size')
 			return $data['variant']['color'] . " - " . $data['variant']['name'];
+		return $data['variant']['type'];
+	}
+
+	public function getVariantName()
+	{
+		$data = $this->getData();
+		if(!array_key_exists('variant', $data)) return '-';
+		if($data['variant']['type'] == 'color-n-size')
+			return $data['variant']['name'];
 		return $data['variant']['type'];
 	}
 

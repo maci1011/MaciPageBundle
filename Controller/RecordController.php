@@ -210,16 +210,23 @@ class RecordController extends AbstractController
 			$qta = 0;
 			foreach ($records as $record)
 			{
-				if (array_key_exists($record->getCode(), $list))
+				$label = $record->getCode() . '-' . $products[$i]->getVariant();
+				$variant = (1 < $record->getQuantity() ? $record->getQuantity() . ' ' : '') . $record->getVariantName();
+				if (array_key_exists($label, $list))
 				{
-					$x = $list[$record->getCode()]['quantity'];
-					$list[$record->getCode()]['quantity'] = $x + $record->getQuantity();
+					$x = $list[$label]['quantity'];
+					$list[$label]['quantity'] = $x + $record->getQuantity();
+					$x = $list[$label]['variants'];
+					$list[$label]['variants'] = $x . ', ' . $variant;
 				}
 				else
 				{
-					$list[$record->getCode()] = [
+					$list[$label] = [
+						'code' => $record->getCode(),
 						'category' => $record->getCategory(),
 						'quantity' => $record->getQuantity(),
+						'variant' => $products[$i]->getVariant(),
+						'variants' => $variant,
 						'price' => $products[$i]->getPriceLabel()
 					];
 				}
