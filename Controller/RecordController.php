@@ -13,7 +13,7 @@ class RecordController extends AbstractController
 	public function importAction()
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
+			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
 		return $this->render('@MaciPage/Record/import.html.twig');
 	}
@@ -21,13 +21,17 @@ class RecordController extends AbstractController
 	public function exportAction()
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
+			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
 		return $this->render('@MaciPage/Record/export.html.twig');
 	}
 
 	public function loadUnsettedRecordsAction(Request $request)
 	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect($this->generateUrl('maci_homepage'));
+		}
+
 		// --- Check Request
 
 		if (!$request->isXmlHttpRequest()) {
@@ -79,6 +83,10 @@ class RecordController extends AbstractController
 
 	public function exportRecordAction(Request $request)
 	{
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return $this->redirect($this->generateUrl('maci_homepage'));
+		}
+
 		// --- Check Request
 
 		if (!$request->isXmlHttpRequest()) {
@@ -147,7 +155,7 @@ class RecordController extends AbstractController
 	public function getLabelsAction(Request $request, $template = false)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
+			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
 
 		$setId = $request->get('setId');

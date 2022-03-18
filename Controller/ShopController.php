@@ -17,7 +17,6 @@ class ShopController extends AbstractController
 
 	public function categoryAction($path)
 	{
-
 		$category = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Shop\Category')
 			->findOneBy(array(
@@ -61,7 +60,7 @@ class ShopController extends AbstractController
 	public function setVariantTypeAction(Request $request, $id)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
+			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
 
 		$om = $this->getDoctrine()->getManager();
@@ -80,7 +79,7 @@ class ShopController extends AbstractController
 	public function addVariantAction(Request $request, $id)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
-			return $this->redirect('maci_homepage');
+			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
 
 		$om = $this->getDoctrine()->getManager();
