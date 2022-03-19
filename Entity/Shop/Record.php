@@ -459,7 +459,7 @@ class Record
 	public function getVariantName()
 	{
 		$data = $this->getData();
-		if(!array_key_exists('variant', $data)) return '-';
+		if(!array_key_exists('variant', $data)) return null;
 		if($data['variant']['type'] == 'color-n-size')
 			return $data['variant']['name'];
 		return $data['variant']['type'];

@@ -3,7 +3,7 @@
 
 var maciShopImport = function (options) {
 
-	var form, select, records, index, fileInput, alertNode, toLoad, errors,
+	var form, select, records, fileInput, alertNode,
 
 	_obj = {
 
@@ -36,39 +36,24 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	setParent: function(data) {
-		if (select.val() == "null") return;
+	loadUnsettedRecords: function(ids) {
 		$.ajax({
 			type: 'POST',
 			data: {
-				'data': {
-					'add': {
-						'section': 'records',
-						'entity': 'record',
-						'id': data.new.id,
-						'relation': 'parent',
-						'ids': [select.val()]
-					}
-				}
-			},
-			url: '/mcm/ajax'
-		});
-	},
-
-	loadUnsettedRecords: function() {
-		$.ajax({
-			type: 'POST',
-			data: {
-				'ids': toLoad
+				'ids': ids
 			},
 			url: '/record/load-unsetted-records',
 			success: function(d,s,x) {
-				console.log('End of Import and Load.');
+				var endNode = $("<div/>").addClass('alert alert-success mt-2').css('marginTop', '16px').appendTo(form)
+					.text("End of Import and Load.");
+				setTimeout(function() {
+					endNode.remove();
+				}, 5000);
 			}
 		});
 	},
 
-	saveRecord: function(data) {
+	saveRecords: function() {
 		// if (0 < index) return _obj.end();;
 		$.ajax({
 			type: 'POST',
@@ -77,33 +62,23 @@ var maciShopImport = function (options) {
 					'new': {
 						'section': 'records',
 						'entity': 'record',
-						'data': data
+						'params': records,
+						'relations': {
+							'parent': select.val()
+						}
 					}
 				}
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				_obj.setParent(d);
-				toLoad[toLoad.length] = d.new.id;
-				_obj.saveNext();
+				// _obj.setParent(d);
+				_obj.end(d);
 			},
 			error: function(d,s,x) {
 				console.log('Error!');
-				errors++;
-				_obj.saveNext();
+				_obj.end(false);
 			}
 		});
-	},
-
-	saveNext: function(_form) {
-		if (records.length <= index)
-		{
-			_obj.end();
-			return;
-		}
-		index++;
-		alertNode.text("Importing: " + (index - errors) + " of " + records.length + ".");
-		_obj.saveRecord(records[index]);
 	},
 
 	start: function(_form) {
@@ -112,24 +87,35 @@ var maciShopImport = function (options) {
 			alert('No Data.');
 			return;
 		}
-		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form);
-		index = -1;
-		errors = 0;
-		toLoad = [];
+		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form)
+			.text("Importing " + records.length + " records...");
 		select.parent().hide();
 		submit.parent().hide();
-		_obj.saveNext();
+		_obj.saveRecords();
 	},
 
-	end: function() {
-		alertNode.text("Imported: " + (index - errors) + " of " + records.length + ". End!");
-		setTimeout(function() {
-			alertNode.remove();
-		}, 5000);
+	end: function(data) {
 		select.parent().show();
 		submit.parent().show();
 		form.find("#import_data").val('');
-		_obj.loadUnsettedRecords();
+		if (!data || !data.new.success)
+		{
+			alertNode.text("Error. End!");
+			setTimeout(function() {
+				alertNode.remove();
+			}, 5000);
+			return;
+		}
+		var ids = [];
+		for (var i = 0; i < data.new.list.length; i++)
+		{
+			if (data.new.list[i].success) ids[i] = data.new.list[i].id;
+		}
+		alertNode.text("Imported: " + ids.length + ". End!");
+		setTimeout(function() {
+			alertNode.remove();
+		}, 5000);
+		_obj.loadUnsettedRecords(ids);
 	},
 
 	importXml: function(data) {
