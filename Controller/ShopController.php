@@ -17,18 +17,20 @@ class ShopController extends AbstractController
 
 	public function categoryAction($path)
 	{
-		$category = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Shop\Category')
-			->findOneBy(array(
-				'path' => $path
-			));
+		$om = $this->getDoctrine()->getManager();
+		$category = $om->getRepository('MaciPageBundle:Shop\Category')
+			->findOneByPath($path);
+		
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')
+			->getByCategory($category);
 
 		if (!$category) {
 			return $this->redirect($this->generateUrl('maci_product'));
 		}
 
 		return $this->render('MaciPageBundle:Shop:category.html.twig', array(
-			'category' => $category
+			'category' => $category,
+			'list' => $list
 		));
 	}
 
