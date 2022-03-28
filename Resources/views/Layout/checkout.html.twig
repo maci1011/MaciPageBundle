@@ -1,0 +1,24 @@
+{% extends "@MaciPage/base.html.twig" %}
+
+{% block body %}
+
+<div id="checkoutContainer" class="p-4">
+
+	{% block flashBag %}
+	{% if app.request.hasPreviousSession %}
+	<div id="flashBagWrapper" class="container px-0 py-2">
+	{% for type, messages in app.session.flashbag.all() %}
+		{% for message in messages %}
+		<div class="alert alert-{{ type }}">
+			{{ message|matra(message) }}
+		</div>
+		{% endfor %}
+	{% endfor %}
+	</div>
+	{% endif %}
+	{% endblock %}
+
+
+</div>
+
+{% endblock body %}

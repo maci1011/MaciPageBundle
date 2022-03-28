@@ -1,0 +1,9 @@
+{% extends "@MaciPage/Layout/checkout.html.twig" %}
+
+{% block title %}
+{{ 'order.checkout.meta_title' | matra('Cart Checkout') }}
+{% endblock %}
+
+{% block container %}
+{% include "MaciPageBundle:Order:_checkout_light.html.twig" %}
+{% endblock %}

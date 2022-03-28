@@ -363,24 +363,6 @@ class OrderService extends AbstractController
 		];
 	}
 
-	public function getSessionArray()
-	{
-		$order = $this->session->get('order');
-		if (!is_array($order)) {
-			return $this->getCartDefaultValues();
-		}
-		return $order;
-	}
-
-	public function getSessionItems()
-	{
-		$items = $this->session->get('order_items');
-		if (!is_array($items)) {
-			return [];
-		}
-		return $items;
-	}
-
 	public function orderToArray($order, $info = false)
 	{
 		return [
@@ -428,15 +410,12 @@ class OrderService extends AbstractController
 
 		if (!$cart) $cart = $this->setOrderValues(new Order, $values);
 
-		if (count($items)) {
-			foreach ($items as $item) {
-				$quantity = $item['quantity'];
-				$product = $this->om->getRepository('MaciPageBundle:Shop\Product')
-					->findOneById($item['id']);
-				if ($product && $product->isAvailable() && $product->checkQuantity($quantity)) {
-					$this->addProduct($cart, $quantity, $product);
-				}
-			}
+		foreach ($items as $item) {
+			$quantity = $item['quantity'];
+			$product = $this->om->getRepository('MaciPageBundle:Shop\Product')
+				->findOneById($item['id']);
+			// if ($product && $product->isAvailable() && $product->checkQuantity($quantity))
+			$this->addProduct($cart, $product, $quantity, $item['variant']);
 		}
 
 		if ($values['shippingAddress'] !== null) {
@@ -463,6 +442,24 @@ class OrderService extends AbstractController
 		return $cart;
 	}
 
+	public function getSessionArray()
+	{
+		$order = $this->session->get('order');
+		if (!is_array($order)) {
+			return $this->getCartDefaultValues();
+		}
+		return $order;
+	}
+
+	public function getSessionItems()
+	{
+		$items = $this->session->get('order_items');
+		if (!is_array($items)) {
+			return [];
+		}
+		return $items;
+	}
+
 	public function refreshSession($order)
 	{
 		if (!$order->getStatus() == 'session') {
@@ -471,20 +468,23 @@ class OrderService extends AbstractController
 		}
 
 		$order_arr = $this->orderToArray($order);
+		// Save Order in Session
 		$this->session->set('order', $order_arr);
 
 		$items = array();
 		foreach ($order->getItems() as $item) {
 			if (is_object($product = $item->getProduct())) {
-				array_push($items, array(
+				array_push($items, [
 					'id' => $product->getId(),
 					'name' => $product->getName(),
 					'sale' => $product->getSale(),
 					'price' => $product->getAmount(),
-					'quantity' => $item->getQuantity()
-				));
+					'quantity' => $item->getQuantity(),
+					'variant' => $item->getVariant()
+				]);
 			}
 		}
+		// Save Order Items in Session
 		$this->session->set('order_items', $items);
 	}
 

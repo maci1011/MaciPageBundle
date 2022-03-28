@@ -14,7 +14,7 @@
 	<h3>{{ 'page.cart.checkout' | matra('Checkout') }}</h3>
 	<p>{{ 'page.cart.checkout.description' | matra('Pay the order and get it at home.') }}</p>
 
-	<a class="btn btn-primary" href="{{ path('maci_order_checkout') }}">Checkout</a>
+	<a class="btn btn-primary" href="{{ path(is_granted('ROLE_USER') ? 'maci_order_checkout' : 'maci_order_gocheckout') }}">Checkout</a>
 
 </div>
 

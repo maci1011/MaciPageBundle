@@ -1,8 +1,9 @@
 
 <div class="container-fluid">
+<div class="row">
 
 
-<div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-1">
+<div class="col-12 col-sm-6 col-md-4 offset-md-1">
 
 	<h3>{{ 'gocheckout.fast_checkout' | matra('Fast Checkout') }}</h3>
 
@@ -10,14 +11,14 @@
 
 	<p>{{ 'gocheckout.fast_checkout.description' | matra('Login for a faster checkout.') }}</p>
 
-	{{ render url('fos_user_security_login') }}
+	{{ render(url('fos_user_security_login')) }}
 
 </div>
 
 
 {% if registration_enabled %}
 
-<div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
+<div class="col-12 col-sm-6 col-md-4 offset-md-1">
 
 {% if registration_required %}
 
@@ -27,7 +28,7 @@
 
 	<p>{{ 'gocheckout.sign_up_required.description' | matra("You need to create an account to complete the order.") }}</p>
 
-	{{ render url('fos_user_registration_register') }}
+	{{ render(url('fos_user_registration_register')) }}
 
 {% else %}
 
@@ -53,5 +54,5 @@
 
 {% endif %}
 
-
+</div>
 </div>

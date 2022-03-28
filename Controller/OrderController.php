@@ -304,10 +304,10 @@ class OrderController extends AbstractController
 			$checkout['confirm_form'] = $form->createView();
 		}
 
-		$this->get('maci.orders')->setCartLocale( $request->getLocale() );
+		$this->get('maci.orders')->setCartLocale($request->getLocale());
 		$this->get('maci.orders')->refreshCartAmount();
 
-		return $this->render('MaciPageBundle:Order:checkout.html.twig', array(
+		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', array(
 			'checkout' => $checkout,
 			'order' => $cart
 		));
