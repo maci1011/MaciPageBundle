@@ -10,12 +10,14 @@ use Knp\Snappy\Pdf as Snappy;
 
 class RecordController extends AbstractController
 {
-	public function importAction()
+	public function importAction(Request $request)
 	{
 		if (!$this->isGranted('ROLE_ADMIN')) {
 			return $this->redirect($this->generateUrl('maci_homepage'));
 		}
-		return $this->render('@MaciPage/Record/import.html.twig');
+		return $this->render('@MaciPage/Record/import.html.twig', [
+			'debug' => !!$request->get('debug')
+		]);
 	}
 
 	public function exportAction()

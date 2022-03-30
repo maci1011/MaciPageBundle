@@ -90,6 +90,7 @@ var maciShopImport = function (options) {
 			},
 			url: '/record/load-unsetted-records',
 			success: function(d,s,x) {
+				console.log(d);
 			},
 			error: function(d,s,x) {
 				console.log('Debug Records Error!');
