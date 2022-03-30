@@ -83,7 +83,7 @@ var maciShopExport = function (options) {
 	},
 
 	barcodeChange: function(e) {
-		if (setInput.val() == 'null') return;
+		if (setInput.val() == 'null' && typeInput.val() != 'quantity') return;
 		if (barcodeInput.val().trim().length != 13) return;
 		_obj.saleRecord();
 	},
