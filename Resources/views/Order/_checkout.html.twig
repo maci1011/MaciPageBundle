@@ -38,6 +38,7 @@
 
 {% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
 
+
 {% if checkout.billingAddress %} {# --- Billing Address ---  #}
 {% set i = i + 1 %}
 
@@ -243,13 +244,11 @@
 
 {% endif %} {# --- Checkout Defined ---  #}
 
-
-
-{% else %} {# --- InValid Checkout ---  #}
+{% else %} {# --- Checkout not Valid ---  #}
 
 <h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
 
-{% endif %} {# --- EndIf Checkout ---  #}
+{% endif %} {# --- End Valid Checkout ---  #}
 
 </div>
 </div>

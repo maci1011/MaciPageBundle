@@ -1,11 +1,44 @@
 
 <div class="page page-checkout">
 <div class="container">
-<div class="row">
+<div id="checkoutBar" class="py-3">
 
-<div class="col-12 col-md-8"></div>
+<ol class="cbar-list">
+	<li class="cbar-item">
+		<span class="cbar-label active">Shipping</span>
+	</li>
+	<li class="cbar-item">
+		<span class="cbar-label active">Payment</span>
+	</li>
+	<li class="cbar-item">
+		<span class="cbar-label active">Confirm</span>
+	</li>
+</ol>
 
-<div class="col-12 col-md-4">
+</div>
+<div id="checkoutWrapper" class="row">
+
+<div id="checkoutPage" class="col-12 col-md-8">
+
+{% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
+
+{% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
+
+
+
+
+
+{% endif %} {# --- End Checkout Defined ---  #}
+
+{% else %} {# --- Checkout not Valid ---  #}
+
+<h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
+
+{% endif %} {# --- End Valid Checkout ---  #}
+
+</div>
+
+<div id="checkoutColumn" class="col-12 col-md-4">
 
 {% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
 
