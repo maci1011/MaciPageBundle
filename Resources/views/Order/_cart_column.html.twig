@@ -1,11 +1,10 @@
 
-{% if order and order.items|length %}
-
-
 <section class="cart-column">
 
 <h4 class="cart-title">{{ 'product.cart_title' | matra('Cart') }}</h4>
 <span class="order-amount-description">{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}</span>
+
+{% if order and order.items|length %}
 
 {% for item in order.items %}
 
@@ -17,7 +16,7 @@
 
 <div class="cart-item row {{ loop.index is even ? 'even' : 'odd' }}">
 
-	<div class="cart-item-preview col-3 pr-0">
+	<div class="cart-item-preview col-3 pr-0 pt-3">
 		<img class="img-fluid" src="{{ asset(item.product.webPreview | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.name }}" {% if item.product.description %}title="{{ item.product.description }}"{% else %}title="{{ item.product.name }}"{% endif %} />
 	</div>
 
@@ -50,7 +49,7 @@
 		<span class="cart-item-variant">{{ item.variantLabel }}</span><br/>
 		{% endif %}
 
-		<span class="cart-item-quantity">{{ 'product.quantity'|matra('Quantity') }}: {{ item.quantity }}</span><br/>
+		<span class="cart-item-quantity">{{ 'product.quantity'|matra('Quantity') }}: <span class="quantity-value">{{ item.quantity }}</span></span><br/>
 
 		{% if item.product.sale %}
 		<span class="product-list-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
@@ -174,8 +173,6 @@
 
 </div>
 
-</section>
-
 
 {# LINKS #}
 
@@ -193,4 +190,7 @@
 {% endif %}
 </div>
 
+
 {% endif %}
+
+</section>
