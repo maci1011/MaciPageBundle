@@ -61,7 +61,7 @@ class RecordController extends AbstractController
 			$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($id));
 			if (!$set) return new JsonResponse(['success' => false, 'error' => 'Set not found.', 'id' => $id], 200);
 			$list = $set->getChildren();
-			if ($debug)
+			if ($debug == "true")
 			{
 				$nfl = [];
 				foreach ($list as $record) {
