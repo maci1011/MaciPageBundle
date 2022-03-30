@@ -23,7 +23,6 @@ var maciShopImport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				var select = form.find('#import_set');
 				if (!d.list.length) {
 					select.parent().hide();
 					return;
@@ -77,6 +76,23 @@ var maciShopImport = function (options) {
 			error: function(d,s,x) {
 				console.log('Error!');
 				_obj.end(false);
+			}
+		});
+	},
+
+	debugRecords: function() {
+		// if (0 < index) return _obj.end();;
+		$.ajax({
+			type: 'POST',
+			data: {
+				'debug': true,
+				'setId': select.val()
+			},
+			url: '/record/load-unsetted-records',
+			success: function(d,s,x) {
+			},
+			error: function(d,s,x) {
+				console.log('Debug Records Error!');
 			}
 		});
 	},
@@ -161,13 +177,18 @@ var maciShopImport = function (options) {
 		});
 	},
 
+	debug: function() {
+		_obj.debugRecords();
+	},
+
 	set: function(_form) {
 		form = _form;
-		select = form.find('#import_set');
-		submit = form.find("#import_submit");
+		select = form.find('#import-set');
+		submit = form.find("#import-submit");
 		getLabels = form.find('#getLabels');
 		labelsPath = getLabels.attr('href');
 		getReport = form.find('#getReport');
+		debugBtt = form.find('#debug-order');
 		reportPath = getReport.attr('href');
 		select.change(function(e) {
 			if (select.val() == 'null') submit.parent().hide();
@@ -181,6 +202,10 @@ var maciShopImport = function (options) {
 		submit.click(function(e) {
 			e.preventDefault();
 			fileInput.click();
+		});
+		debugBtt.click(function(e) {
+			e.preventDefault();
+			_obj.debug();
 		});
 		_obj.getSets();
 		_obj.setFileInput();

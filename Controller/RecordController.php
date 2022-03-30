@@ -50,7 +50,30 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $request->get('ids')]);
+
+		$debug = $request->get('debug');
+
+		$ids = $request->get('ids');
+		if (count($ids)) $list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $ids]);
+		else
+		{
+			$id = $request->get('setId');
+			$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($id));
+			if (!$set) return new JsonResponse(['success' => false, 'error' => 'Set not found.', 'id' => $id], 200);
+			$list = $set->getChildren();
+			if ($debug)
+			{
+				$nfl = [];
+				foreach ($list as $record) {
+					$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+						'code' => $record->getCode(),
+						'variant' => $record->getProductVariant()
+					]);
+					if (!$product) $nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
+				}
+				return new JsonResponse(['success' => true, 'notfounds' => $nfl], 200);
+			}
+		}
 
 		if (!count($list)) {
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
@@ -60,8 +83,7 @@ class RecordController extends AbstractController
 		foreach ($list as $record)
 		{
 			if ($last && $last->checkRecord($record)) $product = $last;
-			else $product = $this->getDoctrine()->getManager()
-				->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+			else $product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
 					'code' => $record->getCode(),
 					'variant' => $record->getProductVariant()
 				]);
