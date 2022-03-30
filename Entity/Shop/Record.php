@@ -480,7 +480,7 @@ class Record
 
 	public function isLoaded()
 	{
-		return array_key_exists('loaded', $this->getData());
+		return array_key_exists('loaded', $this->getData()) && $this->data['loaded'];
 	}
 
 	public function getLoadedValue()
@@ -496,6 +496,11 @@ class Record
 	public function setLoadedValue()
 	{
 		$this->data['loaded'] = date_format(new \DateTime(), 'r');
+	}
+
+	public function resetLoadedValue()
+	{
+		$this->data['loaded'] = false;
 	}
 
 	/**

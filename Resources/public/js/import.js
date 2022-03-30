@@ -80,12 +80,12 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	debugRecords: function() {
+	reloadRecords: function(debug) {
 		// if (0 < index) return _obj.end();;
 		$.ajax({
 			type: 'POST',
 			data: {
-				'debug': true,
+				'debug': debug,
 				'setId': select.val()
 			},
 			url: '/record/load-unsetted-records',
@@ -178,7 +178,11 @@ var maciShopImport = function (options) {
 	},
 
 	debug: function() {
-		_obj.debugRecords();
+		_obj.reloadRecords(true);
+	},
+
+	reload: function() {
+		_obj.reloadRecords(false);
 	},
 
 	set: function(_form) {
@@ -189,6 +193,7 @@ var maciShopImport = function (options) {
 		labelsPath = getLabels.attr('href');
 		getReport = form.find('#getReport');
 		debugBtt = form.find('#debug-order');
+		reloadBtt = form.find('#reload-order');
 		reportPath = getReport.attr('href');
 		select.change(function(e) {
 			if (select.val() == 'null') submit.parent().hide();
@@ -206,6 +211,10 @@ var maciShopImport = function (options) {
 		debugBtt.click(function(e) {
 			e.preventDefault();
 			_obj.debug();
+		});
+		reloadBtt.click(function(e) {
+			e.preventDefault();
+			_obj.reload();
 		});
 		_obj.getSets();
 		_obj.setFileInput();

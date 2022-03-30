@@ -69,9 +69,14 @@ class RecordController extends AbstractController
 						'code' => $record->getCode(),
 						'variant' => $record->getProductVariant()
 					]);
-					if (!$product) $nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
+					if (!$product)
+					{
+						if ($record->isLoaded()) $record->resetLoadedValue();
+						$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
+					}
 				}
-				return new JsonResponse(['success' => true, 'notfounds' => $nfl], 200);
+				$om->flush();
+				return new JsonResponse(['success' => true, 'notFounds' => count($nfl), 'list' => $nfl], 200);
 			}
 		}
 
