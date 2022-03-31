@@ -30,7 +30,6 @@ use Maci\PageBundle\Form\Order\CheckoutPaymentType;
 use Maci\PageBundle\Form\Order\CheckoutShippingType;
 use Maci\PageBundle\Form\Order\CheckoutConfirmType;
 
-
 class OrderController extends AbstractController
 {
 	public function indexAction()
