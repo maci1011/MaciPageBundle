@@ -50,6 +50,7 @@ Maci\PageBundle\Entity\Shop\Category:
             targetEntity: Maci\PageBundle\Entity\Shop\CategoryItem
             mappedBy: category
             orderBy: { 'position': ASC }
+            cascade: ["persist", "remove"]
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue ]
         preUpdate: [ setUpdatedValue ]

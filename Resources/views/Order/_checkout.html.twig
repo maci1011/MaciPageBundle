@@ -2,249 +2,85 @@
 <div class="page page-checkout">
 <div class="container">
 
-{% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
-
+{% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
+{% if order.items|length %}{# --- "Valid Checkout" (^_^) ---  #}
 {% set i = 0 %}
+
 
 <section class="page_header container-fluid px-0">
 
-	<h3>{{ 'page.cart.checkout' | matra('Checkout') }}</h3>
-
-	<h5>{{ 'order.code' | matra('Order Identifier') }}: {{ order.code }}</h5>
-
-	{% if is_granted('ROLE_USER') %}
-
-	<p class="page-checkout-identity">
-		You are ordering as {{ app.user.username }}
-	</p>
-
-	{% else %}
-
-	<p class="page-checkout-identity">
-		You are ordering with this e-mail address: {{ order.mail }} ( <a href="{{ path('maci_order_gocheckout', {'edit': true}) }}">Change Email</a> )
-	</p>
-
-	{% endif %}
+{% include "@MaciPage/Order/_checkout_header.html.twig" with {'edit': false} %}
 
 </section>
-
-
 <section class="page_content container-fluid px-0">
 
-	{{ render(controller('MaciPageBundle:Order:showOrder', {'order': order})) }}
+{{ render(controller('MaciPageBundle:Order:showOrder', {'order': order})) }}
 
 </section>
 
 
-{% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
-
-
-{% if checkout.billingAddress %} {# --- Billing Address ---  #}
+{% if billingAddress %} {# --- Billing Address ---  #}
 {% set i = i + 1 %}
 
-{% if checkout.billingAddress == 'set' %}
+<section class="page_content container-fluid px-0 {{ billingAddress }}">
 
-<section class="page_content container-fluid px-0 active">
-
-	<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
-
-	{% if maci_addresses.addressList|length %}
-
-		<h5>{{ 'page.checkout.use_existing_address' | matra('Use An Existing Address') }}</h5>
-
-		{{ render(controller('MaciPageBundle:Order:cartSetBillingAddress')) }}
-
-	{% endif %}
-
-	<h5>{{ 'page.checkout.add_new_address' | matra('Add A New Address') }}</h5>
-
-	{{ render(controller('MaciUserBundle:Address:form', {'id': null, 'method': 'billing'} )) }}
+{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
 
 </section>
-
-{% elseif checkout.billingAddress == 'setted' %}
-
-<section class="page_content container-fluid px-0 setted">
-
-	<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
-
-	{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
-
-	<a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'billingAddress'}) }}" class="btn btn-success">{{ 'order.edit_billing_address' | matra('Edit Billing Address') }}</a>
-
-</section>
-
-{% elseif checkout.billingAddress == 'toset' %}
-
-<section class="page_content container-fluid px-0">
-
-	<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
-
-</section>
-
-{% endif %}
 
 {% endif %} {# --- End Billing Address ---  #}
 
 
-
-{% if checkout.shippingAddress %} {# --- Shipping Address ---  #}
+{% if shippingAddress %} {# --- Shipping Address ---  #}
 {% set i = i + 1 %}
 
-{% if checkout.shippingAddress == 'set' %}
+<section class="page_content container-fluid px-0 {{ shippingAddress }}">
 
-<section class="page_content container-fluid px-0 ck-set">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
-
-	{% if maci_addresses.addressList|length %}
-
-		<h5>{{ 'page.checkout.use_existing_address' | matra('Use An Existing Address') }}</h5>
-
-		{{ render(controller('MaciPageBundle:Order:cartSetShippingAddress')) }}
-
-	{% endif %}
-
-	<h5>{{ 'page.checkout.add_new_address' | matra('Add A New Address') }}</h5>
-
-	{{ render(controller('MaciUserBundle:Address:form', {'id': null, 'method': 'shipping'} )) }}
+{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
 
 </section>
-
-{% elseif checkout.shippingAddress == 'setted' %}
-
-<section class="page_content container-fluid px-0 ck-setted">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
-
-	{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
-
-	<a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'shippingAddress'}) }}" class="btn btn-success">{{ 'order.edit_shipping_address' | matra('Edit Shipping Address') }}</a>
-
-</section>
-
-{% elseif checkout.shippingAddress == 'toset' %}
-
-<section class="page_content container-fluid px-0 ck-toset">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
-
-</section>
-
-{% endif %}
 
 {% endif %} {# --- End Shipping Address ---  #}
 
 
-
-{% if checkout.shipping %} {# --- Shipping Method ---  #}
+{% if shipping %} {# --- Shipping Method ---  #}
 {% set i = i + 1 %}
 
-{% if checkout.shipping == 'set' %}
+<section class="page_content container-fluid px-0 {{ shipping }}">
 
-<section class="page_content container-fluid px-0 active">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
-
-	{{ render(controller('MaciPageBundle:Order:cartSetShipping')) }}
+{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 
 </section>
-
-{% elseif checkout.shipping == 'setted' %}
-
-<section class="page_content container-fluid px-0 setted">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
-
-	<p>{{ maci_orders.cartShippingLabel }}</p>
-
-	<a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'shipping'}) }}" class="btn btn-success">{{ 'form.edit' | matra('Edit') }}</a>
-
-</section>
-
-{% elseif checkout.shipping == 'toset' %}
-
-<section class="page_content container-fluid px-0">
-
-	<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
-
-</section>
-
-{% endif %}
 
 {% endif %} {# --- End Shipping Method ---  #}
 
 
-
-{% if checkout.payment %} {# --- Payment ---  #}
+{% if payment %} {# --- Payment ---  #}
 {% set i = i + 1 %}
 
-{% if checkout.payment == 'set' %}
+<section class="page_content container-fluid px-0 {{ payment }}">
 
-<section class="page_content container-fluid px-0 active">
-
-	<h4>{{ i }} - {{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
-
-	{{ render(controller('MaciPageBundle:Order:cartSetPayment')) }}
+{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
 
 </section>
-
-{% elseif checkout.payment == 'setted' %}
-
-<section class="page_content container-fluid px-0 setted">
-
-	<h4>{{ i }} - {{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
-
-	<p>{{ maci_orders.cartPaymentLabel }}</p>
-
-	<a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'payment'}) }}" class="btn btn-success">{{ 'form.edit' | matra('Edit') }}</a>
-
-</section>
-
-{% elseif checkout.payment == 'toset' %}
-
-<section class="page_content container-fluid px-0">
-
-	<h4>{{ i }} - {{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
-
-</section>
-
-{% endif %}
 
 {% endif %} {# --- End Payment ---  #}
 
 
-
-{% if checkout.confirm %} {# --- Confirm ---  #}
+{% if confirm %} {# --- Confirm ---  #}
 {% set i = i + 1 %}
 
-{% if checkout.confirm == 'set' %}
+<section class="page_content container-fluid px-0 {{ confirm }}">
 
-<section class="page_content container-fluid px-0 active">
-
-	<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
-
-	<p id="checkout_confirm_text">{{ 'page.checkout.confirm_text' | matra('') }}</p>
-
-	<a href="{{ path('maci_order_checkout_confirm') }}" class="btn btn-primary">{{ 'page.checkout.confirm' | matra('Confirm Order') }}</a>
+{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
 
 </section>
-
-{% elseif checkout.confirm == 'toset' %}
-
-<section class="page_content container-fluid px-0">
-
-	<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
-
-</section>
-
-{% endif %}
 
 {% endif %} {# --- End Confirm ---  #}
 
-{% endif %} {# --- Checkout Defined ---  #}
 
-{% else %} {# --- Checkout not Valid ---  #}
+{% endif %} {# --- Checkout not Valid ---  #}
+{% else %} {# --- Checkout not Defined ---  #}
 
 <h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
 

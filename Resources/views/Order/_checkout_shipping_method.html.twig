@@ -1,0 +1,19 @@
+
+{% if shipping == 'set' %}
+
+<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
+{{ render(controller('MaciPageBundle:Order:cartSetShipping')) }}
+
+{% elseif shipping == 'setted' %}
+
+<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
+<p>{{ maci_orders.cartShippingLabel }}</p>
+<a class="btn btn-success" href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'shipping'}) }}">
+	{{ 'form.edit' | matra('Edit') }}
+</a>
+
+{% elseif shipping == 'toset' %}
+
+<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
+
+{% endif %}

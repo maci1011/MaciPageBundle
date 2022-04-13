@@ -179,13 +179,19 @@
 <div class="cart-links">
 {% if edit is defined and edit %}
 
-<a class="btn btn-success" href="{{ path('maci_order_cart') }}">{{ 'cart-column.edit-cart' | matra('Edit Cart') }}</a>
+<a class="btn btn-success" href="{{ path('maci_order_cart') }}">
+	{{ 'cart-column.edit-cart' | matra('Edit Cart') }}
+</a>
 
-<a class="btn btn-primary" href="{{ path(is_granted('ROLE_USER') ? 'maci_order_checkout' : 'maci_order_gocheckout') }}">Checkout</a>
+<a class="btn btn-primary" href="{{ path(is_granted('ROLE_USER') ? 'maci_order_checkout' : 'maci_order_gocheckout') }}">
+	Checkout
+</a>
 
-{% elseif confirm is defined and confirm %}
+{% elseif confirm is defined and confirm == 'set' %}
 
-<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">{{ 'page.checkout.place-order' | matra('Place Order') }}</a>
+<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
+	{{ 'page.checkout.place-order' | matra('Place Order') }}
+</a>
 
 {% endif %}
 </div>

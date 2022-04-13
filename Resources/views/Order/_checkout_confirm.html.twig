@@ -1,0 +1,14 @@
+
+{% if confirm == 'set' %}
+
+<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+<p id="checkout_confirm_text">{{ 'page.checkout.confirm_text' | matra('') }}</p>
+<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
+	{{ 'page.checkout.confirm' | matra('Confirm Order') }}
+</a>
+
+{% elseif confirm == 'toset' %}
+
+<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+
+{% endif %}

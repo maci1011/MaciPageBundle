@@ -4,14 +4,20 @@
 <div id="checkoutBar" class="py-3">
 
 <ol class="cbar-list">
-	<li class="cbar-item">
-		<span class="cbar-label active">Shipping</span>
+	<li class="cbar-item {{ billingAddress }}">
+		<span class="cbar-label">Billing</span>
 	</li>
-	<li class="cbar-item">
-		<span class="cbar-label active">Payment</span>
+	<li class="cbar-item {{ shippingAddress }}">
+		<span class="cbar-label">Shipping</span>
 	</li>
-	<li class="cbar-item">
-		<span class="cbar-label active">Confirm</span>
+	<li class="cbar-item {{ shipping }}">
+		<span class="cbar-label">Shipping Method</span>
+	</li>
+	<li class="cbar-item {{ payment }}">
+		<span class="cbar-label">Payment Method</span>
+	</li>
+	<li class="cbar-item {{ confirm }}">
+		<span class="cbar-label">Confirm Order</span>
 	</li>
 </ol>
 
@@ -20,17 +26,81 @@
 
 <div id="checkoutPage" class="col-12 col-md-8">
 
-{% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
 
 {% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
+{% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
+{% set i = 0 %}
 
 
+<section class="page_header container-fluid px-0">
+
+{% include "@MaciPage/Order/_checkout_header.html.twig" with {'edit': false} %}
+
+</section>
 
 
+{% set i = billingAddress ? i + 1 : i %}
+{% if billingAddress == 'set' %} {# --- Billing Address ---  #}
 
-{% endif %} {# --- End Checkout Defined ---  #}
+<section class="page_content container-fluid px-0 {{ billingAddress }}">
 
-{% else %} {# --- Checkout not Valid ---  #}
+{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
+
+</section>
+
+{% endif %} {# --- End Billing Address ---  #}
+
+
+{% set i = shippingAddress ? i + 1 : i %}
+{% if shippingAddress == 'set' %} {# --- Shipping Address ---  #}
+
+<section class="page_content container-fluid px-0 {{ shippingAddress }}">
+
+{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
+
+</section>
+
+{% endif %} {# --- End Shipping Address ---  #}
+
+
+{% set i = shipping ? i + 1 : i %}
+{% if shipping == 'set' %} {# --- Shipping Method ---  #}
+
+<section class="page_content container-fluid px-0 {{ shipping }}">
+
+{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
+
+</section>
+
+{% endif %} {# --- End Shipping Method ---  #}
+
+
+{% set i = payment ? i + 1 : i %}
+{% if payment == 'set' %} {# --- Payment ---  #}
+
+<section class="page_content container-fluid px-0 {{ payment }}">
+
+{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
+
+</section>
+
+{% endif %} {# --- End Payment ---  #}
+
+
+{% set i = confirm ? i + 1 : i %}
+{% if confirm == 'set' %} {# --- Confirm ---  #}
+
+<section class="page_content container-fluid px-0 {{ confirm }}">
+
+{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
+
+</section>
+
+{% endif %} {# --- End Confirm ---  #}
+
+
+{% endif %} {# --- Checkout not Valid ---  #}
+{% else %} {# --- End Checkout Defined ---  #}
 
 <h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
 
@@ -38,15 +108,13 @@
 
 </div>
 
-<div id="checkoutColumn" class="col-12 col-md-4">
-
 {% if order.items|length %} {# --- Valid Checkout (^^) ---  #}
+<div id="checkoutColumn" class="col-12 col-md-4">
 
 {% include "@MaciPage/Order/_cart_column.html.twig" with {'edit': false} %}
 
-{% endif %} {# --- EndIf Checkout ---  #}
-
 </div>
+{% endif %} {# --- EndIf Checkout ---  #}
 
 </div>
 </div>

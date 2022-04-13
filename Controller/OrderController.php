@@ -220,19 +220,16 @@ class OrderController extends AbstractController
 	{
 		$cart = $this->get('maci.orders')->getCurrentCart();
 
-		if (!$cart) {
+		if (!$cart)
 			return $this->redirect($this->generateUrl('maci_order_cart'));
-		}
 
-		if ($cart->getStatus() === 'complete' || $cart->getStatus() === 'confirm') {
-			return $this->redirect($this->generateUrl('maci_order_invoice', array('id'=>$cart->getId())));
-		}
+		if ($cart->getStatus() === 'complete' || $cart->getStatus() === 'confirm')
+			return $this->redirect($this->generateUrl('maci_order_invoice', ['id'=>$cart->getId()]));
 
-		if ($this->get('service_container')->getParameter('registration_required') && false === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+		if ($this->get('service_container')->getParameter('registration_required') && false === $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
 			return $this->redirect($this->generateUrl('maci_order_gocheckout'));
-		}
 
-		$checkout = array();
+		$checkout = [];
 
 		// $type = $cart->getCheckout();
 		// $type_array = $cart->getCheckoutArray();
@@ -303,13 +300,13 @@ class OrderController extends AbstractController
 			$checkout['confirm_form'] = $form->createView();
 		}
 
+		$checkout['order'] = $cart;
+		$checkout['checkout'] = true;
+
 		$this->get('maci.orders')->setCartLocale($request->getLocale());
 		$this->get('maci.orders')->refreshCartAmount();
 
-		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', array(
-			'checkout' => $checkout,
-			'order' => $cart
-		));
+		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', $checkout);
 	}
 
 	public function cartSetCheckoutAction(Request $request, $checkout = null)
