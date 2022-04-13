@@ -2,7 +2,7 @@
 <div class="page page-checkout">
 <div class="container">
 
-{% if checkout is defined and checkout %} {# --- Checkout Defined ---  #}
+{% if checkout is defined and checkout %}{# --- Checkout Defined ---  #}
 {% if order.items|length %}{# --- "Valid Checkout" (^_^) ---  #}
 {% set i = 0 %}
 
@@ -19,7 +19,7 @@
 </section>
 
 
-{% if billingAddress %} {# --- Billing Address ---  #}
+{% if billingAddress %}{# --- Billing Address ---  #}
 {% set i = i + 1 %}
 
 <section class="page_content container-fluid px-0 {{ billingAddress }}">
@@ -28,10 +28,10 @@
 
 </section>
 
-{% endif %} {# --- End Billing Address ---  #}
+{% endif %}{# --- End Billing Address ---  #}
 
 
-{% if shippingAddress %} {# --- Shipping Address ---  #}
+{% if shippingAddress %}{# --- Shipping Address ---  #}
 {% set i = i + 1 %}
 
 <section class="page_content container-fluid px-0 {{ shippingAddress }}">
@@ -40,10 +40,10 @@
 
 </section>
 
-{% endif %} {# --- End Shipping Address ---  #}
+{% endif %}{# --- End Shipping Address ---  #}
 
 
-{% if shipping %} {# --- Shipping Method ---  #}
+{% if shipping %}{# --- Shipping Method ---  #}
 {% set i = i + 1 %}
 
 <section class="page_content container-fluid px-0 {{ shipping }}">
@@ -52,10 +52,10 @@
 
 </section>
 
-{% endif %} {# --- End Shipping Method ---  #}
+{% endif %}{# --- End Shipping Method ---  #}
 
 
-{% if payment %} {# --- Payment ---  #}
+{% if payment %}{# --- Payment ---  #}
 {% set i = i + 1 %}
 
 <section class="page_content container-fluid px-0 {{ payment }}">
@@ -64,10 +64,10 @@
 
 </section>
 
-{% endif %} {# --- End Payment ---  #}
+{% endif %}{# --- End Payment ---  #}
 
 
-{% if confirm %} {# --- Confirm ---  #}
+{% if confirm %}{# --- Confirm ---  #}
 {% set i = i + 1 %}
 
 <section class="page_content container-fluid px-0 {{ confirm }}">
@@ -76,15 +76,15 @@
 
 </section>
 
-{% endif %} {# --- End Confirm ---  #}
+{% endif %}{# --- End Confirm ---  #}
 
 
-{% endif %} {# --- Checkout not Valid ---  #}
-{% else %} {# --- Checkout not Defined ---  #}
+{% endif %}{# --- Checkout not Valid ---  #}
+{% else %}{# --- Checkout not Defined ---  #}
 
 <h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
 
-{% endif %} {# --- End Valid Checkout ---  #}
+{% endif %}{# --- End Valid Checkout ---  #}
 
 </div>
 </div>
