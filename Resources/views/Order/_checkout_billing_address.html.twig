@@ -1,6 +1,5 @@
 
 {% if billingAddress == 'set' %}
-<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
 
 {% if maci_addresses.addressList|length %}
 <h5>{{ 'page.checkout.use_existing_address' | matra('Use An Existing Address') }}</h5>
@@ -11,11 +10,9 @@
 {{ render(controller('MaciUserBundle:Address:form', {'id': null, 'method': 'billing'} )) }}
 
 {% elseif billingAddress == 'setted' %}
-<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
+
 {% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
 <a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'billingAddress'}) }}" class="btn btn-success">{{ 'order.edit_billing_address' | matra('Edit Billing Address') }}</a>
 
-{% elseif billingAddress == 'toset' %}
-<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
-
+{#% elseif billingAddress == 'toset' %#}
 {% endif %}

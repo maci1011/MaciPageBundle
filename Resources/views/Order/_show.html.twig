@@ -173,11 +173,11 @@
 	</td>
 
 	<td>
-		<span class="order-shippingCost-value">
+		<span class="order-shippingCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</span>
 	</td>
@@ -208,11 +208,11 @@
 	</td>
 
 	<td>
-		<span class="order-paymentCost-value">
+		<span class="order-paymentCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
 			<span>{{ order.paymentCost | number_format(2, '.', ',') }} &euro;</span>
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</span>
 	</td>

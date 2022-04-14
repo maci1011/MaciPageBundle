@@ -1,6 +1,5 @@
 
 {% if shippingAddress == 'set' %}
-<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
 
 {% if maci_addresses.addressList|length %}
 <h5>{{ 'page.checkout.use_existing_address' | matra('Use An Existing Address') }}</h5>
@@ -11,11 +10,9 @@
 {{ render(controller('MaciUserBundle:Address:form', {'id': null, 'method': 'shipping'} )) }}
 
 {% elseif shippingAddress == 'setted' %}
-<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
+
 {% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
 <a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'shippingAddress'}) }}" class="btn btn-success">{{ 'order.edit_shipping_address' | matra('Edit Shipping Address') }}</a>
 
-{% elseif shippingAddress == 'toset' %}
-<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
-
+{#% elseif shippingAddress == 'toset' %#}
 {% endif %}

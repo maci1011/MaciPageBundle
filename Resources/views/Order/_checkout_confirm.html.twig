@@ -1,14 +1,71 @@
 
 {% if confirm == 'set' %}
+{% set i = 0 %}
 
-<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
-<p id="checkout_confirm_text">{{ 'page.checkout.confirm_text' | matra('') }}</p>
-<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
-	{{ 'page.checkout.confirm' | matra('Confirm Order') }}
-</a>
 
-{% elseif confirm == 'toset' %}
+<div class="row confirm">
+<div class="col-12 col-md-6">
 
-<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
 
+{% if billingAddress == 'setted' %}{# --- Billing Address ---  #}
+<div class="checkout-content {{ billingAddress }}">
+	{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
+</div>
+{% endif %}{# --- End Billing Address ---  #}
+
+</div>
+<div class="col-12 col-md-6">
+
+{% if shippingAddress == 'setted' %}{# --- Shipping Address ---  #}
+<div class="checkout-content {{ shippingAddress }}">
+	{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
+</div>
+{% endif %}{# --- End Shipping Address ---  #}
+
+
+</div>
+</div>{# end row #}
+<div class="row confirm">
+<div class="col-12 col-md-6">
+
+
+{% if shipping == 'setted' %}{# --- Shipping Method ---  #}
+<div class="checkout-content {{ shipping }}">
+	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
+</div>
+{% endif %}{# --- End Shipping Method ---  #}
+
+
+</div>
+<div class="col-12 col-md-6">
+
+
+{% if payment == 'setted' %}{# --- Payment ---  #}
+<div class="checkout-content {{ payment }}">
+	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
+</div>
+{% endif %}{# --- End Payment ---  #}
+
+
+</div>
+</div>{# end row #}
+<div class="row confirm">
+<div class="col-12">
+
+
+<div class="checkout-content {{ payment }}">
+
+	<h4>{{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+	<p id="checkout_confirm_text">{{ 'page.checkout.confirm_text' | matra('') }}</p>
+	<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
+		{{ 'page.checkout.place-order' | matra('Place Order') }}
+	</a>
+
+</div>
+
+
+</div>
+</div>
+
+{#% elseif confirm == 'toset' %#}
 {% endif %}

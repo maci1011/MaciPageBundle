@@ -1,7 +1,11 @@
 
-<div class="page page-checkout">
-<div class="container">
-<div id="checkoutBar" class="py-3">
+<div id="checkoutContainer" class="container">
+
+<header id="checkoutHeader">
+	{% include "@MaciPage/Order/_checkout_light_page_header.html.twig" %}
+</header>
+
+<div id="checkoutBar">
 
 <ol class="cbar-list">
 	<li class="cbar-item {{ billingAddress }}">
@@ -22,100 +26,81 @@
 </ol>
 
 </div>
-<div id="checkoutWrapper" class="row">
-
+<div id="checkoutPageWrapper" class="row">
 <div id="checkoutPage" class="col-12 col-md-8">
 
-
 {% if checkout is defined and checkout %}{# --- Checkout Defined ---  #}
-{% if order.items|length %}{# --- Valid Checkout (^^) ---  #}
+{% if order.items|length %}{# --- Valid Order ---  #}
 {% set i = 0 %}
 
 
-<section class="page_header container-fluid px-0">
-
-{% include "@MaciPage/Order/_checkout_header.html.twig" with {'edit': false} %}
-
+<section class="checkout-content">
+	{% include "@MaciPage/Order/_checkout_header.html.twig" %}
 </section>
 
 
-{% set i = billingAddress ? i + 1 : i %}
 {% if billingAddress == 'set' %}{# --- Billing Address ---  #}
-
-<section class="page_content container-fluid px-0 {{ billingAddress }}">
-
-{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
-
+<section id="billingAddress" class="checkout-content {{ billingAddress }}">
+	<h4>{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
+	{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
 </section>
-
 {% endif %}{# --- End Billing Address ---  #}
 
 
-{% set i = shippingAddress ? i + 1 : i %}
 {% if shippingAddress == 'set' %}{# --- Shipping Address ---  #}
-
-<section class="page_content container-fluid px-0 {{ shippingAddress }}">
-
-{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
-
+<section id="shippingAddress" class="checkout-content {{ shippingAddress }}">
+	<h4>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
+	{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
 </section>
-
 {% endif %}{# --- End Shipping Address ---  #}
 
 
-{% set i = shipping ? i + 1 : i %}
 {% if shipping == 'set' %}{# --- Shipping Method ---  #}
-
-<section class="page_content container-fluid px-0 {{ shipping }}">
-
-{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
-
+<section id="shipping" class="checkout-content {{ shipping }}">
+	<h4>{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 </section>
-
 {% endif %}{# --- End Shipping Method ---  #}
 
 
-{% set i = payment ? i + 1 : i %}
 {% if payment == 'set' %}{# --- Payment ---  #}
-
-<section class="page_content container-fluid px-0 {{ payment }}">
-
-{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
-
+<section id="payment" class="checkout-content {{ payment }}">
+	<h4>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
 </section>
-
 {% endif %}{# --- End Payment ---  #}
 
 
-{% set i = confirm ? i + 1 : i %}
 {% if confirm == 'set' %}{# --- Confirm ---  #}
-
-<section class="page_content container-fluid px-0 {{ confirm }}">
-
-{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
-
+<section id="confirm" class="checkout-content {{ confirm }}">
+	<h4>{{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+	{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
 </section>
-
 {% endif %}{# --- End Confirm ---  #}
 
 
-{% endif %}{# --- Checkout not Valid ---  #}
-{% else %}{# --- End Checkout Defined ---  #}
+{% endif %}{# --- Order not Valid ---  #}
+{% else %}{# --- Checkout not Defined ---  #}
 
 <h3>{{ 'page.no_content' | matra('No Content.') }}</h3>
 
+
 {% endif %}{# --- End Valid Checkout ---  #}
 
-</div>
+</div>{# --- #checkoutPage ---  #}
+
 
 {% if order.items|length %}{# --- Valid Checkout (^^) ---  #}
 <div id="checkoutColumn" class="col-12 col-md-4">
-
-{% include "@MaciPage/Order/_cart_column.html.twig" with {'edit': false} %}
-
+	{% include "@MaciPage/Order/_cart_column.html.twig" with {'edit': false} %}
 </div>
 {% endif %}{# --- EndIf Checkout ---  #}
 
-</div>
-</div>
+
+</div>{# --- #checkoutPage ---  #}
+
+<footer id="checkoutFooter">
+	{% include "@MaciPage/Order/_checkout_footer.html.twig" %}
+</footer>
+
 </div>

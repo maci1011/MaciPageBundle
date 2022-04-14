@@ -8,24 +8,19 @@
 
 
 <section class="page_header container-fluid px-0">
-
-{% include "@MaciPage/Order/_checkout_header.html.twig" with {'edit': false} %}
-
+	{% include "@MaciPage/Order/_checkout_header.html.twig" with {'edit': false} %}
 </section>
 <section class="page_content container-fluid px-0">
-
-{{ render(controller('MaciPageBundle:Order:showOrder', {'order': order})) }}
-
+	{{ render(controller('MaciPageBundle:Order:showOrder', {'order': order})) }}
 </section>
 
 
 {% if billingAddress %}{# --- Billing Address ---  #}
 {% set i = i + 1 %}
 
-<section class="page_content container-fluid px-0 {{ billingAddress }}">
-
-{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
-
+<section id="billingAddress" class="page_content container-fluid px-0 {{ billingAddress }}">
+	<h4>{{ i }} - {{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
+	{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
 </section>
 
 {% endif %}{# --- End Billing Address ---  #}
@@ -34,10 +29,9 @@
 {% if shippingAddress %}{# --- Shipping Address ---  #}
 {% set i = i + 1 %}
 
-<section class="page_content container-fluid px-0 {{ shippingAddress }}">
-
-{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
-
+<section id="shippingAddress" class="page_content container-fluid px-0 {{ shippingAddress }}">
+	<h4>{{ i }} - {{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
+	{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
 </section>
 
 {% endif %}{# --- End Shipping Address ---  #}
@@ -46,10 +40,9 @@
 {% if shipping %}{# --- Shipping Method ---  #}
 {% set i = i + 1 %}
 
-<section class="page_content container-fluid px-0 {{ shipping }}">
-
-{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
-
+<section id="shipping" class="page_content container-fluid px-0 {{ shipping }}">
+	<h4>{{ i }} - {{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 </section>
 
 {% endif %}{# --- End Shipping Method ---  #}
@@ -58,10 +51,9 @@
 {% if payment %}{# --- Payment ---  #}
 {% set i = i + 1 %}
 
-<section class="page_content container-fluid px-0 {{ payment }}">
-
-{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
-
+<section id="payment" class="page_content container-fluid px-0 {{ payment }}">
+	<h4>{{ i }} - {{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
 </section>
 
 {% endif %}{# --- End Payment ---  #}
@@ -70,13 +62,17 @@
 {% if confirm %}{# --- Confirm ---  #}
 {% set i = i + 1 %}
 
-<section class="page_content container-fluid px-0 {{ confirm }}">
-
-{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
-
+<section id="confirm" class="page_content container-fluid px-0 {{ confirm }}">
+	<h4>{{ i }} - {{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+	{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
 </section>
 
 {% endif %}{# --- End Confirm ---  #}
+
+
+<footer class="page_content container-fluid py-3 {{ confirm }}">
+	{% include "@MaciPage/Order/_checkout_footer.html.twig" %}
+</footer>
 
 
 {% endif %}{# --- Checkout not Valid ---  #}

@@ -111,11 +111,11 @@
 		{% else %}
 		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
 		{% endif %}
-		<span class="order-shippingCost-value">
+		<span class="order-shippingCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</span>
 	</div>
@@ -137,11 +137,11 @@
 		{% else %}
 		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
 		{% endif %}
-		<span class="order-paymentCost-value">
+		<span class="order-paymentCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
-			<span>{{ order.paymentCost | number_format(2, '.', ',') }} &euro;</span>
+			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</span>
 	</div>
@@ -187,11 +187,12 @@
 	Checkout
 </a>
 
-{% elseif confirm is defined and confirm == 'set' %}
+{#% elseif confirm is defined and confirm == 'set' %}
 
 <a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
 	{{ 'page.checkout.place-order' | matra('Place Order') }}
 </a>
+{#}
 
 {% endif %}
 </div>
