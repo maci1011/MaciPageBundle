@@ -12,7 +12,9 @@
 {% elseif billingAddress == 'setted' %}
 
 {% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
-<a href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'billingAddress'}) }}" class="btn btn-success">{{ 'order.edit_billing_address' | matra('Edit Billing Address') }}</a>
+<a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'billingAddress'}) }}">
+	{{ 'order.edit_billing_address' | matra('Edit Billing Address') }}
+</a>
 
 {#% elseif billingAddress == 'toset' %#}
 {% endif %}
