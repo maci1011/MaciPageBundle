@@ -1,5 +1,10 @@
 
 <ol id="checkoutProgBar" class="navbar-nav">
+	<li class="nav-item first">
+		<span class="navbar-text">
+			{{ 'page.cart.checkout' | matra('Checkout') }}:
+		</span>
+	</li>
 	{% if billingAddress %}
 	<li class="nav-item {{ billingAddress }}">
 		<span class="navbar-text">
@@ -33,7 +38,7 @@
 	</li>
 	{% endif %}
 	{% if confirm %}
-	<li class="nav-item {{ confirm }}">
+	<li class="nav-item {{ confirm }} last">
 		<span class="navbar-text">
 			<i class="fas fa-clipboard-check"></i>
 			{{ 'page.checkout.confirm' | matra('Confirm Order') }}

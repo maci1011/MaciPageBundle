@@ -1,18 +1,15 @@
 
-<h3>{{ 'page.cart.checkout' | matra('Checkout') }}</h3>
-<h5>{{ 'order.code' | matra('Order Identifier') }}: {{ order.code }}</h5>
+<p class="order-info">
 
-{% if is_granted('ROLE_USER') %}
-
-<p class="page-checkout-identity">
-	You are ordering as {{ app.user.username }}
-</p>
-
-{% else %}
-
-<p class="page-checkout-identity">
+	{% if is_granted('ROLE_USER') %}
+	You are ordering as <span class="username">{{ app.user.username }}</span>.
+	{% else %}
 	You are ordering with this e-mail address: {{ order.mail }} 
-	- <a href="{{ path('maci_order_gocheckout', {'edit': true}) }}">Change Email</a>
+	- <a href="{{ path('maci_order_gocheckout', {'edit': true}) }}">Change Email</a>.
+	{% endif %}
+
+	{{ 'order.code' | matra('Order Identifier') }}:
+	<span class="code">{{ order.code }}</span>.
+
 </p>
 
-{% endif %}

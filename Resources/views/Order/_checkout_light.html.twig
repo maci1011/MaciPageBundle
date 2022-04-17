@@ -10,6 +10,10 @@
 	{% include "@MaciPage/Order/_checkout_progbar.html.twig" %}
 </nav>
 
+<section id="checkoutOrderInfo">
+	{% include "@MaciPage/Order/_checkout_order_info.html.twig" %}
+</section>
+
 
 <div id="checkoutPageWrapper" class="row">
 <div id="checkoutPage" class="col-12 col-md-8">
@@ -17,11 +21,6 @@
 {% if checkout is defined and checkout %}{# --- Checkout Defined ---  #}
 {% if order.items|length %}{# --- Valid Order ---  #}
 {% set i = 0 %}
-
-
-<section id="checkoutOrderInfo">
-	{% include "@MaciPage/Order/_checkout_order_info.html.twig" %}
-</section>
 
 
 {% if billingAddress == 'set' %}{# --- Billing Address ---  #}
