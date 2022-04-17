@@ -1,0 +1,38 @@
+
+<ol id="checkoutProgBar" class="navbar-nav">
+	{% if billingAddress %}
+	<li class="nav-item {{ billingAddress }}">
+		<span class="navbar-text">
+			{{ 'page.checkout.billing_address' | matra('Billing Address') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if shippingAddress %}
+	<li class="nav-item {{ shippingAddress }}">
+		<span class="navbar-text">
+			{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if shipping %}
+	<li class="nav-item {{ shipping }}">
+		<span class="navbar-text">
+			{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if payment %}
+	<li class="nav-item {{ payment }}">
+		<span class="navbar-text">
+			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if confirm %}
+	<li class="nav-item {{ confirm }}">
+		<span class="navbar-text">
+			{{ 'page.checkout.confirm' | matra('Confirm Order') }}
+		</span>
+	</li>
+	{% endif %}
+</ol>

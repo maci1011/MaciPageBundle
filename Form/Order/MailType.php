@@ -23,7 +23,9 @@ class MailType extends AbstractType
 	{
 		$builder
 			->add('mail', EmailType::class)
-			->add('use_this_email', SubmitType::class)
+			->add('use_this_email', SubmitType::class, [
+				'attr' => ['class' => 'btn btn-primary']
+			])
 		;
 	}
 
