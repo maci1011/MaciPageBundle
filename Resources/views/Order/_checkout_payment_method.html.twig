@@ -6,7 +6,7 @@
 {% elseif payment == 'setted' %}
 
 <p>{{ maci_orders.cartPaymentLabel }}</p>
-<a class="btn btn-success" href="{{ path('maci_order_checkout', {'id': order.id,'checkout':'payment'}) }}">
+<a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'payment'}) }}">
 	{{ 'form.edit' | matra('Edit') }}
 </a>
 
