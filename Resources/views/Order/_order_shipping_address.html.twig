@@ -1,22 +1,22 @@
 
-<div class="maci-order-shipping-address-form">
+<div class="orderAddressWrapper">
+<form id="maci_order_shipping_address" action="{{ path('maci_order_checkout_set_shipping_address') }}" method="post">
 
-<form class="maci_order_shipping_address" action="{{ path('maci_order_checkout_set_shipping_address') }}" method="post">
-
+	{% if not form.vars.valid %}
 	<div class="form-group">
-    	{{ form_errors(form) }}
+		{{ form_errors(form) }}
 	</div>
+	{% endif %}
 
-    {{ form_row(form.shipping_address) }}
+	{{ form_row(form.shipping_address) }}
 
-    {{ form_row(form._token) }}
+	{{ form_row(form._token) }}
 
-    <div class="form-group text-right">
+	<div class="form-group text-right">
 		<button id="cart_shipping_address_save" class="btn btn-primary" type="submit" name="cart_shipping_address[save]">
 			{{ 'form.use_this_address'|matra('Use This Address') }}
 		</button>
 	</div>
 
 </form>
-
 </div>
