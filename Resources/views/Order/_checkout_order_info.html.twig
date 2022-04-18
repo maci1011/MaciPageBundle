@@ -2,14 +2,16 @@
 <p class="order-info">
 
 	{% if is_granted('ROLE_USER') %}
-	You are ordering as <span class="username">{{ app.user.username }}</span>.
+	You are ordering as <span class="username">@{{ app.user.username }}</span>
 	{% else %}
 	You are ordering with this e-mail address: {{ order.mail }} 
-	- <a href="{{ path('maci_order_gocheckout', {'edit': true}) }}">Change Email</a>.
+	- <a href="{{ path('maci_order_gocheckout', {'edit': true}) }}">Change Email</a>
 	{% endif %}
 
+	|
+
 	{{ 'order.code' | matra('Order Identifier') }}:
-	<span class="code">{{ order.code }}</span>.
+	<span class="code">{{ order.code }}</span>
 
 </p>
 

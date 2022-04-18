@@ -2,11 +2,11 @@
 {% if billingAddress == 'set' %}
 
 {% if maci_addresses.addressList|length %}
-<h5>{{ 'page.checkout.use_existing_address' | matra('Use An Existing Address') }}</h5>
+<h5>{{ 'page.checkout.use_existing_address' | matra('Use an existing Address') }}</h5>
 {{ render(controller('MaciPageBundle:Order:cartSetBillingAddress')) }}
 {% endif %}
 
-<h5>{{ 'page.checkout.add_new_address' | matra('Add A New Address') }}</h5>
+<h5>{{ 'page.checkout.add_new_address' | matra('Add a new Address') }}</h5>
 {{ render(controller('MaciUserBundle:Address:form', {'id': null, 'method': 'billing'} )) }}
 
 {% elseif billingAddress == 'setted' %}
