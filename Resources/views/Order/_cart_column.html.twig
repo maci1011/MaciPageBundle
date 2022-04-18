@@ -4,9 +4,9 @@
 <h4 class="cart-title">
 	{{ 'order.cart.title' | matra('My Cart') }}
 </h4>
-<span class="order-amount-description">
+<p class="cart-total-items">
 	{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}
-</span>
+</p>
 
 {% if order and order.items|length %}
 
