@@ -1,5 +1,5 @@
 
-<div class="orderAddressWrapper">
+<div class="checkoutFormWrapper">
 <form id="maci_order_billing_address" action="{{ path('maci_order_checkout_set_billing_address') }}" method="post">
 
 	{% if not form.vars.valid %}
@@ -14,7 +14,7 @@
 
 	<div class="form-group text-right">
 		<button id="cart_billing_address_save" class="btn btn-primary" type="submit" name="cart_billing_address[save]">
-			{{ 'form.use_this_address'|matra('Use This Address') }}
+			{{ 'use_this_address'|matla('Use This Address') }}
 		</button>
 	</div>
 

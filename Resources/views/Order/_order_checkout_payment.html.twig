@@ -1,10 +1,22 @@
 
+<div class="checkoutFormWrapper">
 <form class="maci_order_checkout_payment" action="{{ path('maci_order_checkout_set_payment') }}" method="post">
 
+	{% if not form.vars.valid %}
 	<div class="form-group">
-    	{{ form_errors(form) }}
+		{{ form_errors(form) }}
+	</div>
+	{% endif %}
+
+	{{ form_row(form.payment) }}
+
+	{{ form_row(form._token) }}
+
+	<div class="form-group text-right">
+		<button id="checkout_payment_set_payment" class="btn btn-primary" type="submit" name="checkout_payment[set_payment]">
+			{{ 'form.set_payment'|matra('Set Payment') }}
+		</button>
 	</div>
 
-    {{ form_rest(form) }}
-
 </form>
+</div>

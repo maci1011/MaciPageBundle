@@ -562,7 +562,7 @@ class OrderService extends AbstractController
 
 	public function getShippingLabel($shipping)
 	{
-		return $shipping['label'] . ' | ' . Countries::getName($shipping['country']) . ' | ' . number_format($shipping['cost'], 2, '.', ',') . ' €';
+		return $shipping['label'] . ' | ' . Countries::getName($shipping['country']) . (0 < $shipping['cost'] ? ' | ' . number_format($shipping['cost'], 2, '.', ',') . ' €' : '');
 	}
 
 	public function getShippingLabelById($id)

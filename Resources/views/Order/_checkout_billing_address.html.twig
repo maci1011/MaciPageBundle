@@ -13,7 +13,7 @@
 
 {% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'billingAddress'}) }}">
-	{{ 'order.edit_billing_address' | matra('Edit Billing Address') }}
+	{{ 'edit_address' | matla('Edit Address') }}
 </a>
 
 {#% elseif billingAddress == 'toset' %#}

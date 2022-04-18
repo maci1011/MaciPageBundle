@@ -30,11 +30,12 @@ class CheckoutShippingType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('shipping', ChoiceType::class, array(
+			->add('shipping', ChoiceType::class, [
                 'choices' => $this->orders->getShippingChoices(),
-	            'preferred_choices' => (is_string($str = $this->orders->getCartShippingCountry()) ? array($str) : array())
-            ))
-			->add('set_payment', SubmitType::class, [
+	            'preferred_choices' => (is_string($str = $this->orders->getCartShippingCountry()) ? array($str) : array()),
+                'expanded' => true
+            ])
+			->add('set_shipping', SubmitType::class, [
 				'label' => 'Set Shipping',
 				'attr' => ['class' => 'btn btn-primary']
 			])

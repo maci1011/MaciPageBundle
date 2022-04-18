@@ -30,10 +30,10 @@ class CheckoutPaymentType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('payment', ChoiceType::class, array(
+			->add('payment', ChoiceType::class, [
                 'choices' => $this->orders->getPaymentChoices(),
                 'expanded' => true
-            ))
+            ])
 			->add('set_payment', SubmitType::class, [
 				'label' => 'Set Payment',
 				'attr' => ['class' => 'btn btn-primary']
