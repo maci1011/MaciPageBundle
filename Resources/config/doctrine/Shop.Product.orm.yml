@@ -54,8 +54,14 @@ Maci\PageBundle\Entity\Shop\Product:
         sale:
             type: decimal
             nullable: true
+        buyed:
+            type: integer
+            nullable: true
         quantity:
-            type: decimal
+            type: integer
+            nullable: true
+        selled:
+            type: integer
             nullable: true
         position:
             type: integer

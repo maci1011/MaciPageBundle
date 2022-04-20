@@ -80,12 +80,12 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	reloadRecords: function(debug) {
+	reloadRecords: function(cmd) {
 		// if (0 < index) return _obj.end();;
 		$.ajax({
 			type: 'POST',
 			data: {
-				'debug': debug,
+				'cmd': cmd,
 				'setId': select.val()
 			},
 			url: '/record/load-unsetted-records',
@@ -142,24 +142,20 @@ var maciShopImport = function (options) {
 		data = $(data.substr(s, e - s));
 		var fields = [];
 		data.find('Row').first().find('Cell').each(function(i, el) {
-			if($(el).text().length) fields[i] = $(el).text();
-			else fields[i] = false;
+			if($(el).text().trim().length) fields.push($(el).text().trim());
 		});
 		records = [];
-		index = 0;
-		var fieldsLen = data.find('Row').first().find('Cell').length - 1;
+		var fieldsLen = data.find('Row').first().find('Cell').length;
 		data.find('Row').not(':first').each(function(ri, row) {
 			if($(row).find('Cell').length != fieldsLen) return;
 			var dt = {};
 			$(row).find('Cell').each(function(i, el) {
-				if (fields[i] == false) return;
 				dt[fields[i]] = $(el).text().trim();
 			});
-			records[index] = {
+			records.push({
 				'type': 'purchas',
 				'import': dt
-			};
-			index++;
+			});
 		});
 		// console.log(records);
 		if(confirm("Items to import: " + records.length + "."))
@@ -178,12 +174,16 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	debug: function() {
-		_obj.reloadRecords(true);
+	resetNF: function() {
+		_obj.reloadRecords('reset_nf');
 	},
 
 	reload: function() {
-		_obj.reloadRecords(false);
+		_obj.reloadRecords(null);
+	},
+
+	version: function() {
+		_obj.reloadRecords('version');
 	},
 
 	set: function(_form) {
@@ -193,8 +193,9 @@ var maciShopImport = function (options) {
 		getLabels = form.find('#getLabels');
 		labelsPath = getLabels.attr('href');
 		getReport = form.find('#getReport');
-		debugBtt = form.find('#debug-order');
+		resetNFBtt = form.find('#resetNF-order');
 		reloadBtt = form.find('#reload-order');
+		versionBtt = form.find('#version');
 		reportPath = getReport.attr('href');
 		select.change(function(e) {
 			if (select.val() == 'null') submit.parent().hide();
@@ -209,13 +210,17 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 			fileInput.click();
 		});
-		debugBtt.click(function(e) {
+		resetNFBtt.click(function(e) {
 			e.preventDefault();
-			_obj.debug();
+			if(confirm("Confirm?")) _obj.resetNF();
 		});
 		reloadBtt.click(function(e) {
 			e.preventDefault();
-			_obj.reload();
+			if(confirm("Confirm?")) _obj.reload();
+		});
+		versionBtt.click(function(e) {
+			e.preventDefault();
+			if(confirm("Confirm?")) _obj.version();
 		});
 		_obj.getSets();
 		_obj.setFileInput();

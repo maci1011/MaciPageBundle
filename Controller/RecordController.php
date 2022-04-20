@@ -52,18 +52,45 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-
-		$debug = $request->get('debug');
+		$list = [];
 
 		$ids = $request->get('ids');
 		if (count($ids)) $list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $ids]);
-		else
+		elseif ($request->get('cmd') == 'version')
+		{
+			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
+			$jumped = [];
+			foreach ($list as $record) {
+				$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+					'code' => $record->getCode(),
+					'variant' => $record->getProductVariant()
+				]);
+				if (!$product)
+				{
+					array_push($jumped, $record->getId());
+					continue;
+				}
+				// Start Code Updates
+
+				$product->buyOrSellRecord($record);
+
+				// End Code Updates
+			}
+			$om->flush();
+			return new JsonResponse([
+				'success' => true,
+				'len' => count($list),
+				'versioned' => count($list) - count($jumped),
+				'jumped' => $jumped
+			], 200);
+		}
+		elseif ($request->get('setId'))
 		{
 			$id = $request->get('setId');
 			$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($id));
 			if (!$set) return new JsonResponse(['success' => false, 'error' => 'Set not found.', 'id' => $id], 200);
 			$list = $set->getChildren();
-			if ($debug == "true")
+			if ($request->get('cmd') == 'reset_nf')
 			{
 				$nfl = [];
 				foreach ($list as $record) {
