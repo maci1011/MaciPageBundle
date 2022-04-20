@@ -146,7 +146,6 @@ var maciShopImport = function (options) {
 				fields.push($(el).text().trim());
 		});
 		records = [];
-		console.log(fields.length);
 		data.find('Row').not(':first').each(function(ri, row) {
 			if($(row).find('Cell') < 2) return;
 			var rowdata = [];
@@ -154,7 +153,6 @@ var maciShopImport = function (options) {
 				if($(el).text().trim().length)
 					rowdata.push($(el).text().trim());
 			});
-			console.log(rowdata.length);
 			if(rowdata.length != fields.length) return;
 			var dt = {};
 			for (var i = fields.length - 1; i >= 0; i--)
