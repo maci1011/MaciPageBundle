@@ -142,16 +142,23 @@ var maciShopImport = function (options) {
 		data = $(data.substr(s, e - s));
 		var fields = [];
 		data.find('Row').first().find('Cell').each(function(i, el) {
-			if($(el).text().trim().length) fields.push($(el).text().trim());
+			if($(el).text().trim().length)
+				fields.push($(el).text().trim());
 		});
 		records = [];
-		var fieldsLen = data.find('Row').first().find('Cell').length;
+		console.log(fields.length);
 		data.find('Row').not(':first').each(function(ri, row) {
-			if($(row).find('Cell').length != fieldsLen) return;
-			var dt = {};
+			if($(row).find('Cell') < 2) return;
+			var rowdata = [];
 			$(row).find('Cell').each(function(i, el) {
-				dt[fields[i]] = $(el).text().trim();
+				if($(el).text().trim().length)
+					rowdata.push($(el).text().trim());
 			});
+			console.log(rowdata.length);
+			if(rowdata.length != fields.length) return;
+			var dt = {};
+			for (var i = fields.length - 1; i >= 0; i--)
+				dt[fields[i]] = rowdata[i];
 			records.push({
 				'type': 'purchas',
 				'import': dt

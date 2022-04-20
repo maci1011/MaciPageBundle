@@ -397,9 +397,24 @@ class Product
 		return $this->sale;
 	}
 
+	public function getSaleLabel()
+	{
+		return $this->sale ? number_format($this->sale, 2) : '';
+	}
+
+	public function getSellPrice()
+	{
+		return $this->sale ? $this->sale : $this->price;
+	}
+
+	public function getSellPriceLabel()
+	{
+		return number_format($this->getSellPrice(), 2);
+	}
+
 	public function getSaved()
 	{
-		return intval(100 - $this->sale / $this->price * 100);
+		return intval(100 - $this->getSellPrice() / $this->price * 100);
 	}
 
 	/**
