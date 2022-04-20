@@ -56,13 +56,10 @@ Maci\PageBundle\Entity\Shop\Product:
             nullable: true
         buyed:
             type: integer
-            nullable: true
         quantity:
             type: integer
-            nullable: true
         selled:
             type: integer
-            nullable: true
         position:
             type: integer
             nullable: true

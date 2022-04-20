@@ -72,8 +72,6 @@ class RecordController extends AbstractController
 				}
 				// Start Code Updates
 
-				$product->buyOrSellRecord($record);
-
 				// End Code Updates
 			}
 			$om->flush();
