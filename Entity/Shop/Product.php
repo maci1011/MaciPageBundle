@@ -1312,8 +1312,9 @@ class Product
 	public function sumVariants($key)
 	{
 		$t = 0;
-		foreach ($this->getVariants() as $key => $value)
+		foreach ($this->getVariants() as $value)
 		{
+			if (!array_key_exists($key, $value)) continue;
 			$t += intval($value[$key]);
 		}
 		return $t;
