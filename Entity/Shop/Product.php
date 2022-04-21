@@ -1546,7 +1546,7 @@ class Product
 
 	public function findVariant($name)
 	{
-		if(!$name) return -1;
+		if(!$this->hasVariants() || !$name) return -1;
 		for ($i=0; $i < count($this->data['variants']); $i++) {
 			if($name == $this->data['variants'][$i]['name'])
 			{
