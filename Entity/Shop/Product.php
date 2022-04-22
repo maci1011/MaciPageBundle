@@ -1308,12 +1308,9 @@ class Product
 	public function getVariantByName($name)
 	{
 		if (is_array($name)) $name = $name['name'];
-		foreach ($this->getVariants() as $key => $value) {
+		foreach ($this->getVariants() as $key => $value)
 			if ($name == $value['name'])
-			{
 				return $value;
-			}
-		}
 		return false;
 	}
 
