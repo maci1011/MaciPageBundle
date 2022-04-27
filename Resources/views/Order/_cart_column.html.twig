@@ -46,24 +46,24 @@
 		{% if item.product.variant %}
 		<p class="item-info variant">
 			{% if item.product.variantField != null %}
-			{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:
+			<span class="label">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
 			{% else %}
-			{{ 'product.variant-field.variant'|matra('Variant') }}:
+			<span class="label">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
 			{% endif %}
-			<span>{{ item.product.variant }}</span>
+			<span class="value">{{ item.product.variant }}</span>
 		</p>
 		{% endif %}
 
 		{% if item.variant %}
 		<p class="item-info custom-variant">
-			{{ ('product.variant-field.' ~ item.variantType)|matra(item.variantTypeLabel) }}:
-			<span>{{ item.variantNameLabel }}</span>
+			<span class="label">{{ ('product.variant-field.' ~ item.variantType)|matra(item.variantTypeLabel) }}:</span>
+			<span class="value">{{ item.variantNameLabel }}</span>
 		</p>
 		{% endif %}
 
 		<p class="item-info quantity">
-			{{ 'product.quantity'|matra('Quantity') }}:
-			<span>{{ item.quantity }}</span>
+			<span class="label">{{ 'product.quantity'|matra('Quantity') }}:</span>
+			<span class="value">{{ item.quantity }}</span>
 		</p>
 
 		{% if item.product.sale %}
@@ -126,13 +126,13 @@
 
 <div class="cart-details">
 
-	<div class="cart-details-line">
+	<div class="details-line">
 		{% if maci_orders.shippingsArray[order.shipping] is defined %}
-		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
+		<span class="shippingCost description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
 		{% else %}
-		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
+		<span class="shippingCost description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
 		{% endif %}
-		<span class="order-shippingCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+		<span class="shippingCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -152,13 +152,13 @@
 
 <div class="cart-details">
 
-	<div class="cart-details-line">
+	<div class="details-line">
 		{% if maci_orders.paymentsArray[order.payment] is defined %}
-		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
+		<span class="paymentCost description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
 		{% else %}
-		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
+		<span class="paymentCost description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
 		{% endif %}
-		<span class="order-paymentCost-value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+		<span class="paymentCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
 			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -178,16 +178,16 @@
 
 	{% if edit is defined and edit %}
 
-	<div class="cart-details-line">
-		<span class="order-amount-label">{{ 'order.subtotal' | matra('SubTotal') }}:</span>
-		<span class="order-amount-value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</span>
+	<div class="details-line">
+		<span class="amount-label">{{ 'order.subtotal' | matra('SubTotal') }}:</span>
+		<span class="amount-value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</span>
 	</div>
 
 	{% else %}
 
-	<div class="cart-details-line">
-		<span class="order-amount-label">{{ 'order.amount' | matra('Amount') }}:</span>
-		<span class="order-amount-value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+	<div class="details-line">
+		<span class="amount-label">{{ 'order.amount' | matra('Amount') }}:</span>
+		<span class="amount-value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</div>
 
 	{% endif %}
