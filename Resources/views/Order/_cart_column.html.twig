@@ -21,28 +21,28 @@
 
 <div class="cart-item row {{ loop.index is even ? 'even' : 'odd' }}">
 
-	<div class="cart-item-preview col-3 pr-0 pt-3">
+	<div class="item-preview col-3 pr-0 pt-3">
 		<img class="img-fluid" src="{{ asset(item.product.webPreview | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.name }}" {% if item.product.description %}title="{{ item.product.description }}"{% else %}title="{{ item.product.name }}"{% endif %} />
 	</div>
 
-	<div class="cart-item-description col-9">
+	<div class="item-description col-9">
 
 		{% if edit is defined and edit %}
 
 		{{ render(controller('MaciPageBundle:Order:removeCartItem', { 'id': id } )) }}
 
-		<a href="{{ path('maci_product_show', { 'path': item.product.path }) }}">
-			<h4 class="cart-item-name">{{ item.product.inhName }}</h4>
+		<a class="item-link" href="{{ path('maci_product_show', { 'path': item.product.path }) }}">
+			<h4 class="item-name">{{ item.product.inhName }}</h4>
 		</a>
 
 		{% else %}
 
-		<h4 class="cart-item-name">{{ item.product.inhName }}</h4>
+		<h4 class="item-name">{{ item.product.inhName }}</h4>
 
 		{% endif %}
 
 		{% if item.product.variant %}
-		<p class="detail-info product-variant">
+		<p class="item-info variant">
 			{% if item.product.variantField != null %}
 			{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:
 			{% else %}
@@ -53,23 +53,23 @@
 		{% endif %}
 
 		{% if item.variantLabel|length %}
-		<p class="detail-info product-variant-label">{{ item.variantLabel }}</p>
+		<p class="item-info variants-label">{{ item.variantLabel }}</p>
 		{% endif %}
 
-		<p class="detail-info product-quantity">
+		<p class="item-info quantity">
 			{{ 'product.quantity'|matra('Quantity') }}:
 			<span>{{ item.quantity }}</span>
 		</p>
 
 		{% if item.product.sale %}
-		<p class="detail-info product-list-price">
+		<p class="item-info list-price">
 			{{ item.product.price | number_format(2, '.', ',') }} &euro;
 		</p>
-		<p class="detail-info product-sale-price">
+		<p class="item-info sale-price">
 			{{ item.product.sale | number_format(2, '.', ',') }} &euro;
 		</p>
 		{% elseif item.product.price %}
-		<p class="detail-info product-price">
+		<p class="item-info price">
 			{{ item.product.price | number_format(2, '.', ',') }} &euro;
 		</p>
 		{% endif %}
