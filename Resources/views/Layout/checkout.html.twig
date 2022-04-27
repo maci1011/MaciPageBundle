@@ -2,23 +2,29 @@
 
 {% block bodyTag %}<body id="bodyCheckout">{% endblock %}
 
+
 {% block body %}
 
-{% block flashBag %}
-{% if app.request.hasPreviousSession %}
-<div id="flashBagWrapper" class="container p-0">
-{% for type, messages in app.session.flashbag.all() %}
-	{% for message in messages %}
-	<div class="alert alert-{{ type }}">
-		{{ message|matra(message) }}
-	</div>
-	{% endfor %}
-{% endfor %}
-</div>
-{% endif %}
-{% endblock %}
-
 <div id="checkoutContainer" class="container">
+
+	<header id="checkoutHeader">
+		{% include "@MaciPage/Order/_checkout_header.html.twig" %}
+	</header>
+
+	{% block flashBag %}
+	{% set flashList = app.session.flashbag.all() %}
+	{% if flashList|length %}
+	<div id="flashBagWrapper" class="container">
+	{% for type, messages in flashList %}
+		{% for message in messages %}
+		<div class="alert alert-{{ type }}">
+			{{ message|matra(message) }}
+		</div>
+		{% endfor %}
+	{% endfor %}
+	</div>
+	{% endif %}
+	{% endblock %}
 
 	{% block container %}{% endblock container %}
 

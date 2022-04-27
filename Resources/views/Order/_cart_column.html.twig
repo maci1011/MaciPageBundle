@@ -1,13 +1,15 @@
 
 <section id="cartCol">
 
-<h4 id="cartTitle">
-	{{ 'order.cart.title' | matra('My Cart') }}
-</h4>
-
-<p id="cartTotalItems">
-	<span>{{ order.totalItemsQuantity }}</span> {{ 'order.subtotal-items' | matra('Items') }}
-</p>
+<header id="cartColHeader">
+	<h4 id="cartTitle">
+		{{ 'order.cart.title' | matra('My Cart') }}
+	</h4>
+	<p id="totalItems">
+		<span>{{ order.totalItemsQuantity }}</span>
+		{{ 'order.subtotal-items' | matra('Items') }}
+	</p>
+</header>
 
 {% if order and order.items|length %}
 
