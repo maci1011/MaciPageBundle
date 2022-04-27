@@ -128,9 +128,9 @@
 
 	<div class="details-line">
 		{% if maci_orders.shippingsArray[order.shipping] is defined %}
-		<span class="shippingCost description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
 		{% else %}
-		<span class="shippingCost description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
 		{% endif %}
 		<span class="shippingCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
@@ -154,9 +154,9 @@
 
 	<div class="details-line">
 		{% if maci_orders.paymentsArray[order.payment] is defined %}
-		<span class="paymentCost description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
 		{% else %}
-		<span class="paymentCost description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
 		{% endif %}
 		<span class="paymentCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
@@ -179,15 +179,15 @@
 	{% if edit is defined and edit %}
 
 	<div class="details-line">
-		<span class="amount-label">{{ 'order.subtotal' | matra('SubTotal') }}:</span>
-		<span class="amount-value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="amount label">{{ 'order.subtotal' | matra('SubTotal') }}:</span>
+		<span class="amount value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</span>
 	</div>
 
 	{% else %}
 
 	<div class="details-line">
-		<span class="amount-label">{{ 'order.amount' | matra('Amount') }}:</span>
-		<span class="amount-value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="amount label">{{ 'order.amount' | matra('Amount') }}:</span>
+		<span class="amount value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</div>
 
 	{% endif %}
