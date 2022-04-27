@@ -23,7 +23,7 @@
 
 <div class="cart-item row {{ loop.index is even ? 'even' : 'odd' }}">
 
-	<div class="item-preview col-3 pr-0 pt-3">
+	<div class="item-preview col-3 px-0">
 		<img class="img-fluid" src="{{ asset(item.product.webPreview | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.name }}" {% if item.product.description %}title="{{ item.product.description }}"{% else %}title="{{ item.product.name }}"{% endif %} />
 	</div>
 
@@ -66,18 +66,20 @@
 			<span class="value">{{ item.quantity }}</span>
 		</p>
 
-		{% if item.product.sale %}
-		<p class="item-info list-price">
-			{{ item.product.price | number_format(2, '.', ',') }} &euro;
-		</p>
-		<p class="item-info sale-price">
-			{{ item.product.sale | number_format(2, '.', ',') }} &euro;
-		</p>
-		{% elseif item.product.price %}
 		<p class="item-info price">
-			{{ item.product.price | number_format(2, '.', ',') }} &euro;
+			{% if item.product.sale %}
+			<span class="list-price">
+				{{ item.product.price | number_format(2, '.', ',') }} &euro;
+			</span>
+			<span class="sale-price">
+				{{ item.product.sale | number_format(2, '.', ',') }} &euro;
+			</span>
+			{% elseif item.product.price %}
+			<span class="value">
+				{{ item.product.price | number_format(2, '.', ',') }} &euro;
+			</span>
+			{% endif %}
 		</p>
-		{% endif %}
 
 		{#}
 		<ol>
