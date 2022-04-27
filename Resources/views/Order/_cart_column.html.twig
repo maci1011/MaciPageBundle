@@ -6,7 +6,7 @@
 </h4>
 
 <p id="cartTotalItems">
-	{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}
+	<span>{{ order.totalItemsQuantity }}</span> {{ 'order.subtotal-items' | matra('Items') }}
 </p>
 
 {% if order and order.items|length %}
@@ -42,25 +42,36 @@
 		{% endif %}
 
 		{% if item.product.variant %}
-		{% if item.product.variantField != null %}
-		<span class="detail-label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
-		{% else %}
-		<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
-		{% endif %}
-		<span class="detail-info product-variant">{{ item.product.variant }}</span><br/>
+		<p class="detail-info product-variant">
+			{% if item.product.variantField != null %}
+			{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:
+			{% else %}
+			{{ 'product.variant-field.variant'|matra('Variant') }}:
+			{% endif %}
+			<span>{{ item.product.variant }}</span>
+		</p>
 		{% endif %}
 
 		{% if item.variantLabel|length %}
-		<span class="cart-item-variant">{{ item.variantLabel }}</span><br/>
+		<p class="detail-info product-variant-label">{{ item.variantLabel }}</p>
 		{% endif %}
 
-		<span class="cart-item-quantity">{{ 'product.quantity'|matra('Quantity') }}: <span class="quantity-value">{{ item.quantity }}</span></span><br/>
+		<p class="detail-info product-quantity">
+			{{ 'product.quantity'|matra('Quantity') }}:
+			<span>{{ item.quantity }}</span>
+		</p>
 
 		{% if item.product.sale %}
-		<span class="product-list-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
-		<span class="product-sale-price">{{ item.product.sale | number_format(2, '.', ',') }} &euro;</span>
+		<p class="detail-info product-list-price">
+			{{ item.product.price | number_format(2, '.', ',') }} &euro;
+		</p>
+		<p class="detail-info product-sale-price">
+			{{ item.product.sale | number_format(2, '.', ',') }} &euro;
+		</p>
 		{% elseif item.product.price %}
-		<span class="product-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+		<p class="detail-info product-price">
+			{{ item.product.price | number_format(2, '.', ',') }} &euro;
+		</p>
 		{% endif %}
 
 		{#}

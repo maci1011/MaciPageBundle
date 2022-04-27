@@ -453,7 +453,7 @@ class OrderController extends AbstractController
 			$toint = $cart->getUser()->getUsername();
 		} else {
 			$to = $cart->getMail();
-			$toint = $cart->getBillingAddress()->getName() .' '. $cart->getBillingAddress()->getSurname();
+			$toint = $cart->getBillingAddress()->getName() . ' ' . $cart->getBillingAddress()->getSurname();
 		}
 
 		$notifyToken = false;
