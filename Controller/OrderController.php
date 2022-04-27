@@ -370,7 +370,7 @@ class OrderController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$payments = $this->get('maci.orders')->getPaymentsArray();
 			$payment = $form['payment']->getData();
-			$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
+			$this->get('maci.orders')->setCartPayment($payment, $payments[$payment]['cost']);
 			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'payment')));
 		}
 
@@ -386,8 +386,8 @@ class OrderController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->get('maci.orders')->setCartShipping( $form['shipping']->getData() );
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'shipping')));
+			$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
+			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'shipping')));
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_checkout_shipping.html.twig', array(
@@ -404,7 +404,7 @@ class OrderController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$address = $this->get('maci.addresses')->getAddress($form['billing_address']->getData());
 			$this->get('maci.orders')->setCartBillingAddress($address);
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'billing')));
+			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'billing')));
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_billing_address.html.twig', array(
@@ -467,59 +467,71 @@ class OrderController extends AbstractController
 		$payment->setClientEmail($to);
 
 		$payment->setOrder($cart);
-		
+
+		if ($cart->getStatus() == 'session')
+		{
+			$om = $this->getDoctrine()->getManager();
+
+			$cart->setStatus('current');
+
+			$om->persist($cart);
+			$om->flush();
+		}
+
 		$storage->update($payment);
 		
-		if(substr($gatewayName, 0, 6) === 'paypal') {
+		if(substr($gatewayName, 0, 6) === 'paypal')
+			return $this->capturePayPal($cart, $payment);
 
-			$storageDetails = $this->get('payum')->getStorage(PaymentDetails::class);
-			$paymentDetails = $storageDetails->create();
+		$captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
+			$gatewayName, $payment, 'maci_order_payments_after_capture'
+		);
 
-			$paymentDetails->setType('paypalExpress');
+		return $this->redirect($captureToken->getTargetUrl());
+	}
 
-			$paymentDetails['PAYMENTREQUEST_0_CURRENCYCODE'] = 'EUR';
-			$paymentDetails['PAYMENTREQUEST_0_AMT'] = $cart->getAmount();
+	public function capturePayPal($cart, $payment)
+	{
+		$storageDetails = $this->get('payum')->getStorage(PaymentDetails::class);
+		$paymentDetails = $storageDetails->create();
 
-			$paymentDetails['NOSHIPPING'] = Api::NOSHIPPING_NOT_DISPLAY_ADDRESS;
-			$paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
-			$paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
+		$paymentDetails->setType('paypalExpress');
 
-			$paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
-			$paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
-			$paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
-			$paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
+		$paymentDetails['PAYMENTREQUEST_0_CURRENCYCODE'] = 'EUR';
+		$paymentDetails['PAYMENTREQUEST_0_AMT'] = $cart->getAmount();
 
-			$storageDetails->update($paymentDetails);
+		$paymentDetails['NOSHIPPING'] = Api::NOSHIPPING_NOT_DISPLAY_ADDRESS;
+		$paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
+		$paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
 
-			$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
+		$paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
+		$paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
+		$paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
+		$paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
 
-			$captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
-				$gatewayName, 
-				$paymentDetails, 
-				'maci_order_payments_after_capture'
-			);
+		$storageDetails->update($paymentDetails);
 
-			$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
-			$paymentDetails['INVNUM'] = $paymentDetails->getId();
+		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
 
-			$storageDetails->update($paymentDetails);
-
-			$paymentDetails->setPayment($payment);
-
-			$payment->setDetails($paymentDetails->getDetails());
-
-			$storage->update($payment);
-			
-			return $this->redirect($captureToken->getTargetUrl());
-
-		}
+		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
 
 		$captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
 			$gatewayName, 
-			$payment, 
+			$paymentDetails, 
 			'maci_order_payments_after_capture'
 		);
-		
+
+		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
+		$paymentDetails['INVNUM'] = $paymentDetails->getId();
+
+		$storageDetails->update($paymentDetails);
+
+		$paymentDetails->setPayment($payment);
+
+		$payment->setDetails($paymentDetails->getDetails());
+
+		$storage->update($payment);
+
 		return $this->redirect($captureToken->getTargetUrl());
 	}
 

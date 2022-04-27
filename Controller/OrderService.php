@@ -223,7 +223,7 @@ class OrderService extends AbstractController
 			$this->om->flush();
 		} else {
 			$info = $this->getSessionArray();
-			$info['shippingAddress'] = $address;
+			$info['shippingAddress'] = AddressServiceController::getArrayFromAddress($address);
 			$this->session->set('order', $info);
 		}
 	}
@@ -236,7 +236,7 @@ class OrderService extends AbstractController
 			$this->om->flush();
 		} else {
 			$info = $this->getSessionArray();
-			$info['billingAddress'] = $address;
+			$info['billingAddress'] = AddressServiceController::getArrayFromAddress($address);
 			$this->session->set('order', $info);
 		}
 	}
@@ -377,8 +377,10 @@ class OrderService extends AbstractController
 			'shipping_cost' => $order->getShippingCost(),
 			'payment' => $order->getPayment(),
 			'payment_cost' => $order->getPaymentCost(),
-			'shippingAddress' => $info ? $info['shippingAddress'] : null,
-			'billingAddress' => $info ? $info['billingAddress'] : null
+			'shippingAddress' => $info ? $info['shippingAddress'] :
+				AddressServiceController::getArrayFromAddress($order->getShippingAddress()),
+			'billingAddress' => $info ? $info['billingAddress'] :
+				AddressServiceController::getArrayFromAddress($order->getBillingAddress())
 		];
 	}
 
@@ -395,6 +397,12 @@ class OrderService extends AbstractController
 		$order->setShippingCost($values['shipping_cost']);
 		$order->setPayment($values['payment']);
 		$order->setPaymentCost($values['payment_cost']);
+		$order->setShippingAddress(
+			AddressServiceController::getAddressFromArray($values['shippingAddress'])
+		);
+		$order->setBillingAddress(
+			AddressServiceController::getAddressFromArray($values['billingAddress'])
+		);
 		return $order;
 	}
 
@@ -424,7 +432,7 @@ class OrderService extends AbstractController
 				$address = $this->ac->getAddress($address);
 			}
 			if ($address) {
-				$cart->setShippingAddress($address);
+				$cart->setShippingAddress(AddressServiceController::getAddressFromArray($address));
 			}
 		}
 
@@ -434,7 +442,7 @@ class OrderService extends AbstractController
 				$address = $this->ac->getAddress($address);
 			}
 			if ($address) {
-				$cart->setBillingAddress($address);
+				$cart->setBillingAddress(AddressServiceController::getAddressFromArray($address));
 			}
 		}
 
