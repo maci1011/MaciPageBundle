@@ -419,7 +419,8 @@ ul, ol {
  *      Products
  */
 
-.product-list-price {
+.product-list-price,
+.list-price {
 	text-decoration: line-through;
 }
 

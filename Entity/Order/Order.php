@@ -1063,7 +1063,7 @@ class Order
 			$item->setProduct($product);
 			$item->setOrder($this);
 			$this->addItem($item);
-			if ($variant != false) $item->setVariant($product, $variant);
+			if ($variant != false) $item->setVariant($variant);
 			$persist = true;
 		}
 

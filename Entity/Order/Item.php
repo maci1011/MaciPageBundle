@@ -267,25 +267,49 @@ class Item
 		$this->created = new \DateTime();
 	}
 
-	public function setVariant($product, $variant)
+	public function setVariant($variant)
 	{
-		if (!$product->hasVariants()) return;
+		if (!$this->product || !$this->product->hasVariants()) return;
 		if (is_null($this->details)) $this->details = [];
 		$this->details['variant'] = [
 			'name' => $variant['name'],
-			'type' => $product->getVariantsType()
+			'type' => $this->product->getVariantsType()
 		];
 	}
 
 	public function getVariant()
 	{
-		if (is_null($this->details) || !array_key_exists('variant', $this->details)) return false;
+		if (!$this->product->hasVariants() ||
+			is_null($this->details) ||
+			!array_key_exists('variant', $this->details)
+		) return false;
 		return $this->details['variant'];
 	}
 
 	public function getVariantLabel()
 	{
-		return !$this->getVariant() ? '' : ucfirst($this->details['variant']['type']) . ': ' . $this->details['variant']['name'];
+		if (!$this->getVariant()) return '';
+		return $this->details['variant']['type'] . ': ' . $this->details['variant']['name'];
+	}
+
+	public function getVariantName()
+	{
+		return $this->getVariant() ? $this->details['variant']['name'] : null;
+	}
+
+	public function getVariantNameLabel()
+	{
+		return ucfirst(str_replace('_', ' ', $this->getVariantName()));
+	}
+
+	public function getVariantType()
+	{
+		return $this->getVariant() ? $this->details['variant']['type'] : null;
+	}
+
+	public function getVariantTypeLabel()
+	{
+		return ucfirst(str_replace('_', ' ', $this->getVariantType()));
 	}
 
 	public function getPrivateDocuments()

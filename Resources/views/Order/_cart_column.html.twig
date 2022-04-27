@@ -52,8 +52,11 @@
 		</p>
 		{% endif %}
 
-		{% if item.variantLabel|length %}
-		<p class="item-info variants-label">{{ item.variantLabel }}</p>
+		{% if item.variant %}
+		<p class="item-info custom-variant">
+			{{ ('product.variant-field.' ~ item.variantType)|matra(item.variantTypeLabel) }}:
+			<span>{{ item.variantNameLabel }}</span>
+		</p>
 		{% endif %}
 
 		<p class="item-info quantity">
