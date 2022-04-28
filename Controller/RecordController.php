@@ -51,65 +51,39 @@ class RecordController extends AbstractController
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
 		}
 
+		$cmd = $request->get('cmd', '');
+
+		if ($cmd == 'version') return $this->updateVersion();
+
 		$om = $this->getDoctrine()->getManager();
+		$ids = $request->get('ids', []);
+		$setId = $request->get('setId');
 		$list = [];
 
-		$ids = $request->get('ids');
-		if (count($ids)) $list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $ids]);
-		elseif ($request->get('cmd') == 'version')
-		{
-			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
-			$jumped = [];
-			foreach ($list as $record) {
-				$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-					'code' => $record->getCode(),
-					'variant' => $record->getProductVariant()
-				]);
-				if (!$product)
-				{
-					array_push($jumped, $record->getId());
-					continue;
-				}
-				// Start Code Updates
+		if (count($ids))
+			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $ids]);
 
-				// End Code Updates
-			}
-			$om->flush();
-			return new JsonResponse([
-				'success' => true,
-				'len' => count($list),
-				'versioned' => count($list) - count($jumped),
-				'jumped' => $jumped
-			], 200);
-		}
-		elseif ($request->get('setId'))
+		if (!count($list) && $setId)
 		{
 			$id = $request->get('setId');
 			$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($id));
 			if (!$set) return new JsonResponse(['success' => false, 'error' => 'Set not found.', 'id' => $id], 200);
 			$list = $set->getChildren();
-			if ($request->get('cmd') == 'reset_nf')
-			{
-				$nfl = [];
-				foreach ($list as $record) {
-					$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-						'code' => $record->getCode(),
-						'variant' => $record->getProductVariant()
-					]);
-					if (!$product)
-					{
-						if ($record->isLoaded()) $record->resetLoadedValue();
-						$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
-					}
-				}
-				$om->flush();
-				return new JsonResponse(['success' => true, 'notFounds' => count($nfl), 'list' => $nfl], 200);
-			}
 		}
 
 		if (!count($list)) {
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 		}
+
+		if ($cmd == 'get_nf') return $this->resetNotFounds($list, true);
+		if ($cmd == 'reset_nf') return $this->resetNotFounds($list);
+
+		return $this->importList($list);
+	}
+
+	public function importList($list)
+	{
+		$om = $this->getDoctrine()->getManager();
 
 		$last = false;
 		foreach ($list as $record)
@@ -133,6 +107,63 @@ class RecordController extends AbstractController
 		$om->flush();
 
 		return new JsonResponse(['success' => true], 200);
+	}
+
+	public function resetNotFounds($list, $get_only = false)
+	{
+		$om = $this->getDoctrine()->getManager();
+
+		$nfl = [];
+		foreach ($list as $record) {
+			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+				'code' => $record->getCode(),
+				'variant' => $record->getProductVariant()
+			]);
+			if (!$product)
+			{
+				if (!$get_only && $record->isLoaded()) $record->resetLoadedValue();
+				$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
+			}
+		}
+
+		$om->flush();
+
+		return new JsonResponse([
+			'success' => true,
+			'notFounds' => count($nfl),
+			'list' => $nfl
+		], 200);
+	}
+
+	public function updateVersion()
+	{
+		$om = $this->getDoctrine()->getManager();
+		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
+
+		$jumped = [];
+		foreach ($list as $record) {
+			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
+				'code' => $record->getCode(),
+				'variant' => $record->getProductVariant()
+			]);
+			if (!$product)
+			{
+				array_push($jumped, $record->getId());
+				continue;
+			}
+			// Start Code Updates
+
+			// End Code Updates
+		}
+
+		$om->flush();
+
+		return new JsonResponse([
+			'success' => true,
+			'len' => count($list),
+			'versioned' => count($list) - count($jumped),
+			'jumped' => $jumped
+		], 200);
 	}
 
 	public function exportRecordAction(Request $request)

@@ -179,18 +179,6 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	resetNF: function() {
-		_obj.reloadRecords('reset_nf');
-	},
-
-	reload: function() {
-		_obj.reloadRecords(null);
-	},
-
-	version: function() {
-		_obj.reloadRecords('version');
-	},
-
 	set: function(_form) {
 		form = _form;
 		select = form.find('#import-set');
@@ -198,9 +186,6 @@ var maciShopImport = function (options) {
 		getLabels = form.find('#getLabels');
 		labelsPath = getLabels.attr('href');
 		getReport = form.find('#getReport');
-		resetNFBtt = form.find('#resetNF-order');
-		reloadBtt = form.find('#reload-order');
-		versionBtt = form.find('#version');
 		reportPath = getReport.attr('href');
 		select.change(function(e) {
 			if (select.val() == 'null') submit.parent().hide();
@@ -215,17 +200,24 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 			fileInput.click();
 		});
-		resetNFBtt.click(function(e) {
+		form.find('#getNF-order').click(function(e) {
 			e.preventDefault();
-			if(confirm("Confirm?")) _obj.resetNF();
+			_obj.reloadRecords('get_nf');
 		});
-		reloadBtt.click(function(e) {
+		form.find('#resetNF-order').click(function(e) {
 			e.preventDefault();
-			if(confirm("Confirm?")) _obj.reload();
+			if(!confirm("Confirm?")) return;
+			_obj.reloadRecords('reset_nf');
 		});
-		versionBtt.click(function(e) {
+		form.find('#reload-order').click(function(e) {
 			e.preventDefault();
-			if(confirm("Confirm?")) _obj.version();
+			if(!confirm("Confirm?")) return;
+			_obj.reloadRecords(null);
+		});
+		form.find('#version').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.reloadRecords('version');
 		});
 		_obj.getSets();
 		_obj.setFileInput();
