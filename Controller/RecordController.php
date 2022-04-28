@@ -109,6 +109,8 @@ class RecordController extends AbstractController
 		return new JsonResponse(['success' => true], 200);
 	}
 
+
+
 	public function resetNotFounds($list, $get_only = false)
 	{
 		$om = $this->getDoctrine()->getManager();
