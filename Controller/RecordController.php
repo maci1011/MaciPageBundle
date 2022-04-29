@@ -139,14 +139,31 @@ class RecordController extends AbstractController
 	public function checkQuantity($cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$list = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
+		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 		$errors = [];
+		$zero = [];
 
-		foreach ($list as $product)
+		foreach ($products as $product)
 		{
 			if (!$product->checkTotalQuantity())
 			{
 				array_push($errors, $product->getCode() . ' - ' . $product->getVariant());
+
+				if ($cmd == 'check_qta') continue;
+
+				$product->resetQuantity();
+
+				$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
+					'code' => $product->getCode()
+				]);
+
+				if (!count($list)) 
+				{
+					array_push($zero, $product->getCode() . ' - ' . $product->getVariant());
+					continue;
+				}
+
+				$this->resetNotFounds($list, $cmd);
 			}
 		}
 
@@ -154,7 +171,8 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'errors' => $errors
+			'errors' => $errors,
+			'zero' => $zero
 		], 200);
 	}
 
@@ -164,7 +182,7 @@ class RecordController extends AbstractController
 		$loaded = 0;
 		$imported = 0;
 		$addedpr = [];
-		$nfl = [];
+		$nfs = [];
 
 		foreach ($list as $record)
 		{
@@ -174,9 +192,12 @@ class RecordController extends AbstractController
 			]);
 			if (!$product || !$product->checkRecordVariant($record))
 			{
-				if ($cmd == 'reset_nf' && $record->isLoaded()) $record->resetLoadedValue();
-				$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
-				if ($cmd == 'reload_pr')
+				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
+
+				if (in_array($cmd, ['reset_nf', 'reset_qta']) && $record->isLoaded())
+					$record->resetLoadedValue();
+
+				if (in_array($cmd, ['reload_pr', 'reset_qta']))
 				{
 					$label = $record->getCode() . ' - ' . $record->getProductVariant();
 					if (array_key_exists($label, $addedpr)) $product = $addedpr[$label];
@@ -196,8 +217,8 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'notFounds' => count($nfl),
-			'list' => $nfl,
+			'notFounds' => count($nfs),
+			'list' => $nfs,
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'imported' => $imported

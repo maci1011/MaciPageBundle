@@ -583,6 +583,13 @@ class Product
 		}
 	}
 
+	public function resetQuantity()
+	{
+		$this->buyed = 0;
+		$this->quantity = 0;
+		$this->selled = 0;
+	}
+
 	/**
 	 * Set selled
 	 *
