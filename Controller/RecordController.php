@@ -190,10 +190,14 @@ class RecordController extends AbstractController
 				'code' => $record->getCode(),
 				'variant' => $record->getProductVariant()
 			]);
-			if (!$product || !$product->checkRecordVariant($record))
-			{
+
+			$is_nf = !$product || !$product->checkRecordVariant($record);
+
+			if ($is_nf)
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
+			if ($is_nf || $cmd == 'reset_qta')
+			{
 				if (in_array($cmd, ['reset_nf', 'reset_qta']) && $record->isLoaded())
 					$record->resetLoadedValue();
 
