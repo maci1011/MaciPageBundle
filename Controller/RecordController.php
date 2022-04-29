@@ -141,6 +141,7 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 		$errors = [];
+		$reset = [];
 		$zero = [];
 
 		foreach ($products as $product)
@@ -163,7 +164,7 @@ class RecordController extends AbstractController
 					continue;
 				}
 
-				$this->resetNotFounds($list, $cmd);
+				array_push($reset, $this->resetNotFounds($list, $cmd));
 			}
 		}
 
@@ -172,6 +173,7 @@ class RecordController extends AbstractController
 		return new JsonResponse([
 			'success' => true,
 			'errors' => $errors,
+			'reset' => $reset,
 			'zero' => $zero
 		], 200);
 	}
@@ -231,7 +233,7 @@ class RecordController extends AbstractController
 
 		$om->flush();
 
-		return new JsonResponse([
+		$prs = [
 			'success' => true,
 			'notFounds' => count($nfs),
 			'list' => $nfs,
@@ -239,7 +241,11 @@ class RecordController extends AbstractController
 			'loaded' => $loaded,
 			'imported' => $imported,
 			'errors' => $errors
-		], 200);
+		];
+
+		if (in_array($cmd, ['reset_qta'])) return $prs;
+
+		return new JsonResponse($prs, 200);
 	}
 
 	public function updateVersion($list)
