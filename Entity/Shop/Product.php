@@ -1352,6 +1352,15 @@ class Product
 		return $this->sumVariants('selled');
 	}
 
+	public function checkTotalQuantity()
+	{
+		return (
+			$this->getTotalVariantsBuyed() -
+			$this->getTotalVariantsQuantity() -
+			$this->getTotalVariantsSelled()
+		) == 0;
+	}
+
 	public function getVariantType()
 	{
 		$data = $this->getData();

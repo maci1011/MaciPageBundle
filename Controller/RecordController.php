@@ -52,6 +52,10 @@ class RecordController extends AbstractController
 		}
 
 		$cmd = $request->get('cmd', '');
+
+		if (in_array($cmd, ['check_qta', 'reset_qta']))
+			return $this->checkQuantity($cmd);
+
 		$om = $this->getDoctrine()->getManager();
 		$ids = $request->get('ids', []);
 		$setId = $request->get('setId', 'null');
@@ -95,6 +99,7 @@ class RecordController extends AbstractController
 		$errors = 0;
 		$last = false;
 		$addedpr = [];
+
 		foreach ($list as $record)
 		{
 			$label = $record->getCode() . ' - ' . $record->getProductVariant();
@@ -131,6 +136,28 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
+	public function checkQuantity($cmd)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
+		$errors = [];
+
+		foreach ($list as $product)
+		{
+			if (!$product->checkTotalQuantity())
+			{
+				array_push($errors, $product->getCode() . ' - ' . $product->getVariant());
+			}
+		}
+
+		// $om->flush();
+
+		return new JsonResponse([
+			'success' => true,
+			'errors' => $errors
+		], 200);
+	}
+
 	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
@@ -138,7 +165,9 @@ class RecordController extends AbstractController
 		$imported = 0;
 		$addedpr = [];
 		$nfl = [];
-		foreach ($list as $record) {
+
+		foreach ($list as $record)
+		{
 			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
 				'code' => $record->getCode(),
 				'variant' => $record->getProductVariant()
@@ -178,9 +207,10 @@ class RecordController extends AbstractController
 	public function updateVersion($list)
 	{
 		$om = $this->getDoctrine()->getManager();
-
 		$jumped = [];
-		foreach ($list as $record) {
+
+		foreach ($list as $record)
+		{
 			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
 				'code' => $record->getCode(),
 				'variant' => $record->getProductVariant()
@@ -246,7 +276,8 @@ class RecordController extends AbstractController
 		$type = $request->get('type');
 		$newRecord = false;
 
-		switch ($type) {
+		switch ($type)
+		{
 			case 'sale':
 				$newRecord = $product->exportSaleRecord($record->getVariant());
 				break;
@@ -291,9 +322,9 @@ class RecordController extends AbstractController
 
 		$om = $this->getDoctrine()->getManager();
 		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
-
 		$products = [];
 		$last = false;
+
 		foreach ($records as $record)
 		{
 			if ($last && $last->checkRecord($record)) $product = $last;

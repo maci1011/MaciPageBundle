@@ -81,7 +81,7 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	reloadRecords: function(cmd) {
+	sendCmd: function(cmd) {
 		// if (0 < index) return _obj.end();;
 		$.ajax({
 			type: 'POST',
@@ -201,29 +201,33 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 			fileInput.click();
 		});
+		form.find('#check-qta').click(function(e) {
+			e.preventDefault();
+			_obj.sendCmd('check_qta');
+		});
 		form.find('#getNF-order').click(function(e) {
 			e.preventDefault();
-			_obj.reloadRecords('get_nf');
+			_obj.sendCmd('get_nf');
 		});
 		form.find('#resetNF-order').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
-			_obj.reloadRecords('reset_nf');
+			_obj.sendCmd('reset_nf');
 		});
 		form.find('#reload-order').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
-			_obj.reloadRecords(null);
+			_obj.sendCmd(null);
 		});
 		form.find('#reload-products').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
-			_obj.reloadRecords('reload_pr');
+			_obj.sendCmd('reload_pr');
 		});
 		form.find('#version').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
-			_obj.reloadRecords('version');
+			_obj.sendCmd('version');
 		});
 		_obj.getSets();
 		_obj.setFileInput();
