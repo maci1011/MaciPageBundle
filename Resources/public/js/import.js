@@ -91,9 +91,11 @@ var maciShopImport = function (options) {
 			},
 			url: '/record/load-unsetted-records',
 			success: function(d,s,x) {
+				console.log('---> ' + cmd + ' <---');
 				console.log(d);
 			},
 			error: function(d,s,x) {
+				console.log('---> ' + cmd + ' <---');
 				console.log('Debug Records Error!');
 			}
 		});
