@@ -15,9 +15,10 @@ var maciShopImport = function (options) {
 					'list': {
 						'section': 'records',
 						'entity': 'record_set',
-						'filters': {
-							'type': 'imprt'
-						}
+						'filters': [{
+							'field': 'type',
+							'value': 'imprt'
+						}]
 					}
 				}
 			},

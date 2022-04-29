@@ -15,9 +15,10 @@ var maciShopExport = function (options) {
 					'list': {
 						'section': 'records',
 						'entity': 'record_set',
-						'filters': {
-							'type': 'exprt'
-						}
+						'filters': [{
+							'field': 'type',
+							'value': 'exprt'
+						}]
 					}
 				}
 			},
