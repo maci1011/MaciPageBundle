@@ -111,7 +111,7 @@ class RecordController extends AbstractController
 	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
-
+		$addedpr = 0;
 		$nfl = [];
 		foreach ($list as $record) {
 			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
@@ -127,6 +127,7 @@ class RecordController extends AbstractController
 					$product = new \Maci\PageBundle\Entity\Shop\Product();
 					$om->persist($product);
 					$product->loadRecord($record);
+					$addedpr++;
 				}
 			}
 		}
@@ -136,7 +137,8 @@ class RecordController extends AbstractController
 		return new JsonResponse([
 			'success' => true,
 			'notFounds' => count($nfl),
-			'list' => $nfl
+			'list' => $nfl,
+			'addedpr' => $addedpr
 		], 200);
 	}
 
