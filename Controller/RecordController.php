@@ -75,8 +75,7 @@ class RecordController extends AbstractController
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 		}
 
-		if ($cmd == 'get_nf') return $this->resetNotFounds($list, true);
-		if ($cmd == 'reset_nf') return $this->resetNotFounds($list);
+		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr'])) return $this->resetNotFounds($list, $cmd);
 
 		return $this->importList($list);
 	}
@@ -109,9 +108,7 @@ class RecordController extends AbstractController
 		return new JsonResponse(['success' => true], 200);
 	}
 
-
-
-	public function resetNotFounds($list, $get_only = false)
+	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
 
@@ -123,8 +120,14 @@ class RecordController extends AbstractController
 			]);
 			if (!$product)
 			{
-				if (!$get_only && $record->isLoaded()) $record->resetLoadedValue();
+				if ($cmd == 'reset_nf' && $record->isLoaded()) $record->resetLoadedValue();
 				$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
+				if ($cmd == 'reload_pr')
+				{
+					$product = new \Maci\PageBundle\Entity\Shop\Product();
+					$om->persist($product);
+					$product->loadRecord($record);
+				}
 			}
 		}
 

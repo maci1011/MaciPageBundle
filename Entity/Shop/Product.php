@@ -1242,41 +1242,54 @@ class Product
 		return $preview;
 	}
 
+	public function loadRecord(Record $record)
+	{
+		$this->setCode($record->getCode());
+		$this->setName($record->getCategory());
+		$this->setComposition($record->getImportedComposition());
+		$this->setBrand($record->getBrand());
+		$this->setPath(str_replace(' ', '-',str_replace('.', '',
+			$record->getCode() . "-" . strtolower(
+				$record->getCategory() . "-" . $record->getBrand() .
+				($record->hasVariant() ? '-' . $record->getProductVariant() : '')
+			)
+		)));
+		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
+		$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
+		$this->setNewPrice($record->getPrice());
+		$this->setStatus($this->getStatusValues()[2]);
+		$locale = $record->getImportedLocale();
+		$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+
+		$variant = $record->getVariant();
+		if($variant['type'] == 'unset')
+		{
+			$this->setType($this->getTypes()[0]);
+		}
+		else
+		{
+			$this->addVariant($variant);
+			$this->setType($this->getTypes()[1]);
+		}
+	}
+
 	public function importRecord(Record $record)
 	{
 		if ($record->isLoaded()) return;
 
 		if($this->status == 'unset')
 		{
-			$this->setCode($record->getCode());
-			$this->setName($record->getCategory());
-			$this->setComposition($record->getImportedComposition());
-			$this->setBrand($record->getBrand());
-			$this->setPath(str_replace(' ', '-',str_replace('.', '',
-				$record->getCode() . "-" . strtolower(
-					$record->getCategory() . "-" . $record->getBrand() .
-					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
-				)
-			)));
-			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
-			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
-			$this->setNewPrice($record->getPrice());
-			$this->setStatus($this->getStatusValues()[2]);
-			$locale = $record->getImportedLocale();
-			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
-			$this->setPublic(false);
+			$this->loadRecord($record);
 		}
 
 		$variant = $record->getVariant();
 		if($variant['type'] == 'unset')
 		{
 			$this->quantity += $record->getDiffQuantity();
-			$this->setType($this->getTypes()[0]);
 		}
 		else
 		{
 			$this->addAndBuyOrSellVariant($variant, $record->getDiffQuantity());
-			$this->setType($this->getTypes()[1]);
 			$this->refreshQuantity();
 		}
 
@@ -1288,7 +1301,7 @@ class Product
 		$data = $this->getData();
 		if(!array_key_exists('variants', $data))
 		{
-			return [];
+			$this->data['variants'] = [];
 		}
 		return $this->data['variants'];
 	}
@@ -1395,7 +1408,7 @@ class Product
 		return array_key_exists('variants-type', $data) ? $data['variants-type'] : null;
 	}
 
-	public function addVariant($variant, $quantity)
+	public function addVariant($variant, $quantity = 0)
 	{
 		if (!$variant) return false;
 		if (!array_key_exists('type', $variant) || $variant['type'] == 'color-n-size')
@@ -1465,12 +1478,12 @@ class Product
 			if (is_null($this->variant))
 			{
 				$this->addColorAndSize(array_merge(['color' => 'Unset'], $variant), $quantity);
-				return;
+				return false;
 			}
 			$newVariant = $this->getSizeItem($variant['name']);
 			$newVariant['quantity'] = $quantity;
 			$this->data['variants'] = [$newVariant];
-			return;
+			return false;
 		}
 		$item = $this->data['variants'][$index];
 		$item['quantity'] = intval($item['quantity']) + $quantity;
@@ -1482,7 +1495,11 @@ class Product
 	public function buyVariant($variant, $quantity)
 	{
 		$index = $this->findVariant($variant['name']);
-		if ($index == -1) return false;
+		if ($index == -1)
+		{
+			$index = count($this->getVariants());
+			if (!$this->addVariant($variant, $quantity)) return false;
+		}
 		$item = $this->data['variants'][$index];
 		if (!array_key_exists('buyed', $item)) $item['buyed'] = 0;
 		$item['buyed'] = intval($item['buyed']) + $quantity;
@@ -1493,7 +1510,11 @@ class Product
 	public function sellVariant($variant, $quantity)
 	{
 		$index = $this->findVariant($variant['name']);
-		if ($index == -1) return false;
+		if ($index == -1)
+		{
+			$index = count($this->getVariants());
+			if (!$this->addVariant($variant, $quantity)) return false;
+		}
 		$item = $this->data['variants'][$index];
 		if (!array_key_exists('selled', $item)) $item['selled'] = 0;
 		$item['selled'] = intval($item['selled']) + $quantity;
@@ -1544,7 +1565,7 @@ class Product
 	public function findVariant($name)
 	{
 		if(!$this->hasVariants() || !$name) return -1;
-		for ($i=0; $i < count($this->data['variants']); $i++) {
+		for ($i=0; $i < count($this->getVariants()); $i++) {
 			if($name == $this->data['variants'][$i]['name'])
 			{
 				return $i;
