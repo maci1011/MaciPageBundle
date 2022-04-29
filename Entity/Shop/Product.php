@@ -1374,6 +1374,7 @@ class Product
 
 	public function checkTotalQuantity()
 	{
+		if (($this->buyed - $this->quantity - $this->selled) != 0) return false;
 		$this->refreshQuantity();
 		return ($this->buyed - $this->quantity - $this->selled) == 0;
 	}

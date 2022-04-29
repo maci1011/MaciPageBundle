@@ -183,6 +183,7 @@ class RecordController extends AbstractController
 		$imported = 0;
 		$addedpr = [];
 		$nfs = [];
+		$errors = [];
 
 		foreach ($list as $record)
 		{
@@ -204,13 +205,24 @@ class RecordController extends AbstractController
 				if (in_array($cmd, ['reload_pr', 'reset_qta']))
 				{
 					$label = $record->getCode() . ' - ' . $record->getProductVariant();
-					if (array_key_exists($label, $addedpr)) $product = $addedpr[$label];
-					else
+					if (!$product)
 					{
+						if (array_key_exists($label, $addedpr))
+						{
+							if ($addedpr[$label]->importRecord($record)) $imported++;
+							continue;
+						}
 						$product = new \Maci\PageBundle\Entity\Shop\Product();
 						$om->persist($product);
 						$addedpr[$label] = $product;
 					}
+
+					if (!$product)
+					{
+						array_push($errors, $record->getCode() . ' - ' . $record->getVariantLabel());
+						continue;
+					}
+
 					if ($product->loadRecord($record)) $loaded++;
 					if ($product->importRecord($record)) $imported++;
 				}
@@ -225,7 +237,8 @@ class RecordController extends AbstractController
 			'list' => $nfs,
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
-			'imported' => $imported
+			'imported' => $imported,
+			'errors' => $errors
 		], 200);
 	}
 
