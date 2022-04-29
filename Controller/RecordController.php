@@ -207,16 +207,18 @@ class RecordController extends AbstractController
 				if (in_array($cmd, ['reload_pr', 'reset_qta']))
 				{
 					$label = $record->getCode() . ' - ' . $record->getProductVariant();
-					if (!$product)
+					if (!$product || !$product->checkRecord($record))
 					{
 						if (array_key_exists($label, $addedpr))
 						{
-							if ($addedpr[$label]->importRecord($record)) $imported++;
-							continue;
+							$product = $addedpr[$label];
 						}
-						$product = new \Maci\PageBundle\Entity\Shop\Product();
-						$om->persist($product);
-						$addedpr[$label] = $product;
+						else
+						{
+							$product = new \Maci\PageBundle\Entity\Shop\Product();
+							$om->persist($product);
+							$addedpr[$label] = $product;
+						}
 					}
 
 					if (!$product)
@@ -235,8 +237,7 @@ class RecordController extends AbstractController
 
 		$prs = [
 			'success' => true,
-			'notFounds' => count($nfs),
-			'list' => $nfs,
+			'not_founds' => $nfs,
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'imported' => $imported,
@@ -348,7 +349,12 @@ class RecordController extends AbstractController
 		$om->persist($newRecord);
 		$om->flush();
 
-		return new JsonResponse(['success' => true, 'id' => $newRecord->getId(), 'variant' => $newRecord->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
+		return new JsonResponse([
+			'success' => true,
+			'id' => $newRecord->getId(),
+			'variant' => $newRecord->getVariantLabel(),
+			'quantity' => $product->getQuantity($record->getVariant())
+		], 200);
 	}
 
 	public function getLabelsAction(Request $request, $template = false)
