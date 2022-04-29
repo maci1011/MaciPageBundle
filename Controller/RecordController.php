@@ -52,18 +52,16 @@ class RecordController extends AbstractController
 		}
 
 		$cmd = $request->get('cmd', '');
-
-		if ($cmd == 'version') return $this->updateVersion();
-
 		$om = $this->getDoctrine()->getManager();
 		$ids = $request->get('ids', []);
-		$setId = $request->get('setId');
+		$setId = $request->get('setId', 'null');
 		$list = [];
+		$_all = false;
 
 		if (count($ids))
 			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['id' => $ids]);
 
-		if (!count($list) && $setId)
+		if (!count($list) && $setId != 'null')
 		{
 			$id = $request->get('setId');
 			$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($id));
@@ -71,12 +69,22 @@ class RecordController extends AbstractController
 			$list = $set->getChildren();
 		}
 
+		if (!count($list) && $cmd != '')
+		{
+			$_all = true;
+			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
+		}
+
 		if (!count($list)) {
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 		}
 
+		if ($cmd == 'version') return $this->updateVersion($list);
+
 		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr']))
 			return $this->resetNotFounds($list, $cmd);
+
+		if ($_all) return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
 
 		return $this->importList($list);
 	}
@@ -162,10 +170,9 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
-	public function updateVersion()
+	public function updateVersion($list)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
 
 		$jumped = [];
 		foreach ($list as $record) {
