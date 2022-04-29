@@ -167,7 +167,7 @@ class RecordController extends AbstractController
 			}
 		}
 
-		// $om->flush();
+		if ($cmd != 'check_qta') $om->flush();
 
 		return new JsonResponse([
 			'success' => true,
