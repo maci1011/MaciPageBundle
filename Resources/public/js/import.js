@@ -205,6 +205,11 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 			_obj.sendCmd('check_qta');
 		});
+		form.find('#reset-qta').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('reset_qta');
+		});
 		form.find('#getNF-order').click(function(e) {
 			e.preventDefault();
 			_obj.sendCmd('get_nf');
