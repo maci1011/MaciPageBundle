@@ -588,6 +588,8 @@ class Product
 		$this->buyed = 0;
 		$this->quantity = 0;
 		$this->selled = 0;
+
+		$this->resetVariantsQuantity();
 	}
 
 	/**
@@ -1333,6 +1335,17 @@ class Product
 		return $variant['quantity'];
 	}
 
+	public function resetVariantsQuantity()
+	{
+		if (!$this->hasVariants()) return;
+		foreach ($this->getVariants() as $value)
+		{
+			$value['buyed'] = 0;
+			$value['quantity'] = 0;
+			$value['selled'] = 0;
+		}
+	}
+
 	public function sumVariants($key)
 	{
 		$t = 0;
@@ -1361,11 +1374,8 @@ class Product
 
 	public function checkTotalQuantity()
 	{
-		return (
-			$this->getTotalVariantsBuyed() -
-			$this->getTotalVariantsQuantity() -
-			$this->getTotalVariantsSelled()
-		) == 0;
+		$this->refreshQuantity();
+		return ($this->buyed - $this->quantity - $this->selled) == 0;
 	}
 
 	public function getVariantType()
