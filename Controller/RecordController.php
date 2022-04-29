@@ -84,11 +84,14 @@ class RecordController extends AbstractController
 	public function importList($list)
 	{
 		$om = $this->getDoctrine()->getManager();
-
+		$errors = 0;
 		$last = false;
+		$addedpr = [];
 		foreach ($list as $record)
 		{
-			if ($last && $last->checkRecord($record)) $product = $last;
+			$label = $record->getCode() . ' - ' . $record->getProductVariant();
+			if (array_key_exists($label, $addedpr)) $product = $addedpr[$label];
+			else if ($last && $last->checkRecord($record)) $product = $last;
 			else $product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
 					'code' => $record->getCode(),
 					'variant' => $record->getProductVariant()
@@ -98,6 +101,14 @@ class RecordController extends AbstractController
 			{
 				$product = new \Maci\PageBundle\Entity\Shop\Product();
 				$om->persist($product);
+				$product->loadRecord($record);
+				$addedpr[$record->getCode() . ' - ' . $record->getProductVariant()] = $product;
+			}
+
+			if (!$product->checkRecord($record))
+			{
+				$errors++;
+				continue;
 			}
 
 			$product->importRecord($record);
@@ -106,13 +117,16 @@ class RecordController extends AbstractController
 
 		$om->flush();
 
-		return new JsonResponse(['success' => true], 200);
+		return new JsonResponse([
+			'success' => true,
+			'errors' => $errors
+		], 200);
 	}
 
 	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$addedpr = 0;
+		$addedpr = [];
 		$nfl = [];
 		foreach ($list as $record) {
 			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
@@ -125,10 +139,15 @@ class RecordController extends AbstractController
 				$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
 				if ($cmd == 'reload_pr')
 				{
-					$product = new \Maci\PageBundle\Entity\Shop\Product();
-					$om->persist($product);
+					$label = $record->getCode() . ' - ' . $record->getProductVariant();
+					if (array_key_exists($label, $addedpr)) $product = $addedpr[$label];
+					else
+					{
+						$product = new \Maci\PageBundle\Entity\Shop\Product();
+						$om->persist($product);
+					}
 					$product->loadRecord($record);
-					$addedpr++;
+					$addedpr[$label] = $product;
 				}
 			}
 		}
@@ -139,7 +158,7 @@ class RecordController extends AbstractController
 			'success' => true,
 			'notFounds' => count($nfl),
 			'list' => $nfl,
-			'addedpr' => $addedpr
+			'addedpr' => count($addedpr)
 		], 200);
 	}
 

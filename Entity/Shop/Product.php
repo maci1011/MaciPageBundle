@@ -1244,22 +1244,25 @@ class Product
 
 	public function loadRecord(Record $record)
 	{
-		$this->setCode($record->getCode());
-		$this->setName($record->getCategory());
-		$this->setComposition($record->getImportedComposition());
-		$this->setBrand($record->getBrand());
-		$this->setPath(str_replace(' ', '-',str_replace('.', '',
-			$record->getCode() . "-" . strtolower(
-				$record->getCategory() . "-" . $record->getBrand() .
-				($record->hasVariant() ? '-' . $record->getProductVariant() : '')
-			)
-		)));
-		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
-		$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
-		$this->setNewPrice($record->getPrice());
-		$this->setStatus($this->getStatusValues()[2]);
-		$locale = $record->getImportedLocale();
-		$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+		if($this->status == 'unset')
+		{
+			$this->setCode($record->getCode());
+			$this->setName($record->getCategory());
+			$this->setComposition($record->getImportedComposition());
+			$this->setBrand($record->getBrand());
+			$this->setPath(str_replace(' ', '-',str_replace('.', '',
+				$record->getCode() . "-" . strtolower(
+					$record->getCategory() . "-" . $record->getBrand() .
+					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
+				)
+			)));
+			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
+			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
+			$this->setNewPrice($record->getPrice());
+			$this->setStatus($this->getStatusValues()[2]);
+			$locale = $record->getImportedLocale();
+			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+		}
 
 		$variant = $record->getVariant();
 		if($variant['type'] == 'unset')
@@ -1276,11 +1279,6 @@ class Product
 	public function importRecord(Record $record)
 	{
 		if ($record->isLoaded()) return;
-
-		if($this->status == 'unset')
-		{
-			$this->loadRecord($record);
-		}
 
 		$variant = $record->getVariant();
 		if($variant['type'] == 'unset')
@@ -1597,12 +1595,12 @@ class Product
 
 	public function checkRecord($record)
 	{
-		if (!$record ||
+		return !(
+			!$record ||
 			$this->getCode() != $record->getCode() ||
 			$this->getVariant() != $record->getProductVariant() ||
 			$this->getVariantType() != $record->getVariantType()
-		) return false;
-		return true;
+		);
 	}
 
 	public function createRecord($variant = false)
