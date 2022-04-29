@@ -75,7 +75,8 @@ class RecordController extends AbstractController
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 		}
 
-		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr'])) return $this->resetNotFounds($list, $cmd);
+		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr']))
+			return $this->resetNotFounds($list, $cmd);
 
 		return $this->importList($list);
 	}

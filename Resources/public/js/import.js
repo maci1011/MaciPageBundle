@@ -214,6 +214,11 @@ var maciShopImport = function (options) {
 			if(!confirm("Confirm?")) return;
 			_obj.reloadRecords(null);
 		});
+		form.find('#reload-products').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.reloadRecords('reload_pr');
+		});
 		form.find('#version').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
