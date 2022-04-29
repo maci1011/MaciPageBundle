@@ -1265,33 +1265,27 @@ class Product
 		}
 
 		$variant = $record->getVariant();
+
 		if($variant['type'] == 'unset')
 		{
 			$this->setType($this->getTypes()[0]);
+			return true;
 		}
-		else
-		{
-			$this->addVariant($variant);
-			$this->setType($this->getTypes()[1]);
-		}
+
+		$this->setType($this->getTypes()[1]);
+
+		return $this->addVariant($variant);
 	}
 
 	public function importRecord(Record $record)
 	{
-		if ($record->isLoaded()) return;
+		if ($record->isLoaded()) return false;
 
-		$variant = $record->getVariant();
-		if($variant['type'] == 'unset')
-		{
-			$this->quantity += $record->getDiffQuantity();
-		}
-		else
-		{
-			$this->addAndBuyOrSellVariant($variant, $record->getDiffQuantity());
-			$this->refreshQuantity();
-		}
+		if (!$this->buyOrSellRecord($record)) return false;
 
 		$record->setLoadedValue();
+
+		return true;
 	}
 
 	public function getVariants()
@@ -1502,6 +1496,7 @@ class Product
 		if (!array_key_exists('buyed', $item)) $item['buyed'] = 0;
 		$item['buyed'] = intval($item['buyed']) + $quantity;
 		$this->data['variants'][$index] = $item;
+		$this->refreshQuantity();
 		return true;
 	}
 
@@ -1517,6 +1512,7 @@ class Product
 		if (!array_key_exists('selled', $item)) $item['selled'] = 0;
 		$item['selled'] = intval($item['selled']) + $quantity;
 		$this->data['variants'][$index] = $item;
+		$this->refreshQuantity();
 		return true;
 	}
 
@@ -1528,16 +1524,19 @@ class Product
 		;
 	}
 
-	public function addAndBuyOrSellVariant($variant, $quantity)
-	{
-		$this->addVariant($variant, $quantity);
-		return $this->buyOrSellVariant($variant, $quantity);
-	}
-
 	public function buyOrSellRecord($record)
 	{
-		$this->buyOrSellVariant($record->getVariant(), $record->getDiffQuantity());
-		$this->refreshQuantity();
+		$quantity = $record->getDiffQuantity();
+		$variant = $record->getVariant();
+
+		if($variant['type'] == 'unset')
+		{
+			$this->quantity += $quantity;
+			if ($quantity < 0) $this->selled += -$quantity;
+			else $this->buyed += $quantity;
+		}
+
+		return $this->buyOrSellVariant($variant, $quantity);
 	}
 
 	public function getSizeItem($name)
@@ -1603,6 +1602,11 @@ class Product
 		);
 	}
 
+	public function checkRecordVariant($record)
+	{
+		return $this->checkRecord($record) && $this->checkVariant($record->getVariant());
+	}
+
 	public function createRecord($variant = false)
 	{
 		if ($this->hasVariants() && !$this->checkVariant($variant)) return false;
@@ -1631,7 +1635,7 @@ class Product
 		$record->setType($type);
 		$record->setQuantity($quantity);
 
-		$this->importRecord($record);
+		if (!$this->importRecord($record)) return false;
 
 		return $record;
 	}

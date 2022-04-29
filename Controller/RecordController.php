@@ -119,7 +119,7 @@ class RecordController extends AbstractController
 				continue;
 			}
 
-			$product->importRecord($record);
+			if (!$product->importRecord($record)) $errors++;
 			$last = $product;
 		}
 
@@ -134,6 +134,8 @@ class RecordController extends AbstractController
 	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
+		$loaded = 0;
+		$imported = 0;
 		$addedpr = [];
 		$nfl = [];
 		foreach ($list as $record) {
@@ -141,7 +143,7 @@ class RecordController extends AbstractController
 				'code' => $record->getCode(),
 				'variant' => $record->getProductVariant()
 			]);
-			if (!$product)
+			if (!$product || !$product->checkRecordVariant($record))
 			{
 				if ($cmd == 'reset_nf' && $record->isLoaded()) $record->resetLoadedValue();
 				$nfl[count($nfl)] = $record->getCode() . ' - ' . $record->getVariantLabel();
@@ -153,9 +155,10 @@ class RecordController extends AbstractController
 					{
 						$product = new \Maci\PageBundle\Entity\Shop\Product();
 						$om->persist($product);
+						$addedpr[$label] = $product;
 					}
-					$product->loadRecord($record);
-					$addedpr[$label] = $product;
+					if ($product->loadRecord($record)) $loaded++;
+					if ($product->importRecord($record)) $imported++;
 				}
 			}
 		}
@@ -166,7 +169,9 @@ class RecordController extends AbstractController
 			'success' => true,
 			'notFounds' => count($nfl),
 			'list' => $nfl,
-			'addedpr' => count($addedpr)
+			'addedpr' => count($addedpr),
+			'loaded' => $loaded,
+			'imported' => $imported
 		], 200);
 	}
 
