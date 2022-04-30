@@ -54,7 +54,7 @@ class RecordController extends AbstractController
 		$cmd = $request->get('cmd', '');
 
 		if (in_array($cmd, ['check_qta', 'reset_qta']))
-			return $this->checkQuantity($cmd);
+			return new JsonResponse($this->checkQuantity($cmd), 200);
 
 		$om = $this->getDoctrine()->getManager();
 		$ids = $request->get('ids', []);
@@ -136,15 +136,17 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
-	public function checkQuantity($cmd)
+	public function checkQuantity($cmd, $products = false)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([], ['id' => 'DESC']);
 		$loaded = 0;
 		$imported = 0;
 		$errors = [];
 		$nor = []; // No Records
 		$nz = []; // Not Zero
+
+		if (!$products)
+			$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 
 		foreach ($products as $product)
 		{
@@ -172,8 +174,11 @@ class RecordController extends AbstractController
 
 					$record->resetLoadedValue();
 
-					if ($product->loadRecord($record)) $loaded++;
-					if ($product->importRecord($record)) $imported++;
+					if ($product->loadRecord($record))
+						$loaded++;
+
+					if ($product->importRecord($record))
+						$imported++;
 				}
 
 				if (!$product->checkTotalQuantity())
@@ -181,16 +186,17 @@ class RecordController extends AbstractController
 			}
 		}
 
-		if ($cmd == 'reset_qta') $om->flush();
+		if ($cmd == 'reset_qta')
+			$om->flush();
 
-		return new JsonResponse([
+		return [
 			'success' => true,
 			'loaded' => $loaded,
 			'imported' => $imported,
 			'errors' => $errors,
 			'nor' => $nor,
 			'nz' => $nz
-		], 200);
+		];
 	}
 
 	public function resetNotFounds($list, $cmd)
@@ -201,6 +207,7 @@ class RecordController extends AbstractController
 		$addedpr = [];
 		$nfs = [];
 		$errors = [];
+		$resets = [];
 
 		foreach ($list as $record)
 		{
@@ -215,12 +222,15 @@ class RecordController extends AbstractController
 			{
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
-				if ($cmd == 'reset_nf' && $record->isLoaded())
+				if ($cmd == 'reset_nf')
 					$record->resetLoadedValue();
 
 				if ($cmd == 'reload_pr')
 				{
+					$record->resetLoadedValue();
+
 					$label = $record->getCode() . ' - ' . $record->getProductVariant();
+
 					if (!$product || !$product->checkRecord($record))
 					{
 						if (array_key_exists($label, $addedpr))
@@ -241,13 +251,19 @@ class RecordController extends AbstractController
 						continue;
 					}
 
-					if ($product->loadRecord($record)) $loaded++;
-					if ($product->importRecord($record)) $imported++;
+					if ($product->loadRecord($record))
+						$loaded++;
+
+					if ($product->importRecord($record))
+						$imported++;
+
+					array_push($resets, $this->checkQuantity('reset_qta', [$product]));
 				}
 			}
 		}
 
-		if (in_array($cmd, ['reset_nf', 'reload_pr'])) $om->flush();
+		if (in_array($cmd, ['reset_nf', 'reload_pr']))
+			$om->flush();
 
 		return new JsonResponse([
 			'success' => true,
@@ -255,6 +271,7 @@ class RecordController extends AbstractController
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'imported' => $imported,
+			'resets' => $resets,
 			'errors' => $errors
 		], 200);
 	}
