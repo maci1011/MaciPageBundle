@@ -212,14 +212,13 @@ class RecordController extends AbstractController
 			$is_nf = !$product || !$product->checkRecordVariant($record);
 
 			if ($is_nf)
+			{
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
-			if ($is_nf || $cmd == 'reset_qta')
-			{
-				if (in_array($cmd, ['reset_nf', 'reset_qta']) && $record->isLoaded())
+				if ($cmd == 'reset_nf' && $record->isLoaded())
 					$record->resetLoadedValue();
 
-				if (in_array($cmd, ['reload_pr', 'reset_qta']))
+				if ($cmd == 'reload_pr')
 				{
 					$label = $record->getCode() . ' - ' . $record->getProductVariant();
 					if (!$product || !$product->checkRecord($record))
@@ -248,20 +247,16 @@ class RecordController extends AbstractController
 			}
 		}
 
-		$om->flush();
+		if (in_array($cmd, ['reset_nf', 'reload_pr'])) $om->flush();
 
-		$prs = [
+		return new JsonResponse([
 			'success' => true,
 			'not_founds' => $nfs,
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'imported' => $imported,
 			'errors' => $errors
-		];
-
-		if (in_array($cmd, ['reset_qta'])) return $prs;
-
-		return new JsonResponse($prs, 200);
+		], 200);
 	}
 
 	public function updateVersion($list)
