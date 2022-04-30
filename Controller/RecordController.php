@@ -152,8 +152,6 @@ class RecordController extends AbstractController
 			{
 				array_push($errors, $product->getCode() . ' - ' . $product->getVariant());
 
-				if ($cmd == 'check_qta') continue;
-
 				$product->resetQuantity();
 
 				$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
@@ -183,7 +181,7 @@ class RecordController extends AbstractController
 			}
 		}
 
-		if ($cmd != 'check_qta') $om->flush();
+		if ($cmd == 'reset_qta') $om->flush();
 
 		return new JsonResponse([
 			'success' => true,
