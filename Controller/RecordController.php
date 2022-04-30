@@ -222,10 +222,7 @@ class RecordController extends AbstractController
 			{
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
-				if ($cmd == 'reset_nf')
-					$record->resetLoadedValue();
-
-				if ($cmd == 'reload_pr')
+				if (in_array($cmd, ['reset_nf', 'reload_pr']))
 				{
 					$record->resetLoadedValue();
 
@@ -240,7 +237,10 @@ class RecordController extends AbstractController
 						else
 						{
 							$product = new \Maci\PageBundle\Entity\Shop\Product();
-							$om->persist($product);
+
+							if ($cmd == 'reload_pr')
+								$om->persist($product);
+
 							$addedpr[$label] = $product;
 						}
 					}
@@ -257,12 +257,14 @@ class RecordController extends AbstractController
 					if ($product->importRecord($record))
 						$imported++;
 
-					array_push($resets, $this->checkQuantity('reset_qta', [$product]));
+					array_push($resets, $this->checkQuantity(
+						$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
+					));
 				}
 			}
 		}
 
-		if (in_array($cmd, ['reset_nf', 'reload_pr']))
+		if ($cmd == 'reload_pr')
 			$om->flush();
 
 		return new JsonResponse([
