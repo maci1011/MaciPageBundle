@@ -139,10 +139,12 @@ class RecordController extends AbstractController
 	public function checkQuantity($cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
+		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([], ['id' => 'DESC']);
+		$loaded = 0;
+		$imported = 0;
 		$errors = [];
-		$reset = [];
-		$zero = [];
+		$nor = []; // No Records
+		$nz = []; // Not Zero
 
 		foreach ($products as $product)
 		{
@@ -158,13 +160,26 @@ class RecordController extends AbstractController
 					'code' => $product->getCode()
 				]);
 
+				$label = $product->getCode() . ' - ' . $product->getVariant();
+
 				if (!count($list)) 
 				{
-					array_push($zero, $product->getCode() . ' - ' . $product->getVariant());
+					array_push($nor, $label);
 					continue;
 				}
 
-				array_push($reset, $this->resetNotFounds($list, $cmd));
+				foreach ($list as $record)
+				{
+					if (!$product->checkRecord($record)) continue;
+
+					$record->resetLoadedValue();
+
+					if ($product->loadRecord($record)) $loaded++;
+					if ($product->importRecord($record)) $imported++;
+				}
+
+				if (!$product->checkTotalQuantity())
+					array_push($nz, $label);
 			}
 		}
 
@@ -172,9 +187,11 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
+			'loaded' => $loaded,
+			'imported' => $imported,
 			'errors' => $errors,
-			'reset' => $reset,
-			'zero' => $zero
+			'nor' => $nor,
+			'nz' => $nz
 		], 200);
 	}
 
