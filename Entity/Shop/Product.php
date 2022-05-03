@@ -1508,7 +1508,7 @@ class Product
 		return true;
 	}
 
-	public function buyVariant($variant, $quantity)
+	public function setVariantItem($variant, $option, $quantity, $aor = true)
 	{
 		$index = $this->findVariant($variant['name']);
 		if ($index == -1)
@@ -1517,29 +1517,27 @@ class Product
 			$index = 0;
 		}
 		$item = $this->data['variants'][$index];
-		if (!array_key_exists('buyed', $item)) $item['buyed'] = 0;
+		if (!array_key_exists($option, $item)) $item[$option] = 0;
 		$item['quantity'] = intval($item['quantity']) + $quantity;
-		$item['buyed'] = intval($item['buyed']) + $quantity;
+		$item[$option] = intval($item[$option]) + ($aor ? $quantity : -$quantity);
 		$this->data['variants'][$index] = $item;
 		$this->refreshQuantity();
 		return true;
 	}
 
+	public function buyVariant($variant, $quantity)
+	{
+		return $this->setVariantItem($variant, 'buyed', $quantity);
+	}
+
 	public function sellVariant($variant, $quantity)
 	{
-		$index = $this->findVariant($variant['name']);
-		if ($index == -1)
-		{
-			if (!$this->addVariant($variant)) return false;
-			$index = 0;
-		}
-		$item = $this->data['variants'][$index];
-		if (!array_key_exists('selled', $item)) $item['selled'] = 0;
-		$item['quantity'] = intval($item['quantity']) - $quantity;
-		$item['selled'] = intval($item['selled']) + $quantity;
-		$this->data['variants'][$index] = $item;
-		$this->refreshQuantity();
-		return true;
+		return $this->setVariantItem($variant, 'selled', -$quantity, false);
+	}
+
+	public function returnVariant($variant, $quantity)
+	{
+		return $this->setVariantItem($variant, 'selled', $quantity, false);
 	}
 
 	public function buyOrSellVariant($variant, $quantity)
@@ -1552,18 +1550,25 @@ class Product
 
 	public function buyOrSellRecord($record)
 	{
-		$quantity = $record->getDiffQuantity();
+		if ($record->getType() == 'unset')
+			return false;
+
 		$variant = $record->getVariant();
 
-		if($variant['type'] == 'unset')
+		if(!$this->hasVariants() && $variant['type'] == 'unset')
 		{
-			$this->quantity += $quantity;
-			if ($quantity < 0) $this->selled += -$quantity;
-			else $this->buyed += $quantity;
+			if ($record->getType() == 'sale') $this->selled += $record->getQuantity();
+			if ($record->getType() == 'purchas') $this->buyed += $record->getQuantity();
+			if ($record->getType() == 'return') $this->selled -= $record->getQuantity();
+			else return false;
+			$this->quantity += $record->getDiffQuantity();
 			return true;
 		}
 
-		return $this->buyOrSellVariant($variant, $quantity);
+		if ($record->getType() == 'return')
+			return $this->returnVariant($variant, $record->getQuantity())
+
+		return $this->buyOrSellVariant($variant, $record->getDiffQuantity());
 	}
 
 	public function newSizeItem($name)
@@ -1660,17 +1665,17 @@ class Product
 		return $record;
 	}
 
-	public function exportSaleRecord($variant = false, $quantity = 1)
+	public function exportSaleRecord($variant = false, $quantity = 0)
 	{
 		return $this->exportRecord('sale', $variant, $quantity);
 	}
 
-	public function exportPurchaseRecord($variant = false, $quantity = 1)
+	public function exportPurchaseRecord($variant = false, $quantity = 0)
 	{
 		return $this->exportRecord('purchas', $variant, $quantity);
 	}
 
-	public function exportReturnRecord($variant = false, $quantity = 1)
+	public function exportReturnRecord($variant = false, $quantity = 0)
 	{
 		return $this->exportRecord('return', $variant, $quantity);
 	}

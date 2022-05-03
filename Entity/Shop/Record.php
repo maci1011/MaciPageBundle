@@ -303,6 +303,7 @@ class Record
 
 	public function getDiffQuantity()
 	{
+		if ($this->type == 'unset') return 0;
 		if ($this->type == 'sale') return -$this->quantity;
 		return $this->quantity;
 	}

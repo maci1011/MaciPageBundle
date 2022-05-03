@@ -151,39 +151,37 @@ class RecordController extends AbstractController
 		foreach ($products as $product)
 		{
 			if (!$product->checkTotalQuantity())
-			{
 				array_push($errors, $product->getCode() . ' - ' . $product->getVariant());
 
-				$product->resetQuantity();
+			$product->resetQuantity();
 
-				$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
-					'code' => $product->getCode()
-				]);
+			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
+				'code' => $product->getCode()
+			]);
 
-				$label = $product->getCode() . ' - ' . $product->getVariant();
+			$label = $product->getCode() . ' - ' . $product->getVariant();
 
-				if (!count($list)) 
-				{
-					array_push($nor, $label);
-					continue;
-				}
-
-				foreach ($list as $record)
-				{
-					if (!$product->checkRecord($record)) continue;
-
-					$record->resetLoadedValue();
-
-					if ($product->loadRecord($record))
-						$loaded++;
-
-					if ($product->importRecord($record))
-						$imported++;
-				}
-
-				if (!$product->checkTotalQuantity())
-					array_push($nz, $label);
+			if (!count($list)) 
+			{
+				array_push($nor, $label);
+				continue;
 			}
+
+			foreach ($list as $record)
+			{
+				if (!$product->checkRecord($record)) continue;
+
+				$record->resetLoadedValue();
+
+				if ($product->loadRecord($record))
+					$loaded++;
+
+				if ($product->importRecord($record))
+					$imported++;
+			}
+
+			if (!$product->checkTotalQuantity())
+				array_push($nz, $label);
 		}
 
 		if ($cmd == 'reset_qta')
@@ -353,19 +351,23 @@ class RecordController extends AbstractController
 		switch ($type)
 		{
 			case 'sale':
-				$newRecord = $product->exportSaleRecord($record->getVariant());
+				$newRecord = $product->exportSaleRecord($record->getVariant(), 1);
 				break;
 
 			case 'return':
-				$newRecord = $product->exportReturnRecord($record->getVariant());
+				$newRecord = $product->exportReturnRecord($record->getVariant(), 1);
 				break;
 
 			case 'purchas':
-				$newRecord = $product->exportPurchaseRecord($record->getVariant());
+				$newRecord = $product->exportPurchaseRecord($record->getVariant(), 1);
 				break;
 
 			case 'quantity':
-				return new JsonResponse(['success' => true, 'variant' => $record->getVariantLabel(), 'quantity' => $product->getQuantity($record->getVariant())], 200);
+				return new JsonResponse([
+					'success' => true,
+					'variant' => $record->getVariantLabel(),
+					'quantity' => $product->getQuantity($record->getVariant())
+				], 200);
 				break;
 
 			default:
