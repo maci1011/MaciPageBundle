@@ -1566,7 +1566,7 @@ class Product
 		}
 
 		if ($record->getType() == 'return')
-			return $this->returnVariant($variant, $record->getQuantity())
+			return $this->returnVariant($variant, $record->getQuantity());
 
 		return $this->buyOrSellVariant($variant, $record->getDiffQuantity());
 	}
