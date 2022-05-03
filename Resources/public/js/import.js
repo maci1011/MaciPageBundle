@@ -143,29 +143,57 @@ var maciShopImport = function (options) {
 		if(s == -1) return;
 		var e = data.indexOf('</Table>') + 8;
 		data = $(data.substr(s, e - s));
-		var fields = [];
-		data.find('Row').first().find('Cell').each(function(i, el) {
-			if($(el).text().trim().length)
-				fields.push($(el).text().trim());
-		});
-		records = [];
-		data.find('Row').not(':first').each(function(ri, row) {
-			if($(row).find('Cell') < 2) return;
-			var rowdata = [];
-			$(row).find('Cell').each(function(i, el) {
-				if($(el).text().trim().length)
-					rowdata.push($(el).text().trim());
+
+		var fields = false, rows = data.find('Row'), records = [];
+		for (var i = 0; i < rows.length; i++)
+		{
+			var cells = rows.first().find('Cell');
+			rows = rows.not(':first');
+			if (cells.length < 4) continue;
+			fields = [];
+			cells.each(function(i, el)
+			{
+				if($(el).attr('ss:Index') == '1024') return;
+				fields.push(
+					$(el).text().trim().length ? $(el).text().trim() : 'field_' + i
+				);
 			});
-			if(rowdata.length != fields.length) return;
-			var dt = {};
-			for (var i = fields.length - 1; i >= 0; i--)
-				dt[fields[i]] = rowdata[i];
+			break;
+		}
+
+		if (!rows.length)
+		{
+			alert('No Data.');
+			return;
+		}
+
+		rows.each(function(ri, row)
+		{
+			if($(row).find('Cell').length < 4) return;
+
+			var index = 0, dt = {};
+
+			$(row).find('Cell').each(function(i, el)
+			{
+				ss = parseInt($(el).attr('ss:Index')) - 1;
+				if(ss == 1023) return;
+				if (-1 < ss && index < ss) index = ss;
+				while (fields.length <= index) fields.push('field_' + (fields.length - 1));
+				if($(el).text().trim().length)
+					dt[i + '-' + fields[index]] = $(el).text().trim();
+				index++;
+			});
+
+			dt['len'] = $(row).find('Cell').length;
+
 			records.push({
 				'type': 'purchas',
 				'import': dt
 			});
 		});
-		// console.log(records);
+
+		console.log(records);
+
 		if(confirm("Items to import: " + records.length + "."))
 			_obj.start();
 	},
