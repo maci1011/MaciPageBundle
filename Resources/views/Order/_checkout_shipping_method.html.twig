@@ -5,14 +5,22 @@
 
 {% elseif shipping == 'setted' %}
 
-<p class="shipping-label">{{ maci_orders.cartShippingLabel }}</p>
+<p class="shipping-label">
+	{{ ('shipping.method.' ~ order.shipping ~ '.label')|matra(maci_orders.cartShippingLabel) }}
+</p>
 
 {% set description = ('shipping.method.' ~ order.shipping ~ '.description')|matra('') %}
 {% if description|length %}
 <p class="shipping-description">{{ description }}</p>
 {% endif %}
 
-<p class="shipping-cost">{{ maci_orders.cartShippingCostLabel }}</p>
+<p class="shipping-cost">
+	{% if 0 < order.shippingCost %}
+	{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
+	{% else %}
+	{{ ('order.details.price-free') | matra('Free') }}
+	{% endif %}
+</p>
 
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'shipping'}) }}">
 	{{ 'edit' | matla('Edit') }}

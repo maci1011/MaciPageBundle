@@ -12,7 +12,13 @@
 <p class="payment-description">{{ description }}</p>
 {% endif %}
 
-<p class="payment-cost">{{ maci_orders.cartPaymentCostLabel }}</p>
+<p class="payment-cost">
+	{% if 0 < order.paymentCost %}
+	{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
+	{% else %}
+	{{ ('order.details.price-free') | matra('Free') }}
+	{% endif %}
+</p>
 
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'payment'}) }}">
 	{{ 'edit' | matla('Edit') }}
