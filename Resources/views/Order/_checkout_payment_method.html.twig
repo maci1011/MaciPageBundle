@@ -5,7 +5,15 @@
 
 {% elseif payment == 'setted' %}
 
-<p>{{ maci_orders.cartPaymentLabel }}</p>
+<p class="payment-label">{{ maci_orders.cartPaymentLabel }}</p>
+
+{% set description = ('payment.method.' ~ order.payment ~ '.description')|matra('') %}
+{% if description|length %}
+<p class="payment-description">{{ description }}</p>
+{% endif %}
+
+<p class="payment-cost">{{ maci_orders.cartPaymentCostLabel }}</p>
+
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'payment'}) }}">
 	{{ 'edit' | matla('Edit') }}
 </a>

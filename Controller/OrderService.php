@@ -519,24 +519,35 @@ class OrderService extends AbstractController
 
 	public function getPaymentLabel($payment)
 	{
-		$label = $payment['label'];
-		if ($payment['cost']) {
-			$label .= ' | ' . number_format($payment['cost'], 2, '.', ',') . ' €';
-		}
-		return $label;
+		return $payment['label'];
 	}
 
-	public function getCartPaymentLabel()
+	public function getPaymentCostLabel($payment)
+	{
+		return $payment['cost'] ? number_format($payment['cost'], 2, '.', ',') . ' €' : 'Free';
+	}
+
+	public function getPaymentLabelById($id, $f = 'getPaymentLabel')
+	{
+		return array_key_exists($id, $this->configs['payments']) ? $this->$f($this->configs['payments'][$id]) : null;
+	}
+
+	public function getPaymentCostLabelById($id)
+	{
+		return $this->getPaymentLabelById($id, 'getPaymentCostLabel');
+	}
+
+	public function getCartPaymentLabel($f = 'getPaymentLabelById')
 	{
 		if(!$this->cart->getPayment()) {
 			return null;
 		}
-		return $this->getPaymentLabelById($this->cart->getPayment());
+		return $this->$f($this->cart->getPayment());
 	}
 
-	public function getPaymentLabelById($id)
+	public function getCartPaymentCostLabel()
 	{
-		return array_key_exists($id, $this->configs['payments']) ? $this->getPaymentLabel($this->configs['payments'][$id]) : null;
+		return $this->getCartPaymentLabel('getPaymentCostLabelById');
 	}
 
 	public function getCouriersArray()
@@ -570,13 +581,33 @@ class OrderService extends AbstractController
 
 	public function getShippingLabel($shipping)
 	{
-		return $shipping['label'] . ' | ' . Countries::getName($shipping['country']) . (0 < $shipping['cost'] ? ' | ' . number_format($shipping['cost'], 2, '.', ',') . ' €' : '');
+		return $shipping['label'];
 	}
 
-	public function getShippingLabelById($id)
+	public function getShippingCountryLabel($shipping)
+	{
+		return Countries::getName($shipping['country']);
+	}
+
+	public function getShippingCostLabel($shipping)
+	{
+		return (0 < $shipping['cost'] ? number_format($shipping['cost'], 2, '.', ',') . ' €' : 'Free');
+	}
+
+	public function getShippingLabelById($id, $f = 'getShippingLabel')
 	{
 		$this->getShippingsArray();
-		return array_key_exists($id, $this->shippings) ? $this->getShippingLabel($this->shippings[$id]) : null;
+		return array_key_exists($id, $this->shippings) ? $this->$f($this->shippings[$id]) : null;
+	}
+
+	public function getShippingCountryLabelById($id)
+	{
+		return $this->getShippingLabelById($id, 'getShippingCountryLabel');
+	}
+
+	public function getShippingCostLabelById($id)
+	{
+		return $this->getShippingLabelById($id, 'getShippingCostLabel');
 	}
 
 	public function getShippingChoices()
@@ -643,12 +674,11 @@ class OrderService extends AbstractController
 		return false;
 	}
 
-	public function getCartShippingLabel()
+	public function getCartShippingLabel($f = 'getShippingLabelById')
 	{
 		$this->getCurrentCart();
-		if($this->cart->getShipping()) {
-			return $this->getShippingLabelById($this->cart->getShipping());
-		}
+		if($this->cart->getShipping())
+			return $this->$f($this->cart->getShipping());
 		return null;
 	}
 
@@ -659,6 +689,16 @@ class OrderService extends AbstractController
 			return $item['country'];
 		}
 		return false;
+	}
+
+	public function getCartShippingCountryLabel()
+	{
+		return $this->getCartShippingLabel('getShippingCountryLabelById');
+	}
+
+	public function getCartShippingCostLabel()
+	{
+		return $this->getCartShippingLabel('getShippingCostLabelById');
 	}
 
 	public function getCartShippingCourier()
