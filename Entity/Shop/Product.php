@@ -358,7 +358,7 @@ class Product
 
 	public function setNewPrice($price)
 	{
-		$this->price = (intval(floatval($price) * 0.26) + 1) * 10;
+		$this->price = (intval(floatval($price) * 0.28) + 1) * 10;
 
 		return $this;
 	}
