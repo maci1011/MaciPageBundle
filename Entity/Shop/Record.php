@@ -114,7 +114,8 @@ class Record
 			'Unset' => 'unset',
 			'Purchase' => 'purchas',
 			'Sale' => 'sale',
-			'Return' => 'return'
+			'Customer Return' => 'return',
+			'Supplier Return' => 'back'
 		];
 	}
 

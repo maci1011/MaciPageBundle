@@ -346,21 +346,26 @@ class RecordController extends AbstractController
 		}
 
 		$type = $request->get('type');
+		$quantiy = intval($request->get('quantity', 1));
 		$newRecord = false;
 
 		switch ($type)
 		{
 			case 'sale':
-				$newRecord = $product->exportSaleRecord($record->getVariant(), 1);
+				$newRecord = $product->exportSaleRecord($record->getVariant(), $quantiy);
 				break;
 
 			case 'return':
-				$newRecord = $product->exportReturnRecord($record->getVariant(), 1);
+				$newRecord = $product->exportReturnRecord($record->getVariant(), $quantiy);
 				break;
 
-			case 'purchas':
-				$newRecord = $product->exportPurchaseRecord($record->getVariant(), 1);
+			case 'back':
+				$newRecord = $product->exportBackRecord($record->getVariant(), $quantiy);
 				break;
+
+			// case 'purchas':
+			// 	$newRecord = $product->exportPurchaseRecord($record->getVariant(), $quantiy);
+			// 	break;
 
 			case 'quantity':
 				return new JsonResponse([

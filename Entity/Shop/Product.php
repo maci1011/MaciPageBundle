@@ -1530,6 +1530,11 @@ class Product
 		return $this->setVariantItem($variant, 'buyed', $quantity);
 	}
 
+	public function backVariant($variant, $quantity)
+	{
+		return $this->setVariantItem($variant, 'buyed', -$quantity);
+	}
+
 	public function sellVariant($variant, $quantity)
 	{
 		return $this->setVariantItem($variant, 'selled', -$quantity, false);
@@ -1567,6 +1572,9 @@ class Product
 
 		if ($record->getType() == 'return')
 			return $this->returnVariant($variant, $record->getQuantity());
+
+		if ($record->getType() == 'back')
+			return $this->backVariant($variant, $record->getQuantity());
 
 		return $this->buyOrSellVariant($variant, $record->getDiffQuantity());
 	}
@@ -1649,7 +1657,7 @@ class Product
 		return $record;
 	}
 
-	public function exportRecord($type, $variant = false, $quantity = 1)
+	public function exportRecord($type, $variant = false, $quantity = 0)
 	{
 		if (!in_array($type, Record::getTypes())) return false;
 
@@ -1678,6 +1686,11 @@ class Product
 	public function exportReturnRecord($variant = false, $quantity = 0)
 	{
 		return $this->exportRecord('return', $variant, $quantity);
+	}
+
+	public function exportBackRecord($variant = false, $quantity = 0)
+	{
+		return $this->exportRecord('back', $variant, $quantity);
 	}
 
 	/**

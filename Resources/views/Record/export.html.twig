@@ -13,14 +13,25 @@
 	<label class="required" for="sales_type">Type</label>
 	<select id="sales_type" class="form-control">
 		<option value="sale">Sale</option>
-		<option value="return">Return</option>
+		<option value="return">Customer Return</option>
+		<option value="back">Supplier Return</option>
 		{#}<option value="purchas">Purchase</option>{#}
 		<option value="quantity">Show Quantity</option>
 	</select>
 </div>
+<div class="row">
+<div class="col-12 col-sm-3">
 <div class="form-group">
-	<label class="required" for="data_barcode">Insert Barcode</label>
-	<input id="data-barcode" class="form-control" type="text" />
+	<label class="required" for="data_quantity">Quantity</label>
+	<input id="data_quantity" class="form-control" type="number" value="1" />
+</div>
+</div>
+<div class="col-12 col-sm-9">
+<div class="form-group">
+	<label class="required" for="data_barcode">Barcode</label>
+	<input id="data_barcode" class="form-control" type="text" />
+</div>
+</div>
 </div>
 <div class="form-group">
 	{#}<button id="sales_submit" class="btn btn-primary" type="submit">sales</button>{#}

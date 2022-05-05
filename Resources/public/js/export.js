@@ -3,7 +3,7 @@
 
 var maciShopExport = function (options) {
 
-	var form, setInput, typeInput, barcodeInput, wrapper, alertNode,
+	var form, setInput, typeInput, barcodeInput, qtaInput, wrapper, alertNode,
 
 	_obj = {
 
@@ -60,6 +60,7 @@ var maciShopExport = function (options) {
 			type: 'POST',
 			data: {
 				'barcode': barcodeInput.val().trim(),
+				'quantity': qtaInput.val(),
 				'type': typeInput.val()
 			},
 			url: '/record/export-record',
@@ -73,7 +74,7 @@ var maciShopExport = function (options) {
 	showAlert: function(data) {
 		if (!alertNode)
 			alertNode = $("<div/>").addClass('alert alert-info mt-2')
-				.css('marginTop', '16px').appendTo(barcodeInput.parent())
+				.css('marginTop', '16px').appendTo(barcodeInput.parents('form').first())
 				.click(function(e) {
 					alertNode.remove();
 					alertNode = false;
@@ -95,9 +96,9 @@ var maciShopExport = function (options) {
 
 	toggleBarcode: function() {
 		if (_obj.check())
-			barcodeInput.parent().hide();
+			barcodeInput.parents('.row').first().hide();
 		else
-			barcodeInput.parent().show();
+			barcodeInput.parents('.row').first().show();
 	},
 
 	set: function(_form) {
@@ -106,7 +107,8 @@ var maciShopExport = function (options) {
 		form = _form;
 		setInput = form.find('#sales_set');
 		typeInput = form.find("#sales_type");
-		barcodeInput = form.find("#data-barcode");
+		qtaInput = form.find("#data_quantity");
+		barcodeInput = form.find("#data_barcode");
 		form.submit(function(e) {
 			e.preventDefault();
 		});
