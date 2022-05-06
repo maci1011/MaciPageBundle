@@ -151,7 +151,7 @@ class OrderController extends AbstractController
 
 		}
 		// else {
-		// 	return $this->redirect($this->generateUrl('maci_product_show', ['path' => 'error' => 'error.formIsNotValid']));
+		//  return $this->redirect($this->generateUrl('maci_product_show', ['path' => 'error' => 'error.formIsNotValid']));
 		// }
 
 		return $this->render('MaciPageBundle:Order:_order_cart_add_product.html.twig', array(
@@ -294,10 +294,14 @@ class OrderController extends AbstractController
 
 		if ($set) {
 			$checkout['confirm'] = 'toset';
+			$checkout['confirm_form'] = false;
 		} else {
 			$checkout['confirm'] = 'set';
-			$form = $this->createForm(CheckoutConfirmType::class, $cart);
-			$checkout['confirm_form'] = $form->createView();
+			$checkout['confirm_form'] = $this->createForm(CheckoutConfirmType::class, [], [
+				'action' => $this->generateUrl('maci_order_checkout_confirm'),
+				'status' => $cart->getStatus(),
+				'env' => $this->get('kernel')->getEnvironment()
+			])->createView();
 		}
 
 		$checkout['order'] = $cart;
@@ -334,15 +338,15 @@ class OrderController extends AbstractController
 			$payments = $this->get('maci.orders')->getPaymentsArray();
 			$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
 			if ( $form->has('shipping') ) {
-				$this->get('maci.orders')->setCartShipping( $form['shipping']->getData() );
+				$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
 			}
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'checkout')));
+			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'checkout']));
 		}
 
-		return $this->render('MaciPageBundle:Order:_order_cart_checkout.html.twig', array(
+		return $this->render('MaciPageBundle:Order:_order_cart_checkout.html.twig', [
 			'checkout' => $checkout,
 			'form' => $form->createView()
-		));
+		]);
 	}
 
 	public function cartSetMailAction(Request $request)
@@ -352,13 +356,13 @@ class OrderController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->get('maci.orders')->setCartMail( $form['mail']->getData() );
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'mail')));
+			$this->get('maci.orders')->setCartMail($form['mail']->getData());
+			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'mail']));
 		}
 
-		return $this->render('MaciPageBundle:Order:_order_mail.html.twig', array(
+		return $this->render('MaciPageBundle:Order:_order_mail.html.twig', [
 			'form' => $form->createView()
-		));
+		]);
 	}
 
 	public function cartSetPaymentAction(Request $request)
@@ -371,7 +375,7 @@ class OrderController extends AbstractController
 			$payments = $this->get('maci.orders')->getPaymentsArray();
 			$payment = $form['payment']->getData();
 			$this->get('maci.orders')->setCartPayment($payment, $payments[$payment]['cost']);
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'payment')));
+			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'payment')));
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_checkout_payment.html.twig', array(
@@ -433,12 +437,14 @@ class OrderController extends AbstractController
 	{
 		$cart = $this->get('maci.orders')->getCurrentCart();
 
-		$form = $this->createForm(CheckoutConfirmType::class, $cart);
+		$form = $this->createForm(CheckoutConfirmType::class, [], [
+			'env' => $this->get('kernel')->getEnvironment()
+		]);
+
 		$form->handleRequest($request);
 
-		// if ($form->isSubmitted() && $form->isValid()) {
-		//     return $this->redirect($this->generateUrl();
-		// }
+		if (!$form->isSubmitted() && !$form->isValid())
+			return $this->redirect($this->generateUrl('maci_order_gocheckout'));
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
 

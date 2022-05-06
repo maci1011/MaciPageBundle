@@ -15,28 +15,29 @@ class CheckoutConfirmType extends AbstractType
 {
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(array(
-			'recaptcha' => false
-		));
-
-		$resolver->setAllowedTypes('recaptcha', 'bool');
+		$resolver->setDefaults([
+			'action' => '#',
+			'status' => 'session',
+			'env' => 'prod'
+		]);
 	}
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-	    if($options['recaptcha'] === true) {
+		if($options['env'] === "prod" && $options['status'] === "session") {
 			$builder->add('recaptcha', EWZRecaptchaType::class, array(
-		    	'label_attr'  => array('class'=> 'sr-only'),
-		        'mapped'      => false,
+				'label_attr'  => array('class'=> 'sr-only'),
+				'mapped'      => false,
 				'constraints' => array(
-				    new RecaptchaTrue()
+					new RecaptchaTrue()
 				)
-		    ));
+			));
 		}
 
 		$builder
+			->setAction($options['action'])
 			->add('confirm', SubmitType::class, [
-				'label' => 'Confirm',
+				'label' => 'Place Order',
 				'attr' => ['class' => 'btn btn-primary']
 			])
 		;

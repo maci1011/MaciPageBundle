@@ -53,20 +53,28 @@
 
 </div>
 </div>{# end row #}
+
 <div class="row confirm last">
 <div class="col-12">
 
-
+{% if confirm_form %}
 <div class="checkout-content {{ payment }}">
 
 	<h4>{{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
-	<p id="checkout_confirm_text">{{ 'page.checkout.confirm_text' | matra('') }}</p>
-	<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
+
+	{% set confirm_text = 'page.checkout.confirm_text' | matra('') %}
+	{% if confirm_text|length %}
+	<p id="checkout_confirm_text">{{ confirm_text }}</p>
+	{% endif %}
+
+	{{ form(confirm_form) }}
+
+	{#}<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
 		{{ 'page.checkout.place-order' | matra('Place Order') }}
-	</a>
+	</a>{#}
 
 </div>
-
+{% endif %}
 
 </div>
 </div>

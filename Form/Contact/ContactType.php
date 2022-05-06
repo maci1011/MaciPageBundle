@@ -36,36 +36,36 @@ class ContactType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-            ->add('name')
-            ->add('surname', null, array('required' => false))
-            ->add('email', EmailType::class, array(
-	            'constraints' => new Email(array(
-	            	'message' => 'Insert your Email'
-	            ))
-	        ))
-            ->add('media', FileType::class, array('mapped' => false, 'required' => false))
-            ->add('message', TextareaType::class)
-            ->add('privacy', CheckboxType::class, array(
-            	'mapped' => false,
-	            'constraints' => new IsTrue(array(
-	            	'message' => 'Please accept the Terms and Conditions'
-	            ))
-	        ))
-	    ;
+			->add('name')
+			->add('surname', null, array('required' => false))
+			->add('email', EmailType::class, array(
+				'constraints' => new Email(array(
+					'message' => 'Insert your Email'
+				))
+			))
+			->add('media', FileType::class, array('mapped' => false, 'required' => false))
+			->add('message', TextareaType::class)
+			->add('privacy', CheckboxType::class, array(
+				'mapped' => false,
+				'constraints' => new IsTrue(array(
+					'message' => 'Please accept the Terms and Conditions'
+				))
+			))
+		;
 
-	    if($options['env'] === "prod") {
+		if($options['env'] === "prod") {
 			$builder->add('recaptcha', EWZRecaptchaType::class, array(
-		    	'label_attr'  => array('class'=> 'sr-only'),
-		        'mapped'      => false,
+				'label_attr'  => array('class'=> 'sr-only'),
+				'mapped'      => false,
 				'constraints' => array(
-				    new RecaptchaTrue()
+					new RecaptchaTrue()
 				)
-		    ));
+			));
 		}
 
 		$builder
-            ->add('cancel', ResetType::class)
-            ->add('send', SubmitType::class)
+			->add('cancel', ResetType::class)
+			->add('send', SubmitType::class)
 		;
 	}
 
