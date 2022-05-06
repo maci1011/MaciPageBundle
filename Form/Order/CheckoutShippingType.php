@@ -31,6 +31,7 @@ class CheckoutShippingType extends AbstractType
 	{
 		$builder
 			->add('shipping', ChoiceType::class, [
+				'label' => 'Shipping Method',
                 'choices' => $this->orders->getShippingChoices(),
 	            'preferred_choices' => (is_string($str = $this->orders->getCartShippingCountry()) ? array($str) : array()),
                 'expanded' => true

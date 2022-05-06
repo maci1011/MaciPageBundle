@@ -337,9 +337,8 @@ class OrderController extends AbstractController
 			$payment = $form['payment']->getData();
 			$payments = $this->get('maci.orders')->getPaymentsArray();
 			$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
-			if ( $form->has('shipping') ) {
+			if ( $form->has('shipping') )
 				$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
-			}
 			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'checkout']));
 		}
 
@@ -355,7 +354,8 @@ class OrderController extends AbstractController
 		$form = $this->createForm(MailType::class, $cart);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$this->get('maci.orders')->setCartMail($form['mail']->getData());
 			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'mail']));
 		}
@@ -371,7 +371,8 @@ class OrderController extends AbstractController
 		$form = $this->createForm(CheckoutPaymentType::class, $cart);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$payments = $this->get('maci.orders')->getPaymentsArray();
 			$payment = $form['payment']->getData();
 			$this->get('maci.orders')->setCartPayment($payment, $payments[$payment]['cost']);
@@ -389,7 +390,8 @@ class OrderController extends AbstractController
 		$form = $this->createForm(CheckoutShippingType::class, $cart);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
 			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'shipping')));
 		}
@@ -405,7 +407,8 @@ class OrderController extends AbstractController
 		$form = $this->createForm(CartBillingAddressType::class, $cart);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$address = $this->get('maci.addresses')->getAddress($form['billing_address']->getData());
 			$this->get('maci.orders')->setCartBillingAddress($address);
 			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'billing')));
@@ -422,7 +425,8 @@ class OrderController extends AbstractController
 		$form = $this->createForm(CartShippingAddressType::class, $cart);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$address = $this->get('maci.addresses')->getAddress($form['shipping_address']->getData());
 			$this->get('maci.orders')->setCartShippingAddress($address);
 			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'shipping')));

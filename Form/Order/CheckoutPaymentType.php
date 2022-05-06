@@ -31,6 +31,7 @@ class CheckoutPaymentType extends AbstractType
 	{
 		$builder
 			->add('payment', ChoiceType::class, [
+				'label' => 'Payment Method',
                 'choices' => $this->orders->getPaymentChoices(),
                 'expanded' => true
             ])
