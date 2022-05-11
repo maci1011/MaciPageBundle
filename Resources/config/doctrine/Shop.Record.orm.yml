@@ -22,6 +22,7 @@ Maci\PageBundle\Entity\Shop\Record:
         brand:
             type: string
             length: 15
+            nullable: true
         category:
             type: string
             length: 15

@@ -345,8 +345,10 @@ class Record
 		foreach($data as $key => $value) {
 			switch ($key) {
 				case 'Articolo':
+				case 'Cod.art.':
 					$this->code = $value;
 					break;
+				case 'Barcode':
 				case 'BARCODE13':
 					$this->barcode = $value;
 					break;
@@ -354,13 +356,16 @@ class Record
 					$this->brand = $value;
 					break;
 				case 'Descr.Cat.Mer.':
+				case 'Descrizione':
 					$this->category = $value;
 					break;
+				case 'Prezzo':
 				case 'Prz.Lordo':
 				case 'Uni:XXEUR025':
 					$this->price = $value;
 					break;
 				case 'Quantità':
+				case 'Q.tà':
 					$this->quantity = floatval($value);
 					break;
 				default:
@@ -388,28 +393,38 @@ class Record
 	public function getImportedLocale()
 	{
 		if (!$this->getImported()) return false;
-		if (array_key_exists('M.In', $this->data['imported'])) return strtolower($this->data['imported']['M.In']);
+		if (array_key_exists('Locale', $this->data['imported']))
+			return strtolower($this->data['imported']['Locale']);
 		return false;
 	}
 
 	public function getImportedCurrency()
 	{
 		if (!$this->getImported()) return null;
-		if (array_key_exists('Uni:XXEUR025', $this->data['imported'])) return 'EUR';
+		if (array_key_exists('Uni:XXEUR025', $this->data['imported']))
+			return 'EUR';
 		return null;
 	}
 
 	public function getImportedComposition()
 	{
 		if (!$this->getImported()) return null;
-		if (array_key_exists('Composizione', $this->data['imported'])) return $this->data['imported']['Composizione'];
+		if (array_key_exists('Composizione', $this->data['imported']))
+			return $this->data['imported']['Composizione'];
 		return null;
 	}
 
 	public function getImportedPrice()
 	{
 		if (!$this->getImported()) return null;
-		if (array_key_exists('Uni:XXEUR025', $this->data['imported'])) return number_format(floatval($this->data['imported']['Uni:XXEUR025']), 2);
+		if (array_key_exists('Uni:XXEUR025', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Uni:XXEUR025']), 2);
+		if (array_key_exists('Prz.Lordo', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Prz.Lordo']), 2);
+		if (array_key_exists('Prezzo', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Prezzo']), 2);
+		if (array_key_exists('Price', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Price']), 2);
 		return null;
 	}
 
@@ -421,7 +436,12 @@ class Record
 	public function getImportedTotal()
 	{
 		if (!$this->getImported()) return null;
-		if (array_key_exists('Tot:XXEUR025', $this->data['imported'])) return number_format(floatval($this->data['imported']['Tot:XXEUR025']), 2);
+		if (array_key_exists('Tot:XXEUR025', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Tot:XXEUR025']), 2);
+		if (array_key_exists('Valore', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Valore']), 2);
+		if (array_key_exists('Amount', $this->data['imported']))
+			return number_format(floatval($this->data['imported']['Amount']), 2);
 		return null;
 	}
 
@@ -432,7 +452,8 @@ class Record
 
 	public function getVariant()
 	{
-		if (!$this->hasVariant()) return ['type' => 'unset'];
+		if (!$this->hasVariant())
+			return ['type' => 'unset'];
 		return $this->data['variant'];
 	}
 
@@ -443,6 +464,12 @@ class Record
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Descr.Colore'];
+			$variant['name'] = $data['Tgl'];
+		}
+		else if(array_key_exists('Colore', $data))
+		{
+			$variant['type'] = 'color-n-size';
+			$variant['color'] = $data['Colore'];
 			$variant['name'] = $data['Tgl'];
 		}
 		else if(array_key_exists('type', $data)) $variant = $data;
