@@ -218,7 +218,8 @@ class OrderController extends AbstractController
 
 	public function cartCheckoutAction(Request $request)
 	{
-		$cart = $this->get('maci.orders')->getCurrentCart();
+		$orders = $this->get('maci.orders');
+		$cart = $orders->getCurrentCart();
 
 		if (!$cart)
 			return $this->redirect($this->generateUrl('maci_order_cart'));
@@ -241,49 +242,23 @@ class OrderController extends AbstractController
 		$edit = $request->get('checkout');
 		$set = false;
 
-		if ($cart->getBillingAddress() && $edit !== 'billingAddress') {
+		if ($cart->getBillingAddress() && $edit !== 'billingAddress')
 			$checkout['billingAddress'] = 'setted';
-		} else {
-			if ($set) {
+		else
+		{
+			if ($set)
 				$checkout['billingAddress'] = 'toset';
-			} else {
+			else
+			{
 				$checkout['billingAddress'] = 'set';
 				$set = true;
 			}
 		}
 
-		if ($cart->checkShipment()) {
-
-			if ($cart->getShippingAddress() && $edit !== 'shippingAddress') {
-				$checkout['shippingAddress'] = 'setted';
-			} else {
-				if ($set) {
-					$checkout['shippingAddress'] = 'toset';
-				} else {
-					$checkout['shippingAddress'] = 'set';
-					$set = true;
-				}
-			}
-
-			if ($cart->getShipping() && $edit !== 'shipping') {
-				$checkout['shipping'] = 'setted';
-			} else {
-				if ($set) {
-					$checkout['shipping'] = 'toset';
-				} else {
-					$checkout['shipping'] = 'set';
-					$set = true;
-				}
-			}
-
-		} else {
-			$checkout['shippingAddress'] = false;
-			$checkout['shipping'] = false;
-		}
-
-		if ($cart->getPayment() && $edit !== 'payment') {
+		if ($cart->getPayment() && $edit !== 'payment')
 			$checkout['payment'] = 'setted';
-		} else {
+		else
+		{
 			if ($set) {
 				$checkout['payment'] = 'toset';
 			} else {
@@ -292,10 +267,49 @@ class OrderController extends AbstractController
 			}
 		}
 
-		if ($set) {
+		$payment = $orders->getCartPaymentItem();
+
+		if ($payment && $payment['shipping'] && $cart->checkShipment())
+		{
+			if ($cart->getShipping() && $edit !== 'shipping')
+				$checkout['shipping'] = 'setted';
+			else
+			{
+				if ($set)
+					$checkout['shipping'] = 'toset';
+				else
+				{
+					$checkout['shipping'] = 'set';
+					$set = true;
+				}
+			}
+
+			if ($cart->getShippingAddress() && $edit !== 'shippingAddress')
+				$checkout['shippingAddress'] = 'setted';
+			else
+			{
+				if ($set)
+					$checkout['shippingAddress'] = 'toset';
+				else
+				{
+					$checkout['shippingAddress'] = 'set';
+					$set = true;
+				}
+			}
+		}
+		else
+		{
+			$checkout['shippingAddress'] = false;
+			$checkout['shipping'] = false;
+		}
+
+		if ($set)
+		{
 			$checkout['confirm'] = 'toset';
 			$checkout['confirm_form'] = false;
-		} else {
+		}
+		else
+		{
 			$checkout['confirm'] = 'set';
 			$checkout['confirm_form'] = $this->createForm(CheckoutConfirmType::class, [], [
 				'action' => $this->generateUrl('maci_order_checkout_confirm'),
@@ -307,8 +321,8 @@ class OrderController extends AbstractController
 		$checkout['order'] = $cart;
 		$checkout['checkout'] = true;
 
-		$this->get('maci.orders')->setCartLocale($request->getLocale());
-		$this->get('maci.orders')->refreshCartAmount();
+		$orders->setCartLocale($request->getLocale());
+		$orders->refreshCartAmount();
 
 		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', $checkout);
 	}

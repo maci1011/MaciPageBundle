@@ -1,4 +1,6 @@
 
+{% if form and form.payment is defined %}
+
 <div class="checkoutFormWrapper">
 <form class="maci_order_checkout_payment" action="{{ path('maci_order_checkout_set_payment') }}" method="post">
 
@@ -20,3 +22,12 @@
 
 </form>
 </div>
+
+{% else %}
+
+<p class="checkout-error">
+	{{ 'checkout.no-payments'|matra('Payment Methods not Availables.') }}<br/>
+	{{ 'checkout.contact-us-to-resolve'|matra('We\'re sorry for the inconvenience. Contact us to resolve the problem.') }}
+</p>
+
+{% endif %}

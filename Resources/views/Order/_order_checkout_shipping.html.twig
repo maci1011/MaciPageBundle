@@ -1,4 +1,6 @@
 
+{% if form and form.shipping is defined %}
+
 <div class="checkoutFormWrapper">
 <form class="maci_order_checkout_shipping" action="{{ path('maci_order_checkout_set_shipping') }}" method="post">
 
@@ -20,3 +22,12 @@
 
 </form>
 </div>
+
+{% else %}
+
+<p class="checkout-error">
+	{{ 'checkout.no-shippings'|matra('Shipping Methods not Availables.') }}<br/>
+	{{ 'checkout.contact-us-to-resolve'|matra('We\'re sorry for the inconvenience. Contact us to resolve the problem.') }}
+</p>
+
+{% endif %}

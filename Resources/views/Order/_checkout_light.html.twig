@@ -24,6 +24,14 @@
 {% endif %}{# --- End Billing Address ---  #}
 
 
+{% if payment == 'set' %}{# --- Payment ---  #}
+<section id="payment" class="checkout-content {{ payment }}">
+	<h4>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
+</section>
+{% endif %}{# --- End Payment ---  #}
+
+
 {% if shippingAddress == 'set' %}{# --- Shipping Address ---  #}
 <section id="shippingAddress" class="checkout-content {{ shippingAddress }}">
 	<h4>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
@@ -38,14 +46,6 @@
 	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 </section>
 {% endif %}{# --- End Shipping Method ---  #}
-
-
-{% if payment == 'set' %}{# --- Payment ---  #}
-<section id="payment" class="checkout-content {{ payment }}">
-	<h4>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
-	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
-</section>
-{% endif %}{# --- End Payment ---  #}
 
 
 {% if confirm == 'set' %}{# --- Confirm ---  #}

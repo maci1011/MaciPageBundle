@@ -509,11 +509,11 @@ class OrderService extends AbstractController
 	public function getPaymentChoices()
 	{
 		$choices = array();
-		foreach ($this->getCartShippingPayments() as $name => $value) {
-			if(!$value['sandbox'] || ($value['sandbox'] && $this->kernel->getEnvironment() == "dev")) {
+		$payments = $this->getCartShippingPayments();
+		if (!$payments) return [];
+		foreach ($payments as $name => $value)
+			if(!$value['sandbox'] || ($value['sandbox'] && $this->kernel->getEnvironment() == "dev"))
 				$choices[$this->getPaymentLabel($value)] = $name;
-			}
-		}
 		return $choices;
 	}
 
@@ -552,7 +552,7 @@ class OrderService extends AbstractController
 
 	public function getCouriersArray()
 	{
-		return $this->configs['couriers'];
+		return $this->configs['shippings'];
 	}
 
 	public function getShippingsArray()
@@ -713,21 +713,25 @@ class OrderService extends AbstractController
 	public function getCartShippingPayments()
 	{
 		$item = $this->getCartShippingItem();
+		if (!$item) return false;
+
 		$courier = $this->getCouriersArray()[$item['courier']];
-		if(!array_key_exists('payments', $courier)) {
-			return [];
-		}
-		if(in_array('all', $courier['payments'])) {
+
+		if(in_array('all', $courier['payments']))
 			return $this->getPaymentsArray();
-		}
-		$return = [];
+
+		$list = [];
 		$paymentNames = array_keys($this->getPaymentsArray());
-		foreach ($courier['payments'] as $key => $value) {
-			if (in_array($value, $paymentNames)) {
-				$return[$value] = $this->getPaymentsArray()[$value];
-			}
-		}
-		return $return;
+
+		foreach ($courier['payments'] as $key => $value)
+			if (in_array($value, $paymentNames))
+				$list[$value] = $this->getPaymentsArray()[$value];
+
+		return $list;
+	}
+
+	public function getAvailableCountries()
+	{
 	}
 
 	public function getAvailableCountries()
