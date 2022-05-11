@@ -6,13 +6,22 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductRepository extends EntityRepository
 {
+	public function getLatestProducts($max)
+	{
+		$query = $this->createQueryBuilder('p');
+		$this->addProductFilters($query);
+		$query = $query->setMaxResults($max);
+
+		return $query->getQuery()->getResult();
+	}
+
 	public function getList()
 	{
 		$query = $this->createQueryBuilder('p');
 		$this->addProductFilters($query);
-		$query = $query->setMaxResults(60)->getQuery();
+		$query = $query->setMaxResults(60);
 
-		return $query->getResult();
+		return $query->getQuery()->getResult();
 	}
 
 	public function getByPath($path)
@@ -21,9 +30,8 @@ class ProductRepository extends EntityRepository
 			->where('p.path = :path')
 			->setParameter(':path', $path);
 		$this->addProductFilters($query);
-		$query = $query->getQuery();
 
-		return $query->getOneOrNullResult();
+		return $query->getQuery()->getOneOrNullResult();
 	}
 
 	public function getByCategory($category)
@@ -34,16 +42,15 @@ class ProductRepository extends EntityRepository
 			->where('c.id = :id')
 			->setParameter(':id', $category->getId());
 		$this->addProductFilters($query);
-		$query = $query->getQuery();
 
-		return $query->getResult();
+		return $query->getQuery()->getResult();
 	}
 
 	public static function addProductFilters($query)
 	{
 		$query = $query->andWhere('p.public = true')
 			->andWhere('p.removed = false')
-			->orderBy('p.position');
+			->orderBy('p.updated', 'DESC');
 	}
 
 	public function search($request)
@@ -57,9 +64,8 @@ class ProductRepository extends EntityRepository
 			->andWhere('p.locale = :locale')
 			->setParameter(':query', "%$query%")
 			->setParameter(':locale', $locale)
-			->getQuery()
 		;
 
-		return $search->getResult();
+		return $search->getQuery()->getResult();
 	}
 }

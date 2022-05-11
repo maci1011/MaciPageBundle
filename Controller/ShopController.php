@@ -102,4 +102,12 @@ class ShopController extends AbstractController
 
 		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
 	}
+
+	public function lastProductsAction(Request $request)
+	{
+		return $this->render('@MaciPage/Shop/last_products.html.twig', array(
+			'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
+				->getLatestProducts(4)
+		));
+	}
 }

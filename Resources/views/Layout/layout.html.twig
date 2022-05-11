@@ -78,9 +78,10 @@
 
 
 	{% block flashBag %}
-	{% if app.request.hasPreviousSession %}
-	<div id="flashBagWrapper" class="container p-0">
-	{% for type, messages in app.session.flashbag.all() %}
+	{% set flashList = app.session.flashbag.all() %}
+	{% if flashList|length %}
+	<div id="flashBagWrapper" class="container">
+	{% for type, messages in flashList %}
 		{% for message in messages %}
 		<div class="alert alert-{{ type }}">
 			{{ message|matra(message) }}

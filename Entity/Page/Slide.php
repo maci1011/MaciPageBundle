@@ -181,6 +181,7 @@ class Slide
 			'Text - Text Only' => 'text_only',
 			'Text - Text Only Full' => 'text_only_full',
 			'Blog - Last Posts' => 'last_posts',
+			'Shop - Last Products' => 'last_products',
 			'Company' => 'company',
 			'Contacts - Contact Info' => 'contact_info',
 			'Contacts - Contact Form' => 'contact_form',

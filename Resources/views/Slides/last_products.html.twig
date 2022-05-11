@@ -1,0 +1,19 @@
+
+<div id="slide-{{ loop.index0 }}" class="slide fix_height {{ item.type }} {% if loop.index is even %}even{% else %}odd{% endif %}">
+<div class="slide-wrapper">
+
+	<div class="slide-caption container">
+
+		{% include "MaciPageBundle:Slides:_slide_caption_header.html.twig" %}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_content.html.twig" %}
+
+		{{ render(controller('MaciPageBundle:Shop:lastProducts' )) }}
+
+		{% include "MaciPageBundle:Slides:_slide_caption_btn_next_in.html.twig" %}
+
+	</div>
+
+</div>
+</div>
+
