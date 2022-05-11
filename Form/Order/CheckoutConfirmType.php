@@ -24,7 +24,7 @@ class CheckoutConfirmType extends AbstractType
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		if($options['env'] === "prod" && $options['status'] === "session") {
+		if($options['env'] === "prod" && $options['status'] === "session")
 			$builder->add('recaptcha', EWZRecaptchaType::class, array(
 				'label_attr'  => array('class'=> 'sr-only'),
 				'mapped'      => false,
@@ -32,7 +32,6 @@ class CheckoutConfirmType extends AbstractType
 					new RecaptchaTrue()
 				)
 			));
-		}
 
 		$builder
 			->setAction($options['action'])
