@@ -156,8 +156,10 @@ var maciShopImport = function (options) {
 			cells.each(function(i, el)
 			{
 				if($(el).attr('ss:Index') == '1024') return;
+				ss = parseInt($(el).attr('ss:Index')) - 1;
+				while(fields.length < ss) fields.push('field_' + fields.length);
 				fields.push(
-					$(el).text().trim().length ? $(el).text().trim() : 'field_' + i
+					$(el).text().trim().length ? $(el).text().trim() : 'field_' + fields.length
 				);
 			});
 			break;

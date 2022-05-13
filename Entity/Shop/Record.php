@@ -362,11 +362,11 @@ class Record
 				case 'Prezzo':
 				case 'Prz.Lordo':
 				case 'Uni:XXEUR025':
-					$this->price = $value;
+					$this->price = floatval($value);
 					break;
 				case 'Quantità':
 				case 'Q.tà':
-					$this->quantity = floatval($value);
+					$this->quantity = intval($value);
 					break;
 				default:
 					break;
