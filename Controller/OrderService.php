@@ -730,7 +730,7 @@ class OrderService extends AbstractController
 		return $list;
 	}
 
-	public function getAvailableCountries()
+	public function getAvailableCountrieaas()
 	{
 	}
 

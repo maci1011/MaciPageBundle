@@ -259,9 +259,10 @@ class OrderController extends AbstractController
 			$checkout['payment'] = 'setted';
 		else
 		{
-			if ($set) {
+			if ($set)
 				$checkout['payment'] = 'toset';
-			} else {
+			else
+			{
 				$checkout['payment'] = 'set';
 				$set = true;
 			}

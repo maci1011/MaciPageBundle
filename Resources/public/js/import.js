@@ -54,7 +54,7 @@ var maciShopImport = function (options) {
 	},
 
 	saveRecords: function() {
-		// if (0 < index) return _obj.end();;
+		// if (0 < index) return _obj.end();
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -82,7 +82,7 @@ var maciShopImport = function (options) {
 	},
 
 	sendCmd: function(cmd) {
-		// if (0 < index) return _obj.end();;
+		// if (0 < index) return _obj.end();
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -144,7 +144,9 @@ var maciShopImport = function (options) {
 		var e = data.indexOf('</Table>') + 8;
 		data = $(data.substr(s, e - s));
 
-		var fields = false, rows = data.find('Row'), records = [];
+		var fields = false, rows = data.find('Row');
+		records = [];
+
 		for (var i = 0; i < rows.length; i++)
 		{
 			var cells = rows.first().find('Cell');

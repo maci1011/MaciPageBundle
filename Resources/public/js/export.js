@@ -67,6 +67,7 @@ var maciShopExport = function (options) {
 			success: function(d,s,x) {
 				_obj.setParent(d.id);
 				_obj.showAlert(d);
+				_obj.reset();
 			}
 		});
 	},
@@ -80,6 +81,10 @@ var maciShopExport = function (options) {
 					alertNode = false;
 				});
 		alertNode.text((data.success ? (typeInput.val() == 'quantity' ? '' : 'Saved! ') + (data.variant && data.variant.length ? data.variant + ' - ' : '') + 'Leftovers: ' + data.quantity + '.' : 'Error! ' + data.error));
+	},
+
+	reset: function() {
+		qtaInput.val(1);
 		barcodeInput.val('');
 		barcodeInput.focus();
 	},
