@@ -182,7 +182,7 @@ var maciShopImport = function (options) {
 				if (-1 < ss && index < ss) index = ss;
 				while (fields.length <= index) fields.push('field_' + (fields.length - 1));
 				if($(el).text().trim().length)
-					dt[i + '-' + fields[index]] = $(el).text().trim();
+					dt[fields[index]] = $(el).text().trim();
 				index++;
 			});
 
