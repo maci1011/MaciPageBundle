@@ -342,36 +342,43 @@ class Record
 		foreach($data as $key => $value)
 		{
 			$opt = strtolower($key);
+			$opt = str_replace('.', '', $key);
+			$opt = str_replace(':', '', $key);
 			if (7 < strlen($opt)) $opt = substr($opt, 0, 7);
 
 			switch ($opt)
 			{
 				case 'articol':
 				case 'codice':
-				case 'cod.art':
+				case 'codart':
 					$this->code = $value;
 					break;
 				case 'barcode':
 					$this->barcode = $value;
 					break;
-				case 'descr.m':
+				case 'descrma':
 				case 'marchio':
+				case 'brand':
 					$this->brand = $value;
 					break;
-				case 'descr.c':
+				case 'descrca':
 				case 'descriz':
+				case 'titolo':
+				case 'title':
+				case 'categor':
 					$this->category = $value;
 					break;
 				case 'prezzo':
-				case 'prz.lor':
-				case 'uni:xxe':
+				case 'przlord':
+				case 'unixxeu':
+				case 'price':
 					$this->price = floatval(str_replace(',', '.', $value));
 					break;
 				case 'quantit':
-				case 'q.tà':
+				case 'qtà':
+				case 'qta':
+				case 'qty':
 					$this->quantity = intval($value);
-					break;
-				default:
 					break;
 			}
 		}
