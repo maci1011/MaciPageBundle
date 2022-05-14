@@ -188,8 +188,6 @@ var maciShopImport = function (options) {
 				index++;
 			});
 
-			dt['len'] = $(row).find('Cell').length;
-
 			records.push({
 				'type': 'purchas',
 				'import': dt
