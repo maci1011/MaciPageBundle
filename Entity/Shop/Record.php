@@ -362,10 +362,7 @@ class Record
 				case 'Prezzo':
 				case 'Prz.Lordo':
 				case 'Uni:XXEUR025':
-					$float = strpos($value, ',') !== false || strpos($value, '.') !== false;
-					$value = str_replace('.', '', $value);
-					$value = intval(str_replace(',', '', $value));
-					$this->price = $float ? $value / 100 : $value;
+					$this->price = floatval(str_replace(',', '.', $value));
 					break;
 				case 'Quantità':
 				case 'Q.tà':
