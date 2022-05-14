@@ -85,6 +85,9 @@ class RecordController extends AbstractController
 
 		if ($cmd == 'version') return $this->updateVersion($list);
 
+		if (in_array($cmd, ['reload_recs']))
+			return $this->reloadRecords($list, $cmd);
+
 		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr']))
 			return $this->resetNotFounds($list, $cmd);
 
@@ -273,6 +276,25 @@ class RecordController extends AbstractController
 			'imported' => $imported,
 			'resets' => $resets,
 			'errors' => $errors
+		], 200);
+	}
+
+	public function reloadRecords($list, $cmd)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$reload = 0;
+
+		foreach ($list as $record)
+		{
+			if ($record->reload()) $reload++;
+		}
+
+		$om->flush();
+
+		return new JsonResponse([
+			'success' => true,
+			'length' => count($list),
+			'reload' => $reload
 		], 200);
 	}
 

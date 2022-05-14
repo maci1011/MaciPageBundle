@@ -379,8 +379,13 @@ class Record
 		if($this->data == null) $this->data = [];
 		$this->data['imported'] = $data;
 		$this->setVariant($data);
+	}
 
-		return $this;
+	public function reload()
+	{
+		if (!is_array($this->data) || !array_key_exists('imported', $this->data)) return false;
+		$this->import($this->data['imported']);
+		return true;
 	}
 
 	public function getImported()
