@@ -28,6 +28,8 @@ Maci\PageBundle\Entity\Shop\Record:
             length: 15
         price:
             type: decimal
+            precision: 5
+            scale: 2
         quantity:
             type: integer
         data:

@@ -16,10 +16,12 @@ Maci\PageBundle\Entity\Order\Item:
             type: json
             nullable: true
         quantity:
-            type: decimal
+            type: integer
             nullable: true
         amount:
             type: decimal
+            precision: 5
+            scale: 2
             nullable: true
         created:
             type: datetime

@@ -50,9 +50,13 @@ Maci\PageBundle\Entity\Shop\Product:
             nullable: true
         price:
             type: decimal
+            precision: 5
+            scale: 2
             nullable: true
         sale:
             type: decimal
+            precision: 5
+            scale: 2
             nullable: true
         buyed:
             type: integer

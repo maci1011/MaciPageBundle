@@ -20,6 +20,8 @@ Maci\PageBundle\Entity\Order\Transaction:
             nullable: true
         amount:
             type: decimal
+            precision: 9
+            scale: 7
             nullable: true
         created:
             type: datetime

@@ -34,9 +34,13 @@ Maci\PageBundle\Entity\Order\Order:
             nullable: true
         payment_cost:
             type: decimal
+            precision: 3
+            scale: 2
             nullable: true
         shipping_cost:
             type: decimal
+            precision: 3
+            scale: 2
             nullable: true
         code:
             type: string
@@ -52,6 +56,8 @@ Maci\PageBundle\Entity\Order\Order:
             nullable: true
         amount:
             type: decimal
+            precision: 7
+            scale: 2
         token:
             type: string
             length: 63
