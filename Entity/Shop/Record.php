@@ -339,33 +339,36 @@ class Record
 
 	public function import($data)
 	{
-		// Not used:
-		// "Descr.Cat.Comm.": "Pantalone"
-		// "ID dogan.": "61046300"
-		foreach($data as $key => $value) {
-			switch ($key) {
-				case 'Articolo':
-				case 'Cod.art.':
+		foreach($data as $key => $value)
+		{
+			$opt = strtolower($key);
+			if (7 < strlen($opt)) $opt = substr($opt, 0, 7);
+
+			switch ($opt)
+			{
+				case 'articol':
+				case 'codice':
+				case 'cod.art':
 					$this->code = $value;
 					break;
-				case 'Barcode':
-				case 'BARCODE13':
+				case 'barcode':
 					$this->barcode = $value;
 					break;
-				case 'Descr.Marchio':
+				case 'descr.m':
+				case 'marchio':
 					$this->brand = $value;
 					break;
-				case 'Descr.Cat.Mer.':
-				case 'Descrizione':
+				case 'descr.c':
+				case 'descriz':
 					$this->category = $value;
 					break;
-				case 'Prezzo':
-				case 'Prz.Lordo':
-				case 'Uni:XXEUR025':
+				case 'prezzo':
+				case 'prz.lor':
+				case 'uni:xxe':
 					$this->price = floatval(str_replace(',', '.', $value));
 					break;
-				case 'Quantità':
-				case 'Q.tà':
+				case 'quantit':
+				case 'q.tà':
 					$this->quantity = intval($value);
 					break;
 				default:
@@ -374,6 +377,7 @@ class Record
 		}
 
 		if($this->data == null) $this->data = [];
+
 		$this->data['imported'] = $data;
 		$this->setVariant($data);
 	}
@@ -465,28 +469,53 @@ class Record
 	public function setVariant($data)
 	{
 		$variant = false;
+
 		if(array_key_exists('Descr.Colore', $data))
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Descr.Colore'];
 			$variant['name'] = $data['Tgl'];
 		}
-		else if(array_key_exists('Colore', $data))
+
+		if(array_key_exists('Colore', $data))
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Colore'];
 			$variant['name'] = $data['Tgl'];
 		}
-		else if(array_key_exists('type', $data)) $variant = $data;
-		$this->data['variant'] = $variant;
+
+		if(array_key_exists('type', $data))
+			$variant = $data;
+
+		if ($variant)
+		{
+			if ($variant['type'] == 'color-n-size' && $variant['name'] == 'TU')
+			{
+				$color = $variant['color'];
+				$variant = [];
+				$variant['type'] = 'simple';
+				$variant['variant'] = $color;
+				$variant['field'] = 'color';
+			}
+
+			$this->data['variant'] = $variant;
+			return true;
+		}
+
+		return false;
 	}
 
 	public function getVariantLabel()
 	{
 		$data = $this->getData();
 		if(!array_key_exists('variant', $data)) return null;
+
 		if($data['variant']['type'] == 'color-n-size')
-			return $data['variant']['color'] . " - " . $data['variant']['name'];
+			return $data['variant']['color'] . ", " . $data['variant']['name'];
+
+		if($data['variant']['type'] == 'simple')
+			return $data['variant']['variant'];
+
 		return $data['variant']['type'];
 	}
 

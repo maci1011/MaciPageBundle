@@ -427,8 +427,6 @@ class Product
 	{
 		$this->type = $type;
 
-		if ($type == $this->getTypes()[1]) $this->setVariantType('color-n-size');
-
 		return $this;
 	}
 
@@ -1253,25 +1251,24 @@ class Product
 
 	public function loadRecord(Record $record)
 	{
-		if($this->status == 'unset')
-		{
-			$this->setCode($record->getCode());
-			$this->setName($record->getCategory());
-			$this->setComposition($record->getImportedComposition());
-			$this->setBrand($record->getBrand());
-			$this->setPath(str_replace(' ', '-',str_replace('.', '',
-				$record->getCode() . "-" . strtolower(
-					$record->getCategory() . "-" . $record->getBrand() .
-					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
-				)
-			)));
-			$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
-			$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
-			$this->setNewPrice($record->getPrice());
-			$this->setStatus($this->getStatusValues()[2]);
-			$locale = $record->getImportedLocale();
-			$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
-		}
+		if($this->status != 'unset') return false;
+
+		$this->setCode($record->getCode());
+		$this->setName($record->getCategory());
+		$this->setComposition($record->getImportedComposition());
+		$this->setBrand($record->getBrand());
+		$this->setPath(str_replace(' ', '-',str_replace('.', '',
+			$record->getCode() . "-" . strtolower(
+				$record->getCategory() . "-" . $record->getBrand() .
+				($record->hasVariant() ? '-' . $record->getProductVariant() : '')
+			)
+		)));
+		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
+		$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
+		$this->setNewPrice($record->getPrice());
+		$this->setStatus($this->getStatusValues()[2]);
+		$locale = $record->getImportedLocale();
+		$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
 
 		$variant = $record->getVariant();
 
@@ -1280,8 +1277,6 @@ class Product
 			$this->setType($this->getTypes()[0]);
 			return true;
 		}
-
-		$this->setType($this->getTypes()[1]);
 
 		return $this->addVariant($variant);
 	}
@@ -1388,15 +1383,31 @@ class Product
 
 	public function setVariantType($type)
 	{
-		if (is_string($this->getVariantsType()) || !is_string($type) || !in_array($type, $this->getVariantTypes())) return;
+		if (!is_string($type) || !in_array($type, $this->getVariantTypes())) return;
 		if (!$this->data) $this->data = [];
-		switch ($type) {
+		$this->setType($this->getTypes()[1]);
+		switch ($type)
+		{
 			case 'color-n-size':
 				$this->data['variant-type'] = 'color-n-size';
 				$this->data['variant-field'] = 'color';
 				$this->data['variants-type'] = 'size';
 				break;
 		}
+		$this->data['variants'] = [];
+	}
+
+	public function setSimpleType($variant)
+	{
+		if ($this->type != 'unset' || !array_key_exists('variant', $variant))
+			return false;
+
+		$this->setType($this->getTypes()[0]);
+		$this->setVariant($variant['variant']);
+		$this->data['variant-field'] = strlen($variant['field']) ? $variant['field'] : 'variant';
+		$this->data['variant-type'] = false;
+		$this->data['variants-type'] = false;
+		$this->data['variants'] = [];
 	}
 
 	public static function getVariantTypes()
@@ -1430,9 +1441,14 @@ class Product
 
 	public function addVariant($variant, $quantity = 0)
 	{
-		if (!$variant) return false;
-		if (!array_key_exists('type', $variant) || $variant['type'] == 'color-n-size')
+		if (!is_array($variant) || !array_key_exists('type', $variant)) return false;
+
+		if ($variant['type'] == 'color-n-size')
 			return $this->addColorAndSize($variant, $quantity);
+
+		if ($variant['type'] == 'simple')
+			return $this->setSimpleType($variant);
+
 		return false;
 	}
 
@@ -1469,22 +1485,15 @@ class Product
 
 	public function addColorAndSize($variant, $quantity)
 	{
+		if (!$this->isColorNSize() || is_null($this->variant) ||
+			(array_key_exists('color', $variant) && $this->variant != $variant['color']) ||
+			(array_key_exists('type', $variant) && $this->data['variant-type'] != $variant['type'])
+		) return false;
+
 		if (!$this->data || !array_key_exists('variant-type', $this->data))
 			$this->setVariantType('color-n-size');
-		else if ($this->data['variant-type'] != 'color-n-size')
-			return false;
-		if (is_null($this->variant))
-			$this->variant = array_key_exists('color', $variant) ? $variant['color'] : 'Unique';
-		if (array_key_exists('color', $variant) && $this->variant != $variant['color'])
-			return false;
-		if (array_key_exists('type', $variant))
-		{
-			if ($this->data['variant-type'] != $variant['type']) return false;
-			if ($variant['type'] == 'color-n-size') return $this->addSize($variant, $quantity);
-		}
-		else
-			if ($this->isColorNSize()) return $this->addSize($variant, $quantity);
-		return false; // ?true
+
+		return $this->addSize($variant, $quantity);
 	}
 
 	public function addSize($variant, $quantity)
@@ -1497,7 +1506,7 @@ class Product
 				$this->addColorAndSize(array_merge(['color' => 'Unset'], $variant), $quantity);
 				return false;
 			}
-			$newVariant = $this->newSizeItem($variant['name']);
+			$newVariant = $this->newVariantItem($variant['name']);
 			$newVariant['quantity'] = $quantity;
 			$this->data['variants'][count($this->data['variants'])] = $newVariant;
 			return true;
@@ -1570,6 +1579,9 @@ class Product
 			return true;
 		}
 
+		if($variant['type'] == 'unset')
+			return false;
+
 		if ($record->getType() == 'return')
 			return $this->returnVariant($variant, $record->getQuantity());
 
@@ -1579,7 +1591,7 @@ class Product
 		return $this->buyOrSellVariant($variant, $record->getDiffQuantity());
 	}
 
-	public function newSizeItem($name)
+	public function newVariantItem($name)
 	{
 		return [
 			'name' => $name,
