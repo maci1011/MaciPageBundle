@@ -1314,10 +1314,14 @@ class Product
 
 	public function resetVariants()
 	{
-		$this->data['variant-type'] = false;
-		$this->data['variant-field'] = false;
-		$this->data['variants-type'] = false;
-		$this->data['variants'] = [];
+		$data = $this->getData();
+
+		if(array_key_exists('variant-type', $data)) $data['variant-type'] = false;
+		if(array_key_exists('variant-field', $data)) $data['variant-field'] = false;
+		if(array_key_exists('variants-type', $data)) $data['variants-type'] = false;
+		if(array_key_exists('variants', $data)) $data['variants'] = [];
+
+		$this->data = $data;
 	}
 
 	public function getVariantIndex($index)
@@ -1396,9 +1400,13 @@ class Product
 
 	public function setVariantType($type)
 	{
-		if (!is_string($type) || !in_array($type, $this->getVariantTypes())) return;
+		if (!is_string($type) || !in_array($type, $this->getVariantTypes()))
+			return;
+
 		if (!$this->data) $this->data = [];
+
 		$this->setType($this->getTypes()[1]);
+
 		switch ($type)
 		{
 			case 'color-n-size':
@@ -1407,6 +1415,7 @@ class Product
 				$this->data['variants-type'] = 'size';
 				break;
 		}
+
 		$this->data['variants'] = [];
 	}
 
