@@ -304,49 +304,11 @@ class RecordController extends AbstractController
 
 		// Start Code Updates
 
-		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([], ['id' => 'DESC']);
-
-		$resets = [];
-		$nor = [];
-
-		$i = 0;
+		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 
 		foreach ($products as $product)
 		{
-			$variants = $product->getVariants();
-
-			if (
-				(count($variants) == 1 && $variants[0]['name'] == 'TU') ||
-				(!$product->hasVariantType() && $product->getType() == 'unset')
-			) {
-				$product->resetType()->resetVariants();
-
-				$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
-					'code' => $product->getCode(),
-					'type' => 'purchas'
-				]);
-
-				$label = $product->getCode() . ' - ' . $product->getVariant();
-				array_push($resets, $label);
-
-				if (!count($list)) 
-				{
-					continue;
-				}
-
-				foreach ($list as $record)
-				{
-					if ($product->getVariant() != $record->getProductVariant())
-						continue;
-
-					if ($product->addVariant($record->getVariant()))
-					{
-						$this->checkQuantity('reset_qta', [$product]);
-						$i++;
-						break;
-					}
-				}
-			}
+			$product->setMetaDescription($product->getPriceLabel() . "€ - " . $record->getImportedComposition());
 		}
 
 		$om->flush();
@@ -355,9 +317,7 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'updated' => $i,
-			'resets' => $resets,
-			'nor' => $nor
+			'updated' => $i
 		], 200);
 	}
 
