@@ -304,14 +304,13 @@ class RecordController extends AbstractController
 
 		// Start Code Updates
 
-		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
+		// $products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 
-		foreach ($products as $product)
-		{
-			$product->setMetaDescription($product->getPriceLabel() . "€ - " . $product->getComposition());
-		}
+		// foreach ($products as $product)
+		// {
+		// }
 
-		$om->flush();
+		// $om->flush();
 
 		// End Code Updates
 
