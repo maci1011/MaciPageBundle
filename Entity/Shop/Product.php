@@ -547,34 +547,55 @@ class Product
 	public function getQuantity($variant = false)
 	{
 		if (!$this->limited) return 1;
-		if (!$variant) return $this->quantity;
-		if ($this->getVariantType() != null) return $this->getVariantQuantity($variant);
+		if ($this->getVariantType() != null && $variant) return $this->getVariantQuantity($variant);
 		return $this->quantity;
 	}
 
 	public function checkQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return false; // $this->checkVariantQuantity($variant, $quantity);
+		if ($this->getVariantType() != null) return $this->checkVariantQuantity($variant, $quantity);
 		if ($this->quantity < $quantity) return false;
 		return true;
 	}
 
-	public function subQuantity($quantity, $variant = false)
+	public function sell($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return false; // $this->subVariant($variant, $quantity);
+		if ($this->getVariantType() != null) return $variant ? $this->sellVariant($variant, $quantity) : false;
 		if ($this->quantity < $quantity)  return false;
 		$this->quantity -= $quantity;
+		$this->selled += $quantity;
 		return true;
 	}
 
-	public function addQuantity($quantity, $variant = false)
+	public function buy($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return false; // $this->addVariant($variant, $quantity);
+		if ($this->getVariantType() != null) return $variant ? $this->buyVariant($variant, $quantity) : false;
 		if ($this->quantity < $quantity) return false;
 		$this->quantity += $quantity;
+		$this->buyed += $quantity;
+		return true;
+	}
+
+	public function return($quantity, $variant = false)
+	{
+		if (!$this->limited) return true;
+		if ($this->getVariantType() != null) return $variant ? $this->returnVariant($variant, $quantity) : false;
+		if ($this->quantity < $quantity) return false;
+		$this->quantity += $quantity;
+		$this->selled -= $quantity;
+		return true;
+	}
+
+	public function back($quantity, $variant = false)
+	{
+		if (!$this->limited) return true;
+		if ($this->getVariantType() != null) return $variant ? $this->backVariant($variant, $quantity) : false;
+		if ($this->quantity < $quantity) return false;
+		$this->quantity -= $quantity;
+		$this->buyed -= $quantity;
 		return true;
 	}
 
@@ -1261,7 +1282,8 @@ class Product
 		if($this->status != 'unset') return false;
 
 		$this->setCode($record->getCode());
-		$this->setName($record->getCategory());
+		$name = strtolower($record->getCategory());
+		$this->setName(ucwords($name));
 		$this->setDescription($record->getImportedDescription());
 		$this->setComposition($record->getImportedComposition());
 		$this->setBrand($record->getBrand());
@@ -1475,7 +1497,7 @@ class Product
 
 	public function checkVariantQuantity($variant, $quantity)
 	{
-		if (!$variant) return false;
+		if (!$this->hasVariants() || !$variant) return false;
 		foreach ($this->getVariants() as $key => $value) {
 			if ($variant['name'] == $value['name'])
 			{
@@ -1483,22 +1505,6 @@ class Product
 					return true;
 				}
 				return false;
-			}
-		}
-		return false;
-	}
-
-	public function subVariant($variant, $quantity)
-	{
-		if (!$variant) return false;
-		foreach ($this->getVariants() as $key => $value) {
-			if ($variant['name'] == $value['name'])
-			{
-				if ($quantity <= $value['quantity']) {
-					$value['quantity'] -= $quantity;
-					$this->data['variants'][$key] = $value;
-					return true;
-				}
 			}
 		}
 		return false;
