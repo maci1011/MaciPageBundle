@@ -308,7 +308,7 @@ class RecordController extends AbstractController
 
 		foreach ($products as $product)
 		{
-			$product->setMetaDescription($product->getPriceLabel() . "€ - " . $record->getImportedComposition());
+			$product->setMetaDescription($product->getPriceLabel() . "€ - " . $product->getComposition());
 		}
 
 		$om->flush();
@@ -316,8 +316,7 @@ class RecordController extends AbstractController
 		// End Code Updates
 
 		return new JsonResponse([
-			'success' => true,
-			'updated' => $i
+			'success' => true
 		], 200);
 	}
 
