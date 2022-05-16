@@ -383,7 +383,8 @@ class Record
 			}
 		}
 
-		if($this->data == null) $this->data = [];
+		if($this->data == null)
+			$this->data = [];
 
 		$this->data['imported'] = $data;
 		$this->setVariant($data);
@@ -391,7 +392,9 @@ class Record
 
 	public function reload()
 	{
-		if (!is_array($this->data) || !array_key_exists('imported', $this->data)) return false;
+		if (!is_array($this->data) || !array_key_exists('imported', $this->data))
+			return false;
+
 		$this->import($this->data['imported']);
 		return true;
 	}
@@ -399,9 +402,7 @@ class Record
 	public function getImported()
 	{
 		if (!array_key_exists('imported', $this->getData()))
-		{
 			return false;
-		}
 
 		return $this->data['imported'];
 	}
@@ -419,7 +420,9 @@ class Record
 		if (!$this->getImported()) return null;
 		if (array_key_exists('Uni:XXEUR025', $this->data['imported']))
 			return 'EUR';
-		return null;
+		if (array_key_exists('Currency', $this->data['imported']))
+			return $this->data['imported']['Currency'];
+		return 'EUR';
 	}
 
 	public function getImportedComposition()
@@ -427,6 +430,8 @@ class Record
 		if (!$this->getImported()) return null;
 		if (array_key_exists('Composizione', $this->data['imported']))
 			return $this->data['imported']['Composizione'];
+		if (array_key_exists('Composition', $this->data['imported']))
+			return $this->data['imported']['Composition'];
 		return null;
 	}
 
@@ -484,32 +489,29 @@ class Record
 			$variant['name'] = $data['Tgl'];
 		}
 
-		if(array_key_exists('Colore', $data))
+		else if(array_key_exists('Colore', $data))
 		{
 			$variant['type'] = 'color-n-size';
 			$variant['color'] = $data['Colore'];
 			$variant['name'] = $data['Tgl'];
 		}
 
-		if(array_key_exists('type', $data))
+		else if(array_key_exists('type', $data))
 			$variant = $data;
 
-		if ($variant)
-		{
-			if ($variant['type'] == 'color-n-size' && $variant['name'] == 'TU')
-			{
-				$color = $variant['color'];
-				$variant = [];
-				$variant['type'] = 'simple';
-				$variant['variant'] = $color;
-				$variant['field'] = 'color';
-			}
+		if (!$variant) return false;
 
-			$this->data['variant'] = $variant;
-			return true;
+		if ($variant['type'] == 'color-n-size' && $variant['name'] == 'TU')
+		{
+			$color = $variant['color'];
+			$variant = [];
+			$variant['type'] = 'simple';
+			$variant['variant'] = $color;
+			$variant['field'] = 'color';
 		}
 
-		return false;
+		$this->data['variant'] = $variant;
+		return true;
 	}
 
 	public function getVariantLabel()
@@ -538,8 +540,15 @@ class Record
 	public function getProductVariant()
 	{
 		$variant = $this->getVariant();
-		if($variant['type'] == 'unset') return null;
-		else if($variant['type'] == 'color-n-size') return $variant['color'];
+
+		if (!is_array($variant) ||
+			!array_key_exists('type', $variant) ||
+			$variant['type'] == 'unset'
+		) return null;
+
+		if ($variant['type'] == 'color-n-size') return $variant['color'];
+		if ($variant['type'] == 'simple') return $variant['variant'];
+
 		return null;
 	}
 

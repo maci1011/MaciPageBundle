@@ -56,6 +56,9 @@ class RecordController extends AbstractController
 		if (in_array($cmd, ['check_qta', 'reset_qta']))
 			return new JsonResponse($this->checkQuantity($cmd), 200);
 
+		if ($cmd == 'version')
+			return $this->updateVersion();
+
 		$om = $this->getDoctrine()->getManager();
 		$ids = $request->get('ids', []);
 		$setId = $request->get('setId', 'null');
@@ -82,8 +85,6 @@ class RecordController extends AbstractController
 		if (!count($list)) {
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 		}
-
-		if ($cmd == 'version') return $this->updateVersion($list);
 
 		if (in_array($cmd, ['reload_recs']))
 			return $this->reloadRecords($list, $cmd);
@@ -223,45 +224,44 @@ class RecordController extends AbstractController
 			{
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
-				if (in_array($cmd, ['reset_nf', 'reload_pr']))
+				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
+
+				$record->resetLoadedValue();
+
+				$label = $record->getCode() . ' - ' . $record->getProductVariant();
+
+				if (!$product || !$product->checkRecord($record))
 				{
-					$record->resetLoadedValue();
-
-					$label = $record->getCode() . ' - ' . $record->getProductVariant();
-
-					if (!$product || !$product->checkRecord($record))
+					if (array_key_exists($label, $addedpr))
 					{
-						if (array_key_exists($label, $addedpr))
-						{
-							$product = $addedpr[$label];
-						}
-						else
-						{
-							$product = new \Maci\PageBundle\Entity\Shop\Product();
-
-							if ($cmd == 'reload_pr')
-								$om->persist($product);
-
-							$addedpr[$label] = $product;
-						}
+						$product = $addedpr[$label];
 					}
-
-					if (!$product)
+					else
 					{
-						array_push($errors, $record->getCode() . ' - ' . $record->getVariantLabel());
-						continue;
+						$product = new \Maci\PageBundle\Entity\Shop\Product();
+
+						if ($cmd == 'reload_pr')
+							$om->persist($product);
+
+						$addedpr[$label] = $product;
 					}
-
-					if ($product->loadRecord($record))
-						$loaded++;
-
-					if ($product->importRecord($record))
-						$imported++;
-
-					array_push($resets, $this->checkQuantity(
-						$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
-					));
 				}
+
+				if (!$product)
+				{
+					array_push($errors, $record->getCode() . ' - ' . $record->getVariantLabel());
+					continue;
+				}
+
+				if ($product->loadRecord($record))
+					$loaded++;
+
+				if ($product->importRecord($record))
+					$imported++;
+
+				array_push($resets, $this->checkQuantity(
+					$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
+				));
 			}
 		}
 
@@ -298,34 +298,66 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
-	public function updateVersion($list)
+	public function updateVersion()
 	{
 		$om = $this->getDoctrine()->getManager();
-		$jumped = [];
 
-		foreach ($list as $record)
+		// Start Code Updates
+
+		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([], ['id' => 'DESC']);
+
+		$resets = [];
+		$nor = [];
+
+		$i = 0;
+
+		foreach ($products as $product)
 		{
-			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-				'code' => $record->getCode(),
-				'variant' => $record->getProductVariant()
-			]);
-			if (!$product)
-			{
-				array_push($jumped, $record->getId());
-				continue;
-			}
-			// Start Code Updates
+			$variants = $product->getVariants();
 
-			// End Code Updates
+			if (
+				(count($variants) == 1 && $variants[0]['name'] == 'TU') ||
+				!$product->hasVariantType() && $product->getType() == 'unset'
+			) {
+				$product->resetType()->resetVariants();
+
+				$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
+					'code' => $product->getCode(),
+					'type' => 'purchas'
+				]);
+
+				$label = $product->getCode() . ' - ' . $product->getVariant();
+				array_push($resets, $label);
+
+				if (!count($list)) 
+				{
+					continue;
+				}
+
+				foreach ($list as $record)
+				{
+					if ($product->getVariant() != $record->getProductVariant())
+						continue;
+
+					if ($product->addVariant($record->getVariant()))
+					{
+						$this->checkQuantity('reset_qta', [$product]);
+						$i++;
+						break;
+					}
+				}
+			}
 		}
 
 		$om->flush();
 
+		// End Code Updates
+
 		return new JsonResponse([
 			'success' => true,
-			'len' => count($list),
-			'versioned' => count($list) - count($jumped),
-			'jumped' => $jumped
+			'updated' => $i,
+			'resets' => $resets,
+			'nor' => $nor
 		], 200);
 	}
 
