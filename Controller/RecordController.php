@@ -317,7 +317,7 @@ class RecordController extends AbstractController
 
 			if (
 				(count($variants) == 1 && $variants[0]['name'] == 'TU') ||
-				!$product->hasVariantType() && $product->getType() == 'unset'
+				(!$product->hasVariantType() && $product->getType() == 'unset')
 			) {
 				$product->resetType()->resetVariants();
 
@@ -338,8 +338,6 @@ class RecordController extends AbstractController
 				{
 					if ($product->getVariant() != $record->getProductVariant())
 						continue;
-
-					$record->reload();
 
 					if ($product->addVariant($record->getVariant()))
 					{
