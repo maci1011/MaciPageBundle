@@ -341,7 +341,8 @@ class Record
 	{
 		foreach($data as $key => $value)
 		{
-			$opt = strtolower($key);
+			$opt = trim(strtolower($key));
+			$opt = str_replace(' ', '', $key);
 			$opt = str_replace('.', '', $key);
 			$opt = str_replace(':', '', $key);
 			if (7 < strlen($opt)) $opt = substr($opt, 0, 7);
@@ -482,20 +483,23 @@ class Record
 	{
 		$variant = false;
 
-		if(array_key_exists('Descr.Colore', $data))
-		{
-			$variant['type'] = 'color-n-size';
-			$variant['color'] = $data['Descr.Colore'];
-			$variant['name'] = $data['Tgl'];
-		}
+		$color = false:
+		if(array_key_exists('Descr.Colore', $data)) $color = $data['Descr.Colore'];
+		else if(array_key_exists('Colore', $data)) $color = $data['Colore'];
+		else if(array_key_exists('Color', $data)) $color = $data['Color'];
 
-		else if(array_key_exists('Colore', $data))
-		{
-			$variant['type'] = 'color-n-size';
-			$variant['color'] = $data['Colore'];
-			$variant['name'] = $data['Tgl'];
-		}
+		$size = false:
+		if(array_key_exists('Tgl', $data)) $size = $data['Tgl'];
+		else if(array_key_exists('Taglia', $data)) $size = $data['Taglia'];
+		else if(array_key_exists('Size', $data)) $size = $data['Size'];
 
+		if($color && $size)
+		{
+			$variant = [];
+			$variant['type'] = 'color-n-size';
+			$variant['color'] = $color;
+			$variant['name'] = $size;
+		}
 		else if(array_key_exists('type', $data))
 			$variant = $data;
 
