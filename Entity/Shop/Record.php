@@ -488,7 +488,7 @@ class Record
 		else if(array_key_exists('Colore', $data)) $color = $data['Colore'];
 		else if(array_key_exists('Color', $data)) $color = $data['Color'];
 
-		$size = false:
+		$size = false;
 		if(array_key_exists('Tgl', $data)) $size = $data['Tgl'];
 		else if(array_key_exists('Taglia', $data)) $size = $data['Taglia'];
 		else if(array_key_exists('Size', $data)) $size = $data['Size'];
