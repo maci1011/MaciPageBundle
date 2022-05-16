@@ -964,7 +964,7 @@ class Order
 	{
 		foreach ($this->items as $item) {
 			if ($product = $item->getProduct()) {
-				$product->back($item->getQuantity(), $item->getVariant());
+				$product->return($item->getQuantity(), $item->getVariant());
 			}
 		}
 	}

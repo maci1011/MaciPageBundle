@@ -1602,14 +1602,6 @@ class Product
 		return $this->setVariantItem($variant, 'selled', $quantity, false);
 	}
 
-	public function buyOrSellVariant($variant, $quantity)
-	{
-		return $quantity < 0 ?
-			$this->sellVariant($variant, -$quantity) :
-			$this->buyVariant($variant, $quantity)
-		;
-	}
-
 	public function buyOrSellRecord($record)
 	{
 		if ($record->getType() == 'unset')
@@ -1617,15 +1609,21 @@ class Product
 
 		$variant = $record->getVariant();
 
-		if(!$this->hasVariants() && $variant['type'] == 'unset')
+		if(!$this->hasVariants())
 		{
-			if ($record->getType() == 'sale') $this->selled += $record->getQuantity();
-			if ($record->getType() == 'purchas') $this->buyed += $record->getQuantity();
-			if ($record->getType() == 'return') $this->selled -= $record->getQuantity();
-			if ($record->getType() == 'back') $this->buyed -= $record->getQuantity();
-			else return false;
-			$this->quantity += $record->getDiffQuantity();
-			return true;
+			if (!in_array($variant['type'], ['unset', 'simple']))
+				return false;
+
+			if ($record->getType() == 'return')
+				return $this->return($record->getQuantity());
+			if ($record->getType() == 'back')
+				return $this->back($record->getQuantity());
+			if ($record->getType() == 'sale')
+				return $this->sale($record->getQuantity());
+			if ($record->getType() == 'purchas')
+				return $this->purchas($record->getQuantity());
+
+			return false;
 		}
 
 		if($variant['type'] == 'unset')
@@ -1637,7 +1635,10 @@ class Product
 		if ($record->getType() == 'back')
 			return $this->backVariant($variant, $record->getQuantity());
 
-		return $this->buyOrSellVariant($variant, $record->getDiffQuantity());
+		return $record->getDiffQuantity() < 0 ?
+			$this->sellVariant($variant, $record->getQuantity()) :
+			$this->buyVariant($variant, $record->getQuantity())
+		;
 	}
 
 	public function newVariantItem($name)
@@ -1759,6 +1760,6 @@ class Product
 	 */
 	public function __toString()
 	{
-		return ( 0 < strlen($this->getName()) ? $this->getName() : ('Product[' . ($this->id ? $this->id : 'tmp') . ']') );
+		return (0 < strlen($this->getName()) ? $this->getName() : ('Product[' . ($this->id ? $this->id : 'tmp') . ']'));
 	}
 }
