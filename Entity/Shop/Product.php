@@ -555,7 +555,7 @@ class Product
 	public function checkQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $this->checkVariantQuantity($variant, $quantity);
+		if ($this->getVariantType() != null) return false; // $this->checkVariantQuantity($variant, $quantity);
 		if ($this->quantity < $quantity) return false;
 		return true;
 	}
@@ -563,7 +563,7 @@ class Product
 	public function subQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $this->subVariant($variant, $quantity);
+		if ($this->getVariantType() != null) return false; // $this->subVariant($variant, $quantity);
 		if ($this->quantity < $quantity)  return false;
 		$this->quantity -= $quantity;
 		return true;
@@ -572,7 +572,7 @@ class Product
 	public function addQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $this->addVariant($variant, $quantity);
+		if ($this->getVariantType() != null) return false; // $this->addVariant($variant, $quantity);
 		if ($this->quantity < $quantity) return false;
 		$this->quantity += $quantity;
 		return true;
@@ -1262,6 +1262,7 @@ class Product
 
 		$this->setCode($record->getCode());
 		$this->setName($record->getCategory());
+		$this->setDescription($record->getImportedDescription());
 		$this->setComposition($record->getImportedComposition());
 		$this->setBrand($record->getBrand());
 		$this->setPath(str_replace(' ', '-',str_replace('.', '',
@@ -1419,7 +1420,7 @@ class Product
 		$this->data['variants'] = [];
 	}
 
-	public function setSimpleType($variant = false)
+	public function setSimpleType()
 	{
 		if ($this->type != 'unset')
 			return;
@@ -1427,13 +1428,6 @@ class Product
 		$this->resetVariants();
 		$this->setType($this->getTypes()[0]);
 		$this->data['variant-field'] = 'variant';
-
-		if (!is_array($variant) || !array_key_exists('variant', $variant))
-			return;
-
-		$this->setVariant($variant['variant']);
-		if (array_key_exists('field', $variant) && strlen($variant['field']))
-			$this->data['variant-field'] = $variant['field'];
 	}
 
 	public static function getVariantTypes()
@@ -1465,16 +1459,16 @@ class Product
 		return array_key_exists('variants-type', $data) && strlen($data['variants-type']) ? $data['variants-type'] : null;
 	}
 
-	public function addVariant($variant, $quantity = 0)
+	public function addVariant($variant)
 	{
 		if (!is_array($variant) || !array_key_exists('type', $variant))
 			return false;
 
 		if ($variant['type'] == 'color-n-size')
-			return $this->addColorAndSize($variant, $quantity);
+			return $this->addColorAndSize($variant);
 
 		if ($variant['type'] == 'simple')
-			return $this->addSimpleVariant($variant, $quantity);
+			return $this->addSimpleVariant($variant);
 
 		return false;
 	}
@@ -1510,51 +1504,57 @@ class Product
 		return false;
 	}
 
-	public function addSimpleVariant($variant, $quantity)
+	public function addSimpleVariant($variant)
 	{
 		if (!$this->data || !array_key_exists('variant-type', $this->data) || !$this->data['variant-type'])
-			$this->setSimpleType($variant);
+			$this->setSimpleType();
 
-		if ($this->hasVariantType() || is_null($this->variant) ||
+		if ($this->hasVariantType() || !is_array($this->variant) ||
 			(!array_key_exists('variant', $variant) && $this->variant != null) ||
 			(array_key_exists('variant', $variant) && $this->variant != $variant['variant']) ||
-			$this->data['variant-type'] != $variant['type']
+			$this->getVariantType() != $variant['type']
 		) return false;
+
+		if (!array_key_exists('variant', $variant))
+			return true;
+
+		$this->setVariant($variant['variant']);
+
+		if (array_key_exists('field', $variant) && strlen($variant['field']))
+			$this->data['variant-field'] = $variant['field'];
 
 		return true;
 	}
 
-	public function addColorAndSize($variant, $quantity)
+	public function addColorAndSize($variant)
 	{
 		if (!$this->data || !array_key_exists('variant-type', $this->data) || !$this->data['variant-type'])
 			$this->setVariantType('color-n-size');
 
-		if (!$this->isColorNSize() || is_null($this->variant) ||
+		if (!$this->isColorNSize() || !is_array($this->variant) ||
 			(!array_key_exists('color', $variant) && $this->variant != null) ||
 			(array_key_exists('color', $variant) && $this->variant != $variant['color']) ||
-			$this->data['variant-type'] != $variant['type']
+			$this->getVariantType() != $variant['type']
 		) return false;
 
-		return $this->addSize($variant, $quantity);
+		return $this->addSize($variant);
 	}
 
-	public function addSize($variant, $quantity)
+	public function addSize($variant)
 	{
 		$index = $this->findVariant($variant['name']);
 		if($index == -1)
 		{
 			if (is_null($this->variant))
 			{
-				$this->addColorAndSize(array_merge(['color' => 'Unset'], $variant), $quantity);
+				$this->addColorAndSize(array_merge(['color' => 'Unset'], $variant));
 				return false;
 			}
 			$newVariant = $this->newVariantItem($variant['name']);
-			$newVariant['quantity'] = $quantity;
 			$this->data['variants'][count($this->data['variants'])] = $newVariant;
 			return true;
 		}
 		$item = $this->data['variants'][$index];
-		$item['quantity'] = intval($item['quantity']) + $quantity;
 		$this->data['variants'][$index] = $item;
 		return true;
 	}
@@ -1616,6 +1616,7 @@ class Product
 			if ($record->getType() == 'sale') $this->selled += $record->getQuantity();
 			if ($record->getType() == 'purchas') $this->buyed += $record->getQuantity();
 			if ($record->getType() == 'return') $this->selled -= $record->getQuantity();
+			if ($record->getType() == 'back') $this->buyed -= $record->getQuantity();
 			else return false;
 			$this->quantity += $record->getDiffQuantity();
 			return true;

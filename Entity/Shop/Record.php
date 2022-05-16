@@ -426,6 +426,14 @@ class Record
 		return 'EUR';
 	}
 
+	public function getImportedDescription()
+	{
+		if (!$this->getImported()) return null;
+		if (array_key_exists('Description', $this->data['imported']))
+			return $this->data['imported']['Description'];
+		return null;
+	}
+
 	public function getImportedComposition()
 	{
 		if (!$this->getImported()) return null;
