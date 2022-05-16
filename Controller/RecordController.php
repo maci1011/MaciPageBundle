@@ -339,6 +339,8 @@ class RecordController extends AbstractController
 					if ($product->getVariant() != $record->getProductVariant())
 						continue;
 
+					$record->reload();
+
 					if ($product->addVariant($record->getVariant()))
 					{
 						$this->checkQuantity('reset_qta', [$product]);

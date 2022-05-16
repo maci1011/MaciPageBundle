@@ -1270,12 +1270,12 @@ class Product
 				($record->hasVariant() ? '-' . $record->getProductVariant() : '')
 			)
 		)));
-		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
-		$this->setMetaDescription($record->getPriceLabel() . "€ - " . $record->getImportedComposition());
 		$this->setNewPrice($record->getPrice());
 		$this->setStatus($this->getStatusValues()[2]);
 		$locale = $record->getImportedLocale();
 		$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
+		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
+		$this->setMetaDescription($this->getPriceLabel() . "€ - " . $record->getImportedComposition());
 
 		$variant = $record->getVariant();
 
