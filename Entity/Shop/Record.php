@@ -483,7 +483,7 @@ class Record
 	{
 		$variant = false;
 
-		$color = false:
+		$color = false;
 		if(array_key_exists('Descr.Colore', $data)) $color = $data['Descr.Colore'];
 		else if(array_key_exists('Colore', $data)) $color = $data['Colore'];
 		else if(array_key_exists('Color', $data)) $color = $data['Color'];
