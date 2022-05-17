@@ -255,7 +255,7 @@ class RecordController extends AbstractController
 
 				if (!$product)
 				{
-					array_push($errors, $record->getCode() . ' - ' . $record->getVariantLabel());
+					array_push($errors, $record->getId() . ' - ' . $record->getType() . ' - ' . $record->getCode() . ' - ' . $record->getVariantLabel());
 					continue;
 				}
 
