@@ -107,12 +107,17 @@ class RecordController extends AbstractController
 		foreach ($list as $record)
 		{
 			$label = $record->getCode() . ' - ' . $record->getProductVariant();
-			if (array_key_exists($label, $addedpr)) $product = $addedpr[$label];
-			else if ($last && $last->checkRecord($record)) $product = $last;
+
+			if (array_key_exists($label, $addedpr))
+				$product = $addedpr[$label];
+
+			else if ($last && $last->checkRecord($record))
+				$product = $last;
+
 			else $product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-					'code' => $record->getCode(),
-					'variant' => $record->getProductVariant()
-				]);
+				'code' => $record->getCode(),
+				'variant' => $record->getProductVariant()
+			]);
 
 			if (!$product)
 			{
@@ -122,13 +127,11 @@ class RecordController extends AbstractController
 				$addedpr[$record->getCode() . ' - ' . $record->getProductVariant()] = $product;
 			}
 
-			if (!$product->checkRecord($record))
+			if (!$product->checkRecord($record) || !$product->importRecord($record))
 			{
 				$errors++;
-				continue;
 			}
 
-			if (!$product->importRecord($record)) $errors++;
 			$last = $product;
 		}
 

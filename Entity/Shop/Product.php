@@ -192,14 +192,14 @@ class Product
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->name = 'New Product';
-		$this->type = $this->getTypes()[0];
+		$this->type = 'unset';
 		$this->code = uniqid();
 		$this->shipment = true;
 		$this->limited = true;
 		$this->buyed = 0;
 		$this->quantity = 0;
 		$this->selled = 0;
-		$this->status = $this->getStatusValues()[0];
+		$this->status = 'unset';
 		$this->public = false;
 		$this->removed = false;
 	}
@@ -468,6 +468,11 @@ class Product
 		return array_values(Product::getTypeArray());
 	}
 
+	public function isSimple()
+	{
+		return $this->type == 'simple';
+	}
+
 	public function setShipment($shipment)
 	{
 		$this->shipment = $shipment;
@@ -547,14 +552,14 @@ class Product
 	public function getQuantity($variant = false)
 	{
 		if (!$this->limited) return 1;
-		if ($this->getVariantType() != null && $variant) return $this->getVariantQuantity($variant);
+		if ($this->hasVariants() && $variant) return $this->getVariantQuantity($variant);
 		return $this->quantity;
 	}
 
 	public function checkQuantity($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $this->checkVariantQuantity($variant, $quantity);
+		if ($this->hasVariants()) return $this->checkVariantQuantity($variant, $quantity);
 		if ($this->quantity < $quantity) return false;
 		return true;
 	}
@@ -562,8 +567,8 @@ class Product
 	public function sell($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $variant ? $this->sellVariant($variant, $quantity) : false;
-		if ($this->quantity < $quantity)  return false;
+		if ($this->hasVariants()) return $variant ? $this->sellVariant($variant, $quantity) : false;
+		if ($this->quantity < $quantity) return false;
 		$this->quantity -= $quantity;
 		$this->selled += $quantity;
 		return true;
@@ -572,8 +577,7 @@ class Product
 	public function buy($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $variant ? $this->buyVariant($variant, $quantity) : false;
-		if ($this->quantity < $quantity) return false;
+		if ($this->hasVariants()) return $variant ? $this->buyVariant($variant, $quantity) : false;
 		$this->quantity += $quantity;
 		$this->buyed += $quantity;
 		return true;
@@ -582,8 +586,8 @@ class Product
 	public function return($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $variant ? $this->returnVariant($variant, $quantity) : false;
-		if ($this->quantity < $quantity) return false;
+		if ($this->hasVariants()) return $variant ? $this->returnVariant($variant, $quantity) : false;
+		if ($this->selled < $quantity) return false;
 		$this->quantity += $quantity;
 		$this->selled -= $quantity;
 		return true;
@@ -592,8 +596,8 @@ class Product
 	public function back($quantity, $variant = false)
 	{
 		if (!$this->limited) return true;
-		if ($this->getVariantType() != null) return $variant ? $this->backVariant($variant, $quantity) : false;
-		if ($this->quantity < $quantity) return false;
+		if ($this->hasVariants()) return $variant ? $this->backVariant($variant, $quantity) : false;
+		if ($this->quantity < $quantity || $this->buyed < $quantity) return false;
 		$this->quantity -= $quantity;
 		$this->buyed -= $quantity;
 		return true;
@@ -654,6 +658,11 @@ class Product
 		return $this;
 	}
 
+	public function setAsStored()
+	{
+		return $this->setStatus('stored');
+	}
+
 	/**
 	 * Get status
 	 *
@@ -667,7 +676,6 @@ class Product
 	public static function getStatusArray()
 	{
 		return [
-			'Unset' => 'unset',
 			'New Product' => 'new',
 			'Stored Data' => 'stored',
 			'Available' => 'availab',
@@ -1281,24 +1289,33 @@ class Product
 	{
 		if($this->status != 'unset') return false;
 
-		$this->setCode($record->getCode());
 		$name = strtolower($record->getCategory());
-		$this->setName(ucwords($name));
-		$this->setDescription($record->getImportedDescription());
-		$this->setComposition($record->getImportedComposition());
-		$this->setBrand($record->getBrand());
-		$this->setPath(str_replace(' ', '-',str_replace('.', '',
-			$record->getCode() . "-" . strtolower(
-				$record->getCategory() . "-" . $record->getBrand() .
-				($record->hasVariant() ? '-' . $record->getProductVariant() : '')
-			)
-		)));
-		$this->setNewPrice($record->getPrice());
-		$this->setStatus($this->getStatusValues()[2]);
 		$locale = $record->getImportedLocale();
-		$this->setLocale($locale != null && $locale != '' ? $locale : 'it');
-		$this->setMetaTitle($record->getCategory() . " - " . $record->getBrand());
-		$this->setMetaDescription($this->getPriceLabel() . "€ - " . $record->getImportedComposition());
+
+		$this
+			->setAsStored()
+			->setCode($record->getCode())
+			->setName(ucwords($name))
+			->setDescription($record->getImportedDescription())
+			->setComposition($record->getImportedComposition())
+			->setBrand($record->getBrand())
+			->setPath(str_replace(' ', '-',str_replace('.', '',
+				$record->getCode() . "-" . strtolower(
+					$record->getCategory() . "-" . $record->getBrand() .
+					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
+				)
+			)))
+			->setNewPrice($record->getPrice())
+			->setLocale($locale != null && $locale != '' ? $locale : 'it')
+			->setMetaTitle($name .
+				($this->getVariant() ? " - " . ucwords($this->getVariant()) : '') .
+				($record->getBrand() ? " - " . $record->getBrand() : '')
+			)
+			->setMetaDescription($this->getPriceLabel() . "€" .
+				($this->getVariantsLabel() ? ' - ' . $this->getVariantsLabel() : '') .
+				($record->getImportedComposition() ? ' - ' . $record->getImportedComposition() : '')
+			)
+		;
 
 		$variant = $record->getVariant();
 
@@ -1313,9 +1330,8 @@ class Product
 
 	public function importRecord(Record $record)
 	{
-		if ($record->isLoaded()) return false;
-
-		if (!$this->buyOrSellRecord($record)) return false;
+		if ($record->isLoaded() || !$this->buyOrSellRecord($record))
+			return false;
 
 		$record->setLoadedValue();
 
@@ -1332,7 +1348,7 @@ class Product
 
 	public function hasVariants()
 	{
-		return $this->type == 'vrnts' && $this->getVariantType() != null;
+		return $this->type == 'vrnts' && $this->hasVariantType();
 	}
 
 	public function resetVariants()
@@ -1415,16 +1431,24 @@ class Product
 		return ($this->buyed - $this->quantity - $this->selled) == 0;
 	}
 
-	public function getVariantType()
+	public function hasVariantType()
 	{
 		$data = $this->getData();
-		return array_key_exists('variant-type', $data) && strlen($data['variant-type']) ? $data['variant-type'] : null;
+		return array_key_exists('variant-type', $data) && strlen($data['variant-type']);
+	}
+
+	public function getVariantType()
+	{
+		return $this->isSimple() ? 'simple' :
+			($this->hasVariantType() ? $this->data['variant-type'] : 'variant')
+		;
 	}
 
 	public function setVariantType($type)
 	{
-		if (!is_string($type) || !in_array($type, $this->getVariantTypes()))
-			return;
+		if ($this->type != 'unset' || !is_string($type) ||
+			!in_array($type, $this->getVariantTypes())
+		) return;
 
 		if (!$this->data) $this->data = [];
 
@@ -1437,31 +1461,23 @@ class Product
 				$this->data['variant-field'] = 'color';
 				$this->data['variants-type'] = 'size';
 				break;
+
+			case 'simple':
+				$this->resetVariants();
+				$this->setType($this->getTypes()[0]);
+				$this->data['variant-field'] = 'variant';
+				break;
 		}
 
 		$this->data['variants'] = [];
 	}
 
-	public function setSimpleType()
-	{
-		if ($this->type != 'unset')
-			return;
-
-		$this->resetVariants();
-		$this->setType($this->getTypes()[0]);
-		$this->data['variant-field'] = 'variant';
-	}
-
 	public static function getVariantTypes()
 	{
 		return [
+			'simple',
 			'color-n-size'
 		];
-	}
-
-	public function hasVariantType()
-	{
-		return !is_null($this->getVariantType());
 	}
 
 	public function isColorNSize()
@@ -1469,16 +1485,26 @@ class Product
 		return $this->getVariantType() == 'color-n-size';
 	}
 
-	public function getVariantField()
+	public function hasVariantField()
 	{
 		$data = $this->getData();
-		return array_key_exists('variant-field', $data) && strlen($data['variant-field']) ? $data['variant-field'] : null;
+		return array_key_exists('variant-field', $data) && strlen($data['variant-field']);
+	}
+
+	public function getVariantField()
+	{
+		return $this->hasVariantField() ? $this->data['variant-field'] : 'variant';
+	}
+
+	public function hasVariantsType()
+	{
+		$data = $this->getData();
+		return array_key_exists('variants-type', $data) && strlen($data['variants-type']);
 	}
 
 	public function getVariantsType()
 	{
-		$data = $this->getData();
-		return array_key_exists('variants-type', $data) && strlen($data['variants-type']) ? $data['variants-type'] : null;
+		return $this->hasVariantsType() ? $this->data['variants-type'] : 'variants';
 	}
 
 	public function addVariant($variant)
@@ -1512,22 +1538,24 @@ class Product
 
 	public function addSimpleVariant($variant)
 	{
-		if (!$this->data || !array_key_exists('variant-type', $this->data) || !$this->data['variant-type'])
-			$this->setSimpleType();
+		if (!$this->data || !$this->hasVariantType())
+		{
+			$this->setVariantType('simple');
+
+			if (!array_key_exists('variant', $variant))
+				return true;
+
+			$this->setVariant($variant['variant']);
+
+			if (array_key_exists('field', $variant) && strlen($variant['field']))
+				$this->data['variant-field'] = $variant['field'];
+		}
 
 		if ($this->hasVariantType() || !is_array($this->variant) ||
+			$this->getVariantType() != $variant['type'] ||
 			(!array_key_exists('variant', $variant) && $this->variant != null) ||
-			(array_key_exists('variant', $variant) && $this->variant != $variant['variant']) ||
-			$this->getVariantType() != $variant['type']
+			(array_key_exists('variant', $variant) && $this->variant != $variant['variant'])
 		) return false;
-
-		if (!array_key_exists('variant', $variant))
-			return true;
-
-		$this->setVariant($variant['variant']);
-
-		if (array_key_exists('field', $variant) && strlen($variant['field']))
-			$this->data['variant-field'] = $variant['field'];
 
 		return true;
 	}
@@ -1535,12 +1563,17 @@ class Product
 	public function addColorAndSize($variant)
 	{
 		if (!$this->data || !array_key_exists('variant-type', $this->data) || !$this->data['variant-type'])
+		{
 			$this->setVariantType('color-n-size');
 
-		if (!$this->isColorNSize() || !is_array($this->variant) ||
+			if (array_key_exists('color', $variant))
+				$this->setVariant($variant['color']);
+		}
+
+		if (!$this->isColorNSize() || !is_array($variant) ||
+			'color-n-size' != $variant['type'] ||
 			(!array_key_exists('color', $variant) && $this->variant != null) ||
-			(array_key_exists('color', $variant) && $this->variant != $variant['color']) ||
-			$this->getVariantType() != $variant['type']
+			(array_key_exists('color', $variant) && $this->variant != $variant['color'])
 		) return false;
 
 		return $this->addSize($variant);
@@ -1619,14 +1652,14 @@ class Product
 			if ($record->getType() == 'back')
 				return $this->back($record->getQuantity());
 			if ($record->getType() == 'sale')
-				return $this->sale($record->getQuantity());
+				return $this->sell($record->getQuantity());
 			if ($record->getType() == 'purchas')
-				return $this->purchas($record->getQuantity());
+				return $this->buy($record->getQuantity());
 
 			return false;
 		}
 
-		if($variant['type'] == 'unset')
+		if(in_array($variant['type'], ['unset', 'simple']))
 			return false;
 
 		if ($record->getType() == 'return')
@@ -1672,29 +1705,32 @@ class Product
 			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
 			(array_key_exists('variant', $variant) && $variant['variant'] != $this->getVariant()) ||
 			(array_key_exists('color', $variant) && $variant['color'] != $this->getVariant()) ||
-			(!array_key_exists('name', $variant) || $this->findVariant($variant['name']) < 0)
+			!array_key_exists('name', $variant) || $this->findVariant($variant['name']) < 0
 		) return false;
 		return true;
 	}
 
 	public function getVariantsLabel()
 	{
-		if (!$this->hasVariants() || !is_array($this->data['variants'])) return '';
+		if (!$this->hasVariants() || !is_array($this->data['variants']))
+			return null;
+
 		$list = [];
-		for ($i=0; $i < count($this->data['variants']); $i++) {
+
+		for ($i=0; $i < count($this->data['variants']); $i++)
 			$list[] = $this->data['variants'][$i]['name'];
-		}
+
 		return join(', ', $list);
 	}
 
 	public function checkRecord($record)
 	{
-		return !(
-			!$record ||
-			$this->getCode() != $record->getCode() ||
-			$this->getVariant() != $record->getProductVariant() ||
-			$this->getVariantType() != $record->getVariantType()
-		);
+		return 
+			is_object($record) &&
+			$this->getCode() == $record->getCode() &&
+			$this->getVariant() == $record->getProductVariant() &&
+			$this->getVariantType() == $record->getVariantType()
+		;
 	}
 
 	public function checkRecordVariant($record)

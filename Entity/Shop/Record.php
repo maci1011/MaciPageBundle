@@ -342,9 +342,9 @@ class Record
 		foreach($data as $key => $value)
 		{
 			$opt = trim(strtolower($key));
-			$opt = str_replace(' ', '', $key);
-			$opt = str_replace('.', '', $key);
-			$opt = str_replace(':', '', $key);
+			$opt = str_replace(' ', '', $opt);
+			$opt = str_replace('.', '', $opt);
+			$opt = str_replace(':', '', $opt);
 			if (7 < strlen($opt)) $opt = substr($opt, 0, 7);
 
 			switch ($opt)
@@ -352,34 +352,46 @@ class Record
 				case 'articol':
 				case 'codice':
 				case 'codart':
+				case 'code':
 					$this->code = $value;
+					unset($data[$key]);
+					$data['code'] = $value;
 					break;
 				case 'barcode':
 					$this->barcode = $value;
+					unset($data[$key]);
+					$data['barcode'] = $value;
 					break;
 				case 'descrma':
 				case 'marchio':
 				case 'brand':
 					$this->brand = $value;
+					unset($data[$key]);
+					$data['brand'] = $value;
 					break;
 				case 'descrca':
-				case 'descriz':
 				case 'titolo':
 				case 'title':
 				case 'categor':
 					$this->category = $value;
+					unset($data[$key]);
+					$data['category'] = $value;
 					break;
 				case 'prezzo':
 				case 'przlord':
 				case 'unixxeu':
 				case 'price':
 					$this->price = floatval(str_replace(',', '.', $value));
+					unset($data[$key]);
+					$data['price'] = number_format($this->price, 2);
 					break;
 				case 'quantit':
 				case 'qtà':
 				case 'qta':
 				case 'qty':
 					$this->quantity = intval($value);
+					unset($data[$key]);
+					$data['quantity'] = $value;
 					break;
 			}
 		}
@@ -429,6 +441,10 @@ class Record
 	public function getImportedDescription()
 	{
 		if (!$this->getImported()) return null;
+		if (array_key_exists('Descrizione', $this->data['imported']))
+			return $this->data['imported']['Descrizione'];
+		if (array_key_exists('Descriz.', $this->data['imported']))
+			return $this->data['imported']['Descriz.'];
 		if (array_key_exists('Description', $this->data['imported']))
 			return $this->data['imported']['Description'];
 		return null;
@@ -442,25 +458,6 @@ class Record
 		if (array_key_exists('Composition', $this->data['imported']))
 			return $this->data['imported']['Composition'];
 		return null;
-	}
-
-	public function getImportedPrice()
-	{
-		if (!$this->getImported()) return null;
-		if (array_key_exists('Uni:XXEUR025', $this->data['imported']))
-			return number_format(floatval($this->data['imported']['Uni:XXEUR025']), 2);
-		if (array_key_exists('Prz.Lordo', $this->data['imported']))
-			return number_format(floatval($this->data['imported']['Prz.Lordo']), 2);
-		if (array_key_exists('Prezzo', $this->data['imported']))
-			return number_format(floatval($this->data['imported']['Prezzo']), 2);
-		if (array_key_exists('Price', $this->data['imported']))
-			return number_format(floatval($this->data['imported']['Price']), 2);
-		return null;
-	}
-
-	public function getBuyed()
-	{
-		return $this->getImportedPrice();
 	}
 
 	public function getImportedTotal()
