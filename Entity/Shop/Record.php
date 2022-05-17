@@ -406,6 +406,8 @@ class Record
 
 	public function reload()
 	{
+		$this->setVariant($this->getVariant());
+
 		if (!is_array($this->data) || !array_key_exists('imported', $this->data))
 			return false;
 
