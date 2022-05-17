@@ -21,11 +21,11 @@ Maci\PageBundle\Entity\Shop\Record:
             nullable: true
         brand:
             type: string
-            length: 15
+            length: 31
             nullable: true
         category:
             type: string
-            length: 15
+            length: 63
         price:
             type: decimal
             precision: 5
