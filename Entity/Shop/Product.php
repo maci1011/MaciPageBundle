@@ -1545,7 +1545,7 @@ class Product
 			if (!array_key_exists('variant', $variant))
 				return true;
 
-			$this->setVariant($variant['variant']);
+			$this->setVariant(ucwords($variant['variant']));
 
 			if (array_key_exists('field', $variant) && strlen($variant['field']))
 				$this->data['variant-field'] = $variant['field'];
@@ -1567,7 +1567,7 @@ class Product
 			$this->setVariantType('color-n-size');
 
 			if (array_key_exists('color', $variant))
-				$this->setVariant($variant['color']);
+				$this->setVariant(ucwords($variant['color']));
 		}
 
 		if (!$this->isColorNSize() || !is_array($variant) ||
