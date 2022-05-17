@@ -772,6 +772,11 @@ class Product
 		return $this->variant;
 	}
 
+	public function getVariantLabel()
+	{
+		return ucwords($this->variant);
+	}
+
 	/**
 	 * Set data
 	 *
@@ -1289,13 +1294,13 @@ class Product
 	{
 		if($this->status != 'unset') return false;
 
-		$name = strtolower($record->getCategory());
+		$name = ucwords(strtolower($record->getCategory()));
 		$locale = $record->getImportedLocale();
 
 		$this
 			->setAsStored()
 			->setCode($record->getCode())
-			->setName(ucwords($name))
+			->setName($name)
 			->setDescription($record->getImportedDescription())
 			->setComposition($record->getImportedComposition())
 			->setBrand($record->getBrand())
@@ -1545,7 +1550,7 @@ class Product
 			if (!array_key_exists('variant', $variant))
 				return true;
 
-			$this->setVariant(ucwords($variant['variant']));
+			$this->setVariant($variant['variant']);
 
 			if (array_key_exists('field', $variant) && strlen($variant['field']))
 				$this->data['variant-field'] = $variant['field'];
@@ -1567,7 +1572,7 @@ class Product
 			$this->setVariantType('color-n-size');
 
 			if (array_key_exists('color', $variant))
-				$this->setVariant(ucwords($variant['color']));
+				$this->setVariant($variant['color']);
 		}
 
 		if (!$this->isColorNSize() || !is_array($variant) ||
