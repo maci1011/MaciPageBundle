@@ -89,7 +89,7 @@ class RecordController extends AbstractController
 		if (in_array($cmd, ['reload_recs']))
 			return $this->reloadRecords($list, $cmd);
 
-		if (in_array($cmd, ['get_nf', 'reset_nf', 'reload_pr']))
+		if (in_array($cmd, ['get_nf', 'reload_nf_recs', 'reset_nf', 'reload_pr']))
 			return $this->resetNotFounds($list, $cmd);
 
 		if ($_all) return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
@@ -227,6 +227,8 @@ class RecordController extends AbstractController
 			{
 				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
+				$record->reload();
+
 				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
 
 				$record->resetLoadedValue();
@@ -268,7 +270,7 @@ class RecordController extends AbstractController
 			}
 		}
 
-		if ($cmd == 'reload_pr')
+		if (in_array($cmd, ['reload_nf_recs', 'reload_pr'])
 			$om->flush();
 
 		return new JsonResponse([
