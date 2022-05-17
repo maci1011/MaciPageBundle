@@ -17,7 +17,7 @@ Maci\PageBundle\Entity\Shop\Product:
             length: 127
         path:
             type: string
-            length: 63
+            length: 127
         type:
             type: string
             length: 7
