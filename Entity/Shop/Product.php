@@ -1710,7 +1710,7 @@ class Product
 			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
 			(array_key_exists('variant', $variant) && $variant['variant'] != $this->getVariant()) ||
 			(array_key_exists('color', $variant) && $variant['color'] != $this->getVariant()) ||
-			!array_key_exists('name', $variant) || $this->findVariant($variant['name']) < 0
+			(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
 		) return false;
 		return true;
 	}
@@ -1743,9 +1743,10 @@ class Product
 		return $this->checkRecord($record) && $this->checkVariant($record->getVariant());
 	}
 
-	public function createRecord($variant = false)
+	public function createRecord($variant)
 	{
-		if ($this->hasVariants() && !$this->checkVariant($variant)) return false;
+		if (!$this->checkVariant($variant))
+			return false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());
@@ -1753,14 +1754,12 @@ class Product
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
 
-		if (!$this->hasVariants()) return $record;
-
 		$record->setVariant($variant);
 
 		return $record;
 	}
 
-	public function exportRecord($type, $variant = false, $quantity = 0)
+	public function exportRecord($type, $variant, $quantity = 0)
 	{
 		if (!in_array($type, Record::getTypes())) return false;
 
@@ -1776,22 +1775,22 @@ class Product
 		return $record;
 	}
 
-	public function exportSaleRecord($variant = false, $quantity = 0)
+	public function exportSaleRecord($variant, $quantity = 0)
 	{
 		return $this->exportRecord('sale', $variant, $quantity);
 	}
 
-	public function exportPurchaseRecord($variant = false, $quantity = 0)
+	public function exportPurchaseRecord($variant, $quantity = 0)
 	{
 		return $this->exportRecord('purchas', $variant, $quantity);
 	}
 
-	public function exportReturnRecord($variant = false, $quantity = 0)
+	public function exportReturnRecord($variant, $quantity = 0)
 	{
 		return $this->exportRecord('return', $variant, $quantity);
 	}
 
-	public function exportBackRecord($variant = false, $quantity = 0)
+	public function exportBackRecord($variant, $quantity = 0)
 	{
 		return $this->exportRecord('back', $variant, $quantity);
 	}

@@ -399,8 +399,9 @@ class Record
 		if($this->data == null)
 			$this->data = [];
 
-		$this->data['imported'] = $data;
 		$this->setVariant($data);
+
+		$this->data['imported'] = $data;
 	}
 
 	public function reload()
@@ -484,26 +485,38 @@ class Record
 		return $this->data['variant'];
 	}
 
-	public function setVariant($data)
+	public function setVariant(&$data)
 	{
 		$variant = false;
 
 		$color = false;
-		if(array_key_exists('Descr.Colore', $data)) $color = $data['Descr.Colore'];
-		else if(array_key_exists('Colore', $data)) $color = $data['Colore'];
-		else if(array_key_exists('Color', $data)) $color = $data['Color'];
+		if(array_key_exists('Descr.Colore', $data)) $color = 'Descr.Colore';
+		else if(array_key_exists('Colore', $data)) $color = 'Colore';
+		else if(array_key_exists('Color', $data)) $color = 'Color';
 
 		$size = false;
-		if(array_key_exists('Tgl', $data)) $size = $data['Tgl'];
-		else if(array_key_exists('Taglia', $data)) $size = $data['Taglia'];
-		else if(array_key_exists('Size', $data)) $size = $data['Size'];
+		if(array_key_exists('Tgl', $data)) $size = 'Tgl';
+		else if(array_key_exists('Taglia', $data)) $size = 'Taglia';
+		else if(array_key_exists('Size', $data)) $size = 'Size';
 
 		if($color && $size)
 		{
 			$variant = [];
 			$variant['type'] = 'color-n-size';
-			$variant['color'] = $color;
-			$variant['name'] = $size;
+
+			$v = $data[$color];
+			unset($data[$color]);
+			$color = $v;
+			$color = str_replace('+', ' ', $color);
+			$color = ucwords($color);
+			$data['color'] = $variant['color'] = $color;
+
+			$v = $data[$size];
+			unset($data[$size]);
+			$size = $v;
+			$size = str_replace('+', ' ', $size);
+			$size = ucwords($size);
+			$data['size'] = $variant['name'] = $size;
 		}
 		else if(array_key_exists('type', $data))
 			$variant = $data;
