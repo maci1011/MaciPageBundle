@@ -207,6 +207,7 @@ class RecordController extends AbstractController
 	public function resetNotFounds($list, $cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
+
 		$loaded = 0;
 		$imported = 0;
 		$addedpr = [];
@@ -270,7 +271,7 @@ class RecordController extends AbstractController
 			}
 		}
 
-		if (in_array($cmd, ['reload_nf_recs', 'reload_pr'])
+		if (in_array($cmd, ['reload_nf_recs', 'reload_pr']))
 			$om->flush();
 
 		return new JsonResponse([
