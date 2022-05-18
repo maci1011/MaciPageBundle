@@ -3,7 +3,7 @@
 
 var maciShopImport = function (options) {
 
-	var form, select, records, fileInput, alertNode,
+	var form, select, records, fileInput, alertNode, saveditems,
 
 	_obj = {
 
@@ -36,25 +36,43 @@ var maciShopImport = function (options) {
 		});
 	},
 
-	loadUnsettedRecords: function(ids) {
+	loadUnsettedRecords: function() {
 		$.ajax({
 			type: 'POST',
 			data: {
-				'ids': ids
+				'ids': saveditems
 			},
 			url: '/record/load-unsetted-records',
 			success: function(d,s,x) {
-				var endNode = $("<div/>").addClass('alert alert-success mt-2').css('marginTop', '16px').appendTo(form)
+
+				var endNode = $("<div/>").addClass('alert alert-success mt-2')
+					.css('marginTop', '16px').appendTo(form)
 					.text("End of Import and Load.");
+
 				setTimeout(function() {
 					endNode.remove();
 				}, 5000);
+
 			}
 		});
 	},
 
 	saveRecords: function() {
 		// if (0 < index) return _obj.end();
+
+		var savelist = [];
+
+		if (records.length < 50)
+		{
+			savelist = records;
+			records = [];
+		}
+		else
+		{
+			savelist = records.slice(0, 47);
+			records = records.slice(47, records.length);
+		}
+
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -62,7 +80,7 @@ var maciShopImport = function (options) {
 					'new': {
 						'section': 'records',
 						'entity': 'record',
-						'params': records,
+						'params': savelist,
 						'relations': {
 							'parent': select.val()
 						}
@@ -107,17 +125,18 @@ var maciShopImport = function (options) {
 			alert('No Data.');
 			return;
 		}
+
 		alertNode = $("<div/>").addClass('alert alert-info mt-2').css('marginTop', '16px').appendTo(form)
 			.text("Importing " + records.length + " records...");
+
 		select.parent().hide();
 		submit.parent().hide();
+
+		saveditems = [];
 		_obj.saveRecords();
 	},
 
 	end: function(data) {
-		select.parent().show();
-		submit.parent().show();
-		form.find("#import_data").val('');
 		if (!data || !data.new.success)
 		{
 			alertNode.text("Error. End!");
@@ -126,16 +145,30 @@ var maciShopImport = function (options) {
 			}, 5000);
 			return;
 		}
-		var ids = [];
+
 		for (var i = 0; i < data.new.list.length; i++)
 		{
-			if (data.new.list[i].success) ids[i] = data.new.list[i].id;
+			if (data.new.list[i].success) saveditems.push(data.new.list[i].id);
 		}
-		alertNode.text("Imported: " + ids.length + ". End!");
+
+		if (0 < records.length)
+		{
+			var len = saveditems.length + records.length;
+			alertNode.text("Importing: " + saveditems.length + " of " + len + " records...");
+			_obj.saveRecords();
+			return;
+		}
+
+		select.parent().show();
+		submit.parent().show();
+		form.find("#import_data").val('');
+
+		alertNode.text("Imported: " + saveditems.length + ". End!");
 		setTimeout(function() {
 			alertNode.remove();
 		}, 5000);
-		_obj.loadUnsettedRecords(ids);
+
+		_obj.loadUnsettedRecords();
 	},
 
 	importXml: function(data) {

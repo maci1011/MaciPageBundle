@@ -100,7 +100,7 @@ class RecordController extends AbstractController
 	public function importList($list)
 	{
 		$om = $this->getDoctrine()->getManager();
-		$errors = 0;
+		$imported = 0;
 		$last = false;
 		$addedpr = [];
 
@@ -128,18 +128,19 @@ class RecordController extends AbstractController
 			}
 
 			if (!$product->checkRecord($record) || !$product->importRecord($record))
-			{
-				$errors++;
-			}
+				continue;
 
+			$imported++;
 			$last = $product;
 		}
 
-		$om->flush();
+		// $om->flush();
 
 		return new JsonResponse([
 			'success' => true,
-			'errors' => $errors
+			'length' => count($list),
+			'imported' => $imported,
+			'errors' => count($list) - $imported
 		], 200);
 	}
 

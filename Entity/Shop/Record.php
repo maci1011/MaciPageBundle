@@ -570,8 +570,11 @@ class Record
 			$variant['type'] == 'unset'
 		) return null;
 
-		if ($variant['type'] == 'color-n-size') return $variant['color'];
-		if ($variant['type'] == 'simple') return $variant['variant'];
+		if ($variant['type'] == 'color-n-size')
+			return $variant['color'];
+
+		if ($variant['type'] == 'simple')
+			return $variant['variant'];
 
 		return null;
 	}
