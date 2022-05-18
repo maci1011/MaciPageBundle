@@ -134,7 +134,7 @@ class RecordController extends AbstractController
 			$last = $product;
 		}
 
-		// $om->flush();
+		$om->flush();
 
 		return new JsonResponse([
 			'success' => true,
