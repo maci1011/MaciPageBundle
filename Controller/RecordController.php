@@ -212,6 +212,7 @@ class RecordController extends AbstractController
 		$loaded = 0;
 		$addedpr = [];
 		$nfs = [];
+		$nfs_pr = [];
 		$errors = [];
 		$resets = [];
 
@@ -228,7 +229,7 @@ class RecordController extends AbstractController
 			{
 				$record->reload();
 
-				$nfs[$record->getCode() . ' - ' . $record->getVariantLabel()] = $product;
+				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
 				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
 
@@ -261,12 +262,14 @@ class RecordController extends AbstractController
 
 				if ($product->loadRecord($record))
 					$loaded++;
+
+				array_push($nfs_pr, $product);
 			}
 		}
 
 		if (in_array($cmd, ['reset_nf', 'reload_pr']))
 		{
-			foreach ($nfs as $key => $product)
+			foreach ($nfs_pr as $key => $product)
 			{
 				array_push($resets, $this->checkQuantity(
 					$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
@@ -279,7 +282,7 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'not_founds' => array_keys($nfs),
+			'not_founds' => $nfs,
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'resets' => $resets,
