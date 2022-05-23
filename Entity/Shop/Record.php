@@ -409,10 +409,9 @@ class Record
 		$this->setVariant($this->getVariant());
 
 		if (!is_array($this->data) || !array_key_exists('imported', $this->data))
-			return false;
+			return;
 
 		$this->import($this->data['imported']);
-		return true;
 	}
 
 	public function getImported()
@@ -548,24 +547,27 @@ class Record
 
 	public function getVariantLabel()
 	{
+		if(!$this->hasVariant()) return null;
+
 		$data = $this->getData();
-		if(!array_key_exists('variant', $data)) return null;
 
 		if($data['variant']['type'] == 'color-n-size')
 			return $data['variant']['color'] . ", " . $data['variant']['name'];
 
 		if($data['variant']['type'] == 'simple')
-			return $data['variant']['variant'];
+			return $data['variant']['field'] . ": " . $data['variant']['variant'];
 
 		return $data['variant']['type'];
 	}
 
 	public function getVariantName()
 	{
+		if(!$this->hasVariant()) return null;
 		$data = $this->getData();
-		if(!array_key_exists('variant', $data)) return null;
+
 		if($data['variant']['type'] == 'color-n-size')
 			return $data['variant']['name'];
+
 		return $data['variant']['type'];
 	}
 
