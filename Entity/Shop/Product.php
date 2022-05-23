@@ -1365,6 +1365,7 @@ class Product
 		if(array_key_exists('variant-type', $data)) unset($data['variant-type']);
 		if(array_key_exists('variant-field', $data)) unset($data['variant-field']);
 		if(array_key_exists('variants-type', $data)) unset($data['variants-type']);
+
 		if(array_key_exists('variants', $data)) $data['variants'] = [];
 
 		$this->data = $data;
@@ -1397,12 +1398,14 @@ class Product
 	{
 		if (!$this->hasVariants()) return;
 
-		for ($i=0; $i < count($this->getVariants()); $i++)
-		{
-			$this->data['variants'][$i]['buyed'] = 0;
-			$this->data['variants'][$i]['quantity'] = 0;
-			$this->data['variants'][$i]['selled'] = 0;
-		}
+		// for ($i=0; $i < count($this->getVariants()); $i++)
+		// {
+		// 	$this->data['variants'][$i]['buyed'] = 0;
+		// 	$this->data['variants'][$i]['quantity'] = 0;
+		// 	$this->data['variants'][$i]['selled'] = 0;
+		// }
+
+		$this->data['variants'] = [];
 	}
 
 	public function sumVariants($key)

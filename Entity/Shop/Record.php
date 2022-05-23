@@ -566,7 +566,7 @@ class Record
 			return $data['variant']['color'] . ", " . $data['variant']['name'];
 
 		if($data['variant']['type'] == 'simple')
-			return $data['variant']['field'] . ": " . $data['variant']['variant'];
+			return ucwords($data['variant']['field']) . ": " . $data['variant']['variant'];
 
 		return $data['variant']['type'];
 	}
