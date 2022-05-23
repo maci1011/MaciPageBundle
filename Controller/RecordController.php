@@ -212,9 +212,9 @@ class RecordController extends AbstractController
 		$loaded = 0;
 		$addedpr = [];
 		$nfs = [];
-		$nfs_pr = [];
 		$errors = [];
 		$resets = [];
+		$reset_pr = [];
 
 		foreach ($list as $record)
 		{
@@ -263,13 +263,13 @@ class RecordController extends AbstractController
 				if ($product->loadRecord($record))
 					$loaded++;
 
-				array_push($nfs_pr, $product);
+				$reset_pr[$label] = $product;
 			}
 		}
 
 		if (in_array($cmd, ['reset_nf', 'reload_pr']))
 		{
-			foreach ($nfs_pr as $key => $product)
+			foreach ($reset_pr as $key => $product)
 			{
 				array_push($resets, $this->checkQuantity(
 					$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
