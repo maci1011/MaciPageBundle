@@ -427,6 +427,8 @@ class Product
 	{
 		$this->type = $type;
 
+		if ($type == 'simple') $this->resetVariants();
+
 		return $this;
 	}
 
@@ -1360,9 +1362,9 @@ class Product
 	{
 		$data = $this->getData();
 
-		if(array_key_exists('variant-type', $data)) $data['variant-type'] = false;
-		if(array_key_exists('variant-field', $data)) $data['variant-field'] = false;
-		if(array_key_exists('variants-type', $data)) $data['variants-type'] = false;
+		if(array_key_exists('variant-type', $data)) unset($data['variant-type']);
+		if(array_key_exists('variant-field', $data)) unset($data['variant-field']);
+		if(array_key_exists('variants-type', $data)) unset($data['variants-type']);
 		if(array_key_exists('variants', $data)) $data['variants'] = [];
 
 		$this->data = $data;
