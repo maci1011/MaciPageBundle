@@ -406,7 +406,8 @@ class Record
 
 	public function reload()
 	{
-		$this->setVariant($this->getVariant());
+		$variant = $this->getVariant();
+		$this->setVariant($variant);
 
 		if (!is_array($this->data) || !array_key_exists('imported', $this->data))
 			return;
@@ -483,6 +484,7 @@ class Record
 	{
 		if (!$this->hasVariant())
 			return ['type' => 'unset'];
+
 		return $this->data['variant'];
 	}
 
@@ -529,17 +531,26 @@ class Record
 		return true;
 	}
 
-	public function findKey($map, $keys)
+	public function findKey($array, $keys)
 	{
-		if (!is_array($keys)) $keys = [$keys];
+		if (!is_array($array))
+			return false;
+
+		if (!is_array($keys))
+		{
+			if (!is_string($keys))
+				return false;
+
+			$keys = [$key];
+		}
 
 		foreach ($keys as $key)
 		{
-			if(array_key_exists($key, $data)) return $key;
+			if(array_key_exists($key, $array)) return $key;
 			$x = strtolower($key);
-			if(array_key_exists($x, $data)) return $x;
+			if(array_key_exists($x, $array)) return $x;
 			$x = strtoupper($key);
-			if(array_key_exists($x, $data)) return $x;
+			if(array_key_exists($x, $array)) return $x;
 		}
 
 		return false;
