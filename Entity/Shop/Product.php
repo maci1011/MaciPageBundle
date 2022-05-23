@@ -1398,14 +1398,12 @@ class Product
 	{
 		if (!$this->hasVariants()) return;
 
-		// for ($i=0; $i < count($this->getVariants()); $i++)
-		// {
-		// 	$this->data['variants'][$i]['buyed'] = 0;
-		// 	$this->data['variants'][$i]['quantity'] = 0;
-		// 	$this->data['variants'][$i]['selled'] = 0;
-		// }
-
-		$this->data['variants'] = [];
+		for ($i=0; $i < count($this->getVariants()); $i++)
+		{
+			$this->data['variants'][$i]['buyed'] = 0;
+			$this->data['variants'][$i]['quantity'] = 0;
+			$this->data['variants'][$i]['selled'] = 0;
+		}
 	}
 
 	public function sumVariants($key)

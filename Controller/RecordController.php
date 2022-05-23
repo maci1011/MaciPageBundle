@@ -158,16 +158,16 @@ class RecordController extends AbstractController
 
 		foreach ($products as $product)
 		{
+			$label = $product->getCode() . ' - ' . $product->getVariantLabel();
+
 			if (!$product->checkTotalQuantity())
-				array_push($errors, $product->getCode() . ' - ' . $product->getVariant());
+				array_push($errors, $label);
 
 			$product->resetQuantity();
 
 			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
 				'code' => $product->getCode()
 			]);
-
-			$label = $product->getCode() . ' - ' . $product->getVariant();
 
 			if (!count($list)) 
 			{
@@ -210,7 +210,6 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 
 		$loaded = 0;
-		$imported = 0;
 		$addedpr = [];
 		$nfs = [];
 		$errors = [];
@@ -229,7 +228,7 @@ class RecordController extends AbstractController
 			{
 				$record->reload();
 
-				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
+				$nfs[$record->getCode() . ' - ' . $record->getVariantLabel()] = $product;
 
 				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
 
@@ -262,10 +261,13 @@ class RecordController extends AbstractController
 
 				if ($product->loadRecord($record))
 					$loaded++;
+			}
+		}
 
-				if ($product->importRecord($record))
-					$imported++;
-
+		if (in_array($cmd, ['reset_nf', 'reload_pr']))
+		{
+			foreach ($nfs as $key => $product)
+			{
 				array_push($resets, $this->checkQuantity(
 					$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
 				));
@@ -277,10 +279,9 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'not_founds' => $nfs,
+			'not_founds' => array_keys($nfs),
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
-			'imported' => $imported,
 			'resets' => $resets,
 			'errors' => $errors
 		], 200);
@@ -293,7 +294,8 @@ class RecordController extends AbstractController
 
 		foreach ($list as $record)
 		{
-			if ($record->reload()) $reload++;
+			if ($record->reload())
+				$reload++;
 		}
 
 		$om->flush();
