@@ -494,12 +494,12 @@ class Record
 		$color = false;
 		if(array_key_exists('Descr.Colore', $data)) $color = 'Descr.Colore';
 		else if(array_key_exists('Colore', $data)) $color = 'Colore';
-		else if(array_key_exists('Colore', $data)) $color = 'colore';
+		else if(array_key_exists('colore', $data)) $color = 'colore';
 		else if(array_key_exists('Color', $data)) $color = 'Color';
 
 		$size = false;
 		if(array_key_exists('Tgl', $data)) $size = 'Tgl';
-		else if(array_key_exists('Taglia', $data)) $size = 'tgl';
+		else if(array_key_exists('tgl', $data)) $size = 'tgl';
 		else if(array_key_exists('Taglia', $data)) $size = 'Taglia';
 		else if(array_key_exists('Size', $data)) $size = 'Size';
 
