@@ -490,18 +490,8 @@ class Record
 	public function setVariant(&$data)
 	{
 		$variant = false;
-
-		$color = false;
-		if(array_key_exists('Descr.Colore', $data)) $color = 'Descr.Colore';
-		else if(array_key_exists('Colore', $data)) $color = 'Colore';
-		else if(array_key_exists('colore', $data)) $color = 'colore';
-		else if(array_key_exists('Color', $data)) $color = 'Color';
-
-		$size = false;
-		if(array_key_exists('Tgl', $data)) $size = 'Tgl';
-		else if(array_key_exists('tgl', $data)) $size = 'tgl';
-		else if(array_key_exists('Taglia', $data)) $size = 'Taglia';
-		else if(array_key_exists('Size', $data)) $size = 'Size';
+		$color = $this->findKey($data, ['Descr.Colore', 'Colore', 'Color']);
+		$size = $this->findKey($data, ['Tgl', 'Taglia', 'Size']);
 
 		if($color && $size)
 		{
@@ -522,7 +512,7 @@ class Record
 			$size = ucwords($size);
 			$data['size'] = $variant['name'] = $size;
 		}
-		else if(array_key_exists('type', $data))
+		else if($this->findKey($data, ['Type']))
 			$variant = $data;
 
 		if (!$variant) return false;
@@ -538,6 +528,22 @@ class Record
 
 		$this->data['variant'] = $variant;
 		return true;
+	}
+
+	public function findKey($map, $keys)
+	{
+		if (!is_array($keys)) $keys = [$keys];
+
+		foreach ($keys as $key)
+		{
+			if(array_key_exists($key, $data)) return $key;
+			$x = strtolower($key);
+			if(array_key_exists($x, $data)) return $x;
+			$x = strtoupper($key);
+			if(array_key_exists($x, $data)) return $x;
+		}
+
+		return false;
 	}
 
 	public function getVariantLabel()
