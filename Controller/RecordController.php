@@ -227,9 +227,9 @@ class RecordController extends AbstractController
 
 			if ($is_nf)
 			{
-				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
-
 				$record->reload();
+
+				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
 
 				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
 
