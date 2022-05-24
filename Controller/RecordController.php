@@ -488,6 +488,7 @@ class RecordController extends AbstractController
 			{
 				$label = $record->getCode() . '-' . $products[$i]->getVariant();
 				$variant = (1 < $record->getQuantity() ? $record->getQuantity() . ' ' : '') . $record->getVariantName();
+				if (strtolower($variant) == 'simple') $variant = '-';
 				if (array_key_exists($label, $list))
 				{
 					$x = $list[$label]['quantity'];
