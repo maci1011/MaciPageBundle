@@ -80,7 +80,15 @@ var maciShopExport = function (options) {
 					alertNode.remove();
 					alertNode = false;
 				});
-		alertNode.text((data.success ? (typeInput.val() == 'quantity' ? '' : 'Saved! ') + (data.variant && data.variant.length ? data.variant + ' - ' : '') + 'Leftovers: ' + data.quantity + '.' : 'Error! ' + data.error));
+		alertNode.text(
+			(data.success ?
+				(typeInput.val() == 'quantity' ? data.code + ' - ' +
+					(data.type == 'vrnts' ? 'Quantity: ' + data.tot + ' || Variant: ' : '')
+				: 'Saved! ') +
+				(data.variant && data.variant.length ? data.variant + ' - ' : '') +
+				'Leftovers: ' + data.quantity + '.'
+			: 'Error! ' + data.error)
+		);
 	},
 
 	reset: function() {

@@ -395,7 +395,10 @@ class RecordController extends AbstractController
 				return new JsonResponse([
 					'success' => true,
 					'variant' => $record->getVariantLabel(),
-					'quantity' => $product->getQuantity($record->getVariant())
+					'quantity' => $product->getQuantity($record->getVariant()),
+					'code' => $product->getCode(),
+					'tot' => $product->getQuantity(),
+					'type' => $product->getType()
 				], 200);
 				break;
 
