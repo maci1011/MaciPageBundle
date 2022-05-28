@@ -1720,20 +1720,19 @@ class Product
 		return join(', ', $list);
 	}
 
-	public function checkVariantId($variant)
+	public function checkVariantAttr($variant)
 	{
 		return strtolower($variant) == substr(strtolower($this->getVariant()), 0, strlen($variant));
 	}
 
 	public function checkVariant($variant)
 	{
-		if (!is_array($variant) || !array_key_exists('type', $variant) || 
+		return !(!is_array($variant) || !array_key_exists('type', $variant) || 
 			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
-			(array_key_exists('variant', $variant) && !$this->checkVariantId($variant['variant'])) ||
-			(array_key_exists('color', $variant) && !$this->checkVariantId($variant['color'])) ||
+			(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
+			(array_key_exists('color', $variant) && !$this->checkVariantAttr($variant['color'])) ||
 			(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
-		) return false;
-		return true;
+		);
 	}
 
 	public function checkRecord($record)
@@ -1741,7 +1740,7 @@ class Product
 		return 
 			is_object($record) &&
 			$this->getCode() == $record->getCode() &&
-			$this->getVariant() == $record->getProductVariant() &&
+			$this->checkVariantAttr($record->getProductVariant()) &&
 			$this->getVariantType() == $record->getVariantType()
 		;
 	}
