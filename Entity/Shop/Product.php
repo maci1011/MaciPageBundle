@@ -1707,17 +1707,6 @@ class Product
 		return -1;
 	}
 
-	public function checkVariant($variant)
-	{
-		if (!is_array($variant) || !array_key_exists('type', $variant) || 
-			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
-			(array_key_exists('variant', $variant) && $variant['variant'] != $this->getVariant()) ||
-			(array_key_exists('color', $variant) && $variant['color'] != $this->getVariant()) ||
-			(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
-		) return false;
-		return true;
-	}
-
 	public function getVariantsLabel()
 	{
 		if (!$this->hasVariants() || !is_array($this->data['variants']))
@@ -1729,6 +1718,22 @@ class Product
 			$list[] = $this->data['variants'][$i]['name'];
 
 		return join(', ', $list);
+	}
+
+	public function checkVariantId($variant)
+	{
+		return strtolower($variant) == substr(strtolower($this->getVariant()), 0, strlen($variant));
+	}
+
+	public function checkVariant($variant)
+	{
+		if (!is_array($variant) || !array_key_exists('type', $variant) || 
+			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
+			(array_key_exists('variant', $variant) && !$this->checkVariantId($variant['variant'])) ||
+			(array_key_exists('color', $variant) && !$this->checkVariantId($variant['color'])) ||
+			(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
+		) return false;
+		return true;
 	}
 
 	public function checkRecord($record)
