@@ -20,9 +20,13 @@ maci_order_remove_cart_item:
     path:  /cart/item/remove/{id}
     defaults: { _controller: MaciPageBundle:Order:removeCartItem }
 
+maci_order_start_checkout:
+    path:  /cart/checkout/start/{type}
+    defaults: { _controller: MaciPageBundle:Order:cartStartCheckout, type: checkout }
+
 maci_order_gocheckout:
-    path:  /cart/gocheckout/{option}
-    defaults: { _controller: MaciPageBundle:Order:cartGoCheckout, option: checkout }
+    path:  /cart/gocheckout
+    defaults: { _controller: MaciPageBundle:Order:cartGoCheckout }
 
 maci_order_checkout_set_checkout:
     path:  /cart/checkout/set-checkout/{checkout}

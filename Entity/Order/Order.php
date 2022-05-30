@@ -277,23 +277,22 @@ class Order
 		return $this->type;
 	}
 
-	public function getTypeArray()
+	public static function getTypeArray()
 	{
-		return array(
+		return [
 			'Cart' => 'cart',
-			'Order' => 'order',
-			'Booking' => 'booking',
-			'None' => 'none'
-		);
+			'Order' => 'order'
+		];
 	}
 
 	public function getTypeLabel()
 	{
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) return $key;
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
+	}
+
+	public static function getTypeValues()
+	{
+		return array_values(Order::getTypeArray());
 	}
 
 	public function setPayment($payment)
@@ -377,18 +376,18 @@ class Order
 		return $this->status;
 	}
 
-	public function getStatusArray()
+	public static function getStatusArray()
 	{
-		return array(
+		return [
 			'New' => 'new',
+			'Session' => 'session',
 			'Wish List' => 'wishlist',
 			'Current' => 'current',
 			'Confirm' => 'confirm',
 			'Complete' => 'complete',
 			'Paid' => 'paid',
-			'Refuse' => 'refuse',
-			'Foo' => 'foo'
-		);
+			'Refuse' => 'refuse'
+		];
 	}
 
 	public function getProgression()
@@ -405,11 +404,12 @@ class Order
 
 	public function getStatusLabel()
 	{
-		$array = $this->getStatusArray();
-		$key = array_search($this->status, $array);
-		if ($key) return $key;
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
+	}
+
+	public static function getStatusValues()
+	{
+		return array_values(Order::getStatusArray());
 	}
 
 	public function setCheckout($checkout)
@@ -424,25 +424,23 @@ class Order
 		return $this->checkout;
 	}
 
-	public function getCheckoutArray()
+	public static function getCheckoutArray()
 	{
-		return array(
-			'Full Checkout' => 'full_checkout',
+		return [
 			'Checkout' => 'checkout',
-			'Fast Checkout' => 'fast_checkout',
 			'Pickup In Store' => 'pickup',
-			'Booking' => 'booking',
-			'Foo' => 'foo'
-		);
+			'Booking' => 'booking'
+		];
 	}
 
 	public function getCheckoutLabel()
 	{
-		$array = $this->getCheckoutArray();
-		$key = array_search($this->type, $array);
-		if ($key) return $key;
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->checkout, $this->getCheckoutArray());
+	}
+
+	public static function getCheckoutValues()
+	{
+		return array_values(Order::getCheckoutArray());
 	}
 
 	/**
@@ -822,8 +820,6 @@ class Order
 
 		$this->shipping_address = $shipping_address;
 
-
-
 		return $this;
 	}
 
@@ -990,6 +986,175 @@ class Order
 		}
 
 		return true;
+	}
+
+	public static function getCheckoutActions()
+	{
+		return [
+			'billingAddress',
+			'shippingAddress',
+			'payment',
+			'shipping'
+		];
+	}
+
+	public function getCheckoutParameters($editAction)
+	{
+		$type = $this->getCheckout();
+
+		if (!$type || !in_array($type, $this->getCheckoutValues()))
+			return false;
+
+		if ($type == 'pickup')
+			return $this->getPickupInStoreParameters($editAction);
+
+		if ($type == 'booking')
+			return $this->getBookingParameters($editAction);
+
+		if (!is_string($editAction) || !in_array($editAction, $this->getCheckoutActions()))
+			$editAction = false;
+
+		$set = false;
+		$checkout = [
+			'billingAddress' => false,
+			'shippingAddress' => false,
+			'payment' => false,
+			'shipping' => false,
+			'confirm' => false
+		];
+
+		if ($this->getBillingAddress() && $editAction != 'billingAddress')
+			$checkout['billingAddress'] = 'setted';
+		else
+		{
+			if ($set)
+				$checkout['billingAddress'] = 'toset';
+			else
+			{
+				$checkout['billingAddress'] = 'set';
+				$set = true;
+			}
+		}
+
+		if ($this->getPayment() && $editAction != 'payment')
+			$checkout['payment'] = 'setted';
+		else
+		{
+			if ($set)
+				$checkout['payment'] = 'toset';
+			else
+			{
+				$checkout['payment'] = 'set';
+				$set = true;
+			}
+		}
+
+		if ($this->checkShipment())
+		{
+			if ($this->getShipping() && $editAction != 'shipping')
+				$checkout['shipping'] = 'setted';
+			else
+			{
+				if ($set)
+					$checkout['shipping'] = 'toset';
+				else
+				{
+					$checkout['shipping'] = 'set';
+					$set = true;
+				}
+			}
+
+			if ($this->getShippingAddress() && $editAction != 'shippingAddress')
+				$checkout['shippingAddress'] = 'setted';
+			else
+			{
+				if ($set)
+					$checkout['shippingAddress'] = 'toset';
+				else
+				{
+					$checkout['shippingAddress'] = 'set';
+					$set = true;
+				}
+			}
+		}
+		else
+		{
+			$checkout['shippingAddress'] = false;
+			$checkout['shipping'] = false;
+		}
+
+		if ($set)
+		{
+			$checkout['confirm'] = 'toset';
+			$checkout['confirm_form'] = false;
+		}
+		else
+		{
+			$checkout['confirm'] = 'set';
+			$checkout['confirm_form'] = true;
+		}
+
+		$checkout['order'] = $this;
+		$checkout['checkout'] = true;
+
+		return $checkout;
+	}
+
+	public static function getPickupInStoreActions()
+	{
+		return [
+			'billingAddress'
+		];
+	}
+
+	public function getPickupInStoreParameters($editAction)
+	{
+		if (!is_string($editAction) || !in_array($editAction, $this->getPickupInStoreActions()))
+			$editAction = false;
+
+		$set = false;
+		$checkout = [
+			'billingAddress' => false,
+			'shippingAddress' => false,
+			'payment' => false,
+			'shipping' => false,
+			'confirm' => false
+		];
+
+		if ($this->getBillingAddress() && $editAction != 'billingAddress')
+			$checkout['billingAddress'] = 'setted';
+		else
+		{
+			if ($set)
+				$checkout['billingAddress'] = 'toset';
+			else
+			{
+				$checkout['billingAddress'] = 'set';
+				$set = true;
+			}
+		}
+
+		if ($set)
+		{
+			$checkout['confirm'] = 'toset';
+			$checkout['confirm_form'] = false;
+		}
+		else
+		{
+			$checkout['confirm'] = 'set';
+			$checkout['confirm_form'] = true;
+		}
+
+		$checkout['order'] = $this;
+		$checkout['checkout'] = true;
+
+		return $checkout;
+	}
+
+	public function getBookingParameters($editAction)
+	{
+		// TO DO...
+		return $this->getPickupInStoreParameters($editAction);
 	}
 
 	public function confirmOrder()

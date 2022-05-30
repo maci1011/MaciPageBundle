@@ -201,44 +201,54 @@ class OrderService extends AbstractController
 		$this->saveCart();
 	}
 
-	public function setCartCheckout($checkout)
+	public function startCartCheckout($type)
 	{
 		$this->getCurrentCart();
-		$this->cart->setCheckout($checkout);
+
+		$this->cart->setShippingAddress(null);
+		$this->cart->setBillingAddress(null);
+		$this->cart->setShipping(null);
+		$this->cart->setPayment(null);
+
+		switch ($type)
+		{
+			case 'pickup':
+				$this->cart->setShipping('pickup_in_store');
+				$this->cart->setPayment(null);
+				break;
+		}
+
+		$this->cart->setCheckout($type);
+
 		$this->saveCart();
 	}
 
-	public function setCartLocale($locale)
+	// public function setCartCheckout($checkout)
+	// {
+	// 	$this->getCurrentCart();
+	// 	$this->cart->setCheckout($checkout);
+	// 	$this->saveCart();
+	// }
+
+	public function setCartLocale($locale = false)
 	{
 		$this->getCurrentCart();
-		$this->cart->setLocale($locale);
+		$this->cart->setLocale($locale ? $locale : $this->request->getLocale());
 		$this->saveCart();
 	}
 
 	public function setCartShippingAddress($address)
 	{
-		if (true === $this->authorizationChecker->isGranted('ROLE_USER')) {
-			$this->getCurrentCart();
-			$this->cart->setShippingAddress($address);
-			$this->om->flush();
-		} else {
-			$info = $this->getSessionArray();
-			$info['shippingAddress'] = AddressServiceController::getArrayFromAddress($address);
-			$this->session->set('order', $info);
-		}
+		$this->getCurrentCart();
+		$this->cart->setShippingAddress($address);
+		$this->saveCart();
 	}
 
 	public function setCartBillingAddress($address)
 	{
-		if (true === $this->authorizationChecker->isGranted('ROLE_USER')) {
-			$this->getCurrentCart();
-			$this->cart->setBillingAddress($address);
-			$this->om->flush();
-		} else {
-			$info = $this->getSessionArray();
-			$info['billingAddress'] = AddressServiceController::getArrayFromAddress($address);
-			$this->session->set('order', $info);
-		}
+		$this->getCurrentCart();
+		$this->cart->setBillingAddress($address);
+		$this->saveCart();
 	}
 
 	public function refreshCartAmount()

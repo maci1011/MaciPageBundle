@@ -689,15 +689,7 @@ class Product
 
 	public function getStatusLabel()
 	{
-		if($this->status == "")
-			return array_search($this->getStatusValues()[0], $this->getStatusArray());
-		$array = $this->getStatusArray();
-		$key = array_search($this->status, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->status);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
 	}
 
 	public static function getStatusValues()

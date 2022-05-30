@@ -200,18 +200,26 @@ class OrderController extends AbstractController
 		));
 	}
 
-	public function cartGoCheckoutAction(Request $request, $option)
+	public function cartStartCheckoutAction(Request $request, $type)
 	{
-		if (true === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+		if (!is_string($type) || !in_array($type, Order::getCheckoutArray()))
+			$type = 'checkout';
+
+		$this->get('maci.orders')->startCartCheckout($type);
+
+		return $this->redirect($this->generateUrl('maci_order_gocheckout'));
+	}
+
+	public function cartGoCheckoutAction(Request $request)
+	{
+		if (true === $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
-		}
 
 		$edit = $request->get('edit', false);
 		$cart = $this->get('maci.orders')->getCurrentCart();
 
-		if ($cart->getMail() !== null && !$edit) {
+		if ($cart->getMail() !== null && !$edit)
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
-		}
 
 		return $this->render('MaciPageBundle:Order:gocheckout.html.twig');
 	}
@@ -225,93 +233,18 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_cart'));
 
 		if ($cart->getStatus() === 'complete' || $cart->getStatus() === 'confirm')
-			return $this->redirect($this->generateUrl('maci_order_invoice', ['id'=>$cart->getId()]));
+			return $this->redirect($this->generateUrl('maci_order_invoice', ['id' => $cart->getId()]));
 
 		if ($this->get('service_container')->getParameter('registration_required') && false === $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
 			return $this->redirect($this->generateUrl('maci_order_gocheckout'));
 
-		$checkout = [];
+		$checkout = $cart->getCheckoutParameters($request->get('checkout'));
 
-		// $type = $cart->getCheckout();
-		// $type_array = $cart->getCheckoutArray();
+		if (!is_array($checkout))
+			return $this->redirect($this->generateUrl('maci_order_cart'));
 
-		// if ( !$type || !in_array($type, $type_array) ) {
-		//     return $this->redirect($this->generateUrl('maci_order_cart'));
-		// }
-
-		$edit = $request->get('checkout');
-		$set = false;
-
-		if ($cart->getBillingAddress() && $edit !== 'billingAddress')
-			$checkout['billingAddress'] = 'setted';
-		else
+		if ($checkout['confirm_form'])
 		{
-			if ($set)
-				$checkout['billingAddress'] = 'toset';
-			else
-			{
-				$checkout['billingAddress'] = 'set';
-				$set = true;
-			}
-		}
-
-		if ($cart->getPayment() && $edit !== 'payment')
-			$checkout['payment'] = 'setted';
-		else
-		{
-			if ($set)
-				$checkout['payment'] = 'toset';
-			else
-			{
-				$checkout['payment'] = 'set';
-				$set = true;
-			}
-		}
-
-		$payment = $orders->getCartPaymentItem();
-
-		if ($payment && $payment['shipping'] && $cart->checkShipment())
-		{
-			if ($cart->getShipping() && $edit !== 'shipping')
-				$checkout['shipping'] = 'setted';
-			else
-			{
-				if ($set)
-					$checkout['shipping'] = 'toset';
-				else
-				{
-					$checkout['shipping'] = 'set';
-					$set = true;
-				}
-			}
-
-			if ($cart->getShippingAddress() && $edit !== 'shippingAddress')
-				$checkout['shippingAddress'] = 'setted';
-			else
-			{
-				if ($set)
-					$checkout['shippingAddress'] = 'toset';
-				else
-				{
-					$checkout['shippingAddress'] = 'set';
-					$set = true;
-				}
-			}
-		}
-		else
-		{
-			$checkout['shippingAddress'] = false;
-			$checkout['shipping'] = false;
-		}
-
-		if ($set)
-		{
-			$checkout['confirm'] = 'toset';
-			$checkout['confirm_form'] = false;
-		}
-		else
-		{
-			$checkout['confirm'] = 'set';
 			$checkout['confirm_form'] = $this->createForm(CheckoutConfirmType::class, [], [
 				'action' => $this->generateUrl('maci_order_checkout_confirm'),
 				'status' => $cart->getStatus(),
@@ -319,49 +252,45 @@ class OrderController extends AbstractController
 			])->createView();
 		}
 
-		$checkout['order'] = $cart;
-		$checkout['checkout'] = true;
-
-		$orders->setCartLocale($request->getLocale());
 		$orders->refreshCartAmount();
 
 		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', $checkout);
 	}
 
-	public function cartSetCheckoutAction(Request $request, $checkout = null)
-	{
-		$cart = $this->get('maci.orders')->getCurrentCart();
+	// public function cartSetCheckoutAction(Request $request, $checkout = null)
+	// {
+	// 	$cart = $this->get('maci.orders')->getCurrentCart();
 
-		if ($checkout === null || !in_array($checkout, $cart->getCheckoutArray())) {
-			$checkout = 'checkout';
-		}
+	// 	if ($checkout === null || !in_array($checkout, $cart->getCheckoutArray())) {
+	// 		$checkout = 'checkout';
+	// 	}
 
-		if ($checkout === 'pickup') {
-			$form = CartPickupType::class;
-		} else if ($checkout === 'booking') {
-			$form = CartBookingType::class;
-		} else {
-			$form = CartCheckoutType::class;
-		}
+	// 	if ($checkout === 'pickup') {
+	// 		$form = CartPickupType::class;
+	// 	} else if ($checkout === 'booking') {
+	// 		$form = CartBookingType::class;
+	// 	} else {
+	// 		$form = CartCheckoutType::class;
+	// 	}
 
-		$form = $this->createForm($form, $cart);
-		$form->handleRequest($request);
+	// 	$form = $this->createForm($form, $cart);
+	// 	$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$this->get('maci.orders')->setCartCheckout( $checkout );
-			$payment = $form['payment']->getData();
-			$payments = $this->get('maci.orders')->getPaymentsArray();
-			$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
-			if ( $form->has('shipping') )
-				$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
-			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'checkout']));
-		}
+	// 	if ($form->isSubmitted() && $form->isValid()) {
+	// 		$this->get('maci.orders')->setCartCheckout( $checkout );
+	// 		$payment = $form['payment']->getData();
+	// 		$payments = $this->get('maci.orders')->getPaymentsArray();
+	// 		$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
+	// 		if ( $form->has('shipping') )
+	// 			$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
+	// 		return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'checkout']));
+	// 	}
 
-		return $this->render('MaciPageBundle:Order:_order_cart_checkout.html.twig', [
-			'checkout' => $checkout,
-			'form' => $form->createView()
-		]);
-	}
+	// 	return $this->render('MaciPageBundle:Order:_order_cart_checkout.html.twig', [
+	// 		'checkout' => $checkout,
+	// 		'form' => $form->createView()
+	// 	]);
+	// }
 
 	public function cartSetMailAction(Request $request)
 	{
@@ -426,7 +355,7 @@ class OrderController extends AbstractController
 		{
 			$address = $this->get('maci.addresses')->getAddress($form['billing_address']->getData());
 			$this->get('maci.orders')->setCartBillingAddress($address);
-			return $this->redirect($this->generateUrl('maci_order_checkout', array('setted' => 'billing')));
+			return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'billing']));
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_billing_address.html.twig', array(
@@ -444,12 +373,12 @@ class OrderController extends AbstractController
 		{
 			$address = $this->get('maci.addresses')->getAddress($form['shipping_address']->getData());
 			$this->get('maci.orders')->setCartShippingAddress($address);
-			return $this->redirect($this->generateUrl('maci_order_gocheckout', array('setted' => 'shipping')));
+			return $this->redirect($this->generateUrl('maci_order_gocheckout', ['setted' => 'shipping']));
 		}
 
-		return $this->render('MaciPageBundle:Order:_order_shipping_address.html.twig', array(
+		return $this->render('MaciPageBundle:Order:_order_shipping_address.html.twig', [
 			'form' => $form->createView()
-		));
+		]);
 	}
 
 	public function checkoutConfirmAction(Request $request)
@@ -493,15 +422,16 @@ class OrderController extends AbstractController
 
 		$payment->setOrder($cart);
 
+		$this->get('maci.orders')->setCartLocale();
+
 		if ($cart->getStatus() == 'session')
 		{
 			$om = $this->getDoctrine()->getManager();
-
 			$cart->setStatus('current');
-
 			$om->persist($cart);
-			$om->flush();
 		}
+
+		$om->flush();
 
 		$storage->update($payment);
 		
