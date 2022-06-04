@@ -216,6 +216,13 @@ class OrderService extends AbstractController
 				$this->cart->setShipping('pickup_in_store');
 				$this->cart->setPayment(null);
 				break;
+
+			case 'booking':
+				break;
+
+			default:
+				$type = 'checkout';
+				break;
 		}
 
 		$this->cart->setCheckout($type);
@@ -516,14 +523,21 @@ class OrderService extends AbstractController
 		return $this->configs['payments'];
 	}
 
-	public function getPaymentChoices()
+	public function getPaymentChoices($order)
 	{
-		$choices = array();
-		$payments = $this->getCartShippingPayments();
+		$payments = $this->getOrderShippingPayments($order);
 		if (!$payments) return [];
-		foreach ($payments as $name => $value)
-			if(!$value['sandbox'] || ($value['sandbox'] && $this->kernel->getEnvironment() == "dev"))
-				$choices[$this->getPaymentLabel($value)] = $name;
+
+		$choices = [];
+		foreach ($payments as $name => $pay)
+		{
+			if (!$this->checkPaymentCheckout($order, $pay) ||
+				($pay['sandbox'] && $this->kernel->getEnvironment() == "prod")
+			) continue;
+
+			$choices[$this->getPaymentLabel($pay)] = $name;
+		}
+
 		return $choices;
 	}
 
@@ -571,16 +585,17 @@ class OrderService extends AbstractController
 			return $this->shippings;
 		}
 
-		$shippings  = array();
-		foreach ($this->getCouriersArray() as $name => $courier) {
+		$shippings = [];
+		foreach ($this->getCouriersArray() as $name => $courier)
+		{
 			if (array_key_exists('countries', $courier)) {
 				foreach ($courier['countries'] as $id => $country) {
-					$shippings['shipping_'.count($shippings)] = array(
+					$shippings['shipping_'.count($shippings)] = [
 						'country' => $id,
 						'courier' => $name,
 						'label' => $courier['label'],
 						'cost' => (array_key_exists('cost', $country) ? $country['cost'] : $courier['default_cost'])
-					);
+					];
 				};
 			}
 		}
@@ -620,22 +635,22 @@ class OrderService extends AbstractController
 		return $this->getShippingLabelById($id, 'getShippingCostLabel');
 	}
 
-	public function getShippingChoices()
+	public function getShippingChoices($order)
 	{
-		$choices = array();
+		$choices = [];
 		$country = false;
-		if($this->cart->getShippingAddress()) {
-			$country = $this->cart->getShippingAddress()->getCountry();
+
+		if($order->getShippingAddress())
+			$country = $order->getShippingAddress()->getCountry();
+
+		foreach ($this->getShippingsArray() as $key => $value)
+		{
+			if ($country && $country != $value['country'])
+				continue;
+
+			$choices[$this->getShippingLabel($value)] = $key;
 		}
-		foreach ($this->getShippingsArray() as $key => $value) {
-			if ($country) {
-				if($country == $value['country']) {
-					$choices[$this->getShippingLabel($value)] = $key;
-				}
-			} else {
-				$choices[$this->getShippingLabel($value)] = $key;
-			}
-		}
+
 		return $choices;
 	}
 
@@ -660,28 +675,34 @@ class OrderService extends AbstractController
 	public function getCartPaymentGateway()
 	{
 		$item = $this->getCartPaymentItem();
-		if ($item) {
+
+		if ($item)
 			return $item['gateway'];
-		}
+
 		return false;
 	}
 
 	public function getShippingItem($id)
 	{
 		$list = $this->getShippingsArray();
-		if (array_key_exists($id, $list)) {
+
+		if (array_key_exists($id, $list))
 			return $list[$id];
-		}
+
+		return false;
+	}
+
+	public function getOrderShippingItem($order)
+	{
+		if($order->getShipping())
+			return $this->getShippingItem($order->getShipping());
+
 		return false;
 	}
 
 	public function getCartShippingItem()
 	{
-		$this->getCurrentCart();
-		if($this->cart->getShipping()) {
-			return $this->getShippingItem($this->cart->getShipping());
-		}
-		return false;
+		return $this->getOrderShippingItem($this->getCurrentCart());
 	}
 
 	public function getCartShippingLabel($f = 'getShippingLabelById')
@@ -720,14 +741,24 @@ class OrderService extends AbstractController
 		return false;
 	}
 
-	public function getCartShippingPayments()
+	public function checkPaymentCheckout($order, $payment)
 	{
-		$item = $this->getCartShippingItem();
+		return !(array_key_exists('checkouts', $payment) && 0 < count($payment['checkouts']) && (
+			!in_array('all', $payment['checkouts']) || !in_array($order->getType(), $payment['checkouts'])
+		));
+	}
+
+	public function getOrderShippingPayments($order)
+	{
+		$item = $this->getOrderShippingItem($order);
 		if (!$item) return false;
 
 		$courier = $this->getCouriersArray()[$item['courier']];
 
-		if(in_array('all', $courier['payments']))
+		if (!$this->checkPaymentCheckout($order, $courier))
+			return false;
+
+		if(!count($courier['payments']) || in_array('all', $courier['payments']))
 			return $this->getPaymentsArray();
 
 		$list = [];
@@ -740,8 +771,9 @@ class OrderService extends AbstractController
 		return $list;
 	}
 
-	public function getAvailableCountrieaas()
+	public function getCartShippingPayments()
 	{
+		return $this->getOrderShippingPayments($this->getCurrentCart());
 	}
 
 	public function getAvailableCountries()

@@ -13,19 +13,19 @@
 		</span>
 	</li>
 	{% endif %}
-	{% if payment %}
-	<li class="nav-item {{ payment }}">
-		<span class="navbar-text">
-			<i class="fas fa-money-check-alt"></i>
-			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
-		</span>
-	</li>
-	{% endif %}
 	{% if shippingAddress %}
 	<li class="nav-item {{ shippingAddress }}">
 		<span class="navbar-text">
 			<i class="fas fa-address-card"></i>
 			{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if payment %}
+	<li class="nav-item {{ payment }}">
+		<span class="navbar-text">
+			<i class="fas fa-money-check-alt"></i>
+			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
 		</span>
 	</li>
 	{% endif %}

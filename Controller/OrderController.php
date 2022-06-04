@@ -38,9 +38,9 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
 
-		return $this->render('MaciPageBundle:Order:index.html.twig', array(
+		return $this->render('MaciPageBundle:Order:index.html.twig', [
 			'list' => $list
-		));
+		]);
 	}
 
 	public function confirmedAction()
@@ -49,9 +49,9 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->getConfirmed();
 
-		return $this->render('MaciPageBundle:Order:confirmed.html.twig', array(
+		return $this->render('MaciPageBundle:Order:confirmed.html.twig', [
 			'list' => $list
-		));
+		]);
 	}
 
 	public function adminShowAction($id)
@@ -60,10 +60,10 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->findOneById($id);
 
-		return $this->render('MaciPageBundle:Order:show.html.twig', array(
+		return $this->render('MaciPageBundle:Order:show.html.twig', [
 			'order' => $order,
 			'edit' => false
-		));
+		]);
 	}
 
 	public function userShowAction($id)
@@ -72,25 +72,25 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->findOneBy(array('id'=>$id,'user'=>$this->getUser()));
 
-		return $this->render('MaciPageBundle:Order:preview.html.twig', array(
+		return $this->render('MaciPageBundle:Order:preview.html.twig', [
 			'order' => $order,
 			'edit' => false
-		));
+		]);
 	}
 
 	public function cartAction()
 	{
-		return $this->render('MaciPageBundle:Order:cart.html.twig', array(
+		return $this->render('MaciPageBundle:Order:cart.html.twig', [
 			'cart' => $this->get('maci.orders')->getCurrentCart()
-		));
+		]);
 	}
 
 	public function showOrderAction($order, $edit = false)
 	{
-		return $this->render('MaciPageBundle:Order:_show.html.twig', array(
+		return $this->render('MaciPageBundle:Order:_show.html.twig', [
 			'order' => $order,
 			'edit' => $edit
-		));
+		]);
 	}
 
 	public function notfoundAction()
@@ -100,7 +100,8 @@ class OrderController extends AbstractController
 
 	public function addToCartAction(Request $request, $product, $variant = false)
 	{
-		if (is_numeric($product)) {
+		if (is_numeric($product))
+		{
 			$product = $this->getDoctrine()->getManager()
 				->getRepository('MaciPageBundle:Shop\Product')
 				->findOneById(intval($product));
@@ -120,21 +121,21 @@ class OrderController extends AbstractController
 
 			$item = intval($form['product']->getData());
 
-			if (is_numeric($item)) {
-				$item = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
+			if (is_numeric($item))
+				$item = $this->getDoctrine()->getManager()
+					->getRepository('MaciPageBundle:Shop\Product')
 					->findOneById(intval($item));
-			}
 
-			if (!is_object($item) || !$item->isAvailable()) {
+			if (!is_object($item) || !$item->isAvailable())
 				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
-			}
 
 			$variant = false;
 			$variants = $product->getVariants();
 			$quantity = intval($form['quantity']->getData());
 			if ($quantity < 1) $quantity = 1;
 
-			if (count($variants) && isset($form['variant'])) {
+			if (count($variants) && isset($form['variant']))
+			{
 				$index = $item->findVariant($form['variant']->getData());
 				if ($index == -1) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notFound']));
 				$variant = $item->getVariantIndex($index);
@@ -143,22 +144,21 @@ class OrderController extends AbstractController
 				if ($variantQta < $quantity) $quantity = $variantQta;
 			}
 
-			if ($this->get('maci.orders')->addToCart($item, $quantity, $variant) ) {
+			if ($this->get('maci.orders')->addToCart($item, $quantity, $variant))
 				return $this->redirect($this->generateUrl('maci_order_cart'));
-			} else {
+			else
 				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
-			}
 
 		}
 		// else {
 		//  return $this->redirect($this->generateUrl('maci_product_show', ['path' => 'error' => 'error.formIsNotValid']));
 		// }
 
-		return $this->render('MaciPageBundle:Order:_order_cart_add_product.html.twig', array(
+		return $this->render('MaciPageBundle:Order:_order_cart_add_product.html.twig', [
 			'product' => $product,
 			'variant' => $variant,
 			'form' => $form->createView()
-		));
+		]);
 	}
 
 	public function editCartItemAction(Request $request, $id, $quantity = 1)
@@ -167,12 +167,12 @@ class OrderController extends AbstractController
 		$form['quantity']->setData(intval($quantity));
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			if ( $this->get('maci.orders')->editItemQuantity(intval($id), intval($form['quantity']->getData()) ) ) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			if ($this->get('maci.orders')->editItemQuantity(intval($id), intval($form['quantity']->getData())))
 				return $this->redirect($this->generateUrl('maci_order_cart', array('edited' => true)));
-			} else {
+			else
 				return $this->redirect($this->generateUrl('maci_order_cart', array('error' => true)));
-			}
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_cart_edit_item.html.twig', array(
@@ -186,12 +186,12 @@ class OrderController extends AbstractController
 		$form = $this->createForm(CartRemoveItemType::class);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			if ( $this->get('maci.orders')->removeItem(intval($id)) ) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			if ($this->get('maci.orders')->removeItem(intval($id)))
 				return $this->redirect($this->generateUrl('maci_order_cart', array('removed' => true)));
-			} else {
+			else
 				return $this->redirect($this->generateUrl('maci_order_cart', array('error' => true)));
-			}
 		}
 
 		return $this->render('MaciPageBundle:Order:_order_cart_remove_item.html.twig', array(
@@ -243,14 +243,15 @@ class OrderController extends AbstractController
 		if (!is_array($checkout))
 			return $this->redirect($this->generateUrl('maci_order_cart'));
 
+		// $payment = $orders->getCartPaymentItem();
+		// if ($payment && $payment['shipping'] && $cart->checkShipment()) {}
+
 		if ($checkout['confirm_form'])
-		{
 			$checkout['confirm_form'] = $this->createForm(CheckoutConfirmType::class, [], [
 				'action' => $this->generateUrl('maci_order_checkout_confirm'),
 				'status' => $cart->getStatus(),
 				'env' => $this->get('kernel')->getEnvironment()
 			])->createView();
-		}
 
 		$orders->refreshCartAmount();
 

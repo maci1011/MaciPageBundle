@@ -17,31 +17,31 @@
 
 
 {% if billingAddress == 'set' %}{# --- Billing Address ---  #}
-<section id="billingAddress" class="checkout-content {{ billingAddress }}">
+<section id="billingAddress" class="checkout-content set">
 	<h4>{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h4>
 	{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
 </section>
 {% endif %}{# --- End Billing Address ---  #}
 
 
-{% if payment == 'set' %}{# --- Payment ---  #}
-<section id="payment" class="checkout-content {{ payment }}">
-	<h4>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
-	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
-</section>
-{% endif %}{# --- End Payment ---  #}
-
-
 {% if shippingAddress == 'set' %}{# --- Shipping Address ---  #}
-<section id="shippingAddress" class="checkout-content {{ shippingAddress }}">
+<section id="shippingAddress" class="checkout-content set">
 	<h4>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h4>
 	{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
 </section>
 {% endif %}{# --- End Shipping Address ---  #}
 
 
+{% if payment == 'set' %}{# --- Payment ---  #}
+<section id="payment" class="checkout-content set">
+	<h4>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h4>
+	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
+</section>
+{% endif %}{# --- End Payment ---  #}
+
+
 {% if shipping == 'set' %}{# --- Shipping Method ---  #}
-<section id="shipping" class="checkout-content {{ shipping }}">
+<section id="shipping" class="checkout-content set">
 	<h4>{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h4>
 	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 </section>
@@ -49,7 +49,7 @@
 
 
 {% if confirm == 'set' %}{# --- Confirm ---  #}
-<section id="confirm" class="checkout-content {{ confirm }}">
+<section id="confirm" class="checkout-content set">
 	<h4>{{ 'page.checkout.order-details' | matra('Order Details') }}</h4>
 	{% include "@MaciPage/Order/_checkout_confirm.html.twig" %}
 </section>

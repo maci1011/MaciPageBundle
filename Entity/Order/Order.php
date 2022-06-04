@@ -812,7 +812,7 @@ class Order
 	 */
 	public function setShippingAddress(\Maci\UserBundle\Entity\Address $shipping_address = null)
 	{
-		if($this->shipping_address && $this->shipping) {
+		if($shipping_address && $this->shipping_address && $this->shipping) {
 			if($this->shipping_address->getCountry() !== $shipping_address->getCountry()) {
 				$this->shipping = null;
 			}
@@ -1036,34 +1036,8 @@ class Order
 			}
 		}
 
-		if ($this->getPayment() && $editAction != 'payment')
-			$checkout['payment'] = 'setted';
-		else
-		{
-			if ($set)
-				$checkout['payment'] = 'toset';
-			else
-			{
-				$checkout['payment'] = 'set';
-				$set = true;
-			}
-		}
-
 		if ($this->checkShipment())
 		{
-			if ($this->getShipping() && $editAction != 'shipping')
-				$checkout['shipping'] = 'setted';
-			else
-			{
-				if ($set)
-					$checkout['shipping'] = 'toset';
-				else
-				{
-					$checkout['shipping'] = 'set';
-					$set = true;
-				}
-			}
-
 			if ($this->getShippingAddress() && $editAction != 'shippingAddress')
 				$checkout['shippingAddress'] = 'setted';
 			else
@@ -1076,11 +1050,37 @@ class Order
 					$set = true;
 				}
 			}
+
+			if ($this->getShipping() && $editAction != 'shipping')
+				$checkout['shipping'] = 'setted';
+			else
+			{
+				if ($set)
+					$checkout['shipping'] = 'toset';
+				else
+				{
+					$checkout['shipping'] = 'set';
+					$set = true;
+				}
+			}
 		}
 		else
 		{
 			$checkout['shippingAddress'] = false;
 			$checkout['shipping'] = false;
+		}
+
+		if ($this->getPayment() && $editAction != 'payment')
+			$checkout['payment'] = 'setted';
+		else
+		{
+			if ($set)
+				$checkout['payment'] = 'toset';
+			else
+			{
+				$checkout['payment'] = 'set';
+				$set = true;
+			}
 		}
 
 		if ($set)

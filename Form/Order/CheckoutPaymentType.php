@@ -29,7 +29,7 @@ class CheckoutPaymentType extends AbstractType
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$choices = $this->orders->getPaymentChoices();
+		$choices = $this->orders->getPaymentChoices($options['data']);
 		if (!$choices) return;
 
 		$builder
@@ -49,7 +49,7 @@ class CheckoutPaymentType extends AbstractType
 	{
 		$result = array();
 		foreach ($array as $key => $value)
-			$result[$key] = ( $value['label'] . ( $value['cost'] ? ( ' ( ' . number_format($value['cost'], 2, '.', ',') . ' EUR )' ) : null ) );
+			$result[$key] = ($value['label'] . ($value['cost'] ? (' ( ' . number_format($value['cost'], 2, '.', ',') . ' EUR )') : null));
 		return $result;
 	}
 
