@@ -181,22 +181,13 @@ class OrderService extends AbstractController
 		$this->cart->setShipping($shipping);
 
 		$payment = $this->cart->getPayment();
-		if($payment) {
-			$payments = $this->getCartShippingPayments();
-			if(!in_array($payment, $payments)) {
-				$this->cart->setPayment(null);
-			}
-		}
+		if($payment && !in_array($payment, array_keys($this->getCartShippingPayments())))
+			$this->cart->setPayment(null);
 
-		if ( 0 < $this->configs['free_shipping_over'] ) {
-			if ( $this->configs['free_shipping_over'] < $this->cart->getAmount() ) {
-				$this->cart->setShippingCost(0);
-			} else {
-				$this->cart->setShippingCost($item['cost']);
-			}
-		} else {
-			$this->cart->setShippingCost($item['cost']);
-		}
+		if (0 < $this->configs['free_shipping_over'] &&
+			$this->configs['free_shipping_over'] < $this->cart->getAmount()
+		) $this->cart->setShippingCost(0);
+		else $this->cart->setShippingCost($item['cost']);
 
 		$this->saveCart();
 	}
@@ -535,7 +526,7 @@ class OrderService extends AbstractController
 				($pay['sandbox'] && $this->kernel->getEnvironment() == "prod")
 			) continue;
 
-			$choices[$this->getPaymentLabel($pay)] = $name;
+			$choices[$this->getPaymentLabel($pay) . ' - ' . $this->getPaymentCostLabel($pay)] = $name;
 		}
 
 		return $choices;
@@ -643,12 +634,12 @@ class OrderService extends AbstractController
 		if($order->getShippingAddress())
 			$country = $order->getShippingAddress()->getCountry();
 
-		foreach ($this->getShippingsArray() as $key => $value)
+		foreach ($this->getShippingsArray() as $key => $ship)
 		{
-			if ($country && $country != $value['country'])
+			if ($country && $country != $ship['country'])
 				continue;
 
-			$choices[$this->getShippingLabel($value)] = $key;
+			$choices[$this->getShippingLabel($ship) . ' - ' . $this->getShippingCostLabel($ship)] = $key;
 		}
 
 		return $choices;

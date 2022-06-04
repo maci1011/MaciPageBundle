@@ -12,21 +12,21 @@
 <div class="checkout-options row">
 <div class="col-12 col-sm-6">
 
-	<h3>{{ 'page.cart.pickup-in-store.title' | matra('Pickup In Store') }}</h3>
-	<p>{{ 'page.cart.pickup-in-store.description' | matra('Book your order and pick it up in our store.') }}</p>
-
-	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'pickup'}) }}">
-		{{ 'page.cart.pickup-in-store.button' | matra('Pickup In Store') }}
-	</a>
-
-</div>
-<div class="col-12 col-sm-6">
-
 	<h3>{{ 'page.cart.checkout.title' | matra('Checkout') }}</h3>
 	<p>{{ 'page.cart.checkout.description' | matra('Pay the order and get it at home.') }}</p>
 
 	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'checkout'}) }}">
 		{{ 'page.cart.checkout.button' | matra('Checkout') }}
+	</a>
+
+</div>
+<div class="col-12 col-sm-6">
+
+	<h3>{{ 'page.cart.pickup-in-store.title' | matra('Pickup In Store') }}</h3>
+	<p>{{ 'page.cart.pickup-in-store.description' | matra('Book your order and pick it up in our store.') }}</p>
+
+	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'pickup'}) }}">
+		{{ 'page.cart.pickup-in-store.button' | matra('Pickup In Store') }}
 	</a>
 
 </div>
