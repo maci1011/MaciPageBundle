@@ -1,3 +1,72 @@
 
-<h1>Thank you for your Order!</h1>
-<p>Your Order has been complete! You will receive a confirmation email.</p>
+<h1>{{ 'order.complete.h1'|matra('Thank you for your Order!') }}</h1>
+
+<p>{{ 'order.complete.p1'|matra('Your Order has been complete! You will receive a confirmation email.') }}</p>
+
+<h2>{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
+
+<div class="details-wrapper container-fluid">
+
+	<p class="row">
+		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
+		<span class="value">{{ order.code }}</span>
+	</p>
+
+</div>
+
+<div class="details-wrapper container-fluid py-3">
+
+	<p class="row detail-titles">
+		<span class="col-12 col-sm-5 offset-sm-2 label">{{ 'order.item.description'|matra('Description') }}</span>
+		<span class="col-12 col-sm-3 value">{{ 'product.price' | matra('Price') }}</span>
+	</p>
+
+	{% for item in order.items %}
+
+	<p class="row">
+		<span class="col-12 col-sm-5 offset-sm-2 label">{{ item.product }}</span>
+		<span class="col-12 col-sm-3 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+	</p>
+
+	{% endfor %}
+
+	<p class="row">
+		<span class="col-12 col-sm-5 offset-sm-2 label">
+			{% if maci_orders.paymentsArray[order.payment] is defined %}
+			{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}
+			{% else %}
+			{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}
+			{% endif %}
+		</span>
+		<span class="col-12 col-sm-3 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
+			{% if 0 < order.shippingCost %}
+			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free') | matra('Free') }}
+			{% endif %}
+		</span>
+	</p>
+
+	<p class="row">
+		<span class="col-12 col-sm-5 offset-sm-2 label">
+			{% if maci_orders.paymentsArray[order.payment] is defined %}
+			{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}
+			{% else %}
+			{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}
+			{% endif %}
+		</span>
+		<span class="col-12 col-sm-3 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+			{% if 0 < order.paymentCost %}
+			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free') | matra('Free') }}
+			{% endif %}
+		</span>
+	</p>
+
+	<p class="row">
+		<span class="col-12 col-sm-5 offset-sm-2 label">{{ 'order.amount' | matra('Amount') }}:</span>
+		<span class="col-12 col-sm-3 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+	</p>
+
+</div>

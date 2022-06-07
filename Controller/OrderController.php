@@ -258,41 +258,6 @@ class OrderController extends AbstractController
 		return $this->render('MaciPageBundle:Order:checkout_light.html.twig', $checkout);
 	}
 
-	// public function cartSetCheckoutAction(Request $request, $checkout = null)
-	// {
-	// 	$cart = $this->get('maci.orders')->getCurrentCart();
-
-	// 	if ($checkout === null || !in_array($checkout, $cart->getCheckoutArray())) {
-	// 		$checkout = 'checkout';
-	// 	}
-
-	// 	if ($checkout === 'pickup') {
-	// 		$form = CartPickupType::class;
-	// 	} else if ($checkout === 'booking') {
-	// 		$form = CartBookingType::class;
-	// 	} else {
-	// 		$form = CartCheckoutType::class;
-	// 	}
-
-	// 	$form = $this->createForm($form, $cart);
-	// 	$form->handleRequest($request);
-
-	// 	if ($form->isSubmitted() && $form->isValid()) {
-	// 		$this->get('maci.orders')->setCartCheckout( $checkout );
-	// 		$payment = $form['payment']->getData();
-	// 		$payments = $this->get('maci.orders')->getPaymentsArray();
-	// 		$this->get('maci.orders')->setCartPayment( $payment, $payments[$payment]['cost'] );
-	// 		if ( $form->has('shipping') )
-	// 			$this->get('maci.orders')->setCartShipping($form['shipping']->getData());
-	// 		return $this->redirect($this->generateUrl('maci_order_checkout', ['setted' => 'checkout']));
-	// 	}
-
-	// 	return $this->render('MaciPageBundle:Order:_order_cart_checkout.html.twig', [
-	// 		'checkout' => $checkout,
-	// 		'form' => $form->createView()
-	// 	]);
-	// }
-
 	public function cartSetMailAction(Request $request)
 	{
 		$cart = $this->get('maci.orders')->getCurrentCart();
@@ -397,20 +362,23 @@ class OrderController extends AbstractController
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
 
-		if (!$cart->checkConfirmation() || !$gatewayName) {
-			return $this->redirect($this->generateUrl('maci_order_checkout', array('error' => 'error.order_not_valid')));
-		}
+		if (!$cart->checkConfirmation() || !$gatewayName)
+			return $this->redirect($this->generateUrl('maci_order_checkout', ['error' => 'error.order_not_valid']));
 
 		$storage = $this->get('payum')->getStorage(Payment::class);
 		
-		if ($cart->getUser()) {
+		if ($cart->getUser())
+		{
 			$to = $cart->getUser()->getEmail();
 			$toint = $cart->getUser()->getUsername();
-		} else {
+		} else
+		{
 			$to = $cart->getMail();
-			$toint = $cart->getBillingAddress()->getName() . ' ' . $cart->getBillingAddress()->getSurname();
+			$toint = $cart->getBillingAddress()->getName() . ' ' .
+				$cart->getBillingAddress()->getSurname();
 		}
 
+		$om = $this->getDoctrine()->getManager();
 		$notifyToken = false;
 		$payment = $storage->create();
 
@@ -427,7 +395,6 @@ class OrderController extends AbstractController
 
 		if ($cart->getStatus() == 'session')
 		{
-			$om = $this->getDoctrine()->getManager();
 			$cart->setStatus('current');
 			$om->persist($cart);
 		}
@@ -605,9 +572,8 @@ class OrderController extends AbstractController
 		$page = $em->getRepository('MaciPageBundle:Page\Page')
 			->findOneByPath('order-complete');
 
-		if ($page) {
+		if ($page)
 			return $this->render($page->getTemplate(), $order);
-		}
 
 		return $this->render('@MaciPage/Order/complete.html.twig', [
 			'order' => $order
@@ -620,16 +586,13 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->findOneById($id);
 
-		if (!$order) {
+		if (!$order)
 			return $this->redirect($this->generateUrl('maci_order_notfound'));
-		}
 
 		if (
 			( $order->getUser() && $order->getUser()->getId() !== $this->getUser()->getId() ) &&
 			false === $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
-		) {
-			return $this->redirect($this->generateUrl('maci_order_homepage', array('error' => 'order.nomap')));
-		}
+		) return $this->redirect($this->generateUrl('maci_order_homepage', array('error' => 'order.nomap')));
 
 		return $this->render('MaciPageBundle:Order:invoice.html.twig', array(
 			'order' => $order

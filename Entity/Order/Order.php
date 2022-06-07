@@ -393,10 +393,10 @@ class Order
 	public function getProgression()
 	{
 		$i = 0;
-		foreach ($this->getStatusArray() as $key => $value) {
-			if ($value === $this->status) {
+		foreach ($this->getStatusArray() as $key => $value)
+		{
+			if ($value == $this->status)
 				return $i;
-			}
 			$i++;
 		}
 		return -1;
@@ -981,11 +981,7 @@ class Order
 
 	public function checkConfirmation()
 	{
-		if ( 2 < $this->getProgression() || !$this->checkOrder() ) {
-			return false;
-		}
-
-		return true;
+		return !(3 < $this->getProgression() || !$this->checkOrder());
 	}
 
 	public static function getCheckoutActions()
@@ -1181,7 +1177,7 @@ class Order
 
 	public function endOrder()
 	{
-		if (4 < $this->getProgression()) {
+		if (5 < $this->getProgression()) {
 			return false;
 		}
 
