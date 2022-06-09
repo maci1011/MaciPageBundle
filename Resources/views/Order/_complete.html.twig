@@ -1,44 +1,46 @@
 
-<h1>{{ 'order.complete.h1'|matra('Thank you for your Order!') }}</h1>
+<div class="details-wrapper container-fluid py-3">
 
-<p>{{ 'order.complete.p1'|matra('Your Order has been complete! You will receive a confirmation email.') }}</p>
+	<h1>{{ 'order.complete.h1'|matra('Thank you for your Order!') }}</h1>
 
-<h2>{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
-
-<div class="details-wrapper container-fluid">
-
-	<p class="row">
-		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
-		<span class="value">{{ order.code }}</span>
-	</p>
+	<p class="subtitle">{{ 'order.complete.p1'|matra('Your Order has been complete! You will receive a confirmation email.') }}</p>
 
 </div>
+<div class="details-wrapper container-fluid py-3">
 
+	<h2>{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
+
+	<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
+	<span class="value">{{ order.code }}</span>
+
+</div>
 <div class="details-wrapper container-fluid py-3">
 
 	<p class="row detail-titles">
-		<span class="col-12 col-sm-5 offset-sm-2 label">{{ 'order.item.description'|matra('Description') }}</span>
-		<span class="col-12 col-sm-3 value">{{ 'product.price' | matra('Price') }}</span>
+		<span class="col-12 col-sm-6 col-md-5 offset-md-1 title">{{ 'order.item.description'|matra('Description') }}</span>
+		<span class="col-12 col-sm-6 col-md-2 title">{{ 'product.quantity' | matra('Quantity') }}</span>
+		<span class="col-12 col-sm-6 col-md-3 title">{{ 'product.price' | matra('Price') }}</span>
 	</p>
 
 	{% for item in order.items %}
 
-	<p class="row">
-		<span class="col-12 col-sm-5 offset-sm-2 label">{{ item.product }}</span>
-		<span class="col-12 col-sm-3 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+	<p class="row order-item {% if loop.index is even %}odd{% else %}even{% endif %}">
+		<span class="col-12 col-sm-6 col-md-5 offset-md-1 label">{{ item.product }}</span>
+		<span class="col-12 col-sm-6 col-md-2 value">{{ item.quantity }}</span>
+		<span class="col-12 col-sm-6 col-md-3 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
 	{% endfor %}
 
 	<p class="row">
-		<span class="col-12 col-sm-5 offset-sm-2 label">
+		<span class="col-12 col-sm-6 col-md-7 offset-md-1 title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}
 			{% else %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-3 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-6 col-md-3 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -48,14 +50,14 @@
 	</p>
 
 	<p class="row">
-		<span class="col-12 col-sm-5 offset-sm-2 label">
+		<span class="col-12 col-sm-6 col-md-7 offset-md-1 title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}
 			{% else %}
 			{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-3 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-6 col-md-3 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
 			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -65,8 +67,46 @@
 	</p>
 
 	<p class="row">
-		<span class="col-12 col-sm-5 offset-sm-2 label">{{ 'order.amount' | matra('Amount') }}:</span>
-		<span class="col-12 col-sm-3 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="col-12 col-md-7 offset-md-1 label">{{ 'order.amount' | matra('Amount') }}</span>
+		<span class="col-12 col-md-3 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
+</div>
+<div class="details-wrapper container-fluid py-3">
+
+	<div class="row">
+		{% if order.billingAddress %}
+		<div class="col-12 col-md-4 offset-md-2">
+			<h5>{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h5>
+			<div class="address-wrapper">
+				{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
+			</div>
+		</div>
+		{% endif %}
+		{% if order.shippingAddress %}
+		<div class="col-12 col-md-4">
+			<h5>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h5>
+			<div class="address-wrapper">
+				{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+</div>
+{% if order.payment == 'bank_transfer' %}
+<div class="details-wrapper container-fluid py-3">
+	<h3>{{ 'order.complete.bank-tr-info'|matra('Bank Tranfers Details') }}</h3>
+	<div class="details-wrapper">
+		{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
+	</div>
+</div>
+{% endif %}
+<div class="details-wrapper container-fluid py-3">
+	<h3>{{ 'order.complete.contact-us-title'|matra('Contact us for more information') }}</h3>
+	<div class="details-wrapper">
+		<a href="{{ path('maci_page', {'path': 'page.contacts'|matro('contacts') }) }}" class="btn btn-primary">
+			{{ 'order.complete.contact-us-text'|matra('Go to the Contacts Page.') }}
+		</a>
+	</div>
 </div>

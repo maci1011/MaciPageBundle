@@ -11,7 +11,10 @@
 
 {% elseif shippingAddress == 'setted' %}
 
-{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+<div class="address-wrapper">
+	{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+</div>
+
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'shippingAddress'}) }}">
 	{{ 'edit_address' | matla('Edit Address') }}
 </a>
