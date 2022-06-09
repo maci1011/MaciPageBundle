@@ -221,6 +221,23 @@ td > table {
 {% endif %}
 
 
+{% if order.payment == 'bank_transfer' %}
+<table class="main">
+<tbody>
+<tr>
+<td>
+
+	<h3>{{ 'order.complete.bank-tr-info'|matra('Bank Tranfers Details') }}</h3>
+
+	{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
+
+</td>
+</tr>
+</tbody>
+</table>
+{% endif %}
+
+
 <table class="main">
 <tbody>
 <tr>

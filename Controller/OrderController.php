@@ -366,7 +366,7 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_checkout', ['error' => 'error.order_not_valid']));
 
 		$storage = $this->get('payum')->getStorage(Payment::class);
-		
+
 		if ($cart->getUser())
 		{
 			$to = $cart->getUser()->getEmail();
@@ -465,14 +465,16 @@ class OrderController extends AbstractController
 		$gateway = $this->get('payum')->getGateway($gatewayName);
 		$gateway->execute($status = new GetHumanStatus($token));
 
-		if($status->getValue() === "failed") {
+		if($status->getValue() === "failed")
+		{
 			$this->get('session')->getFlashBag()->add('danger', 'error.payment_not_valid');
-			return $this->redirect($this->generateUrl('maci_product'));
+			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
-		if($status->getValue() === "canceled") {
+		if($status->getValue() === "canceled")
+		{
 			$this->get('session')->getFlashBag()->add('info', 'error.payment_canceled');
-			return $this->redirect($this->generateUrl('maci_product'));
+			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
 		// Now you have order and payment status
@@ -512,13 +514,11 @@ class OrderController extends AbstractController
 
 		// return new JsonResponse($params);
 
-		if($payment_item['gateway'] == 'offline') {
+		if($payment_item['gateway'] == 'offline')
 			$params['payment']['details']['paid'] = false;
-		}
 
-		if($status->getValue() == 'captured') {
+		if($status->getValue() == 'captured')
 			$cart->confirmOrder();
-		}
 
 		$this->get('maci.orders')->resetCart();
 
@@ -534,10 +534,11 @@ class OrderController extends AbstractController
 			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
 			->addRecipients([$to => $toint])
 			->setLocale($request->getLocale())
-			->setContent($this->renderView('MaciPageBundle:Email:confirmation_email.html.twig', array('mail' => $mail, 'order' => $cart)))
+			->setContent($this->renderView('MaciPageBundle:Email:confirmation_email.html.twig', ['mail' => $mail, 'order' => $cart]))
 		;
 
-		if ($cart->getUser()) {
+		if ($cart->getUser())
+		{
 			if (!$cart->getMail()) $cart->setMail($cart->getUser()->getEmail());
 			$cart->setDescription('Order Placed by ' . $cart->getUser()->getUsername() . '.');
 			$mail->setUser($cart->getUser());
@@ -555,12 +556,14 @@ class OrderController extends AbstractController
 		// Send Mail
 
 		// ---> send message
-		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($message);
+		if ($this->container->get('kernel')->getEnvironment() == "prod")
+			$this->get('mailer')->send($message);
 
 		$notify->addTo($this->get('service_container')->getParameter('order_email'), $this->get('service_container')->getParameter('order_email_int'));
 
 		// ---> send notify
-		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($notify);
+		if ($this->container->get('kernel')->getEnvironment() == "prod")
+			$this->get('mailer')->send($notify);
 
 		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
 	}
