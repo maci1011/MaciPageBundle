@@ -1,20 +1,22 @@
 
 <div class="complete page-wrapper">
 
-<div class="details-wrapper container-fluid py-3">
+<div class="details-wrapper container-fluid py-3 offset-1">
 
 	<h1>{{ 'order.complete.h1'|matra('Thank you for your Order!') }}</h1>
 
 	<p class="text-wrapper pt-3">{{ 'order.complete.p1'|matra('Your Order has been complete! You will receive a confirmation email.') }}</p>
 
 </div>
-<div class="details-wrapper container-fluid py-3">
+<div class="details-wrapper container-fluid py-3 offset-1">
 
 	<h2>{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
 
 	<div class="text-wrapper pt-3">
 		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
-		<span class="value">{{ order.code }}</span>
+		<span class="value">{{ order.code }}</span><br/>
+		<span class="label">{{ 'order.status' | matra('Order Status') }}:</span>
+		<span class="value">{{ order.statusLabel }}</span>
 	</div>
 
 </div>
@@ -106,7 +108,7 @@
 </div>
 
 {% if order.payment == 'bank_transfer' %}
-<div class="details-wrapper container-fluid py-3">
+<div class="details-wrapper container-fluid py-3 offset-1">
 	<h3>{{ 'order.complete.bank-tr-info'|matra('Bank Tranfers Details') }}</h3>
 	<div class="text-wrapper pt-3">
 		{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
@@ -114,7 +116,7 @@
 </div>
 {% endif %}
 
-<div class="details-wrapper container-fluid py-3">
+<div class="details-wrapper container-fluid py-3 offset-1">
 	<h3>{{ 'order.complete.contact-us-title'|matra('Contact us for more information') }}</h3>
 	<div class="text-wrapper pt-3">
 		<a href="{{ path('maci_page', {'path': 'page.contacts'|matro('contacts') }) }}" class="btn btn-primary">

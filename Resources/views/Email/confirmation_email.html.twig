@@ -143,8 +143,7 @@ td > table {
 	{% if order.shipping %}
 	<tr>
 		<td>&nbsp;</td>
-		<td>Shipping Cost:</td>
-		<td>
+		<td colspan="2">
 			{% if maci_orders.shippingsArray[order.shipping] is defined %}
 			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
 			{% else %}
@@ -165,8 +164,7 @@ td > table {
 	{% if order.payment %}
 	<tr>
 		<td>&nbsp;</td>
-		<td>Payment Cost:</td>
-		<td>
+		<td colspan="2">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}</span>
 			{% else %}
