@@ -12,11 +12,13 @@
 
 	<h2>{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
 
-	<div class="text-wrapper pt-3">
-		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
-		<span class="value">{{ order.code }}</span><br/>
-		<span class="label">{{ 'order.status' | matra('Order Status') }}:</span>
-		<span class="value">{{ order.statusLabel }}</span>
+	<div class="row pt-3">
+		<span class="col-3 label">{{ 'order.code' | matra('Order Identifier') }}:</span>
+		<span class="col-6 value">{{ order.code }}</span>
+	</div>
+	<div class="row">
+		<span class="col-3 label">{{ 'order.status' | matra('Order Status') }}:</span>
+		<span class="col-6 value">{{ order.statusLabel }}</span>
 	</div>
 
 </div>

@@ -58,31 +58,6 @@ td > table {
 </table>
 
 
-{% if order.billingAddress is not null or order.shippingAddress is not null %}
-<table class="main">
-<tbody>
-<tr>
-
-	{% if order.billingAddress is not null %}
-	<td class="address" width="50%">
-		<h3>{{ 'page.checkout.billing' | matra('Billing Address') }}:</h3>
-		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
-	</td>
-	{% endif %}
-
-	{% if order.shippingAddress is not null %}
-	<td class="address" width="50%">
-		<h3>{{ 'page.checkout.shipping' | matra('Shipping Address') }}:</h3>
-		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
-	</td>
-	{% endif %}
-
-</tr>
-</tbody>
-</table>
-{% endif %}
-
-
 <table class="main">
 <tbody>
 <tr>
@@ -191,6 +166,31 @@ td > table {
 
 </tbody>
 </table>
+
+
+{% if order.billingAddress is not null or order.shippingAddress is not null %}
+<table class="main">
+<tbody>
+<tr>
+
+	{% if order.billingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.billing' | matra('Billing Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
+	</td>
+	{% endif %}
+
+	{% if order.shippingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.shipping' | matra('Shipping Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+	</td>
+	{% endif %}
+
+</tr>
+</tbody>
+</table>
+{% endif %}
 
 
 {% if order.orderDocuments|length and 3 < order.progression %}
