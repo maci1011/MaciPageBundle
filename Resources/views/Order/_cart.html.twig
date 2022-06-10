@@ -1,19 +1,27 @@
 <div class="container">
 
-<h3>{{ 'menu.user.cart' | matra('My Cart') }}</h3>
+<h4 class="cart-title">{{ 'menu.user.cart' | matra('My Cart') }}</h4>
 
 
 {% if cart and cart.items|length %}
 
-<h5>{{ 'order.code' | matra('Order Identifier') }}: {{ cart.code }}</h5>
+<div class="details-wrapper details py-3">
+	<div class="text-wrapper">
+		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
+		<span class="value">{{ cart.code }}</span>
+	</div>
+</div>
 
 {{ render(controller('MaciPageBundle:Order:showOrder', {'order': cart, 'edit': true})) }}
 
-<div class="checkout-options row">
+<div class="details-wrapper buttons row pt3">
 <div class="col-12 col-sm-6">
 
 	<h3>{{ 'page.cart.checkout.title' | matra('Checkout') }}</h3>
-	<p>{{ 'page.cart.checkout.description' | matra('Pay the order and get it at home.') }}</p>
+
+	<div class="text-wrapper py-3">
+		<p class="text">{{ 'page.cart.checkout.description' | matra('Pay the order and get it at home.') }}</p>
+	</div>
 
 	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'checkout'}) }}">
 		{{ 'page.cart.checkout.button' | matra('Checkout') }}
@@ -23,7 +31,10 @@
 <div class="col-12 col-sm-6">
 
 	<h3>{{ 'page.cart.pickup-in-store.title' | matra('Pickup In Store') }}</h3>
-	<p>{{ 'page.cart.pickup-in-store.description' | matra('Book your order and pick it up in our store.') }}</p>
+
+	<div class="text-wrapper py-3">
+		<p class="text">{{ 'page.cart.pickup-in-store.description' | matra('Book your order and pick it up in our store.') }}</p>
+	</div>
 
 	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'pickup'}) }}">
 		{{ 'page.cart.pickup-in-store.button' | matra('Pickup In Store') }}
