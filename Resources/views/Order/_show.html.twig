@@ -66,11 +66,11 @@
 
 		{% if item.product.variant %}
 		{% if item.product.variantField != null %}
-		<span class="detail-label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
+		<span class="detail label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
 		{% else %}
-		<span class="detail-label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
+		<span class="detail label product-variant-field">{{ 'product.variant-field.variant'|matra('Variant') }}:</span>
 		{% endif %}
-		<span class="detail-info product-variant">{{ item.product.variant }}</span><br/>
+		<span class="detail value product-variant">{{ item.product.variant }}</span><br/>
 		{% endif %}
 
 		{% if item.variantLabel|length %}
