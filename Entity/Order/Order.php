@@ -383,7 +383,7 @@ class Order
 			'Session' => 'session',
 			'Wish List' => 'wishlist',
 			'Current' => 'current',
-			'Confirm' => 'confirm',
+			'Confirmed' => 'confirm',
 			'Complete' => 'complete',
 			'Paid' => 'paid',
 			'Refuse' => 'refuse'
