@@ -31,7 +31,7 @@
 </div>
 <div class="details-wrapper py-3">
 
-	<div class="row">
+	<div class="row pb-3">
 		<div class="col-11 offset-1">
 			<h5 class="title">{{ 'page.checkout.list-title' | matra('Order Items') }}</h5>
 		</div>
@@ -87,8 +87,8 @@
 		</span>
 	</p>
 
-	<p class="row">
-		<span class="col-12 col-md-7 offset-md-1 label">{{ 'order.amount' | matra('Amount') }}</span>
+	<p class="row list-details-wrapper amount">
+		<span class="col-12 col-md-7 offset-md-1 list-title">{{ 'order.amount' | matra('Amount') }}</span>
 		<span class="col-12 col-md-2 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
