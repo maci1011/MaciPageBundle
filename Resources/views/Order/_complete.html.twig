@@ -14,7 +14,7 @@
 </div>
 <div class="details-wrapper py-3 offset-1">
 
-	<h2 class="title">{{ 'order.complete.h2'|matra('Order Details') }}:</h2>
+	<h2 class="title">{{ 'order.complete.h2'|matra('Order Details') }}</h2>
 
 </div>
 <div class="details-wrapper py-3 offset-1">
@@ -37,30 +37,30 @@
 <div class="details-wrapper py-3 offset-1">
 
 	<p class="row titles-wrapper">
-		<span class="col-12 col-sm-6 col-md-5 offset-md-1 list-title">{{ 'order.item.description'|matra('Description') }}</span>
-		<span class="col-12 col-sm-6 col-md-2 list-title">{{ 'product.quantity' | matra('Quantity') }}</span>
-		<span class="col-12 col-sm-6 col-md-2 list-title">{{ 'product.price' | matra('Price') }}</span>
+		<span class="col-12 col-sm-6 col-md-6 list-title">{{ 'order.item.description'|matra('Description') }}:</span>
+		<span class="col-12 col-sm-3 col-md-2 list-title">{{ 'product.quantity' | matra('Quantity') }}:</span>
+		<span class="col-12 col-sm-3 col-md-2 list-title">{{ 'product.price' | matra('Price') }}:</span>
 	</p>
 
 	{% for item in order.items %}
 
 	<p class="row order-item {% if loop.index is even %}odd{% else %}even{% endif %}">
-		<span class="col-12 col-sm-6 col-md-5 offset-md-1 label">{{ item.product }}</span>
-		<span class="col-12 col-sm-6 col-md-2 value">{{ item.quantity }}</span>
-		<span class="col-12 col-sm-6 col-md-2 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="col-12 col-sm-6 col-md-6 label">{{ item.product }}</span>
+		<span class="col-12 col-sm-3 col-md-2 value">{{ item.quantity }}</span>
+		<span class="col-12 col-sm-3 col-md-2 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
 	{% endfor %}
 
 	<p class="row list-details-wrapper shipping">
-		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
+		<span class="col-12 col-sm-9 col-md-8 list-title">
 			{% if maci_orders.paymentsArray[order.shipping] is defined %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}
 			{% else %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-6 col-md-2 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-3 col-md-2 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -70,14 +70,14 @@
 	</p>
 
 	<p class="row list-details-wrapper payment">
-		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
+		<span class="col-12 col-sm-9 col-md-8 list-title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}
 			{% else %}
 			{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-6 col-md-2 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-3 col-md-2 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
 			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -87,8 +87,8 @@
 	</p>
 
 	<p class="row list-details-wrapper amount">
-		<span class="col-12 col-md-7 offset-md-1 list-title">{{ 'order.amount' | matra('Amount') }}</span>
-		<span class="col-12 col-md-2 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="col-12 col-sm-9 col-md-8 list-title">{{ 'order.amount' | matra('Amount') }}</span>
+		<span class="col-12 col-sm-3 col-md-2 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
 </div>
@@ -126,6 +126,8 @@
 
 <div class="details-wrapper py-3 offset-1">
 	<h3 class="title">{{ 'order.complete.contact-us-title'|matra('Contact us for more information') }}</h3>
+</div>
+<div class="details-wrapper py-3 offset-1">
 	<div class="text-wrapper pt-3">
 		<a href="{{ path('maci_page', {'path': 'page.contacts'|matro('contacts') }) }}" class="btn btn-primary">
 			{{ 'order.complete.contact-us-text'|matra('Go to the Contacts Page.') }}
