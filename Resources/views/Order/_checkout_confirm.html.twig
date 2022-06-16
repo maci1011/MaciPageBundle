@@ -3,13 +3,13 @@
 {% set i = 0 %}
 
 
-<div class="row confirm first">
+<div class="row details-wrapper confirm first">
 <div class="col-12 col-md-6">
 
 
 {% if billingAddress == 'setted' %}{# --- Billing Address ---  #}
 <div class="checkout-content {{ billingAddress }}">
-	<h5>{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h5>
+	<h5 class="title">{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h5>
 	{% include "@MaciPage/Order/_checkout_billing_address.html.twig" %}
 </div>
 {% endif %}{# --- End Billing Address ---  #}
@@ -19,7 +19,7 @@
 
 {% if shippingAddress == 'setted' %}{# --- Shipping Address ---  #}
 <div class="checkout-content {{ shippingAddress }}">
-	<h5>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h5>
+	<h5 class="title">{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h5>
 	{% include "@MaciPage/Order/_checkout_shipping_address.html.twig" %}
 </div>
 {% endif %}{# --- End Shipping Address ---  #}
@@ -27,13 +27,13 @@
 
 </div>
 </div>{# end row #}
-<div class="row confirm">
+<div class="row details-wrapper confirm">
 <div class="col-12 col-md-6">
 
 
 {% if shipping == 'setted' %}{# --- Shipping Method ---  #}
 <div class="checkout-content {{ shipping }}">
-	<h5>{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h5>
+	<h5 class="title">{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}</h5>
 	{% include "@MaciPage/Order/_checkout_shipping_method.html.twig" %}
 </div>
 {% endif %}{# --- End Shipping Method ---  #}
@@ -45,7 +45,7 @@
 
 {% if payment == 'setted' %}{# --- Payment ---  #}
 <div class="checkout-content {{ payment }}">
-	<h5>{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h5>
+	<h5 class="title">{{ 'page.checkout.payment_method' | matra('Payment Method') }}</h5>
 	{% include "@MaciPage/Order/_checkout_payment_method.html.twig" %}
 </div>
 {% endif %}{# --- End Payment ---  #}
@@ -54,13 +54,13 @@
 </div>
 </div>{# end row #}
 
-<div class="row confirm last">
+<div class="row details-wrapper confirm last">
 <div class="col-12">
 
 {% if confirm_form %}
 <div class="checkout-content {{ payment }}">
 
-	<h4>{{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
+	<h4 class="title">{{ 'page.checkout.confirm' | matra('Confirm Order') }}</h4>
 
 	{% set confirm_text = 'page.checkout.confirm_text' | matra('') %}
 	{% if confirm_text|length %}
