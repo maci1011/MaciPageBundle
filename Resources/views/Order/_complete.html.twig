@@ -37,7 +37,7 @@
 		</div>
 	</div>
 
-	<p class="row detail-titles">
+	<p class="row titles-wrapper">
 		<span class="col-12 col-sm-6 col-md-5 offset-md-1 list-title">{{ 'order.item.description'|matra('Description') }}</span>
 		<span class="col-12 col-sm-6 col-md-2 list-title">{{ 'product.quantity' | matra('Quantity') }}</span>
 		<span class="col-12 col-sm-6 col-md-2 list-title">{{ 'product.price' | matra('Price') }}</span>
@@ -53,9 +53,9 @@
 
 	{% endfor %}
 
-	<p class="row">
+	<p class="row list-details-wrapper shipping">
 		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
-			{% if maci_orders.paymentsArray[order.payment] is defined %}
+			{% if maci_orders.paymentsArray[order.shipping] is defined %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}
 			{% else %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}
@@ -70,7 +70,7 @@
 		</span>
 	</p>
 
-	<p class="row">
+	<p class="row list-details-wrapper payment">
 		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}
