@@ -51,7 +51,7 @@
 	{% endfor %}
 
 	<p class="row">
-		<span class="col-12 col-sm-6 col-md-7 offset-md-1 title">
+		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}
 			{% else %}
@@ -68,7 +68,7 @@
 	</p>
 
 	<p class="row">
-		<span class="col-12 col-sm-6 col-md-7 offset-md-1 title">
+		<span class="col-12 col-sm-6 col-md-7 offset-md-1 list-title">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}
 			{% else %}
@@ -95,7 +95,7 @@
 	<div class="row">
 		{% if order.billingAddress %}
 		<div class="col-12 col-md-5 offset-md-1">
-			<h5>{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h5>
+			<h5 class="title">{{ 'page.checkout.billing_address' | matra('Billing Address') }}</h5>
 			<div class="address-wrapper">
 				{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
 			</div>
@@ -103,7 +103,7 @@
 		{% endif %}
 		{% if order.shippingAddress %}
 		<div class="col-12 col-md-5">
-			<h5>{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h5>
+			<h5 class="title">{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}</h5>
 			<div class="address-wrapper">
 				{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
 			</div>
