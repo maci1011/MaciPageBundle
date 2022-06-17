@@ -46,8 +46,8 @@
 
 	<p class="row order-item {% if loop.index is even %}odd{% else %}even{% endif %}">
 		<span class="col-12 col-sm-6 col-md-6 label">{{ item.product }}</span>
-		<span class="col-12 col-sm-3 col-md-2 value">{{ item.quantity }}</span>
-		<span class="col-12 col-sm-3 col-md-2 value">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="col-12 col-sm-3 col-md-2 quantity">{{ item.quantity }}</span>
+		<span class="col-12 col-sm-3 col-md-2 price">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
 	{% endfor %}
@@ -128,7 +128,7 @@
 	<h3 class="title">{{ 'order.complete.contact-us-title'|matra('Contact us for more information') }}</h3>
 </div>
 <div class="details-wrapper py-3 offset-1">
-	<div class="text-wrapper pt-3">
+	<div class="text-wrapper">
 		<a href="{{ path('maci_page', {'path': 'page.contacts'|matro('contacts') }) }}" class="btn btn-primary">
 			{{ 'order.complete.contact-us-text'|matra('Go to the Contacts Page.') }}
 		</a>
