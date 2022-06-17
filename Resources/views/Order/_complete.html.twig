@@ -60,7 +60,7 @@
 			{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-3 col-md-2 value {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-3 col-md-2 price {{ 0 < order.shippingCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -77,7 +77,7 @@
 			{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}
 			{% endif %}
 		</span>
-		<span class="col-12 col-sm-3 col-md-2 value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+		<span class="col-12 col-sm-3 col-md-2 price {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}
 			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
@@ -88,7 +88,7 @@
 
 	<p class="row list-details-wrapper amount">
 		<span class="col-12 col-sm-9 col-md-8 list-title">{{ 'order.amount' | matra('Amount') }}</span>
-		<span class="col-12 col-sm-3 col-md-2 value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+		<span class="col-12 col-sm-3 col-md-2 price">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>
 
 </div>
