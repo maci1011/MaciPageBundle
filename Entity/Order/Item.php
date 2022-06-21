@@ -257,6 +257,11 @@ class Item
 		return $this->product;
 	}
 
+	public function getProductName()
+	{
+		return $this->product ? $this->product->getName() : '';
+	}
+
 	public function setUpdatedValue()
 	{
 		$this->updated = new \DateTime();
@@ -310,6 +315,15 @@ class Item
 	public function getVariantTypeLabel()
 	{
 		return ucfirst(str_replace('_', ' ', $this->getVariantType()));
+	}
+
+	public function getItemDescription()
+	{
+		return
+			$this->getProductName() .
+			($this->getVariant() ? ' - ' . $this->getVariantLabel() : '') .
+			($this->getVariantName() ? ' - ' . $this->getVariantNameLabel() : '')
+		;
 	}
 
 	public function getPrivateDocuments()

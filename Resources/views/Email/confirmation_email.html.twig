@@ -72,11 +72,10 @@ td > table {
 <tbody class="details">
 
 	{# HEADER #}
-	<tr>
-		<td>&nbsp;</td>
-		<th>Product</th>
-		<th>Quantity</th>
-		<th>Price</th>
+	<tr class="titles">
+		<th class="name" width="65%">{{ 'order.product' | matra('Product') }}</th>
+		<th class="quantity">{{ 'product.quantity' | matra('Quantity') }}</th>
+		<th class="price">{{ 'product.price' | matra('Price') }}</th>
 	</tr>
 
 	{# ORDER ITEMS #}
@@ -84,22 +83,12 @@ td > table {
 	{% if item.product %}
 	<tr>
 		<td>
-			{% if item.product.preview %}
-			<img src="{{ asset(item.product.preview.webPreview | imagine_filter('maci_product_preview_list'), null, true) }}" style="width: 100px;">
-			{% else %}
-			<img src="{{ asset('/images/defaults/no-icon.png' | imagine_filter('maci_product_preview_list'), null, true) }}" style="width: 100px;">
-			{% endif %}
-		</td>
-		<td>
-			{{ item.product }}
+			{{ item.itemDescription }}
 		</td>
 		<td>
 			{{ item.quantity }}
 		</td>
 		<td>
-			{% if item.sale %}
-			<span style="text-decoration: line-through;">{{ item.sale | number_format(2, '.', ',') }} &euro;</span><br/>
-			{% endif %}
 			<span>{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 		</td>
 	</tr>
@@ -108,7 +97,6 @@ td > table {
 
 	{# FOOTER #}
 	<tr>
-		<td>&nbsp;</td>
 		<th>{{ 'product.cart_details' | matra('Details') }}</th>
 		<th>{{ 'product.cart_description' | matra('Description') }}</th>
 		<th>{{ 'product.price' | matra('Price') }}</th>
@@ -117,7 +105,6 @@ td > table {
 	{# SHIPPING COST #}
 	{% if order.shipping %}
 	<tr>
-		<td>&nbsp;</td>
 		<td colspan="2">
 			{% if maci_orders.shippingsArray[order.shipping] is defined %}
 			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
@@ -138,7 +125,6 @@ td > table {
 	{# PAYMENT COST #}
 	{% if order.payment %}
 	<tr>
-		<td>&nbsp;</td>
 		<td colspan="2">
 			{% if maci_orders.paymentsArray[order.payment] is defined %}
 			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}</span>
@@ -158,10 +144,9 @@ td > table {
 
 
 	<tr>
-		<td>&nbsp;</td>
-		<td><h4>Amount:</h4></td>
-		<td>&nbsp;</td>
-		<td><h4>{{ order.amount | number_format(2, '.', ',') }} &euro;</h4></td>
+		<th>{{ 'order.amount' | matra('Amount') }}</th>
+		<th>&nbsp;</th>
+		<th>{{ order.amount | number_format(2, '.', ',') }} &euro;</th>
 	</tr>
 
 </tbody>
