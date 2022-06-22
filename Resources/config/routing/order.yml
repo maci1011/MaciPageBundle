@@ -84,11 +84,11 @@ maci_order_cart:
 
 maci_order_admin_confirmed:
     path:  /admin/orders/confirmed
-    defaults: { _controller: MaciPageBundle:Order:confirmed }
+    defaults: { _controller: MaciPageBundle:Order:confirmed, section: orders }
 
 maci_order_admin_show_order:
     path:  /admin/order/show/{id}
-    defaults: { _controller: MaciPageBundle:Order:adminShow }
+    defaults: { _controller: MaciPageBundle:Order:adminShow, section: orders }
 
 
 

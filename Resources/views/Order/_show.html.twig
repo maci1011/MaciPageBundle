@@ -103,11 +103,11 @@
 
 	<td class="price">
 
-		<ol>
+		<ul>
 
 			{% if item.product.sale %}
 			<li>
-				<span class="product-list-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+				<span class="product-list-price lnthr">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
 			</li>
 			<li>
 				<span class="product-sale-price">{{ item.product.sale | number_format(2, '.', ',') }} &euro;</span>
@@ -118,7 +118,7 @@
 			</li>
 			{% endif %}
 
-		</ol>
+		</ul>
 
 	</td>
 

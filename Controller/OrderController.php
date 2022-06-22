@@ -60,7 +60,7 @@ class OrderController extends AbstractController
 			->getRepository('MaciPageBundle:Order\Order')
 			->findOneById($id);
 
-		return $this->render('MaciPageBundle:Order:show.html.twig', [
+		return $this->render('MaciPageBundle:Order:admin_show.html.twig', [
 			'order' => $order,
 			'edit' => false
 		]);
@@ -597,9 +597,9 @@ class OrderController extends AbstractController
 			false === $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
 		) return $this->redirect($this->generateUrl('maci_order_homepage', array('error' => 'order.nomap')));
 
-		return $this->render('MaciPageBundle:Order:invoice.html.twig', array(
+		return $this->render('MaciPageBundle:Order:invoice.html.twig', [
 			'order' => $order
-		));
+		]);
 	}
 
 	// public function paypalCompleteAction()
