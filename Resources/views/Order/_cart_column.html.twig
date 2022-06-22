@@ -2,13 +2,7 @@
 <section id="cartCol">
 
 <header id="cartColHeader">
-	<h4 class="cart-title">
-		{{ 'order.cart.title' | matra('My Cart') }}
-	</h4>
-	<p class="cart-total-items">
-		<span>{{ order.totalItemsQuantity }}</span>
-		{{ 'order.subtotal-items' | matra('Items') }}
-	</p>
+	<h4 class="cart-title">{{ 'order.cart.title' | matra('My Cart') }}</h4>
 </header>
 
 {% if order and order.items|length %}
@@ -43,7 +37,7 @@
 
 		{% endif %}
 
-		{% if item.product.variant %}
+		{#% if item.product.variant %}
 		<p class="item-info variant">
 			{% if item.product.variantField != null %}
 			<span class="label">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
@@ -52,12 +46,24 @@
 			{% endif %}
 			<span class="value">{{ item.product.variant }}</span>
 		</p>
-		{% endif %}
+		{% endif %#}
 
-		{% if item.variant %}
+		{#% if item.variant %}
 		<p class="item-info custom-variant">
 			<span class="label">{{ ('product.variant-field.' ~ item.variantType)|matra(item.variantTypeLabel) }}:</span>
 			<span class="value">{{ item.variantNameLabel }}</span>
+		</p>
+		{% endif %#}
+
+		{% if item.product.variant or item.variant %}
+		<p class="item-info variant">
+			{% if item.product.variant and item.variant %}
+			<span class="value">{{ item.product.variant }}, {{ item.variantNameLabel }}</span>
+			{% elseif item.product.variant %}
+			<span class="value">{{ item.product.variant }}</span>
+			{% else %}
+			<span class="value">{{ item.variantNameLabel }}</span>
+			{% endif %}
 		</p>
 		{% endif %}
 
@@ -67,7 +73,7 @@
 		</p>
 
 		<p class="item-info price">
-			{% if item.product.sale %}
+			{#% if item.product.sale %}
 			<span class="list-price">
 				{{ item.product.price | number_format(2, '.', ',') }} &euro;
 			</span>
@@ -78,7 +84,10 @@
 			<span class="value">
 				{{ item.product.price | number_format(2, '.', ',') }} &euro;
 			</span>
-			{% endif %}
+			{% endif %#}
+			<span class="value">
+				{{ item.product.amount | number_format(2, '.', ',') }} &euro;
+			</span>
 		</p>
 
 		{#}
@@ -209,13 +218,6 @@
 <a class="btn btn-primary" href="{{ path(is_granted('ROLE_USER') ? 'maci_order_checkout' : 'maci_order_gocheckout') }}">
 	Checkout
 </a>
-
-{#% elseif confirm is defined and confirm == 'set' %}
-
-<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
-	{{ 'page.checkout.place-order' | matra('Place Order') }}
-</a>
-{#}
 
 </div>
 {% endif %}

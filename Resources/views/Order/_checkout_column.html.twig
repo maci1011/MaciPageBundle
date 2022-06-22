@@ -1,0 +1,108 @@
+
+<section id="chkcol">
+
+<header id="header">
+	<h4 class="title">{{ 'checkout.column.title' | matra('My Cart') }}</h4>
+</header>
+
+{% if order and order.items|length %}
+
+<div class="cart-details">
+
+	<div class="details-line">
+		<span class="orderItems label">{{ 'checkout.cart-items'|matra('Cart Items') }}:</span>
+		<span class="orderItems value">{{ order.totalItemsQuantity }}</span>
+	</div>
+
+</div>
+
+{# SHIPPING COST #}
+
+{% if order.shipping %}
+
+<div class="cart-details">
+
+	<div class="details-line">
+		{% if maci_orders.shippingsArray[order.shipping] is defined %}
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
+		{% else %}
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
+		{% endif %}
+		<span class="shippingCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+			{% if 0 < order.shippingCost %}
+			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free') | matra('Free') }}
+			{% endif %}
+		</span>
+	</div>
+
+</div>
+
+{% endif %}
+
+
+{# PAYMENT COST #}
+
+{% if order.payment %}
+
+<div class="cart-details">
+
+	<div class="details-line">
+		{% if maci_orders.paymentsArray[order.payment] is defined %}
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
+		{% else %}
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
+		{% endif %}
+		<span class="paymentCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
+			{% if 0 < order.paymentCost %}
+			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free') | matra('Free') }}
+			{% endif %}
+		</span>
+	</div>
+
+</div>
+
+{% endif %}
+
+
+{# AMOUNT #}
+
+<div class="cart-details">
+
+	{% if confirm == 'set' %}
+
+	<div class="details-line">
+		<span class="amount label">{{ 'order.amount' | matra('Amount') }}:</span>
+		<span class="amount value">{{ order.amount | number_format(2, '.', ',') }} &euro;</span>
+	</div>
+
+	{% else %}
+
+	<div class="details-line">
+		<span class="amount label">{{ 'order.subtotal' | matra('SubTotal') }}:</span>
+		<span class="amount value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</span>
+	</div>
+
+	{% endif %}
+
+</div>
+
+
+{# LINKS #}
+{% if confirm == 'set' %}
+<div class="cart-links">
+
+<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
+	{{ 'page.checkout.place-order' | matra('Place Order') }}
+</a>
+
+</div>
+{% endif %}
+
+
+{% endif %}{# End Order #}
+
+</section>

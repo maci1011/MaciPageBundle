@@ -49,9 +49,11 @@ td > table {
 <tr>
 	<td class="order-status">
 		<h4>Dear Customer,</h4>
-		<p>you order has been confirmed.</p>
-		<span>Order Code: {{ order.code }}</span><br/>
-		<span>Order Status: {{ order.statusLabel }}</span>
+		<p class="text">you order has been confirmed.</p>
+		<span class="attr label">Order Code:</span>
+		<span class="attr value"> {{ order.code }}</span><br/>
+		<span class="attr label">Order Status:</span>
+		<span class="attr value"> {{ order.statusLabel }}</span>
 	</td>
 </tr>
 </tbody>
