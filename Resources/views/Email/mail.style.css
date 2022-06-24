@@ -1,0 +1,27 @@
+
+body {
+   background-color: #e6e6e6;
+   font-family: 'Gill Sans';
+   margin: 0;
+}
+
+table {
+   margin: 0;
+   padding: 0;
+   text-align: left;
+}
+
+.main {
+   background-color: #fff;
+   margin: 0 auto;
+   padding: 0 20px;
+   width: 600px;
+}
+
+.main > tbody > tr > td {
+   padding: 10px 0;
+}
+
+td > table {
+   width: 100%;
+}

@@ -526,7 +526,7 @@ class OrderController extends AbstractController
 			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
 			->addRecipients($recipients ? $recipients : $cart->getRecipient())
 			->setLocale($cart->getLocale())
-			->setContent($this->renderView($template ? $template : '@MaciPage/Email/confirmation_email.html.twig', ['mail' => $mail, 'order' => $cart]))
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $cart]))
 		;
 
 		if ($cart->getUser())
@@ -644,10 +644,17 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
-		$this->sendNotify($order, false, '@MaciPage/Email/confirmation_email.html.twig');
+		$order->completeOrder();
 
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
+
+		return ['success' => true, 'msg' => 'completeOrder'];
+	}
+
+	public function sendShippedNotify($order)
+	{
+		$this->sendNotify($order, false, '@MaciPage/Email/order_shipped.html.twig');
 
 		return ['success' => true, 'msg' => 'completeOrder'];
 	}

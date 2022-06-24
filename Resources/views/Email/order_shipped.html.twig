@@ -1,0 +1,38 @@
+<html>
+<head>
+<style type="text/css">
+
+{% include "@MaciPage/Email/mail.style.css" %}
+
+</style>
+</head>
+<body>
+
+
+<table class="main">
+<tbody>
+<tr>
+	<td class="header">
+
+		<div class="title">
+			<h1>{{ company_title }}</h1>
+			<h2>{{ company_subtitle }}</h2>
+		</div>
+
+	</td>
+</tr>
+<tr>
+	<td class="order-status">
+		<h4>Dear Customer,</h4>
+		<p class="text">you order has been shipped.</p>
+		<span class="attr label">Order Code:</span>
+		<span class="attr value"> {{ order.code }}</span>
+	</td>
+</tr>
+</tbody>
+</table>
+
+{% include "@MaciPage/Email/_footer.html.twig" %}
+
+</body>
+</html>
