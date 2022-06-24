@@ -6,19 +6,26 @@
 
 {% block content %}
 
+{% if order.status in ['confirm', 'complete'] %}
 <h3>{{ 'order.show_title_action' | matra('Order Actions') }}</h3>
 
-<form id="order_actions_form" class="p-2" data-id="{{ order.id }}">
+<form id="order_actions_form" data-id="{{ order.id }}">
 <div class="form-group">
-	<label class="required" for="actions_select">Action</label>
+	<label class="required" for="actions_select">Action:</label>
 	<select id="actions_select" class="form-control">
+		{% if order.status == 'confirm' %}
 		<option value="completeOrder">Complete Order</option>
+		{% endif %}
+		{% if order.status == 'complete' %}
+		<option value="foo">Foo</option>
+		{% endif %}
 	</select>
 </div>
 <div class="form-group">
 	<button id="submit" class="btn btn-primary" type="submit">Do Action</button>
 </div>
 </form>
+{% endif %}
 
 {% include "MaciPageBundle:Order:_preview.html.twig" %}
 
