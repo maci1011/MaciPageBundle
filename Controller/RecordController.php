@@ -12,9 +12,9 @@ class RecordController extends AbstractController
 {
 	public function importAction(Request $request)
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
+
 		return $this->render('@MaciPage/Record/import.html.twig', [
 			'debug' => !!$request->get('debug')
 		]);
@@ -22,34 +22,30 @@ class RecordController extends AbstractController
 
 	public function exportAction()
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
+
 		return $this->render('@MaciPage/Record/export.html.twig');
 	}
 
 	public function loadUnsettedRecordsAction(Request $request)
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
 
 		// --- Check Request
 
-		if (!$request->isXmlHttpRequest()) {
+		if (!$request->isXmlHttpRequest())
 			return $this->redirect($this->generateUrl('homepage'));
-		}
 
-		if ($request->getMethod() !== 'POST') {
+		if ($request->getMethod() !== 'POST')
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
-		}
 
 		// --- Check Auth
 
 		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
-		if (!$admin->checkAuth()) {
+		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
-		}
 
 		$cmd = $request->get('cmd', '');
 
@@ -82,9 +78,8 @@ class RecordController extends AbstractController
 			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
 		}
 
-		if (!count($list)) {
+		if (!count($list))
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
-		}
 
 		if (in_array($cmd, ['reload_recs']))
 			return $this->reloadRecords($list, $cmd);
@@ -92,7 +87,8 @@ class RecordController extends AbstractController
 		if (in_array($cmd, ['get_nf', 'reload_nf_recs', 'reset_nf', 'reload_pr']))
 			return $this->resetNotFounds($list, $cmd);
 
-		if ($_all) return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
+		if ($_all)
+			return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
 
 		return $this->importList($list);
 	}

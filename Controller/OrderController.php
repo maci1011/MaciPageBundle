@@ -43,17 +43,6 @@ class OrderController extends AbstractController
 		]);
 	}
 
-	public function confirmedAction()
-	{
-		$list = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Order\Order')
-			->getConfirmed();
-
-		return $this->render('MaciPageBundle:Order:confirmed.html.twig', [
-			'list' => $list
-		]);
-	}
-
 	public function adminShowAction($id)
 	{
 		$order = $this->getDoctrine()->getManager()
@@ -518,23 +507,26 @@ class OrderController extends AbstractController
 			$params['payment']['details']['paid'] = false;
 
 		if($status->getValue() == 'captured')
-			$cart->confirmOrder();
+			$cart->confirmOrder($params);
 
 		$this->get('maci.orders')->resetCart();
 
-		// ---> Send eMails <---
+		$this->sendNotify($cart, [$payment->getClientEmail() => $payment->getClientId()]);
 
-		$to = $payment->getClientEmail();
-		$toint = $payment->getClientId();
+		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
+	}
+
+	public function sendNotify($cart, $recipients = false, $template = false)
+	{
 		$mail = new Mail();
 		$mail
 			->setName($cart->getCode())
 			->setType('notify')
 			->setSubject('Order Confirmation')
 			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
-			->addRecipients([$to => $toint])
-			->setLocale($request->getLocale())
-			->setContent($this->renderView('MaciPageBundle:Email:confirmation_email.html.twig', ['mail' => $mail, 'order' => $cart]))
+			->addRecipients($recipients ? $recipients : $cart->getRecipient())
+			->setLocale($cart->getLocale())
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/confirmation_email.html.twig', ['mail' => $mail, 'order' => $cart]))
 		;
 
 		if ($cart->getUser())
@@ -549,9 +541,9 @@ class OrderController extends AbstractController
 		$notify = clone $message;
 		// $mail->end();
 
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($mail);
-		$em->flush();
+		$om = $this->getDoctrine()->getManager();
+		$om->persist($mail);
+		$om->flush();
 
 		// Send Mail
 
@@ -564,8 +556,6 @@ class OrderController extends AbstractController
 		// ---> send notify
 		if ($this->container->get('kernel')->getEnvironment() == "prod")
 			$this->get('mailer')->send($notify);
-
-		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
 	}
 
 	public function checkoutCompleteAction(Request $request, $token)
@@ -600,6 +590,66 @@ class OrderController extends AbstractController
 		return $this->render('MaciPageBundle:Order:invoice.html.twig', [
 			'order' => $order
 		]);
+	}
+
+	public function confirmedAction()
+	{
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth()) {
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+		}
+
+		$list = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Order\Order')
+			->getConfirmed();
+
+		return $this->render('MaciPageBundle:Order:confirmed.html.twig', [
+			'list' => $list
+		]);
+	}
+
+	public function orderManagerAction(Request $request, $id)
+	{
+		// --- Check Request
+
+		if (!$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('homepage'));
+
+		if ($request->getMethod() !== 'POST')
+			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
+
+		// --- Check Auth
+
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth())
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+
+		$order = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Order\Order')
+			->findOneById($id);
+
+		if (!$order)
+			return new JsonResponse(['success' => false, 'error' => 'Order Not Found.'], 200);
+
+		$cmd = $request->get('cmd');
+
+		if (!$cmd)
+			return new JsonResponse(['success' => false, 'error' => 'Command Missing.'], 200);
+
+		if ($cmd == 'completeOrder')
+			return new JsonResponse($this->completeOrder($order), 200);
+
+		return new JsonResponse(['success' => false, 'error' => 'Nothing Done.'], 200);
+	}
+
+	public function completeOrder($order)
+	{
+		$this->sendNotify($order, false, '@MaciPage/Email/confirmation_email.html.twig');
+
+		$om = $this->getDoctrine()->getManager();
+		$om->flush();
+
+		return ['success' => true, 'msg' => 'completeOrder'];
 	}
 
 	// public function paypalCompleteAction()

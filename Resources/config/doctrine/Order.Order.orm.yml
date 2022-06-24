@@ -75,6 +75,9 @@ Maci\PageBundle\Entity\Order\Order:
         due:
             type: datetime
             nullable: true
+        data:
+            type: json
+            nullable: true
         created:
             type: datetime
         updated:

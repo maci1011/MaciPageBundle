@@ -90,6 +90,10 @@ maci_order_admin_show_order:
     path:  /admin/order/show/{id}
     defaults: { _controller: MaciPageBundle:Order:adminShow, section: orders }
 
+maci_order_admin_manage_order:
+    path:  /admin/order/manage/{id}
+    defaults: { _controller: MaciPageBundle:Order:orderManager, section: orders }
+
 
 
 maci_order_show:

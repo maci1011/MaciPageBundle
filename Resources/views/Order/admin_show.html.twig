@@ -1,15 +1,30 @@
 {% extends "MaciAdminBundle::layout.html.twig" %}
 
-
 {% block title %}
-
 {{ 'order.show.meta_title' | matra('Show Order') }}: {{ order.name }}
-
 {% endblock %}
-
 
 {% block content %}
 
+<h3>{{ 'order.show_title_action' | matra('Order Actions') }}</h3>
+
+<form id="order_actions_form" class="p-2" data-id="{{ order.id }}">
+<div class="form-group">
+	<label class="required" for="actions_select">Action</label>
+	<select id="actions_select" class="form-control">
+		<option value="completeOrder">Complete Order</option>
+	</select>
+</div>
+<div class="form-group">
+	<button id="submit" class="btn btn-primary" type="submit">Do Action</button>
+</div>
+</form>
+
 {% include "MaciPageBundle:Order:_preview.html.twig" %}
 
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/manage.js') }}" ></script>
 {% endblock %}

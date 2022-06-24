@@ -1,8 +1,16 @@
 
 {% if list|length %}
 
+<style type="text/css">
+
+.confirm > td {
+	background-color: #9fe4ff47;
+}
+
+</style>
+
 <div class="list-default">
-<table class="table table-striped">
+<table class="table">
 
 <thead>
 <tr class="list-header">
@@ -42,7 +50,7 @@
 
 {% for item in list %}
 
-<tr class="list-item">
+<tr class="list-item {{ item.status }}">
 
 	<td class="list-item-id">
 		<span>{{ item.id }}</span>
@@ -61,7 +69,7 @@
 	</td>
 
 	<td>
-		<span>{{ item.status }}</span>
+		<span>{{ item.statusLabel }}</span>
 	</td>
 
 	<td>

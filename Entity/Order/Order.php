@@ -106,6 +106,11 @@ class Order
 	private $due;
 
 	/**
+	 * @var json
+	 */
+	private $data;
+
+	/**
 	 * @var \DateTime
 	 */
 	private $created;
@@ -384,6 +389,7 @@ class Order
 			'Wish List' => 'wishlist',
 			'Current' => 'current',
 			'Confirmed' => 'confirm',
+			'Paid' => 'paid',
 			'Complete' => 'complete',
 			'Paid' => 'paid',
 			'Refuse' => 'refuse'
@@ -400,6 +406,7 @@ class Order
 			$i++;
 		}
 		return -1;
+		// return array_search($this->status, array_values($this->getStatusArray()));
 	}
 
 	public function getStatusLabel()
@@ -599,6 +606,29 @@ class Order
 	public function getDue()
 	{
 		return $this->due;
+	}
+
+	/**
+	 * Set data
+	 *
+	 * @param string $data
+	 * @return Product
+	 */
+	public function setData($data)
+	{
+		$this->data = $data;
+
+		return $this;
+	}
+
+	/**
+	 * Get data
+	 *
+	 * @return string 
+	 */
+	public function getData()
+	{
+		return $this->data;
 	}
 
 	/**
@@ -1153,8 +1183,10 @@ class Order
 		return $this->getPickupInStoreParameters($editAction);
 	}
 
-	public function confirmOrder()
+	public function confirmOrder($params = false)
 	{
+		$this->addConfirmData($params);
+
 		$this->subItemsQuantity();
 
 		$this->setInvoiceValue();
@@ -1168,6 +1200,19 @@ class Order
 		return true;
 	}
 
+	public function addConfirmData($params)
+	{
+		if (!is_array($params)) return;
+
+		if (!is_array($this->data))
+			$this->data = [];
+
+		if (!array_key_exists('confirmData', $this->data))
+			$this->data['confirmData'] = [];
+
+		$this->data['confirmData'][date("Y/m/d H:i:s", time())] = $params;
+	}
+
 	public function completeOrder()
 	{
 		$this->status = 'complete';
@@ -1177,7 +1222,7 @@ class Order
 
 	public function endOrder()
 	{
-		if (5 < $this->getProgression()) {
+		if (6 < $this->getProgression()) {
 			return false;
 		}
 
