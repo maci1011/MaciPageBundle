@@ -18,6 +18,7 @@ var maciShopManager = function (options) {
 			success: function(d,s,x) {
 				console.log('S--> ' + cmd + ' <---');
 				console.log(d);
+				// window.location.reload();
 			},
 			error: function(d,s,x) {
 				console.log('E--> ' + cmd + ' <---');

@@ -129,6 +129,9 @@ class Item
 	{
 		$this->quantity = $quantity;
 
+		if ($this->quantity < 1)
+			$this->quantity = 1;
+
 		return $this;
 	}
 
@@ -372,6 +375,11 @@ class Item
 			return ( $this->product->getSale() );
 		}
 		return 0;
+	}
+
+	public function exportSaleRecord()
+	{
+		return $this->getProduct()->exportSaleRecord($this->getVariant(), $this->getQuantity());
 	}
 
 	/**

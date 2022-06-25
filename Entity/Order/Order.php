@@ -1183,10 +1183,8 @@ class Order
 		return $this->getPickupInStoreParameters($editAction);
 	}
 
-	public function confirmOrder($params = false)
+	public function confirmOrder($params = [])
 	{
-		$this->addConfirmData($params);
-
 		$this->subItemsQuantity();
 
 		$this->setInvoiceValue();
@@ -1197,42 +1195,122 @@ class Order
 
 		$this->status = 'confirm';
 
-		return true;
+		$this->exportSaleRecords();
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'confirmOrder',
+			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+		]));
+
+		return $this->export_set;
 	}
 
-	public function addConfirmData($params)
+	public function exportSaleRecords()
+	{
+		$set = new \Maci\PageBundle\Entity\Shop\RecordSet();
+		$set->setLabel('Order #' . $this->getId() . ' Sale');
+		$set->setDescription($this->getName());
+		$errors = [];
+
+		foreach ($this->getItems() as $key => $item)
+		{
+			$record = $item->exportSaleRecord();
+			if (!$record)
+			{
+				array_push($errors, '#' . $item->getId() . ': ' . $item->getProductName());
+				continue;
+			}
+			$set->addRecort($record);
+		}
+
+		$this->export_set = $set;
+		$this->export_errors = $errors;
+	}
+
+	public function completeOrder()
+	{
+		$this->status = 'complete';
+	}
+
+	public function cancelOrder($params = [])
+	{
+		$this->exportReturnRecords();
+
+		$this->addActionData(array_merge([
+			'_action' => 'cancelOrder',
+			'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+		], $params));
+
+		return $this->export_set;
+	}
+
+	public function exportReturnRecords()
+	{
+		$set = new \Maci\PageBundle\Entity\Shop\RecordSet();
+		$set->setLabel('Order #' . $this->getId() . ' Return');
+		$set->setDescription($this->getName());
+		$errors = [];
+
+		foreach ($this->getItems() as $key => $item)
+		{
+			$record = $item->exportReturnRecord();
+			if (!$record)
+			{
+				array_push($errors, '#' . $item->getId() . ': ' . $item->getProductName());
+				continue;
+			}
+			$set->addRecort($record);
+		}
+
+		$this->export_set = $set;
+		$this->export_errors = $errors;
+	}
+
+	public function addActionData($params)
 	{
 		if (!is_array($params)) return;
 
 		if (!is_array($this->data))
 			$this->data = [];
 
-		if (!array_key_exists('confirmData', $this->data))
-			$this->data['confirmData'] = [];
+		if (!array_key_exists('actions', $this->data))
+			$this->data['actions'] = [];
 
-		$this->data['confirmData'][date("Y/m/d H:i:s", time())] = $params;
-	}
-
-	public function completeOrder()
-	{
-		$this->status = 'complete';
-
-		return true;
+		array_push($this->data['actions'], array_merge([
+			'_date' => date("Y/m/d H:i:s", time())
+		], $params));
 	}
 
 	public function endOrder()
 	{
-		if (6 < $this->getProgression()) {
+		if (6 < $this->getProgression())
 			return false;
-		}
 
-		if (!$this->getBalance() < 0 ) {
+		if (!$this->getBalance() < 0)
 			$this->status = 'complete';
-		} else {
+		else
 			$this->status = 'paid';
+	
+		return true;
+	}
+
+	public function getRecipient()
+	{
+		$mail = $this->getMail();
+		$int = null;
+
+		if (is_object($this->billing_address))
+			$int = $this->billing_address->getHeading();
+
+		if (is_string($mail))
+		{
+			if (is_string($int))
+				return [$mail => $int]
+
+			return [$mail => (split('@', $mail)[0])];
 		}
 
-		return true;
+		return ['info@' . $_SERVER['SERVER_NAME'] => 'Unknown Recipient!']
 	}
 
 	public function addProduct($product, $quantity = 1, $variant = false)

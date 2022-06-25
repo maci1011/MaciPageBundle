@@ -33,3 +33,4 @@ Maci\PageBundle\Entity\Shop\RecordSet:
             targetEntity: Maci\PageBundle\Entity\Shop\Record
             mappedBy: parent
             orderBy: { 'id': ASC }
+            cascade: ["persist"]

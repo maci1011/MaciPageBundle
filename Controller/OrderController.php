@@ -454,6 +454,12 @@ class OrderController extends AbstractController
 		$gateway = $this->get('payum')->getGateway($gatewayName);
 		$gateway->execute($status = new GetHumanStatus($token));
 
+		// if 
+		// ACK!="Success"
+		// then payment error, redirect...
+		// or $status->getValue()=="canceled"
+		// then redirect...
+
 		if($status->getValue() === "failed")
 		{
 			$this->get('session')->getFlashBag()->add('danger', 'error.payment_not_valid');
@@ -466,13 +472,13 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
-		// Now you have order and payment status
+		if($status->getValue() != "captured")
+		{
+			$this->get('session')->getFlashBag()->add('info', 'error.payment_not_captured');
+			return $this->redirect($this->generateUrl('maci_order_checkout'));
+		}
 
-		// if 
-		// ACK!="Success"
-		// then payment error, redirect...
-		// or $status->getValue()=="canceled"
-		// then redirect...
+		// Now you have order and payment status
 
 		// CHECKOUTSTATUS   "PaymentActionCompleted"
 		// PAYMENTREQUEST_0_PAYMENTSTATUS   "Pending"
@@ -501,13 +507,15 @@ class OrderController extends AbstractController
 			]
 		];
 
-		// return new JsonResponse($params);
-
 		if($payment_item['gateway'] == 'offline')
 			$params['payment']['details']['paid'] = false;
 
-		if($status->getValue() == 'captured')
-			$cart->confirmOrder($params);
+		// return new JsonResponse($params);
+
+		$set = $cart->confirmOrder($params);
+		$om = $this->getDoctrine()->getManager();
+		$om->persist($set);
+		$om->flush();
 
 		$this->get('maci.orders')->resetCart();
 
@@ -639,6 +647,12 @@ class OrderController extends AbstractController
 		if ($cmd == 'completeOrder')
 			return new JsonResponse($this->completeOrder($order), 200);
 
+		if ($cmd == 'sendShippedNotify')
+			return new JsonResponse($this->sendShippedNotify($order), 200);
+
+		if ($cmd == 'cancelOrder')
+			return new JsonResponse($this->cancelOrder($order), 200);
+
 		return new JsonResponse(['success' => false, 'error' => 'Nothing Done.'], 200);
 	}
 
@@ -649,14 +663,27 @@ class OrderController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
 
-		return ['success' => true, 'msg' => 'completeOrder'];
+		return ['success' => true];
+	}
+
+	public function cancelOrder($order)
+	{
+		$set = $order->cancelOrder();
+		$om = $this->getDoctrine()->getManager();
+		$om->persist($set);
+		$om->flush();
+
+		$om = $this->getDoctrine()->getManager();
+		$om->flush();
+
+		return ['success' => true];
 	}
 
 	public function sendShippedNotify($order)
 	{
 		$this->sendNotify($order, false, '@MaciPage/Email/order_shipped.html.twig');
 
-		return ['success' => true, 'msg' => 'completeOrder'];
+		return ['success' => true];
 	}
 
 	// public function paypalCompleteAction()
