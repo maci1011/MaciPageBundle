@@ -1305,12 +1305,12 @@ class Order
 		if (is_string($mail))
 		{
 			if (is_string($int))
-				return [$mail => $int]
+				return [$mail => $int];
 
 			return [$mail => (split('@', $mail)[0])];
 		}
 
-		return ['info@' . $_SERVER['SERVER_NAME'] => 'Unknown Recipient!']
+		return ['info@' . $_SERVER['SERVER_NAME'] => 'Unknown Recipient!'];
 	}
 
 	public function addProduct($product, $quantity = 1, $variant = false)
