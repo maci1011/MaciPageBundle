@@ -236,11 +236,7 @@ class OrderController extends AbstractController
 		// if ($payment && $payment['shipping'] && $cart->checkShipment()) {}
 
 		if ($checkout['confirm_form'])
-			$checkout['confirm_form'] = $this->createForm(CheckoutConfirmType::class, [], [
-				'action' => $this->generateUrl('maci_order_checkout_confirm'),
-				'status' => $cart->getStatus(),
-				'env' => $this->get('kernel')->getEnvironment()
-			])->createView();
+			$checkout['confirm_form'] = $this->getConfirmForm($cart)->createView();
 
 		$orders->refreshCartAmount();
 
@@ -336,17 +332,22 @@ class OrderController extends AbstractController
 		]);
 	}
 
+	public function getConfirmForm($cart)
+	{
+		return $this->createForm(CheckoutConfirmType::class, [], [
+			'action' => $this->generateUrl('maci_order_checkout_confirm'),
+			'status' => $cart->getStatus(),
+			'env' => $this->get('kernel')->getEnvironment()
+		]);
+	}
+
 	public function checkoutConfirmAction(Request $request)
 	{
 		$cart = $this->get('maci.orders')->getCurrentCart();
-
-		$form = $this->createForm(CheckoutConfirmType::class, [], [
-			'env' => $this->get('kernel')->getEnvironment()
-		]);
-
+		$form = $this->getConfirmForm($cart);
 		$form->handleRequest($request);
 
-		if (!$form->isSubmitted() && !$form->isValid())
+		if (!$form->isSubmitted() || !$form->isValid())
 			return $this->redirect($this->generateUrl('maci_order_gocheckout'));
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();

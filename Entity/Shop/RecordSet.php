@@ -156,7 +156,7 @@ class RecordSet
 
 	static public function getTypes()
 	{
-		return array_values(Product::getTypeArray());
+		return array_values(RecordSet::getTypeArray());
 	}
 
 	/**

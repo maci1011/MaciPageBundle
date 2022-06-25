@@ -95,9 +95,7 @@
 {% if confirm == 'set' %}
 <div class="cart-links">
 
-<a class="btn btn-primary" href="{{ path('maci_order_checkout_confirm') }}">
-	{{ 'page.checkout.place-order' | matra('Place Order') }}
-</a>
+{% include "@MaciPage/Order/_checkout_confirm_form.html.twig" %}
 
 </div>
 {% endif %}

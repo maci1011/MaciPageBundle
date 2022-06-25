@@ -25,13 +25,15 @@ class CheckoutConfirmType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		if($options['env'] === "prod" && $options['status'] === "session")
-			$builder->add('recaptcha', EWZRecaptchaType::class, array(
+		{
+			$builder->add('recaptcha', EWZRecaptchaType::class, [
 				'label_attr'  => array('class'=> 'sr-only'),
 				'mapped'      => false,
 				'constraints' => array(
 					new RecaptchaTrue()
 				)
-			));
+			]);
+		}
 
 		$builder
 			->setAction($options['action'])
@@ -44,6 +46,6 @@ class CheckoutConfirmType extends AbstractType
 
 	public function getName()
 	{
-		return 'cart_checkout_confirm';
+		return 'checkout_confirm';
 	}
 }

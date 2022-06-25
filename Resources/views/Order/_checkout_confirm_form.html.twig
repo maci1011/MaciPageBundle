@@ -1,0 +1,20 @@
+
+{{ form_start(confirm_form) }}
+
+{% if confirm_form.recaptcha is defined %}
+{{ form_row(confirm_form.recaptcha) }}
+{% endif %}
+
+{{ form_row(confirm_form._token) }}
+
+<div class="form-group">
+	<button id="checkout_confirm_confirm" type="submit" name="checkout_confirm[confirm]" class="btn btn-primary">
+		{% if order.checkout == 'pickup' %}
+		{{ 'page.checkout.confirm_button.pickup'|matra('Book Order') }}
+		{% else %}
+		{{ 'page.checkout.confirm_button.default'|matra('Place Order') }}
+		{% endif %}
+	</button>
+</div>
+
+{{ form_end(confirm_form, {'render_rest': false}) }}
