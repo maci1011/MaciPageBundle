@@ -1719,11 +1719,17 @@ class Product
 
 	public function checkVariant($variant)
 	{
-		return !(!is_array($variant) || !array_key_exists('type', $variant) || 
-			$variant['type'] == 'unset' || $variant['type'] != $this->getVariantType() ||
-			(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
-			(array_key_exists('color', $variant) && !$this->checkVariantAttr($variant['color'])) ||
-			(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
+		return !(
+			(!$this->hasVariants() && is_array($variant)) ||
+			$this->hasVariants() && (
+				!is_array($variant) ||
+				!array_key_exists('type', $variant) ||
+				$variant['type'] == 'unset' ||
+				$variant['type'] != $this->getVariantType() ||
+				(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
+				(array_key_exists('color', $variant) && !$this->checkVariantAttr($variant['color'])) ||
+				(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
+			)
 		);
 	}
 

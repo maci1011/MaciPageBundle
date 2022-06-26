@@ -382,6 +382,11 @@ class Item
 		return $this->getProduct()->exportSaleRecord($this->getVariant(), $this->getQuantity());
 	}
 
+	public function exportReturnRecord()
+	{
+		return $this->getProduct()->exportReturnRecord($this->getVariant(), $this->getQuantity());
+	}
+
 	/**
 	 * __toString()
 	 */

@@ -659,7 +659,12 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
-		$order->completeOrder();
+		// $order->completeOrder();
+
+		$set = $order->confirmOrder([]);
+		$om = $this->getDoctrine()->getManager();
+		$om->persist($set);
+		$om->flush();
 
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();

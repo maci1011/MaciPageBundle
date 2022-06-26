@@ -390,7 +390,7 @@ class Order
 			'Current' => 'current',
 			'Confirmed' => 'confirm',
 			'Paid' => 'paid',
-			'Complete' => 'complete',
+			'Completed' => 'complete',
 			'Paid' => 'paid',
 			'Refuse' => 'refuse'
 		];
@@ -1220,7 +1220,8 @@ class Order
 				array_push($errors, '#' . $item->getId() . ': ' . $item->getProductName());
 				continue;
 			}
-			$set->addRecort($record);
+			$record->setParent($set);
+			$set->addChild($record);
 		}
 
 		$this->export_set = $set;
@@ -1259,7 +1260,8 @@ class Order
 				array_push($errors, '#' . $item->getId() . ': ' . $item->getProductName());
 				continue;
 			}
-			$set->addRecort($record);
+			$record->setParent($set);
+			$set->addChild($record);
 		}
 
 		$this->export_set = $set;
