@@ -64,7 +64,7 @@
 		<h4 class="name">{{ item.product.inhName }}</h4>
 		{% endif %}
 
-		{% if item.product.variant %}
+		{#% if item.product.variant %}
 		{% if item.product.variantField != null %}
 		<span class="detail label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>
 		{% else %}
@@ -75,6 +75,18 @@
 
 		{% if item.variantLabel|length %}
 		<span class="variant">{{ item.variantLabel }}</span>
+		{% endif %#}
+
+		{% if item.product.variant or item.variant %}
+		<p class="item-info variant">
+			{% if item.product.variant and item.variant %}
+			<span class="value">{{ item.product.variant }}, {{ item.variantNameLabel }}</span>
+			{% elseif item.product.variant %}
+			<span class="value">{{ item.product.variant }}</span>
+			{% else %}
+			<span class="value">{{ item.variantNameLabel }}</span>
+			{% endif %}
+		</p>
 		{% endif %}
 
 		{#}
