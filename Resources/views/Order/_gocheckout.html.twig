@@ -3,8 +3,8 @@
 <div class="row">
 
 
-<div class="col-12 col-sm-6 col-md-4 offset-md-1 wrapper">
-
+<div class="col-12 col-sm-6 col-md-4 offset-md-1">
+<div class="wrapper">
 	<h3>{{ 'gocheckout.fast_checkout' | matra('Fast Checkout') }}</h3>
 
 	<h4>{{ 'gocheckout.fast_checkout.title' | matra('Already a registered member?') }}</h4>
@@ -14,11 +14,13 @@
 	{{ render(url('fos_user_security_login')) }}
 
 </div>
+</div>
 
 
 {% if registration_enabled %}
 
-<div class="col-12 col-sm-6 col-md-4 offset-md-1 wrapper">
+<div class="col-12 col-sm-6 col-md-4 offset-md-1">
+<div class="wrapper">
 
 {% if registration_required %}
 
@@ -42,6 +44,9 @@
 		{{ 'gocheckout.register_now' | matra('Register Now') }}
 	</a>
 
+</div>
+<div class="wrapper">
+
 	<h3>{{ 'gocheckout.new_users.title' | matra('Use your email.') }}</h3>
 
 	<p>{{ 'gocheckout.new_users.description' | matra("Enter your email address to proceed with purchase. We\'all only use your email to update you on this order.") }}</p>
@@ -50,6 +55,7 @@
 
 {% endif %}
 
+</div>
 </div>
 
 {% endif %}
