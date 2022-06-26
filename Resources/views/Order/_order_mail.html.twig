@@ -1,9 +1,11 @@
 
 <form class="maci_order_mail" action="{{ path('maci_order_checkout_set_mail') }}" method="post">
 
+	{% if not form.vars.valid %}
 	<div class="form-group">
-    	{{ form_errors(form) }}
+		{{ form_errors(form) }}
 	</div>
+	{% endif %}
 
 	<div class="form-group">
 		<label class="required control-label" for="order_mail_mail">{{ 'form.email' | matra('Email') }}</label>
