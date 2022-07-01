@@ -23,8 +23,8 @@
 </tr>
 <tr>
 	<td class="order-status">
-		<h4>Dear Customer,</h4>
-		<p class="text">you order has been shipped.</p>
+		<h4>{{ 'mail.incipit' | matra('Dear Customer') }},</h4>
+		<p class="text">{{ 'mail.shipped-text' | matra('your order has been shipped.') }}</p>
 		<span class="attr label">Order Code:</span>
 		<span class="attr value"> {{ order.code }}</span>
 	</td>
