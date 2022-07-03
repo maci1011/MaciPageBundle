@@ -195,7 +195,7 @@
 				</li>
 				{% endif %}
 
-				{% if is_granted('ROLE_ADMIN') %}
+				{#% if is_granted('ROLE_ADMIN') %}
 				<li>
 					<span class="detail-label add-variant">Add Size:</span>
 					<form class="add-variant-form form-inline" action="{{ path('maci_product_add_variant', {'id': item.id}) }}" method="post">
@@ -205,11 +205,11 @@
 						<button class="btn btn-primary">Add</button>
 					</form>
 				</li>
-				{% endif %}
+				{% endif %#}
 
 				{% else %}{# no variant type mathed #}
 
-				{% if is_granted('ROLE_ADMIN') %}
+				{#% if is_granted('ROLE_ADMIN') %}
 				<li>
 					<span class="detail-label add-variant">Set Variant Type:</span>
 					<form class="set-variant-type-form form-inline" action="{{ path('maci_product_set_variant_type', {'id': item.id}) }}" method="post">
@@ -221,7 +221,7 @@
 						<button class="btn btn-primary">Set</button>
 					</form>
 				</li>
-				{% endif %}
+				{% endif %#}
 
 				{% endif %}{# end variant types #}
 
