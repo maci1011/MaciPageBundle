@@ -15,10 +15,15 @@
 
 
 	<div class="form-group quantity">
+
 		{{ form_label(form.quantity) }}
 		{{ form_widget(form.quantity) }}
 		{{ form_errors(form.quantity) }}
-		{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" with {'item': product} %}
+
+		<div class="quantiy-available pt-2">
+			{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" with {'item': product} %}
+		</div>
+
 	</div>
 
 	{{ form_row(form._token) }}
