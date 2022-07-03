@@ -13,9 +13,15 @@
 	{{ form_row(form.variant) }}
 	{% endif %}
 
-	{{ form_row(form.quantity) }}
-	{{ form_row(form._token) }}
 
+	<div class="form-group quantity">
+		{{ form_label(form.quantity) }}
+		{{ form_widget(form.quantity) }}
+		{{ form_errors(form.quantity) }}
+		{% include "MaciPageBundle:Shop:_product_detail_available.html.twig" with {'item': product} %}
+	</div>
+
+	{{ form_row(form._token) }}
 	{{ form_row(form.add_to_cart) }}
 
 </form>
