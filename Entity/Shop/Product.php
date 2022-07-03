@@ -360,6 +360,8 @@ class Product
 	{
 		$this->price = (intval(floatval($price) * 0.28) + 1) * 10;
 
+		if ($this->price % 10 <= 5) $this->price -= 5;
+
 		return $this;
 	}
 
