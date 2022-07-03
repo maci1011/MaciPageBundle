@@ -161,7 +161,7 @@
 				</li>
 				{% endif %}
 
-				{% if shop_is_live %}
+				{% if shop_is_live or is_granted('ROLE_ADMIN') %}
 
 				{% if item.type == 'vrnts' %}{# Product with Variants #}
 				{% if item.variantType == 'color-n-size' %}

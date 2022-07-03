@@ -16,9 +16,9 @@
 		{% if order.status == 'confirm' %}
 		<option value="completeOrder">Set Order As Completed</option>
 		{% endif %}
-		{#% if order.status == 'complete' %}
-		<option value="foo">Foo</option>
-		{% endif %#}
+		{% if order.status == 'complete' %}
+		<option value="sendShippedNotify">Send Shipped Notify</option>
+		{% endif %}
 		<option value="cancelOrder">Cancel Order</option>
 	</select>
 </div>
