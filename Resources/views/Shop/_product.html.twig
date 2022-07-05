@@ -185,6 +185,8 @@
 						<div class="addToCartFormWrapper">
 							{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
 						</div>
+						{% else %}
+						<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 						{% endif %}
 					</div>
 					{% endfor %}
