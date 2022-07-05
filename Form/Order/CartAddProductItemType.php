@@ -52,7 +52,7 @@ class CartAddProductItemType extends AbstractType
 				));
 				$builder->add('quantity', IntegerType::class, array(
 					'data' => 1,
-					'label' => ($this->translator->getLabel('quantity', 'Quantity')),
+					'label' => $this->translator->getLabel('quantity', 'Quantity'),
 					'attr' => array_merge(array('class' => 'edit-quantity-field', 'min' => 1),(
 						($product->getShipment()) ? array('max' => $variant['quantity']) : array()
 					))
