@@ -2,15 +2,7 @@
 
 <h3 class="cart-title">{{ 'menu.user.cart' | matra('My Cart') }}</h3>
 
-
 {% if cart and cart.items|length %}
-
-<div class="details-wrapper details py-3">
-	<div class="text-wrapper">
-		<span class="label">{{ 'order.code' | matra('Order Identifier') }}:</span>
-		<span class="value">{{ cart.code }}</span>
-	</div>
-</div>
 
 {{ render(controller('MaciPageBundle:Order:showOrder', {'order': cart, 'edit': true})) }}
 
