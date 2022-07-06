@@ -11,7 +11,9 @@
 
 	<p>{{ 'gocheckout.fast_checkout.description' | matra('Login for a faster checkout.') }}</p>
 
-	{{ render(url('fos_user_security_login')) }}
+	<a class="btn btn-primary" href="{{ path('maci_user_login') }}">
+		{{ 'login' | matra('Login') }}
+	</a>
 
 </div>
 </div>
@@ -29,7 +31,9 @@
 
 	<p>{{ 'gocheckout.sign_up_required.description' | matra("You need to create an account to complete the order.") }}</p>
 
-	{{ render(url('fos_user_registration_register')) }}
+	<a class="btn btn-primary" href="{{ path('maci_user_register') }}">
+		{{ 'gocheckout.register_now' | matra('Register Now') }}
+	</a>
 
 {% else %}
 
