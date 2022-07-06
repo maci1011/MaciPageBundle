@@ -654,6 +654,9 @@ class OrderController extends AbstractController
 		if ($cmd == 'cancelOrder')
 			return new JsonResponse($this->cancelOrder($order), 200);
 
+		if ($cmd == 'test')
+			return new JsonResponse($this->test($order), 200);
+
 		return new JsonResponse(['success' => false, 'error' => 'Nothing Done.'], 200);
 	}
 
@@ -688,6 +691,13 @@ class OrderController extends AbstractController
 	public function sendShippedNotify($order)
 	{
 		$this->sendNotify($order, false, '@MaciPage/Email/order_shipped.html.twig');
+
+		return ['success' => true];
+	}
+
+	public function test($order)
+	{
+		$this->sendNotify($order, ['massimiliano.mn@gmail.com' => 'Massimiliano Marangon'], '@MaciPage/Email/order_confirmed.html.twig');
 
 		return ['success' => true];
 	}
