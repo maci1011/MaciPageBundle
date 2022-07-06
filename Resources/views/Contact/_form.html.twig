@@ -48,9 +48,7 @@
 	</div>
 
 	{% if form.recaptcha is defined %}
-	<div class="form-group">
-		{{ form_row(form.recaptcha) }}
-	</div>
+	{{ form_row(form.recaptcha) }}
 	{% endif %}
 
 	<div class="form-group">

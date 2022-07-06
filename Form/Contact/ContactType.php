@@ -53,7 +53,7 @@ class ContactType extends AbstractType
 			))
 		;
 
-		if($options['env'] === "prod") {
+		if($options['env'] === "prod")
 			$builder->add('recaptcha', EWZRecaptchaType::class, array(
 				'label_attr'  => array('class'=> 'sr-only'),
 				'mapped'      => false,
@@ -61,7 +61,6 @@ class ContactType extends AbstractType
 					new RecaptchaTrue()
 				)
 			));
-		}
 
 		$builder
 			->add('cancel', ResetType::class)
