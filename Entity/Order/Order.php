@@ -1298,7 +1298,7 @@ class Order
 
 	public function getRecipient()
 	{
-		$mail = $this->getMail();
+		$mail = $this->user ? $this->user->getEmail() : $this->getMail();
 		$int = null;
 
 		if (is_object($this->billing_address))
