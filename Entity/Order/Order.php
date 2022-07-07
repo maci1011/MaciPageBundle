@@ -924,10 +924,10 @@ class Order
 			return false;
 		}
 
-		foreach ($this->items as $item) {
-			if (!$item->checkAvailability()) {
+		foreach ($this->items as $item)
+		{
+			if (!$item->checkAvailability())
 				return false;
-			}
 		}
 
 		return true;

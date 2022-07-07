@@ -352,7 +352,19 @@ class OrderController extends AbstractController
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
 
-		if (!$cart->checkConfirmation() || !$gatewayName)
+		if (!$gatewayName)
+			return $this->redirect($this->generateUrl('maci_order_checkout', ['error' => 'error.payment_not_valid']));
+
+		// if ($cart->getCheckout() == 'pickup')
+		// {
+		// 	if (!$gatewayName)
+		// 		$gatewayName = 'offline';
+		// } else
+		// if ($cart->getCheckout() == 'checkout')
+		// {
+		// }
+
+		if (!$cart->checkConfirmation())
 			return $this->redirect($this->generateUrl('maci_order_checkout', ['error' => 'error.order_not_valid']));
 
 		$storage = $this->get('payum')->getStorage(Payment::class);
@@ -361,7 +373,8 @@ class OrderController extends AbstractController
 		{
 			$to = $cart->getUser()->getEmail();
 			$toint = $cart->getUser()->getUsername();
-		} else
+		}
+		else
 		{
 			$to = $cart->getMail();
 			$toint = $cart->getBillingAddress()->getName() . ' ' .

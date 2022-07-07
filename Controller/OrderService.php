@@ -204,8 +204,8 @@ class OrderService extends AbstractController
 		switch ($type)
 		{
 			case 'pickup':
-				$this->cart->setShipping('pickup_in_store');
-				$this->cart->setPayment(null);
+				$this->cart->setShipping(null);
+				$this->cart->setPayment('pickup_in_store');
 				break;
 
 			case 'booking':
@@ -648,47 +648,49 @@ class OrderService extends AbstractController
 	public function getPaymentItem($id)
 	{
 		$list = $this->getPaymentsArray();
-		if (array_key_exists($id, $list)) {
-			return $list[$id];
-		}
-		return false;
+
+		if (!array_key_exists($id, $list))
+			return false;
+
+		return $list[$id];
 	}
 
 	public function getCartPaymentItem()
 	{
 		$this->getCurrentCart();
-		if($this->cart->getPayment()) {
-			return $this->getPaymentItem($this->cart->getPayment());
-		}
-		return false;
+
+		if (!$this->cart->getPayment())
+			return false;
+
+		return $this->getPaymentItem($this->cart->getPayment());
 	}
 
 	public function getCartPaymentGateway()
 	{
 		$item = $this->getCartPaymentItem();
 
-		if ($item)
-			return $item['gateway'];
+		if (!$item)
+			return false;
 
-		return false;
+		return $item['gateway'];
 	}
 
 	public function getShippingItem($id)
 	{
 		$list = $this->getShippingsArray();
 
-		if (array_key_exists($id, $list))
-			return $list[$id];
+		if (!array_key_exists($id, $list))
+			return false;
 
-		return false;
+		return $list[$id];
 	}
 
 	public function getOrderShippingItem($order)
 	{
-		if($order->getShipping())
-			return $this->getShippingItem($order->getShipping());
+		if(!$order->getShipping())
+			return false;
 
-		return false;
+		return $this->getShippingItem($order->getShipping());
 	}
 
 	public function getCartShippingItem()
@@ -699,18 +701,21 @@ class OrderService extends AbstractController
 	public function getCartShippingLabel($f = 'getShippingLabelById')
 	{
 		$this->getCurrentCart();
-		if($this->cart->getShipping())
-			return $this->$f($this->cart->getShipping());
-		return null;
+
+		if(!$this->cart->getShipping())
+			return null;
+
+		return $this->$f($this->cart->getShipping());
 	}
 
 	public function getCartShippingCountry()
 	{
 		$item = $this->getCartShippingItem();
-		if ($item) {
-			return $item['country'];
-		}
-		return false;
+
+		if (!$item)
+			return false;
+
+		return $item['country'];
 	}
 
 	public function getCartShippingCountryLabel()
@@ -726,10 +731,11 @@ class OrderService extends AbstractController
 	public function getCartShippingCourier()
 	{
 		$item = $this->getCartShippingItem();
-		if ($item) {
-			return $item['courier'];
-		}
-		return false;
+
+		if (!$item)
+			return false;
+
+		return $item['courier'];
 	}
 
 	public function checkPaymentCheckout($order, $payment)
