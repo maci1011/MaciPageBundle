@@ -545,9 +545,6 @@ class OrderController extends AbstractController
 			$mail->setUser($cart->getUser());
 		}
 
-
-
-
 		// $message = $this->get('maci.mailer')->getSwiftMessage($mail);
 		$message = $mail->getSwiftMessage($mail);
 		$notify = clone $message;
