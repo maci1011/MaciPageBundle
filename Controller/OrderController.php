@@ -532,7 +532,7 @@ class OrderController extends AbstractController
 			->setName($cart->getCode())
 			->setType('notify')
 			->setSubject('Order Confirmation')
-			// ->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
+			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
 			->addRecipients($recipients ? $recipients : $cart->getRecipient())
 			->setLocale($cart->getLocale())
 			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $cart]))
