@@ -18,7 +18,7 @@ class ProductRepository extends EntityRepository
 	public function getList()
 	{
 		$query = $this->createQueryBuilder('p');
-		$this->addProductFilters($query);
+		$this->addProductListFilters($query);
 		$query = $query->setMaxResults(60);
 
 		return $query->getQuery()->getResult();
@@ -41,16 +41,24 @@ class ProductRepository extends EntityRepository
 			->leftJoin('i.category', 'c')
 			->where('c.id = :id')
 			->setParameter(':id', $category->getId());
-		$this->addProductFilters($query);
+		$this->addProductListFilters($query);
 
 		return $query->getQuery()->getResult();
 	}
 
-	public static function addProductFilters($query)
+	public static function addProductListFilters(&$query)
 	{
-		$query = $query->andWhere('p.public = true')
-			->andWhere('p.removed = false')
+		self::addProductFilters($query);
+		$query = $query
+			->andWhere('0 < p.quantity')
 			->orderBy('p.updated', 'DESC');
+	}
+
+	public static function addProductFilters(&$query)
+	{
+		$query = $query
+			->andWhere('p.public = true')
+			->andWhere('p.removed = false');
 	}
 
 	public function search($request)

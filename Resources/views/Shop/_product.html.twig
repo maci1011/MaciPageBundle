@@ -172,23 +172,18 @@
 				</li>
 				<li class="detail-item size-list">
 					<select class="form-control variants-selector" name="product-variant">
-						{% for variant in item.variants %}
+						{% for variant in item.variants if 0 < variant.quantity %}
 						<option value="{{ loop.index }}">{{ variant.name }}</option>
 						{% endfor %}
 					</select>
-					{% for variant in item.variants %}
+					{% for variant in item.variants if 0 < variant.quantity %}
 					<div id="variant_{{ loop.index }}" class="variant-add-wrapper">
 						<ul class="variant-details-wrapper">
 							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 						</ul>
-						{% if 0 < variant.quantity %}
-						<div class="addToCartFormWrapper">
-							{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
-						</div>
-						{% else %}
-						<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
-						{% endif %}
 					</div>
+					{% else %}
+					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 					{% endfor %}
 				</li>
 				{% else %}
