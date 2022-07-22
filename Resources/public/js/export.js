@@ -82,7 +82,10 @@ var maciShopExport = function (options) {
 				});
 		alertNode.text(
 			(data.success ?
-				(typeInput.val() == 'quantity' ? data.code + ' - ' +
+				(typeInput.val() == 'check' ? (
+					data.edited ? 'Data have been corrected. - ' : 'Data are correct. - '
+				) : '') +
+				(typeInput.val() in ['quantity', 'check'] ? data.code + ' - ' +
 					(data.type == 'vrnts' ? 'Quantity: ' + data.tot + ' || Variant: ' : '')
 				: 'Saved! ') +
 				(data.variant && data.variant.length ? data.variant + ' - ' : '') +
@@ -98,7 +101,7 @@ var maciShopExport = function (options) {
 	},
 
 	check: function() {
-		return setInput.val() == 'null' && typeInput.val() != 'quantity';
+		return setInput.val() == 'null' && typeInput.val() != 'quantity' && typeInput.val() != 'check';
 	},
 
 	barcodeChange: function(e) {

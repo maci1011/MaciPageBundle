@@ -329,41 +329,35 @@ class RecordController extends AbstractController
 
 	public function exportRecordAction(Request $request)
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
 
 		// --- Check Request
 
-		if (!$request->isXmlHttpRequest()) {
+		if (!$request->isXmlHttpRequest())
 			return $this->redirect($this->generateUrl('homepage'));
-		}
 
 		$barcode = $request->get('barcode');
 
-		if ($request->getMethod() !== 'POST' || !$barcode) {
+		if ($request->getMethod() !== 'POST' || !$barcode)
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
-		}
 
 		// --- Check Auth
 
 		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
-		if (!$admin->checkAuth()) {
+		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
-		}
 
 		$om = $this->getDoctrine()->getManager();
 		$record = $om->getRepository('MaciPageBundle:Shop\Record')->findOneBy(['barcode' => $barcode, 'type' => 'purchas']);
 
-		if (!$record) {
+		if (!$record)
 			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
-		}
 
 		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy(['code' => $record->getCode(), 'variant' => $record->getProductVariant()]);
 
-		if (!$product) {
+		if (!$product)
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
-		}
 
 		$type = $request->get('type');
 		$quantiy = intval($request->get('quantity', 1));
@@ -396,7 +390,9 @@ class RecordController extends AbstractController
 					'tot' => $product->getQuantity(),
 					'type' => $product->getType()
 				], 200);
-				break;
+
+			case 'check':
+				return new JsonResponse($this->checkProduct($product), 200);
 
 			default:
 				break;
@@ -527,5 +523,64 @@ class RecordController extends AbstractController
 			]), $defaults),
 			'labels.pdf'
 		);
+	}
+
+	public function checkProduct($product)
+	{
+		if (!$product)
+			return ['success' => false];
+
+		$om = $this->getDoctrine()->getManager();
+
+		$loaded = 0;
+		$imported = 0;
+		$addedpr = [];
+		$nfs = [];
+		$errors = [];
+		$resets = [];
+		$reset_pr = [];
+
+		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
+			'code' => $product->getCode()
+		]);
+
+		$edited = false;
+		$b = $product->getBuyed();
+		$q = $product->getQuantity();
+		$s = $product->getSelled();
+
+		$product->resetQuantity();
+
+		foreach ($list as $record)
+		{
+			if (!$product->checkRecord($record))
+				continue;
+
+			$record->resetLoadedValue();
+
+			if ($product->loadRecord($record))
+				$loaded++;
+
+			if ($product->importRecord($record))
+				$imported++;
+		}
+
+		if ($b != $product->getBuyed() || $q != $product->getQuantity() || $s != $product->getSelled())
+		{
+			$edited = true;
+			$om->flush();
+		}
+
+		return [
+			'success' => true,
+			'edited' => $edited,
+			'loaded' => $loaded,
+			'imported' => $imported,
+			'variant' => $product->getVariant(),
+			'quantity' => $product->getQuantity($record->getVariant()),
+			'code' => $product->getCode(),
+			'tot' => $product->getQuantity(),
+			'type' => $product->getType()
+		];
 	}
 }
