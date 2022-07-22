@@ -1722,7 +1722,11 @@ class Product
 	public function checkVariant($variant)
 	{
 		return !(
-			(!$this->hasVariants() && is_array($variant)) ||
+			!$this->hasVariants() && is_array($variant) && (
+				(!array_key_exists('type', $variant) || $variant['type'] != 'simple') ||
+				(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
+				(array_key_exists('field', $variant) && $variant['field'] != $this->getVariantField())
+			) ||
 			$this->hasVariants() && (
 				!is_array($variant) ||
 				!array_key_exists('type', $variant) ||

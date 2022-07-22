@@ -182,7 +182,7 @@
 							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 						</ul>
 						<div class="addToCartFormWrapper">
-							{{ render(controller('MaciPageBundle:Order:addToCart', { 'product': item, 'variant': variant.name } )) }}
+							{{ render(controller('MaciPageBundle:Order:addToCart', {'product': item, 'variant': variant.name})) }}
 						</div>
 					</div>
 					{% else %}
