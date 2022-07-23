@@ -1724,7 +1724,11 @@ class Product
 		$th = $this->getVariantIdentifier($this->getVariant());
 		$ch = $this->getVariantIdentifier($variant);
 		$len = strlen($ch) < strlen($th) ? strlen($ch) : strlen($th);
-		return substr($th, 0, $len)  == substr($ch, 0, $len);
+
+		if ($len == 0)
+			return false;
+
+		return substr($th, 0, $len) == substr($ch, 0, $len);
 	}
 
 	public function checkVariant($variant)
