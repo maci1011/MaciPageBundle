@@ -85,7 +85,7 @@ var maciShopExport = function (options) {
 				(typeInput.val() == 'check' ? (
 					data.edited ? 'Data have been corrected. - ' : 'Data are correct. - '
 				) : '') +
-				(typeInput.val() in ['quantity', 'check'] ? data.code + ' - ' +
+				(typeInput.val() == 'quantity' || typeInput.val() == 'check' ? data.code + ' - ' +
 					(data.type == 'vrnts' ? 'Quantity: ' + data.tot + ' || Variant: ' : '')
 				: 'Saved! ') +
 				(data.variant && data.variant.length ? data.variant + ' - ' : '') +

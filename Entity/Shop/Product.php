@@ -1714,9 +1714,17 @@ class Product
 		return join(', ', $list);
 	}
 
+	public function getVariantIdentifier($name)
+	{
+		return strtolower(str_replace('.', '', str_replace(' ', '', $name)));
+	}
+
 	public function checkVariantAttr($variant)
 	{
-		return strtolower($variant) == substr(strtolower($this->getVariant()), 0, strlen($variant));
+		$th = $this->getVariantIdentifier($this->getVariant());
+		$ch = $this->getVariantIdentifier($variant);
+		$len = strlen($ch) < strlen($th) ? strlen($ch) : strlen($th);
+		return substr($th, 0, $len)  == substr($ch, 0, $len);
 	}
 
 	public function checkVariant($variant)
