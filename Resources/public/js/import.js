@@ -304,6 +304,16 @@ var maciShopImport = function (options) {
 			if(!confirm("Confirm?")) return;
 			_obj.sendCmd('reload_recs');
 		});
+		form.find('#check-data').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('check_data');
+		});
+		form.find('#reset-data').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('reset_data');
+		});
 		form.find('#version').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;

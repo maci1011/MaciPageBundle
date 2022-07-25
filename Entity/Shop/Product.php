@@ -1716,12 +1716,20 @@ class Product
 
 	static public function getVariantIdentifier($name)
 	{
+		if (!$name || !strlen($name))
+			return null;
+
 		return strtolower(str_replace('.', '', str_replace(' ', '', $name)));
+	}
+
+	public function getVariantId()
+	{
+		return $this->getVariantIdentifier($this->getVariant());
 	}
 
 	public function checkVariantAttr($variant)
 	{
-		$th = $this->getVariantIdentifier($this->getVariant());
+		$th = $this->getVariantId();
 		$ch = $this->getVariantIdentifier($variant);
 		$len = strlen($ch) < strlen($th) ? strlen($ch) : strlen($th);
 

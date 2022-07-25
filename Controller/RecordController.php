@@ -49,7 +49,7 @@ class RecordController extends AbstractController
 
 		$cmd = $request->get('cmd', '');
 
-		if (in_array($cmd, ['check_data']))
+		if (in_array($cmd, ['check_data', 'reset_data']))
 			return new JsonResponse($this->checkData($cmd), 200);
 
 		if (in_array($cmd, ['check_qta', 'reset_qta']))
@@ -164,6 +164,11 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 
 		$removedRecords = 0;
+		$qtaErrProducts = [];
+		$doubleProducts = [];
+		$noRecords = [];
+		$loaded = 0;
+		$imported = 0;
 
 		$records = [];
 		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
@@ -183,9 +188,87 @@ class RecordController extends AbstractController
 			array_push($records[$record->getCode()], $record);
 		}
 
+		$products = [];
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
+
+		foreach ($list as $product)
+		{
+			if (!array_key_exists($product->getCode(), $products))
+				$products[$product->getCode()] = [];
+
+			$id = $product->getVariantId();
+			$id = $product->getCode() . ($id ? "//" . $id : '');
+
+			if (!$product->checkTotalQuantity())
+			{
+				array_push($qtaErrProducts, $id);
+			}
+
+			// if (array_key_exists($id, $products))
+			// {
+			// 	array_push($doubleProducts, $id);
+			// 	continue;
+			// }
+
+			array_push($products[$product->getCode()], $product);
+		}
+
+		foreach ($products as $code => $list)
+		{
+			if (!array_key_exists($code, $records))
+			{
+				array_push($noRecords, $code);
+				continue;
+			}
+
+			foreach ($records[$code] as $record)
+			{
+				$rid = $record->getVariantIdentifier();
+				$rid = $record->getCode() . ($rid ? "//" . $rid : '');
+
+				$found = false;
+				$double = false;
+				foreach ($list as $product)
+				{
+					if ($product->checkRecord($record))
+					{
+						if ($found)
+						{
+							array_push($doubleProducts, $rid);
+							$double = true;
+							break;
+						}
+						else
+							$found = $product;
+					}
+				}
+
+				if (!$found || $double)
+					continue;
+
+				$product = $found;
+
+				$record->resetLoadedValue();
+
+				if ($product->loadRecord($record))
+					$loaded++;
+
+				if ($product->importRecord($record))
+					$imported++;
+			}
+		}
+
+		if ($cmd == 'reset_data')
+			$om->flush();
+
 		return [
 			'success' => true,
-			'removedRecords' => $removedRecords
+			'removedRecords' => $removedRecords,
+			'qtaErrProducts' => $qtaErrProducts,
+			'noRecords' => $noRecords,
+			'doubleProducts' => $doubleProducts,
+			'loaded' => $loaded,
+			'imported' => $imported
 		];
 	}
 
