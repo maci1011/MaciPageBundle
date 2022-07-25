@@ -9,7 +9,7 @@ class ProductRepository extends EntityRepository
 	public function getLatestProducts($max)
 	{
 		$query = $this->createQueryBuilder('p');
-		$this->addProductFilters($query);
+		$this->addProductListFilters($query);
 		$query = $query->setMaxResults($max);
 
 		return $query->getQuery()->getResult();
