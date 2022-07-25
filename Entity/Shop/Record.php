@@ -605,6 +605,16 @@ class Record
 		return $this->getVariant()['type'];
 	}
 
+	public function getVariantIdentifier()
+	{
+		$variant = $this->getProductVariant();
+
+		if (!$variant)
+			return null;
+
+		return Product::getVariantIdentifier($variant);
+	}
+
 	public function isLoaded()
 	{
 		return array_key_exists('loaded', $this->getData()) && $this->data['loaded'];

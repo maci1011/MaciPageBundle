@@ -1714,7 +1714,7 @@ class Product
 		return join(', ', $list);
 	}
 
-	public function getVariantIdentifier($name)
+	static public function getVariantIdentifier($name)
 	{
 		return strtolower(str_replace('.', '', str_replace(' ', '', $name)));
 	}

@@ -49,6 +49,9 @@ class RecordController extends AbstractController
 
 		$cmd = $request->get('cmd', '');
 
+		if (in_array($cmd, ['check_data']))
+			return new JsonResponse($this->checkData($cmd), 200);
+
 		if (in_array($cmd, ['check_qta', 'reset_qta']))
 			return new JsonResponse($this->checkQuantity($cmd), 200);
 
@@ -110,10 +113,7 @@ class RecordController extends AbstractController
 			else if ($last && $last->checkRecord($record))
 				$product = $last;
 
-			else $product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-				'code' => $record->getCode(),
-				'variant' => $record->getProductVariant()
-			]);
+			else $product = $this->getProduct($record);
 
 			if (!$product)
 			{
@@ -136,8 +136,57 @@ class RecordController extends AbstractController
 			'success' => true,
 			'length' => count($list),
 			'imported' => $imported,
-			'errors' => count($list) - $imported
+			'errors' => count($list) - $imported,
+			'doubles' => $doubles
 		], 200);
+	}
+
+	public function getProduct($record)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$product = false;
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
+			'code' => $record->getCode()
+		]);
+		foreach ($list as $item)
+		{
+			if ($item->checkRecord($record) && !$product)
+			{
+				$product = $item;
+				break;
+			}
+		}
+		return $product;
+	}
+
+	public function checkData($cmd)
+	{
+		$om = $this->getDoctrine()->getManager();
+
+		$removedRecords = 0;
+
+		$records = [];
+		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
+
+		foreach ($list as $record)
+		{
+			if (!array_key_exists($record->getCode(), $records))
+				$records[$record->getCode()] = [];
+
+			if ($record->getQuantity() == 0 || !$record->getParent())
+			{
+				$om->remove($record);
+				$removedRecords++;
+				continue;
+			}
+
+			array_push($records[$record->getCode()], $record);
+		}
+
+		return [
+			'success' => true,
+			'removedRecords' => $removedRecords
+		];
 	}
 
 	public function checkQuantity($cmd, $products = false)
@@ -211,13 +260,33 @@ class RecordController extends AbstractController
 		$errors = [];
 		$resets = [];
 		$reset_pr = [];
+		$doubles = [];
 
 		foreach ($list as $record)
 		{
-			$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-				'code' => $record->getCode(),
-				'variant' => $record->getProductVariant()
+			$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
+				'code' => $record->getCode()
 			]);
+
+			$product = false;
+			$double = false;
+			foreach ($list as $item)
+			{
+				if ($item->checkRecord($record) && !$product)
+					$product = $item;
+
+				else if ($item->checkRecord($record) && $product)
+				{
+					$double = true;
+					break;
+				}
+			}
+
+			if ($double)
+			{
+				array_push($doubles, $record->getCode());
+				continue;
+			}
 
 			$is_nf = !$product || !$product->checkRecordVariant($record);
 
@@ -236,9 +305,8 @@ class RecordController extends AbstractController
 				if (!$product || !$product->checkRecord($record))
 				{
 					if (array_key_exists($label, $addedpr))
-					{
 						$product = $addedpr[$label];
-					}
+
 					else
 					{
 						$product = new \Maci\PageBundle\Entity\Shop\Product();
@@ -282,6 +350,7 @@ class RecordController extends AbstractController
 			'addedpr' => count($addedpr),
 			'loaded' => $loaded,
 			'resets' => $resets,
+			'doubles' => $doubles,
 			'errors' => $errors
 		], 200);
 	}
@@ -354,7 +423,7 @@ class RecordController extends AbstractController
 		if (!$record)
 			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
 
-		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneBy(['code' => $record->getCode(), 'variant' => $record->getProductVariant()]);
+		$product = $product = $this->getProduct($record);
 
 		if (!$product)
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
