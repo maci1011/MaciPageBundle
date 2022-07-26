@@ -167,8 +167,14 @@ class RecordController extends AbstractController
 		$qtaErrProducts = [];
 		$doubleProducts = [];
 		$noRecords = [];
+		$noProducts = [];
 		$loaded = 0;
 		$imported = 0;
+		$created = 0;
+		$newProducts = [];
+		$newButLoaded = [];
+		$newButNotLoaded = [];
+		$newButNotImported = [];
 
 		$records = [];
 		$list = $om->getRepository('MaciPageBundle:Shop\Record')->findAll();
@@ -204,12 +210,6 @@ class RecordController extends AbstractController
 				array_push($qtaErrProducts, $id);
 			}
 
-			// if (array_key_exists($id, $products))
-			// {
-			// 	array_push($doubleProducts, $id);
-			// 	continue;
-			// }
-
 			array_push($products[$product->getCode()], $product);
 		}
 
@@ -221,7 +221,7 @@ class RecordController extends AbstractController
 				continue;
 			}
 
-			foreach ($records[$code] as $record)
+			foreach ($records[$code] as $key => $record)
 			{
 				$rid = $record->getVariantIdentifier();
 				$rid = $record->getCode() . ($rid ? "//" . $rid : '');
@@ -235,6 +235,7 @@ class RecordController extends AbstractController
 						if ($found)
 						{
 							array_push($doubleProducts, $rid);
+							$records[$code][$key] = 2;
 							$double = true;
 							break;
 						}
@@ -246,6 +247,7 @@ class RecordController extends AbstractController
 				if (!$found || $double)
 					continue;
 
+				$records[$code][$key] = 1;
 				$product = $found;
 
 				$record->resetLoadedValue();
@@ -258,6 +260,80 @@ class RecordController extends AbstractController
 			}
 		}
 
+		foreach ($records as $code => $list)
+		{
+			$news = [];
+
+			foreach ($list as $key => $record)
+			{
+				if (!is_object($record))
+					continue;
+				
+				array_push($noProducts, $rid);
+
+				$rid = $record->getVariantIdentifier();
+				$rid = $record->getType() . ' - ' . $record->getCode() . ($rid ? "//" . $rid : '');
+
+				$product = false;
+
+				foreach ($news as $new)
+				{
+					if ($new->checkRecord($record))
+					{
+						$product = $new;
+						break;
+					}
+				}
+
+				if ($record->isLoaded())
+					array_push($newButLoaded, $rid);
+
+				$record->resetLoadedValue();
+
+				if (!$product)
+				{
+					$product = new \Maci\PageBundle\Entity\Shop\Product();
+					$om->persist($product);
+
+					if (!$product->loadRecord($record))
+						array_push($newButNotLoaded, $rid);
+
+					array_push($news, $product);
+				}
+
+				foreach ($list as $i => $item)
+				{
+					if (!is_object($item) || $item->getId() == $record->getId())
+						continue;
+					
+					$iid = $item->getVariantIdentifier();
+					$iid = $item->getType() . ' - ' . $item->getCode() . ($iid ? "//" . $iid : '');
+
+					if ($product->checkRecord($item) && $item->isPurchase())
+					{
+						if (!$product->loadRecord($item))
+							array_push($newButNotLoaded, $iid);
+
+						if (!$product->importRecord($item))
+							array_push($newButNotImported, $iid);
+
+						$list[$key] = '3';
+					}
+				}
+
+				if (!$product->importRecord($record))
+					array_push($newButNotImported, $rid);
+
+				$created++;
+				array_push($news, $product);
+			}
+
+			if (!array_key_exists($product->getCode(), $newProducts))
+				$newProducts[$product->getCode()] = [];
+
+			$newProducts[$product->getCode()] = $news;
+		}
+
 		if ($cmd == 'reset_data')
 			$om->flush();
 
@@ -266,9 +342,15 @@ class RecordController extends AbstractController
 			'removedRecords' => $removedRecords,
 			'qtaErrProducts' => $qtaErrProducts,
 			'noRecords' => $noRecords,
+			'noProducts' => $noProducts,
 			'doubleProducts' => $doubleProducts,
+			'newButLoaded' => $newButLoaded,
+			'newButNotLoaded' => $newButNotLoaded,
+			'newButNotImported' => $newButNotImported,
+			'newProducts' => $newProducts,
 			'loaded' => $loaded,
-			'imported' => $imported
+			'imported' => $imported,
+			'created' => $created
 		];
 	}
 

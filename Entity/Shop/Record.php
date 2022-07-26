@@ -132,6 +132,11 @@ class Record
 		return ucwords($str);
 	}
 
+	public function isPurchase()
+	{
+		return $this->type == 'purchas';
+	}
+
 	static public function getTypes()
 	{
 		return array_values(Record::getTypeArray());
