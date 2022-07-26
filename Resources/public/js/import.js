@@ -266,38 +266,10 @@ var maciShopImport = function (options) {
 			e.preventDefault();
 			fileInput.click();
 		});
-		form.find('#check-qta').click(function(e) {
-			e.preventDefault();
-			_obj.sendCmd('check_qta');
-		});
-		form.find('#reset-qta').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reset_qta');
-		});
-		form.find('#getNF-order').click(function(e) {
-			e.preventDefault();
-			_obj.sendCmd('get_nf');
-		});
-		form.find('#resetNF-order').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reset_nf');
-		});
 		form.find('#reload-order').click(function(e) {
 			e.preventDefault();
 			if(!confirm("Confirm?")) return;
 			_obj.sendCmd(null);
-		});
-		form.find('#reload-products').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reload_pr');
-		});
-		form.find('#reload-nf-records').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reload_nf_recs');
 		});
 		form.find('#reload-records').click(function(e) {
 			e.preventDefault();

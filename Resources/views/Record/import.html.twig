@@ -18,17 +18,15 @@
 	<a id="getReport" class="btn btn-primary" href="{{ path('maci_record_get_report') }}">Get Report</a>
 </div>
 <div class="form-group">
-	<button id="check-qta" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Check Qta</button>
-	<button id="reset-qta" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reset Qta</button>
-	<button id="getNF-order" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Get NF</button>
-	<button id="resetNF-order" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reset NF</button>
-	<button id="reload-products" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload NF Products</button>
-	<button id="reload-nf-records" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload NF Records</button>
+
 	<button id="reload-order" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload Order</button>
 	<button id="reload-records" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload Records</button>
+
 	<button id="check-data" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Check Data</button>
 	<button id="reset-data" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reset Data</button>
+	
 	<button id="version" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Version</button>
+
 </div>
 </form>
 {% endblock %}

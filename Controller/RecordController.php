@@ -52,9 +52,6 @@ class RecordController extends AbstractController
 		if (in_array($cmd, ['check_data', 'reset_data']))
 			return new JsonResponse($this->checkData($cmd), 200);
 
-		if (in_array($cmd, ['check_qta', 'reset_qta']))
-			return new JsonResponse($this->checkQuantity($cmd), 200);
-
 		if ($cmd == 'version')
 			return $this->updateVersion();
 
@@ -86,9 +83,6 @@ class RecordController extends AbstractController
 
 		if (in_array($cmd, ['reload_recs']))
 			return $this->reloadRecords($list, $cmd);
-
-		if (in_array($cmd, ['get_nf', 'reload_nf_recs', 'reset_nf', 'reload_pr']))
-			return $this->resetNotFounds($list, $cmd);
 
 		if ($_all)
 			return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
@@ -349,172 +343,6 @@ class RecordController extends AbstractController
 			'imported' => $imported,
 			'created' => $created
 		];
-	}
-
-	public function checkQuantity($cmd, $products = false)
-	{
-		$om = $this->getDoctrine()->getManager();
-		$loaded = 0;
-		$imported = 0;
-		$errors = [];
-		$nor = []; // No Records
-		$nz = []; // Not Zero
-
-		if (!$products)
-			$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
-
-		foreach ($products as $product)
-		{
-			$label = $product->getCode() . ' - ' . $product->getVariantLabel();
-
-			if (!$product->checkTotalQuantity())
-				array_push($errors, $label);
-
-			$product->resetQuantity();
-
-			$list = $om->getRepository('MaciPageBundle:Shop\Record')->findBy([
-				'code' => $product->getCode()
-			]);
-
-			if (!count($list)) 
-			{
-				array_push($nor, $label);
-				continue;
-			}
-
-			foreach ($list as $record)
-			{
-				if (!$product->checkRecord($record)) continue;
-
-				$record->resetLoadedValue();
-
-				if ($product->loadRecord($record))
-					$loaded++;
-
-				if ($product->importRecord($record))
-					$imported++;
-			}
-
-			if (!$product->checkTotalQuantity())
-				array_push($nz, $label);
-		}
-
-		if ($cmd == 'reset_qta')
-			$om->flush();
-
-		return [
-			'success' => true,
-			'loaded' => $loaded,
-			'imported' => $imported,
-			'errors' => $errors,
-			'nor' => $nor,
-			'nz' => $nz
-		];
-	}
-
-	public function resetNotFounds($list, $cmd)
-	{
-		$om = $this->getDoctrine()->getManager();
-
-		$loaded = 0;
-		$addedpr = [];
-		$nfs = [];
-		$errors = [];
-		$resets = [];
-		$reset_pr = [];
-		$doubles = [];
-
-		foreach ($list as $record)
-		{
-			$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
-				'code' => $record->getCode()
-			]);
-
-			$product = false;
-			$double = false;
-			foreach ($list as $item)
-			{
-				if ($item->checkRecord($record) && !$product)
-					$product = $item;
-
-				else if ($item->checkRecord($record) && $product)
-				{
-					$double = true;
-					break;
-				}
-			}
-
-			if ($double)
-			{
-				array_push($doubles, $record->getCode());
-				continue;
-			}
-
-			$is_nf = !$product || !$product->checkRecordVariant($record);
-
-			if ($is_nf)
-			{
-				$record->reload();
-
-				array_push($nfs, $record->getCode() . ' - ' . $record->getVariantLabel());
-
-				if (!in_array($cmd, ['reset_nf', 'reload_pr'])) continue;
-
-				$record->resetLoadedValue();
-
-				$label = $record->getCode() . ' - ' . $record->getProductVariant();
-
-				if (!$product || !$product->checkRecord($record))
-				{
-					if (array_key_exists($label, $addedpr))
-						$product = $addedpr[$label];
-
-					else
-					{
-						$product = new \Maci\PageBundle\Entity\Shop\Product();
-
-						if ($cmd == 'reload_pr')
-							$om->persist($product);
-
-						$addedpr[$label] = $product;
-					}
-				}
-
-				if (!$product)
-				{
-					array_push($errors, $record->getId() . ' - ' . $record->getType() . ' - ' . $record->getCode() . ' - ' . $record->getVariantLabel());
-					continue;
-				}
-
-				if ($product->loadRecord($record))
-					$loaded++;
-
-				$reset_pr[$label] = $product;
-			}
-		}
-
-		if (in_array($cmd, ['reset_nf', 'reload_pr']))
-		{
-			foreach ($reset_pr as $key => $product)
-			{
-				array_push($resets, $this->checkQuantity(
-					$cmd == 'reload_pr' ? 'reset_qta' : 'check_qta', [$product]
-				));
-			}
-		}
-
-		if (in_array($cmd, ['reload_nf_recs', 'reload_pr']))
-			$om->flush();
-
-		return new JsonResponse([
-			'success' => true,
-			'not_founds' => $nfs,
-			'addedpr' => count($addedpr),
-			'loaded' => $loaded,
-			'resets' => $resets,
-			'doubles' => $doubles,
-			'errors' => $errors
-		], 200);
 	}
 
 	public function reloadRecords($list, $cmd)
