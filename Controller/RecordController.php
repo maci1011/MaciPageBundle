@@ -206,9 +206,7 @@ class RecordController extends AbstractController
 			$id = $product->getCode() . ($id ? "//" . $id : '');
 
 			if (!$product->checkTotalQuantity())
-			{
 				array_push($qtaErrProducts, $id);
-			}
 
 			array_push($products[$product->getCode()], $product);
 		}
@@ -224,7 +222,7 @@ class RecordController extends AbstractController
 			foreach ($records[$code] as $key => $record)
 			{
 				$rid = $record->getVariantIdentifier();
-				$rid = $record->getCode() . ($rid ? "//" . $rid : '');
+				$rid = $record->getType() . ' - ' . $record->getCode() . ($rid ? "//" . $rid : '');
 
 				$found = false;
 				$double = false;
@@ -269,10 +267,10 @@ class RecordController extends AbstractController
 				if (!is_object($record))
 					continue;
 				
-				array_push($noProducts, $rid);
-
 				$rid = $record->getVariantIdentifier();
 				$rid = $record->getType() . ' - ' . $record->getCode() . ($rid ? "//" . $rid : '');
+
+				array_push($noProducts, $rid);
 
 				$product = false;
 
@@ -298,7 +296,7 @@ class RecordController extends AbstractController
 					if (!$product->loadRecord($record))
 						array_push($newButNotLoaded, $rid);
 
-					array_push($news, $product);
+					array_push($news, $product->getVariantId());
 				}
 
 				foreach ($list as $i => $item)
@@ -311,6 +309,8 @@ class RecordController extends AbstractController
 
 					if ($product->checkRecord($item) && $item->isPurchase())
 					{
+						$item->resetLoadedValue();
+
 						if (!$product->loadRecord($item))
 							array_push($newButNotLoaded, $iid);
 
