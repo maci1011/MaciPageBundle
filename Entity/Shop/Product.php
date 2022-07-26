@@ -1193,9 +1193,8 @@ class Product
 	 */
 	public function setPathValue()
 	{
-		if ($this->path == null || $this->path == '') {
+		if ($this->path == null || $this->path == '')
 			$this->path = $this->code . '-' . str_replace(' ', '-', trim(strtolower($this->name)));
-		}
 	}
 
 	public function isAvailable()

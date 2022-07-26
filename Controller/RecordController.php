@@ -313,9 +313,6 @@ class RecordController extends AbstractController
 					{
 						$item->resetLoadedValue();
 
-						if (!$product->loadRecord($item))
-							array_push($newButNotLoaded, $iid);
-
 						if (!$product->importRecord($item))
 							array_push($newButNotImported, $iid);
 
