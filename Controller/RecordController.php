@@ -299,6 +299,7 @@ class RecordController extends AbstractController
 
 					array_push($newprs, $product);
 					array_push($news, $product->getVariantId());
+					$created++;
 				}
 
 				foreach ($list as $i => $item)
@@ -322,15 +323,12 @@ class RecordController extends AbstractController
 
 				if (!$product->importRecord($record))
 					array_push($newButNotImported, $rid);
-
-				$created++;
-				array_push($news, $product);
 			}
 
 			if (!array_key_exists($product->getCode(), $newProducts))
 				$newProducts[$product->getCode()] = [];
 
-			$newProducts[$product->getCode()] = $news;
+			$newProducts[$code] = count($news) ? $news : false;
 		}
 
 		if ($cmd == 'reset_data')
