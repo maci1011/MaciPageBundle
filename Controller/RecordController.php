@@ -260,6 +260,7 @@ class RecordController extends AbstractController
 
 		foreach ($records as $code => $list)
 		{
+			$newprs = [];
 			$news = [];
 
 			foreach ($list as $key => $record)
@@ -274,7 +275,7 @@ class RecordController extends AbstractController
 
 				$product = false;
 
-				foreach ($news as $new)
+				foreach ($newprs as $new)
 				{
 					if ($new->checkRecord($record))
 					{
@@ -296,6 +297,7 @@ class RecordController extends AbstractController
 					if (!$product->loadRecord($record))
 						array_push($newButNotLoaded, $rid);
 
+					array_push($newprs, $product);
 					array_push($news, $product->getVariantId());
 				}
 
