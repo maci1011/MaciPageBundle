@@ -98,8 +98,6 @@
 </section>
 {% endif %}
 
-{% include "@MaciPage/Blog/_license.html.twig" %}
-
 <footer class="blog-post-footer flex">
 
 	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
@@ -115,6 +113,8 @@
 	{% endif %}
 
 </footer>
+
+{% include "@MaciPage/Blog/_license.html.twig" %}
 
 {% if post.related|length %}
 <section class="blog-post-related related-posts">
