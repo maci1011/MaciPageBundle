@@ -3,7 +3,6 @@
 
 
 <section class="cart-list">
-<div class="container-fluid">
 
 <div class="list-default">
 <table class="table table-striped">
@@ -241,16 +240,17 @@
 
 	<td>&nbsp;</td>
 
+	{% set itemsLabel = order.totalItemsQuantity == 1 ? 'order.subtotal-item'|matra('Item') : 'order.subtotal-items'|matra('Items') %}
 	{% if edit is defined and edit %}
 
 	<td>
-		<h4 class="order-amount-label">{{ 'order.subtotal' | matra('SubTotal') }}:</h4>
+		<h4 class="order-amount-label">{{ 'order.subtotal'|matra('SubTotal') }}:</h4>
 	</td>
 
-	<td><h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}</h4></td>
+	<td><h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ itemsLabel }}</h4></td>
 
 	<td>
-		<h4 class="order-amount-value">{{ order.subAmount | number_format(2, '.', ',') }} &euro;</h4>
+		<h4 class="order-amount-value">{{ order.subAmount|number_format(2, '.', ',') }} &euro;</h4>
 	</td>
 
 	{% else %}
@@ -260,11 +260,11 @@
 	</td>
 
 	<td>
-		<h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ 'order.subtotal-items' | matra('Items') }}</h4>
+		<h4 class="order-amount-description">{{ order.totalItemsQuantity }} {{ itemsLabel }}</h4>
 	</td>
 
 	<td>
-		<h4 class="order-amount-value">{{ order.amount | number_format(2, '.', ',') }} &euro;</h4>
+		<h4 class="order-amount-value">{{ order.amount|number_format(2, '.', ',') }} &euro;</h4>
 	</td>
 
 	{% endif %}
@@ -275,7 +275,6 @@
 </table>
 </div>
 
-</div>
 </section>
 
 

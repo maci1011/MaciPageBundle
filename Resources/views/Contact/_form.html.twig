@@ -1,9 +1,11 @@
 
 {{ form_start(form) }}
 
+	{% if not form.vars.valid %}
 	<div class="form-group">
 		{{ form_errors(form) }}
 	</div>
+	{% endif %}
 
 	<div class="form-group">
 		<label class="required" for="form_name">{{ 'name'|matla('Name') }}</label>

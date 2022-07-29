@@ -10,7 +10,8 @@
 <div class="cart-details">
 
 	<div class="details-line">
-		<span class="orderItems label">{{ 'checkout.products'|matra('Products') }}:</span>
+		{% set itemsLabel = order.totalItemsQuantity == 1 ? 'order.subtotal-item'|matra('Item') : 'order.subtotal-items'|matra('Items') %}
+		<span class="orderItems label">{{ itemsLabel }}:</span>
 		<span class="orderItems value">{{ order.totalItemsQuantity }}</span>
 	</div>
 

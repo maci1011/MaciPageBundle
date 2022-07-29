@@ -1,6 +1,12 @@
 
 {{ form_start(confirm_form) }}
 
+{% if not confirm_form.vars.valid %}
+<div class="form-group">
+	{{ form_errors(confirm_form) }}
+</div>
+{% endif %}
+
 {% if confirm_form.recaptcha is defined %}
 {{ form_row(confirm_form.recaptcha) }}
 {% endif %}
