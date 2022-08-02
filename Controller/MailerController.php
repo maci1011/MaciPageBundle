@@ -11,7 +11,7 @@ use Maci\PageBundle\Entity\Mail\Subscriber;
 use Maci\PageBundle\Form\Mail\SubscribeType;
 
 
-class DefaultController extends AbstractController
+class MailerController extends AbstractController
 {
 	public function indexAction()
 	{
