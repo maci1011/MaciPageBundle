@@ -1,8 +1,8 @@
 
-Maci\PageBundle\Entity\Mail:
+Maci\PageBundle\Entity\Mailer\Mail:
     type:  entity
     table: maci_mailer_mail
-    repositoryClass: Maci\PageBundle\Repository\MailRepository
+    repositoryClass: Maci\PageBundle\Repository\Mailer\MailRepository
     id:
         id:
             type: integer
@@ -56,6 +56,6 @@ Maci\PageBundle\Entity\Mail:
                 referencedColumnName: id
     oneToMany:
         slides:
-            targetEntity: Maci\PageBundle\Entity\Slide
+            targetEntity: Maci\PageBundle\Entity\Mailer\Slide
             mappedBy: mail
             orderBy: { 'position': ASC }

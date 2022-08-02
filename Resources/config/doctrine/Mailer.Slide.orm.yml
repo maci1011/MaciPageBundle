@@ -1,5 +1,5 @@
 
-Maci\PageBundle\Entity\Slide:
+Maci\PageBundle\Entity\Mailer\Slide:
     type:  entity
     table: maci_mailer_slide
     # repositoryClass: Maci\PageBundle\Repository\SlideRepository
@@ -34,12 +34,12 @@ Maci\PageBundle\Entity\Slide:
         media:
             targetEntity: Maci\PageBundle\Entity\Media\Media
         mail:
-            targetEntity: Maci\PageBundle\Entity\Mail
+            targetEntity: Maci\PageBundle\Entity\Mailer\Mail
             inversedBy: slides
         parent:
-            targetEntity: Maci\PageBundle\Entity\Slide
+            targetEntity: Maci\PageBundle\Entity\Mailer\Slide
             inversedBy: children
     oneToMany:
         children:
-            targetEntity: Maci\PageBundle\Entity\Slide
+            targetEntity: Maci\PageBundle\Entity\Mailer\Slide
             mappedBy: parent

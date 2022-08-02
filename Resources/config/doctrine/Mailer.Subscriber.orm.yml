@@ -1,8 +1,8 @@
 
-Maci\PageBundle\Entity\Subscriber:
+Maci\PageBundle\Entity\Mailer\Subscriber:
     type:  entity
     table: maci_mailer_subscriber
-    repositoryClass: Maci\PageBundle\Repository\SubscriberRepository
+    repositoryClass: Maci\PageBundle\Repository\Mailer\SubscriberRepository
     id:
         id:
             type: integer
