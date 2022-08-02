@@ -22,7 +22,7 @@ class MailerController extends AbstractController
 	public function userMailsAction()
 	{
 		$list = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->getUserMails( $this->getUser() );
 
 		return $this->render('@MaciPage/Mailer/user_mails.html.twig', array('list' => $list));
@@ -31,7 +31,7 @@ class MailerController extends AbstractController
 	public function showAction($token)
 	{
 		$mail = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneByToken( $token );
 
 		$user = $this->getUser();
@@ -54,7 +54,7 @@ class MailerController extends AbstractController
 
 			$em = $this->getDoctrine()->getManager();
 
-			$item = $em->getRepository('MaciPageBundle:Mailer/Subscriber')
+			$item = $em->getRepository('MaciPageBundle:Mailer\Subscriber')
 				->findOneByMail($form->getData()->getMail());
 
 			if ($item && !$item->getRemoved()) {
@@ -103,7 +103,7 @@ class MailerController extends AbstractController
 	public function templatesAction()
 	{
 		// $list = $this->getDoctrine()->getManager()
-		//     ->getRepository('MaciPageBundle:Mailer/Mail')
+		//     ->getRepository('MaciPageBundle:Mailer\Mail')
 		//     ->findByType( 'template' );
 
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
@@ -112,7 +112,7 @@ class MailerController extends AbstractController
 	public function sendPageAction()
 	{
 		$list = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findBy(['sended' => false, 'removed' => false]);
 
 		return $this->render('@MaciPage/Mailer/send_page.html.twig', [
@@ -123,7 +123,7 @@ class MailerController extends AbstractController
 	public function sendMailAction($token)
 	{
 		$item = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneByToken($token);
 
 		return $this->render('@MaciPage/Mailer/send_mail.html.twig', [
@@ -165,7 +165,7 @@ class MailerController extends AbstractController
 		}
 
 		$mail = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneById($request->get('id'));
 
 		if (!$mail) {
@@ -202,7 +202,7 @@ class MailerController extends AbstractController
 		}
 
 		$mail = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer/Mail')
+			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneById($request->get('id'));
 
 		if (!$mail) {
