@@ -1,0 +1,16 @@
+
+{% extends "@FOSUser/layout.html.twig" %}
+
+
+{% block content %}
+
+<section class="page_container user_page">
+
+<h1>{{ 'menu.user.notifications'|matra('Notifications') }}</h1>
+
+{% include '@MaciPage/Mailer/_user_mails.html.twig' with {'list': list} %}
+
+</section>
+
+{% endblock %}
+

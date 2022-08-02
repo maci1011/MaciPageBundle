@@ -1,0 +1,40 @@
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyFullPage">{% endblock %}
+
+
+{% block mainPathBar %}
+
+<div class="subscribe-form col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+
+<nav class="breadcrumb-wrapper" aria-label="breadcrumb">
+<ol class="breadcrumb">
+
+	<li class="breadcrumb-item">
+		<a href="{{ path('homepage') }}">Home</a>
+	</li>
+
+	<li class="breadcrumb-item active">
+		{{ 'user.subscribe' | matra('Subscribe') }}
+	</li>
+
+</ol>
+</nav>
+
+{% endblock %}
+
+
+{% block title %}
+
+{{ 'mailer.subscribe' | matra('Subscribe') }}
+
+{% endblock %}
+
+
+{% block container %}
+
+{% include '@MaciPage/Mailer/_subscribe.html.twig' %}
+
+{% endblock %}
+
+

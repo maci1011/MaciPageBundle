@@ -1,0 +1,29 @@
+
+<table>
+<tbody>
+
+{% if item.Children|length %}
+<tr>
+
+{% for child in item.Children %}
+
+	<td class="center">
+		<img class="gallery img-fluid" src="{{ path('maci_media_get', {'path': child.media.path}) }}" alt="{{ child.media }}" />
+		<span class="gallery child-title">{{ child.title }}</span>
+		<p class="gallery child-content">{{ child.content }}</p>
+	</td>
+
+{% if ( loop.index % 2 ) == 0 and not loop.last %}
+
+</tr>
+<tr>
+
+{% endif %}
+
+{% endfor %}
+
+</tr>
+{% endif %}
+
+</tbody>
+</table>

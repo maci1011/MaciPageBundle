@@ -1,0 +1,54 @@
+
+{% extends "MaciAdminBundle::layout.html.twig" %}
+
+
+{% block content %}
+
+<h3>Send Page</h3>
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+<tr class="list-header">
+	<th class="list-header">
+		<span class="list-title">Mail</span>
+	</th>
+	<th class="list-header">
+		<span class="list-title">Subject</span>
+	</th>
+	<th class="list-header">
+		<span class="list-title">Action</span>
+	</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in list %}
+
+<tr class="list-item">
+	<td>
+		<span>{{ item.name }}</span>
+	</td>
+	<td>
+		<span>{{ item.subject }}</span>
+	</td>
+	<td>
+		<a class="btn" href="{{ path('maci_mailer_show', {'token': item.token}) }}" target="_blank">
+			<i class="fas fa-eye"></i>
+			Show
+		</a>
+		<a class="btn" href="{{ path('maci_mailer_send_mail', {'token': item.token}) }}" target="_blank">
+			<i class="fas fa-share-square"></i>
+			Send Mail
+		</a>
+	</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}

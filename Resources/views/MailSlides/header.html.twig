@@ -1,0 +1,44 @@
+
+<table>
+<tbody>
+
+<tr>
+	<td class="center">
+		<img class="header img-fluid" src="{{ path('maci_media_get', {'path': item.media.path}) }}" alt="{{ item.media }}" />
+	</td>
+</tr>
+
+{% if user is defined %}
+
+<tr>
+	<td>
+		<h2 class="header item-title">{{ item.title ? item.title : 'mailer.slides.header.hi'|matra('Ciao') }} @{{ user }},</h2>
+	</td>
+</tr>
+
+{% elseif subscriber is defined %}
+
+<tr>
+	<td>
+		<h2 class="header item-title">{{ item.title ? item.title : 'mailer.slides.header.hi'|matra('Ciao') }} {{ subscriber.header }},</h2>
+	</td>
+</tr>
+
+{% else %}
+
+<tr>
+	<td>
+		<h2 class="header item-title">{{ item.title ? item.title : 'mailer.slides.header.hi'|matra('Ciao') }},</h2>
+	</td>
+</tr>
+
+{% endif %}
+
+<tr>
+	<td>
+		<p class="header item-content">{{ item.content }}</p>
+	</td>
+</tr>
+
+</tbody>
+</table>

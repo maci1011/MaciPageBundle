@@ -1,0 +1,45 @@
+
+Maci\PageBundle\Entity\Slide:
+    type:  entity
+    table: maci_mailer_slide
+    # repositoryClass: Maci\PageBundle\Repository\SlideRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 63
+            nullable: true
+        content:
+            type: text
+            nullable: true
+        type:
+            type: string
+            length: 15
+            nullable: true
+        link:
+            type: string
+            length: 255
+            nullable: true
+        video:
+            type: string
+            length: 255
+            nullable: true
+        position:
+            type: smallint
+    manyToOne:
+        media:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+        mail:
+            targetEntity: Maci\PageBundle\Entity\Mail
+            inversedBy: slides
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Slide
+            inversedBy: children
+    oneToMany:
+        children:
+            targetEntity: Maci\PageBundle\Entity\Slide
+            mappedBy: parent

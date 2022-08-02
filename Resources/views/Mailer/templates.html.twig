@@ -1,0 +1,50 @@
+{% extends "@MaciPage/Mailer/layout.html.twig" %}
+
+{% block content %}
+
+<h3>Templates</h3>
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+<tr class="list-header">
+	<th class="list-header">
+		<span class="list-title">Template</span>
+	</th>
+	<th class="list-header">
+		<span class="list-title">Action</span>
+	</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr class="list-item">
+	<td>
+		<span>Order Confirmed</span>
+	</td>
+	<td>
+		<a class="btn" href="{{ path('maci_mailer_templates_order_confirmed') }}" target="_blank">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Show
+		</a>
+	</td>
+</tr>
+
+<tr class="list-item">
+	<td>
+		<span>Order Shipped</span>
+	</td>
+	<td>
+		<a class="btn" href="{{ path('maci_mailer_templates_order_shipped') }}" target="_blank">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Show
+		</a>
+	</td>
+</tr>
+
+</tbody>
+</table>
+
+{% endblock %}

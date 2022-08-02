@@ -1,0 +1,58 @@
+{% extends "@MaciPage/base.html.twig" %}
+
+{% block _ga %}{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/mailer.css') }}" />
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/mailer.js') }}" ></script>
+{% endblock %}
+
+
+{% block body %}
+
+<style type="text/css">
+
+#actions > span {
+	display: block;
+}
+
+#content {
+	text-align: right;
+}
+
+#content .navbar-nav {
+	width: 100%;
+	max-width: 210px;
+}
+
+#content .nav-item {
+	text-align: right;
+}
+
+.navbar-light .navbar-nav .nav-item.waiting {
+	background-color: rgba(238, 228, 171, 0.7);
+}
+
+.navbar-light .navbar-nav .nav-item.sending {
+	background-color: rgba(171, 181, 238, 0.7);
+}
+
+.navbar-light .navbar-nav .nav-item.sended {
+	background-color: rgba(183, 238, 171, 0.7);
+}
+
+</style>
+
+<div id="mail" class="container" data-id="{{ item.id }}">
+<div class="row">
+
+<div id="actions" class="col-sm-6"></div>
+<div id="content" class="col-sm-6"></div>
+
+</div>
+</div>
+
+{% endblock %}

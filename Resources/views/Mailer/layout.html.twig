@@ -1,0 +1,8 @@
+
+{% extends "@MaciAdmin/layout.html.twig" %}
+
+
+{#% block main_menu %}
+<h3>{{ 'menu.admin.mails_admin'|matra('Mails Admin') }}</h3>
+<nav>{{ knp_menu_render('mailer_left', {'currentClass': 'active'}) }}</nav>
+{% endblock %#}

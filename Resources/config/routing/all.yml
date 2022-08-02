@@ -5,6 +5,9 @@ maci_page_blog:
 maci_page_contact:
     resource: "@MaciPageBundle/Resources/config/routing/contact.yml"
 
+maci_page_mailer:
+    resource: "@MaciPageBundle/Resources/config/routing/mailer.yml"
+
 maci_page_media:
     resource: "@MaciPageBundle/Resources/config/routing/media.yml"
 

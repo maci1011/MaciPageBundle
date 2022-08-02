@@ -1,0 +1,61 @@
+
+Maci\PageBundle\Entity\Mail:
+    type:  entity
+    table: maci_mailer_mail
+    repositoryClass: Maci\PageBundle\Repository\MailRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 127
+        token:
+            type: string
+            length: 127
+        sender:
+            type: string
+            length: 63
+            nullable: true
+        header:
+            type: string
+            length: 63
+            nullable: true
+        type:
+            type: string
+            length: 31
+            nullable: true
+        subject:
+            type: string
+            length: 127
+        text:
+            type: text
+            nullable: true
+        content:
+            type: text
+            nullable: true
+        data:
+            type: json
+            nullable: true
+        locale:
+            type: string
+            length: 10
+        public:
+            type: boolean
+        sended:
+            type: boolean
+        removed:
+            type: boolean
+    manyToOne:
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    oneToMany:
+        slides:
+            targetEntity: Maci\PageBundle\Entity\Slide
+            mappedBy: mail
+            orderBy: { 'position': ASC }

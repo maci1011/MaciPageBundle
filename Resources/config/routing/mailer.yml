@@ -1,0 +1,57 @@
+
+maci_mailer_send_mail:
+    path:     /mailer/send-mail/{token}
+    defaults: { _controller: MaciPageBundle:Default:sendMail }
+
+maci_mailer_send_page:
+    path:     /mailer/send-page
+    defaults: { _controller: MaciPageBundle:Default:sendPage, section: mails }
+
+maci_mailer_get_nexts:
+    path:     /mailer/get-nexts
+    defaults: { _controller: MaciPageBundle:Default:getNexts }
+
+maci_mailer_send_next:
+    path:     /mailer/send-next
+    defaults: { _controller: MaciPageBundle:Default:sendNext }
+
+maci_mailer_import:
+    path:     /mailer/import
+    defaults: { _controller: MaciPageBundle:Default:import, section: mails }
+
+
+maci_mailer_templates_order_confirmed:
+    path:     /mailer/templates/order_confirmed
+    defaults: { _controller: MaciPageBundle:Default:orderConfirmedTemplate }
+
+maci_mailer_templates_order_shipped:
+    path:     /mailer/templates/order_shipped
+    defaults: { _controller: MaciPageBundle:Default:orderShippedTemplate }
+
+maci_mailer_templates:
+    path:     /mailer/templates
+    defaults: { _controller: MaciPageBundle:Default:templates, section: mails }
+
+
+maci_mailer:
+    path:     /mailer
+    defaults: { _controller: MaciPageBundle:Default:index }
+
+
+
+maci_mailer_user_mails:
+    path:     /notifications/
+    defaults: { _controller: MaciPageBundle:Default:userMails }
+
+maci_mailer_show:
+    path:     /mailer/show/{token}
+    defaults: { _controller: MaciPageBundle:Default:show }
+    requirements:
+        token: .+
+
+maci_mailer_subscribe:
+    path:     /{_locale}/newsletter/subscribe
+    defaults: { _controller: MaciPageBundle:Default:subscribe }
+    requirements:
+        _locale: "%r_locales%"
+

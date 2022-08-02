@@ -201,3 +201,25 @@ services:
     #     tags:
     #         - { name: kernel.event_listener, event: paypal.ipn.receive, method: onIPNReceive }
 
+    # Mailer
+
+    Maci\PageBundle\Controller\MailerService:
+        arguments: ["@doctrine.orm.entity_manager","@request_stack","%locales%"]
+
+    maci.mailer:
+        alias: Maci\PageBundle\Controller\MailerService
+        public: true
+
+    maci_mailer.menu_builder:
+        class: Maci\PageBundle\Menu\MailerMenuBuilder
+        arguments: ["@knp_menu.factory","@maci.translator"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createLeftMenu, alias: mailer_left }
+
+    maci_mailer.form.type.subscribe:
+        class: Maci\PageBundle\Form\Type\SubscribeType
+        arguments: ["@request_stack","@maci.translator"]
+        tags:
+            - { name: form.type, alias: subscribe }
+
+
