@@ -1,0 +1,19 @@
+
+{% if subscriber is defined %}
+<table class="main">
+<tbody>
+<tr>
+<td>
+
+	<p class="text">
+		{{ 'mail.manage-link-text'|matra('To unsubscribe from our newsletter, go to the') }}
+		<a href="{{ url('maci_mailer_manage_redirect', {'token': subscriber.token}) }}">
+			 {{ 'unsubscribe_page'|matla('Unsubscribe Page')  }}
+		</a>.
+	</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+{% endif %}

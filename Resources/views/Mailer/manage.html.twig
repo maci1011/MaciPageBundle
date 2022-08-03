@@ -2,16 +2,11 @@
 
 {% block bodyTag %}<body id="bodyFullPage">{% endblock %}
 
-
 {% block mainPathBar %}{% endblock %}
 
-
 {% block title %}
-
-{{ 'mailer.subscribe' | matra('Subscribe') }}
-
+{{ 'mailer.manage-newsletters' | matra('Manage Newsletters') }}
 {% endblock %}
-
 
 {% block container %}
 
@@ -25,13 +20,13 @@
 	</li>
 
 	<li class="breadcrumb-item active">
-		{{ 'user.subscribe' | matra('Subscribe') }}
+		{{ 'mailer.manage-newsletters' | matra('Manage Newsletters') }}
 	</li>
 
 </ol>
 </nav>
 
-{% include '@MaciPage/Mailer/_subscribe.html.twig' %}
+{% include '@MaciPage/Mailer/_manage.html.twig' %}
 
 </div>
 

@@ -28,6 +28,10 @@ maci_mailer_templates_order_shipped:
     path:     /mailer/templates/order_shipped
     defaults: { _controller: MaciPageBundle:Mailer:orderShippedTemplate }
 
+maci_mailer_templates_subscription_complete:
+    path:     /mailer/templates/subscription_complete
+    defaults: { _controller: MaciPageBundle:Mailer:subscriptionCompleteTemplate }
+
 maci_mailer_templates:
     path:     /mailer/templates
     defaults: { _controller: MaciPageBundle:Mailer:templates, section: mails }
@@ -47,6 +51,19 @@ maci_mailer_show:
     path:     /mailer/show/{token}
     defaults: { _controller: MaciPageBundle:Mailer:show }
     requirements:
+        token: .+
+
+maci_mailer_manage_redirect:
+    path:     /newsletter/manage/{token}
+    defaults: { _controller: MaciPageBundle:Mailer:manageRedirect }
+    requirements:
+        token: .+
+
+maci_mailer_manage:
+    path:     /{_locale}/newsletter/manage/{token}
+    defaults: { _controller: MaciPageBundle:Mailer:manage }
+    requirements:
+        _locale: "%r_locales%"
         token: .+
 
 maci_mailer_subscribe:

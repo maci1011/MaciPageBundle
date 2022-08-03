@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Locales;
 
-use Maci\PageBundle\Entity\Mail\Subscriber;
-use Maci\PageBundle\Form\Mail\SubscribeType;
+use Maci\PageBundle\Entity\Mailer\Subscriber;
+use Maci\PageBundle\Form\Mailer\SubscribeType;
 
 
 class MailerController extends AbstractController
@@ -72,15 +72,21 @@ class MailerController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_page', array('path' => $this->get('maci.translator')->getRoute('newsletter.subscribe-completed', 'subscribe-completed'))));
 		}
 
-		return $this->render('@MaciPage/Mailer/subscribe.html.twig', array(
+		return $this->render('@MaciPage/Mailer/subscribe.html.twig', [
 			'form' => $form->createView()
-		));
+		]);
 	}
 
-	// public function subscribeAction()
-	// {
-	// 	return $this->render('@MaciPage/Mailer/subscribe.html.twig', array('form' => $this->getSubscribeForm()));
-	// }
+	public function manageRedirectAction($token)
+	{
+		return $this->redirect($this->generateUrl('maci_mailer_manage', ['token' => $token]));
+	}
+
+	public function manageAction($token)
+	{
+		return $this->render('@MaciPage/Mailer/manage.html.twig', [
+		]);
+	}
 
 	public function getSubscribeForm(&$subscriber)
 	{
@@ -145,6 +151,13 @@ class MailerController extends AbstractController
 		]);
 	}
 
+	public function subscriptionCompleteTemplateAction()
+	{
+		return $this->render('@MaciPage/Email/subscription_complete.html.twig', [
+			'subscriber' => $this->getARandomSubscriber()
+		]);
+	}
+
 	public function getARandomOrder()
 	{
 		$orders = $this->getDoctrine()->getManager()
@@ -152,6 +165,15 @@ class MailerController extends AbstractController
 			->findBy(['status' => ['confirm', 'complete']], ['id' => 'DESC']);
 
 		return $orders[rand(0,count($orders) - 1)];
+	}
+
+	public function getARandomSubscriber()
+	{
+		$subscribers = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Subscriber')
+			->findBy(['removed' => false], ['id' => 'DESC']);
+
+		return $subscribers[rand(0,count($subscribers) - 1)];
 	}
 
 	public function getNextsAction(Request $request)

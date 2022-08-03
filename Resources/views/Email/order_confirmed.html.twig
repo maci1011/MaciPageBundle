@@ -10,12 +10,14 @@
 
 {% include "@MaciPage/Email/_header.html.twig" %}
 
+{% include "@MaciPage/Email/_intro.html.twig" with {
+	'message': 'mail.confirmed-text'|matra('your order has been confirmed.')
+} %}
+
 <table class="main">
 <tbody>
 <tr>
-	<td class="order-status">
-		<h4>{{ 'mail.incipit' | matra('Dear Customer') }},</h4>
-		<p class="text">{{ 'mail.confirmed-text' | matra('your order has been confirmed.') }}</p>
+	<td>
 		<span class="attr label">{{ 'order.code' | matra('Code') }}:</span>
 		<span class="attr value"> {{ order.code }}</span><br/>
 		<span class="attr label">{{ 'order.status' | matra('Status') }}:</span>
@@ -187,6 +189,8 @@
 </tbody>
 </table>
 {% endif %}
+
+{% include "@MaciPage/Email/_contact_us.html.twig" %}
 
 {% include "@MaciPage/Email/_footer.html.twig" %}
 

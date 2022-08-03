@@ -217,7 +217,7 @@ services:
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: mailer_left }
 
     maci_mailer.form.type.subscribe:
-        class: Maci\PageBundle\Form\Type\SubscribeType
+        class: Maci\PageBundle\Form\Mailer\SubscribeType
         arguments: ["@request_stack","@maci.translator"]
         tags:
             - { name: form.type, alias: subscribe }
