@@ -1,6 +1,6 @@
 
 <h3 class="my-4">{{ 'unsubscribe'|matla('Unsubscribe') }}</h3>
 
-<a href="#">
+<a href="{{ url('maci_mailer_unsubscribe', {'token': subscriber.token}) }}">
 	{{ 'unsubscribe'|matla('Unsubscribe') }}
 </a>

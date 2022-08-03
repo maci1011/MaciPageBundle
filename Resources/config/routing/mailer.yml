@@ -53,6 +53,14 @@ maci_mailer_show:
     requirements:
         token: .+
 
+
+
+maci_mailer_unsubscribe:
+    path:     /newsletter/unsubscribe/{token}
+    defaults: { _controller: MaciPageBundle:Mailer:unsubscribe }
+    requirements:
+        token: .+
+
 maci_mailer_manage_redirect:
     path:     /newsletter/manage/{token}
     defaults: { _controller: MaciPageBundle:Mailer:manageRedirect }

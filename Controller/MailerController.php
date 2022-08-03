@@ -32,7 +32,7 @@ class MailerController extends AbstractController
 	{
 		$mail = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Mailer\Mail')
-			->findOneByToken( $token );
+			->findOneByToken($token);
 
 		$user = $this->getUser();
 
@@ -84,8 +84,22 @@ class MailerController extends AbstractController
 
 	public function manageAction($token)
 	{
+		$subscriber = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Subscriber')
+			->findOneByToken($token);
+
 		return $this->render('@MaciPage/Mailer/manage.html.twig', [
+			'subscriber' => $subscriber
 		]);
+	}
+
+	public function unsubscribeAction($token)
+	{
+		$subscriber = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Subscriber')
+			->findOneByToken($token);
+
+		return $this->redirect($this->generateUrl('maci_homepage'));
 	}
 
 	public function getSubscribeForm(&$subscriber)
@@ -108,10 +122,6 @@ class MailerController extends AbstractController
 
 	public function templatesAction()
 	{
-		// $list = $this->getDoctrine()->getManager()
-		//     ->getRepository('MaciPageBundle:Mailer\Mail')
-		//     ->findByType( 'template' );
-
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
 	}
 
