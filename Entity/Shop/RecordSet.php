@@ -123,8 +123,6 @@ class RecordSet
 	{
 		$this->type = $type;
 
-		if ($type == $this->getTypes()[1]) $this->setVariantType('color-n-size');
-
 		return $this;
 	}
 
