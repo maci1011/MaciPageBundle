@@ -16,7 +16,6 @@
         "knplabs/knp-markdown-bundle": "^1.7",
         "knplabs/knp-menu-bundle": "~2.0",
         "maci/admin-bundle": "dev-master",
-        "maci/mailer-bundle": "dev-master",
         "maci/translator-bundle": "dev-master",
         "maci/user-bundle": "dev-master"
     },
