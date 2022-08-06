@@ -1,0 +1,20 @@
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyFullPage">{% endblock %}
+
+{% block title %}
+{{ 'unsubscribed' | matla('Unsubscribed') }} - {{ company_title }}
+{% endblock %}
+
+{% block description %}
+<meta name="description" content="{{ 'unsubscribed' | matra("You will no longer receive our newsletters.") }}" />
+{% endblock %}
+
+{% block container %}
+<section class="message">
+<div class="container not-found-page">
+	<h1>{{ 'unsubscribed' | matla('Unsubscribed') }}</h1>
+	<p>{{ 'unsubscribed' | matra("You will no longer receive our newsletters.") }}</p>
+</div>
+</section>
+{% endblock %}

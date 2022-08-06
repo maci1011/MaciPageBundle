@@ -95,11 +95,14 @@ class MailerController extends AbstractController
 
 	public function unsubscribeAction($token)
 	{
-		$subscriber = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer\Subscriber')
+		$om = $this->getDoctrine()->getManager();
+		$subscriber = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
 			->findOneByToken($token);
 
-		return $this->redirect($this->generateUrl('maci_homepage'));
+		$subscriber->unsubscribe();
+		$om->flush();
+
+		return $this->redirect($this->generateUrl('maci_page', ['path' => 'unsubscribed']));
 	}
 
 	public function getSubscribeForm(&$subscriber)

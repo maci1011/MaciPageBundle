@@ -1,0 +1,20 @@
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyFullPage">{% endblock %}
+
+{% block title %}
+{{ 'message-sent'|matla('Message Sent') }} - {{ company_title }}
+{% endblock %}
+
+{% block description %}
+<meta name="description" content="{{ 'message-sent'|matra("Your message has sent. We will reply as soon as possible.") }}" />
+{% endblock %}
+
+{% block container %}
+<section class="message">
+<div class="container not-found-page">
+	<h1>{{ 'message-sent'|matla('Message Sent') }}</h1>
+	<p>{{ 'message-sent'|matra("Your message has sent. We will reply as soon as possible.") }}</p>
+</div>
+</section>
+{% endblock %}

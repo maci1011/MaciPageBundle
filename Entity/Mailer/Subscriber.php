@@ -411,6 +411,11 @@ class Subscriber
 		return $this->newsletter;
 	}
 
+	public function wantsNewsletter()
+	{
+		return ($this->newsletter && !$this->removed);
+	}
+
 	/**
 	 * Set sms
 	 *
@@ -434,6 +439,11 @@ class Subscriber
 		return $this->sms;
 	}
 
+	public function wantsSms()
+	{
+		return ($this->sms && !$this->removed);
+	}
+
 	/**
 	 * Set phone
 	 *
@@ -455,6 +465,11 @@ class Subscriber
 	public function getPhone()
 	{
 		return $this->phone;
+	}
+
+	public function wantsCalls()
+	{
+		return ($this->phone && !$this->removed);
 	}
 
 	/**
@@ -586,6 +601,11 @@ class Subscriber
 	public function setCreatedValue()
 	{
 		$this->created = new \DateTime();
+	}
+
+	public function unsubscribe()
+	{
+		$this->removed = true;
 	}
 
 	/**

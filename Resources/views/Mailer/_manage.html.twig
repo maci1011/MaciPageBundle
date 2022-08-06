@@ -1,6 +1,12 @@
 
-<h3 class="my-4">{{ 'unsubscribe'|matla('Unsubscribe') }}</h3>
+<h3 class="my-4">{{ 'manage-newsletters-subscription'|matla("Manage You\'re Subscription") }}</h3>
 
+{% if subscriber.removed %}
 <a href="{{ url('maci_mailer_unsubscribe', {'token': subscriber.token}) }}">
 	{{ 'unsubscribe'|matla('Unsubscribe') }}
 </a>
+{% else %}
+<a href="{{ url('maci_mailer_unsubscribe', {'token': subscriber.token}) }}">
+	{{ 'unsubscribe'|matla('Unsubscribe') }}
+</a>
+{% endif %}

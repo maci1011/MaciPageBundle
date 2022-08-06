@@ -102,7 +102,9 @@ class PageController extends AbstractController
 
 	public function getTemplateByPath($path)
 	{
-		$templates = array(
+		$templates = [
+			'message-sent' => '@MaciPage/Page/message-sent.html.twig',
+			'unsubscribed' => '@MaciPage/Page/unsubscribed.html.twig',
 			'customer-service' => '@MaciPage/Terms/customer_service.html.twig',
 			'shopping-guide' => '@MaciPage/Terms/shopping_guide.html.twig',
 			'size-guide' => '@MaciPage/Terms/size_guide.html.twig',
@@ -112,10 +114,11 @@ class PageController extends AbstractController
 			'general-condititions' => '@MaciPage/Terms/gcs.html.twig',
 			'cookies' => '@MaciPage/Terms/cookie.html.twig',
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
-		);
-		if(array_key_exists($path, $templates)) {
+		];
+
+		if(array_key_exists($path, $templates))
 			return $templates[$path];
-		}
+
 		return false;
 	}
 
@@ -123,15 +126,14 @@ class PageController extends AbstractController
 	{
 		$session = $this->get('session');
 
-		if ($cookie === 'start-popup') {
+		if ($cookie === 'start-popup')
 			$session->set('start-popup', true);
-		} else if ($cookie === 'cookie-message') {
-			$session->set('cookie-message', true);
-		}
 
-		if ($request->isXmlHttpRequest()) {
+		else if ($cookie === 'cookie-message')
+			$session->set('cookie-message', true);
+
+		if ($request->isXmlHttpRequest())
 			return new JsonResponse(array('success' => true), 200);
-		}
 
 		return $this->redirect($this->generateUrl('homepage'));
 	}
