@@ -88,6 +88,9 @@ class MailerController extends AbstractController
 			->getRepository('MaciPageBundle:Mailer\Subscriber')
 			->findOneByToken($token);
 
+		if ($subscriber->getRemoved())
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
 		return $this->render('@MaciPage/Mailer/manage.html.twig', [
 			'subscriber' => $subscriber
 		]);
