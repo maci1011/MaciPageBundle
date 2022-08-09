@@ -553,6 +553,7 @@ class OrderController extends AbstractController
 			$set = new RecordSet();
 			$set->setLabel($label);
 			$set->setDescription($order->getName());
+			$set->setType('exprt');
 		}
 
 		return $set;

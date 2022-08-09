@@ -127,16 +127,11 @@ class MailerController extends AbstractController
 		));
 	}
 
-	public function templatesAction()
-	{
-		return $this->render('@MaciPage/Mailer/templates.html.twig');
-	}
-
 	public function sendPageAction()
 	{
 		$list = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Mailer\Mail')
-			->findBy(['sended' => false, 'removed' => false]);
+			->findBy(['sended' => false, 'removed' => false], ['id' => 'DESC']);
 
 		return $this->render('@MaciPage/Mailer/send_page.html.twig', [
 			'list' => $list
@@ -152,6 +147,11 @@ class MailerController extends AbstractController
 		return $this->render('@MaciPage/Mailer/send_mail.html.twig', [
 			'item' => $item
 		]);
+	}
+
+	public function templatesAction()
+	{
+		return $this->render('@MaciPage/Mailer/templates.html.twig');
 	}
 
 	public function orderConfirmedTemplateAction()
