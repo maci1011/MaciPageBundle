@@ -446,7 +446,7 @@ class Page
 
 	public function getTemplateArray()
 	{
-		return array(
+		return [
 			'Page' => '@MaciPage/Page/page.html.twig',
 			'Full Page' => '@MaciPage/Page/fullpage.html.twig',
 			'Slide Page' => '@MaciPage/Page/slidepage.html.twig',
@@ -458,18 +458,12 @@ class Page
 			'Two' => '@MaciPage/Page/template_two.html.twig',
 			'Three' => '@MaciPage/Page/template_three.html.twig',
 			'Foo' => '@MaciPage/Page/foo.html.twig'
-		);
+		];
 	}
 
 	public function getTemplateLabel()
 	{
-		$array = $this->getTemplateArray();
-		$key = array_search($this->template, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->template);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->template, $this->getTemplateArray());
 	}
 
 	/**

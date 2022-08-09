@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Locales;
 
+use Maci\PageBundle\Entity\Mailer\Mail;
 use Maci\PageBundle\Entity\Mailer\Subscriber;
 use Maci\PageBundle\Form\Mailer\SubscribeType;
 
@@ -69,7 +70,7 @@ class MailerController extends AbstractController
 			$em->persist($subscriber);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('maci_page', array('path' => $this->get('maci.translator')->getRoute('newsletter.subscribe-completed', 'subscribe-completed'))));
+			return $this->redirect($this->generateUrl('maci_page', array('path' => $this->get('maci.translator')->getRoute('newsletter.subscribe-completed', 'subscribtion-completed'))));
 		}
 
 		return $this->render('@MaciPage/Mailer/subscribe.html.twig', [

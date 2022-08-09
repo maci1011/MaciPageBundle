@@ -1,6 +1,10 @@
 
 <h3>{{ 'order.show_title' | matra('Order Details') }}</h3>
 
+{% if order.checkout != 'checkout' %}
+<h4>{{ 'order.checkout-type'| matra('Type') }}: {{ order.checkoutLabel }}</h4>
+{% endif %}
+
 <h4>{{ 'order.code' | matra('Code') }}: {{ order.code }}</h4>
 
 <h4>{{ 'order.status' | matra('Status') }}: {{ ('order.status.' ~ order.status)|matra(order.status|capitalize) }}</h4>

@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use Maci\PageBundle\Entity\Media\Media;
-
 use Maci\PageBundle\Entity\Contact\Contact;
+use Maci\PageBundle\Entity\Mailer\Mail;
+use Maci\PageBundle\Entity\Media\Media;
 use Maci\PageBundle\Form\Contact\ContactType;
 
 class ContactController extends AbstractController
@@ -43,25 +43,31 @@ class ContactController extends AbstractController
 			$em->persist($contact);
 			$em->flush();
 
-			$name = trim($contact->getName().' '.$contact->getSurname());
-			$message = (new \Swift_Message());
-			$message->setSubject('Contatti da '.$name);
-			$message->setReplyTo(array($contact->getEmail() => $name));
-			$message->setFrom($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'));
-			$message->setTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')]);
-			$message->setBody($this->renderView('MaciPageBundle:Contact:email.txt.twig', array('contact' => $contact)));
+			$mt = $this->get('maci.translator');
 
-			if ($this->container->get('kernel')->getEnvironment() == "prod")
-				$this->get('mailer')->send($message);
+			$mail = new Mail();
+			$mail
+				->setName('ContactForm Message')
+				->setType('message')
+				->setSubject(str_replace('%name%', $contact->getFullName(), $mt->getLabel('contacts.mail-title', 'New Messagge from %name%!')))
+				->setReplyTo([$contact->getEmail() => $contact->getFullName()])
+				->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+				->addRecipients([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+				->setLocale($request->getLocale())
+				->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+				->setContent($this->renderView('@MaciPage/Contact/email.html.twig', ['contact' => $contact]))
+			;
+
+			$this->get('maci.mailer')->send($mail);
 
 			return $this->redirect($this->generateUrl(
-				'maci_page', array('path' => $this->get('maci.translator')->getRoute('contacts.message-sent', 'message-sent'))
+				'maci_page', ['path' => $mt->getRoute('contacts.message-sent', 'message-sent')]
 			));
 		}
 
-		return $this->render('MaciPageBundle:Contact:form.html.twig', array(
+		return $this->render('MaciPageBundle:Contact:form.html.twig', [
 			'form' => $form->createView(),
 			'send' => false
-		));
+		]);
 	}
 }

@@ -203,13 +203,7 @@ class Mail
 
 	public function getTypeLabel()
 	{
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
 	}
 
 	static public function getTypes()
@@ -224,11 +218,19 @@ class Mail
 	 */
 	public function setSender($sender, $header = false)
 	{
+		if (is_array($sender))
+		{
+			$mail = array_keys($sender)[0];
+			$this->sender = $mail;
+			$this->header = $sender[$mail];
+
+			return $this;
+		}
+
 		$this->sender = $sender;
 
-		if ($header) {
+		if ($header)
 			$this->header = $header;
-		}
 
 		return $this;
 	}
@@ -388,31 +390,108 @@ class Mail
 		return $this;
 	}
 
-	public function addRecipients($list)
+	public function getRecipients()
 	{
-		$recipients = $this->getRecipients();
+		$data = $this->getData();
+		return array_key_exists('recipients', $data) ? $data['recipients'] : false;
+	}
 
-		foreach ($list as $mail => $name) {
-			array_push($recipients, [
+	public function addRecipients($array)
+	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			$list = [];
+
+		foreach ($array as $mail => $name)
+		{
+			array_push($list, [
 				'name' => $name,
 				'mail' => $mail,
 				'sended' => false
 			]);
 		}
 
-		$this->data['recipients'] = $recipients;
+		$this->data['recipients'] = $list;
 
 		return $this;
 	}
 
-	public function getRecipients()
+	public function setSendedValues($datetime)
+	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			return;
+
+		for ($i = 0; $i < count($list); $i++)
+		{
+			if (!$list[$i]['sended'])
+				$list[$i]['sended'] = $datetime;
+		}
+
+		$this->data['recipients'] = $list;
+	}
+
+	public function getBcc()
 	{
 		$data = $this->getData();
+		return array_key_exists('bcc', $data) ? $data['bcc'] : false;
+	}
 
-		if (!is_array($data))
-			$this->data = [];
+	public function addBcc($list)
+	{
+		$list = $this->getBcc();
 
-		return array_key_exists('recipients', $data) ? $data['recipients'] : [];
+		if (!$list)
+			$list = [];
+
+		$list = array_merge($list, $list);
+
+		$this->data['bcc'] = $list;
+
+		return $this;
+	}
+
+	public function getReplyTo()
+	{
+		$data = $this->getData();
+		return array_key_exists('reply-to', $data) ? $data['reply-to'] : false;
+	}
+
+	public function setReplyTo($mail)
+	{
+		$data = $this->getData();
+		$data['reply-to'] = $mail;
+		$this->data = $data;
+
+		return $this;
+	}
+
+	public function getNotified()
+	{
+		$data = $this->getData();
+		return array_key_exists('notified', $data) ? $data['notified'] : false;
+	}
+
+	public function addNotified($array, $sended = false)
+	{
+		$list = $this->getNotified();
+
+		if (!$list)
+			$list = [];
+
+		foreach ($array as $mail => $name) {
+			array_push($list, [
+				'name' => $name,
+				'mail' => $mail,
+				'sended' => $sended
+			]);
+		}
+
+		$this->data['notified'] = $list;
+
+		return $this;
 	}
 
 	/**
@@ -573,6 +652,7 @@ class Mail
 	public function getSwiftMessage()
 	{
 		$message = (new \Swift_Message());
+		$data = $this->getData();
 
 		if ($this->subject)
 			$message->setSubject($this->subject);
@@ -580,9 +660,12 @@ class Mail
 		if ($this->sender)
 			$message->setFrom($this->sender, $this->header);
 
-		$recipients = $this->getRecipients();
+		$rt = $this->getReplyTo();
+		if ($rt)
+			$message->setReplyTo($rt);
 
-		foreach ($recipients as $recipient)
+		$recipients = $this->getRecipients();
+		if ($recipients) foreach ($recipients as $recipient)
 			$message->addTo($recipient['mail'], $recipient['name']);
 
 		if ($this->content)
@@ -594,8 +677,8 @@ class Mail
 		else if ($this->text)
 			$message->setBody($this->text, 'text/plain');
 
-		if (array_key_exists('bcc', $this->data))
-			$message->setBcc($this->data['bcc']);
+		if (array_key_exists('bcc', $data))
+			$message->setBcc($data['bcc']);
 
 		return $message;
 	}
@@ -619,6 +702,11 @@ class Mail
 
 	// 	return $message;
 	// }
+
+	public function isNew()
+	{
+		return !$this->id;
+	}
 
 	/**
 	 * toString()

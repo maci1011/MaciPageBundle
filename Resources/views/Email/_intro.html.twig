@@ -1,13 +1,17 @@
 
+{% if intro_message is not defined %}
+{% set intro_message = 'mail.incipit'|matra('Dear Customer,') %}
+{% endif %}
+
 <table class="main">
 <tbody>
 <tr>
 	<td class="order-status">
 
 		{% if subscriber is defined %}
-		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%')|replace({'%name%': subscriber.name}) }},</h4>
+		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%,')|replace({'%name%': subscriber.name}) }}</h4>
 		{% else %}
-		<h4>{{ 'mail.incipit'|matra('Dear Customer') }},</h4>
+		<h4>{{ intro_message }}</h4>
 		{% endif %}
 
 		{% if message is defined and message|length %}

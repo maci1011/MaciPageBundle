@@ -121,25 +121,17 @@ class Record
 
 	public function getTypeLabel()
 	{
-		if($this->type == "")
-			return array_search($this->getTypes()[0], $this->getTypeArray());
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
-	}
-
-	public function isPurchase()
-	{
-		return $this->type == 'purchas';
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
 	}
 
 	static public function getTypes()
 	{
 		return array_values(Record::getTypeArray());
+	}
+
+	public function isPurchase()
+	{
+		return $this->type == 'purchas';
 	}
 
 	/**

@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Payum\Core\Request\GetHumanStatus;
 use Payum\Paypal\ExpressCheckout\Nvp\Api;
 
-use Maci\MailerBundle\Entity\Mail;
-
+use Maci\PageBundle\Entity\Mailer\Mail;
+use Maci\PageBundle\Entity\Shop\RecordSet;
 use Maci\PageBundle\Entity\Order\Item;
 use Maci\PageBundle\Entity\Order\Order;
 use Maci\PageBundle\Entity\Order\Payment;
@@ -526,7 +526,10 @@ class OrderController extends AbstractController
 
 		// return new JsonResponse($params);
 
-		$set = $cart->confirmOrder($params);
+		$set = $this->getOrderSet($cart);
+
+		$cart->confirmOrder($set, $params);
+
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
 		$om->flush();
@@ -538,46 +541,48 @@ class OrderController extends AbstractController
 		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
 	}
 
-	public function sendNotify($cart, $recipients = false, $template = false)
+	public function getOrderSet($order)
+	{
+		$label = 'Order #' . $order->getId();
+		$set = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Shop\RecordSet')
+			->findOneByLabel($label);
+
+		if (!$set)
+		{
+			$set = new RecordSet();
+			$set->setLabel($label);
+			$set->setDescription($order->getName());
+		}
+
+		return $set;
+	}
+
+	public function sendNotify($order, $recipients = false, $template = false)
 	{
 		$mail = new Mail();
 		$mail
-			->setName($cart->getCode())
-			->setType('notify')
-			->setSubject('Order Confirmation')
-			->setSender($this->get('service_container')->getParameter('server_email'), $this->get('service_container')->getParameter('server_email_int'))
-			->addRecipients($recipients ? $recipients : $cart->getRecipient())
-			->setLocale($cart->getLocale())
-			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $cart]))
+			->setName('Order Confirm')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-placed', 'Order Placed'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($recipients ? $recipients : $order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
 		;
 
-		if ($cart->getUser())
+		if ($order->getUser())
 		{
-			if (!$cart->getMail()) $cart->setMail($cart->getUser()->getEmail());
-			$cart->setDescription('Order Placed by ' . $cart->getUser()->getUsername() . '.');
-			$mail->setUser($cart->getUser());
+			if (!$order->getMail()) $order->setMail($order->getUser()->getEmail());
+			$order->setDescription('Order Placed by ' . $order->getUser()->getUsername() . ' at ' . date_format(new \DateTime(), 'r'));
+			$mail->setUser($order->getUser());
 		}
 
-		// $message = $this->get('maci.mailer')->getSwiftMessage($mail);
-		$message = $mail->getSwiftMessage($mail);
-		$notify = clone $message;
-		// $mail->end();
-
-		$om = $this->getDoctrine()->getManager();
-		$om->persist($mail);
-		$om->flush();
-
-		// Send Mail
-
-		// ---> send message
-		if ($this->container->get('kernel')->getEnvironment() == "prod")
-			$this->get('mailer')->send($message);
-
-		$notify->addTo($this->get('service_container')->getParameter('order_email'), $this->get('service_container')->getParameter('order_email_int'));
-
-		// ---> send notify
-		if ($this->container->get('kernel')->getEnvironment() == "prod")
-			$this->get('mailer')->send($notify);
+		$this->get('maci.mailer')->send($mail, [
+			$this->get('service_container')->getParameter('order_email') => $this->get('service_container')->getParameter('order_email_int')
+		]);
 	}
 
 	public function checkoutCompleteAction(Request $request, $token)
@@ -677,7 +682,10 @@ class OrderController extends AbstractController
 	{
 		// $order->completeOrder();
 
+		$set = $this->getOrderSet($cart);
+
 		$set = $order->confirmOrder([]);
+
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
 		$om->flush();
@@ -690,7 +698,10 @@ class OrderController extends AbstractController
 
 	public function cancelOrder($order)
 	{
-		$set = $order->cancelOrder();
+		$set = $this->getOrderSet($order);
+
+		$order->cancelOrder($set);
+
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
 		$om->flush();

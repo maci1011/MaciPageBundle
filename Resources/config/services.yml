@@ -204,7 +204,7 @@ services:
     # Mailer
 
     Maci\PageBundle\Controller\MailerService:
-        arguments: ["@doctrine.orm.entity_manager","@request_stack","%locales%"]
+        arguments: ["@doctrine.orm.entity_manager","@mailer","%env(APP_ENV)%","%server_email%","%server_email_int%"]
 
     maci.mailer:
         alias: Maci\PageBundle\Controller\MailerService

@@ -1,0 +1,20 @@
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyFullPage">{% endblock %}
+
+{% block title %}
+{{ 'subscribed' | matla('Subscribtion Completed') }} - {{ company_title }}
+{% endblock %}
+
+{% block description %}
+<meta name="description" content="{{ 'subscribed' | matra("Thank you for signing up to our newsletter.") }}" />
+{% endblock %}
+
+{% block container %}
+<section class="message">
+<div class="container not-found-page">
+	<h1>{{ 'subscribed' | matla('Subscribtion Completed') }}</h1>
+	<p>{{ 'subscribed' | matra("Thank you for signing up to our newsletter.") }}</p>
+</div>
+</section>
+{% endblock %}

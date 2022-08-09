@@ -1,0 +1,21 @@
+<html>
+<head>
+<style type="text/css">
+
+{% include "@MaciPage/Email/mail.style.css" %}
+
+</style>
+</head>
+<body>
+
+{% include "@MaciPage/Email/_header.html.twig" %}
+
+{% include "@MaciPage/Email/_intro.html.twig" with {
+	'intro_message': 'message'|matla('Message') ~ ':',
+	'message': contact.message
+} %}
+
+{% include "@MaciPage/Email/_footer.html.twig" %}
+
+</body>
+</html>

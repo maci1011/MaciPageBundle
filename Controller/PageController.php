@@ -103,7 +103,9 @@ class PageController extends AbstractController
 	public function getTemplateByPath($path)
 	{
 		$templates = [
-			'message-sent' => '@MaciPage/Page/message-sent.html.twig',
+			'subscribe-completed' => '@MaciPage/Page/subscribed.html.twig',
+			'subscribtion-completed' => '@MaciPage/Page/subscribed.html.twig',
+			'message-sent' => '@MaciPage/Page/message_sent.html.twig',
 			'unsubscribed' => '@MaciPage/Page/unsubscribed.html.twig',
 			'customer-service' => '@MaciPage/Terms/customer_service.html.twig',
 			'shopping-guide' => '@MaciPage/Terms/shopping_guide.html.twig',

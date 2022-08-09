@@ -11,7 +11,7 @@ use Orderly\PayPalIpnBundle\Ipn;
 use Orderly\PayPalIpnBundle\Event as Events;
 
 use Maci\PageBundle\Entity\Order\Order;
-use Maci\MailerBundle\Entity\Mail;
+use Maci\PageBundle\Entity\Mailer\Mail;
 
 /*
  * Copyright 2012 Orderly Ltd 

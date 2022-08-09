@@ -101,6 +101,16 @@ class Contact
 	}
 
 	/**
+	 * Get name
+	 *
+	 * @return string 
+	 */
+	public function getFullName()
+	{
+		return $this->surname . ' ' . $this->name;
+	}
+
+	/**
 	 * Set email
 	 *
 	 * @param string $email

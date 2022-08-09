@@ -4,6 +4,7 @@ namespace Maci\PageBundle\Entity\Order;
 
 use Doctrine\ORM\Mapping as ORM;
 use Maci\PageBundle\Entity\Order\Item;
+use Maci\PageBundle\Entity\Shop\RecordSet;
 
 /**
  * Order
@@ -1183,7 +1184,7 @@ class Order
 		return $this->getPickupInStoreParameters($editAction);
 	}
 
-	public function confirmOrder($params = [])
+	public function confirmOrder(RecordSet $set, $params = [])
 	{
 		$this->subItemsQuantity();
 
@@ -1195,21 +1196,16 @@ class Order
 
 		$this->status = 'confirm';
 
-		$this->exportSaleRecords();
+		$this->exportSaleRecords($set);
 
 		$this->addActionData(array_merge($params, [
 			'_action' => 'confirmOrder',
 			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
 		]));
-
-		return $this->export_set;
 	}
 
-	public function exportSaleRecords()
+	public function exportSaleRecords(RecordSet $set)
 	{
-		$set = new \Maci\PageBundle\Entity\Shop\RecordSet();
-		$set->setLabel('Order #' . $this->getId() . ' Sale');
-		$set->setDescription($this->getName());
 		$errors = [];
 
 		foreach ($this->getItems() as $key => $item)
@@ -1224,8 +1220,12 @@ class Order
 			$set->addChild($record);
 		}
 
-		$this->export_set = $set;
 		$this->export_errors = $errors;
+	}
+
+	public function getExportErrors()
+	{
+		return $this->export_errors;
 	}
 
 	public function completeOrder()
@@ -1233,23 +1233,18 @@ class Order
 		$this->status = 'complete';
 	}
 
-	public function cancelOrder($params = [])
+	public function cancelOrder(RecordSet $set, $params = [])
 	{
-		$this->exportReturnRecords();
+		$this->exportReturnRecords($set);
 
 		$this->addActionData(array_merge([
 			'_action' => 'cancelOrder',
 			'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
 		], $params));
-
-		return $this->export_set;
 	}
 
-	public function exportReturnRecords()
+	public function exportReturnRecords(RecordSet $set)
 	{
-		$set = new \Maci\PageBundle\Entity\Shop\RecordSet();
-		$set->setLabel('Order #' . $this->getId() . ' Return');
-		$set->setDescription($this->getName());
 		$errors = [];
 
 		foreach ($this->getItems() as $key => $item)
@@ -1264,7 +1259,6 @@ class Order
 			$set->addChild($record);
 		}
 
-		$this->export_set = $set;
 		$this->export_errors = $errors;
 	}
 
