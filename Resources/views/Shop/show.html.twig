@@ -13,7 +13,7 @@
 <meta property="og:locale" content="{{ item.locale }}" />
 
 {% if item.preview %}
-<meta property="og:image" content="{{ asset(item.webPreview | imagine_filter('maci_media_preview')) }}" />
+<meta property="og:image" content="{{ asset(item.webPreview|imagine_filter('maci_product_preview')) }}" />
 {% endif %}
 
 {% if item.description %}

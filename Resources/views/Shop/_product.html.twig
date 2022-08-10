@@ -16,7 +16,7 @@
 			{% if item.preview %}
 
 			<a class="product-preview d-block" href="{{ path('maci_media_get', {'path': item.preview.path}) }}" data-lightbox="product-preview" data-title="{{ item.preview }}">
-				<img class="img-fluid mx-auto d-block" src="{{ asset(item.preview.webPreview | imagine_filter('maci_product_preview')) }}" title="{{ item.preview.name }}" alt="{{ item.preview.description ? item.preview.description : 'product.media_preview'|matra('Photo of the Product') }}" />
+				<img class="img-fluid mx-auto d-block" src="{{ asset(item.preview.webPreview|imagine_filter('maci_product_preview')) }}" title="{{ item.preview.name }}" alt="{{ item.preview.description ? item.preview.description : 'product.media_preview'|matra('Photo of the Product') }}" />
 			</a>
 
 			{% endif %}
