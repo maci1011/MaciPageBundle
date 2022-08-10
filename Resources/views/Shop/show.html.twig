@@ -1,37 +1,49 @@
-
 {% extends "@MaciPage/Layout/shop.html.twig" %}
 
-
 {% block maciadmin %}
-
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'product', 'item': item } )) }}
-
 {% endblock %}
 
+{% block metaData %}
+
+<meta property="og:title" content="{{ item.name }}" />
+<meta property="og:site_name" content="{{ url('homepage') }}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{{ url('maci_blog_show', { 'path': item.path, '_locale': item.locale }) }}" />
+<meta property="og:locale" content="{{ item.locale }}" />
+
+{% if item.preview %}
+<meta property="og:image" content="{{ asset(item.webPreview | imagine_filter('maci_media_preview')) }}" />
+{% endif %}
+
+{% if item.description %}
+<meta property="og:description" content="{{ item.description|striptags }}" />
+{% elseif item.composition %}
+<meta property="og:description" content="{{ item.composition|striptags }}" />
+{% endif %}
+
+<meta property="og:article:author" content="{{ company_title }}" />
+<meta property="og:article:pubblished_time" content="{{ item.updated|date('c') }}" />
+
+{% endblock metaData %}
 
 {% block title %}
-
 {% if item.metaTitle %}
 {{ item.metaTitle }}
 {% else %}
 {{ item }}
 {% endif %}
-
 {% endblock %}
 
 {% block description %}
-
 {% if item.metaDescription %}
 <meta name="description" content="{{ item.metaDescription }}" />
 {% else %}
 <meta name="description" content="{{ item.description }}" />
 {% endif %}
-
 {% endblock %}
 
 
 {% block container %}
-
 {% include "MaciPageBundle:Shop:_product.html.twig" %}
-
 {% endblock %}
