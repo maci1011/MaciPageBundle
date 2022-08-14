@@ -23,7 +23,8 @@ services:
         class: Maci\PageBundle\Menu\BlogMenuBuilder
         arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager","@request_stack"]
         tags:
-            - { name: knp_menu.menu_builder, method: createLeftMenu, alias: blog_left }
+            - { name: knp_menu.menu_builder, method: createTagMenu, alias: blog_tag }
+            - { name: knp_menu.menu_builder, method: createAuthorMenu, alias: blog_author }
 
     # ---> Media
 

@@ -1,27 +1,5 @@
 {% extends "@MaciPage/base.html.twig" %}
 
-{% block javascripts %}
-
-	{{ parent() }}
-
-<script type="text/javascript">
-
-	$('#sidebar > .dismiss, #main > .overlay').on('click', function () {
-		$('#sidebar').removeClass('active');
-		$('#main > .overlay').fadeOut(600);
-	});
-
-	$('#sidebarCollapse').on('click', function () {
-		$('#sidebar').addClass('active');
-		$('#main > .overlay').fadeIn(600);
-		$('.collapse.in').removeClass('in');
-		$('a[aria-expanded=true]').attr('aria-expanded', 'false');
-	});
-
-</script>
-
-{% endblock javascripts %}
-
 {% block bodyTag %}<body id="bodyBlog">{% endblock %}
 
 {% block body %}
@@ -63,8 +41,13 @@
 	<div id="sidebarWrapper" class="navbar-expand-lg navbar-dark bg-dark">
 
 		{% block leftMenu %}
+		<h3>{{ 'blog.tag'|matla('Tag') }}:</h3>
 		<nav>
-			{{ knp_menu_render('blog_left', {'currentClass': 'active'}) }}
+			{{ knp_menu_render('blog_tag', {'currentClass': 'active'}) }}
+		</nav>
+		<h3>{{ 'blog.authors'|matla('Authors') }}:</h3>
+		<nav>
+			{{ knp_menu_render('blog_author', {'currentClass': 'active'}) }}
 		</nav>
 		{% endblock leftMenu %}
 
@@ -140,3 +123,25 @@
 <!-- /#Main -->
 
 {% endblock body %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+
+<script type="text/javascript">
+
+	$('#sidebar > .dismiss, #main > .overlay').on('click', function () {
+		$('#sidebar').removeClass('active');
+		$('#main > .overlay').fadeOut(600);
+	});
+
+	$('#sidebarCollapse').on('click', function () {
+		$('#sidebar').addClass('active');
+		$('#main > .overlay').fadeIn(600);
+		$('.collapse.in').removeClass('in');
+		$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+	});
+
+</script>
+
+{% endblock javascripts %}

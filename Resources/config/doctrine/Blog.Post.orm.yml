@@ -66,9 +66,9 @@ Maci\PageBundle\Entity\Blog\Post:
             type: boolean
     manyToOne:
         author:
-            targetEntity: Maci\UserBundle\Entity\User
+            targetEntity: Maci\PageBundle\Entity\Blog\Author
             joinColumn:
-                name: user_id
+                name: author_id
                 referencedColumnName: id
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media

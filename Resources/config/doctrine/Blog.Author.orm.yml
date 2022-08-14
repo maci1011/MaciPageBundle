@@ -1,0 +1,36 @@
+
+Maci\PageBundle\Entity\Blog\Author:
+    type:  entity
+    table: maci_blog_author
+    repositoryClass: Maci\PageBundle\Repository\Blog\AuthorRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        description:
+            type: text
+            nullable: true
+        path:
+            type: string
+            length: 63
+        locale:
+            type: string
+            length: 10
+    manyToOne:
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        preview:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+    oneToMany:
+        posts:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            mappedBy: author
+            orderBy: { 'created': DESC }

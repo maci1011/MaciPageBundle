@@ -21,7 +21,7 @@ class BlogMenuBuilder
         $this->request = $requestStack->getCurrentRequest();
 	}
 
-    public function createLeftMenu(array $options)
+    public function createTagMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -32,10 +32,31 @@ class BlogMenuBuilder
 
 		foreach ($tags as $tag) {
 
-			$menu->addChild($tag->getName(), array(
+			$menu->addChild($tag->getName(), [
 			    'route' => 'maci_blog_tag',
-			    'routeParameters' => array('path' => $tag->getPath())
-			));
+			    'routeParameters' => ['path' => $tag->getPath()]
+			]);
+
+		}
+
+		return $menu;
+	}
+
+    public function createAuthorMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav flex-column');
+
+		$authors = $this->om->getRepository('MaciPageBundle:Blog\Author')
+			->getlist($this->request->getLocale());
+
+		foreach ($authors as $author) {
+
+			$menu->addChild($author->getName(), [
+			    'route' => 'maci_blog_author',
+			    'routeParameters' => ['path' => $author->getPath()]
+			]);
 
 		}
 

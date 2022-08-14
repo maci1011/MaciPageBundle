@@ -111,9 +111,8 @@ class MailerController extends AbstractController
 
 	public function getSubscribeForm(&$subscriber)
 	{
-		if (!$subscriber) {
+		if (!$subscriber)
 			$subscriber = new Subscriber;
-		}
 		
 		$choices = [];
 		$choices[ucfirst(Locales::getName('it'))] = 'it';

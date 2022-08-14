@@ -93,7 +93,7 @@ class Post
 	private $removed;
 
 	/**
-	 * @var \Maci\UserBundle\Entity\User
+	 * @var \Maci\PageBundle\Entity\Blog\Author
 	 */
 	private $author;
 
@@ -108,7 +108,7 @@ class Post
 	private $items;
 
 	/**
-	 * @var \Maci\PageBundle\Entity\Media
+	 * @var \Maci\PageBundle\Entity\Media\Media
 	 */
 	private $preview;
 
@@ -526,10 +526,10 @@ class Post
 	/**
 	 * Set author
 	 *
-	 * @param \Maci\UserBundle\Entity\User $author
+	 * @param \Maci\PageBundle\Entity\Blog\Author $author
 	 * @return Post
 	 */
-	public function setAuthor(\Maci\UserBundle\Entity\User $author = null)
+	public function setAuthor(\Maci\PageBundle\Entity\Blog\Author $author = null)
 	{
 		$this->author = $author;
 
@@ -539,7 +539,7 @@ class Post
 	/**
 	 * Get author
 	 *
-	 * @return \Maci\UserBundle\Entity\User 
+	 * @return \Maci\PageBundle\Entity\Blog\Author 
 	 */
 	public function getAuthor()
 	{

@@ -1,0 +1,35 @@
+{% extends "@MaciPage/Layout/blog.html.twig" %}
+
+{% block maciadmin %}
+{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_author', 'item': author } )) }}
+{% endblock %}
+
+{% block title %}
+{{ author.name }}
+{% endblock %}
+
+{% block description %}
+<meta name="description" content="{{ author.description }}" />
+{% endblock %}
+
+{% block pathBar %}
+<nav class="breadcrumb-wrapper" aria-label="breadcrumb">
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+    	<a href="{{ path('maci_blog') }}">
+    		{{ 'page.blog' | matme('Blog') }}
+    	</a>
+    </li>
+    <li class="breadcrumb-item">
+    	{{ 'blog.author' | matme('Author') }}
+    </li>
+    <li class="breadcrumb-item active">
+    	{{ author }}
+    </li>
+</ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% include "@MaciPage/Blog/_list.html.twig" %}
+{% endblock %}

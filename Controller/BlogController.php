@@ -28,13 +28,30 @@ class BlogController extends AbstractController
 		$tag = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Tag')
 			->findOneByPath($path);
 
-		if (!$tag) {
+		if (!$tag)
 			return $this->redirect($this->generateUrl('maci_blog'));
-		}
 
 		return $this->render('@MaciPage/Blog/tag.html.twig', array(
 			'tag' => $tag
 		));
+	}
+
+	public function authorAction($path)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$author = $om->getRepository('MaciPageBundle:Blog\Author')
+			->findOneByPath($path);
+
+		if (!$author)
+			return $this->redirect($this->generateUrl('maci_blog'));
+
+		$list = $om->getRepository('MaciPageBundle:Blog\Post')
+			->getByAuthor($author);
+
+		return $this->render('@MaciPage/Blog/author.html.twig', [
+			'list' => $list,
+			'author' => $author
+		]);
 	}
 
 	public function showAction(Request $request, $path)

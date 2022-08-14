@@ -46,6 +46,22 @@ class PostRepository extends EntityRepository
 		return $q->getQuery()->getResult();
 	}
 
+	public function getByAuthor($author)
+	{
+		$q = $this->createQueryBuilder('p');
+		$q
+			->leftJoin('p.author', 'a')
+			->where('a.id = :id')
+			->setParameter('id', $author->getId())
+			->andWhere('p.removed = :removed')
+			->setparameter(':removed', false)
+			->andWhere('p.status = :status')
+			->setparameter(':status', 'pubblished')
+			->orderBy('p.created', 'DESC')
+			;
+		return $q->getQuery()->getResult();
+	}
+
 	public function getPaged($limit, $page)
 	{
 		$offset = ($page - 1) * $limit;
@@ -73,24 +89,24 @@ class PostRepository extends EntityRepository
 		return $q->getQuery()->getSingleScalarResult();
 	}
 
-    public function search($request)
-    {
-        $query = $request->get('query');
-        $locale = $request->get('_locale');
-        $search = $this->createQueryBuilder('p')
-            ->leftJoin('p.translations', 't')
-            ->where('t.title LIKE :query')
-            ->orWhere('t.subtitle LIKE :query')
-            ->orWhere('t.header LIKE :query')
-            ->orWhere('t.content LIKE :query')
-            ->setParameter(':query', "%$query%")
-            ->andWhere('t.locale = :locale')
-            ->setParameter(':locale', $locale)
+	public function search($request)
+	{
+		$query = $request->get('query');
+		$locale = $request->get('_locale');
+		$search = $this->createQueryBuilder('p')
+			->leftJoin('p.translations', 't')
+			->where('t.title LIKE :query')
+			->orWhere('t.subtitle LIKE :query')
+			->orWhere('t.header LIKE :query')
+			->orWhere('t.content LIKE :query')
+			->setParameter(':query', "%$query%")
+			->andWhere('t.locale = :locale')
+			->setParameter(':locale', $locale)
 			->andWhere('p.status = :status')
 			->setparameter(':status', 'pubblished')
-            ->getQuery()
-        ;
+			->getQuery()
+		;
 
-        return $search->getResult();
-    }
+		return $search->getResult();
+	}
 }

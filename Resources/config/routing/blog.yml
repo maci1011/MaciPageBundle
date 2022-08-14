@@ -7,6 +7,13 @@ maci_blog_post_shortlink:
     path:  /p/{link}
     defaults: { _controller: MaciPageBundle:Blog:postShortlink }
 
+maci_blog_author:
+    path:  /{_locale}/blog/author/{path}
+    defaults: { _controller: MaciPageBundle:Blog:author }
+    requirements:
+        _locale: "%r_locales%"
+        path: .+
+
 maci_blog_tag:
     path:  /{_locale}/blog/{path}
     defaults: { _controller: MaciPageBundle:Blog:tag }
