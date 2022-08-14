@@ -25,15 +25,20 @@ class BlogController extends AbstractController
 
 	public function tagAction($path)
 	{
-		$tag = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Tag')
+		$om = $this->getDoctrine()->getManager();
+		$tag = $om->getRepository('MaciPageBundle:Blog\Tag')
 			->findOneByPath($path);
 
 		if (!$tag)
 			return $this->redirect($this->generateUrl('maci_blog'));
 
-		return $this->render('@MaciPage/Blog/tag.html.twig', array(
+		$list = $om->getRepository('MaciPageBundle:Blog\Post')
+			->getByTag($tag);
+
+		return $this->render('@MaciPage/Blog/tag.html.twig', [
+			'list' => $list,
 			'tag' => $tag
-		));
+		]);
 	}
 
 	public function authorAction($path)
