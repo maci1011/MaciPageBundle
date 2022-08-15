@@ -162,28 +162,6 @@ class MailerController extends AbstractController
 		));
 	}
 
-	public function sendPageAction()
-	{
-		$list = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer\Mail')
-			->findBy(['sended' => false, 'removed' => false], ['id' => 'DESC']);
-
-		return $this->render('@MaciPage/Mailer/send_page.html.twig', [
-			'list' => $list
-		]);
-	}
-
-	public function sendMailAction($token)
-	{
-		$item = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer\Mail')
-			->findOneByToken($token);
-
-		return $this->render('@MaciPage/Mailer/send_mail.html.twig', [
-			'item' => $item
-		]);
-	}
-
 	public function templatesAction()
 	{
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
@@ -228,23 +206,51 @@ class MailerController extends AbstractController
 		return $subscribers[rand(0,count($subscribers) - 1)];
 	}
 
+	public function sendPageAction()
+	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$list = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Mail')
+			->findBy(['sended' => false, 'removed' => false], ['id' => 'DESC']);
+
+		return $this->render('@MaciPage/Mailer/send_page.html.twig', [
+			'list' => $list
+		]);
+	}
+
+	public function sendMailAction($token)
+	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$item = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Mail')
+			->findOneByToken($token);
+
+		return $this->render('@MaciPage/Mailer/send_mail.html.twig', [
+			'item' => $item
+		]);
+	}
+
 	public function getNextsAction(Request $request)
 	{
-		if (!$request->isXmlHttpRequest()) {
-			return $this->redirect($this->generateUrl('homepage'));
-		}
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
 
-		if ($request->getMethod() !== 'POST') {
+		if (!$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		if ($request->getMethod() !== 'POST')
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
-		}
 
 		$mail = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneById($request->get('id'));
 
-		if (!$mail) {
+		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
-		}
 
 		$data = $mail->getData();
 		$list = [];
@@ -258,30 +264,29 @@ class MailerController extends AbstractController
 			}
 		}
 
-		if (!count($list)) {
+		if (!count($list))
 			return new JsonResponse(['success' => true, 'end' => true], 200);
-		}
 
 		return new JsonResponse(['success' => true, 'list' => $list]);
 	}
 
 	public function sendNextAction(Request $request)
 	{
-		if (!$request->isXmlHttpRequest()) {
-			return $this->redirect($this->generateUrl('homepage'));
-		}
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
 
-		if ($request->getMethod() !== 'POST') {
+		if (!$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		if ($request->getMethod() !== 'POST')
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
-		}
 
 		$mail = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneById($request->get('id'));
 
-		if (!$mail) {
+		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
-		}
 
 		$data = $mail->getData();
 
@@ -348,6 +353,9 @@ class MailerController extends AbstractController
 
 	public function importAction()
 	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
 		return $this->render('@MaciPage/Mailer/import.html.twig');
 	}
 }

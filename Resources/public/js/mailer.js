@@ -63,7 +63,7 @@ var maciPage = function (options) {
 			// data: {},
 			// url: '/mcm/view/mails/mail/show/' + mailId,
 			success: function(d,s,x) {
-				mail = d.data.item;
+				mail = d.item;
 				recipients = [];
 				sent = [];
 				if (mail.data && mail.data.recipients) {
@@ -238,8 +238,8 @@ var maciPage = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				if (Array.isArray(d.data.list) && d.data.list.length) {
-					subscribers = d.data.list;
+				if (Array.isArray(d.list) && d.list.length) {
+					subscribers = d.list;
 					_obj.getMail(mailId);
 				} else {
 					$('#content').html('');
