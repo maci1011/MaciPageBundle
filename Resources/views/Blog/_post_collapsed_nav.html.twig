@@ -10,12 +10,19 @@
 		</li>
 		{% endif %}
 
-		{% if post.editors %}
+		{% if post.editors|length %}
 		<li class="nav-item first">
 			<p class="post-author post-nav-val navbar-text px-2">
 				{% for editor in post.editors %}
 				{{ editor.name ~ (loop.last ? '' : ', ') }}
 				{% endfor %}
+			</p>
+		</li>
+		{% else %}
+		<li class="nav-item">
+			<p class="navbar-text">
+				<span class="post-author post-nav-label">{{ 'blog.author'|matra('Author') }}:</span>
+				<span class="post-author post-nav-val">{{ company_title }}</span>
 			</p>
 		</li>
 		{% endif %}
