@@ -50,7 +50,8 @@ class PostRepository extends EntityRepository
 	{
 		$q = $this->createQueryBuilder('p');
 		$q
-			->leftJoin('p.author', 'a')
+			->leftJoin('p.editors', 'e')
+			->leftJoin('e.author', 'a')
 			->where('a.id = :id')
 			->setParameter('id', $author->getId())
 			->andWhere('p.removed = :removed')
