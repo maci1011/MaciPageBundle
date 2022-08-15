@@ -105,9 +105,17 @@ class ShopController extends AbstractController
 
 	public function lastProductsAction(Request $request)
 	{
-		return $this->render('@MaciPage/Shop/last_products.html.twig', array(
+		return $this->render('@MaciPage/Shop/last_products.html.twig', [
 			'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
 				->getLatestProducts(4)
-		));
+		]);
+	}
+
+	public function lastProductsMailAction(Request $request)
+	{
+		return $this->render('@MaciPage/Email/_last_products.html.twig', [
+			'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')
+				->getLatestProducts(6)
+		]);
 	}
 }

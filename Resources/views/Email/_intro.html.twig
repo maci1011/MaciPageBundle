@@ -10,7 +10,7 @@
 
 		{% if subscriber is defined %}
 		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%,')|replace({'%name%': subscriber.name}) }}</h4>
-		{% else %}
+		{% elseif intro_message|length %}
 		<h4>{{ intro_message }}</h4>
 		{% endif %}
 

@@ -165,6 +165,8 @@ class Slide
 			'Default' => 'default',
 			'Header' => 'header',
 			'Gallery' => 'gallery',
+			'Last Products' => 'last_products',
+			'Footer' => 'footer',
 			'Foo' => 'foo'
 		];
 	}

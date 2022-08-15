@@ -1,0 +1,54 @@
+
+{% if list|length %}
+
+<table class="main">
+<tbody>
+
+<tr>
+
+{% for item in list %}
+
+<td class="media" width="50%">
+
+{% if item.preview is defined and item.preview %}
+
+<div class="preview">
+<a href="{{ path('maci_product_show', {'path': item.path}) }}">
+	<img class="img-fluid" src="{{ asset(item.preview.webPath | imagine_filter('maci_product_preview')) }}" title="{{ item.name }} {{ item.description }}" alt="{{ item.name }} {{ item.description }}" />
+</a>
+</div>
+
+{% endif %}
+
+<div class="content">
+
+<a href="{{ path('maci_product_show', {'path': item.path}) }}">
+	<h4 class="product-title">{{ item.name }}</h4>
+</a>
+
+{% if item.price %}
+<h5 class="product-price">
+	{% if item.sale %}
+	<span class="product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+	<span class="product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+	{% else %}
+	<span class="product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+	{% endif %}
+</h5>
+{% endif %}
+
+</td>
+
+{% if ( loop.index % 2 ) == 0 %}
+</tr>
+<tr>
+{% endif %}
+
+{% endfor %}
+
+</tr>
+
+</tbody>
+</table>
+
+{% endif %}

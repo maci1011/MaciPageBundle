@@ -29,17 +29,34 @@ class MailerController extends AbstractController
 		return $this->render('@MaciPage/Mailer/user_mails.html.twig', array('list' => $list));
 	}
 
+	public function adminShowAction($token)
+	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$mail = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Mailer\Mail')
+			->findOneByToken($token);
+
+		$subscriber = $this->getARandomSubscriber();
+
+		return $this->render('@MaciPage/Mailer/show.html.twig', [
+			'mail' => $mail,
+			'subscriber' => $subscriber
+		]);
+	}
+
 	public function showAction($token)
 	{
 		$mail = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneByToken($token);
 
-		$user = $this->getUser();
+		if (!$mail->isPublic())
+			return $this->redirect($this->generateUrl('maci_homepage'));
 
 		return $this->render('@MaciPage/Mailer/show.html.twig', [
-			'mail' => $mail,
-			'user' => $user
+			'mail' => $mail
 		]);
 	}
 

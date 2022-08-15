@@ -2,20 +2,17 @@
 <table>
 <tbody>
 
+{% if item.media %}
 <tr>
 	<td class="center">
 		<img class="default img-fluid" src="{{ path('maci_media_get', {'path': item.media.path}) }}" alt="{{ item.media }}" />
 	</td>
 </tr>
+{% endif %}
 
 <tr>
 	<td>
 		<h2 class="default item-title">{{ item.title }}</h2>
-	</td>
-</tr>
-
-<tr>
-	<td>
 		<p class="default item-content">{{ item.content }}</p>
 	</td>
 </tr>

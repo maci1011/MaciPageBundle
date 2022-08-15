@@ -417,7 +417,7 @@ class Mail
 		return $this;
 	}
 
-	public function addSubscriber($array)
+	public function addSubscribers($array)
 	{
 		$list = $this->getRecipients();
 
