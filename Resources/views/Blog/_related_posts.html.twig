@@ -1,21 +1,29 @@
 
-<ul class="related-posts">
+<div class="related-posts">
+<table class="table-list">
+<tbody>
 
 {% for related_item in list %}
 
 {% set related_post = post.id == related_item.sourcePost.id ? related_item.targetPost : related_item.sourcePost %}
 
-<li>
+<tr>
+<td class="list-preview">
+	{% if related_post.preview %}
+	<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
+	{% else %}
+	<img class="related-post-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
+	{% endif %}
+</td>
+<td class="list-content">
 	<a href="{{ path('maci_blog_show', { 'path': related_post.path, '_locale': related_post.locale }) }}">
-		{% if related_post.preview %}
-		<img class="related-post-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
-		{% else %}
-		<img class="related-post-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
-		{% endif %}
 		<span class="related-post-title">{{ related_post.title }}</span>
 	</a>
-</li>
+</td>
+</tr>
 
 {% endfor %}
 
-</ul>
+</tbody>
+</table>
+</div>
