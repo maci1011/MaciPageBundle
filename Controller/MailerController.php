@@ -74,15 +74,15 @@ class MailerController extends AbstractController
 
 			$mail = new Mail();
 			$mail
-				->setName('SubscriptionCompleted Message')
+				->setName('SubscriptionCompleted')
 				->setType('message')
 				->setSubject($mt->getLabel('newsletter.subscribtion-completed.mail-title', 'Subscription Completed'))
 				->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
 				->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
-				->addRecipients($subscriber->getRecipient())
+				->addSubscribers([$subscriber])
 				->setLocale($request->getLocale())
-				// ->setText($this->renderView('@MaciPage/Contact/subscription_complete.txt.twig', ['subscriber' => $subscriber]))
-				->setContent($this->renderView('@MaciPage/Contact/subscription_complete.html.twig', ['subscriber' => $subscriber]))
+				// ->setText($this->renderView('@MaciPage/Email/subscription_complete.txt.twig', ['subscriber' => $subscriber]))
+				->setContent($this->renderView('@MaciPage/Email/subscription_complete.html.twig', ['subscriber' => $subscriber]))
 			;
 
 			$this->get('maci.mailer')->send($mail);

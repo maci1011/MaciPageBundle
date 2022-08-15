@@ -37,7 +37,7 @@ class MailerService extends AbstractController
 	{
 		$message = $mail->getSwiftMessage($mail);
 
-		if (!$message->getTo())
+		if (!$message)
 			return false;
 
 		if (!$message->getFrom())
@@ -49,7 +49,7 @@ class MailerService extends AbstractController
 		if ($this->env == "prod")
 			$this->mailer->send($message);
 
-		$mail->setSendedValues(date_format(new \DateTime(), 'r'));
+		$mail->setSendedValues();
 
 		if ($mail->isNew())
 			$this->om->persist($mail);

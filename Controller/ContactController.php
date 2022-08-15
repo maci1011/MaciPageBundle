@@ -47,7 +47,7 @@ class ContactController extends AbstractController
 
 			$mail = new Mail();
 			$mail
-				->setName('ContactForm Message')
+				->setName('ContactForm')
 				->setType('message')
 				->setSubject(str_replace('%name%', $contact->getFullName(), $mt->getLabel('contacts.mail-title', 'New Messagge from %name%!')))
 				->setReplyTo($contact->getRecipient())

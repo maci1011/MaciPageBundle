@@ -417,8 +417,31 @@ class Mail
 		return $this;
 	}
 
-	public function setSendedValues($datetime)
+	public function addSubscriber($array)
 	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			$list = [];
+
+		foreach ($array as $subscriber)
+		{
+			array_push($list, [
+				'name' => $subscriber->getFullName(),
+				'mail' => $subscriber->getMail(),
+				'sended' => false,
+				'subscriber' => ('#' . $subscriber->getId())
+			]);
+		}
+
+		$this->data['recipients'] = $list;
+
+		return $this;
+	}
+
+	public function setSendedValues()
+	{
+		$datetime = date_format(new \DateTime(), 'r');
 		$list = $this->getRecipients();
 
 		if (!$list)
@@ -431,6 +454,7 @@ class Mail
 		}
 
 		$this->data['recipients'] = $list;
+		$this->sended = true;
 	}
 
 	public function getBcc()
@@ -651,22 +675,21 @@ class Mail
 
 	public function getSwiftMessage()
 	{
+		$recipients = $this->getRecipients();
+
+		if (!$recipients)
+			return null;
+
 		$message = (new \Swift_Message());
-		$data = $this->getData();
+
+		foreach ($recipients as $recipient)
+			$message->addTo($recipient['mail'], $recipient['name']);
 
 		if ($this->subject)
 			$message->setSubject($this->subject);
 
 		if ($this->sender)
 			$message->setFrom($this->sender, $this->header);
-
-		$rt = $this->getReplyTo();
-		if ($rt)
-			$message->setReplyTo($rt);
-
-		$recipients = $this->getRecipients();
-		if ($recipients) foreach ($recipients as $recipient)
-			$message->addTo($recipient['mail'], $recipient['name']);
 
 		if ($this->content)
 		{
@@ -677,8 +700,13 @@ class Mail
 		else if ($this->text)
 			$message->setBody($this->text, 'text/plain');
 
-		if (array_key_exists('bcc', $data))
-			$message->setBcc($data['bcc']);
+		$val = $this->getReplyTo();
+		if ($val)
+			$message->setReplyTo($val);
+
+		$val = $this->getBcc();
+		if ($val)
+			$message->setBcc($val);
 
 		return $message;
 	}
