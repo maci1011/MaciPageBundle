@@ -177,6 +177,16 @@ class Subscriber
 	}
 
 	/**
+	 * Get full name
+	 *
+	 * @return string 
+	 */
+	public function getFullName()
+	{
+		return $this->surname . ' ' . $this->name;
+	}
+
+	/**
 	 * Get header
 	 *
 	 * @return string 
@@ -260,6 +270,14 @@ class Subscriber
 	public function getMail()
 	{
 		return $this->mail;
+	}
+
+	public function getRecipient()
+	{
+		if (!$this->mail)
+			return null;
+
+		return [$this->mail => $this->getFullName()];
 	}
 
 	/**

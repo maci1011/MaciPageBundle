@@ -101,7 +101,7 @@ class Contact
 	}
 
 	/**
-	 * Get name
+	 * Get full name
 	 *
 	 * @return string 
 	 */
@@ -128,6 +128,14 @@ class Contact
 	public function getEmail()
 	{
 		return $this->email;
+	}
+
+	public function getRecipient()
+	{
+		if (!$this->email)
+			return null;
+
+		return [$this->email => $this->getFullName()];
 	}
 
 	/**
