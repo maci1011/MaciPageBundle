@@ -1,15 +1,51 @@
 
-{% if post.author %}
 <nav class="post-author-nav navbar navbar-expand flex-column">
 	<ul class="navbar-nav mr-auto">
 
+		{% if post.editors|length %}
+
+		{% if post.authors|length %}
 		<li class="nav-item">
 			<p class="navbar-text">
-				<span class="post-author post-nav-label">{{ 'blog.post.author' | matra('Author') }}:</span>
-				<span class="post-author post-nav-val">{{ post.author }}</span>
+				{% if post.authors|length == 1 %}
+				<span class="post-author post-nav-label">{{ 'blog.author'|matra('Author') }}:</span>
+				<span class="post-author post-nav-val">{{ post.author.name|raw }}</span>
+				{% else %}
+				<span class="post-author post-nav-label">{{ 'blog.authors'|matra('Authors') }}:</span>
+				{% for author in post.authors %}
+				<span class="post-author post-nav-val">{{ (author.name ~ (loop.last ? '' : ', '))|raw }}</span>
+				{% endfor %}
+				{% endif %}
+			</p>
+		</li>
+		{% endif %}
+
+		{% if post.translators|length %}
+		<li class="nav-item">
+			<p class="navbar-text">
+				{% if post.translators|length == 1 %}
+				<span class="post-author translator post-nav-label">{{ 'blog.translator'|matra('Translator') }}:</span>
+				<span class="post-author translator post-nav-val">{{ translator.name|raw }}</span>
+				{% else %}
+				<span class="post-author translator post-nav-label">{{ 'blog.translators'|matra('Translators') }}:</span>
+				{% for translator in post.translators %}
+				<span class="post-author translator post-nav-val">{{ (translator.name ~ (loop.last ? '' : ', '))|raw }}</span>
+				{% endfor %}
+				{% endif %}
+			</p>
+		</li>
+		{% endif %}
+
+		{% else %}
+
+		<li class="nav-item">
+			<p class="navbar-text">
+				<span class="post-author post-nav-label">{{ 'blog.author'|matra('Author') }}:</span>
+				<span class="post-author post-nav-val">{{ company_title }}</span>
 			</p>
 		</li>
 
+		{% endif %}
+
 	</ul>
 </nav>
-{% endif %}

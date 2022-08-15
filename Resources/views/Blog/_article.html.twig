@@ -33,7 +33,7 @@
 {% if post.previousPosts|length %}
 <section class="blog-post-related related-prev">
 
-	<h3 class="related-list-title">
+	<h3 class="list-title related">
 	{% if post.previousPosts|length == 1 %}
 		{{ 'blog.post.related.prev-post' | matra('Previous Post') }}:
 	{% else %}
@@ -85,7 +85,7 @@
 {% if post.nextPosts|length %}
 <section class="blog-post-related related-next">
 
-	<h3 class="related-list-title">
+	<h3 class="list-title related">
 	{% if post.nextPosts|length == 1 %}
 		{{ 'blog.post.related.next-post' | matra('Next Post') }}:
 	{% else %}
@@ -119,15 +119,33 @@
 {% if post.related|length %}
 <section class="blog-post-related related-posts">
 
-	<h3 class="related-list-title">
-	{% if post.related|length == 1 %}
-		{{ 'blog.post.related-post' | matra('Related Post') }}:
-	{% else %}
-		{{ 'blog.post.related-posts' | matra('Related Posts') }}:
-	{% endif %}
+	<h3 class="list-title related">
+		{% if post.related|length == 1 %}
+		{{ 'blog.post.related-post'|matra('Related Post') }}:
+		{% else %}
+		{{ 'blog.post.related-posts'|matra('Related Posts') }}:
+		{% endif %}
 	</h3>
 
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.related } %}
+
+</section>
+{% endif %}
+
+{% if post.editors|length %}
+<section class="blog-post-editors">
+
+	<h3 class="list-title editors">
+		{% if post.editors|length == 1 %}
+		{{ 'blog.author'|matra('Author') }}:
+		{% else %}
+		{{ 'blog.authors'|matra('Authors') }}:
+		{% endif %}
+	</h3>
+
+	{% for editor in post.editors %}
+	{% include "@MaciPage/Blog/_author.html.twig" with {'author': editor.author } %}
+	{% endfor %}
 
 </section>
 {% endif %}

@@ -65,11 +65,6 @@ Maci\PageBundle\Entity\Blog\Post:
         removed:
             type: boolean
     manyToOne:
-        author:
-            targetEntity: Maci\PageBundle\Entity\Blog\Author
-            joinColumn:
-                name: author_id
-                referencedColumnName: id
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
@@ -84,6 +79,10 @@ Maci\PageBundle\Entity\Blog\Post:
         targets:
             targetEntity: Maci\PageBundle\Entity\Blog\Related
             mappedBy: targetPost
+            orderBy: { 'position': ASC }
+        editors:
+            targetEntity: Maci\PageBundle\Entity\Blog\Editor
+            mappedBy: post
             orderBy: { 'position': ASC }
     manyToMany:
         tags:

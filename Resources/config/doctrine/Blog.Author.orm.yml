@@ -30,7 +30,7 @@ Maci\PageBundle\Entity\Blog\Author:
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
-        posts:
-            targetEntity: Maci\PageBundle\Entity\Blog\Post
+        editors:
+            targetEntity: Maci\PageBundle\Entity\Blog\Editor
             mappedBy: author
-            orderBy: { 'created': DESC }
+            orderBy: { 'position': ASC }

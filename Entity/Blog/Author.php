@@ -45,7 +45,7 @@ class Author
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $posts;
+	private $editors;
 
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ class Author
 	public function __construct()
 	{
 		$this->path = uniqid();
-		$this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->editors = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -202,36 +202,36 @@ class Author
 	}
 
 	/**
-	 * Add posts
+	 * Add editors
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\Post $posts
-	 * @return Post
+	 * @param \Maci\PageBundle\Entity\Blog\Editor $editors
+	 * @return Author
 	 */
-	public function addPost(\Maci\PageBundle\Entity\Blog\Post $posts)
+	public function addEditor(\Maci\PageBundle\Entity\Blog\Editor $editors)
 	{
-		$this->posts[] = $posts;
+		$this->editors[] = $editors;
 
 		return $this;
 	}
 
 	/**
-	 * Remove posts
+	 * Remove editors
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\Post $posts
+	 * @param \Maci\PageBundle\Entity\Blog\Editor $editors
 	 */
-	public function removePost(\Maci\PageBundle\Entity\Blog\Post $posts)
+	public function removeEditor(\Maci\PageBundle\Entity\Blog\Editor $editors)
 	{
-		$this->posts->removeElement($posts);
+		$this->editors->removeElement($editors);
 	}
 
 	/**
-	 * Get posts
+	 * Get editors
 	 *
 	 * @return \Doctrine\Common\Collections\Collection 
 	 */
-	public function getPosts()
+	public function getEditors()
 	{
-		return $this->posts;
+		return $this->editors;
 	}
 
 	/**

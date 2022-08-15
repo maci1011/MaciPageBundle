@@ -1,0 +1,23 @@
+
+Maci\PageBundle\Entity\Blog\Editor:
+    type:  entity
+    table: maci_blog_editor
+    # repositoryClass: Maci\PageBundle\Repository\Blog\EditorRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 7
+        position:
+            type: smallint
+    manyToOne:
+        post:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            inversedBy: editors
+        author:
+            targetEntity: Maci\PageBundle\Entity\Blog\Author
+            inversedBy: editors

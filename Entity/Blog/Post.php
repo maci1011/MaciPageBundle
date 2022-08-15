@@ -93,9 +93,9 @@ class Post
 	private $removed;
 
 	/**
-	 * @var \Maci\PageBundle\Entity\Blog\Author
+	 * @var \Doctrine\Common\Collections\Collection
 	 */
-	private $author;
+	private $editors;
 
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
@@ -524,26 +524,57 @@ class Post
 	}
 
 	/**
-	 * Set author
+	 * Add editors
 	 *
-	 * @param \Maci\PageBundle\Entity\Blog\Author $author
+	 * @param \Maci\PageBundle\Entity\Blog\Editor $editors
 	 * @return Post
 	 */
-	public function setAuthor(\Maci\PageBundle\Entity\Blog\Author $author = null)
+	public function addEditor(\Maci\PageBundle\Entity\Blog\Editor $editors)
 	{
-		$this->author = $author;
+		$this->editors[] = $editors;
 
 		return $this;
 	}
 
 	/**
-	 * Get author
+	 * Remove editors
 	 *
-	 * @return \Maci\PageBundle\Entity\Blog\Author 
+	 * @param \Maci\PageBundle\Entity\Blog\Editor $editors
 	 */
+	public function removeEditor(\Maci\PageBundle\Entity\Blog\Editor $editors)
+	{
+		$this->editors->removeElement($editors);
+	}
+
+	/**
+	 * Get editors
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getEditors()
+	{
+		return $this->editors;
+	}
+
+	public function getAuthors()
+	{
+		return $this->getEditors()->filter(function($e){
+			return $e->isAuthor();
+		});
+	}
+
+	public function getTranslators()
+	{
+		return $this->getEditors()->filter(function($e){
+			return $e->isTranslator();
+		});
+	}
+
 	public function getAuthor()
 	{
-		return $this->author;
+		$list = $this->getAuthors();
+
+		return count($list) == 0 ? null : $list[0];
 	}
 
 	/**
