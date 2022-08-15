@@ -31,6 +31,17 @@
 {% endblock %}
 
 {% block content %}
-{% include "@MaciPage/Blog/_editors.html.twig" with { 'list': [{'author': author}] } %}
+
+<div class="author">
+<table class="table-list">
+<tbody>
+
+{% include "@MaciPage/Blog/_author.html.twig" %}
+
+</tbody>
+</table>
+</div>
+
 {% include "@MaciPage/Blog/_list_compact.html.twig" %}
+
 {% endblock %}

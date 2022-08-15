@@ -8,7 +8,13 @@
 	{% endif %}
 </td>
 <td class="item-content">
-	<h3 class="item-title">{{ author.name }}</h3>
+	{% if editor is defined %}
+	<a class="item-link" href="{{ path('maci_blog_author', { 'path': author.path, '_locale': author.locale }) }}">
+		<span class="item-title">{{ author.name }}</span>
+	</a>
+	{% else %}
+	<span class="item-title">{{ author.name }}</span>
+	{% endif %}
 	{% if author.description %}
 	<p class="item-description">{{ author.description }}</p>
 	{% endif %}

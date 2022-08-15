@@ -1,8 +1,8 @@
 
 <tr>
 <td class="item-preview">
-	{% if item.preview %}
-	<img class="item-preview" src="{{ asset(item.preview.webPath|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.preview }} - {{ item.preview.description|striptags }}">
+	{% if item.media.path %}
+	<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
 	{% else %}
 	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 	{% endif %}
@@ -14,5 +14,10 @@
 	{% if item.description|length %}
 	<p class="item-description">{{ item.description }}</p>
 	{% endif %}
+</td>
+<td class="item-actions">
+	<a class="item-action" href="{{ path('maci_media_get', {'path': item.media.path}) }}" target="_blank">
+		<i class="fas fa-file-download"></i>
+	</a>
 </td>
 </tr>
