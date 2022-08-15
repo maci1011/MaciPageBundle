@@ -31,7 +31,7 @@
 </figure>
 
 {% if post.previousPosts|length %}
-<section class="blog-post-related related-prev">
+<section class="related-list related-prev">
 
 	<h3 class="list-title related">
 	{% if post.previousPosts|length == 1 %}
@@ -75,7 +75,11 @@
 {% endif %}
 
 {% if post.otherMedias|length %}
-<section class="blog-post downloads">
+<section class="related-list downloads">
+
+	<h3 class="list-title related">
+		{{ 'blog.post.download' | matra('Download') }}:
+	</h3>
 
 	{% include "@MaciPage/Blog/_downloads.html.twig" with {'list': post.otherMedias} %}
 
@@ -83,7 +87,7 @@
 {% endif %}
 
 {% if post.nextPosts|length %}
-<section class="blog-post-related related-next">
+<section class="related-list related-next">
 
 	<h3 class="list-title related">
 	{% if post.nextPosts|length == 1 %}
@@ -117,7 +121,7 @@
 {% include "@MaciPage/Blog/_license.html.twig" %}
 
 {% if post.related|length %}
-<section class="blog-post-related related-posts">
+<section class="related-list related-posts">
 
 	<h3 class="list-title related">
 		{% if post.related|length == 1 %}
@@ -133,7 +137,7 @@
 {% endif %}
 
 {% if post.editors|length %}
-<section class="blog-post-related editors">
+<section class="related-list editors">
 
 	<h3 class="list-title related">
 		{% if post.editors|length == 1 %}
