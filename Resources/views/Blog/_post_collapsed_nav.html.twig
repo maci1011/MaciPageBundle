@@ -2,20 +2,20 @@
 <nav class="post-collapsed-nav navbar navbar-expand flex-column px-0">
 	<ul class="navbar-nav mr-auto">
 
+		{% if post.isPubblished and post.pubblished %}
+		<li class="nav-item">
+			<p class="post-date post-nav-val navbar-text px-2">
+				{{ post.pubblished|date('d/m/Y') }}
+			</p>
+		</li>
+		{% endif %}
+
 		{% if post.editors %}
 		<li class="nav-item first">
 			<p class="post-author post-nav-val navbar-text px-2">
 				{% for editor in post.editors %}
 				{{ editor.name ~ (loop.last ? '' : ', ') }}
 				{% endfor %}
-			</p>
-		</li>
-		{% endif %}
-
-		{% if post.isPubblished and post.pubblished %}
-		<li class="nav-item">
-			<p class="post-date post-nav-val navbar-text px-2">
-				{{ post.pubblished|date('d/m/Y') }}
 			</p>
 		</li>
 		{% endif %}
