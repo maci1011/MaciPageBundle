@@ -67,15 +67,15 @@
 </section>
 
 {% if post.images|length %}
-<section class="blog-post-images">
+<section class="blog-post images">
 
-	{% include "@MaciPage/Blog/_media_list.html.twig" %}
+	{% include "@MaciPage/Blog/_media_list.html.twig" with {'list': post.images} %}
 
 </section>
 {% endif %}
 
 {% if post.otherMedias|length %}
-<section class="blog-post-images">
+<section class="blog-post downloads">
 
 	{% include "@MaciPage/Blog/_media_list.html.twig" with {'list': post.otherMedias} %}
 
@@ -143,9 +143,7 @@
 		{% endif %}
 	</h3>
 
-	{% for editor in post.editors %}
-	{% include "@MaciPage/Blog/_author.html.twig" with {'author': editor.author } %}
-	{% endfor %}
+	{% include "@MaciPage/Blog/_editors.html.twig" with { 'list': post.editors } %}
 
 </section>
 {% endif %}

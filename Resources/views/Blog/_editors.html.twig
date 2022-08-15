@@ -1,0 +1,14 @@
+
+{% for editor in list %}
+
+<div class="author">
+<table class="table-list">
+<tbody>
+
+{% include "@MaciPage/Blog/_author.html.twig" with { 'author': editor.author } %}
+
+</tbody>
+</table>
+</div>
+
+{% endfor %}
