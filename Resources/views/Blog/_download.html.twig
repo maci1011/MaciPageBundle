@@ -1,18 +1,18 @@
 
 <tr>
-<td class="list-preview">
+<td class="item-preview">
 	{% if item.preview %}
-	<img class="preview" src="{{ asset(item.preview.webPath|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.preview }} - {{ item.preview.description|striptags }}">
+	<img class="item-preview" src="{{ asset(item.preview.webPath|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.preview }} - {{ item.preview.description|striptags }}">
 	{% else %}
-	<img class="preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
+	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 	{% endif %}
 </td>
-<td class="list-content">
+<td class="item-content">
 	{% if item.name|length %}
-	<h3 class="title">{{ item.name }}</h3>
+	<h3 class="item-title">{{ item.name }}</h3>
 	{% endif %}
 	{% if item.description|length %}
-	<p class="description">{{ item.description }}</p>
+	<p class="item-description">{{ item.description }}</p>
 	{% endif %}
 </td>
 </tr>

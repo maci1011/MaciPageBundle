@@ -1,16 +1,16 @@
 
 <tr>
-<td class="list-preview">
+<td class="item-preview">
 	{% if author.preview %}
-	<img class="related-post-preview" src="{{ asset(author.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ author.name }}"/>
+	<img class="item-preview" src="{{ asset(author.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ author.name }}"/>
 	{% else %}
-	<img class="related-post-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ author.name }}"/>
+	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ author.name }}"/>
 	{% endif %}
 </td>
-<td class="list-content">
-	<h3 class="title">{{ author.name }}</h3>
+<td class="item-content">
+	<h3 class="item-title">{{ author.name }}</h3>
 	{% if author.description %}
-	<p class="description">{{ author.description }}</p>
+	<p class="item-description">{{ author.description }}</p>
 	{% endif %}
 </td>
 </tr>
