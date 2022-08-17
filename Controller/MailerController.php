@@ -252,17 +252,7 @@ class MailerController extends AbstractController
 		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
 
-		$data = $mail->getData();
-		$list = [];
-
-		for ($i=0; $i < count($data['recipients']); $i++) {
-			if ($data['recipients'][$i]['sent'] === "false") {
-				$list[count($list)] = intval($data['recipients'][$i]['id']);
-			}
-			if (7 < count($list)) {
-				break;
-			}
-		}
+		$data = $mail->getNextRecipients();
 
 		if (!count($list))
 			return new JsonResponse(['success' => true, 'end' => true], 200);
@@ -293,7 +283,8 @@ class MailerController extends AbstractController
 		$index = -1;
 		$id = false;
 
-		for ($i=0; $i < count($data['recipients']); $i++) {
+		for ($i=0; $i < count($data['recipients']); $i++)
+		{
 			if ($data['recipients'][$i]['sent'] === "false") {
 				$index = $i;
 				$id = intval($data['recipients'][$i]['id']);
@@ -301,21 +292,22 @@ class MailerController extends AbstractController
 			}
 		}
 
-		if (!$id) {
+		if (!$id)
 			return new JsonResponse(['success' => true, 'end' => true], 200);
-		}
 
 		$subscriber = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Subscriber')
 			->findOneById($id);
 
-		if (!$subscriber) {
+		if (!$subscriber)
 			return new JsonResponse(['success' => false, 'error' => 'Subscriber not found.'], 200);
-		}
 
-		$message = $mail->getSwiftMessage();
+		$this->get('maci.mailer')->send($mail);
 
-		if (!$mail->getSender()) {
+		return new JsonResponse(['success' => true, 'id' => $id, 'data' => $data['recipients'][$index]], 200);
+
+		if (!$mail->getSender())
+		{
 			$message->setFrom(
 				$this->get('service_container')->getParameter('server_email'),
 				$this->get('service_container')->getParameter('server_email_int')
@@ -337,7 +329,8 @@ class MailerController extends AbstractController
 		$message->setTo($subscriber->getMail(), $subscriber->getHeader());
 
 		// ---> send message
-		if ($this->container->get('kernel')->getEnvironment() == "prod") $this->get('mailer')->send($message);
+		if ($this->container->get('kernel')->getEnvironment() == "prod")
+			$this->get('mailer')->send($message);
 
 		$data['recipients'][$index]['sent'] = date("c", time());
 		$data['recipients'][$index]['header'] = $subscriber->getHeader();

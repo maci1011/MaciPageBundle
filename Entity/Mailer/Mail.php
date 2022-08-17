@@ -390,12 +390,6 @@ class Mail
 		return $this;
 	}
 
-	public function getRecipients()
-	{
-		$data = $this->getData();
-		return array_key_exists('recipients', $data) ? $data['recipients'] : false;
-	}
-
 	public function addRecipients($array)
 	{
 		$list = $this->getRecipients();
@@ -439,9 +433,36 @@ class Mail
 		return $this;
 	}
 
+	public function setNextSendedValue()
+	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			return;
+
+		$found = false;
+		for ($i = 0; $i < count($list); $i++)
+		{
+			if (!$list[$i]['sended'])
+			{
+				$list[$i]['sended'] = date("c", time());
+				$found = true;
+				break;
+			}
+		}
+
+		if (!$found)
+			return false;
+
+		$this->data['recipients'] = $list;
+		$this->sended = true;
+
+		return true;
+	}
+
 	public function setSendedValues()
 	{
-		$datetime = date_format(new \DateTime(), 'r');
+		// $datetime = date_format(new \DateTime(), 'r');
 		$list = $this->getRecipients();
 
 		if (!$list)
@@ -450,11 +471,34 @@ class Mail
 		for ($i = 0; $i < count($list); $i++)
 		{
 			if (!$list[$i]['sended'])
-				$list[$i]['sended'] = $datetime;
+				$list[$i]['sended'] = date("c", time());
 		}
 
 		$this->data['recipients'] = $list;
 		$this->sended = true;
+	}
+
+	public function getRecipients()
+	{
+		$data = $this->getData();
+		return array_key_exists('recipients', $data) ? $data['recipients'] : false;
+	}
+
+	public function getNextRecipients($len = 0)
+	{
+		$data = $this->getData();
+		$list = [];
+
+		for ($i = 0; $i < count($data['recipients']); $i++)
+		{
+			if ($data['recipients'][$i]['sent'] === "false")
+				array_push($list, $data['recipients'][$i]);
+
+			if (0 < $len && $len <= count($list))
+				break;
+		}
+
+		return $list;
 	}
 
 	public function getBcc()
@@ -492,12 +536,6 @@ class Mail
 		return $this;
 	}
 
-	public function getNotified()
-	{
-		$data = $this->getData();
-		return array_key_exists('notified', $data) ? $data['notified'] : false;
-	}
-
 	public function addNotified($array, $sended = false)
 	{
 		$list = $this->getNotified();
@@ -516,6 +554,12 @@ class Mail
 		$this->data['notified'] = $list;
 
 		return $this;
+	}
+
+	public function getNotified()
+	{
+		$data = $this->getData();
+		return array_key_exists('notified', $data) ? $data['notified'] : false;
 	}
 
 	/**
@@ -673,17 +717,9 @@ class Mail
 
 	// ---> Utils
 
-	public function getSwiftMessage()
+	public function getMessage()
 	{
-		$recipients = $this->getRecipients();
-
-		if (!$recipients)
-			return null;
-
 		$message = (new \Swift_Message());
-
-		foreach ($recipients as $recipient)
-			$message->addTo($recipient['mail'], $recipient['name']);
 
 		if ($this->subject)
 			$message->setSubject($this->subject);
@@ -709,6 +745,26 @@ class Mail
 			$message->setBcc($val);
 
 		return $message;
+	}
+
+	public function getSwiftMessage($len = 0)
+	{
+		$recipients = $this->getNextRecipients($len);
+
+		if (!$recipients)
+			return null;
+
+		$message = $this->getMessage();
+
+		foreach ($recipients as $recipient)
+			$message->addTo($recipient['mail'], $recipient['name']);
+
+		return $message;
+	}
+
+	public function getNext()
+	{
+		return $this->getSwiftMessage(1);
 	}
 
 	// public function getSwiftMessage()

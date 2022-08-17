@@ -9,11 +9,11 @@
 <meta property="og:title" content="{{ item.name }}" />
 <meta property="og:site_name" content="{{ url('homepage') }}" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="{{ url('maci_blog_show', { 'path': item.path, '_locale': item.locale }) }}" />
+<meta property="og:url" content="{{ url('maci_product_show', { 'path': item.path, '_locale': item.locale }) }}" />
 <meta property="og:locale" content="{{ item.locale }}" />
 
 {% if item.preview %}
-<meta property="og:image" content="{{ asset(item.webPreview|imagine_filter('maci_product_preview')) }}" />
+<meta property="og:image" content="{{ asset(item.webPreview) }}" />
 {% endif %}
 
 {% if item.description %}
