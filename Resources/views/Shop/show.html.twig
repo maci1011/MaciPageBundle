@@ -6,24 +6,20 @@
 
 {% block metaData %}
 
-<meta property="og:title" content="{{ item.name }}" />
-<meta property="og:site_name" content="{{ url('homepage') }}" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="{{ url('maci_product_show', { 'path': item.path, '_locale': item.locale }) }}" />
-<meta property="og:locale" content="{{ item.locale }}" />
-
+	<meta property="og:title" content="{{ item.name }}" />
+	<meta property="og:site_name" content="{{ url('homepage') }}" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="{{ url('maci_product_show', { 'path': item.path, '_locale': item.locale }) }}" />
+	<meta property="og:locale" content="{{ item.locale }}" />
 {% if item.preview %}
-<meta property="og:image" content="{{ absolute_url(asset(item.webPreview)) }}" />
-{% endif %}
-
-{% if item.description %}
-<meta property="og:description" content="{{ item.description|striptags }}" />
+	<meta property="og:image" content="{{ absolute_url(asset(item.webPreview)) }}" />
+{% endif %}{% if item.description %}
+	<meta property="og:description" content="{{ item.description|striptags }}" />
 {% elseif item.composition %}
-<meta property="og:description" content="{{ item.composition|striptags }}" />
+	<meta property="og:description" content="{{ item.composition|striptags }}" />
 {% endif %}
-
-<meta property="og:article:author" content="{{ company_title }}" />
-<meta property="og:article:pubblished_time" content="{{ item.updated|date('c') }}" />
+	<meta property="og:article:author" content="{{ company_title }}" />
+	<meta property="og:article:pubblished_time" content="{{ item.updated|date('c') }}" />
 
 {% endblock metaData %}
 
