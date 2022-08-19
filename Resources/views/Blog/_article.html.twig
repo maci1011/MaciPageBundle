@@ -114,9 +114,9 @@
 
 	{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
 
-	{% include "@MaciPage/Blog/_post_links_nav.html.twig" %}
-
 	{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
+
+	{% include "@MaciPage/Blog/_post_links_nav.html.twig" %}
 
 	{% if is_granted('ROLE_ADMIN') %}
 	{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}

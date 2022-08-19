@@ -1,6 +1,6 @@
 
 <tr>
-<td class="item-preview">
+<td class="item-preview-wrapper">
 	{% if item.media.path %}
 	<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
 	{% else %}
