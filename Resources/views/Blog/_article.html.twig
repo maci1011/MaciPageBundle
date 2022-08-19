@@ -12,6 +12,12 @@
 
 </header>
 
+<section class="blog-post-info flex">
+
+{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
+
+</section>
+
 <figure class="post-preview-wrapper">
 	{% if post.preview %}
 	<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />

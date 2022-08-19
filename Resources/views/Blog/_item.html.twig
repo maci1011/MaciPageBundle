@@ -16,6 +16,12 @@
 
 </header>
 
+<section class="blog-post-info flex">
+
+{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
+
+</section>
+
 <div class="post-preview-wrapper">
 	<a href="{{ post_link }}">
 		{% if post.preview %}
@@ -53,12 +59,6 @@
 		{{ 'blog.list.read-more' | matra('Read More...') }}
 	</a>
 </section>
-
-<footer class="blog-post-footer flex">
-
-{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
-
-</footer>
 
 </div>
 </article>

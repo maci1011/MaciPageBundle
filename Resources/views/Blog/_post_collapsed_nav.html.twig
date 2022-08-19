@@ -20,16 +20,15 @@
 		</li>
 		{% else %}
 		<li class="nav-item">
-			<p class="navbar-text">
-				<span class="post-author post-nav-label">{{ 'blog.author'|matra('Author') }}:</span>
-				<span class="post-author post-nav-val">{{ company_title }}</span>
+			<p class="post-author post-nav-val navbar-text px-2">
+				{{ company_title }}
 			</p>
 		</li>
 		{% endif %}
 
 		{% for tag in post.tags %}
 		<li class="nav-item{% if loop.last %} last{% endif %}">
-			<a class="nav-link post-tag post-nav-val" href="{{ path('maci_blog_tag', { 'path': tag.path }) }}">{{ tag }}</a>
+			<a class="nav-link post-tag post-nav-val px-2" href="{{ path('maci_blog_tag', { 'path': tag.path }) }}">#{{ tag }}</a>
 		</li>
 		{% endfor %}
 
