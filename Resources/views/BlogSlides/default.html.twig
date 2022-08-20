@@ -3,7 +3,9 @@
 
 {% if slide.preview %}
 <figure id="blogSlidePreview_{{ slide.id }}" class="slide-preview post-preview-wrapper">
-	<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
+	<a class="post-preview-link d-block" href="{{ path('maci_media_get', {'path': slide.preview.path}) }}" data-lightbox="post-image" data-title="{{ slide.preview }}">
+		<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
+	</a>
 	{% if slide.preview.name or slide.preview.description %}
 	<figcaption class="post-preview-description">
 		{% if slide.preview.name %}
