@@ -334,12 +334,12 @@ class Post
 
 	public function isPubblished()
 	{
-		return ($this->status == 'pubblished' || $this->status == 'updated');
+		return !!$this->pubblished && ($this->status == 'pubblished' || $this->status == 'updated');
 	}
 
 	public function isUpdated()
 	{
-		return ($this->status == 'updated');
+		return !!$this->pubblished && ($this->status == 'updated');
 	}
 
 	/**

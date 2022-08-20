@@ -1,6 +1,8 @@
 
+<div id="blogSlide_{{ slide.id }}" class="post-slide">
+
 {% if slide.preview %}
-<figure class="post-preview-wrapper">
+<figure id="blogSlidePreview_{{ slide.id }}" class="slide-preview post-preview-wrapper">
 	<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
 	{% if slide.preview.name or slide.preview.description %}
 	<figcaption class="post-preview-description">
@@ -16,9 +18,13 @@
 {% endif %}
 
 {% if slide.title %}
-<h3 class="pc-title">{{ slide.title }}</h3>
+<h3 id="blogSlideTitle_{{ slide.id }}" class="slide-title pc-title">{{ slide.title }}</h3>
 {% endif %}
 
 {% if slide.content %}
+<div id="blogSlideContent_{{ slide.id }}" class="slide-content">
 {{ slide.content|raw }}
+</div>
 {% endif %}
+
+</div>

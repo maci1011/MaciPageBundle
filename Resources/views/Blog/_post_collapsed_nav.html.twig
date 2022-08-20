@@ -5,6 +5,11 @@
 		{% if post.isPubblished and post.pubblished %}
 		<li class="nav-item">
 			<p class="post-date post-nav-val navbar-text px-2">
+				{% if post.isUpdated %}
+				<i class="fas fa-calendar-edit"></i>
+				{% else %}
+				<i class="fas fa-calendar-day"></i>
+				{% endif %}
 				{{ post.pubblished|date('d/m/Y') }}
 			</p>
 		</li>
@@ -13,6 +18,7 @@
 		{% if post.editors|length %}
 		<li class="nav-item first">
 			<p class="post-author post-nav-val navbar-text px-2">
+				<i class="fas fa-user-alt"></i>
 				{% for editor in post.editors %}
 				{{ editor.name ~ (loop.last ? '' : ', ') }}
 				{% endfor %}
