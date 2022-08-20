@@ -7,197 +7,193 @@ namespace Maci\PageBundle\Entity\Blog;
  */
 class Related
 {
-    /**
-     * @var int
-     */
-    private $id;
+	/**
+	 * @var int
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $type;
+	/**
+	 * @var string
+	 */
+	private $type;
 
-    /**
-     * @var int|null
-     */
-    private $position;
+	/**
+	 * @var int|null
+	 */
+	private $position;
 
-    /**
-     * @var \Maci\PageBundle\Entity\Blog\Post
-     */
-    private $sourcePost;
+	/**
+	 * @var \Maci\PageBundle\Entity\Blog\Post
+	 */
+	private $sourcePost;
 
-    /**
-     * @var \Maci\PageBundle\Entity\Blog\Post
-     */
-    private $targetPost;
+	/**
+	 * @var \Maci\PageBundle\Entity\Blog\Post
+	 */
+	private $targetPost;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->type = 'prev';
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->type = 'prev';
+	}
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return Related
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
+	/**
+	 * Set type.
+	 *
+	 * @param string $type
+	 *
+	 * @return Related
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+	/**
+	 * Get type.
+	 *
+	 * @return string
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
 
-    /**
-     * Get Type Array
-     */
-    public function getTypeArray()
-    {
-        return array(
-            'Prev Post' => 'prev',
-            'Next Post' => 'next',
-            'Related' => 'related'
-        );
-    }
+	/**
+	 * Get Type Array
+	 */
+	public function getTypeArray()
+	{
+		return [
+			'Prev Post' => 'prev',
+			'Next Post' => 'next',
+			'Related' => 'related'
+		];
+	}
 
-    /**
-     * Get Type Label
-     */
-    public function getTypeLabel()
-    {
-        $array = $this->getTypeArray();
-        $key = array_search($this->type, $array);
-        if ($key) {
-            return $key;
-        }
-        $str = str_replace('_', ' ', $this->type);
-        return ucwords($str);
-    }
+	public function getTypeLabel()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
+	}
 
-    /**
-     * Set position.
-     *
-     * @param int|null $position
-     *
-     * @return Related
-     */
-    public function setPosition($position = null)
-    {
-        $this->position = $position;
+	static public function getTypes()
+	{
+		return array_values(Related::getTypeArray());
+	}
 
-        return $this;
-    }
+	/**
+	 * Set position.
+	 *
+	 * @param int|null $position
+	 *
+	 * @return Related
+	 */
+	public function setPosition($position = null)
+	{
+		$this->position = $position;
 
-    /**
-     * Get position.
-     *
-     * @return int|null
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
+		return $this;
+	}
 
-    /**
-     * Set sourcePost.
-     *
-     * @param \Maci\PageBundle\Entity\Blog\Post|null $sourcePost
-     *
-     * @return Related
-     */
-    public function setSourcePost(\Maci\PageBundle\Entity\Blog\Post $sourcePost = null)
-    {
-        $this->sourcePost = $sourcePost;
+	/**
+	 * Get position.
+	 *
+	 * @return int|null
+	 */
+	public function getPosition()
+	{
+		return $this->position;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set sourcePost.
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Post|null $sourcePost
+	 *
+	 * @return Related
+	 */
+	public function setSourcePost(\Maci\PageBundle\Entity\Blog\Post $sourcePost = null)
+	{
+		$this->sourcePost = $sourcePost;
 
-    /**
-     * Get sourcePost.
-     *
-     * @return \Maci\PageBundle\Entity\Blog\Post|null
-     */
-    public function getSourcePost()
-    {
-        return $this->sourcePost;
-    }
+		return $this;
+	}
 
-    /**
-     * Get Source Name
-     *
-     * @return string
-     */
-    public function getSourceName()
-    {
-        if ($this->sourcePost) return $this->sourcePost->getTitle();
-    }
+	/**
+	 * Get sourcePost.
+	 *
+	 * @return \Maci\PageBundle\Entity\Blog\Post|null
+	 */
+	public function getSourcePost()
+	{
+		return $this->sourcePost;
+	}
 
-    /**
-     * Set targetPost.
-     *
-     * @param \Maci\PageBundle\Entity\Blog\Post|null $targetPost
-     *
-     * @return Related
-     */
-    public function setTargetPost(\Maci\PageBundle\Entity\Blog\Post $targetPost = null)
-    {
-        $this->targetPost = $targetPost;
+	/**
+	 * Get Source Name
+	 *
+	 * @return string
+	 */
+	public function getSourceName()
+	{
+		if ($this->sourcePost) return $this->sourcePost->getTitle();
+	}
 
-        return $this;
-    }
+	/**
+	 * Set targetPost.
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Post|null $targetPost
+	 *
+	 * @return Related
+	 */
+	public function setTargetPost(\Maci\PageBundle\Entity\Blog\Post $targetPost = null)
+	{
+		$this->targetPost = $targetPost;
 
-    /**
-     * Get targetPost.
-     *
-     * @return \Maci\PageBundle\Entity\Blog\Post|null
-     */
-    public function getTargetPost()
-    {
-        return $this->targetPost;
-    }
+		return $this;
+	}
 
-    /**
-     * Get Target Name
-     *
-     * @return string
-     */
-    public function getTargetName()
-    {
-        if ($this->targetPost) return $this->targetPost->getTitle();
-    }
+	/**
+	 * Get targetPost.
+	 *
+	 * @return \Maci\PageBundle\Entity\Blog\Post|null
+	 */
+	public function getTargetPost()
+	{
+		return $this->targetPost;
+	}
 
-    /**
-     * __toString()
-     */
-    public function __toString()
-    {
-        return 'Related_' . $this->getId();
-    }
+	/**
+	 * Get Target Name
+	 *
+	 * @return string
+	 */
+	public function getTargetName()
+	{
+		if ($this->targetPost) return $this->targetPost->getTitle();
+	}
+
+	/**
+	 * __toString()
+	 */
+	public function __toString()
+	{
+		return 'Related_' . $this->getId();
+	}
 }

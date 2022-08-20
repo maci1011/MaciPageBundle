@@ -108,6 +108,11 @@ class Post
 	private $items;
 
 	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $slides;
+
+	/**
 	 * @var \Maci\PageBundle\Entity\Media\Media
 	 */
 	private $preview;
@@ -134,6 +139,7 @@ class Post
 	{
 		$this->tags = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->items = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->slides = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->sources = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->targets = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->removed = false;
@@ -307,24 +313,23 @@ class Post
 	 */
 	public function getStatusArray()
 	{
-		return array(
+		return [
 			'New' => 'new',
 			'Draft' => 'draft',
 			// 'Scheduled' => 'scheduled',
 			'Pubblished' => 'pubblished',
 			'Updated' => 'updated'
-		);
+		];
 	}
 
 	public function getStatusLabel()
 	{
-		$array = $this->getStatusArray();
-		$key = array_search($this->status, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->status);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
+	}
+
+	static public function getStatusValues()
+	{
+		return array_values(Post::getStatusArray());
 	}
 
 	public function isPubblished()
@@ -751,7 +756,38 @@ class Post
 		);
 	}
 
+	/**
+	 * Add slides
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Slide $slides
+	 * @return Post
+	 */
+	public function addSlide(\Maci\PageBundle\Entity\Blog\Slide $slides)
+	{
+		$this->slides[] = $slides;
 
+		return $this;
+	}
+
+	/**
+	 * Remove slides
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Slide $slides
+	 */
+	public function removeSlide(\Maci\PageBundle\Entity\Blog\Slide $slides)
+	{
+		$this->slides->removeElement($slides);
+	}
+
+	/**
+	 * Get slides
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getSlides()
+	{
+		return $this->slides;
+	}
 
 	/**
 	 * Add items
@@ -847,9 +883,9 @@ class Post
 
 	public function getWebPreview()
 	{
-		if (!$this->preview) {
+		if (!$this->preview)
 			return '/images/defaults/document-icon.png';
-		}
+
 		return $this->preview->getWebPath();
 	}
 

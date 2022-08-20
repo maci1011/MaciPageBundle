@@ -55,19 +55,29 @@
 <section class="blog-post-content">
 
 	{% if post.preheader is not null %}
-	<div class="post-preheader">{{ post.preheader|raw }}</div>
+	<div class="post-content post-preheader">{{ post.preheader|raw }}</div>
 	{% endif %}
 
 	{% if post.header is not null %}
-	<div class="post-header">{{ post.header|raw }}</div>
+	<div class="post-content post-header">{{ post.header|raw }}</div>
 	{% endif %}
 
 	{% if post.markdown is not null %}
-	<div class="post-markdown markdown-content">{{ post.markdown|markdown|nl2br }}</div>
+	<div class="post-content markdown-content">{{ post.markdown|markdown|nl2br }}</div>
 	{% endif %}
 
 	{% if post.content is not null %}
-	<div class="post-content">{{ post.content|raw }}</div>
+	<div class="post-content item-content">{{ post.content|raw }}</div>
+	{% endif %}
+
+	{% if post.slides %}
+	<div class="post-content slides-content">
+	{% for slide in post.slides %}
+
+	{% include "@MaciPage/Blog/_slide.html.twig" %}
+
+	{% endfor %}
+	</div>
 	{% endif %}
 
 </section>

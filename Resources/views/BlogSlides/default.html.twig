@@ -1,0 +1,24 @@
+
+{% if slide.preview %}
+<figure class="post-preview-wrapper">
+	<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
+	{% if slide.preview.name or slide.preview.description %}
+	<figcaption class="post-preview-description">
+		{% if slide.preview.name %}
+		<span class="post-preview-name">{{ slide.preview.name }}</span>
+		{% endif %}
+		{% if slide.preview.name or slide.preview.description %}
+		{{ slide.preview.description|raw }}
+		{% endif %}
+	</figcaption>
+	{% endif %}
+</figure>
+{% endif %}
+
+{% if slide.title %}
+<h3 class="pc-title">{{ slide.title }}</h3>
+{% endif %}
+
+{% if slide.content %}
+{{ slide.content|raw }}
+{% endif %}

@@ -7,182 +7,188 @@ namespace Maci\PageBundle\Entity\Blog;
  */
 class Item
 {
-    /**
-     * @var integer
-     */
-    private $id;
+	/**
+	 * @var integer
+	 */
+	private $id;
 
-    /**
-     * @var boolean
-     */
-    private $favourite;
+	/**
+	 * @var boolean
+	 */
+	private $favourite;
 
-    /**
-     * @var integer
-     */
-    private $position;
+	/**
+	 * @var integer
+	 */
+	private $position;
 
-    /**
-     * @var \Maci\PageBundle\Entity\Blog\Post
-     */
-    private $post;
+	/**
+	 * @var \Maci\PageBundle\Entity\Blog\Post
+	 */
+	private $post;
 
-    /**
-     * @var \Maci\PageBundle\Entity\Blog\Media
-     */
-    private $media;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->favourite = false;
-    }
+	/**
+	 * @var \Maci\PageBundle\Entity\Blog\Media
+	 */
+	private $media;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->favourite = false;
+	}
 
-    /**
-     * Get favourite.
-     *
-     * @return bool
-     */
-    public function getFavourite()
-    {
-        return $this->favourite;
-    }
 
-    /**
-     * Set favourite
-     *
-     * @param boolean $favourite
-     * @return Item
-     */
-    public function setFavourite($favourite)
-    {
-        $this->favourite = $favourite;
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get favourite.
+	 *
+	 * @return bool
+	 */
+	public function getFavourite()
+	{
+		return $this->favourite;
+	}
 
-    /**
-     * Get favourite
-     *
-     * @return boolean 
-     */
-    public function isFavourite()
-    {
-        return $this->favourite;
-    }
+	/**
+	 * Set favourite
+	 *
+	 * @param boolean $favourite
+	 * @return Item
+	 */
+	public function setFavourite($favourite)
+	{
+		$this->favourite = $favourite;
 
-    /**
-     * Set position
-     *
-     * @param integer $position
-     * @return Item
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get favourite
+	 *
+	 * @return boolean 
+	 */
+	public function isFavourite()
+	{
+		return $this->favourite;
+	}
 
-    /**
-     * Get position
-     *
-     * @return integer 
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
+	/**
+	 * Set position
+	 *
+	 * @param integer $position
+	 * @return Item
+	 */
+	public function setPosition($position)
+	{
+		$this->position = $position;
 
-    /**
-     * Set post
-     *
-     * @param \Maci\PageBundle\Entity\Blog\Post $post
-     * @return Item
-     */
-    public function setPost(\Maci\PageBundle\Entity\Blog\Post $post = null)
-    {
-        $this->post = $post;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get position
+	 *
+	 * @return integer 
+	 */
+	public function getPosition()
+	{
+		return $this->position;
+	}
 
-    /**
-     * Get post
-     *
-     * @return \Maci\PageBundle\Entity\Blog\Post 
-     */
-    public function getPost()
-    {
-        return $this->post;
-    }
+	/**
+	 * Set post
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Post $post
+	 * @return Item
+	 */
+	public function setPost(\Maci\PageBundle\Entity\Blog\Post $post = null)
+	{
+		$this->post = $post;
 
-    /**
-     * Set media
-     *
-     * @param \Maci\PageBundle\Entity\Media\Media $media
-     * @return Item
-     */
-    public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
-    {
-        $this->media = $media;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get post
+	 *
+	 * @return \Maci\PageBundle\Entity\Blog\Post 
+	 */
+	public function getPost()
+	{
+		return $this->post;
+	}
 
-    /**
-     * Get media
-     *
-     * @return \Maci\PageBundle\Entity\Media\Media 
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
+	/**
+	 * Set media
+	 *
+	 * @param \Maci\PageBundle\Entity\Media\Media $media
+	 * @return Item
+	 */
+	public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
+	{
+		$this->media = $media;
 
-    /**
-     * Get Name
-     */
-    public function getName()
-    {
-        return $this->getMedia()->getName();
-    }
+		return $this;
+	}
 
-    /**
-     * Get Description
-     */
-    public function getDescription()
-    {
-        return $this->getMedia()->getDescription();
-    }
+	/**
+	 * Get media
+	 *
+	 * @return \Maci\PageBundle\Entity\Media\Media 
+	 */
+	public function getMedia()
+	{
+		return $this->media;
+	}
 
-    public function getWebPreview()
-    {
-        if ($this->media) {
-            return $this->media->getWebPreview();
-        }
-        return '/images/defaults/document-icon.png';
-    }
+	/**
+	 * Get Name
+	 */
+	public function getName()
+	{
+		if (!$this->media)
+			return null;
 
-    /**
-     * __toString()
-     */
-    public function __toString()
-    {
-        return 'BlogMediaItem_' . (is_int($this->getId()) ? $this->getId() : 'New');
-    }
+		return $this->getMedia()->getName();
+	}
+
+	/**
+	 * Get Description
+	 */
+	public function getDescription()
+	{
+		if (!$this->media)
+			return null;
+
+		return $this->getMedia()->getDescription();
+	}
+
+	public function getWebPreview()
+	{
+		if (!$this->media)
+			return '/images/defaults/document-icon.png';
+
+		return $this->media->getWebPreview();
+	}
+
+	/**
+	 * __toString()
+	 */
+	public function __toString()
+	{
+		return 'BlogMediaItem_' . (is_int($this->getId()) ? $this->getId() : 'New');
+	}
 }

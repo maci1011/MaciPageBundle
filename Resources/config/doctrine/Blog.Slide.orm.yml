@@ -1,0 +1,29 @@
+
+Maci\PageBundle\Entity\Blog\Slide:
+    type:  entity
+    table: maci_blog_slide
+    # repositoryClass: Maci\PageBundle\Repository\Blog\SlideRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: true
+        content:
+            type: text
+            nullable: true
+        type:
+            type: string
+            length: 7
+        position:
+            type: smallint
+    manyToOne:
+        preview:
+            targetEntity: Maci\PageBundle\Entity\Media\Media
+        post:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            inversedBy: slides

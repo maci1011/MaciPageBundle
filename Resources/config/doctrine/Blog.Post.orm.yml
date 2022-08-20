@@ -72,6 +72,10 @@ Maci\PageBundle\Entity\Blog\Post:
             targetEntity: Maci\PageBundle\Entity\Blog\Item
             mappedBy: post
             orderBy: { 'position': ASC }
+        slides:
+            targetEntity: Maci\PageBundle\Entity\Blog\Slide
+            mappedBy: post
+            orderBy: { 'position': ASC }
         sources:
             targetEntity: Maci\PageBundle\Entity\Blog\Related
             mappedBy: sourcePost
