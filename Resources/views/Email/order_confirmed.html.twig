@@ -42,7 +42,7 @@
 <tbody>
 
 	{# HEADER #}
-	<tr class="titles">
+	<tr class="titles details">
 		<th class="name" width="65%">{{ 'order.product' | matra('Product') }}</th>
 		<th class="quantity">{{ 'product.quantity' | matra('Quantity') }}</th>
 		<th class="price">{{ 'product.price' | matra('Price') }}</th>
@@ -51,14 +51,14 @@
 	{# ORDER ITEMS #}
 	{% for item in order.items %}
 	{% if item.product %}
-	<tr>
-		<td>
+	<tr class="order-item">
+		<td class="name">
 			{{ item.itemDescription }}
 		</td>
-		<td>
+		<td class="quantity">
 			{{ item.quantity }}
 		</td>
-		<td>
+		<td class="price">
 			<span>{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 		</td>
 	</tr>
@@ -66,10 +66,8 @@
 	{% endfor %}
 
 	{# FOOTER #}
-	<tr>
+	<tr class="titles spaced">
 		<th>{{ 'product.cart_details' | matra('Details') }}</th>
-		<th>{{ 'product.cart_description' | matra('Description') }}</th>
-		<th>{{ 'product.price' | matra('Price') }}</th>
 	</tr>
 
 	{# SHIPPING COST #}
@@ -113,7 +111,7 @@
 	{% endif %}
 
 
-	<tr>
+	<tr class="spaced">
 		<th>{{ 'order.amount' | matra('Amount') }}</th>
 		<th>&nbsp;</th>
 		<th>{{ order.amount | number_format(2, '.', ',') }} &euro;</th>
