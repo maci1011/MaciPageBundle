@@ -14,13 +14,13 @@
 	'message': 'mail.confirmed-text'|matra('your order has been confirmed.')
 } %}
 
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
 	<td>
-		<span class="attr label">{{ 'order.code' | matra('Code') }}:</span>
+		<span class="attr label">{{ 'order.code'|matra('Code') }}:</span>
 		<span class="attr value"> {{ order.code }}</span><br/>
-		<span class="attr label">{{ 'order.status' | matra('Status') }}:</span>
+		<span class="attr label">{{ 'order.status'|matra('Status') }}:</span>
 		<span class="attr value"> {{ order.statusLabel }}</span>
 	</td>
 </tr>
@@ -28,18 +28,18 @@
 </table>
 
 
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
 	<td>
-		<h3>Order Details:</h3>
+		<h3>{{ 'order.details'|matra('Order Details') }}:</h3>
 	</td>
 </tr>
 </tbody>
 </table>
 
-<table class="main">
-<tbody class="details">
+<table class="main wrapper details">
+<tbody>
 
 	{# HEADER #}
 	<tr class="titles">
@@ -124,7 +124,7 @@
 
 
 {% if order.billingAddress is not null or order.shippingAddress is not null %}
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
 
@@ -149,7 +149,7 @@
 
 
 {% if order.orderDocuments|length and 3 < order.progression %}
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
 	<td>
@@ -175,16 +175,21 @@
 
 
 {% if order.payment == 'bank_transfer' %}
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
-<td>
-
-	<h3>{{ 'order.complete.bank-tr-info'|matra('Bank Tranfers Details') }}</h3>
-
-	{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
-
-</td>
+	<td>
+		<h3>{{ 'order.complete.bank-tr-info'|matra('Bank Tranfers Details') }}</h3>
+	</td>
+</tr>
+</tbody>
+</table>
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
+	</td>
 </tr>
 </tbody>
 </table>

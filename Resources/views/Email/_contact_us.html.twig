@@ -1,16 +1,22 @@
 
-<table class="main">
+<table class="main wrapper">
 <tbody>
 <tr>
-<td>
+	<td>
+		<h3>{{ 'contact_us_for_info'|matla('Contact us for more informations')  }}</h3>
+	</td>
+</tr>
+</tbody>
+</table>
 
-	<h3>{{ 'contact_us_for_info'|matla('Contact us for more informations')  }}</h3>
-
-	<a class="button" href="{{ url('maci_page', {'path': 'page.contacts'|matro('contacts')}) }}">
-		{{ 'contact_us'|matla('Contact Us')  }}
-	</a>
-
-</td>
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		<a class="button" href="{{ url('maci_page', {'path': 'page.contacts'|matro('contacts')}) }}">
+			{{ 'contact_us'|matla('Contact Us')  }}
+		</a>
+	</td>
 </tr>
 </tbody>
 </table>
