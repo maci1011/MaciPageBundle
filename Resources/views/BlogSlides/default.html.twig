@@ -19,6 +19,8 @@
 </figure>
 {% endif %}
 
+<div class="post-content slides-content">
+
 {% if slide.title %}
 <h3 id="blogSlideTitle_{{ slide.id }}" class="slide-title pc-title">{{ slide.title }}</h3>
 {% endif %}
@@ -28,5 +30,7 @@
 {{ slide.content|raw }}
 </div>
 {% endif %}
+
+</div>
 
 </div>
