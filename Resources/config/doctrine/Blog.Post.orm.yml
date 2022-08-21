@@ -34,7 +34,7 @@ Maci\PageBundle\Entity\Blog\Post:
             nullable: true
         path:
             type: string
-            length: 63
+            length: 127
             nullable: true
         link:
             type: string
