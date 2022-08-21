@@ -80,11 +80,11 @@
 			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}</span>
 			{% endif %}
 		</td>
-		<td>
+		<td class="price">
 			{% if order.shippingCost %}
 			{{ order.shippingCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</td>
 	</tr>
@@ -100,11 +100,11 @@
 			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}</span>
 			{% endif %}
 		</td>
-		<td>
+		<td class="price">
 			{% if order.paymentCost %}
 			{{ order.paymentCost | number_format(2, '.', ',') }} &euro;
 			{% else %}
-			&nbsp;
+			{{ ('order.details.price-free') | matra('Free') }}
 			{% endif %}
 		</td>
 	</tr>
@@ -114,7 +114,7 @@
 	<tr class="spaced">
 		<th>{{ 'order.amount' | matra('Amount') }}</th>
 		<th>&nbsp;</th>
-		<th>{{ order.amount | number_format(2, '.', ',') }} &euro;</th>
+		<th class="price">{{ order.amount | number_format(2, '.', ',') }} &euro;</th>
 	</tr>
 
 </tbody>
