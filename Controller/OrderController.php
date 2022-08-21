@@ -536,7 +536,7 @@ class OrderController extends AbstractController
 
 		$this->get('maci.orders')->resetCart();
 
-		$this->sendNotify($cart, [$payment->getClientEmail() => $payment->getClientId()]);
+		$this->sendConfirmedNotify($cart, $payment);
 
 		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
 	}
@@ -559,21 +559,8 @@ class OrderController extends AbstractController
 		return $set;
 	}
 
-	public function sendNotify($order, $recipients = false, $template = false)
+	public function sendNotify($order, $mail)
 	{
-		$mail = new Mail();
-		$mail
-			->setName('Order Confirm')
-			->setType('message')
-			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-placed', 'Order Placed'))
-			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
-			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
-			->addRecipients($recipients ? $recipients : $order->getRecipient())
-			->setLocale($order->getLocale())
-			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
-			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
-		;
-
 		if ($order->getUser())
 		{
 			if (!$order->getMail()) $order->setMail($order->getUser()->getEmail());
@@ -584,6 +571,46 @@ class OrderController extends AbstractController
 		$this->get('maci.mailer')->send($mail, [
 			$this->get('service_container')->getParameter('order_email') => $this->get('service_container')->getParameter('order_email_int')
 		]);
+	}
+
+	public function sendConfirmedNotify($order, $payment)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('OrderConfirmed')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-placed', 'Order Placed'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
+		;
+
+		$this->sendNotify($order, $mail);
+
+		return ['success' => true];
+	}
+
+	public function sendShippedNotify($order)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('OrderShipped')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-shipped', 'Order Shipped'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_shipped.html.twig', ['mail' => $mail, 'order' => $order]))
+		;
+
+		$this->sendNotify($order, $mail);
+
+		return ['success' => true];
 	}
 
 	public function checkoutCompleteAction(Request $request, $token)
@@ -709,13 +736,6 @@ class OrderController extends AbstractController
 
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
-
-		return ['success' => true];
-	}
-
-	public function sendShippedNotify($order)
-	{
-		$this->sendNotify($order, false, '@MaciPage/Email/order_shipped.html.twig');
 
 		return ['success' => true];
 	}

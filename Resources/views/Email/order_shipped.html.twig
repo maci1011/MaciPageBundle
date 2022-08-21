@@ -1,10 +1,10 @@
 <html>
 <head>
-<style type="text/css">
 
-{% include "@MaciPage/Email/mail.style.css" %}
+<title>{{ 'order.mails.order-shipped'|matla('Order Shipped') }} | {{ company_title }}</title>
 
-</style>
+{% include "@MaciPage/Email/_head.html.twig" %}
+
 </head>
 <body>
 
@@ -18,9 +18,9 @@
 <tbody>
 <tr>
 	<td>
-		<span class="attr label">{{ 'order.code' | matra('Code') }}:</span>
+		<span class="attr label">{{ 'order.code'|matra('Code') }}:</span>
 		<span class="attr value"> {{ order.code }}</span><br/>
-		<span class="attr label">{{ 'order.status' | matra('Status') }}:</span>
+		<span class="attr label">{{ 'order.status'|matra('Status') }}:</span>
 		<span class="attr value"> {{ order.statusLabel }}</span>
 	</td>
 </tr>

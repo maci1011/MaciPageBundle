@@ -164,6 +164,9 @@ class MailerController extends AbstractController
 
 	public function templatesAction()
 	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
 	}
 
