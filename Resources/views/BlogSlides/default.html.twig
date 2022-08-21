@@ -7,12 +7,12 @@
 		<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
 	</a>
 	{% if slide.preview.name or slide.preview.description %}
-	<figcaption class="post-preview-description">
+	<figcaption class="post-preview-caption">
 		{% if slide.preview.name %}
 		<span class="post-preview-name">{{ slide.preview.name }}</span>
 		{% endif %}
 		{% if slide.preview.name or slide.preview.description %}
-		{{ slide.preview.description|raw }}
+		<div class="post-preview-description">{{ slide.preview.description|raw }}</div>
 		{% endif %}
 	</figcaption>
 	{% endif %}
