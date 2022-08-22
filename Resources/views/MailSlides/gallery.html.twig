@@ -2,10 +2,10 @@
 <table>
 <tbody>
 
-{% if item.Children|length %}
+{% if slide.Children|length %}
 <tr>
 
-{% for child in item.Children %}
+{% for child in slide.Children %}
 
 	<td class="center">
 		<img class="gallery img-fluid" src="{{ path('maci_media_get', {'path': child.media.path}) }}" alt="{{ child.media }}" />

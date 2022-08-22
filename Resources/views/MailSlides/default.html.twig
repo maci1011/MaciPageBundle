@@ -2,18 +2,18 @@
 <table>
 <tbody>
 
-{% if item.media %}
+{% if slide.media %}
 <tr>
 	<td class="center">
-		<img class="default img-fluid" src="{{ path('maci_media_get', {'path': item.media.path}) }}" alt="{{ item.media }}" />
+		<img class="default img-fluid" src="{{ path('maci_media_get', {'path': slide.media.path}) }}" alt="{{ slide.media }}" />
 	</td>
 </tr>
 {% endif %}
 
 <tr>
 	<td>
-		<h2 class="default item-title">{{ item.title }}</h2>
-		<p class="default item-content">{{ item.content }}</p>
+		<h2 class="default item-title">{{ slide.title }}</h2>
+		<p class="default item-content">{{ slide.content }}</p>
 	</td>
 </tr>
 

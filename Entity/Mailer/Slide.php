@@ -165,21 +165,20 @@ class Slide
 			'Default' => 'default',
 			'Header' => 'header',
 			'Gallery' => 'gallery',
+			'Intro' => 'intro',
 			'Last Products' => 'last_products',
-			'Footer' => 'footer',
-			'Foo' => 'foo'
+			'Footer' => 'footer'
 		];
 	}
 
 	public function getTypeLabel()
 	{
-		$array = $this->getTypeArray();
-		$key = array_search($this->type, $array);
-		if ($key) {
-			return $key;
-		}
-		$str = str_replace('_', ' ', $this->type);
-		return ucwords($str);
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->type, $this->getTypeArray());
+	}
+
+	static public function getTypes()
+	{
+		return array_values(Slide::getTypeArray());
 	}
 
 	public function setVideo($video)

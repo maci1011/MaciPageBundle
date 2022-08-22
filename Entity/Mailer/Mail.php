@@ -2,6 +2,8 @@
 
 namespace Maci\PageBundle\Entity\Mailer;
 
+use Maci\PageBundle\Entity\Mailer\Slide;
+
 /**
  * Mail
  */
@@ -174,6 +176,13 @@ class Mail
 	public function setType($type)
 	{
 		$this->type = $type;
+
+		if ($type == 'newsletter' && !count($this->slides))
+		{
+			$this->addNewSlide('header');
+			$this->addNewSlide('intro');
+			$this->addNewSlide('footer');
+		}
 
 		return $this;
 	}
@@ -689,6 +698,14 @@ class Mail
 	public function getSlides()
 	{
 		return $this->slides;
+	}
+
+	public function addNewSlide($type)
+	{
+		$slide = new Slide();
+		$slide->setType($type);
+		$slide->setMail($this);
+		$this->addSlide($slide);
 	}
 
 	/**

@@ -1,86 +1,16 @@
 
 {# Print content from mail.Slides #}
 {% if mail.Slides|length %}
-
-<!DOCTYPE html>
-<html>
-<head>
-
-<title>{{ mail.subject }}</title>
-
-<style type="text/css">
-
-body {
-	font-family: Gill Sans, sans-serif;
-	background-color: #fff;
-	margin: 0;
-	padding: 10px;
-}
-
-h1, h2, h3, h4, h5, p {
-	padding: 10px 0;
-	margin: 0;
-}
-
-h1, h2, h3, h4, h5 {
-	font-weight: 600;
-}
-
-table {
-	width: 100%;
-}
-
-td {
-	padding: 0;
-	vertical-align: top;
-}
-
-#mainTable {
-	width: 600px;
-	margin: 0 auto;
-}
-
-.img-fluid {
-	max-width: 100%;
-}
-
-.center {
-	text-align: center;
-}
-
-</style>
-
-</head>
-<body>
-
-<table id="mainTable">
-<tbody>
-
-{% for item in mail.Slides %}
-<tr>
-<td>
-
-{% set stt = ( "@MaciPage/Mailslides/" ~ item.type ~ ".html.twig" ) %}
-{% include [stt, "@MaciPage/Mailslides/default.html.twig"] %}
-
-{#% include "@MaciPage/Mailslides/_slide_caption_admin.html.twig" %#}
-
-</td>
-</tr>
-{% endfor %}
-
-</tbody>
-</table>
-
-</body>
-</html>
-
+{% include "@MaciPage/Mailer/_slides.html.twig" %}
 
 {# Print content stored in mail.content #}
 {% elseif mail.content is not null %}
-
 {{ mail.content|raw }}
 
+{# Print content stored in mail.text #}
+{% elseif mail.text is not null %}
+
+{{ mail.text }}
 
 {# No Content #}
 {% else %}
@@ -95,4 +25,5 @@ td {
 </body>
 </html>
 
+{# End #}
 {% endif %}

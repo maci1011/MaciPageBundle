@@ -1,4 +1,16 @@
 
+{% if slide.media %}
+<table>
+<tbody>
+<tr>
+	<td class="center">
+		<img class="default img-fluid" src="{{ path('maci_media_get', {'path': slide.media.path}) }}" alt="{{ slide.media }}" />
+	</td>
+</tr>
+</tbody>
+</table>
+{% endif %}
+
 {% include "@MaciPage/Email/_intro.html.twig" with {
 	'intro_message': slide.title,
 	'message': slide.content
