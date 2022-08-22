@@ -1,7 +1,7 @@
 
 {# Print content from mail.Slides #}
 {% if mail.Slides|length %}
-{% include "@MaciPage/Mailer/_slides.html.twig" %}
+{% include "@MaciPage/Mailer/newsletter.html.twig" %}
 
 {# Print content stored in mail.content #}
 {% elseif mail.content is not null %}
@@ -9,7 +9,6 @@
 
 {# Print content stored in mail.text #}
 {% elseif mail.text is not null %}
-
 {{ mail.text }}
 
 {# No Content #}

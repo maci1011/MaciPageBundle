@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{{ mail.subject }}</title>
+
+{% include "@MaciPage/Email/_head.html.twig" %}
+
+</head>
+<body>
+
+{% for slide in mail.Slides %}
+
+{% set stt = ( "@MaciPage/MailSlides/" ~ slide.type ~ ".html.twig" ) %}
+{% include [stt, "@MaciPage/MailSlides/default.html.twig"] %}
+
+{#% include "@MaciPage/Mailslides/_slide_caption_admin.html.twig" %#}
+
+{% endfor %}
+
+</body>
+</html>
