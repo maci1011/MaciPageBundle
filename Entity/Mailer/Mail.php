@@ -181,6 +181,7 @@ class Mail
 		{
 			$this->addNewSlide('header');
 			$this->addNewSlide('intro');
+			$this->addNewSlide('last_products');
 			$this->addNewSlide('footer');
 		}
 
