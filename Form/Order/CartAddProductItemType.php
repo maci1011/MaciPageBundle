@@ -51,7 +51,7 @@ class CartAddProductItemType extends AbstractType
 						'data' => $variant['name']
 				]);
 				$builder->add('quantity', ChoiceType::class, [
-					'choices' => [1,2,3],
+					'choices' => $this->getIntChoices($variant['quantity']),
 					'label' => $this->translator->getLabel('quantity', 'Quantity'),
 					'attr' => ['class' => 'set-quantity-field']
 				]);
@@ -73,7 +73,7 @@ class CartAddProductItemType extends AbstractType
 		}
 		$builder->add('add_to_cart', SubmitType::class, [
 			'label' => $this->translator->getLabel('product.add_to_cart', 'Add To Cart'),
-			'attr' => array('class' => 'btn-primary btn')
+			'attr' => ['class' => 'btn-primary btn']
 		]);
 	}
 
