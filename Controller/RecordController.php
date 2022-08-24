@@ -156,6 +156,7 @@ class RecordController extends AbstractController
 	public function checkData($cmd)
 	{
 		$om = $this->getDoctrine()->getManager();
+		$qtas = [];
 
 		$removedRecords = 0;
 		$qtaErrProducts = [];
@@ -203,6 +204,12 @@ class RecordController extends AbstractController
 			if (!$product->checkTotalQuantity())
 				array_push($qtaErrProducts, $id);
 
+			$b = $product->getBuyed();
+			$q = $product->getQuantity();
+			$s = $product->getSelled();
+
+			$qtas['#'.$product->getId()] = [$b, $q, $s];
+
 			$product->resetQuantity();
 
 			array_push($products[$product->getCode()], $product);
@@ -245,10 +252,6 @@ class RecordController extends AbstractController
 				$records[$code][$key] = 1;
 				$product = $found;
 
-				$b = $product->getBuyed();
-				$q = $product->getQuantity();
-				$s = $product->getSelled();
-
 				$record->resetLoadedValue();
 
 				if ($product->loadRecord($record))
@@ -258,10 +261,14 @@ class RecordController extends AbstractController
 					$imported++;
 			}
 
-			if ($b != $product->getBuyed() || $q != $product->getQuantity() || $s != $product->getSelled())
+			if (!array_key_exists('#'.$product->getId(), $qtas))
+				continue;
+
+			$qs = $qtas['#'.$product->getId()];
+
+			if ($qs[0] != $product->getBuyed() || $qs[1] != $product->getQuantity() || $qs[2] != $product->getSelled())
 			{
 				array_push($qtaChangedProducts, $rid);
-				$om->flush();
 			}
 		}
 
@@ -332,10 +339,10 @@ class RecordController extends AbstractController
 					array_push($newButNotImported, $rid);
 			}
 
-			if (!array_key_exists($product->getCode(), $newProducts))
-				$newProducts[$product->getCode()] = [];
-
-			$newProducts[$code] = count($news) ? $news : false;
+			if (count($news))
+			{
+				$newProducts[$code] = $news;
+			}
 		}
 
 		if ($cmd == 'reset_data')
