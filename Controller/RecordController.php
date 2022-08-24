@@ -159,6 +159,7 @@ class RecordController extends AbstractController
 
 		$removedRecords = 0;
 		$qtaErrProducts = [];
+		$qtaChangedProducts = [];
 		$doubleProducts = [];
 		$noRecords = [];
 		$noProducts = [];
@@ -202,6 +203,8 @@ class RecordController extends AbstractController
 			if (!$product->checkTotalQuantity())
 				array_push($qtaErrProducts, $id);
 
+			$product->resetQuantity();
+
 			array_push($products[$product->getCode()], $product);
 		}
 
@@ -222,18 +225,18 @@ class RecordController extends AbstractController
 				$double = false;
 				foreach ($list as $product)
 				{
-					if ($product->checkRecord($record))
+					if (!$product->checkRecord($record))
+						continue;
+
+					if ($found)
 					{
-						if ($found)
-						{
-							array_push($doubleProducts, $rid);
-							$records[$code][$key] = 2;
-							$double = true;
-							break;
-						}
-						else
-							$found = $product;
+						array_push($doubleProducts, $rid);
+						$records[$code][$key] = 2;
+						$double = true;
+						break;
 					}
+					else
+						$found = $product;
 				}
 
 				if (!$found || $double)
@@ -242,6 +245,10 @@ class RecordController extends AbstractController
 				$records[$code][$key] = 1;
 				$product = $found;
 
+				$b = $product->getBuyed();
+				$q = $product->getQuantity();
+				$s = $product->getSelled();
+
 				$record->resetLoadedValue();
 
 				if ($product->loadRecord($record))
@@ -249,6 +256,12 @@ class RecordController extends AbstractController
 
 				if ($product->importRecord($record))
 					$imported++;
+			}
+
+			if ($b != $product->getBuyed() || $q != $product->getQuantity() || $s != $product->getSelled())
+			{
+				array_push($qtaChangedProducts, $rid);
+				$om->flush();
 			}
 		}
 
@@ -332,6 +345,7 @@ class RecordController extends AbstractController
 			'success' => true,
 			'removedRecords' => $removedRecords,
 			'qtaErrProducts' => $qtaErrProducts,
+			'qtaChangedProducts' => $qtaChangedProducts,
 			'noRecords' => $noRecords,
 			'noProducts' => $noProducts,
 			'doubleProducts' => $doubleProducts,
@@ -503,8 +517,6 @@ class RecordController extends AbstractController
 
 			$products[count($products)] = $product;
 		}
-
-		// var_dump($code);die();
 
 		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
 
