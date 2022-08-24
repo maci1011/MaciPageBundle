@@ -405,7 +405,7 @@ class OrderController extends AbstractController
 		$om->flush();
 
 		$storage->update($payment);
-		
+
 		if(substr($gatewayName, 0, 6) === 'paypal')
 			return $this->capturePayPal($cart, $payment);
 
@@ -456,6 +456,7 @@ class OrderController extends AbstractController
 
 		$payment->setDetails($paymentDetails->getDetails());
 
+		$storage = $this->get('payum')->getStorage(Payment::class);
 		$storage->update($payment);
 
 		return $this->redirect($captureToken->getTargetUrl());

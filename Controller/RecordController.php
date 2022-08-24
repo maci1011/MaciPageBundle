@@ -492,11 +492,7 @@ class RecordController extends AbstractController
 		foreach ($records as $record)
 		{
 			if ($last && $last->checkRecord($record)) $product = $last;
-			else $product = $this->getDoctrine()->getManager()
-				->getRepository('MaciPageBundle:Shop\Product')->findOneBy([
-					'code' => $record->getCode(),
-					'variant' => $record->getProductVariant()
-				]);
+			else $product = $this->getProduct($record);
 
 			if (!$product)
 			{

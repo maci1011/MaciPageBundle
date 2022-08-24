@@ -49,7 +49,7 @@ class ContactController extends AbstractController
 			$mail
 				->setName('ContactForm')
 				->setType('message')
-				->setSubject(str_replace('%name%', $contact->getFullName(), $mt->getLabel('contacts.mail-title', 'New Messagge from %name%!')))
+				->setSubject(str_replace('%name%', $contact->getFullName(), $mt->getLabel('contacts.mail-title', 'Messagge from: %name%')))
 				->setReplyTo($contact->getRecipient())
 				->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
 				->addRecipients([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
