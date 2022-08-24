@@ -496,8 +496,9 @@ class RecordController extends AbstractController
 
 			if (!$product)
 			{
-				$products[count($products)] = false;
-				continue;
+				$message = "Product with code " . $record->getCode() . " and variant '" . $record->getVariantLabel() . "' not found.";
+				echo $message;
+				die();
 			}
 
 			$products[count($products)] = $product;
