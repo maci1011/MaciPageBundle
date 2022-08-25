@@ -711,17 +711,13 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
-		// $order->completeOrder();
-
 		$set = $this->getOrderSet($cart);
 
-		$set = $order->confirmOrder([]);
+		$set = $order->confirmOrder($set, []);
+		// $order->completeOrder();
 
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
-		$om->flush();
-
-		$om = $this->getDoctrine()->getManager();
 		$om->flush();
 
 		return ['success' => true];
@@ -731,9 +727,10 @@ class OrderController extends AbstractController
 	{
 		$set = $this->getOrderSet($order);
 
-		$order->cancelOrder($set);
+		$order->cancelOrder($set, []);
 
 		$om = $this->getDoctrine()->getManager();
+		$om->persist($set);
 		$om->flush();
 
 		return ['success' => true];
