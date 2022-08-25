@@ -23,5 +23,6 @@ Maci\PageBundle\Entity\Order\Payment:
             targetEntity: Maci\PageBundle\Entity\Order\PaymentDetails
             mappedBy: payment
             orderBy: { 'id': DESC }
+            cascade: ["remove"]
     lifecycleCallbacks:
         prePersist: [ setCreatedValue ]

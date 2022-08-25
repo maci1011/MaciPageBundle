@@ -76,13 +76,10 @@ class OrderService extends AbstractController
 	{
 		$item = $order->addProduct($product, $quantity, $variant);
 		if (!$item) {
-			// $this->removeItem($item);
 			return false;
-		}
 
-		if (is_object($item) && true === $this->authorizationChecker->isGranted('ROLE_USER')) {
+		if (is_object($item) && true === $this->authorizationChecker->isGranted('ROLE_USER'))
 			$this->om->persist($item);
-		}
 
 		return true;
 	}
@@ -523,7 +520,7 @@ class OrderService extends AbstractController
 		foreach ($payments as $name => $pay)
 		{
 			if (!$this->checkPaymentCheckout($order, $pay) ||
-				($pay['sandbox'] && $this->kernel->getEnvironment() == "prod")
+				($pay['sandbox'] && false === $this->authorizationChecker->isGranted('ROLE_ADMIN') && $this->kernel->getEnvironment() == "prod")
 			) continue;
 
 			$choices[$this->getPaymentLabel($pay) . ' - ' . $this->getPaymentCostLabel($pay)] = $name;

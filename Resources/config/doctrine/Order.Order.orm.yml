@@ -112,10 +112,12 @@ Maci\PageBundle\Entity\Order\Order:
             targetEntity: Transaction
             mappedBy: order
             orderBy: { 'created': ASC }
+            cascade: ["remove"]
         payments:
             targetEntity: Payment
             mappedBy: order
             orderBy: { 'created': ASC }
+            cascade: ["remove"]
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue ]
         preUpdate: [ setUpdatedValue ]
