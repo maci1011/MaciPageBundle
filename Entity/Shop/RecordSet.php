@@ -143,7 +143,8 @@ class RecordSet
 	{
 		return [
 			'Import' => 'imprt',
-			'Export' => 'exprt'
+			'Export' => 'exprt',
+			'Order' => 'order'
 		];
 	}
 

@@ -487,7 +487,7 @@ class OrderController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
-		if($status->getValue() != "captured")
+		if($status->getValue() != "captured" && $status->getValue() != "pending")
 		{
 			$this->get('session')->getFlashBag()->add('info', 'error.payment_not_captured');
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
@@ -499,7 +499,7 @@ class OrderController extends AbstractController
 		// PAYMENTREQUEST_0_PAYMENTSTATUS   "Pending"
 		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
-		$payment = $status->getFirstModel();
+		$payment = $status->getFirstModel()->getPayment();
 		$cart = $payment->getOrder();
 
 		if (!$cart)
@@ -538,7 +538,7 @@ class OrderController extends AbstractController
 
 		$this->get('maci.orders')->resetCart();
 
-		$this->sendConfirmedNotify($cart, $payment);
+		$this->sendConfirmedNotify($cart);
 
 		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
 	}
@@ -555,7 +555,7 @@ class OrderController extends AbstractController
 			$set = new RecordSet();
 			$set->setLabel($label);
 			$set->setDescription($order->getName());
-			$set->setType('exprt');
+			$set->setType('order');
 			$om->persist($set);
 		}
 
@@ -576,7 +576,7 @@ class OrderController extends AbstractController
 		]);
 	}
 
-	public function sendConfirmedNotify($order, $payment)
+	public function sendConfirmedNotify($order)
 	{
 		$mail = new Mail();
 		$mail
