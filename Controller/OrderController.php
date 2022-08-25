@@ -502,7 +502,8 @@ class OrderController extends AbstractController
 		$payment = $status->getFirstModel();
 		$cart = $payment->getOrder();
 
-		if (!$cart) {
+		if (!$cart)
+		{
 			$this->get('session')->getFlashBag()->add('danger', 'error.order_not_found');
 			return $this->redirect($this->generateUrl('maci_product'));
 		}
@@ -587,7 +588,7 @@ class OrderController extends AbstractController
 			->addRecipients($order->getRecipient())
 			->setLocale($order->getLocale())
 			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
-			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
+			->setContent($this->renderView('@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
 		;
 
 		$this->sendNotify($order, $mail);

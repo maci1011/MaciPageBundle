@@ -35,7 +35,7 @@ class MailerService extends AbstractController
 
 	public function send(Mail $mail, $notify = false)
 	{
-		$message = $mail->getSwiftMessage($mail);
+		$message = $mail->getSwiftMessage();
 
 		if (!$message)
 			return false;

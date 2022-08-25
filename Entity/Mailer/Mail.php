@@ -501,7 +501,7 @@ class Mail
 
 		for ($i = 0; $i < count($data['recipients']); $i++)
 		{
-			if ($data['recipients'][$i]['sent'] === "false")
+			if ($data['recipients'][$i]['sended'] === "false")
 				array_push($list, $data['recipients'][$i]);
 
 			if (0 < $len && $len <= count($list))

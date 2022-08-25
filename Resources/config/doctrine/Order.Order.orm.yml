@@ -34,12 +34,12 @@ Maci\PageBundle\Entity\Order\Order:
             nullable: true
         payment_cost:
             type: decimal
-            precision: 3
+            precision: 5
             scale: 2
             nullable: true
         shipping_cost:
             type: decimal
-            precision: 3
+            precision: 5
             scale: 2
             nullable: true
         code:

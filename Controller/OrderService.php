@@ -431,7 +431,8 @@ class OrderService extends AbstractController
 			$this->addProduct($cart, $product, $quantity, $item['variant']);
 		}
 
-		if ($values['shippingAddress'] !== null) {
+		if ($values['shippingAddress'] !== null)
+		{
 			$address = $values['shippingAddress'];
 			if (is_numeric($address)) {
 				$address = $this->ac->getAddress($address);
@@ -441,7 +442,8 @@ class OrderService extends AbstractController
 			}
 		}
 
-		if ($values['billingAddress'] !== null) {
+		if ($values['billingAddress'] !== null)
+		{
 			$address = $values['billingAddress'];
 			if (is_numeric($address)) {
 				$address = $this->ac->getAddress($address);
@@ -458,24 +460,27 @@ class OrderService extends AbstractController
 	public function getSessionArray()
 	{
 		$order = $this->session->get('order');
-		if (!is_array($order)) {
+
+		if (!is_array($order))
 			return $this->getCartDefaultValues();
-		}
+
 		return $order;
 	}
 
 	public function getSessionItems()
 	{
 		$items = $this->session->get('order_items');
-		if (!is_array($items)) {
+
+		if (!is_array($items))
 			return [];
-		}
+
 		return $items;
 	}
 
 	public function refreshSession($order)
 	{
-		if (!$order->getStatus() == 'session') {
+		if (!$order->getStatus() == 'session')
+		{
 			$this->resetCart();
 			return;
 		}
