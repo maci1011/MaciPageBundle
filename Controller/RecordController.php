@@ -58,6 +58,7 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$ids = $request->get('ids', []);
 		$setId = $request->get('setId', 'null');
+		$set = false;
 		$list = [];
 		$_all = false;
 
@@ -81,8 +82,11 @@ class RecordController extends AbstractController
 		if (!count($list))
 			return new JsonResponse(['success' => false, 'error' => 'List is Empty.'], 200);
 
-		if (in_array($cmd, ['reload_recs']))
+		if ($cmd == 'reload_recs')
 			return $this->reloadRecords($list, $cmd);
+
+		if ($cmd == 'reset_import')
+			return new JsonResponse($this->resetImport($set));
 
 		if ($_all)
 			return new JsonResponse(['success' => false, 'error' => 'No Actions.'], 200);
@@ -135,13 +139,36 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
-	public function getProduct($record)
+	public function resetImport($set)
+	{
+		if (!$set)
+			return ['success' => false, 'error' => 'No Set.'];
+
+		$om = $this->getDoctrine()->getManager();
+		$products = [];
+
+		foreach ($set->getChildren() as $record)
+		{
+			$product = $this->getProduct($record, $products);
+			$product->revertRecord($record);
+			$om->remove($record);
+		}
+
+		$om->flush();
+
+		return ['success' => true];
+	}
+
+	public function getProduct($record, &$list = false)
 	{
 		$om = $this->getDoctrine()->getManager();
 		$product = false;
-		$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
-			'code' => $record->getCode()
-		]);
+		if (!$list)
+		{
+			$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
+				'code' => $record->getCode()
+			]);
+		}
 		foreach ($list as $item)
 		{
 			if ($item->checkRecord($record) && !$product)
@@ -149,6 +176,13 @@ class RecordController extends AbstractController
 				$product = $item;
 				break;
 			}
+		}
+		if (!$product && $list)
+		{
+			$product = $this->getProduct($record);
+			if ($product)
+				array_push($list, $product);
+			return $product;
 		}
 		return $product;
 	}

@@ -75,7 +75,7 @@ class OrderService extends AbstractController
 	public function addProduct($order, $product, $quantity, $variant)
 	{
 		$item = $order->addProduct($product, $quantity, $variant);
-		if (!$item) {
+		if (!$item)
 			return false;
 
 		if (is_object($item) && true === $this->authorizationChecker->isGranted('ROLE_USER'))

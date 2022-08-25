@@ -1675,6 +1675,13 @@ class Product
 		;
 	}
 
+	public function revertRecord($record)
+	{
+		$_rec = clone $record;
+		$_rec->setQuantity(-$_rec->getQuantity());
+		return $this->buyOrSellRecord($_rec);
+	}
+
 	public function newVariantItem($name)
 	{
 		return [

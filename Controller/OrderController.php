@@ -545,8 +545,8 @@ class OrderController extends AbstractController
 	public function getOrderSet($order)
 	{
 		$label = 'Order #' . $order->getId();
-		$set = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Shop\RecordSet')
+		$om = $this->getDoctrine()->getManager();
+		$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')
 			->findOneByLabel($label);
 
 		if (!$set)
@@ -555,6 +555,7 @@ class OrderController extends AbstractController
 			$set->setLabel($label);
 			$set->setDescription($order->getName());
 			$set->setType('exprt');
+			$om->persist($set);
 		}
 
 		return $set;
@@ -730,10 +731,6 @@ class OrderController extends AbstractController
 		$set = $this->getOrderSet($order);
 
 		$order->cancelOrder($set);
-
-		$om = $this->getDoctrine()->getManager();
-		$om->persist($set);
-		$om->flush();
 
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
