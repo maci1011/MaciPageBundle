@@ -21,7 +21,7 @@
 <figure class="post-preview-wrapper">
 	{% if post.preview %}
 	<a class="post-preview-link d-block" href="{{ path('maci_media_get', {'path': post.preview.path}) }}" data-lightbox="post-image" data-title="{{ post.preview }}">
-		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath|imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
+		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath|imagine_filter('maci_blog_list')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
 	</a>
 	{% if post.preview.name or post.preview.description %}
 	<figcaption class="post-preview-caption">
