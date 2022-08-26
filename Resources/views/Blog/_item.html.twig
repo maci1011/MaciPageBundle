@@ -25,7 +25,7 @@
 <div class="post-preview-wrapper">
 	<a href="{{ post_link }}" title="{{ post.title }}">
 		{% if post.preview %}
-		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath | imagine_filter('maci_media_lightbox')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
+		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath|imagine_filter('maci_blog_list')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}">
 		{% else %}
 		<img class="post-preview default img-fluid" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 		{% endif %}
