@@ -433,7 +433,13 @@ class OrderController extends AbstractController
 		// $paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
 		// $paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
 
+		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
+		$paymentDetails['INVNUM'] = $payment->getId();
+		$paymentDetails->setPayment($payment);
+
 		$storageDetails->update($paymentDetails);
+
+		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
 
@@ -443,17 +449,12 @@ class OrderController extends AbstractController
 			'maci_order_payments_after_capture'
 		);
 
-		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
-
-		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
-		$paymentDetails['INVNUM'] = $paymentDetails->getId();
-		$paymentDetails->setPayment($payment);
-
-		$payment->setDetails($paymentDetails->getDetails());
+		// $payment->setDetails([]);
 
 		$storage = $this->get('payum')->getStorage(Payment::class);
 		$storage->update($payment);
-		$storageDetails->update($paymentDetails);
+
+		// $storageDetails->update($paymentDetails);
 
 		return $this->redirect($captureToken->getTargetUrl());
 	}
