@@ -419,18 +419,15 @@ class OrderController extends AbstractController
 	public function capturePayPal($cart, $payment)
 	{
 		$storageDetails = $this->get('payum')->getStorage(PaymentDetails::class);
+
 		$paymentDetails = $storageDetails->create();
-
 		$paymentDetails->setType('paypalExpress');
-
 		$paymentDetails['PAYMENTREQUEST_0_CURRENCYCODE'] = 'EUR';
 		$paymentDetails['PAYMENTREQUEST_0_AMT'] = $cart->getAmount();
-
 		$paymentDetails['NOSHIPPING'] = Api::NOSHIPPING_NOT_DISPLAY_ADDRESS;
 
 		// $paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
 		// $paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
-
 		// $paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
 		// $paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
 		// $paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
@@ -449,17 +446,14 @@ class OrderController extends AbstractController
 		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
 
 		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
-
 		$paymentDetails['INVNUM'] = $paymentDetails->getId();
-
-		$storageDetails->update($paymentDetails);
-
 		$paymentDetails->setPayment($payment);
 
 		$payment->setDetails($paymentDetails->getDetails());
 
 		$storage = $this->get('payum')->getStorage(Payment::class);
 		$storage->update($payment);
+		$storageDetails->update($paymentDetails);
 
 		return $this->redirect($captureToken->getTargetUrl());
 	}
