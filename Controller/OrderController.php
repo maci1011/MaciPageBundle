@@ -427,19 +427,18 @@ class OrderController extends AbstractController
 		$paymentDetails['PAYMENTREQUEST_0_AMT'] = $cart->getAmount();
 
 		$paymentDetails['NOSHIPPING'] = Api::NOSHIPPING_NOT_DISPLAY_ADDRESS;
-		$paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
-		$paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
 
-		$paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
-		$paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
-		$paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
-		$paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
+		// $paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
+		// $paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
+
+		// $paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
+		// $paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
+		// $paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
+		// $paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
 
 		$storageDetails->update($paymentDetails);
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
-
-		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
 
 		$captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
 			$gatewayName, 
@@ -447,7 +446,10 @@ class OrderController extends AbstractController
 			'maci_order_payments_after_capture'
 		);
 
+		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
+
 		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
+
 		$paymentDetails['INVNUM'] = $paymentDetails->getId();
 
 		$storageDetails->update($paymentDetails);
