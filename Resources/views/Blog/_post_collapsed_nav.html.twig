@@ -18,7 +18,11 @@
 		{% if post.editors|length %}
 		<li class="nav-item first">
 			<p class="post-author post-nav-val navbar-text px-2">
+				{% if post.editors|length == 1 %}
 				<i class="fas fa-user-alt"></i>
+				{% else %}
+				<i class="fas fa-users"></i>
+				{% endif %}
 				{% for editor in post.editors %}
 				{{ editor.name ~ (loop.last ? '' : ', ') }}
 				{% endfor %}
