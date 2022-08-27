@@ -138,22 +138,6 @@
 
 {% include "@MaciPage/Blog/_license.html.twig" %}
 
-{% if post.related|length %}
-<section class="related-list related-posts">
-
-	<h3 class="list-title related">
-		{% if post.related|length == 1 %}
-		{{ 'blog.post.related-post'|matra('Related Post') }}:
-		{% else %}
-		{{ 'blog.post.related-posts'|matra('Related Posts') }}:
-		{% endif %}
-	</h3>
-
-	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.related } %}
-
-</section>
-{% endif %}
-
 {% if post.editors|length %}
 <section class="related-list editors">
 
@@ -166,6 +150,22 @@
 	</h3>
 
 	{% include "@MaciPage/Blog/_editors.html.twig" with { 'list': post.editors } %}
+
+</section>
+{% endif %}
+
+{% if post.related|length %}
+<section class="related-list related-posts">
+
+	<h3 class="list-title related">
+		{% if post.related|length == 1 %}
+		{{ 'blog.post.related-post'|matra('Related Post') }}:
+		{% else %}
+		{{ 'blog.post.related-posts'|matra('Related Posts') }}:
+		{% endif %}
+	</h3>
+
+	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.related } %}
 
 </section>
 {% endif %}
