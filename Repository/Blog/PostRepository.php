@@ -58,7 +58,7 @@ class PostRepository extends EntityRepository
 			->setparameter(':removed', false)
 			->andWhere('p.status = :status')
 			->setparameter(':status', 'pubblished')
-			->orderBy('p.created', 'DESC')
+			->orderBy('p.created', 'ASC')
 			;
 		return $q->getQuery()->getResult();
 	}
