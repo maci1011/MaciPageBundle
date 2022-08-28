@@ -32,7 +32,9 @@
 
 {% block content %}
 
-<div class="author">
+<section class="related-list author">
+<h3 class="list-title related">{{ 'blog.author'|matra('Author') }}:</h3>
+<div class="related-posts">
 <table class="table-list">
 <tbody>
 
@@ -41,6 +43,7 @@
 </tbody>
 </table>
 </div>
+</section>
 
 {% include "@MaciPage/Blog/_list_compact.html.twig" %}
 
