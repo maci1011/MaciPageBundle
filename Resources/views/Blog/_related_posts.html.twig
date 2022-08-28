@@ -5,22 +5,9 @@
 
 {% for related_item in list %}
 
-{% set related_post = post.id == related_item.sourcePost.id ? related_item.targetPost : related_item.sourcePost %}
+{% set post = post.id == related_item.sourcePost.id ? related_item.targetPost : related_item.sourcePost %}
 
-<tr>
-<td class="item-preview-wrapper">
-	{% if related_post.preview %}
-	<img class="item-preview" src="{{ asset(related_post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
-	{% else %}
-	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ related_post.title }}"/>
-	{% endif %}
-</td>
-<td class="item-content">
-	<a class="item-link" href="{{ path('maci_blog_show', { 'path': related_post.path, '_locale': related_post.locale }) }}">
-		<span class="item-title">{{ related_post.title }}</span>
-	</a>
-</td>
-</tr>
+{% include "@MaciPage/Blog/_item_compact.html.twig" %}
 
 {% endfor %}
 

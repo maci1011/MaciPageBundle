@@ -1,26 +1,15 @@
 
-<article class="blog-post post-item compact">
-<div class="blog-post-wrapper flex">
-
-{% set post_link = path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) %}
-
-<header class="blog-post-header">
-
-	<a href="{{ post_link }}">
-		<h1 class="post-title">{{ post.title }}</h1>
-	</a>
-
-	{% if post.subtitle %}
-	<h2 class="post-subtitle">{{ post.subtitle }}</h2>
+<tr>
+<td class="item-preview-wrapper">
+	{% if post.preview %}
+	<img class="item-preview" src="{{ asset(post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ post.title }}"/>
+	{% else %}
+	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ post.title }}"/>
 	{% endif %}
-
-</header>
-
-<footer class="blog-post-footer flex">
-
-{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
-
-</footer>
-
-</div>
-</article>
+</td>
+<td class="item-content">
+	<a class="item-link" href="{{ path('maci_blog_show', { 'path': post.path, '_locale': post.locale }) }}">
+		<span class="item-title">{{ post.title }}</span>
+	</a>
+</td>
+</tr>
