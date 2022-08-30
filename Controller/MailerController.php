@@ -75,7 +75,8 @@ class MailerController extends AbstractController
 			$item = $em->getRepository('MaciPageBundle:Mailer\Subscriber')
 				->findOneByMail($form->getData()->getMail());
 
-			if ($item && !$item->getRemoved()) {
+			if ($item && !$item->getRemoved())
+			{
 				$this->get('session')->getFlashBag()->add('danger', $this->get('maci.translator')->getText('error.subscribe-error', 'This mail cannot be added. Try with another one.'));
 				return $this->render('@MaciPage/Mailer/subscribe.html.twig', array(
 					'form' => $form->createView()
@@ -255,12 +256,12 @@ class MailerController extends AbstractController
 		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
 
-		$data = $mail->getNextRecipients();
+		$list = $mail->getNextRecipients($request->get('max', 1));
 
 		if (!count($list))
 			return new JsonResponse(['success' => true, 'end' => true], 200);
 
-		return new JsonResponse(['success' => true, 'list' => $list]);
+		return new JsonResponse(['success' => true, 'end' => false, 'list' => $list]);
 	}
 
 	public function sendNextAction(Request $request)
@@ -274,77 +275,25 @@ class MailerController extends AbstractController
 		if ($request->getMethod() !== 'POST')
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
-		$mail = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer\Mail')
+		$om = $this->getDoctrine()->getManager();
+		$mail = $om->getRepository('MaciPageBundle:Mailer\Mail')
 			->findOneById($request->get('id'));
 
 		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
 
-		$data = $mail->getData();
-
-		$index = -1;
-		$id = false;
-
-		for ($i=0; $i < count($data['recipients']); $i++)
-		{
-			if ($data['recipients'][$i]['sent'] === "false") {
-				$index = $i;
-				$id = intval($data['recipients'][$i]['id']);
-				break;
-			}
-		}
-
-		if (!$id)
+		if (!$mail->hasNextRecipients())
 			return new JsonResponse(['success' => true, 'end' => true], 200);
 
-		$subscriber = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Subscriber')
-			->findOneById($id);
+		$subscriber = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
+			->findOneByMail($mail->getNextRecipientMail());
 
 		if (!$subscriber)
 			return new JsonResponse(['success' => false, 'error' => 'Subscriber not found.'], 200);
 
-		$this->get('maci.mailer')->send($mail);
+		$this->get('maci.mailer')->sendNext($mail, $subscriber);
 
-		return new JsonResponse(['success' => true, 'id' => $id, 'data' => $data['recipients'][$index]], 200);
-
-		if (!$mail->getSender())
-		{
-			$message->setFrom(
-				$this->get('service_container')->getParameter('server_email'),
-				$this->get('service_container')->getParameter('server_email_int')
-			);
-		}
-
-		if (!$mail->getContent()) {
-			if (array_key_exists('template', $mail->getData())) {
-				$message->setBody(
-					$this->renderView($mail->getData()['template']['path'], array_merge(['mail' => $mail, 'subscriber' => $subscriber], $mail->getData()['template']['params']))
-				);
-			} else {
-				$message->setBody(
-					$this->renderView('@MaciPage/Mailer/show.html.twig', ['mail' => $mail, 'subscriber' => $subscriber])
-				);
-			}
-		}
-
-		$message->setTo($subscriber->getMail(), $subscriber->getHeader());
-
-		// ---> send message
-		if ($this->container->get('kernel')->getEnvironment() == "prod")
-			$this->get('mailer')->send($message);
-
-		$data['recipients'][$index]['sent'] = date("c", time());
-		$data['recipients'][$index]['header'] = $subscriber->getHeader();
-		$data['recipients'][$index]['mail'] = $subscriber->getMail();
-
-		$mail->setData($data);
-
-		$em = $this->getDoctrine()->getManager();
-		$em->flush();
-
-		return new JsonResponse(['success' => true, 'id' => $id, 'data' => $data['recipients'][$index]], 200);
+		return new JsonResponse(['success' => true, 'end' => !$mail->hasNextRecipients()], 200);
 	}
 
 	public function importAction()

@@ -239,7 +239,10 @@ class Mail
 
 		$this->sender = $sender;
 
-		if ($header)
+		if (!$sender)
+			$this->header = null;
+
+		elseif (is_string($header))
 			$this->header = $header;
 
 		return $this;
@@ -400,6 +403,29 @@ class Mail
 		return $this;
 	}
 
+	public function getRecipientIndex($mail)
+	{
+		$list = $this->getRecipients();
+
+		foreach ($list as $index => $recipient)
+		{
+			if ($recipient['mail'] == $mail)
+				return $index;
+		}
+
+		return -1;
+	}
+
+	public function hasRecipient($mail)
+	{
+		return -1 != $this->getRecipientIndex($mail);
+	}
+
+	public function addRecipient($mail, $name)
+	{
+		$this->addRecipients([$mail => $name]);
+	}
+
 	public function addRecipients($array)
 	{
 		$list = $this->getRecipients();
@@ -409,6 +435,9 @@ class Mail
 
 		foreach ($array as $mail => $name)
 		{
+			if ($this->hasRecipient($mail))
+				continue;
+
 			array_push($list, [
 				'name' => $name,
 				'mail' => $mail,
@@ -417,8 +446,88 @@ class Mail
 		}
 
 		$this->data['recipients'] = $list;
+	}
 
-		return $this;
+	public function removeRecipient($mail)
+	{
+		$index = $this->getRecipientIndex($mail);
+
+		if ($index == -1)
+			return;
+
+		$list = $this->getRecipients();
+		unset($list[$index]);
+
+		$this->data['recipients'] = $list;
+	}
+
+	public function removeRecipients($array)
+	{
+		foreach ($array as $mail)
+			$this->removeRecipient($mail);
+	}
+
+	public function getRecipients()
+	{
+		$data = $this->getData();
+		return array_key_exists('recipients', $data) ? $data['recipients'] : false;
+	}
+
+	public function getNextRecipients($max = 0)
+	{
+		$data = $this->getData();
+		$list = [];
+
+		for ($i = 0; $i < count($data['recipients']); $i++)
+		{
+			if (!$data['recipients'][$i]['sended'])
+				array_push($list, $data['recipients'][$i]);
+
+			if (0 < $max && $max <= count($list))
+				break;
+		}
+
+		return $list;
+	}
+
+	public function getRecipientByMail($mail)
+	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			return false;
+
+		for ($i = 0; $i < count($list); $i++)
+		{
+			if ($list[$i]['mail'] == $mail && !$list[$i]['sended'])
+				return $list[$i];
+		}
+
+		return false;
+	}
+
+	public function hasNextRecipients()
+	{
+		$list = $this->getNextRecipients(1);
+		return !!count($list);
+	}
+
+	public function getNextRecipient()
+	{
+		$list = $this->getNextRecipients(1);
+		return count($list) ? $list[0] : false;
+	}
+
+	public function getNextRecipientMail()
+	{
+		$recipient = $this->getNextRecipient();
+		return $recipient ? $recipient['mail'] : false;
+	}
+
+	public function getNextRecipientName()
+	{
+		$recipient = $this->getNextRecipient();
+		return $recipient ? $recipient['name'] : false;
 	}
 
 	public function addSubscribers($array)
@@ -430,17 +539,39 @@ class Mail
 
 		foreach ($array as $subscriber)
 		{
+			if ($subscriber->isRemoved())
+				continue;
+
 			array_push($list, [
 				'name' => $subscriber->getFullName(),
 				'mail' => $subscriber->getMail(),
-				'sended' => false,
-				'subscriber' => ('#' . $subscriber->getId())
+				'sended' => false
 			]);
 		}
 
 		$this->data['recipients'] = $list;
 
 		return $this;
+	}
+
+	public function setSendedValue($mail, $value = false)
+	{
+		$list = $this->getRecipients();
+
+		if (!$list)
+			return false;
+
+		for ($i = 0; $i < count($list); $i++)
+		{
+			if ($list[$i]['mail'] == $mail && !$list[$i]['sended'])
+			{
+				$list[$i]['sended'] = $value ? $value : date("c", time());
+				$this->data['recipients'] = $list;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function setNextSendedValue()
@@ -486,29 +617,6 @@ class Mail
 
 		$this->data['recipients'] = $list;
 		$this->sended = true;
-	}
-
-	public function getRecipients()
-	{
-		$data = $this->getData();
-		return array_key_exists('recipients', $data) ? $data['recipients'] : false;
-	}
-
-	public function getNextRecipients($len = 0)
-	{
-		$data = $this->getData();
-		$list = [];
-
-		for ($i = 0; $i < count($data['recipients']); $i++)
-		{
-			if ($data['recipients'][$i]['sended'] === "false")
-				array_push($list, $data['recipients'][$i]);
-
-			if (0 < $len && $len <= count($list))
-				break;
-		}
-
-		return $list;
 	}
 
 	public function getBcc()
@@ -765,12 +873,25 @@ class Mail
 		return $message;
 	}
 
+	public function getNextMessage($mail)
+	{
+		$recipient = $this->getRecipientByMail($mail);
+
+		if (!$recipient)
+			return false;
+
+		$message = $this->getMessage();
+		$message->addTo($recipient['mail'], $recipient['name']);
+
+		return $message;
+	}
+
 	public function getSwiftMessage($len = 0)
 	{
 		$recipients = $this->getNextRecipients($len);
 
 		if (!$recipients)
-			return null;
+			return false;
 
 		$message = $this->getMessage();
 
@@ -784,26 +905,6 @@ class Mail
 	{
 		return $this->getSwiftMessage(1);
 	}
-
-	// public function getSwiftMessage()
-	// {
-	// 	$to = $this->getCurrentTo();
-
-	// 	if (!$to) {
-	// 		return false;
-	// 	}
-
-	// 	$message = (new \Swift_Message())
-	// 		->setSubject($this->getSubject())
-	// 		->setFrom($this->getFrom(), $this->getHeader())
-	// 		->setTo($to[0], $to[1])
-	// 		->setBcc($this->getBcc())
-	// 		->setBody($this->getContent(), 'text/html')
-	// 		->addPart($this->getText(), 'text/plain')
-	// 	;
-
-	// 	return $message;
-	// }
 
 	public function isNew()
 	{

@@ -205,7 +205,7 @@ services:
     # Mailer
 
     Maci\PageBundle\Controller\MailerService:
-        arguments: ["@doctrine.orm.entity_manager","@mailer","%env(APP_ENV)%","%server_email%","%server_email_int%"]
+        arguments: ["@doctrine.orm.entity_manager","@mailer","@templating","%env(APP_ENV)%","%server_email%","%server_email_int%"]
 
     maci.mailer:
         alias: Maci\PageBundle\Controller\MailerService

@@ -134,8 +134,7 @@ class RecordController extends AbstractController
 			'success' => true,
 			'length' => count($list),
 			'imported' => $imported,
-			'errors' => count($list) - $imported,
-			'doubles' => $doubles
+			'errors' => count($list) - $imported
 		], 200);
 	}
 

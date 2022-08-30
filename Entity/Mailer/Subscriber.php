@@ -514,6 +514,11 @@ class Subscriber
 		return $this->removed;
 	}
 
+	public function isRemoved()
+	{
+		return $this->removed;
+	}
+
 	/**
 	 * Set created
 	 *
