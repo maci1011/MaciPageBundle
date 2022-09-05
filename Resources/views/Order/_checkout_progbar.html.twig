@@ -21,19 +21,19 @@
 		</span>
 	</li>
 	{% endif %}
-	{% if payment %}
-	<li class="nav-item {{ payment }}">
-		<span class="navbar-text">
-			<i class="fas fa-money-check-alt"></i>
-			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
-		</span>
-	</li>
-	{% endif %}
 	{% if shipping %}
 	<li class="nav-item {{ shipping }}">
 		<span class="navbar-text">
 			<i class="fas fa-truck"></i>
 			{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}
+		</span>
+	</li>
+	{% endif %}
+	{% if payment %}
+	<li class="nav-item {{ payment }}">
+		<span class="navbar-text">
+			<i class="fas fa-money-check-alt"></i>
+			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
 		</span>
 	</li>
 	{% endif %}
