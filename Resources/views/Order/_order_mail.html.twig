@@ -7,12 +7,6 @@
 	</div>
 	{% endif %}
 
-	<div class="form-group">
-		<label class="required control-label" for="order_mail_mail">{{ 'form.email' | matra('Email') }}</label>
-		{{ form_widget(form.mail) }}
-    	{{ form_errors(form.mail) }}
-	</div>
-
     {{ form_rest(form) }}
 
 </form>

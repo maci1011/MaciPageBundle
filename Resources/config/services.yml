@@ -187,6 +187,7 @@ services:
 
     maci.order.form.type.mail:
         class: Maci\PageBundle\Form\Order\MailType
+        arguments: ["@maci.translator"]
         tags:
             - { name: form.type, alias: order_mail }
 
