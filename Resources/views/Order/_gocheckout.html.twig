@@ -5,54 +5,23 @@
 <div class="col-12 col-sm-6 col-md-4 offset-md-1">
 <div class="wrapper">
 
-	<h3 class="title">{{ 'gocheckout.fast_checkout' | matra('Fast Checkout') }}</h3>
-
-	<h4>{{ 'gocheckout.fast_checkout.title' | matra('Already a registered member?') }}</h4>
-
-	<p>{{ 'gocheckout.fast_checkout.description' | matra('Login for a faster checkout.') }}</p>
-
-	<a class="btn btn-primary" href="{{ path('maci_user_login') }}">
-		{{ 'login' | matra('Login') }}
-	</a>
-
-</div>
-</div>
-
-{% if registration_enabled %}
-
-<div class="col-12 col-sm-6 col-md-4 offset-md-1">
-<div class="wrapper">
-
 {% if registration_required %}
 
-	<h3 class="title">{{ 'gocheckout.new_users' | matra('New Users') }}</h3>
+	<h3 class="title">{{ 'user.login'|matla('Login') }}</h3>
 
-	<h4>{{ 'gocheckout.sign_up_required.title' | matra('Sign Up') }}</h4>
+	<h4>{{ 'gocheckout.fast_checkout.title'|matra('Already a registered member?') }}</h4>
 
-	<p>{{ 'gocheckout.sign_up_required.description' | matra("You need to create an account to complete the order.") }}</p>
+	<p>{{ 'gocheckout.fast_checkout.description'|matra('Login for to complete the order.') }}</p>
 
-	<a class="btn btn-primary" href="{{ path('maci_user_register') }}">
-		{{ 'gocheckout.register_now' | matra('Register Now') }}
+	<a class="btn btn-primary" href="{{ path('maci_user_login') }}">
+		{{ 'login'|matra('Login') }}
 	</a>
 
 {% else %}
 
-	<h3 class="title">{{ 'gocheckout.new_users' | matra('New Users') }}</h3>
+	<h3 class="title">{{ 'gocheckout.new_users.title'|matra('Use your email.') }}</h3>
 
-	<h4>{{ 'gocheckout.sign_up.title' | matra('Want to checkout faster?') }}</h4>
-
-	<p>{{ 'gocheckout.sign_up.description' | matra("Sign up and get speedy checkout on future purchases.") }}</p>
-
-	<a class="btn btn-primary" href="{{ path('maci_user_register') }}">
-		{{ 'gocheckout.register_now' | matra('Register Now') }}
-	</a>
-
-</div>
-<div class="wrapper">
-
-	<h3 class="title">{{ 'gocheckout.new_users.title' | matra('Use your email.') }}</h3>
-
-	<p>{{ 'gocheckout.new_users.description' | matra("Enter your email address to proceed with purchase. We\'all only use your email to update you on this order.") }}</p>
+	<p>{{ 'gocheckout.new_users.description'|matra("Enter your email address to proceed with purchase. We\'all only use your email to update you on this order.") }}</p>
 
 	{{ render(controller('MaciPageBundle:Order:cartSetMail')) }}
 
@@ -61,7 +30,50 @@
 </div>
 </div>
 
+<div class="col-12 col-sm-6 col-md-4 offset-md-1">
+<div class="wrapper">
+
+{% if registration_required %}
+
+	<h3 class="title">{{ 'gocheckout.new_users'|matra('New Users') }}</h3>
+
+	<h4>{{ 'gocheckout.sign_up_required.title'|matra('Sign Up') }}</h4>
+
+	<p>{{ 'gocheckout.sign_up_required.description'|matra("You need to create an account to complete the order.") }}</p>
+
+	<a class="btn btn-primary" href="{{ path('maci_user_register') }}">
+		{{ 'gocheckout.register_now'|matra('Register Now') }}
+	</a>
+
+{% else %}
+
+	<h3 class="title">{{ 'gocheckout.fast_checkout'|matra('Fast Checkout') }}</h3>
+
+	<h4>{{ 'gocheckout.fast_checkout.title'|matra('Already a registered member?') }}</h4>
+
+	<p>{{ 'gocheckout.fast_checkout.description'|matra('Login for a faster checkout.') }}</p>
+
+	<a class="btn btn-primary" href="{{ path('maci_user_login') }}">
+		{{ 'login'|matra('Login') }}
+	</a>
+
+</div>
+<div class="wrapper">
+
+	<h3 class="title">{{ 'gocheckout.new_users'|matra('New Users') }}</h3>
+
+	<h4>{{ 'gocheckout.sign_up.title'|matra('Want to checkout faster?') }}</h4>
+
+	<p>{{ 'gocheckout.sign_up.description'|matra("Sign up and get speedy checkout on future purchases.") }}</p>
+
+	<a class="btn btn-primary" href="{{ path('maci_user_register') }}">
+		{{ 'gocheckout.register_now'|matra('Register Now') }}
+	</a>
+
 {% endif %}
+
+</div>
+</div>
 
 </div>
 </div>
