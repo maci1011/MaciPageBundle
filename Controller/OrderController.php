@@ -496,7 +496,7 @@ class OrderController extends AbstractController
 		// PAYMENTREQUEST_0_PAYMENTSTATUS   "Pending"
 		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
-		$payment = $status->getFirstModel()->getPayment();
+		$payment = $status->getFirstModel();
 		$cart = $payment->getOrder();
 
 		if (!$cart)

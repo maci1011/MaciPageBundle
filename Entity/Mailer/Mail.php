@@ -446,6 +446,8 @@ class Mail
 		}
 
 		$this->data['recipients'] = $list;
+
+		return $this;
 	}
 
 	public function removeRecipient($mail)
@@ -459,12 +461,16 @@ class Mail
 		unset($list[$index]);
 
 		$this->data['recipients'] = $list;
+
+		return $this;
 	}
 
 	public function removeRecipients($array)
 	{
 		foreach ($array as $mail)
 			$this->removeRecipient($mail);
+
+		return $this;
 	}
 
 	public function getRecipients()
