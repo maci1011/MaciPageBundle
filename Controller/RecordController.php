@@ -98,7 +98,7 @@ class RecordController extends AbstractController
 	{
 		$om = $this->getDoctrine()->getManager();
 		$imported = 0;
-		$last = false;
+		$lasts = [];
 		$addedpr = [];
 
 		foreach ($list as $record)
@@ -108,10 +108,7 @@ class RecordController extends AbstractController
 			if (array_key_exists($label, $addedpr))
 				$product = $addedpr[$label];
 
-			else if ($last && $last->checkRecord($record))
-				$product = $last;
-
-			else $product = $this->getProduct($record);
+			$product = $this->getProduct($record, $lasts);
 
 			if (!$product)
 			{
@@ -125,7 +122,6 @@ class RecordController extends AbstractController
 				continue;
 
 			$imported++;
-			$last = $product;
 		}
 
 		$om->flush();
@@ -158,11 +154,11 @@ class RecordController extends AbstractController
 		return ['success' => true];
 	}
 
-	public function getProduct($record, &$list = false)
+	public function getProduct($record, &$list)
 	{
 		$om = $this->getDoctrine()->getManager();
 		$product = false;
-		if (!$list)
+		if (!is_array($list))
 		{
 			$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
 				'code' => $record->getCode()
@@ -176,12 +172,28 @@ class RecordController extends AbstractController
 				break;
 			}
 		}
-		if (!$product && $list)
+		if (!is_object($product) && is_array($list))
 		{
-			$product = $this->getProduct($record);
+			$product = $this->findProduct($record);
 			if ($product)
 				array_push($list, $product);
-			return $product;
+		}
+		return $product;
+	}
+
+	public function findProduct($record)
+	{
+		$list = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')->findBy([
+			'code' => $record->getCode()
+		]);
+		$product = false;
+		foreach ($list as $item)
+		{
+			if ($item->checkRecord($record))
+			{
+				$product = $item;
+				break;
+			}
 		}
 		return $product;
 	}
@@ -467,7 +479,7 @@ class RecordController extends AbstractController
 		if (!$record)
 			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
 
-		$product = $product = $this->getProduct($record);
+		$product = $product = $this->findProduct($record);
 
 		if (!$product)
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
@@ -527,9 +539,8 @@ class RecordController extends AbstractController
 
 	public function getLabelsAction(Request $request, $template = false)
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
 
 		$setId = $request->get('setId');
 
@@ -541,21 +552,19 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
 		$products = [];
-		$last = false;
+		$lasts = [];
 
 		foreach ($records as $record)
 		{
-			if ($last && $last->checkRecord($record)) $product = $last;
-			else $product = $this->getProduct($record);
+			$product = $this->getProduct($record, $lasts);
 
 			if (!$product)
 			{
-				$message = "Product with code " . $record->getCode() . " and variant '" . $record->getVariantLabel() . "' not found.";
-				echo $message;
+				echo "Product with code " . $record->getCode() . " and variant '" . $record->getVariantLabel() . "' not found.";
 				die();
 			}
 
-			$products[count($products)] = $product;
+			array_push($products, $product);
 		}
 
 		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
