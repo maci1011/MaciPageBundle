@@ -16,6 +16,7 @@
 	</div>
 
 	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'checkout'}) }}">
+		<i class="fas fa-shopping-cart"></i>
 		{{ 'page.cart.checkout.button' | matra('Checkout') }}
 	</a>
 
@@ -29,6 +30,7 @@
 	</div>
 
 	<a class="btn btn-primary" href="{{ path('maci_order_start_checkout', {'type': 'pickup'}) }}">
+		<i class="fas fa-store-alt"></i>
 		{{ 'page.cart.pickup-in-store.button' | matra('Pickup In Store') }}
 	</a>
 
