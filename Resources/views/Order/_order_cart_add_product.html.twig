@@ -27,6 +27,13 @@
 	</div>
 
 	{{ form_row(form._token) }}
-	{{ form_row(form.add_to_cart) }}
+
+	<div class="form-group">
+		<button class="btn-primary btn btn" type="submit" id="cart_add_product_item_add_to_cart" name="cart_add_product_item[add_to_cart]">
+			<i class="fas fa-cart-plus"></i>
+			Add To Cart
+		</button>
+		{{ form_errors(form.add_to_cart) }}
+	</div>
 
 </form>
