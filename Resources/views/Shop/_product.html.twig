@@ -104,28 +104,28 @@
 					<h1 class="product-title">{{ item.name }}</h1>
 				</li>
 
-				<li class="detail-item description">
-					<span class="detail-info product-description">{{ item.description }}</span>
-				</li>
-
-				{% if item.composition %}
-				<li class="detail-item composition">
-					<span class="detail-label product-composition-label">{{ 'product.composition' | matra('Composition') }}:</span>
-					<span class="detail-info product-composition">{{ item.composition }}</span>
+				{% if item.code %}
+				<li class="detail-item code">
+					<span class="detail-info product-code">{{ item.code }}</span>
 				</li>
 				{% endif %}
 
 				{% if item.brand %}
 				<li class="detail-item brand">
-					<span class="detail-label product-brand-label">{{ 'product.brand' | matra('Brand') }}:</span>
 					<span class="detail-info product-brand">{{ item.brand }}</span>
 				</li>
 				{% endif %}
 
-				{% if item.code %}
-				<li class="detail-item code">
-					<span class="detail-label product-code-label">{{ 'product.code' | matra('Code') }}:</span>
-					<span class="detail-info product-code">{{ item.code }}</span>
+				{% if item.description %}
+				<li class="detail-item description">
+					<span class="detail-info product-description">{{ item.description }}</span>
+				</li>
+				{% endif %}
+
+				{% if item.composition %}
+				<li class="detail-item composition">
+					<span class="detail-label product-composition-label">{{ 'product.composition' | matra('Composition') }}:</span>
+					<span class="detail-info product-composition">{{ item.composition }}</span>
 				</li>
 				{% endif %}
 
