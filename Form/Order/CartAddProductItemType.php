@@ -72,8 +72,7 @@ class CartAddProductItemType extends AbstractType
 			}
 		}
 		$builder->add('add_to_cart', SubmitType::class, [
-			'label' => $this->translator->getLabel('product.add_to_cart', 'Add To Cart'),
-			'attr' => ['class' => 'btn-primary btn']
+			'attr' => ['class' => 'btn btn-primary add-to-cart-button']
 		]);
 	}
 
