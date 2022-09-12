@@ -1,7 +1,7 @@
 
 {% if form and form.shipping is defined %}
 
-<div class="checkoutFormWrapper">
+<div class="checkoutFormWrapper shipping">
 <form class="maci_order_checkout_shipping" action="{{ path('maci_order_checkout_set_shipping') }}" method="post">
 
 	{% if not form.vars.valid %}
