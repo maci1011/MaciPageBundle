@@ -15,6 +15,7 @@
 
 <div class="form-group">
 	<button id="checkout_confirm_confirm" type="submit" name="checkout_confirm[confirm]" class="btn btn-primary">
+		<i class="fas fa-check"></i>
 		{% if order.checkout == 'pickup' %}
 		{{ 'page.checkout.confirm_button.pickup'|matra('Book Order') }}
 		{% else %}
