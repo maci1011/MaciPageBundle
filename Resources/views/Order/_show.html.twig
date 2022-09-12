@@ -240,7 +240,7 @@
 
 	<td>&nbsp;</td>
 
-	{% set itemsLabel = order.totalItemsQuantity == 1 ? 'order.subtotal-item'|matra('Item') : 'order.subtotal-items'|matra('Items') %}
+	{% set itemsLabel = 1 < order.totalItemsQuantity ? 'order.subtotal-items'|matra('Items') : 'order.subtotal-item'|matra('Item') %}
 	{% if edit is defined and edit %}
 
 	<td>
