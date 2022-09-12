@@ -528,7 +528,9 @@ class OrderService extends AbstractController
 				($pay['sandbox'] && false === $this->authorizationChecker->isGranted('ROLE_ADMIN') && $this->kernel->getEnvironment() == "prod")
 			) continue;
 
-			$choices[$this->getPaymentLabel($pay) . ' - ' . $this->getPaymentCostLabel($pay)] = $name;
+			$choices[$this->getPaymentLabel($pay) . (
+				0 < $pay['cost'] ? ' (+' . $this->getPaymentCostLabel($pay) . ')' : ''
+			)] = $name;
 		}
 
 		return $choices;
@@ -641,7 +643,9 @@ class OrderService extends AbstractController
 			if ($country && $country != $ship['country'])
 				continue;
 
-			$choices[$this->getShippingLabel($ship) . ' - ' . $this->getShippingCostLabel($ship)] = $key;
+			$choices[$this->getShippingLabel($ship) . (
+				0 < $ship['cost'] ? ' (+' . $this->getShippingCostLabel($ship) . ')' : ''
+			)] = $key;
 		}
 
 		return $choices;
