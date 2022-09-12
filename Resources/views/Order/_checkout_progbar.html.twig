@@ -1,9 +1,9 @@
 
 <ol id="checkoutProgBar" class="navbar-nav">
 	<li class="nav-item first">
-		<h3 class="navbar-text">
+		<span class="navbar-text progbar-title">
 			{{ ('checkout.type' ~ order.checkout)|matra(order.checkoutLabel) }}:
-		</h3>
+		</span>
 	</li>
 	{% if billingAddress %}
 	<li class="nav-item {{ billingAddress }}">
