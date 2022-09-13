@@ -9,7 +9,7 @@
 	<li class="nav-item {{ billingAddress }}">
 		<span class="navbar-text">
 			<i class="fas fa-wallet"></i>
-			{{ 'page.checkout.billing_address' | matra('Billing Address') }}
+			{{ 'page.checkout.billing' | matra('Billing') }}
 		</span>
 	</li>
 	{% endif %}
@@ -17,7 +17,7 @@
 	<li class="nav-item {{ shippingAddress }}">
 		<span class="navbar-text">
 			<i class="fas fa-address-card"></i>
-			{{ 'page.checkout.shipping_address' | matra('Shipping Address') }}
+			{{ 'page.checkout.shipping' | matra('Shipping') }}
 		</span>
 	</li>
 	{% endif %}
@@ -25,7 +25,7 @@
 	<li class="nav-item {{ shipping }}">
 		<span class="navbar-text">
 			<i class="fas fa-truck"></i>
-			{{ 'page.checkout.shipping_method' | matra('Shipping Method') }}
+			{{ 'page.checkout.courier' | matra('Courier') }}
 		</span>
 	</li>
 	{% endif %}
@@ -33,7 +33,7 @@
 	<li class="nav-item {{ payment }}">
 		<span class="navbar-text">
 			<i class="fas fa-money-check-alt"></i>
-			{{ 'page.checkout.payment_method' | matra('Payment Method') }}
+			{{ 'page.checkout.payment' | matra('Payment') }}
 		</span>
 	</li>
 	{% endif %}
@@ -41,7 +41,7 @@
 	<li class="nav-item {{ confirm }} last">
 		<span class="navbar-text">
 			<i class="fas fa-clipboard-check"></i>
-			{{ 'page.checkout.confirm' | matra('Confirm Order') }}
+			{{ 'page.checkout.confirm' | matra('Confirm') }}
 		</span>
 	</li>
 	{% endif %}
