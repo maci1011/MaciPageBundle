@@ -320,15 +320,6 @@ class Item
 		return ucfirst(str_replace('_', ' ', $this->getVariantType()));
 	}
 
-	public function getItemDescription()
-	{
-		return
-			$this->getProductName() .
-			($this->getVariant() ? ' - ' . $this->getVariantLabel() : '') .
-			($this->getVariantName() ? ' - ' . $this->getVariantNameLabel() : '')
-		;
-	}
-
 	public function getPrivateDocuments()
 	{
 		$documents = array();
@@ -387,11 +378,24 @@ class Item
 		return $this->getProduct()->exportReturnRecord($this->getVariant(), $this->getQuantity());
 	}
 
+	public function getDescription()
+	{
+		if (!$this->product)
+			return 'Item#' . ($this->id ? $this->id : 'New');
+
+		return (
+			$this->getProduct()->getCode() . ' - ' .
+			$this->getProduct()->getName() . ' - ' .
+			$this->getProduct()->getVariantLabel() .
+			($this->getVariantName() ? ' - ' . $this->getVariantNameLabel() : '')
+		);
+	}
+
 	/**
 	 * __toString()
 	 */
 	public function __toString()
 	{
-		return 'Order-Item_'.($this->id ? $this->id : 'New');
+		return 'Order-Item_' . ($this->id ? $this->id : 'New');
 	}
 }

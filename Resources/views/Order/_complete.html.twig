@@ -45,7 +45,7 @@
 	{% for item in order.items %}
 
 	<p class="row order-item {% if loop.index is even %}odd{% else %}even{% endif %}">
-		<span class="col-12 col-sm-6 col-md-6 label">{{ item.product }}</span>
+		<span class="col-12 col-sm-6 col-md-6 label">{{ item.description }}</span>
 		<span class="col-12 col-sm-3 col-md-2 quantity">{{ item.quantity }}</span>
 		<span class="col-12 col-sm-3 col-md-2 price">{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 	</p>

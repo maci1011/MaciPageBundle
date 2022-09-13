@@ -50,10 +50,9 @@
 
 	{# ORDER ITEMS #}
 	{% for item in order.items %}
-	{% if item.product %}
 	<tr class="order-item">
 		<td class="name">
-			{{ item.itemDescription }}
+			{{ item.description }}
 		</td>
 		<td class="quantity">
 			{{ item.quantity }}
@@ -62,7 +61,6 @@
 			<span>{{ item.amount | number_format(2, '.', ',') }} &euro;</span>
 		</td>
 	</tr>
-	{% endif %}
 	{% endfor %}
 
 	{# FOOTER #}
