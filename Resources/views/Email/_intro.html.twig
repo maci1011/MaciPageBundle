@@ -4,13 +4,11 @@
 <tr>
 	<td class="order-status">
 
-		{% if intro_message is defined %}
-		{% if intro_message|length %}
+		{% if intro_message is defined and intro_message|length %}
 		{% if subscriber is defined %}
 		<h4>{{ intro_message|replace({'%name%': subscriber.name}) }}</h4>
 		{% else %}
 		<h4>{{ intro_message }}</h4>
-		{% endif %}
 		{% endif %}
 		{% elseif subscriber is defined %}
 		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%,')|replace({'%name%': subscriber.fullName}) }}</h4>
