@@ -125,7 +125,7 @@
 				{% if item.composition %}
 				<li class="detail-item composition">
 					<span class="detail-label product-composition-label">{{ 'product.composition' | matra('Composition') }}:</span>
-					<span class="detail-info product-composition">{{ item.composition }}</span>
+					<span class="detail-info product-composition">{{ item.composition|nl2br }}</span>
 				</li>
 				{% endif %}
 
