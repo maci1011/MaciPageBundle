@@ -183,6 +183,16 @@ class Subscriber
 	 */
 	public function getFullName()
 	{
+		if (!$this->name && !$this->surname)
+		{
+			$name = explode('@', $this->mail)[0];
+			$name = str_replace('-', ' ', $name);
+			$name = str_replace('_', ' ', $name);
+			$name = str_replace('.', ' ', $name);
+			$name = ucwords($name);
+			return $name;
+		}
+
 		return $this->surname . ' ' . $this->name;
 	}
 
@@ -193,7 +203,7 @@ class Subscriber
 	 */
 	public function getHeader()
 	{
-		return $this->name.' '.$this->surname;
+		return $this->getFullName();
 	}
 
 	/**
