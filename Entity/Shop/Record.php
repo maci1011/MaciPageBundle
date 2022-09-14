@@ -685,6 +685,11 @@ class Record
 		return $this->parent ? $this->parent->getLabel() : '';
 	}
 
+	public function isSimple()
+	{
+		return in_array($this->getVariantType(), ['unset', 'simple']);
+	}
+
 	/**
 	 * __toString()
 	 */

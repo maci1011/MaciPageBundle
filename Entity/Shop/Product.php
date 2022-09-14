@@ -1605,7 +1605,7 @@ class Product
 		if ($index == -1)
 		{
 			if (!$this->addVariant($variant)) return false;
-			$index = 0;
+			$index = count($this->getVariants()) - 1;
 		}
 		$item = $this->data['variants'][$index];
 		if (!array_key_exists($option, $item)) $item[$option] = 0;
@@ -1641,38 +1641,35 @@ class Product
 		if ($record->getType() == 'unset')
 			return false;
 
+		if ($record->isSimple() == $this->hasVariants())
+			return false;
+
 		$variant = $record->getVariant();
 
-		if(!$this->hasVariants())
+		if($this->hasVariants())
 		{
-			if (!in_array($variant['type'], ['unset', 'simple']))
-				return false;
-
 			if ($record->getType() == 'return')
-				return $this->return($record->getQuantity());
-			if ($record->getType() == 'back')
-				return $this->back($record->getQuantity());
-			if ($record->getType() == 'sale')
-				return $this->sell($record->getQuantity());
-			if ($record->getType() == 'purchas')
-				return $this->buy($record->getQuantity());
+				return $this->returnVariant($variant, $record->getQuantity());
 
-			return false;
+			if ($record->getType() == 'back')
+				return $this->backVariant($variant, $record->getQuantity());
+
+			return $record->getDiffQuantity() < 0 ?
+				$this->sellVariant($variant, $record->getQuantity()) :
+				$this->buyVariant($variant, $record->getQuantity())
+			;
 		}
 
-		if(in_array($variant['type'], ['unset', 'simple']))
-			return false;
-
 		if ($record->getType() == 'return')
-			return $this->returnVariant($variant, $record->getQuantity());
-
+			return $this->return($record->getQuantity());
 		if ($record->getType() == 'back')
-			return $this->backVariant($variant, $record->getQuantity());
+			return $this->back($record->getQuantity());
+		if ($record->getType() == 'sale')
+			return $this->sell($record->getQuantity());
+		if ($record->getType() == 'purchas')
+			return $this->buy($record->getQuantity());
 
-		return $record->getDiffQuantity() < 0 ?
-			$this->sellVariant($variant, $record->getQuantity()) :
-			$this->buyVariant($variant, $record->getQuantity())
-		;
+		return false;
 	}
 
 	public function revertRecord($record)

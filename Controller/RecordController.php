@@ -103,11 +103,6 @@ class RecordController extends AbstractController
 
 		foreach ($list as $record)
 		{
-			$label = $record->getCode() . ' - ' . $record->getProductVariant();
-
-			if (array_key_exists($label, $addedpr))
-				$product = $addedpr[$label];
-
 			$product = $this->getProduct($record, $lasts);
 
 			if (!$product)
@@ -115,13 +110,12 @@ class RecordController extends AbstractController
 				$product = new \Maci\PageBundle\Entity\Shop\Product();
 				$om->persist($product);
 				$product->loadRecord($record);
-				$addedpr[$record->getCode() . ' - ' . $record->getProductVariant()] = $product;
+				array_push($addedpr, $record->getCode() . ' - ' . $record->getProductVariant());
+				array_push($lasts, $product);
 			}
 
-			if (!$product->checkRecord($record) || !$product->importRecord($record))
-				continue;
-
-			$imported++;
+			if ($product->checkRecord($record) && $product->importRecord($record))
+				$imported++;
 		}
 
 		$om->flush();
@@ -130,6 +124,7 @@ class RecordController extends AbstractController
 			'success' => true,
 			'length' => count($list),
 			'imported' => $imported,
+			'addedpr' => $addedpr,
 			'errors' => count($list) - $imported
 		], 200);
 	}
@@ -156,14 +151,7 @@ class RecordController extends AbstractController
 
 	public function getProduct($record, &$list)
 	{
-		$om = $this->getDoctrine()->getManager();
 		$product = false;
-		if (!is_array($list))
-		{
-			$list = $om->getRepository('MaciPageBundle:Shop\Product')->findBy([
-				'code' => $record->getCode()
-			]);
-		}
 		foreach ($list as $item)
 		{
 			if ($item->checkRecord($record) && !$product)
@@ -172,7 +160,7 @@ class RecordController extends AbstractController
 				break;
 			}
 		}
-		if (!is_object($product) && is_array($list))
+		if (!$product)
 		{
 			$product = $this->findProduct($record);
 			if ($product)
@@ -550,7 +538,7 @@ class RecordController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId]);
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId], ['code' => 'ASC']);
 		$products = [];
 		$lasts = [];
 
