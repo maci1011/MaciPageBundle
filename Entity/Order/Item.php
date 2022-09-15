@@ -277,12 +277,27 @@ class Item
 
 	public function setVariant($variant)
 	{
-		if (!$this->product || !$this->product->hasVariants()) return;
-		if (is_null($this->details)) $this->details = [];
-		$this->details['variant'] = [
-			'name' => $variant['name'],
-			'type' => $this->product->getVariantsType()
-		];
+		if (!is_array($this->details))
+			$this->details = [];
+
+		if (!$this->product || !$this->product->hasVariants())
+		{
+			if (!array_key_exists('type', $variant) || !in_array($variant['type'], ['unset', 'simple']))
+				return false;
+
+			$this->details['variant'] = $variant;
+			return true;
+		}
+
+		if (!array_key_exists('type', $variant))
+			$variant['type'] = $this->product->getVariantsType();
+
+		if (!$this->product->checkVariant($variant))
+			return false;
+
+		$this->details['variant'] = $variant;
+
+		return true;
 	}
 
 	public function getVariant()

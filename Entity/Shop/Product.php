@@ -1752,12 +1752,13 @@ class Product
 			) ||
 			$this->hasVariants() && (
 				!is_array($variant) ||
+				!array_key_exists('name', $variant) ||
+				$this->findVariant($variant['name']) < 0 ||
 				!array_key_exists('type', $variant) ||
 				$variant['type'] == 'unset' ||
 				$variant['type'] != $this->getVariantType() ||
 				(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
-				(array_key_exists('color', $variant) && !$this->checkVariantAttr($variant['color'])) ||
-				(array_key_exists('name', $variant) && $this->findVariant($variant['name']) < 0)
+				(array_key_exists('color', $variant) && !$this->checkVariantAttr($variant['color']))
 			)
 		);
 	}
@@ -1777,9 +1778,9 @@ class Product
 		return $this->checkRecord($record) && $this->checkVariant($record->getVariant());
 	}
 
-	public function createRecord($variant)
+	public function createRecord($type, $variant, $quantity = 1)
 	{
-		if (!$this->checkVariant($variant))
+		if (!in_array($type, Record::getTypes()) || !$this->checkVariant($variant))
 			return false;
 
 		$record = new Record;
@@ -1787,24 +1788,19 @@ class Product
 		$record->setCategory($this->getName());
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
-
+		$record->setType($type);
 		$record->setVariant($variant);
+		$record->setQuantity($quantity);
 
 		return $record;
 	}
 
 	public function exportRecord($type, $variant, $quantity = 0)
 	{
-		if (!in_array($type, Record::getTypes())) return false;
+		$record = $this->createRecord($type, $variant, $quantity);
 
-		$record = $this->createRecord($variant);
-
-		if (!$record) return false;
-
-		$record->setType($type);
-		$record->setQuantity($quantity);
-
-		if (!$this->importRecord($record)) return false;
+		if (!$record || !$this->importRecord($record))
+			return false;
 
 		return $record;
 	}

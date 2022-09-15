@@ -664,6 +664,12 @@ class OrderController extends AbstractController
 
 	public function orderManagerAction(Request $request, $id)
 	{
+		// --- Check Auth
+
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth())
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+
 		// --- Check Request
 
 		if (!$request->isXmlHttpRequest())
@@ -672,11 +678,7 @@ class OrderController extends AbstractController
 		if ($request->getMethod() !== 'POST')
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
-		// --- Check Auth
-
-		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
-		if (!$admin->checkAuth())
-			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+		// --- Action
 
 		$order = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Order\Order')
@@ -707,10 +709,10 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
-		$set = $this->getOrderSet($cart);
+		$set = $this->getOrderSet($order);
 
 		$set = $order->confirmOrder($set, []);
-		// $order->completeOrder();
+		// $set = $order->completeOrder($set, []);
 
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);

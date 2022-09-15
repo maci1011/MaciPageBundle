@@ -1208,7 +1208,7 @@ class Order
 	{
 		$errors = [];
 
-		foreach ($this->getItems() as $key => $item)
+		foreach ($this->getItems() as $item)
 		{
 			$record = $item->exportSaleRecord();
 			if (!$record)
@@ -1247,7 +1247,7 @@ class Order
 	{
 		$errors = [];
 
-		foreach ($this->getItems() as $key => $item)
+		foreach ($this->getItems() as $item)
 		{
 			$record = $item->exportReturnRecord();
 			if (!$record)
@@ -1264,7 +1264,8 @@ class Order
 
 	public function addActionData($params)
 	{
-		if (!is_array($params)) return;
+		if (!is_array($params))
+			return;
 
 		if (!is_array($this->data))
 			$this->data = [];
