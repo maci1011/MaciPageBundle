@@ -10,11 +10,27 @@
 
 {% endif %}
 
+
+
 {% if quantity < 1 %}
-<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
+
+<span class="product-available-label not-available">
+	{{ 'product.notavailable' | matra('Product Not Available.') }}
+</span>
+
 {% elseif quantity < 4 %}
-<span class="detail-label product-quantity-available">{{ 'product.quantity_available' | matra('Quantity Available') }}:</span>
-<span class="detail-info product-quantity-val">{{ quantity }}</span>
+
+<span class="product-quantity-label available">
+	{{ 'product.quantity_available' | matra('Quantity Available') }}:
+</span>
+<span class="product-quantity-val">
+	{{ quantity }}
+</span>
+
 {% else %}
-<span class="detail-label product-available">{{ 'product.available-immediately' | matra('Available Immediately') }}.</span>
+
+<span class="product-available-label available-now">
+	{{ 'product.available-immediately' | matra('Available Immediately') }}.
+</span>
+
 {% endif %}

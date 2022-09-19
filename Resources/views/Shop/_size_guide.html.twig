@@ -4,9 +4,9 @@
 
 <header class="modal-header">
 
-	<span class="modal-title">
+	<h1 class="modal-title">
 		{{ 'product.sizes-guide' | matra('Sizes Guide') }}
-	</span>
+	</h1>
 
 	<button class="modal-close" type="button">
 		<i class="fas fa-times"></i>
@@ -18,11 +18,11 @@
 
 <div class="toggle-content-wrapper">
 
-<span class="toggle-button" for="#togCon_0">Abbigliamento</span>
+<h3 class="toggle-button" for="#togCon_0">Abbigliamento</h3>
 
 <div id="togCon_0" class="toggle-content">
 
-<table class="table-taglie">
+<table class="ts-1">
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
@@ -42,7 +42,7 @@
 			<td>44</td>
 			<td>46</td>
 		</tr>
-			<tr class="trow">
+		<tr class="trow">
 			<td>Francia</td>
 			<td>34</td>
 			<td>36</td>
@@ -77,43 +77,50 @@
 	</tbody>
 </table>
 
-<div class="modal-caption">
-	<strong>
-		<span style="text-decoration: underline;">VESTIBILITÀ</span>
-	</strong>
+<div class="pt-3">
+
+	<h4>VESTIBILITÀ</h4>
 	<p>In ognuno dei nostri capi di abbigliamento viene data un'indicazione sulla vestibilità, in modo da aiutare la scelta della taglia corretta.</p>
-	<ul class="list-unslyled">
+
+	<ul class="ls-1 fit-list">
 		<li>
 			<figure>
 				<img src="{{ asset('/images/defaults/fit-icon-s.png') }}" alt="Fit Icon" />
+				<figcaption>
+					<strong class="text-uppercase">ridotta</strong>
+					<p>Questi capi potrebbero risultare un po’ più stretti, si consiglia quindi di scegliere una taglia in più.</p>
+				</figcaption>
 			</figure>
-			<strong class="text-uppercase">ridotta</strong>
-			<p>Questi capi potrebbero risultare un po’ più stretti, si consiglia quindi di scegliere una taglia in più.</p>
 		</li>
 		<li>
 			<figure>
 				<img src="{{ asset('/images/defaults/fit-icon-m.png') }}" alt="Fit Icon" />
+				<figcaption>
+					<strong class="text-uppercase">regolare</strong>
+					<p>Per i capi con vestibilità regolare puoi scegliere la taglia che sei solita acquistare anche per gli altri brand.</p>
+				</figcaption>
 			</figure>
-			<strong class="text-uppercase">regolare</strong>
-			<p>Per i capi con vestibilità regolare puoi scegliere la taglia che sei solita acquistare anche per gli altri brand.</p>
 		</li>
 		<li>
 			<figure>
 				<img src="{{ asset('/images/defaults/fit-icon-l.png') }}" alt="Fit Icon" />
+				<figcaption>
+					<strong class="text-uppercase">ampia</strong>
+					<p>Questi capi vestono comodi quindi si consiglia una taglia più piccola per un fitting più aderente.</p>
+				</figcaption>
 			</figure>
-			<strong class="text-uppercase">ampia</strong>
-			<p>Questi capi vestono comodi quindi si consiglia una taglia più piccola per un fitting più aderente.</p>
 		</li>
 	</ul>
-</div>
 
 </div>
 
-<span class="toggle-button" for="#togCon_1">Curvy</span>
+</div>
+
+<h3 class="toggle-button" for="#togCon_1">Curvy</h3>
 
 <div id="togCon_1" class="toggle-content">
 
-<table class="table-taglie">
+<table class="ts-1">
 <thead>
 <tr>
 	<th>&nbsp;</th>
@@ -154,11 +161,11 @@
 
 </div>
 
-<span class="toggle-button" for="#togCon_2">Intimo</span>
+<h3 class="toggle-button" for="#togCon_2">Intimo</h3>
 
 <div id="togCon_2" class="toggle-content">
 
-<table class="table-taglie">
+<table class="ts-1">
 <thead>
 <tr>
 	<th>REGGISENO</th>
@@ -221,7 +228,7 @@
 </tbody>
 </table>
 
-<table class="table-taglie">
+<table class="ts-1">
 <thead>
 	<tr>
 		<th>SLIP</th>
@@ -286,11 +293,11 @@
 
 </div>
 
-<span class="toggle-button" for="#togCon_3">Calzature</span>
+<h3 class="toggle-button" for="#togCon_3">Calzature</h3>
 
 <div id="togCon_3" class="toggle-content">
 
-<table class="table-taglie">
+<table class="ts-1">
 <tbody>
 	<tr class="trow">
 		<td>Francia</td>

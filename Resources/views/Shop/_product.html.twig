@@ -163,8 +163,8 @@
 
 				{% if shop_is_live or is_granted('ROLE_ADMIN') %}
 
-				{% if item.type == 'vrnts' %}{# Product with Variants #}
-				{% if item.variantType == 'color-n-size' %}
+				{% if item.type == 'vrnts' %}{# Product with VARIANTS #}
+				{% if item.variantType == 'color-n-size' %}{# Variant with Color and Sizes (clothes) #}
 
 				{% if item.variants|length %}
 				<li class="detail-item size-title">
@@ -207,6 +207,15 @@
 				</li>
 				{% endif %#}
 
+				<li class="detail-item size-guide">
+					<a href="#" modal="#sizesGuide" class="product-size-guide">
+						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
+					</a>
+
+					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
+
+				</li>
+
 				{% else %}{# no variant type mathed #}
 
 				{#% if is_granted('ROLE_ADMIN') %}
@@ -225,17 +234,7 @@
 
 				{% endif %}{# end variant types #}
 
-				{# "Simple" Product Type #}
-				{% elseif item.isAvailable %}
-
-				<li class="detail-item size-guide">
-					<a href="#" modal="#sizesGuide" class="product-size-guide">
-						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
-					</a>
-
-					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
-
-				</li>
+				{% elseif item.isAvailable %}{# "SIMPLE" Product Type #}
 
 				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 

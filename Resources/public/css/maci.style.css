@@ -486,7 +486,6 @@ body.noscroll {
 
 .popup-container,
 .modal {
-	min-height: 350px;
 	max-width: 720px;
 	margin: 80px auto;
 }
@@ -497,7 +496,7 @@ body.noscroll {
 }
 
 .modal-caption {
-	padding: 32px;
+	padding: 16px;
 }
 
 .popup-container {
