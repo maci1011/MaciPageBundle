@@ -485,13 +485,13 @@ body.noscroll {
 }
 
 .popup-container,
-.modal-container {
+.modal {
 	min-height: 350px;
 	max-width: 720px;
 	margin: 80px auto;
 }
 
-.modal-container {
+.modal {
 	background-color: #f6f6ff;
 	color: #1a1a1f;
 }
