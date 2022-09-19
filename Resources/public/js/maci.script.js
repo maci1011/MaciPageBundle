@@ -50,8 +50,12 @@ $(document).ready(function(e) {
 				url: $(el).attr('href')
 			});
 			$(el).parents('.cookieContainer').first().remove();
+			$('body').removeClass('noscroll');
 		});
 	});
+
+	if ($('.modal-wrapper.active').length)
+		$('body').addClass('noscroll');
 
 	$('.media-preview-video').each(function(i,el) {
 		$(el).click(function(e) {
@@ -126,6 +130,36 @@ $(document).ready(function(e) {
 			$(el).parent().find('#variant_' + $(el).val()).show();
 		});
 		$(el).change();
+	});
+
+	$('a[modal]').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			$('body').addClass('noscroll');
+			$($(el).attr('modal')).addClass('active');
+		});
+		$($(el).attr('modal')).find('.modal-close').click(function(e) {
+			e.preventDefault();
+			$('body').removeClass('noscroll');
+			$($(el).attr('modal')).removeClass('active');
+		});
+	});
+
+	$('.toggle-button').each(function(i,el) {
+		var i = $('<i/>').addClass('fas fa-chevron-down').appendTo(el);
+		$(el).click(function(e) {
+			e.preventDefault();
+			if ($($(el).attr('for')).hasClass('active'))
+			{
+				$($(el).attr('for')).removeClass('active');
+				i.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+				return;
+			}
+			$(el).parent().find('.toggle-content').removeClass('active');
+			$(el).parent().find('.toggle-button > i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+			$($(el).attr('for')).addClass('active');
+			i.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+		});
 	});
 
 	// Lightbox

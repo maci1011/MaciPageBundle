@@ -228,6 +228,15 @@
 				{# "Simple" Product Type #}
 				{% elseif item.isAvailable %}
 
+				<li class="detail-item size-guide">
+					<a href="#" modal="#sizesGuide" class="product-size-guide">
+						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
+					</a>
+
+					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
+
+				</li>
+
 				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
 
 				<li class="addToCartFormWrapper">
