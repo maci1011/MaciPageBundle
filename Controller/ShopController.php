@@ -116,7 +116,7 @@ class ShopController extends AbstractController
 		$product->setFit(in_array($fit, ['s', 'm', 'l']) ? $fit : 'm');
 		$om->flush();
 
-		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
+		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $product->getPath()]));
 	}
 
 	public function lastProductsAction(Request $request)

@@ -187,6 +187,16 @@
 					<span class="product-fit fit-{{ item.fit }}">{{ ('product.fit.' ~ item.fit)|matla('Fit ' ~ item.fitLabel) }}</span>
 
 				</li>
+				{% if is_granted('ROLE_ADMIN') %}
+				<li class="detail-item fit-admin">
+
+					<span>Fit: </span>
+					<a href="{{ path('maci_product_set_fit', {'id': item.id, 'fit': 's'}) }}">Set as Tight</a> |
+					<a href="{{ path('maci_product_set_fit', {'id': item.id, 'fit': 'm'}) }}">Set as Regular</a> |
+					<a href="{{ path('maci_product_set_fit', {'id': item.id, 'fit': 'l'}) }}">Set as Large</a>
+
+				</li>
+				{% endif %}
 				<li class="detail-item size-guide">
 
 					<a href="#" modal="#sizesGuide" class="product-size-guide">

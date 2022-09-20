@@ -1838,8 +1838,8 @@ class Product
 	static public function getFitArray()
 	{
 		return [
-			'Small' => 's',
-			'Medium' => 'm',
+			'Tight' => 's',
+			'Regular' => 'm',
 			'Large' => 'l'
 		];
 	}
