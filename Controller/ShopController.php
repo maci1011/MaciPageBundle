@@ -80,25 +80,41 @@ class ShopController extends AbstractController
 
 	public function addVariantAction(Request $request, $id)
 	{
-		if (!$this->isGranted('ROLE_ADMIN')) {
+		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
-		}
 
 		$om = $this->getDoctrine()->getManager();
 		$item = $om->getRepository('MaciPageBundle:Shop\Product')->findOneById($id);
 
-		if (!$item) {
+		if (!$item)
 			return $this->redirect($this->generateUrl('maci_product'));
-		}
 
 		$type = $request->get('type');
 		$name = $request->get('name');
 		$quantity = $request->get('quantity');
 
-		if ($type == 'size') {
+		if ($type == 'size')
+		{
 			$item->addSize(['name' => $name], $quantity);
 			$om->flush();
 		}
+
+		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
+	}
+
+	public function setFitAction(Request $request, $id, $fit)
+	{
+		if (!$this->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$om = $this->getDoctrine()->getManager();
+		$product = $om->getRepository('MaciPageBundle:Shop\Product')->findOneById($id);
+
+		if (!$product)
+			return $this->redirect($this->generateUrl('maci_product'));
+
+		$product->setFit(in_array($fit, ['s', 'm', 'l']) ? $fit : 'm');
+		$om->flush();
 
 		return $this->redirect($this->generateUrl('maci_product_show', ['path' => $item->getPath()]));
 	}

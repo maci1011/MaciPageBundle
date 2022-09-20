@@ -166,28 +166,46 @@
 				{% if item.type == 'vrnts' %}{# Product with VARIANTS #}
 				{% if item.variantType == 'color-n-size' %}{# Variant with Color and Sizes (clothes) #}
 
+				{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
+
 				{% if item.variants|length %}
 				<li class="detail-item size-title">
 					<span class="detail-label product-size-label">{{ 'product.size' | matra('Size') }}:</span>
 				</li>
 				<li class="detail-item size-list">
+
 					<select class="form-control variants-selector" name="product-variant">
 						{% for variant in item.variants if 0 < variant.quantity %}
 						<option value="{{ loop.index }}">{{ variant.name }}</option>
 						{% endfor %}
 					</select>
+
+				</li>
+				<li class="detail-item fit">
+
+					<img src="{{ asset('/images/defaults/fit-icon-' ~ item.fit ~ '.png') }}" alt="Fit Icon" />
+					<span class="product-fit fit-{{ item.fit }}">{{ ('product.fit.' ~ item.fit)|matla('Fit ' ~ item.fitLabel) }}</span>
+
+				</li>
+				<li class="detail-item size-guide">
+
+					<a href="#" modal="#sizesGuide" class="product-size-guide">
+						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
+					</a>
+
+					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
+
+				</li>
+				<li class="detail-item size-forms">
+
 					{% for variant in item.variants if 0 < variant.quantity %}
 					<div id="variant_{{ loop.index }}" class="variant-add-wrapper">
-						<ul class="variant-details-wrapper">
-							{% include "MaciPageBundle:Shop:_product_detail_price.html.twig" %}
-						</ul>
 						<div class="addToCartFormWrapper">
 							{{ render(controller('MaciPageBundle:Order:addToCart', {'product': item, 'variant': variant.name})) }}
 						</div>
 					</div>
-					{% else %}
-					<span class="product-notavailable">{{ 'product.notavailable' | matra('Product Not Available.') }}</span>
 					{% endfor %}
+
 				</li>
 				{% else %}
 				<li>
@@ -206,15 +224,6 @@
 					</form>
 				</li>
 				{% endif %#}
-
-				<li class="detail-item size-guide">
-					<a href="#" modal="#sizesGuide" class="product-size-guide">
-						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
-					</a>
-
-					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
-
-				</li>
 
 				{% else %}{# no variant type mathed #}
 

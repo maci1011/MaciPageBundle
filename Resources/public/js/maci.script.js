@@ -126,8 +126,8 @@ $(document).ready(function(e) {
 
 	$('select.variants-selector').each(function(i,el) {
 		$(el).change(function(e) {
-			$(el).parent().find('.variant-add-wrapper').hide();
-			$(el).parent().find('#variant_' + $(el).val()).show();
+			$(el).parents('.product-details-list').find('.variant-add-wrapper').hide();
+			$(el).parents('.product-details-list').find('#variant_' + $(el).val()).show();
 		});
 		$(el).change();
 	});

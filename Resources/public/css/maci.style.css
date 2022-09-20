@@ -491,6 +491,8 @@ body.noscroll {
 }
 
 .modal {
+	display: block;
+	position: static;
 	background-color: #f6f6ff;
 	color: #1a1a1f;
 }

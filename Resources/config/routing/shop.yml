@@ -15,6 +15,13 @@ maci_product_set_variant_type:
         id: \d+
         _locale: "%r_locales%"
 
+maci_product_set_fit:
+    path:  /{_locale}/product/set-fit/{id}/{fit}
+    defaults: { _controller: MaciPageBundle:Shop:setFit }
+    requirements:
+        id: \d+
+        _locale: "%r_locales%"
+
 maci_product_show:
     path:  /{_locale}/product/{path}
     defaults: { _controller: MaciPageBundle:Shop:show }

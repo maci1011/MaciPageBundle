@@ -1825,6 +1825,44 @@ class Product
 		return $this->exportRecord('back', $variant, $quantity);
 	}
 
+	public function getFit()
+	{
+		$data = $this->getData();
+
+		if(!array_key_exists('fit', $data))
+			$this->data['fit'] = 'm';
+
+		return $this->data['fit'];
+	}
+
+	static public function getFitArray()
+	{
+		return [
+			'Small' => 's',
+			'Medium' => 'm',
+			'Large' => 'l'
+		];
+	}
+
+	public function getFitLabel()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->getFit(), $this->getFitArray());
+	}
+
+	public static function getFitValues()
+	{
+		return array_values(Product::getFitArray());
+	}
+
+	public function setFit($fit)
+	{
+		$data = $this->getData();
+
+		$this->data['fit'] = $fit;
+
+		return $this;
+	}
+
 	/**
 	 * __toString()
 	 */
