@@ -22,7 +22,7 @@
 
 <div id="togCon_0" class="toggle-content">
 
-<table class="ts-1">
+<table class="ts-1 first">
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
@@ -120,7 +120,7 @@
 
 <div id="togCon_1" class="toggle-content">
 
-<table class="ts-1">
+<table class="ts-1 first">
 <thead>
 <tr>
 	<th>&nbsp;</th>
@@ -165,7 +165,7 @@
 
 <div id="togCon_2" class="toggle-content">
 
-<table class="ts-1">
+<table class="ts-1 first">
 <thead>
 <tr>
 	<th>REGGISENO</th>
@@ -228,7 +228,7 @@
 </tbody>
 </table>
 
-<table class="ts-1">
+<table class="ts-1 last">
 <thead>
 	<tr>
 		<th>SLIP</th>
@@ -297,7 +297,7 @@
 
 <div id="togCon_3" class="toggle-content">
 
-<table class="ts-1">
+<table class="ts-1 first">
 <tbody>
 	<tr class="trow">
 		<td>Francia</td>
@@ -335,7 +335,7 @@
 
 <p class="text">
 	{{ 'need-help'|matla('Hai bisogno di aiuto?') }} 
-	<a class="btn" href="#" target="_blank">
+	<a href="{{ path('maci_page', {'path': 'contacts'|matro('contacts')}) }}" target="_blank">
 		{{ 'contact_us'|matla('Contact Us')  }}
 	</a>
 </p>
