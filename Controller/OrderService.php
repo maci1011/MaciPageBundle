@@ -61,9 +61,8 @@ class OrderService extends AbstractController
 	{
 		$cart = $this->getCurrentCart();
 
-		if (!$this->addProduct($cart, $product, $quantity, $variant)) {
+		if (!$this->addProduct($cart, $product, $quantity, $variant))
 			return false;
-		}
 
 		$cart->refreshAmount();
 
@@ -75,6 +74,7 @@ class OrderService extends AbstractController
 	public function addProduct($order, $product, $quantity, $variant)
 	{
 		$item = $order->addProduct($product, $quantity, $variant);
+
 		if (!$item)
 			return false;
 

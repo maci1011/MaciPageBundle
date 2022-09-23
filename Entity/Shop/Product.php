@@ -1199,17 +1199,21 @@ class Product
 
 	public function isAvailable()
 	{
-		if ($this->removed) {
+		if ($this->removed)
 			return false;
-		} elseif ($this->status === 'not_available') {
+
+		elseif ($this->status === 'not_available')
 			return false;
-		} elseif (!$this->price || $this->price <= 0) {
+
+		elseif (!$this->price || $this->price <= 0)
 			return false;
-		} elseif ($this->limited && $this->quantity < 1) {
+
+		elseif ($this->limited && $this->quantity < 1)
 			return false;
-		} elseif ($this->type == 'vrnts' && $this->getTotalVariantsQuantity() < 1) {
+
+		elseif ($this->type == 'vrnts' && $this->getTotalVariantsQuantity() < 1)
 			return false;
-		}
+
 		return true;
 	}
 

@@ -135,8 +135,8 @@ class OrderController extends AbstractController
 
 			if ($this->get('maci.orders')->addToCart($item, $quantity, $variant))
 				return $this->redirect($this->generateUrl('maci_order_cart'));
-			else
-				return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
+
+			return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.productNotAdded']));
 
 		}
 		// else {

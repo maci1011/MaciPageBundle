@@ -1312,45 +1312,60 @@ class Order
 
 	public function addProduct($product, $quantity = 1, $variant = false)
 	{
-		$same_item = false; $persist = false;
+		$same_item = false;
+		$persist = false;
 		$index = -1;
-		foreach ($this->getItems() as $item) {
+
+		foreach ($this->getItems() as $item)
+		{
 			$index++;
 			$item_product = $item->getProduct();
-			if (!is_object($item_product)) break;
+			if (!is_object($item_product))
+				break;
 			if ($item_product->getId() == $product->getId()) {
-				if ($variant) {
-					if ($item->getVariant()['name'] == $variant['name']) {
+				if ($variant)
+				{
+					if ($item->getVariant()['name'] == $variant['name'])
+					{
 						$same_item = $item;
 						break;
 					}
 				}
-				else {
+				else
+				{
 					$same_item = $item;
 					break;
 				}
 			}
 		}
 
-		if ($same_item) {
+		if ($same_item)
+		{
 			$item = $same_item;
 			$quantity = $item->getQuantity() + $quantity;
-			if ($quantity < 1) $quantity = 1;
+			if ($quantity < 1)
+				$quantity = 1;
 			$limit = intval($product->getVariantIndex($variant)['quantity']);
-			if ($variant && $limit < $quantity) $quantity = $limit;
-			if (!$variant && !$product->checkQuantity($quantity)) $quantity = $product->getQuantity();
-		} else {
+			if ($variant && $limit < $quantity)
+				$quantity = $limit;
+			if (!$variant && !$product->checkQuantity($quantity))
+				$quantity = $product->getQuantity();
+		}
+		else
+		{
 			$item = new Item;
 			$item->setProduct($product);
 			$item->setOrder($this);
 			$this->addItem($item);
-			if ($variant != false) $item->setVariant($variant);
+			if ($variant)
+				$item->setVariant($variant);
 			$persist = true;
 		}
 
 		$item->setQuantity($quantity < 1 ? 1 : $quantity);
 
-		if (!$item->checkAvailability()) return false;
+		if (!$item->checkAvailability())
+			return false;
 		/*
 		{
 			if ($same_item) $this->removeItem($index);
@@ -1358,7 +1373,9 @@ class Order
 			return false;
 		}
 		*/
-		if ($persist) return $item;
+
+		if ($persist)
+			return $item;
 
 		return true;
 	}

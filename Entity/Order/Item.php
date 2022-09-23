@@ -290,7 +290,7 @@ class Item
 		}
 
 		if (!array_key_exists('type', $variant))
-			$variant['type'] = $this->product->getVariantsType();
+			$variant['type'] = $this->product->getVariantType();
 
 		if (!$this->product->checkVariant($variant))
 			return false;
