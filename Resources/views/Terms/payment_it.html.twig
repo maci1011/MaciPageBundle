@@ -1,55 +1,54 @@
+
 <section class="page_terms page_container">
 
-<h2>MODALIT&Aacute; DI PAGAMENTO</h2>
+<h2 class="pc-title">MODALIT&Aacute; DI PAGAMENTO</h2>
 
-<p>I metodi di pagamento a vostra disposizione sono i seguenti:</p>
+<p class="pc-p">I metodi di pagamento a vostra disposizione sono i seguenti:</p>
 
-<ul>
-	<li>Pagamento con carta di credito: Visa, Visa Electron,&nbsp; Maestro, Mastercard, American Express, Paypal e Postepay.</li>
-	<li>Pagamento in contanti alla consegna (contrassegno).&nbsp;&nbsp;</li>
+<ul class="pc-ul">
+	<li>Pagamento con PayPal o Carta di Credito.</li>
+	<li>Bonifico Bancario.</li>
+	<li>Pagamento in contanti alla consegna (contrassegno).</li>
 </ul>
 
-<h3>PAGAMENTO CON CARTA DI CREDITO</h3>
+<h3 class="pc-subtitle">CONTRASSEGNO</h3>
 
-<p>Accettiamo tutte le carte che hanno logo Visa, American Express, Mastercard, Postepay e i bancomat Maestro e Visa Electron.<br />
-Quando l&rsquo;ordine &egrave; confermato il relativo importo viene autorizzato sulla carta e verr&agrave; addebitato solo al momento della&nbsp; spedizione.</p>
+<p class="pc-p">Il pagamento in Contrassegno, disponibile solo in Italia, ha un costo aggiuntivo di € 5,00 al totale ordine e non può essere utilizzato per importi superiori a € 3.000.<br/>
+Al momento della consegna occorre avere a disposizione in contanti l'importo esatto dell'ordine indicato nell'email di conferma della spedizione; il corriere non accetta assegni e non può dare resto.<br/>
+Importante: per un eventuale rimborso è necessario avere un conto corrente bancario o postale.</p>
 
-<h3>PAGAMENTO CON PAYPAL</h3>
+<h3 class="pc-subtitle">BONIFICO BANCARIO</h3>
 
-<p>Dopo aver confermato i dati del tuo ordine, ti verr&agrave; chiesto di accedere al tuo conto PayPal per completare il pagamento. Se non possiedi ancora un conto PayPal lo puoi creare dalla pagina di log-in, prima di concludere l&rsquo;ordine. Il tuo conto PayPal viene addebitato non appena completi l&rsquo;ordine.</p>
+<p class="pc-p">Dopo aver confermato l'ordine, è possibile completare il pagare effettuando il bonifico entro 3 giorni lavorativi. Una volta completato il trasferimento, l'ordine sarà spedito. Invieremo una email di conferma di conferma della spedizione.</p>
 
-<h2>SICUREZZA DEL PAGAMENTO</h2>
+<p class="pc-p">Riportiamo di seguito i dati per il bonifico, che inviamo anche via email al momento della conferma dell'ordine:</p>
 
-<p>Tutta la procedura di pagamento si svolge tramite connessione protetta all&rsquo;istituto bancario titolare e gestore del pagamento online. I dati di pagamento saranno cifrati tramite protocollo SSL che garantisce la protezione dei dati trasmessi dalla decodifica e/o contraffazione dei dati stessi. Puoi contare anche sui certificati <strong>VeriSign e ATW.</strong></p>
+{% include "@MaciPage/Order/_bank_transfer_info.html.twig" %}
 
-<p>Per proteggere i tuoi acquisti con carta di credito, ti terr&agrave; sempre richiesto di inserire il codice CCV. Puoi stare tranquillo: usiamo solo connessioni sicure, come dimostra il simbolo del lucchetto che compare nel tuo browser e il prefisso &ldquo;https&rdquo; nella barra dell&rsquo;indirizzo.</p>
+<h3 class="pc-subtitle">PAGAMENTO CON PAYPAL</h3>
 
-<p>Al fine di prevenire frodi su internet, {{ company_title }} potrebbe contattare il Cliente per maggiori dettagli sul pagamento prima che l&rsquo;ordine venga confermato. {{ company_title }} non viene a conoscenza degli estremi della carta di credito e non &egrave; quindi in grado di archiviarli o conservarli.</p>
+<p class="pc-p">Dopo aver confermato i dati del tuo ordine, ti verr&agrave; chiesto di accedere al tuo conto PayPal per completare il pagamento. Se non possiedi ancora un conto PayPal lo puoi creare dalla pagina di log-in, prima di concludere l&rsquo;ordine, oppure puoi utilizzare PayPal per pagare con la tua carta di credito, senza registrarti. Usando PayPal puoi pagare con le seguenti carte: Mastercard, Discover, Diners, Visa, Maestro, Carta Aura, American Express, UnionPay. Il saldo viene addebitato sul tuo conto PayPal non appena completi l&rsquo;ordine.</p>
 
-<p>Per maggiore sicurezza tutti gli ordini effettuati con carta di credito o debito devono essere approvati da {{ company_title }}.</p>
+<h3 class="pc-subtitle">SICUREZZA DEL PAGAMENTO</h3>
 
-<h3>FATTURAZIONE E IVA</h3>
+<p class="pc-p">I pagamenti con carta di credito avvengono sul sito web di PayPal. Per maggiori informazioni sulla sicurezza dei pagamenti con PayPal, visita <a href="https://www.paypal.it/" target="_blank" rel="nofollow">PayPal.it.</a></p>
 
-<p>Tutti i prodotti visualizzati online sono gi&agrave; comprensivi di IVA.</p>
+<h3 class="pc-subtitle">FATTURAZIONE E IVA</h3>
 
-<p>L&rsquo;acquisto sullo Shop Online di {{ company_title }} &egrave; riservato ai consumatori finali. Di conseguenza non &egrave; consentito l&rsquo;acquisto alle Aziende.</p>
+<p class="pc-p">Tutti i prodotti visualizzati online sono gi&agrave; comprensivi di IVA.</p>
 
-<p>Il nostro sistema di fatturazione &egrave; interamente automatizzato, pertanto non &egrave; possibile modificare i dati di fatturazione inseriti al momento dell&rsquo;ordine o emettere un nuovo documento a posteriori.</p>
+<p class="pc-p">L&rsquo;acquisto sullo Shop Online di {{ company_title }} &egrave; riservato ai consumatori finali. Di conseguenza non &egrave; consentito l&rsquo;acquisto alle Aziende.</p>
 
-<p><strong>Solo per l&rsquo;Italia</strong>, in fase di registrazione verr&agrave; richiesto di inserire il Codice Fiscale.</p>
-
-<p>Occorre compilare attentamente il campo in quanto se il codice fiscale risultasse non corretto, non saremo in grado di modificarlo.</p>
-
-<p>Il documento di fatturazione sar&agrave; inviato via e-mail al momento della spedizione dell&rsquo;ordine.</p>
+<p class="pc-p">Il documento di fatturazione sar&agrave; inviato via e-mail al momento della spedizione dell&rsquo;ordine.</p>
 
 </section>
 
 {% if page %}
 
-{% include "@MaciPage/Page/_page_content.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_content.html.twig" %}
 
-{% include "@MaciPage/Page/_page_media.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_media.html.twig" %}
 
-{% include "@MaciPage/Page/_page_footer.html.twig" with { 'page': page } %}
+{% include "@MaciPage/Page/_page_footer.html.twig" %}
 
 {% endif %}

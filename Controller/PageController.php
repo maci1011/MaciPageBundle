@@ -55,17 +55,15 @@ class PageController extends AbstractController
 				'removed' => false
 			));
 
-		if (!$page) {
+		if (!$page)
 			return $this->render('MaciPageBundle:Page:notfound.html.twig');
-		}
 
 		$template = $page->getTemplate();
 
-		if (!$template || !$this->get('templating')->exists($template)) {
+		if (!$template || !$this->get('templating')->exists($template))
 			$template = '@MaciPage/Page/page.html.twig';
-		}
 
-		return $this->render($template, array( 'page' => $page ));
+		return $this->render($template, ['page' => $page]);
 	}
 
 	public function renderByPath($request, $path, $template)
@@ -80,7 +78,7 @@ class PageController extends AbstractController
 			]);
 
 		if (!$page) {
-			$default = $this->getTemplateByPath($path);
+			$default = $this->getTemplateByPath($request, $path);
 			if($default) {
 				return $this->render($default, array('page' => false));
 			}
@@ -100,9 +98,11 @@ class PageController extends AbstractController
 		return $this->render($template, array( 'page' => $page ));
 	}
 
-	public function getTemplateByPath($path)
+	public function getTemplateByPath(Request $request, $path)
 	{
-		$templates = [
+		$templates = [];
+
+		if ($request->getLocale() == 'en') $templates = [
 			'subscribe-completed' => '@MaciPage/Page/subscribed.html.twig',
 			'subscribtion-completed' => '@MaciPage/Page/subscribed.html.twig',
 			'message-sent' => '@MaciPage/Page/message_sent.html.twig',
@@ -114,6 +114,21 @@ class PageController extends AbstractController
 			'payment' => '@MaciPage/Terms/payment.html.twig',
 			'returns-and-refunds' => '@MaciPage/Terms/refunds.html.twig',
 			'general-condititions' => '@MaciPage/Terms/gcs.html.twig',
+			'cookies' => '@MaciPage/Terms/cookie.html.twig',
+			'privacy' => '@MaciPage/Terms/privacy.html.twig'
+		];
+
+		if ($request->getLocale() == 'it') $templates = [
+			'iscrizione-completa' => '@MaciPage/Page/subscribed.html.twig',
+			'messaggio-inviato' => '@MaciPage/Page/message_sent.html.twig',
+			'iscrizione-cancellata' => '@MaciPage/Page/unsubscribed.html.twig',
+			'servizio-clienti' => '@MaciPage/Terms/customer_service.html.twig',
+			'guida-all-acquisto' => '@MaciPage/Terms/shopping_guide.html.twig',
+			'guida-alle-taglie' => '@MaciPage/Terms/size_guide.html.twig',
+			'spedizione' => '@MaciPage/Terms/shipping.html.twig',
+			'pagamento' => '@MaciPage/Terms/payment.html.twig',
+			'resi-e-rimborsi' => '@MaciPage/Terms/refunds.html.twig',
+			'condizioni-generali' => '@MaciPage/Terms/gcs.html.twig',
 			'cookies' => '@MaciPage/Terms/cookie.html.twig',
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
 		];

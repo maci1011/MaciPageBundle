@@ -781,23 +781,37 @@ class OrderService extends AbstractController
 
 	public function getAvailableCountries()
 	{
-		if (!isset($this->available_countries)) {
-			$this->available_countries  = array();
-			foreach ($this->getCouriersArray() as $key => $value) {
-				if (array_key_exists('countries', $value)) {
+		if (!isset($this->available_countries))
+		{
+			$this->available_countries = [];
+			foreach ($this->getCouriersArray() as $value)
+			{
+				if (array_key_exists('countries', $value))
 					$this->available_countries = array_merge($this->available_countries, $value['countries']);
-				}
 			}
 		}
 		return $this->available_countries;
 	}
 
+	public function getAvailableCountriesLabel()
+	{
+		$list = [];
+		foreach ($this->getAvailableCountries() as $code => $v)
+			array_push($list, $this->getCountryName($code));
+		return implode(', ', $list);
+	}
+
 	public function getCountryChoices()
 	{
 		$choices = [];
-		foreach ($this->getAvailableCountries() as $key => $value) {
-			$choices[Countries::getName($key)] = $key;
+		foreach ($this->getAvailableCountries() as $code => $value) {
+			$choices[$this->getCountryName($code)] = $code;
 		}
 		return $choices;
+	}
+
+	public function getCountryName($code)
+	{
+		return Countries::getName($code);
 	}
 }

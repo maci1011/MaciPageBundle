@@ -4,32 +4,29 @@
 
 <section class="page_terms page_container">
 
-<h2>{{ title }}</h2>
+<h2 class="title">{{ title }}</h2>
 
-<h3>PAESI DI SPEDIZIONE</h3>
+<h3 class="subtitle">PAESI DI SPEDIZIONE</h3>
 
-<p>Le spedizioni dello Shop Online di {{ company_title }} sono limitate ai Paesi che fanno parte dell&rsquo;Unione Europea e la Russia.</p>
+<p class="pc-p">Le spedizioni dello Shop Online di {{ company_title }} sono limitate ai Paesi che fanno parte dell&rsquo;Unione Europea e la Russia.</p>
 
-<p>Nel dettaglio, si possono effettuare ordini dai paesi riportati nella tabella qui sotto.</p>
+<p class="pc-p">Nel dettaglio, si possono effettuare ordini soltanto dai seguenti paesi: {{ maci_orders.availableCountriesLabel }}.</p>
 
 <h3>TEMPI E COSTI DI SPEDIZIONE</h3>
 
-<p>Gli ordini effettuati tramite lo Shop Online di {{ company_title }} saranno processati, preparati e consegnati al corriere entro 24/72 ore successive dalla Conferma dell&rsquo;Ordine, dal luned&igrave; al venerd&igrave;.</p>
+<p class="pc-p">Gli ordini effettuati tramite lo Shop Online di {{ company_title }} saranno processati, preparati e consegnati al corriere entro 24/72 ore successive dalla Conferma dell&rsquo;Ordine, dal luned&igrave; al venerd&igrave;.</p>
 
-<p>Gli ordini potrebbero subire ritardi nella spedizione e consegna nel periodo Saldi e in caso di festivit&agrave;: 1 Gennaio,&nbsp; 6 Gennaio, Pasqua e Luned&igrave; dell&#39;Angelo, 25 Aprile, 1 Maggio, 2 Giugno, 15 Agosto, 1 Novembre, 8 Dicembre, 25 Dicembre, 26 Dicembre.</p>
+<p class="pc-p">Gli ordini potrebbero subire ritardi nella spedizione e consegna nel periodo Saldi e in caso di festivit&agrave;: 1 Gennaio,&nbsp; 6 Gennaio, Pasqua e Luned&igrave; dell&#39;Angelo, 25 Aprile, 1 Maggio, 2 Giugno, 15 Agosto, 1 Novembre, 8 Dicembre, 25 Dicembre, 26 Dicembre.</p>
 
-<p>Tutti gli ordini sono processati in modo automatico e non siamo in grado di modificare i tempi di spedizione e consegna.</p>
+<p class="pc-p">La consenga per la spedizione STANDARD avverr&agrave; per l&rsquo;Italia indicativamente in 1-3 giorni lavorativi&nbsp; successivi alla conferma dell'ordine (per le isole la consegna sar&agrave; in 3-4 giorni lavorativi).</p>
 
-<p>La spedizione STANDARD avverr&agrave; per l&rsquo;Italia indicativamente in 1- 3 giorni lavorativi&nbsp; successivi alla spedizione dal nostro magazzino di Bologna (per le isole la consegna sar&agrave; in 3-4 giorni lavorativi).</p>
+<p class="pc-p">Per i Paesi Europei i tempi di consegna saranno 3-5 giorni lavorativi, per Cipro e Malta 8-10 giorni, per la Russia 10-20.</p>
 
-<p>Per i Paesi Europei i tempi di consegna saranno 3-5 giorni lavorativi, per Cipro e Malta 8-10 giorni.</p>
+<p class="pc-p">I costi delle spedizioni possono variare da Paese a Paese.</p>
 
-<p>I costi delle spedizioni possono variare da Paese a Paese.</p>
+{% if maci_orders.availableCountries|length %}
 
-
-{% if maci_orders.countriesArray|length %}
-
-<p>Di seguito la tabella con le tariffe applicate per ogni Nazione:</p>
+<p class="pc-p">Di seguito la tabella con le tariffe applicate per ogni Nazione:</p>
 
 <table>
     <tbody>
@@ -38,7 +35,7 @@
             <p style="text-align: center;"><strong>NAZIONE</strong></p>
             </td>
             <td valign="top" style="width: 166px; text-align: center;">
-            <p><strong>CORRIERE</strong></p>
+            <p class="pc-p"><strong>CORRIERE</strong></p>
             </td>
             <td valign="top" style="width: 167px;">
             <p style="text-align: center;"><strong>COSTO DI SPEDIZIONE</strong></p>
@@ -49,13 +46,13 @@
 
         <tr>
             <td valign="top" style="width: 171px;">
-            <p>{{ maci_orders.countryName(item.country) }}</p>
+            <p class="pc-p">{{ maci_orders.countryName(item.country) }}</p>
             </td>
             <td valign="top" style="width: 166px;">
-            <p>{{ item.courier_label }}</p>
+            <p class="pc-p">{{ item.label }}</p>
             </td>
             <td valign="top" style="width: 167px;">
-            <p>{{ item.cost }} EUR</p>
+            <p class="pc-p">{{ item.cost }} EUR</p>
             </td>
         </tr>
 
@@ -66,29 +63,18 @@
 
 {% endif %}
 
-
-<p>Le spedizioni dello Shop Online di {{ company_title }} sono limitate ai paesi che fanno parte dell&rsquo;Unione Europea.</p>
-
-<p>&Egrave; possibile effettuare un ordine in un paese diverso da quello di residenza, ma occorre selezionare i prodotti e completare l&#39;acquisto sul sito del paese nel quale si vuole avvenga la consegna dell&rsquo;ordine.</p>
-
-<p>Potr&agrave; sempre cambiare la nazione di destinazione selezionando il Paese corretto dall&rsquo;area COUNTRY nel men&ugrave; in basso a destra.</p>
-
-<p>Lo stesso prodotto visualizzato su Nazioni diverse pu&ograve; presentare differenze di prezzo.</p>
-
 <h3>MONITORAGGIO E CONSEGNA DELL&rsquo;ORDINE</h3>
 
-<p>Se la spedizione &egrave; prevista di un numero di tracking, una volta spedito l&rsquo;ordine verr&agrave; inviata una email contenente il numero di tracking e le istruzioni che permetteranno di seguire lo stato della spedizione in tempo reale sul sito del corriere. Per gli altri casi il numero di tracking sar&agrave; inviato solo su richiesta.</p>
+<p class="pc-p">Se la spedizione &egrave; provvista di un numero di tracking, una volta spedito l&rsquo;ordine verr&agrave; inviata una email contenente il numero di tracking e le istruzioni che permetteranno di seguire lo stato della spedizione in tempo reale sul sito del corriere.</p>
 
-<p>E&rsquo; sempre possibile contattare il Servizio Clienti nell&rsquo;eventualit&agrave; che il numero di tracking non risulti rintracciabile.</p>
-
-<p>Per la consegna degli ordini online &egrave; possibile scegliere l&rsquo;indirizzo di spedizione pi&ugrave; comodo: a casa, in ufficio oppure presso un&rsquo;altra persona. Attenzione, non &egrave; possibile scegliere come indirizzo di spedizione una casella postale (P.O. box).</p>
+<p class="pc-p">Per la consegna degli ordini online &egrave; possibile scegliere l&rsquo;indirizzo di spedizione pi&ugrave; comodo: a casa, in ufficio oppure presso un&rsquo;altra persona. Attenzione, non &egrave; possibile scegliere come indirizzo di spedizione una casella postale (P.O. box).</p>
 
 <h4>SPEDIZIONI NAZIONALI</h4>
 
-<p>Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 2 tentativi di consegna.&nbsp; Nel caso in cui il corriere non trovasse nessuno all&rsquo;indirizzo di spedizione indicato, verr&agrave; rilasciato un avviso con l&rsquo;indirizzo della filiale pi&ugrave; vicina dove poter ritirare il proprio ordine.</p>
+<p class="pc-p">Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 2 tentativi di consegna.&nbsp; Nel caso in cui il corriere non trovasse nessuno all&rsquo;indirizzo di spedizione indicato, verr&agrave; rilasciato un avviso con l&rsquo;indirizzo della filiale pi&ugrave; vicina dove poter ritirare il proprio ordine.</p>
 
 <h4>SPEDIZIONI INTERNAZIONALI</h4>
 
-<p>Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 3 tentativi di consegna.&nbsp; Dopo il terzo tentativo senza avvenuta consegna, il pacco viene automaticamente rispedito al magazzino dello Shop Online di {{ company_title }} e il Servizio Clienti contatter&agrave; il Cliente via email al momento del rientro del pacco.</p>
+<p class="pc-p">Il corriere consegna da luned&igrave; al venerd&igrave; in orario d&rsquo;ufficio. Saranno fatti 3 tentativi di consegna.&nbsp; Dopo il terzo tentativo senza avvenuta consegna, il pacco viene automaticamente rispedito al magazzino dello Shop Online di {{ company_title }} e il Servizio Clienti contatter&agrave; il Cliente via email al momento del rientro del pacco.</p>
 
 </section>
