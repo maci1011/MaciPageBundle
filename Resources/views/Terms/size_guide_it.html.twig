@@ -1,115 +1,322 @@
+
 <section class="page_terms page_container">
 
-<h2>{{ title }}</h2>
+<h2 class="pc-title">Guida alle Taglie</h2>
 
-<p>Per individuare la taglia corretta &egrave; necessario consultare la tabella taglie che trovi qui.</p>
+<h3 class="pc-subtitle">Abbigliamento</h3>
 
-<p>Il Servizio Clienti rimane a disposizione per qualsiasi domanda inerente a taglie e vestibilit&agrave;.</p>
+<div class="content-wrapper">
 
-<h3>Abbigliamento</h3>
-
-<table border="0">
-    <tbody>
-        <tr>
-            <td>&nbsp;</td>
-            <th>xs</th>
-            <th>xs - s</th>
-            <th>s - m</th>
-            <th>m - l</th>
-            <th>l - xl</th>
-        </tr>
-        <tr>
-            <th>France</th>
-            <td>34</td>
-            <td>36</td>
-            <td>38</td>
-            <td>40</td>
-            <td>42</td>
-        </tr>
-        <tr>
-            <th>Italy / Europe</th>
-            <td>38</td>
-            <td>40</td>
-            <td>42</td>
-            <td>44</td>
-            <td>46</td>
-        </tr>
-        <tr>
-            <th>Germany</th>
-            <td>32</td>
-            <td>34</td>
-            <td>36</td>
-            <td>38</td>
-            <td>40</td>
-        </tr>
-        <tr>
-            <th>Russia</th>
-            <td>40</td>
-            <td>42</td>
-            <td>44</td>
-            <td>46</td>
-            <td>48</td>
-        </tr>
-        <tr>
-            <th>UK</th>
-            <td>6</td>
-            <td>8</td>
-            <td>10</td>
-            <td>12</td>
-            <td>14</td>
-        </tr>
-        <tr>
-            <th>&nbsp;</th>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <th>Jeans</th>
-            <td>24-25</td>
-            <td>26-27</td>
-            <td>27-28</td>
-            <td>29-30</td>
-            <td>31-32</td>
-        </tr>
-    </tbody>
+<table class="ts-1 first">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>XS</th>
+			<th>XS - S</th>
+			<th>S - M </th>
+			<th>M - L</th>
+			<th>L - XL</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="trow">
+			<td>Italia / Europa</td>
+			<td>38</td>
+			<td>40</td>
+			<td>42</td>
+			<td>44</td>
+			<td>46</td>
+		</tr>
+		<tr class="trow">
+			<td>Francia</td>
+			<td>34</td>
+			<td>36</td>
+			<td>38</td>
+			<td>40</td>
+			<td>42</td>
+		</tr>
+		<tr class="trow">
+			<td>Germania</td>
+			<td>32</td>
+			<td>34</td>
+			<td>36</td>
+			<td>38</td>
+			<td>40</td>
+		</tr>
+		<tr class="trow">
+			<td>UK</td>
+			<td>6</td>
+			<td>8</td>
+			<td>10</td>
+			<td>12</td>
+			<td>14</td>
+		</tr>
+		<tr class="trow">
+			<td>Russia</td>
+			<td>40</td>
+			<td>42</td>
+			<td>44</td>
+			<td>46</td>
+			<td>48</td>
+		</tr>
+	</tbody>
 </table>
 
-<h2>Calzature</h2>
+<h4>VESTIBILITÀ</h4>
+<p>In ognuno dei nostri capi di abbigliamento viene data un'indicazione sulla vestibilità, in modo da aiutare la scelta della taglia corretta.</p>
 
-<table border="0">
-    <tbody>
-        <tr>
-            <th>France</th>
-            <td>37</td>
-            <td>38</td>
-            <td>39</td>
-            <td>40</td>
-            <td>41</td>
-            <td>42</td>
-        </tr>
-        <tr>
-            <th>Italy / Europe</th>
-            <td>36</td>
-            <td>37</td>
-            <td>38</td>
-            <td>39</td>
-            <td>40</td>
-            <td>41</td>
-        </tr>
-        <tr>
-            <th>UK</th>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-        </tr>
-    </tbody>
-</table>
+<ul class="ls-1 fit-list">
+	<li>
+		<figure>
+			<img src="{{ asset('/images/defaults/fit-icon-s.png') }}" alt="Fit Icon" />
+			<figcaption>
+				<strong class="text-uppercase">ridotta</strong>
+				<p>Questi capi potrebbero risultare un po’ più stretti, si consiglia quindi di scegliere una taglia in più.</p>
+			</figcaption>
+		</figure>
+	</li>
+	<li>
+		<figure>
+			<img src="{{ asset('/images/defaults/fit-icon-m.png') }}" alt="Fit Icon" />
+			<figcaption>
+				<strong class="text-uppercase">regolare</strong>
+				<p>Per i capi con vestibilità regolare puoi scegliere la taglia che sei solita acquistare anche per gli altri brand.</p>
+			</figcaption>
+		</figure>
+	</li>
+	<li>
+		<figure>
+			<img src="{{ asset('/images/defaults/fit-icon-l.png') }}" alt="Fit Icon" />
+			<figcaption>
+				<strong class="text-uppercase">ampia</strong>
+				<p>Questi capi vestono comodi quindi si consiglia una taglia più piccola per un fitting più aderente.</p>
+			</figcaption>
+		</figure>
+	</li>
+</ul>
+
 </div>
+
+<h3 class="pc-subtitle">Curvy</h3>
+
+<div class="content-wrapper">
+
+<table class="ts-1 first">
+<thead>
+<tr>
+	<th>&nbsp;</th>
+	<th>46</th>
+	<th>48</th>
+	<th>50</th>
+	<th>52</th>
+	<th>54</th>
+</tr>
+</thead>
+<tbody>
+<tr class="trow">
+	<td>Seno (cm)</td>
+	<td>102</td>
+	<td>106</td>
+	<td>110</td>
+	<td>114</td>
+	<td>118</td>
+</tr>
+<tr class="trow">
+	<td>Vita (cm)</td>
+	<td>86</td>
+	<td>90</td>
+	<td>94</td>
+	<td>98</td>
+	<td>102</td>
+</tr>
+<tr class="trow">
+	<td>Bacino (cm)</td>
+	<td>106</td>
+	<td>110</td>
+	<td>114</td>
+	<td>118</td>
+	<td>122</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<h3 class="pc-subtitle">Intimo</h3>
+
+<div class="content-wrapper">
+
+<table class="ts-1 first">
+<thead>
+<tr>
+	<th>REGGISENO</th>
+	<th>2</th>
+	<th>3</th>
+	<th>4</th>
+	<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="trow">
+	<td>Misura sottoseno (cm)</td>
+	<td>68-72</td>
+	<td>73-77</td>
+	<td>78-82</td>
+	<td>83-87</td>
+</tr>
+<tr class="trow">
+	<td>Misura seno coppa B (cm)</td>
+	<td>84-87</td>
+	<td>89-92</td>
+	<td>94-97</td>
+	<td>99-102</td>
+</tr>
+<tr class="trow">
+	<td>Misura seno coppa C (cm)</td>
+	<td>87-90</td>
+	<td>92-95</td>
+	<td>97-100</td>
+	<td>102-105</td>
+</tr>
+<tr class="trow">
+	<td>Italia</td>
+	<td>2</td>
+	<td>3</td>
+	<td>4</td>
+	<td>5</td>
+</tr>
+<tr class="trow">
+	<td>Francia</td>
+	<td>85</td>
+	<td>90</td>
+	<td>95</td>
+	<td>100</td>
+</tr>
+<tr class="trow">
+	<td>Europa</td>
+	<td>70</td>
+	<td>75</td>
+	<td>80</td>
+	<td>85</td>
+</tr>
+<tr class="trow">
+	<td>UK</td>
+	<td>32</td>
+	<td>34</td>
+	<td>36</td>
+	<td>38</td>
+</tr>
+</tbody>
+</table>
+
+<table class="ts-1 last">
+<thead>
+	<tr>
+		<th>SLIP</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>6</th>
+	</tr>
+</thead>
+<tbody>
+	<tr class="trow">
+		<td>Misura giro vita (cm)</td>
+		<td>63-67</td>
+		<td>68-72</td>
+		<td>73-77</td>
+		<td>78-82</td>
+		<td>83-87</td>
+	</tr>
+	<tr class="trow">
+		<td>Misura fianchi (cm)</td>
+		<td>91-95</td>
+		<td>96-100</td>
+		<td>101-105</td>
+		<td>106-110</td>
+		<td>111-115</td>
+	</tr>
+	<tr class="trow">
+		<td>Italia</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+	<tr class="trow">
+		<td>Francia</td>
+		<td>40</td>
+		<td>42</td>
+		<td>44</td>
+		<td>46</td>
+		<td>48</td>
+	</tr>
+	<tr class="trow">
+		<td>Europa</td>
+		<td>38</td>
+		<td>40</td>
+		<td>42</td>
+		<td>44</td>
+		<td>46</td>
+	</tr>
+	<tr class="trow">
+		<td>UK</td>
+		<td>M</td>
+		<td>L</td>
+		<td>XL</td>
+		<td>2XL</td>
+		<td>3XL</td>
+	</tr>
+</tbody>
+</table>
+
+</div>
+
+<h3 class="pc-subtitle">Calzature</h3>
+
+<div class="content-wrapper">
+
+<table class="ts-1 first">
+<tbody>
+	<tr class="trow">
+		<td>Francia</td>
+		<td>37</td>
+		<td>38</td>
+		<td>39</td>
+		<td>40</td>
+		<td>41</td>
+		<td>42</td>
+	</tr>
+	<tr class="trow">
+		<td>Italia / Europa</td>
+		<td>36</td>
+		<td>37</td>
+		<td>38</td>
+		<td>39</td>
+		<td>40</td>
+		<td>41</td>
+	</tr>
+	<tr>
+		<td>UK</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		<td>8</td>
+	</tr>
+</tbody>
+</table>
+
+</div>
+
+<p class="text">
+	{{ 'need-help'|matla('Hai bisogno di aiuto?') }} 
+	<a href="{{ path('maci_page', {'path': 'contacts'|matro('contacts')}) }}" target="_blank">
+		{{ 'contact_us'|matla('Contact Us')  }}
+	</a>
+</p>
 
 </section>
