@@ -113,7 +113,7 @@ class PageController extends AbstractController
 			'shipping' => '@MaciPage/Terms/shipping.html.twig',
 			'payment' => '@MaciPage/Terms/payment.html.twig',
 			'returns-and-refunds' => '@MaciPage/Terms/refunds.html.twig',
-			'general-condititions' => '@MaciPage/Terms/gcs.html.twig',
+			'general-conditions' => '@MaciPage/Terms/gcs.html.twig',
 			'cookies' => '@MaciPage/Terms/cookie.html.twig',
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
 		];

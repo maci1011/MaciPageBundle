@@ -111,6 +111,21 @@ class PageMenuBuilder
 		return $menu;
 	}
 
+	public function createPolicyMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav flex-column');
+
+		$menu->addChild($this->translator->getMenu('terms.gcs', 'General Conditions of Sale'), ['route' => 'maci_page', 'routeParameters' => ['path' => $this->translator->getRoute('page.gcs', 'general-conditions')]]);
+
+		$menu->addChild($this->translator->getMenu('terms.privacy', 'Privacy Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'privacy']]);
+
+		$menu->addChild($this->translator->getMenu('terms.cookie', 'Cookie Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'cookies']]);
+
+		return $menu;
+	}
+
 	public function createTermsMenu(array $options)
 	{
 		if ($this->translator->getCurrentLocale() == 'it')
@@ -125,6 +140,13 @@ class PageMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'nav flex-column');
 
+		$menu->addChild(
+			$this->translator->getMenu('page.contacts', 'Contatti'),
+			['route' => 'maci_page', 'routeParameters' => [
+				'path' => $this->translator->getRoute('page.contacts', 'contatti')
+			]]
+		);
+
 		$menu->addChild($this->translator->getMenu('terms.shipping', 'Spedizione'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'spedizione']]);
 
 		$menu->addChild($this->translator->getMenu('terms.payments', 'Pagamenti'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'pagamenti']]);
@@ -132,13 +154,6 @@ class PageMenuBuilder
 		$menu->addChild($this->translator->getMenu('terms.returns-and-refunds', 'Resi e Rimbrsi'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'resi-e-rimborsi']]);
 
 		$menu->addChild($this->translator->getMenu('terms.size-guide', 'Guida alle Taglie'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'guida-alle-taglie']]);
-
-		$menu->addChild(
-			$this->translator->getMenu('page.contacts', 'Contatti'),
-			['route' => 'maci_page', 'routeParameters' => [
-				'path' => $this->translator->getRoute('page.contacts', 'contatti')
-			]]
-		);
 
 		return $menu;
 	}
@@ -149,6 +164,13 @@ class PageMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'nav flex-column');
 
+		$menu->addChild(
+			$this->translator->getMenu('page.contacts', 'Contacts'),
+			['route' => 'maci_page', 'routeParameters' => [
+				'path' => $this->translator->getRoute('page.contacts', 'contacts')
+			]]
+		);
+
 		$menu->addChild($this->translator->getMenu('terms.shipping', 'Shipping'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'shipping']]);
 
 		$menu->addChild($this->translator->getMenu('terms.payments', 'Payments'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'payments']]);
@@ -156,13 +178,6 @@ class PageMenuBuilder
 		$menu->addChild($this->translator->getMenu('terms.returns-and-refunds', 'Returns And Refunds'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'returns-and-refunds']]);
 
 		$menu->addChild($this->translator->getMenu('terms.size-guide', 'Size Guide'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'size-guide']]);
-
-		$menu->addChild(
-			$this->translator->getMenu('page.contacts', 'Contacts'),
-			['route' => 'maci_page', 'routeParameters' => [
-				'path' => $this->translator->getRoute('page.contacts', 'contacts')
-			]]
-		);
 
 		return $menu;
 	}
