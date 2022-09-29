@@ -10,7 +10,7 @@ class PageMenuBuilder
 {
 	private $factory;
 
-    private $om;
+	private $om;
 
 	private $translator;
 
@@ -18,13 +18,13 @@ class PageMenuBuilder
 
 	public function __construct(FactoryInterface $factory, ObjectManager $objectManager, TranslatorController $tc)
 	{
-	    $this->factory = $factory;
-        $this->om = $objectManager;
-	    $this->translator = $tc;
-	    $this->locales = $tc->getLocales();
+		$this->factory = $factory;
+		$this->om = $objectManager;
+		$this->translator = $tc;
+		$this->locales = $tc->getLocales();
 	}
 
-    public function createMainMenu(array $options)
+	public function createMainMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -66,7 +66,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createLeftMenu(array $options)
+	public function createLeftMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -77,7 +77,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createPageLeftMenu(array $options)
+	public function createPageLeftMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -98,7 +98,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createPrivacyMenu(array $options)
+	public function createPrivacyMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -111,7 +111,39 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function createTermsMenu(array $options)
+	public function createTermsMenu(array $options)
+	{
+		if ($this->translator->getCurrentLocale() == 'it')
+			return $this->createTermsMenuIT($options);
+
+		return $this->createTermsMenuEN($options);
+	}
+
+	public function createTermsMenuIT(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav flex-column');
+
+		$menu->addChild($this->translator->getMenu('terms.shipping', 'Spedizione'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'spedizione']]);
+
+		$menu->addChild($this->translator->getMenu('terms.payments', 'Pagamenti'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'pagamenti']]);
+
+		$menu->addChild($this->translator->getMenu('terms.returns-and-refunds', 'Resi e Rimbrsi'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'resi-e-rimborsi']]);
+
+		$menu->addChild($this->translator->getMenu('terms.size-guide', 'Guida alle Taglie'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'guida-alle-taglie']]);
+
+		$menu->addChild(
+			$this->translator->getMenu('page.contacts', 'Contatti'),
+			['route' => 'maci_page', 'routeParameters' => [
+				'path' => $this->translator->getRoute('page.contacts', 'contatti')
+			]]
+		);
+
+		return $menu;
+	}
+
+	public function createTermsMenuEN(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -135,7 +167,7 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-    public function addPages($menu, $children = false)
+	public function addPages($menu, $children = false)
 	{
 		$pages = $this->om->getRepository('MaciPageBundle:Page\Page')->findBy(array('parent' => null, 'removed' => false));
 		foreach ($pages as $page) {
@@ -144,8 +176,8 @@ class PageMenuBuilder
 			}
 			$title = $page->getMenuLabel();
 			$menu->addChild($title, array(
-			    'route' => 'maci_page',
-			    'routeParameters' => array('path' => $page->getPath())
+				'route' => 'maci_page',
+				'routeParameters' => array('path' => $page->getPath())
 			));
 			if ($children) {
 				$this->addChildren($menu[$title], $page);
@@ -153,7 +185,7 @@ class PageMenuBuilder
 		}
 	}
 
-    public function addChildren($menu, $item, $dropdown = false, $rec = false)
+	public function addChildren($menu, $item, $dropdown = false, $rec = false)
 	{
 		if (count($item->getCurrentChildren())) {
 			$menu->setChildrenAttribute('class', 'nav');
@@ -162,15 +194,15 @@ class PageMenuBuilder
 			}
 			foreach ($item->getCurrentChildren() as $child) {
 				$menu->addChild($child->getMenuLabel(), array(
-				    'route' => 'maci_page',
-				    'routeParameters' => array('path' => $child->getPath())
+					'route' => 'maci_page',
+					'routeParameters' => array('path' => $child->getPath())
 				));
 				if ($rec) $this->addChildren($menu[$child->getMenuLabel()], $child, $dropdown, true);
 			}
 		}
 	}
 
-    public function threeLevel($menu, $ancestor)
+	public function threeLevel($menu, $ancestor)
 	{
 		$menu->addChild($ancestor->getMenuLabel(), array(
 			'route' => 'maci_page',
@@ -184,8 +216,8 @@ class PageMenuBuilder
 			foreach ($ancestor->getCurrentChildren() as $child) {
 
 				$menu[$ancestor->getMenuLabel()]->addChild($child->getMenuLabel(), array(
-				    'route' => 'maci_page',
-				    'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
+					'route' => 'maci_page',
+					'routeParameters' => array('path' => $child->getPath(), '_locale' => $child->getLocale())
 				));
 
 				if (count($child->getCurrentChildren())) {
@@ -195,8 +227,8 @@ class PageMenuBuilder
 					foreach ($child->getCurrentChildren() as $gchild) {
 
 						$menu[$ancestor->getMenuLabel()][$child->getMenuLabel()]->addChild($gchild->getMenuLabel(), array(
-						    'route' => 'maci_page',
-						    'routeParameters' => array('path' => $gchild->getPath(), '_locale' => $gchild->getLocale())
+							'route' => 'maci_page',
+							'routeParameters' => array('path' => $gchild->getPath(), '_locale' => $gchild->getLocale())
 						));
 
 					}

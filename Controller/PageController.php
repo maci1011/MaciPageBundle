@@ -126,7 +126,7 @@ class PageController extends AbstractController
 			'guida-all-acquisto' => '@MaciPage/Terms/shopping_guide.html.twig',
 			'guida-alle-taglie' => '@MaciPage/Terms/size_guide.html.twig',
 			'spedizione' => '@MaciPage/Terms/shipping.html.twig',
-			'pagamento' => '@MaciPage/Terms/payment.html.twig',
+			'pagamenti' => '@MaciPage/Terms/payment.html.twig',
 			'resi-e-rimborsi' => '@MaciPage/Terms/refunds.html.twig',
 			'condizioni-generali' => '@MaciPage/Terms/gcs.html.twig',
 			'cookies' => '@MaciPage/Terms/cookie.html.twig',
