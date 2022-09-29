@@ -1,16 +1,35 @@
-
 {% extends "@MaciPage/Layout/layout.html.twig" %}
 
-
 {% block bodyTag %}<body id="bodyProduct" class="navTop">{% endblock %}
-
 
 {% block searchForm %}
 {{ render(controller('MaciSearchBundle:Search:form', {'section': 'shop', 'label': ('form.search.shop'|matra('Search Product')) })) }}
 {% endblock %}
 
-{% block leftMenu %}
-
-	<nav>{{ knp_menu_render('product_left', {'currentClass': 'active'}) }}</nav>
-
+{% block mainPathBar %}
+	<nav id="navCategories" class="navbar navbar-expand">
+	<div class="container">
+		{{ knp_menu_render('product_categories', {'currentClass': 'active'}) }}
+	</div>
+	</nav>
 {% endblock %}
+
+{% block container %}
+<div id="mainContainer" class="container-fluid">
+<section id="contentContainer" class="shopContainer">
+
+	<div id="pathBar" class="content-wrapper">
+
+		{% block pathBar %}{% endblock pathBar %}
+
+	</div>
+
+	<div id="pageContainer" class="content-wrapper">
+
+		{% block content %}{% endblock %}
+
+	</div>
+
+</section>
+</div>
+{% endblock container %}

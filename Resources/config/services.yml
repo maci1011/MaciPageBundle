@@ -63,6 +63,7 @@ services:
         arguments: ["@knp_menu.factory","@doctrine.orm.entity_manager",'@request_stack',"@maci.translator"]
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: product_main }
+            - { name: knp_menu.menu_builder, method: createCategoriesMenu, alias: product_categories }
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: product_left }
             - { name: knp_menu.menu_builder, method: createCustomerServiceMenu, alias: shop_customer_service }
             - { name: knp_menu.menu_builder, method: createTermsMenu, alias: shop_terms }

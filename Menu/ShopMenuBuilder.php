@@ -71,6 +71,17 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
+    public function createCategoriesMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'navbar-nav');
+
+		$this->addCategories($menu);
+
+		return $menu;
+	}
+
     public function createLeftMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
