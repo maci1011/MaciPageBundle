@@ -77,7 +77,14 @@ class ShopMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'navbar-nav');
 
+		$menu->addChild($this->translator->getMenu('page.shop.new-products', 'New Products'), ['route' => 'maci_product']);
+
 		$this->addCategories($menu);
+
+		$menu->addChild($this->translator->getMenu('page.shop.promo', 'Promo'), [
+			    'route' => 'maci_product_category',
+			    'routeParameters' => ['path' => 'promo']
+		]);
 
 		return $menu;
 	}

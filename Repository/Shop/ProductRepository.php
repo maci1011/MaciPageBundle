@@ -24,6 +24,15 @@ class ProductRepository extends EntityRepository
 		return $query->getQuery()->getResult();
 	}
 
+	public function getPromo()
+	{
+		$query = $this->createQueryBuilder('p');
+		$this->addProductListFilters($query);
+		$query = $query->andWhere('p.sale IS NOT NULL');
+
+		return $query->getQuery()->getResult();
+	}
+
 	public function getByPath($path)
 	{
 		$query = $this->createQueryBuilder('p')

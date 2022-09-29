@@ -9,10 +9,10 @@ class ShopController extends AbstractController
 {
 	public function indexAction()
 	{
-		return $this->render('MaciPageBundle:Shop:index.html.twig', array(
+		return $this->render('MaciPageBundle:Shop:index.html.twig', [
 			'list' => $this->getDoctrine()->getManager()
 				->getRepository('MaciPageBundle:Shop\Product')->getList()
-		));
+		]);
 	}
 
 	public function categoryAction($path)
@@ -21,12 +21,18 @@ class ShopController extends AbstractController
 		$category = $om->getRepository('MaciPageBundle:Shop\Category')
 			->findOneByPath($path);
 		
-		$list = $om->getRepository('MaciPageBundle:Shop\Product')
-			->getByCategory($category);
+		if (!$category)
+		{
+			if ($path == 'promo') return $this->render('MaciPageBundle:Shop:index.html.twig', [
+				'list' => $this->getDoctrine()->getManager()
+					->getRepository('MaciPageBundle:Shop\Product')->getPromo()
+			]);
 
-		if (!$category) {
 			return $this->redirect($this->generateUrl('maci_product'));
 		}
+
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')
+			->getByCategory($category);
 
 		return $this->render('MaciPageBundle:Shop:category.html.twig', array(
 			'category' => $category,
