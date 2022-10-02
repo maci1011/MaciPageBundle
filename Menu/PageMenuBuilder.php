@@ -111,21 +111,6 @@ class PageMenuBuilder
 		return $menu;
 	}
 
-	public function createPolicyMenu(array $options)
-	{
-		$menu = $this->factory->createItem('root');
-
-		$menu->setChildrenAttribute('class', 'nav flex-column');
-
-		$menu->addChild($this->translator->getMenu('terms.gcs', 'General Conditions of Sale'), ['route' => 'maci_page', 'routeParameters' => ['path' => $this->translator->getRoute('page.gcs', 'general-conditions')]]);
-
-		$menu->addChild($this->translator->getMenu('terms.privacy', 'Privacy Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'privacy']]);
-
-		$menu->addChild($this->translator->getMenu('terms.cookie', 'Cookie Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'cookies']]);
-
-		return $menu;
-	}
-
 	public function createTermsMenu(array $options)
 	{
 		if ($this->translator->getCurrentLocale() == 'it')

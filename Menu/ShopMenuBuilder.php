@@ -17,14 +17,14 @@ class ShopMenuBuilder
 
 	public function __construct(FactoryInterface $factory, ObjectManager $om, RequestStack $requestStack, TranslatorController $tc)
 	{
-	    $this->factory = $factory;
-        $this->om = $om;
-        $this->request = $requestStack->getCurrentRequest();
-	    $this->translator = $tc;
-	    $this->locales = $tc->getLocales();
+		$this->factory = $factory;
+		$this->om = $om;
+		$this->request = $requestStack->getCurrentRequest();
+		$this->translator = $tc;
+		$this->locales = $tc->getLocales();
 	}
 
-    public function createCustomerServiceMenu(array $options)
+	public function createCustomerServiceMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -45,22 +45,22 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
-    public function createTermsMenu(array $options)
+	public function createPolicyMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
 		$menu->setChildrenAttribute('class', 'nav flex-column');
 
-		$menu->addChild($this->translator->getText('menu.terms.sale', 'Sale Terms'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'sale-terms')));
+		$menu->addChild($this->translator->getMenu('terms.gcs', 'General Conditions of Sale'), ['route' => 'maci_page', 'routeParameters' => ['path' => $this->translator->getRoute('page.gcs', 'general-conditions')]]);
 
-		$menu->addChild($this->translator->getText('menu.terms.cookie', 'Cookie Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'cookies')));
+		$menu->addChild($this->translator->getMenu('terms.privacy', 'Privacy Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'privacy']]);
 
-		$menu->addChild($this->translator->getText('menu.terms.privacy', 'Privacy Policy'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'privacy')));
+		$menu->addChild($this->translator->getMenu('terms.cookie', 'Cookie Policy'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'cookies']]);
 
 		return $menu;
 	}
 
-    public function createMainMenu(array $options)
+	public function createMainMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -71,7 +71,7 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
-    public function createCategoriesMenu(array $options)
+	public function createCategoriesMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -82,14 +82,32 @@ class ShopMenuBuilder
 		$this->addCategories($menu);
 
 		$menu->addChild($this->translator->getMenu('page.shop.promo', 'Promo'), [
-			    'route' => 'maci_product_category',
-			    'routeParameters' => ['path' => 'promo']
+				'route' => 'maci_product_category',
+				'routeParameters' => ['path' => 'promo']
 		]);
 
 		return $menu;
 	}
 
-    public function createLeftMenu(array $options)
+	public function createSectionMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav flex-column');
+
+		$menu->addChild($this->translator->getMenu('page.shop.new-products', 'New Products'), ['route' => 'maci_product']);
+
+		$this->addCategories($menu);
+
+		$menu->addChild($this->translator->getMenu('page.shop.promo', 'Promo'), [
+				'route' => 'maci_product_category',
+				'routeParameters' => ['path' => 'promo']
+		]);
+
+		return $menu;
+	}
+
+	public function createLeftMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -100,7 +118,7 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
-    public function createContactsMenu(array $options)
+	public function createContactsMenu(array $options)
 	{
 		$menu = $this->factory->createItem('root');
 
@@ -111,7 +129,7 @@ class ShopMenuBuilder
 		return $menu;
 	}
 
-    public function addCategories($menu)
+	public function addCategories($menu)
 	{
 		$categories = $this->om->getRepository('MaciPageBundle:Shop\Category')->findBy(array(
 			'locale' => $this->request->getLocale(),
@@ -121,8 +139,8 @@ class ShopMenuBuilder
 		foreach ($categories as $category) {
 
 			$menu->addChild($category->getName(), array(
-			    'route' => 'maci_product_category',
-			    'routeParameters' => array('path' => $category->getPath())
+				'route' => 'maci_product_category',
+				'routeParameters' => array('path' => $category->getPath())
 			));
 
 		}

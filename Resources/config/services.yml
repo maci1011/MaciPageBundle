@@ -66,7 +66,8 @@ services:
             - { name: knp_menu.menu_builder, method: createCategoriesMenu, alias: product_categories }
             - { name: knp_menu.menu_builder, method: createLeftMenu, alias: product_left }
             - { name: knp_menu.menu_builder, method: createCustomerServiceMenu, alias: shop_customer_service }
-            - { name: knp_menu.menu_builder, method: createTermsMenu, alias: shop_terms }
+            - { name: knp_menu.menu_builder, method: createPolicyMenu, alias: policy }
+            - { name: knp_menu.menu_builder, method: createSectionMenu, alias: shop_section }
             - { name: knp_menu.menu_builder, method: createContactsMenu, alias: shop_contacts }
 
     maci_product.form.type.product:
