@@ -25,7 +25,7 @@ class OrderMenuBuilder
 
 		$menu->setChildrenAttribute('class', 'nav');
 
-		$menu->addChild($this->translator->getText('menu.admin.confirmed_orders', 'Confirmed Orders'), array('route' => 'maci_order_admin_confirmed'));
+		$menu->addChild($this->translator->getText('menu.admin.confirmed_orders', 'Confirmed Orders'), ['route' => 'maci_order_admin_confirmed']);
 
 		return $menu;
 	}

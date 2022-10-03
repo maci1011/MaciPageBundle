@@ -32,7 +32,7 @@ class PageMenuBuilder
 
 		$menu->addChild($this->translator->getMenu('page.home', 'Home'), array('route' => 'maci_homepage'));
 
-		$menu->addChild($this->translator->getMenu('page.about', 'About'), array('route' => 'maci_page', 'routeParameters' => array('path' => 'about')));
+		$menu->addChild($this->translator->getMenu('page.about', 'About'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'about']]);
 
 		$menu->addChild($this->translator->getMenu('page.gallery', 'Gallery'), array('route' => 'maci_media_gallery'));
 
@@ -94,6 +94,17 @@ class PageMenuBuilder
 		if ($page->hasCurrentChildren()) $this->threeLevel($menu, ( $parent ? $parent : $page ));
 
 		else $this->threeLevel($menu, ( $gparent ? $gparent : ( $parent ? $parent : $page )));
+
+		return $menu;
+	}
+
+	public function createCorporateMenu(array $options)
+	{
+		$menu = $this->factory->createItem('root');
+
+		$menu->setChildrenAttribute('class', 'nav flex-column');
+
+		$menu->addChild($this->translator->getMenu('page.about', 'About'), ['route' => 'maci_page', 'routeParameters' => ['path' => 'about']]);
 
 		return $menu;
 	}

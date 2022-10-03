@@ -104,6 +104,8 @@ class ShopMenuBuilder
 				'routeParameters' => ['path' => 'promo']
 		]);
 
+		$menu->addChild($this->translator->getMenu('page.cart', 'Cart'), ['route' => 'maci_order_cart']);
+
 		return $menu;
 	}
 
