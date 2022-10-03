@@ -63,6 +63,8 @@
 		<h4 class="name">{{ item.product.inhName }}</h4>
 		{% endif %}
 
+		<span class="code">{{ item.product.code }}</span>
+
 		{#% if item.product.variant %}
 		{% if item.product.variantField != null %}
 		<span class="detail label product-variant-field">{{ ('product.variant-field.' ~ item.product.variantField)|matra(item.product.variantField|capitalize) }}:</span>

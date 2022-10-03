@@ -389,11 +389,10 @@ class Order
 			'Session' => 'session',
 			'Wish List' => 'wishlist',
 			'Current' => 'current',
+			'Completed' => 'complete',
 			'Confirmed' => 'confirm',
 			'Paid' => 'paid',
-			'Completed' => 'complete',
-			'Paid' => 'paid',
-			'Refuse' => 'refuse'
+			'Canceled' => 'canceled'
 		];
 	}
 
@@ -402,8 +401,7 @@ class Order
 		$i = 0;
 		foreach ($this->getStatusArray() as $key => $value)
 		{
-			if ($value == $this->status)
-				return $i;
+			if ($value == $this->status) return $i;
 			$i++;
 		}
 		return -1;
@@ -1184,26 +1182,6 @@ class Order
 		return $this->getPickupInStoreParameters($editAction);
 	}
 
-	public function confirmOrder(RecordSet $set, $params = [])
-	{
-		$this->subItemsQuantity();
-
-		$this->setInvoiceValue();
-
-		$this->due = $this->invoice;
-
-		$this->due->modify('+1 month');
-
-		$this->status = 'confirm';
-
-		$this->exportSaleRecords($set);
-
-		$this->addActionData(array_merge($params, [
-			'_action' => 'confirmOrder',
-			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
-		]));
-	}
-
 	public function exportSaleRecords(RecordSet $set)
 	{
 		$errors = [];
@@ -1228,19 +1206,52 @@ class Order
 		return $this->export_errors;
 	}
 
-	public function completeOrder()
+	public function completeOrder($params = [])
 	{
+		$this->setInvoiceValue();
+
+		$this->due = $this->invoice;
+
+		$this->due->modify('+1 month');
+
 		$this->status = 'complete';
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'completeOrder'
+		]));
+	}
+
+	public function confirmOrder(RecordSet $set, $params = [])
+	{
+		$this->subItemsQuantity();
+
+		$this->exportSaleRecords($set);
+
+		$this->status = 'confirm';
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'confirmOrder',
+			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+		]));
 	}
 
 	public function cancelOrder(RecordSet $set, $params = [])
 	{
-		$this->exportReturnRecords($set);
+		if ($this->status == 'confirm')
+		{
+			$this->exportReturnRecords($set);
 
-		$this->addActionData(array_merge([
-			'_action' => 'cancelOrder',
-			'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
-		], $params));
+			$this->addActionData([
+				'_action' => 'returnItems',
+				'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+			]);
+		}
+
+		$this->status = 'canceled';
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'cancelOrder'
+		]));
 	}
 
 	public function exportReturnRecords(RecordSet $set)

@@ -464,6 +464,7 @@ class OrderController extends AbstractController
 		$gatewayName = $token->getGatewayName();
 		$gateway = $this->get('payum')->getGateway($gatewayName);
 		$gateway->execute($status = new GetHumanStatus($token));
+		$sts = strtolower($status->getValue());
 
 		// if 
 		// ACK!="Success"
@@ -471,23 +472,23 @@ class OrderController extends AbstractController
 		// or $status->getValue()=="canceled"
 		// then redirect...
 
-		if($status->getValue() === "failed")
+		if($sts === "failed")
 		{
 			$this->get('session')->getFlashBag()->add('danger', 'error.payment_not_valid');
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
-		if($status->getValue() === "canceled")
+		if($sts === "canceled")
 		{
 			$this->get('session')->getFlashBag()->add('info', 'error.payment_canceled');
 			return $this->redirect($this->generateUrl('maci_order_checkout'));
 		}
 
-		if($status->getValue() != "captured" && $status->getValue() != "pending")
-		{
-			$this->get('session')->getFlashBag()->add('info', 'error.payment_not_captured');
-			return $this->redirect($this->generateUrl('maci_order_checkout'));
-		}
+		// if(!in_array($sts, ["captured", "pending", "success"]))
+		// {
+		// 	$this->get('session')->getFlashBag()->add('info', 'error.payment_not_captured');
+		// 	return $this->redirect($this->generateUrl('maci_order_checkout'));
+		// }
 
 		// Now you have order and payment status
 
@@ -515,28 +516,24 @@ class OrderController extends AbstractController
 			'payment' => [
 				'total_amount' => $payment->getTotalAmount(),
 				'currency_code' => $payment->getCurrencyCode(),
-				'details' => $payment->getDetails(),
+				'details' => $payment->getDetails()
 			]
 		];
 
-		if($payment_item['gateway'] == 'offline')
+		if($payment_item['gateway'] == 'offline' && is_array($params['payment']['details']))
 			$params['payment']['details']['paid'] = false;
 
-		// return new JsonResponse($params);
-
-		$set = $this->getOrderSet($cart);
-
-		$cart->confirmOrder($set, $params);
-
-		$om = $this->getDoctrine()->getManager();
-		$om->persist($set);
-		$om->flush();
-
-		$this->get('maci.orders')->resetCart();
+		$cart->completeOrder($params);
 
 		$this->sendConfirmedNotify($cart);
+		$this->get('maci.orders')->resetCart();
 
-		return $this->redirect($this->generateUrl('maci_order_checkout_complete', ['token' => $cart->getToken()]));
+		$om = $this->getDoctrine()->getManager();
+		$om->flush();
+
+		return $this->redirect($this->generateUrl('maci_order_checkout_complete', [
+			'token' => $cart->getToken()
+		]));
 	}
 
 	public function getOrderSet($order)
@@ -649,16 +646,20 @@ class OrderController extends AbstractController
 	public function confirmedAction()
 	{
 		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
-		if (!$admin->checkAuth()) {
+		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
-		}
 
-		$list = $this->getDoctrine()->getManager()
+		$confirmed = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Order\Order')
 			->getConfirmed();
 
+		$lasts = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Order\Order')
+			->getLasts();
+
 		return $this->render('MaciPageBundle:Order:confirmed.html.twig', [
-			'list' => $list
+			'confirmed' => $confirmed,
+			'lasts' => $lasts
 		]);
 	}
 
@@ -695,6 +696,9 @@ class OrderController extends AbstractController
 		if ($cmd == 'completeOrder')
 			return new JsonResponse($this->completeOrder($order), 200);
 
+		if ($cmd == 'confirmOrder')
+			return new JsonResponse($this->confirmOrder($order), 200);
+
 		if ($cmd == 'sendShippedNotify')
 			return new JsonResponse($this->sendShippedNotify($order), 200);
 
@@ -709,10 +713,19 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
+		$order->completeOrder();
+
+		$om = $this->getDoctrine()->getManager();
+		$om->flush();
+
+		return ['success' => true];
+	}
+
+	public function confirmOrder($order)
+	{
 		$set = $this->getOrderSet($order);
 
-		$set = $order->confirmOrder($set, []);
-		// $set = $order->completeOrder($set, []);
+		$order->confirmOrder($set);
 
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
