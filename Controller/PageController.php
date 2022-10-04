@@ -114,7 +114,7 @@ class PageController extends AbstractController
 			'payment' => '@MaciPage/Terms/payment.html.twig',
 			'returns-and-refunds' => '@MaciPage/Terms/refunds.html.twig',
 			'general-conditions' => '@MaciPage/Terms/gcs.html.twig',
-			'cookies' => '@MaciPage/Terms/cookie.html.twig',
+			'cookies' => '@MaciPage/Terms/cookies.html.twig',
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
 		];
 
@@ -129,7 +129,7 @@ class PageController extends AbstractController
 			'pagamenti' => '@MaciPage/Terms/payment.html.twig',
 			'resi-e-rimborsi' => '@MaciPage/Terms/refunds.html.twig',
 			'condizioni-generali' => '@MaciPage/Terms/gcs.html.twig',
-			'cookies' => '@MaciPage/Terms/cookie.html.twig',
+			'cookies' => '@MaciPage/Terms/cookies.html.twig',
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
 		];
 

@@ -1,5 +1,5 @@
 {% extends "@MaciPage/Layout/terms_layout.html.twig" %}
-{% set title = 'terms.privacy.title'|matra('Privacy Policy') %}
+{% set title = 'terms.cookie.title'|matra('Cookies Policy') %}
 {% use "@MaciPage/Terms/_terms_default_blocks.html.twig" %}
 
 {% block leftMenu %}
@@ -7,6 +7,6 @@
 {% endblock %}
 
 {% block content %}
-{% set stt = ( "MaciPageBundle:Terms:privacy_" ~ app.request.locale ~ ".html.twig" ) %}
-{% include [stt, "MaciPageBundle:Terms:privacy_en.html.twig"] with { 'page': page } %}
+{% set stt = ( "MaciPageBundle:Terms:cookies_" ~ app.request.locale ~ ".html.twig" ) %}
+{% include [stt, "MaciPageBundle:Terms:cookies_en.html.twig"] %}
 {% endblock %}

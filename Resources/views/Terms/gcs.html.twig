@@ -2,6 +2,10 @@
 {% set title = 'terms.gcs.title'|matra('General Condititions of Sale') %}
 {% use "@MaciPage/Terms/_terms_default_blocks.html.twig" %}
 
+{% block leftMenu %}
+<nav>{{ knp_menu_render('policy', {'currentClass': 'active'}) }}</nav>
+{% endblock %}
+
 {% block content %}
 {% set stt = ( "MaciPageBundle:Terms:gcs_" ~ app.request.locale ~ ".html.twig" ) %}
 {% include [stt, "MaciPageBundle:Terms:gcs_en.html.twig"] with { 'page': page } %}

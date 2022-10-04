@@ -1,8 +1,0 @@
-{% extends "@MaciPage/Layout/terms_layout.html.twig" %}
-{% set title = 'terms.cookie.title'|matra('Cookies Policy') %}
-{% use "@MaciPage/Terms/_terms_default_blocks.html.twig" %}
-
-{% block content %}
-{% set stt = ( "MaciPageBundle:Terms:cookie_" ~ app.request.locale ~ ".html.twig" ) %}
-{% include [stt, "MaciPageBundle:Terms:cookie_en.html.twig"] with { 'page': page } %}
-{% endblock %}
