@@ -22,7 +22,7 @@
 {% endblock %}
 
 
-{% block pathBar %}
+{#% block pathBar %}
 <nav class="breadcrumb-wrapper" aria-label="breadcrumb">
 <ol class="breadcrumb">
 	<li class="breadcrumb-item">
@@ -40,11 +40,12 @@
     <li class="breadcrumb-item active">{{ category.name }}</li>
 </ol>
 </nav>
-{% endblock %}
+{% endblock %#}
 
 
 {% block content %}
 
+{#}
 <header class="category-header container-fluid">
 
 	<h3 class="category-title">{{ category.name }}</h3>
@@ -54,6 +55,7 @@
 	{% endif %}
 
 </header>
+{#}
 
 {% include "MaciPageBundle:Shop:_list.html.twig" %}
 
