@@ -187,6 +187,15 @@
 					<span class="product-fit fit-{{ item.fit }}">{{ ('product.fit.' ~ item.fit)|matla('Fit ' ~ item.fitLabel) }}</span>
 
 				</li>
+				<li class="detail-item size-guide">
+
+					<a href="#" modal="#sizesGuide" class="product-size-guide">
+						<i class="fas fa-info-circle"></i> {{ 'product.sizes-guide' | matra('Sizes Guide') }}
+					</a>
+
+					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
+
+				</li>
 				{% if is_granted('ROLE_ADMIN') %}
 				<li class="detail-item fit-admin">
 
@@ -197,15 +206,6 @@
 
 				</li>
 				{% endif %}
-				<li class="detail-item size-guide">
-
-					<a href="#" modal="#sizesGuide" class="product-size-guide">
-						{{ 'product.sizes-guide' | matra('Sizes Guide') }}
-					</a>
-
-					{% include "MaciPageBundle:Shop:_size_guide.html.twig" %}
-
-				</li>
 				<li class="detail-item size-forms">
 
 					{% for variant in item.variants if 0 < variant.quantity %}
