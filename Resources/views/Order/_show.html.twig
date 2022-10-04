@@ -180,9 +180,9 @@
 
 	<td>
 		{% if maci_orders.shippingsArray[order.shipping] is defined %}
-		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
+		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping)|matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
 		{% else %}
-		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}</span>
+		<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping)|matra(order.shipping) }}</span>
 		{% endif %}
 	</td>
 
@@ -215,9 +215,9 @@
 
 	<td>
 		{% if maci_orders.paymentsArray[order.payment] is defined %}
-		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}</span>
+		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment)|matra(maci_orders.paymentsArray[order.payment].label) }}</span>
 		{% else %}
-		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}</span>
+		<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment)|matra(order.payment) }}</span>
 		{% endif %}
 	</td>
 

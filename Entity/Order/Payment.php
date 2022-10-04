@@ -137,6 +137,14 @@ class Payment extends BasePayment
         return $this->order;
     }
 
+    public function getStatus()
+    {
+        if (!is_array($this->details) || !array_key_exists('status', $this->details))
+            return null;
+
+        return $this->details['status'];
+    }
+
     /**
      * __toString()
      */

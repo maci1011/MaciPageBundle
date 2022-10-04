@@ -1391,6 +1391,14 @@ class Order
 		return true;
 	}
 
+	public function paymentStatus()
+	{
+		if (!count($this->payments))
+			return 'none';
+
+		return $this->payments->last()->getStatus();
+	}
+
 	/**
 	 * __toString()
 	 */
