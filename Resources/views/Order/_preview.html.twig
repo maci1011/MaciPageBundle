@@ -1,12 +1,7 @@
 
 <h3 class="pc-title">{{ 'order.show_title' | matra('Order Details') }}</h3>
 
-<h4 class="pc-subtitle">{{ 'order.status' | matra('Order Status') }}: {{ ('order.status.' ~ order.status)|matra(order.statusLabel) }}</h4>
-<h4 class="pc-subtitle">{{ 'order.code' | matra('Order Code') }}: {{ order.code }}</h4>
-<h4 class="pc-subtitle">{{ 'order.checkout-type'| matra('Order Type') }}: {{ order.checkoutLabel }}</h4>
-<h4 class="pc-subtitle">{{ 'shipping.type' | matra('Shipping Type') }}: {{ ('order.shippings.' ~ order.shipping)|matra(order.shipping) }}</h4>
-<h4 class="pc-subtitle">{{ 'payment.type' | matra('Payment Type') }}: {{ ('order.payments.' ~ order.payment)|matra(order.payment) }}</h4>
-<h4 class="pc-subtitle">{{ 'payment.status' | matra('Payment Status') }}: {{ ('order.payment.status.' ~ order.paymentStatus)|matra(order.paymentStatus) }}</h4>
+{% include "MaciPageBundle:Order:_details.html.twig" %}
 
 
 <h3 class="pc-title">{{ 'order.addresses' | matra('Addresses') }}</h3>

@@ -30,6 +30,13 @@
 </div>
 </form>
 
+<h3 class="pc-title">{{ 'order.show_title' | matra('Order Details') }}</h3>
+
+{% include "MaciPageBundle:Order:_details.html.twig" %}
+
+<h4 class="pc-subtitle">{{ 'order.checkout-type'| matra('Order Type') }}: {{ order.checkoutLabel }}</h4>
+<h4 class="pc-subtitle">{{ 'payment.status' | matra('Payment Status') }}: {{ ('order.payment.status.' ~ order.paymentStatus)|matra(order.paymentStatus) }}</h4>
+
 {% include "MaciPageBundle:Order:_preview.html.twig" %}
 
 {% endblock %}

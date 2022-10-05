@@ -1,0 +1,5 @@
+
+<h4 class="pc-subtitle">{{ 'order.status' | matra('Order Status') }}: {{ ('order.status.' ~ order.status)|matra(order.statusLabel) }}</h4>
+<h4 class="pc-subtitle">{{ 'order.code' | matra('Order Code') }}: {{ order.code }}</h4>
+<h4 class="pc-subtitle">{{ 'shipping.type' | matra('Shipping Type') }}: {{ ('order.shippings.' ~ order.shipping)|matra(order.shipping) }}</h4>
+<h4 class="pc-subtitle">{{ 'payment.type' | matra('Payment Type') }}: {{ ('order.payments.' ~ order.payment)|matra(order.payment) }}</h4>

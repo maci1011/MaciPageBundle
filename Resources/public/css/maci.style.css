@@ -407,7 +407,7 @@ ul, ol {
  *      Orders
  */
 
-.cart-list > .container > .row {
+.order-list > .container > .row {
 	padding: 0 0 15px 0;
 }
 
@@ -425,11 +425,11 @@ ul, ol {
 	margin-right: 5px;
 }
 
-.cart-list .order-item-preview {
+.order-list .order-item-preview {
 	width: 160px;
 }
 
-.cart-list .order-item-preview > img {
+.order-list .order-item-preview > img {
 	margin: 0 auto;
 }
 

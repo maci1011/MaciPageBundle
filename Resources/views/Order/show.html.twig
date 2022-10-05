@@ -1,15 +1,11 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
-
 {% block title %}
-
 {{ 'order.show.meta_title' | matra('Show Order') }}: {{ order.name }}
-
 {% endblock %}
 
-
 {% block content %}
-
+<h3 class="pc-title">{{ 'order.show_title' | matra('Order Details') }}</h3>
+{% include "MaciPageBundle:Order:_details.html.twig" %}
 {% include "MaciPageBundle:Order:_preview.html.twig" %}
-
 {% endblock %}
