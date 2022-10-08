@@ -51,7 +51,7 @@ class CheckoutPaymentType extends AbstractType
 		$result = array();
 		foreach ($array as $key => $value)
 			$result[$key] = (
-				$this->translator->getLabel('order.payments.' . $key, $value['label']) . (
+				$this->translator->getText('order.payments.' . $key, $value['label']) . (
 					$value['cost'] ? (
 						' ( ' . number_format($value['cost'], 2, '.', ',') . ' EUR )'
 					) : null
