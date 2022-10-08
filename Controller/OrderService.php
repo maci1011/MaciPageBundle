@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
 use Maci\UserBundle\Controller\AddressServiceController;
 use Maci\UserBundle\Entity\Address;
 use Maci\PageBundle\Entity\Order\Order;
 use Maci\PageBundle\Entity\Order\Item;
+use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class OrderService extends AbstractController
 {
@@ -44,7 +44,7 @@ class OrderService extends AbstractController
 
 	private $countries;
 
-	public function __construct(ObjectManager $objectManager, RequestStack $requestStack, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage, Session $session, \App\Kernel $kernel, AddressServiceController $ac, $configs)
+	public function __construct(ObjectManager $objectManager, RequestStack $requestStack, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage, Session $session, \App\Kernel $kernel, AddressServiceController $ac, TranslatorController $translator, $configs)
 	{
 		$this->om = $objectManager;
 		$this->request = $requestStack->getCurrentRequest();
@@ -53,6 +53,7 @@ class OrderService extends AbstractController
 		$this->session = $session;
 		$this->kernel = $kernel;
 		$this->ac = $ac;
+		$this->translator = $translator;
 		$this->configs = $configs;
 		$this->cart = false;
 	}
@@ -528,7 +529,7 @@ class OrderService extends AbstractController
 				($pay['sandbox'] && false === $this->authorizationChecker->isGranted('ROLE_ADMIN') && $this->kernel->getEnvironment() == "prod")
 			) continue;
 
-			$choices[$this->getPaymentLabel($pay) . (
+			$choices[$this->getPaymentLabel($name, $pay) . (
 				0 < $pay['cost'] ? ' (+' . $this->getPaymentCostLabel($pay) . ')' : ''
 			)] = $name;
 		}
@@ -536,9 +537,9 @@ class OrderService extends AbstractController
 		return $choices;
 	}
 
-	public function getPaymentLabel($payment)
+	public function getPaymentLabel($name, $payment)
 	{
-		return $payment['label'];
+		return $this->translator->getText('order.payments.' . $name, $payment['label']);
 	}
 
 	public function getPaymentCostLabel($payment)

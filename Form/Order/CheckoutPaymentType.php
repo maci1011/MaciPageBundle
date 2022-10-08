@@ -8,16 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class CheckoutPaymentType extends AbstractType
 {
 	protected $orders;
 
-	public function __construct($orders, TranslatorController $translator)
+	public function __construct($orders)
 	{
 		$this->orders = $orders;
-		$this->translator = $translator;
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -44,20 +42,6 @@ class CheckoutPaymentType extends AbstractType
 				'attr' => ['class' => 'btn btn-primary']
 			])
 		;
-	}
-
-	public function getChoices($array)
-	{
-		$result = array();
-		foreach ($array as $key => $value)
-			$result[$key] = (
-				$this->translator->getText('order.payments.' . $key, $value['label']) . (
-					$value['cost'] ? (
-						' ( ' . number_format($value['cost'], 2, '.', ',') . ' EUR )'
-					) : null
-				)
-			);
-		return $result;
 	}
 
 	public function getName()

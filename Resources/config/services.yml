@@ -117,7 +117,7 @@ services:
     # Controller Service
 
     Maci\PageBundle\Controller\OrderService:
-        arguments: ["@doctrine.orm.entity_manager","@request_stack","@security.authorization_checker",'@security.token_storage',"@session","@kernel","@maci.addresses","%maci.page.configs%"]
+        arguments: ["@doctrine.orm.entity_manager","@request_stack","@security.authorization_checker",'@security.token_storage',"@session","@kernel","@maci.addresses","@maci.translator","%maci.page.configs%"]
 
     maci.orders:
         alias: Maci\PageBundle\Controller\OrderService
@@ -179,7 +179,7 @@ services:
 
     maci.order.form.type.checkout_payment:
         class: Maci\PageBundle\Form\Order\CheckoutPaymentType
-        arguments: ["@maci.orders", "@maci.translator"]
+        arguments: ["@maci.orders"]
         tags:
             - { name: form.type, alias: order_checkout_payment }
 
