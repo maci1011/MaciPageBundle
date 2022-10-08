@@ -66,19 +66,22 @@
 		{% if item.status == 'complete' %}
 
 		<a class="btn" href="{{ path('maci_order_invoice', {'id': item.id}) }}">
-			Show Invoice
+			<i class="fas fa-file-invoice"></i>
+			{{ 'invoice'|matla('Invoice') }}
 		</a>
 
 		{% elseif item.status == 'confirm' %}
 
 		<a class="btn" href="{{ path('maci_order_show', {'id': item.id}) }}">
-			Show Order
+			<i class="fas fa-eye"></i>
+			{{ 'show'|matla('Show') }}
 		</a>
 
 		{% elseif item.status == 'current' %}
 
 		<a class="btn" href="{{ path('maci_order_checkout') }}">
-			Checkout
+			<i class="fas fa-shopping-cart"></i>
+			{{ 'page.cart.checkout.button' | matra('Checkout') }}
 		</a>
 
 		{% endif %}

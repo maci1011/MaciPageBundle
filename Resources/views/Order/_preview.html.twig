@@ -1,14 +1,9 @@
 
-<h3 class="pc-title">{{ 'order.show_title' | matra('Order Details') }}</h3>
-
-{% include "MaciPageBundle:Order:_details.html.twig" %}
-
-
-<h3 class="pc-title">{{ 'order.addresses' | matra('Addresses') }}</h3>
+<h3 class="pc-title">{{ 'order.addresses'|matra('Addresses') }}</h3>
 
 {% include "MaciPageBundle:Order:_show_addresses.html.twig" %}
 
 
-<h3 class="pc-title">{{ 'order.items' | matra('Order Items') }}</h3>
+<h3 class="pc-title">{{ 'order.items'|matra('Order Items') }}</h3>
 
 {% include "MaciPageBundle:Order:_show.html.twig" %}
