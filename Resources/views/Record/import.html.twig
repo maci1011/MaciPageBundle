@@ -4,13 +4,17 @@
 <h3>Import Order</h3>
 <form id="import_form" class="p-2">
 <div class="form-group">
-	<label class="required" for="import_set">Set</label>
+	<label class="required" for="import_set">Set:</label>
 	<select id="import-set" name="import[set]" class="form-control">
 		<option value="null">Select Record Set</option>
 	</select>
 </div>
 <div class="form-group">
 	<input type="file" id="dataFile">
+</div>
+<div class="form-group">
+	<label class="required" for="ratio">Gain:</label>
+	<input type="number" id="ratio" class="form-control" value="280" />
 </div>
 <div class="form-group">
 	<button id="import-submit" class="btn btn-primary" type="submit">Import XML</button>

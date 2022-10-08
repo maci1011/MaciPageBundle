@@ -327,9 +327,7 @@ class Record
 	public function getData()
 	{
 		if (!is_array($this->data))
-		{
 			return [];
-		}
 
 		return $this->data;
 	}
@@ -388,7 +386,7 @@ class Record
 				case 'qty':
 					$this->quantity = intval($value);
 					unset($data[$key]);
-					$data['quantity'] = $value;
+					$data['quantity'] = $this->quantity;
 					break;
 			}
 		}
@@ -412,9 +410,14 @@ class Record
 		$this->import($this->data['imported']);
 	}
 
+	public function hasImportedData()
+	{
+		return is_array($this->data) && array_key_exists('imported', $this->data);
+	}
+
 	public function getImported()
 	{
-		if (!array_key_exists('imported', $this->getData()))
+		if (!$this->hasImportedData())
 			return false;
 
 		return $this->data['imported'];
@@ -422,7 +425,7 @@ class Record
 
 	public function getImportedLocale()
 	{
-		if (!$this->getImported()) return false;
+		if (!$this->hasImportedData()) return false;
 		if (array_key_exists('Locale', $this->data['imported']))
 			return strtolower($this->data['imported']['Locale']);
 		return false;
@@ -430,7 +433,7 @@ class Record
 
 	public function getImportedCurrency()
 	{
-		if (!$this->getImported()) return null;
+		if (!$this->hasImportedData()) return null;
 		if (array_key_exists('Uni:XXEUR025', $this->data['imported']))
 			return 'EUR';
 		if (array_key_exists('Currency', $this->data['imported']))
@@ -440,7 +443,7 @@ class Record
 
 	public function getImportedDescription()
 	{
-		if (!$this->getImported()) return null;
+		if (!$this->hasImportedData()) return null;
 		if (array_key_exists('Descrizione', $this->data['imported']))
 			return $this->data['imported']['Descrizione'];
 		if (array_key_exists('Descriz.', $this->data['imported']))
@@ -452,7 +455,7 @@ class Record
 
 	public function getImportedComposition()
 	{
-		if (!$this->getImported()) return null;
+		if (!$this->hasImportedData()) return null;
 		if (array_key_exists('Composizione', $this->data['imported']))
 			return $this->data['imported']['Composizione'];
 		if (array_key_exists('Composition', $this->data['imported']))
@@ -462,7 +465,7 @@ class Record
 
 	public function getImportedTotal()
 	{
-		if (!$this->getImported()) return null;
+		if (!$this->hasImportedData()) return null;
 		if (array_key_exists('Tot:XXEUR025', $this->data['imported']))
 			return number_format(floatval($this->data['imported']['Tot:XXEUR025']), 2);
 		if (array_key_exists('Valore', $this->data['imported']))
@@ -470,6 +473,20 @@ class Record
 		if (array_key_exists('Amount', $this->data['imported']))
 			return number_format(floatval($this->data['imported']['Amount']), 2);
 		return null;
+	}
+
+	public function getImportedRatio()
+	{
+		if (!$this->hasImportedData() || !array_key_exists('ratio', $this->data['imported']))
+			return null;
+
+		return $this->data['imported']['ratio'];
+	}
+
+	public function getRatio()
+	{
+		$r = $this->getImportedRatio();
+		return is_null($r) ? 0.28 : (intval($r) / 1000);
 	}
 
 	public function hasVariant()
