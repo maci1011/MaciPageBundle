@@ -5,7 +5,7 @@
 
 {% elseif payment == 'setted' %}
 
-<p class="payment-label">{{ maci_orders.cartPaymentLabel }}</p>
+<p class="payment-label">{{ ('order.payments.' ~ order.payment)|matra(order.payment) }}</p>
 
 {% set description = ('payment.method.' ~ order.payment ~ '.description')|matra('') %}
 {% if description|length %}
@@ -22,7 +22,7 @@
 
 <a class="btn btn-success" href="{{ path('maci_order_checkout', {'checkout':'payment'}) }}">
 	<i class="fas fa-pen"></i>
-	{{ 'edit' | matla('Edit') }}
+	{{ 'edit'|matla('Edit') }}
 </a>
 
 {#% elseif payment == 'toset' %#}

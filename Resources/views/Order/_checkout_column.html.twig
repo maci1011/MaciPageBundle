@@ -24,9 +24,9 @@
 
 	<div class="details-line">
 		{% if maci_orders.shippingsArray[order.shipping] is defined %}
-		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping)|matra(maci_orders.shippingsArray[order.shipping].label) }}:</span>
 		{% else %}
-		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping) | matra(order.shipping) }}:</span>
+		<span class="shippingCost label">{{ ('order.shippings.' ~ order.shipping)|matra(order.shipping) }}:</span>
 		{% endif %}
 		<span class="shippingCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.shippingCost %}
@@ -50,9 +50,9 @@
 
 	<div class="details-line">
 		{% if maci_orders.paymentsArray[order.payment] is defined %}
-		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment)|matra(maci_orders.paymentsArray[order.payment].label) }}:</span>
 		{% else %}
-		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment) | matra(order.payment) }}:</span>
+		<span class="paymentCost label">{{ ('order.payments.' ~ order.payment)|matra(order.payment) }}:</span>
 		{% endif %}
 		<span class="paymentCost value {{ 0 < order.paymentCost ? 'od-pay' : 'od-free' }}">
 			{% if 0 < order.paymentCost %}

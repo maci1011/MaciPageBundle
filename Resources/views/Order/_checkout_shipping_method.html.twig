@@ -5,9 +5,7 @@
 
 {% elseif shipping == 'setted' %}
 
-<p class="shipping-label">
-	{{ ('shipping.method.' ~ order.shipping ~ '.label')|matra(maci_orders.cartShippingLabel) }}
-</p>
+<p class="shipping-label">{{ ('shipping.method.' ~ order.shipping ~ '.label')|matra(maci_orders.cartShippingLabel) }}</p>
 
 {% set description = ('shipping.method.' ~ order.shipping ~ '.description')|matra('') %}
 {% if description|length %}
