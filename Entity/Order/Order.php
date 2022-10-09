@@ -390,9 +390,10 @@ class Order
 			'Wish List' => 'wishlist',
 			'Current' => 'current',
 			'Completed' => 'complete',
-			'Confirmed' => 'confirm',
 			'Paid' => 'paid',
-			'Canceled' => 'canceled'
+			'Confirmed' => 'confirm',
+			'Canceled' => 'canceled',
+			'Ended' => 'end'
 		];
 	}
 
@@ -1235,6 +1236,15 @@ class Order
 		]));
 	}
 
+	public function endOrder($params = [])
+	{
+		$this->status = 'end';
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'endOrder'
+		]));
+	}
+
 	public function cancelOrder(RecordSet $set, $params = [])
 	{
 		if ($this->status == 'confirm')
@@ -1287,19 +1297,6 @@ class Order
 		array_push($this->data['actions'], array_merge([
 			'_date' => date("Y/m/d H:i:s", time())
 		], $params));
-	}
-
-	public function endOrder()
-	{
-		if (6 < $this->getProgression())
-			return false;
-
-		if (!$this->getBalance() < 0)
-			$this->status = 'complete';
-		else
-			$this->status = 'paid';
-	
-		return true;
 	}
 
 	public function getRecipient()

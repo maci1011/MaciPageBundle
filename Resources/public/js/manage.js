@@ -7,7 +7,8 @@ var maciShopManager = function (options) {
 
 	_obj = {
 
-	sendCmd: function() {
+	sendCmd: function()
+	{
 		var cmd = select.val();
 		$.ajax({
 			type: 'POST',
@@ -18,22 +19,24 @@ var maciShopManager = function (options) {
 			success: function(d,s,x) {
 				console.log('S--> ' + cmd + ' <---');
 				console.log(d);
-				// window.location.reload();
+				window.location.reload();
 			},
 			error: function(d,s,x) {
 				console.log('E--> ' + cmd + ' <---');
 				console.log(d);
+				alert('Error!');
 			}
 		});
 	},
 
-	set: function(_form) {
+	set: function(_form)
+	{
 		form = _form;
 		select = form.find('#actions_select');
 		submit = form.find('#submit');
 		submit.click(function(e) {
 			e.preventDefault();
-			// if(!confirm("Confirm?")) return;
+			if(!confirm("Confirm?")) return;
 			_obj.sendCmd();
 		});
 	}

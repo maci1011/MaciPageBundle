@@ -525,7 +525,7 @@ class OrderController extends AbstractController
 
 		$cart->completeOrder($params);
 
-		$this->sendConfirmedNotify($cart);
+		$this->sendPlacedNotify($cart);
 		$this->get('maci.orders')->resetCart();
 
 		$om = $this->getDoctrine()->getManager();
@@ -569,11 +569,11 @@ class OrderController extends AbstractController
 		]);
 	}
 
-	public function sendConfirmedNotify($order)
+	public function sendPlacedNotify($order)
 	{
 		$mail = new Mail();
 		$mail
-			->setName('OrderConfirmed')
+			->setName('OrderPlaced')
 			->setType('message')
 			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-placed', 'Order Placed'))
 			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
@@ -581,7 +581,47 @@ class OrderController extends AbstractController
 			->addRecipients($order->getRecipient())
 			->setLocale($order->getLocale())
 			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView('@MaciPage/Email/order_placed.html.twig', ['mail' => $mail, 'order' => $order]))
+		;
+
+		$this->sendNotify($order, $mail);
+
+		return ['success' => true];
+	}
+
+	public function sendConfirmedNotify($order)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('OrderConfirmed')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-confirmed', 'Order Confirmed'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
 			->setContent($this->renderView('@MaciPage/Email/order_confirmed.html.twig', ['mail' => $mail, 'order' => $order]))
+		;
+
+		$this->sendNotify($order, $mail);
+
+		return ['success' => true];
+	}
+
+	public function sendCompletedNotify($order)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('OrderCompleted')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-completed', 'Order Completed'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView('@MaciPage/Email/order_completed.html.twig', ['mail' => $mail, 'order' => $order]))
 		;
 
 		$this->sendNotify($order, $mail);
@@ -602,6 +642,26 @@ class OrderController extends AbstractController
 			->setLocale($order->getLocale())
 			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
 			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_shipped.html.twig', ['mail' => $mail, 'order' => $order]))
+		;
+
+		$this->sendNotify($order, $mail);
+
+		return ['success' => true];
+	}
+
+	public function sendInvoiceNotify($order)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('OrderInvoice')
+			->setType('message')
+			->setSubject($this->get('maci.translator')->getLabel('order.mails.order-invoice', 'Order Invoice'))
+			->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($order->getRecipient())
+			->setLocale($order->getLocale())
+			// ->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['contact' => $contact]))
+			->setContent($this->renderView($template ? $template : '@MaciPage/Email/order_invoice.html.twig', ['mail' => $mail, 'order' => $order]))
 		;
 
 		$this->sendNotify($order, $mail);
@@ -649,17 +709,22 @@ class OrderController extends AbstractController
 		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
 
-		$confirmed = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Order\Order')
-			->getConfirmed();
-
 		$lasts = $this->getDoctrine()->getManager()
 			->getRepository('MaciPageBundle:Order\Order')
 			->getLasts();
 
+		$confirmed = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Order\Order')
+			->getConfirmed();
+
+		$ended = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Order\Order')
+			->getEnded();
+
 		return $this->render('MaciPageBundle:Order:confirmed.html.twig', [
+			'lasts' => $lasts,
 			'confirmed' => $confirmed,
-			'lasts' => $lasts
+			'ended' => $ended
 		]);
 	}
 
@@ -699,11 +764,23 @@ class OrderController extends AbstractController
 		if ($cmd == 'confirmOrder')
 			return new JsonResponse($this->confirmOrder($order), 200);
 
+		if ($cmd == 'cancelOrder')
+			return new JsonResponse($this->cancelOrder($order), 200);
+
+		if ($cmd == 'sendPlacedNotify')
+			return new JsonResponse($this->sendPlacedNotify($order), 200);
+
+		if ($cmd == 'sendConfirmedNotify')
+			return new JsonResponse($this->sendConfirmedNotify($order), 200);
+
+		if ($cmd == 'sendCompletedNotify')
+			return new JsonResponse($this->sendCompletedNotify($order), 200);
+
 		if ($cmd == 'sendShippedNotify')
 			return new JsonResponse($this->sendShippedNotify($order), 200);
 
-		if ($cmd == 'cancelOrder')
-			return new JsonResponse($this->cancelOrder($order), 200);
+		if ($cmd == 'sendInvoiceNotify')
+			return new JsonResponse($this->sendInvoiceNotify($order), 200);
 
 		if ($cmd == 'test')
 			return new JsonResponse($this->test($order), 200);

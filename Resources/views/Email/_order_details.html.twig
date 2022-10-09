@@ -1,0 +1,115 @@
+
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		<h3>{{ 'order.details'|matra('Order Details') }}:</h3>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<table class="main wrapper details">
+<tbody>
+
+	{# HEADER #}
+	<tr class="titles details">
+		<th class="name" width="65%">{{ 'order.product'|matra('Product') }}</th>
+		<th class="quantity">{{ 'product.quantity'|matra('Quantity') }}</th>
+		<th class="price">{{ 'product.price'|matra('Price') }}</th>
+	</tr>
+
+	{# ORDER ITEMS #}
+	{% for item in order.items %}
+	<tr class="order-item">
+		<td class="name">
+			{{ item.description }}
+		</td>
+		<td class="quantity">
+			{{ item.quantity }}
+		</td>
+		<td class="price">
+			<span>{{ item.amount|number_format(2, '.', ',') }} &euro;</span>
+		</td>
+	</tr>
+	{% endfor %}
+
+	{# FOOTER #}
+	<tr class="titles spaced">
+		<th>{{ 'product.cart_details'|matra('Details') }}</th>
+	</tr>
+
+	{# SHIPPING COST #}
+	{% if order.shipping %}
+	<tr>
+		<td colspan="2">
+			{% if maci_orders.shippingsArray[order.shipping] is defined %}
+			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping)|matra(maci_orders.shippingsArray[order.shipping].label) }}</span>
+			{% else %}
+			<span class="order-shippingCost-description">{{ ('order.shippings.' ~ order.shipping)|matra(order.shipping) }}</span>
+			{% endif %}
+		</td>
+		<td class="price">
+			{% if order.shippingCost %}
+			{{ order.shippingCost|number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free')|matra('Free') }}
+			{% endif %}
+		</td>
+	</tr>
+	{% endif %}
+
+	{# PAYMENT COST #}
+	{% if order.payment %}
+	<tr>
+		<td colspan="2">
+			{% if maci_orders.paymentsArray[order.payment] is defined %}
+			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment)|matra(maci_orders.paymentsArray[order.payment].label) }}</span>
+			{% else %}
+			<span class="order-paymentCost-description">{{ ('order.payments.' ~ order.payment)|matra(order.payment) }}</span>
+			{% endif %}
+		</td>
+		<td class="price">
+			{% if order.paymentCost %}
+			{{ order.paymentCost|number_format(2, '.', ',') }} &euro;
+			{% else %}
+			{{ ('order.details.price-free')|matra('Free') }}
+			{% endif %}
+		</td>
+	</tr>
+	{% endif %}
+
+
+	<tr class="spaced">
+		<th>{{ 'order.amount'|matra('Amount') }}</th>
+		<th>&nbsp;</th>
+		<th class="price">{{ order.amount|number_format(2, '.', ',') }} &euro;</th>
+	</tr>
+
+</tbody>
+</table>
+
+
+{% if order.billingAddress is not null or order.shippingAddress is not null %}
+<table class="main wrapper">
+<tbody>
+<tr>
+
+	{% if order.billingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.billing'|matra('Billing Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
+	</td>
+	{% endif %}
+
+	{% if order.shippingAddress is not null %}
+	<td class="address" width="50%">
+		<h3>{{ 'page.checkout.shipping'|matra('Shipping Address') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.shippingAddress } %}
+	</td>
+	{% endif %}
+
+</tr>
+</tbody>
+</table>
+{% endif %}

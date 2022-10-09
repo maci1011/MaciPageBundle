@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<title>{{ 'order.mails.order-shipped'|matla('Order Shipped') }} | {{ company_title }}</title>
+<title>{{ 'order.mails.order-placed'|matla('Order Placed') }} | {{ company_title }}</title>
 
 {% include "@MaciPage/Email/_head.html.twig" %}
 
@@ -11,10 +11,14 @@
 {% include "@MaciPage/Email/_header.html.twig" %}
 
 {% include "@MaciPage/Email/_intro.html.twig" with {
-	'message': 'mail.shipped-text'|matra('your order has been shipped.')
+	'message': 'mail.placed-text'|matra('thank you for placing your order on our online store. You can find below a report of your purchase.')
 } %}
 
 {% include "@MaciPage/Email/_order_status.html.twig" %}
+
+{% include "@MaciPage/Email/_order_details.html.twig" %}
+
+{% include "@MaciPage/Email/_order_bank.html.twig" %}
 
 {% include "@MaciPage/Email/_contact_us.html.twig" %}
 

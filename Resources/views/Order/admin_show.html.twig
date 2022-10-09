@@ -17,9 +17,16 @@
 		{% endif %}
 		{% if order.status == 'complete' %}
 		<option value="confirmOrder">Confirm Order</option>
+		<option value="sendPlacedNotify">RE-Send Placed Notify</option>
 		{% endif %}
 		{% if order.status == 'confirm' %}
+		<option value="sendConfirmedNotify">Send Confirmed Notify</option>
 		<option value="sendShippedNotify">Send Shipped Notify</option>
+		<option value="endOrder">End Order</option>
+		{% endif %}
+		{% if order.status == 'end' %}
+		<option value="sendCompletedNotify">Send Completed Notify</option>
+		<option value="sendInvoiceNotify">Send Invoice</option>
 		{% endif %}
 		<option value="cancelOrder">Cancel Order</option>
 		{#}<option value="test">Test</option>{#}

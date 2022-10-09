@@ -12,6 +12,11 @@
 
 <section class="page_container user_page">
 
+{% if ended|length %}
+<h1>{{ 'menu.user.end_orders'|matra('Ended Orders') }}</h1>
+{% include "MaciPageBundle:Order:_manage_list.html.twig" with {'list': ended} %}
+{% endif %}
+
 {% if confirmed|length %}
 <h1>{{ 'menu.user.confirmed_orders'|matra('Confirmed Orders') }}</h1>
 {% include "MaciPageBundle:Order:_manage_list.html.twig" with {'list': confirmed} %}

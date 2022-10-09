@@ -171,6 +171,20 @@ class MailerController extends AbstractController
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
 	}
 
+	public function orderPlacedTemplateAction()
+	{
+		return $this->render('@MaciPage/Email/order_placed.html.twig', [
+			'order' => $this->getARandomOrder()
+		]);
+	}
+
+	public function orderCompletedTemplateAction()
+	{
+		return $this->render('@MaciPage/Email/order_completed.html.twig', [
+			'order' => $this->getARandomOrder()
+		]);
+	}
+
 	public function orderConfirmedTemplateAction()
 	{
 		return $this->render('@MaciPage/Email/order_confirmed.html.twig', [
@@ -181,6 +195,13 @@ class MailerController extends AbstractController
 	public function orderShippedTemplateAction()
 	{
 		return $this->render('@MaciPage/Email/order_shipped.html.twig', [
+			'order' => $this->getARandomOrder()
+		]);
+	}
+
+	public function orderInvoiceTemplateAction()
+	{
+		return $this->render('@MaciPage/Email/order_invoice.html.twig', [
 			'order' => $this->getARandomOrder()
 		]);
 	}

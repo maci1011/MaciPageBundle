@@ -20,6 +20,14 @@ maci_mailer_import:
     defaults: { _controller: MaciPageBundle:Mailer:import, section: mails }
 
 
+maci_mailer_templates_order_placed:
+    path:     /mailer/templates/order_placed
+    defaults: { _controller: MaciPageBundle:Mailer:orderPlacedTemplate }
+
+maci_mailer_templates_order_completed:
+    path:     /mailer/templates/order_completed
+    defaults: { _controller: MaciPageBundle:Mailer:orderCompletedTemplate }
+
 maci_mailer_templates_order_confirmed:
     path:     /mailer/templates/order_confirmed
     defaults: { _controller: MaciPageBundle:Mailer:orderConfirmedTemplate }
@@ -27,6 +35,10 @@ maci_mailer_templates_order_confirmed:
 maci_mailer_templates_order_shipped:
     path:     /mailer/templates/order_shipped
     defaults: { _controller: MaciPageBundle:Mailer:orderShippedTemplate }
+
+maci_mailer_templates_order_invoice:
+    path:     /mailer/templates/order_invoice
+    defaults: { _controller: MaciPageBundle:Mailer:orderInvoiceTemplate }
 
 maci_mailer_templates_subscription_complete:
     path:     /mailer/templates/subscription_complete

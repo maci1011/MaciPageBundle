@@ -1,0 +1,25 @@
+
+{% if order.orderDocuments|length and 3 < order.progression %}
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		<h3>E-Books:</h3>
+		{% if order.user %}
+		<table>
+			{% for item in order.orderDocuments %}
+			<tr>
+				<td>- {{ item }}</td>
+				<td><a href="{{ path('maci_media_get', {'path': item.path}) }}">Get E-Book</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+		<p>You can see all your ebooks in <a href="{{ path('maci_user_library') }}">Your Library</a></p>
+		{% else %}
+		<p>You should find your ebooks attached to this mail. If not, contact us.</p>
+		{% endif %}
+	</td>
+</tr>
+</tbody>
+</table>
+{% endif %}

@@ -1,0 +1,13 @@
+
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		<span class="attr label">{{ 'order.code'|matra('Code') }}:</span>
+		<span class="attr value">{{ order.code }}</span><br/>
+		<span class="attr label">{{ 'order.status'|matra('Status') }}:</span>
+		<span class="attr value">{{ ('order.status.' ~ order.status)|matra(order.statusLabel) }}</span>
+	</td>
+</tr>
+</tbody>
+</table>
