@@ -221,7 +221,8 @@ var maciShopImport = function (options) {
 				index++;
 			});
 
-			dt['ratio'] = form.find("#ratio").val();
+			if (!dt.ratio)
+				dt['ratio'] = form.find("#ratio").val();
 
 			records.push({
 				'type': 'purchas',
