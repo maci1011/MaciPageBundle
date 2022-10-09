@@ -380,6 +380,11 @@ class Record
 					unset($data[$key]);
 					$data['price'] = number_format($this->price, 2);
 					break;
+				case 'ratio':
+					$ratio = intval($value);
+					unset($data[$key]);
+					$data['ratio'] = $ratio;
+					break;
 				case 'quantit':
 				case 'qtà':
 				case 'qta':
