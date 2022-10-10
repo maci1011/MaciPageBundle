@@ -115,6 +115,22 @@ class PaymentDetails extends ArrayObject
         return $this->payment;
     }
 
+    public function getACK()
+    {
+        if (!is_array($this->details) || !array_key_exists('ACK', $this->details))
+            return null;
+
+        return $this->details['ACK'];
+    }
+
+    public function getStatus()
+    {
+        if (!is_array($this->details) || !array_key_exists('status', $this->details))
+            return $this->getACK();
+
+        return $this->details['status'];
+    }
+
     /**
      * __toString()
      */

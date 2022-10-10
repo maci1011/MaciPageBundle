@@ -882,37 +882,42 @@ class Order
 	{
 		$amount = 0;
 
-		foreach ($this->transactions as $item) {
+		foreach ($this->payments as $item)
+		{
+			if (!in_array($item->getStatus(), ['captured', 'success']))
+				continue;
+
 			$amount += $item->getAmount();
 		}
+
+		foreach ($this->transactions as $item)
+			$amount += $item->getAmount();
 
 		return $amount;
 	}
 
 	public function getBalance()
 	{
-		return ( $this->getTransactionsAmount() - $this->getAmount() );
+		return ($this->getTransactionsAmount() - $this->getAmount());
 	}
 
 	public function getArrayLabel($array, $key)
 	{
-		if (array_key_exists($key, $array)) {
+		if (array_key_exists($key, $array))
 			return $array[$key];
-		}
-		$str = str_replace('_', ' ', $key);
-		return ucwords($str);
+
+		return ucwords(str_replace('_', ' ', $key));
 	}
 
 	public function getOrderDocuments()
 	{
 		$documents = array();
-		foreach ($this->items as $item) {
+		foreach ($this->items as $item)
+		{
 			$docs = $item->getPrivateDocuments();
-			if (is_array($docs) && count($docs)) {
-				foreach ($docs as $id => $doc) {
+			if (is_array($docs) && count($docs))
+				foreach ($docs as $id => $doc)
 					$documents[$id] = $doc;
-				}
-			}
 		}
 
 		return $documents;
@@ -920,15 +925,12 @@ class Order
 
 	public function checkOrder()
 	{
-		if(!count($this->items)) {
+		if(!count($this->items))
 			return false;
-		}
 
 		foreach ($this->items as $item)
-		{
 			if (!$item->checkAvailability())
 				return false;
-		}
 
 		return true;
 	}
@@ -938,9 +940,11 @@ class Order
 	{
 		$shipment = false;
 
-		foreach ($this->items as $item) {
+		foreach ($this->items as $item)
+		{
 			$product = $item->getProduct();
-			if ( $product && $product->getShipment() ) {
+			if ($product && $product->getShipment())
+			{
 				$shipment = true;
 				break;
 			}

@@ -14,7 +14,17 @@
 	'message': 'mail.invoice-text'|matra('you can find below the invoice for your order. Thank you for purchasing from our online store.')
 } %}
 
-{#% include "@MaciPage/Email/_order_INVOICE.html.twig" %#}
+<table class="main">
+<tbody>
+<tr>
+<td>
+
+{% include "@MaciPage/Order/_invoice.html.twig" %}
+
+</td>
+</tr>
+</tbody>
+</table>
 
 {% include "@MaciPage/Email/_contact_us.html.twig" %}
 

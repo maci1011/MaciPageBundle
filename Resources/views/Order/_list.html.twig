@@ -63,21 +63,21 @@
 
 	<td>
 
-		{% if item.status == 'complete' %}
+		{% if item.status in ['paid', 'confirm', 'end'] %}
 
 		<a class="btn" href="{{ path('maci_order_invoice', {'id': item.id}) }}">
 			<i class="fas fa-file-invoice"></i>
 			{{ 'invoice'|matla('Invoice') }}
 		</a>
 
-		{% elseif item.status == 'confirm' %}
+		{% elseif item.status in ['complete', 'canceled'] %}
 
 		<a class="btn" href="{{ path('maci_order_show', {'id': item.id}) }}">
 			<i class="fas fa-eye"></i>
 			{{ 'show'|matla('Show') }}
 		</a>
 
-		{% elseif item.status == 'current' %}
+		{% elseif item.status in ['new', 'current'] %}
 
 		<a class="btn" href="{{ path('maci_order_checkout') }}">
 			<i class="fas fa-shopping-cart"></i>

@@ -1,8 +1,9 @@
 
 {% if order and order.items|length %}
 
-<div id="invoice">
+{% include "@MaciPage/Order/_invoice_style.html.twig" %}
 
+<div id="invoice">
 
 <div id="invoice-header" class="row">
 <table>
@@ -10,13 +11,13 @@
 
 		<td id="invoice-header-brand" width="50%">
 
-			{% include "MaciPageBundle:Order:_invoice_header.html.twig" %}
+			{% include "@MaciPage/Order/_invoice_header.html.twig" %}
 
 		</td>
 
 		<td id="invoice-header-details" width="50%">
 
-			{% if order.status == 'complete' %}
+			{% if order.status in ['confirm', 'paid', 'complete', 'end'] %}
 
 			<span class="invoice-status paid">PAID</span>
 
@@ -45,10 +46,10 @@
 
 <div id="invoice-dates" class="row">
 
-	<h3>Invoice {{ order.code }}</h3>
+	<h3>{{ 'invoice'|matla('Invoice') }} {{ order.code }}</h3>
 
-	<span>Invoice Date: {{ order.invoice|date('d/m/Y') }}</span>
-	<span>Due Date: {{ order.due|date('d/m/Y') }}</span>
+	<span>{{ 'invoice.date'|matra('Invoice Date') }}: {{ order.invoice|date('d/m/Y') }}</span>
+	<span>{{ 'invoice.due-date'|matra('Due Date') }}: {{ order.due|date('d/m/Y') }}</span>
 
 </div>
 
@@ -58,16 +59,16 @@
 	<tr>
 		<td id="invoice-addresses-client" width="50%">
 
-			<h3>Invoiced To:</h3>
+			<h3>{{ 'invoice.header.invoiced-to'|matra('Invoiced To') }}:</h3>
 
-			{% include "MaciAddressBundle:Default:_item.html.twig" with { 'address': order.billingAddress } %}
+			{% include "@MaciUser/Address/_item.html.twig" with { 'address': order.billingAddress } %}
 
 		</td>
 		<td id="invoice-addresses-company" width="50%">
 
-			<h3>Pay To:</h3>
+			<h3>{{ 'invoice.header.pay-to'|matra('Pay To') }}:</h3>
 
-			{% include "MaciPageBundle:Order:_contacts.html.twig" %}
+			{% include "@MaciPage/Page/_contacts.html.twig" %}
 
 		</td>
 	</tr>
@@ -77,16 +78,16 @@
 
 <div id="invoice-details" class="row">
 
-	<h3>Details</h3>
+<h3>{{ 'order.details'|matra('Order Details') }}</h3>
 
 <table>
 
 	<thead>
-	    <tr>
-	        <td class="invoice-details description" width="60%">Description</td>
-	        <td class="invoice-details quantity" width="20%">Quantity</td>
-	        <td class="invoice-details amount" width="20%">Amount</td>
-	    </tr>
+		<tr>
+			<td class="invoice-details description" width="60%">{{ 'product.cart_title'|matra('Product') }}</td>
+			<td class="invoice-details quantity" width="20%">{{ 'product.quantity'|matra('Quantity') }}</td>
+			<td class="invoice-details amount" width="20%">{{ 'product.amount'|matra('Amount') }}</td>
+		</tr>
 	</thead>
 
 
@@ -94,11 +95,11 @@
 
 	{% for item in order.items %}
 
-	    <tr>
-	        <td class="invoice-details description">{{ item.product }}</td>
-	        <td class="invoice-details quantity">{{ item.quantity }}</td>
-	        <td class="invoice-details amount">{{ item.amount }} &euro;</td>
-	    </tr>
+		<tr>
+			<td class="invoice-details description">{{ item.description }}</td>
+			<td class="invoice-details quantity">{{ item.quantity }}</td>
+			<td class="invoice-details amount">{{ item.amount }} &euro;</td>
+		</tr>
 
 	{% endfor %}
 
@@ -107,10 +108,10 @@
 
 	<tfoot>
 
-	    <tr class="invoice-details-total">
-	        <td class="invoice-label" colspan="2">Total:</td>
-	        <td>{{ order.amount }} &euro;</td>
-	    </tr>
+		<tr class="invoice-details-total">
+			<td class="invoice-label" colspan="2">Total:</td>
+			<td>{{ order.amount }} &euro;</td>
+		</tr>
 
 	</tfoot>
 
@@ -120,31 +121,45 @@
 
 <div id="invoice-transactions" class="row">
 
-	<h3>Transactions</h3>
+	<h3>{{ 'order.transactions'|matra('Order Transactions') }}</h3>
 
 <table>
 
 	<thead>
 
-	    <tr>
-	        <td class="invoice-transactions tx-date" width="30%">Transaction Date</td>
-	        <td class="invoice-transactions gateway" width="25%">Gateway</td>
-	        <td class="invoice-transactions tx-id" width="25%">Transaction ID</td>
-	        <td class="invoice-transactions amount" width="20%">Amount</td>
-	    </tr>
+		<tr>
+			<td class="invoice-transactions tx-date" width="20%">Transaction Date</td>
+			<td class="invoice-transactions gateway" width="20%">Gateway</td>
+			<td class="invoice-transactions tx-id" width="20%">Transaction ID</td>
+			<td class="invoice-transactions tx-id" width="20%">Status</td>
+			<td class="invoice-transactions amount" width="20%">Amount</td>
+		</tr>
 
 	</thead>
 
 	<tbody>
 
+	{% for item in order.payments %}
+
+		<tr>
+			<td class="invoice-transactions tx-date">{{ item.created|date('d/m/Y') }}</td>
+			<td class="invoice-transactions gateway">{{ item.gateway }}</td>
+			<td class="invoice-transactions tx-id">{{ item.number }}</td>
+			<td class="invoice-transactions gateway">{{ item.status|capitalize }}</td>
+			<td class="invoice-transactions amount">{{ item.amount|number_format(2, '.', ',') }} &euro;</td>
+		</tr>
+
+	{% endfor %}
+
 	{% for item in order.transactions %}
 
-	    <tr>
-	        <td class="invoice-transactions tx-date">{{ item.product }}</td>
-	        <td class="invoice-transactions gateway">{{ item.gateway }}</td>
-	        <td class="invoice-transactions tx-id">{{ item.tx }}</td>
-	        <td class="invoice-transactions amount">{{ item.amount }} &euro;</td>
-	    </tr>
+		<tr>
+			<td class="invoice-transactions tx-date">{{ item.created|date('d/m/Y') }}</td>
+			<td class="invoice-transactions gateway">{{ item.gateway }}</td>
+			<td class="invoice-transactions tx-id">{{ item.tx }}</td>
+			<td class="invoice-transactions gateway">{{ item.status }}</td>
+			<td class="invoice-transactions amount">{{ item.amount|number_format(2, '.', ',') }} &euro;</td>
+		</tr>
 
 	{% endfor %}
 
@@ -152,140 +167,16 @@
 
 	<tfoot>
 
-	    <tr class="invoice-transactions-balance">
-	        <td class="invoice-label" colspan="3">Balance:</td>
-	        <td>{{ order.balance }} &euro;</td>
-	    </tr>
+		<tr class="invoice-transactions-balance">
+			<td class="invoice-label" colspan="3">Balance:</td>
+			<td>{{ order.balance|number_format(2, '.', ',') }} &euro;</td>
+		</tr>
 
 	</tfoot>
 
 </table>
 </div>
 
-
 </div>
-
-
-<style type="text/css">
-
-#invoice {
-    background-color: #fff;
-    font-family: Tahoma;
-    font-size: 12pt;
-    color: #000000;
-    padding: 15px 30px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-#invoice h3 {
-	padding: 0 0 5px;
-	margin: 0;
-	letter-spacing: 0.4px;
-	font-size: 11pt;
-}
-
-#invoice span {
-	display: block;
-	padding: 10px 0 0;
-	margin: 0;
-}
-
-#invoice span,
-#invoice table tr td {
-	font-size: 10pt;
-	letter-spacing: 0.2px;
-}
-
-#invoice .row {
-	padding-top: 15px;
-}
-
-#invoice table,
-#invoice table tr,
-#invoice table tr td {
-	border: 0 none;
-	margin: 0;
-	padding: 0;
-}
-
-#invoice table {
-	padding: 15px 0;
-	background-color: #fff;
-    width: 100%;
-    border-spacing: 0;
-    border-collapse: separate;
-}
-
-#invoice table thead tr td {
-	text-transform: uppercase;
-	font-size: 10pt;
-	font-weight: bold;
-	letter-spacing: 0.4px;
-}
-
-#invoice-header {
-	padding-bottom: 15px;
-}
-
-#invoice-header td {
-	text-align: center;
-}
-
-#invoice-addresses address {
-    padding: 10px 15px;
-}
-
-#invoice-addresses-client,
-#invoice-addresses-company {
-    padding: 0;
-}
-
-#invoice-addresses .address-detail {
-    padding: 0;
-    display: inline;
-    line-height: 20px;
-}
-
-#invoice-details table thead tr,
-#invoice-details table tfoot tr,
-#invoice-transactions table thead tr,
-#invoice-transactions table tfoot tr {
-	padding: 5px 0;
-}
-
-#invoice-details table tbody tr:nth-child(even),
-#invoice-transactions table tbody tr:nth-child(even) {
-	background-color: #ededed;
-}
-
-#invoice-details table tr td,
-#invoice-transactions table tr td {
-	padding: 6px;
-}
-
-#invoice .invoice-status {
-	font-size: 16pt;
-	font-weight: bold;
-}
-
-.unpaid {
-    color: #cc0000;
-}
-
-.paid {
-    color: #779500;
-}
-
-.refunded {
-    color: #224488;
-}
-
-.cancelled {
-    color: #cccccc;
-}
-
-</style>
-
 
 {% endif %}

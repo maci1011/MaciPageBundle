@@ -15,15 +15,15 @@
 	</th>
 
 	<th class="list-header order-header-product">
-		<span class="list-header-title">{{ 'product.cart_title' | matra('Product') }}</span>
+		<span class="list-header-title">{{ 'product.cart_title'|matra('Product') }}</span>
 	</th>
 
 	<th class="list-header order-header-quantity">
-		<span class="list-header-title">{{ 'product.quantity' | matra('Quantity') }}</span>
+		<span class="list-header-title">{{ 'product.quantity'|matra('Quantity') }}</span>
 	</th>
 
 	<th class="list-header order-header-price">
-		<span class="list-header-title">{{ 'product.price' | matra('Price') }}</span>
+		<span class="list-header-title">{{ 'product.price'|matra('Price') }}</span>
 	</th>
 
 </tr>
@@ -45,7 +45,7 @@
 	<td class="preview hidden-xs">
 
 		{% if item.product.inhPreview is not null %}
-		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %}title="{{ item.product.inhDescription }}"{% else %}title="{{ item.product.inhName }}"{% endif %} />
+		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath|imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %}title="{{ item.product.inhDescription }}"{% else %}title="{{ item.product.inhName }}"{% endif %} />
 		{% else %}
 		&nbsp;
 		{% endif %}
@@ -119,14 +119,14 @@
 
 			{% if item.product.sale %}
 			<li>
-				<span class="product-list-price lnthr">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+				<span class="product-list-price lnthr">{{ item.product.price|number_format(2, '.', ',') }} &euro;</span>
 			</li>
 			<li>
-				<span class="product-sale-price">{{ item.product.sale | number_format(2, '.', ',') }} &euro;</span>
+				<span class="product-sale-price">{{ item.product.sale|number_format(2, '.', ',') }} &euro;</span>
 			</li>
 			{% elseif item.product.price %}
 			<li>
-				<span class="product-price">{{ item.product.price | number_format(2, '.', ',') }} &euro;</span>
+				<span class="product-price">{{ item.product.price|number_format(2, '.', ',') }} &euro;</span>
 			</li>
 			{% endif %}
 

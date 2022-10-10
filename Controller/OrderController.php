@@ -767,6 +767,9 @@ class OrderController extends AbstractController
 		if ($cmd == 'cancelOrder')
 			return new JsonResponse($this->cancelOrder($order), 200);
 
+		if ($cmd == 'endOrder')
+			return new JsonResponse($this->endOrder($order), 200);
+
 		if ($cmd == 'sendPlacedNotify')
 			return new JsonResponse($this->sendPlacedNotify($order), 200);
 
@@ -819,6 +822,16 @@ class OrderController extends AbstractController
 
 		$om = $this->getDoctrine()->getManager();
 		$om->persist($set);
+		$om->flush();
+
+		return ['success' => true];
+	}
+
+	public function endOrder($order)
+	{
+		$order->endOrder([]);
+
+		$om = $this->getDoctrine()->getManager();
 		$om->flush();
 
 		return ['success' => true];
