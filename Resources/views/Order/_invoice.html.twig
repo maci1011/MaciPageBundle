@@ -109,7 +109,8 @@
 	<tfoot>
 
 		<tr class="invoice-details-total">
-			<td class="invoice-label" colspan="2">Total:</td>
+			<td class="invoice-label total">Total:</td>
+			<td class="invoice-details items">{{ order.totalItemsQuantity }}</td>
 			<td class="invoice-details amount">{{ order.amount }} &euro;</td>
 		</tr>
 
@@ -166,6 +167,16 @@
 	</tbody>
 
 	<tfoot>
+
+		<tr class="invoice-transactions-paid">
+			<td class="invoice-label" colspan="4">Total Paid:</td>
+			<td class="invoice-transactions amount">{{ order.transactionsAmount|number_format(2, '.', ',') }} &euro;</td>
+		</tr>
+
+		<tr class="invoice-transactions-to-pay">
+			<td class="invoice-label" colspan="4">To Pay:</td>
+			<td class="invoice-transactions amount">-{{ order.amount|number_format(2, '.', ',') }} &euro;</td>
+		</tr>
 
 		<tr class="invoice-transactions-balance">
 			<td class="invoice-label" colspan="4">Balance:</td>
