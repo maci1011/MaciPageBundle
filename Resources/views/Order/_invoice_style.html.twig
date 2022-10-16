@@ -50,6 +50,11 @@
     border-collapse: separate;
 }
 
+#invoice td,
+#invoice th {
+	vertical-align: text-top;
+}
+
 #invoice table thead tr td {
 	text-transform: uppercase;
 	font-size: 10pt;
@@ -100,6 +105,11 @@
 #invoice .invoice-status {
 	font-size: 16pt;
 	font-weight: bold;
+}
+
+#invoice .invoice-details.amount,
+#invoice .invoice-transactions.amount {
+	text-align: right;
 }
 
 .unpaid {

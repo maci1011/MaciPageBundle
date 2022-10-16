@@ -5,12 +5,12 @@ namespace Maci\PageBundle\Form\Order;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Maci\PageBundle\Entity\Order\Payment;
 
 class PaymentType extends AbstractType
 {
@@ -29,6 +29,9 @@ class PaymentType extends AbstractType
 		$builder
 			->add('number')
 			->add('description')
+			->add('status', ChoiceType::class, [
+				'choices' => Payment::getStatusArray()
+			])
 			->add('clientemail')
 			->add('clientid')
 			->add('totalamount')

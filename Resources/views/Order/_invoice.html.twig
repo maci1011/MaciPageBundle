@@ -17,19 +17,19 @@
 
 		<td id="invoice-header-details" width="50%">
 
-			{% if order.status in ['confirm', 'paid', 'complete', 'end'] %}
+			{% if order.isCanceled %}
+
+			<span class="invoice-status canceled">CANCELED</span>
+
+			{% elseif order.isRefunded %}
+
+			<span class="invoice-status refounded">REFOUNDED</span>
+
+			{% elseif order.isConfirmed %}
 
 			<span class="invoice-status paid">PAID</span>
 
 			<span class="invoice-paid-date">Paid: {{ order.due|date('d/m/Y') }}</span>
-
-			{% elseif order.status == 'refounded' %}
-
-			<span class="invoice-status refounded">REFOUNDED</span>
-
-			{% elseif order.status == 'canceled' %}
-
-			<span class="invoice-status canceled">CANCELED</span>
 
 			{% else %}
 
@@ -110,7 +110,7 @@
 
 		<tr class="invoice-details-total">
 			<td class="invoice-label" colspan="2">Total:</td>
-			<td>{{ order.amount }} &euro;</td>
+			<td class="invoice-details amount">{{ order.amount }} &euro;</td>
 		</tr>
 
 	</tfoot>
@@ -143,10 +143,10 @@
 
 		<tr>
 			<td class="invoice-transactions tx-date">{{ item.created|date('d/m/Y') }}</td>
-			<td class="invoice-transactions gateway">{{ item.gateway }}</td>
+			<td class="invoice-transactions gateway">{{ item.gatewayLabel }}</td>
 			<td class="invoice-transactions tx-id">{{ item.number }}</td>
-			<td class="invoice-transactions gateway">{{ item.status|capitalize }}</td>
-			<td class="invoice-transactions amount">{{ item.amount|number_format(2, '.', ',') }} &euro;</td>
+			<td class="invoice-transactions gateway">{{ item.statusLabel|capitalize }}</td>
+			<td class="invoice-transactions amount">{{ item.paidAmount|number_format(2, '.', ',') }} &euro;</td>
 		</tr>
 
 	{% endfor %}
@@ -168,8 +168,8 @@
 	<tfoot>
 
 		<tr class="invoice-transactions-balance">
-			<td class="invoice-label" colspan="3">Balance:</td>
-			<td>{{ order.balance|number_format(2, '.', ',') }} &euro;</td>
+			<td class="invoice-label" colspan="4">Balance:</td>
+			<td class="invoice-transactions amount">{{ order.balance|number_format(2, '.', ',') }} &euro;</td>
 		</tr>
 
 	</tfoot>

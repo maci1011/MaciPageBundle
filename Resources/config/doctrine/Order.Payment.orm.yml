@@ -9,6 +9,10 @@ Maci\PageBundle\Entity\Order\Payment:
             generator:
                 strategy: AUTO
     fields:
+        status:
+            type: string
+            length: 3
+            nullable: true
         created:
             type: datetime
     manyToOne:

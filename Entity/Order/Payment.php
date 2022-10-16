@@ -14,6 +14,11 @@ class Payment extends BasePayment
 	private $id;
 
 	/**
+	 * @var string
+	 */
+	private $status;
+
+	/**
 	 * @var \DateTime
 	 */
 	private $created;
@@ -48,9 +53,86 @@ class Payment extends BasePayment
 		return $this->id;
 	}
 
-	public function getTotalamountLabel()
+	/**
+	 * Set status
+	 *
+	 * @param string $status
+	 * @return Order
+	 */
+	public function setStatus($status)
 	{
-		return number_format($this->getTotalamount() / 100, 2, '.', ',') . " " . ucfirst(Currencies::getName($this->getCurrencyCode()));
+		$this->status = $status;
+
+		return $this;
+	}
+
+	/**
+	 * Get status
+	 *
+	 * @return string 
+	 */
+	public function getStatus()
+	{
+		return $this->status == null ? 'unp' : $this->status;
+	}
+
+	public static function getStatusArray()
+	{
+		return [
+			'Unpaid' => 'unp',
+			'Error' => 'err',
+			'Pending' => 'pen',
+			'Refunded' => 'ref',
+			'Paid' => 'pai'
+		];
+	}
+
+	public function getStatusLabel()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
+	}
+
+	public static function getStatusValues()
+	{
+		return array_values(Payment::getStatusArray());
+	}
+
+	public function setStatusValue()
+	{
+		if (!count($this->paymentDetails))
+			return;
+
+		switch (strtolower($this->paymentDetails->last()->getStatus()))
+		{
+			case 'success':
+				$this->status = 'pai';
+				break;
+			
+			case 'failure':
+				$this->status = 'err';
+				break;
+			
+			case 'pending':
+				$this->status = 'pen';
+				break;
+
+			case 'refunded':
+				$this->status = 'ref';
+				break;
+
+			case 'canceled':
+				$this->status = 'can';
+				break;
+
+			default:
+				$this->status = 'unp';
+				break;
+		}
+	}
+
+	public function isPaid()
+	{
+		return $this->status == 'pai';
 	}
 
 	/**
@@ -90,6 +172,9 @@ class Payment extends BasePayment
 	public function addPaymentDetails(\Maci\PageBundle\Entity\Order\PaymentDetails $paymentDetails)
 	{
 		$this->paymentDetails[] = $paymentDetails;
+
+		if (!$this->status)
+			$this->setStatusValue();
 
 		return $this;
 	}
@@ -145,17 +230,27 @@ class Payment extends BasePayment
 		return $this->details['gateway'];
 	}
 
-	public function getStatus()
+	public function getGatewayLabel()
 	{
-		if (!is_array($this->details) || !array_key_exists('status', $this->details))
-			return count($this->paymentDetails) ? $this->paymentDetails->first()->getStatus() : null;
+		if (!is_array($this->details) || !array_key_exists('gateway', $this->details))
+			return count($this->paymentDetails) ? $this->paymentDetails->first()->getTypeLabel() : null;
 
-		return $this->details['status'];
+		return ucwords($this->details['gateway']);
 	}
 
 	public function getAmount()
 	{
 		return intval($this->getTotalamount()) / 100;
+	}
+
+	public function getPaidAmount()
+	{
+		return $this->isPaid() ? intval($this->getTotalamount()) / 100 : 0;
+	}
+
+	public function getTotalamountLabel()
+	{
+		return number_format($this->getTotalamount() / 100, 2, '.', ',') . " " . ucfirst(Currencies::getName($this->getCurrencyCode()));
 	}
 
 	/**

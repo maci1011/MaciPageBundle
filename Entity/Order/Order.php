@@ -382,6 +382,9 @@ class Order
 		return $this->status;
 	}
 
+	// see line unit index
+	//	for progression index
+
 	public static function getStatusArray()
 	{
 		return [
@@ -393,20 +396,39 @@ class Order
 			'Paid' => 'paid',
 			'Confirmed' => 'confirm',
 			'Canceled' => 'canceled',
+			'Refunded' => 'refunded',
 			'Ended' => 'end'
 		];
 	}
 
 	public function getProgression()
 	{
-		$i = 0;
+		$i = 1;
 		foreach ($this->getStatusArray() as $key => $value)
 		{
-			if ($value == $this->status) return $i;
-			$i++;
+			if ($value == $this->status) return $i; $i++;
 		}
-		return -1;
-		// return array_search($this->status, array_values($this->getStatusArray()));
+		return 0;
+	}
+
+	public function isCompleted()
+	{
+		return 4 < $this->getProgression();
+	}
+
+	public function isConfirmed()
+	{
+		return $this->status == 'confirmed';
+	}
+
+	public function isCanceled()
+	{
+		return $this->status == 'canceled';
+	}
+
+	public function isRefunded()
+	{
+		return $this->status == 'refunded';
 	}
 
 	public function getStatusLabel()
@@ -788,6 +810,21 @@ class Order
 		return $this->payments;
 	}
 
+	public function hasPayments()
+	{
+		return !!count($this->payments);
+	}
+
+	public function lastPayment()
+	{
+		return $this->payments->last();
+	}
+
+	public function paymentStatus()
+	{
+		return $this->hasPayments() ? $this->lastPayment()->getStatus() : null;
+	}
+
 	/**
 	 * Set user
 	 *
@@ -884,7 +921,7 @@ class Order
 
 		foreach ($this->payments as $item)
 		{
-			if (!in_array($item->getStatus(), ['captured', 'success']))
+			if ($item->getStatus() != 'pai')
 				continue;
 
 			$amount += $item->getAmount();
@@ -1015,7 +1052,7 @@ class Order
 
 	public function checkConfirmation()
 	{
-		return !(3 < $this->getProgression() || !$this->checkOrder());
+		return !($this->isCompleted() || !$this->checkOrder());
 	}
 
 	public static function getCheckoutActions()
@@ -1390,14 +1427,6 @@ class Order
 			return $item;
 
 		return true;
-	}
-
-	public function paymentStatus()
-	{
-		if (!count($this->payments))
-			return 'none';
-
-		return $this->payments->last()->getStatus();
 	}
 
 	/**
