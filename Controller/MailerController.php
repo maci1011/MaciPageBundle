@@ -307,7 +307,7 @@ class MailerController extends AbstractController
 			return new JsonResponse(['success' => true, 'end' => true], 200);
 
 		$subscriber = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
-			->findOneByMail($mail->getNextRecipientMail());
+			->findOneBy(['mail' => $mail->getNextRecipientMail(), 'removed' => false]);
 
 		if (!$subscriber)
 			return new JsonResponse(['success' => false, 'error' => 'Subscriber not found.'], 200);

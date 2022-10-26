@@ -154,7 +154,7 @@ var maciPage = function (options) {
 		{
 			if (recipients.includes(subscribers[i].id))
 			{
-				list[subscribers[i].mail] = subscribers[i].name + ' ' + subscribers[i].surname;
+				list[subscribers[i].mail] = subscribers[i].name;
 			}
 			// else if (sent.includes(subscribers[i].id))
 			// {

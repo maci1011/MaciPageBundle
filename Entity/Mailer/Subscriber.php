@@ -22,32 +22,7 @@ class Subscriber
 	/**
 	 * @var string
 	 */
-	private $surname;
-
-	/**
-	 * @var \Date
-	 */
-	private $birthdate;
-
-	/**
-	 * @var boolean
-	 */
-	private $sex;
-
-	/**
-	 * @var string
-	 */
 	private $mail;
-
-	/**
-	 * @var string
-	 */
-	private $mobile;
-
-	/**
-	 * @var string
-	 */
-	private $country;
 
 	/**
 	 * @var string
@@ -57,27 +32,7 @@ class Subscriber
 	/**
 	 * @var string
 	 */
-	private $notes;
-
-	/**
-	 * @var string
-	 */
 	private $token;
-
-	/**
-	 * @var boolean
-	 */
-	private $newsletter;
-
-	/**
-	 * @var boolean
-	 */
-	private $sms;
-
-	/**
-	 * @var boolean
-	 */
-	private $phone;
 
 	/**
 	 * @var boolean
@@ -99,11 +54,6 @@ class Subscriber
 	 */
 	private $user;
 
-	/**
-	 * @var \Maci\UserBundle\Entity\Address
-	 */
-	private $address;
-
 
 	/**
 	 * Constructor
@@ -111,11 +61,7 @@ class Subscriber
 	public function __construct()
 	{
 		$this->token = md5(uniqid());
-		$this->sex = false;
 		$this->removed = false;
-		$this->newsletter = false;
-		$this->sms = false;
-		$this->phone = false;
 	}
 
 
@@ -154,107 +100,13 @@ class Subscriber
 	}
 
 	/**
-	 * Set surname
-	 *
-	 * @param string $surname
-	 * @return Subscriber
-	 */
-	public function setSurname($surname)
-	{
-		$this->surname = $surname;
-
-		return $this;
-	}
-
-	/**
-	 * Get surname
-	 *
-	 * @return string 
-	 */
-	public function getSurname()
-	{
-		return $this->surname;
-	}
-
-	/**
-	 * Get full name
-	 *
-	 * @return string 
-	 */
-	public function getFullName()
-	{
-		if (!$this->name && !$this->surname)
-		{
-			$name = explode('@', $this->mail)[0];
-			$name = str_replace('-', ' ', $name);
-			$name = str_replace('_', ' ', $name);
-			$name = str_replace('.', ' ', $name);
-			$name = ucwords($name);
-			return $name;
-		}
-
-		return $this->surname . ' ' . $this->name;
-	}
-
-	/**
 	 * Get header
 	 *
 	 * @return string 
 	 */
 	public function getHeader()
 	{
-		return $this->getFullName();
-	}
-
-	/**
-	 * Set birthdate
-	 *
-	 * @param string $birthdate
-	 * @return Subscriber
-	 */
-	public function setBirthdate($birthdate)
-	{
-		$this->birthdate = $birthdate;
-
-		return $this;
-	}
-
-	/**
-	 * Get birthdate
-	 *
-	 * @return string 
-	 */
-	public function getBirthdate()
-	{
-		return $this->birthdate;
-	}
-
-	/**
-	 * Set sex
-	 *
-	 * @param string $sex
-	 * @return Subscriber
-	 */
-	public function setSex($sex)
-	{
-		$this->sex = $sex;
-
-		return $this;
-	}
-
-	/**
-	 * Get sex
-	 *
-	 * @return string 
-	 */
-	public function getSex()
-	{
-		return $this->sex;
-	}
-
-	public function getSexLabel()
-	{
-		return $this->sex ? 'M' : 'F';
+		return $this->getName();
 	}
 
 	/**
@@ -267,7 +119,6 @@ class Subscriber
 	public function setMail($mail)
 	{
 		$this->mail = $mail;
-		$this->newsletter = true;
 
 		return $this;
 	}
@@ -284,67 +135,7 @@ class Subscriber
 
 	public function getRecipient()
 	{
-		if (!$this->mail)
-			return null;
-
-		return [$this->mail => $this->getFullName()];
-	}
-
-	/**
-	 * Set mobile
-	 *
-	 * @param string $mobile
-	 * @return Subscriber
-	 */
-	public function setMobile($mobile)
-	{
-		$this->mobile = $mobile;
-		$this->phone = true;
-
-		return $this;
-	}
-
-	/**
-	 * Get mobile
-	 *
-	 * @return string 
-	 */
-	public function getMobile()
-	{
-		return $this->mobile;
-	}
-
-	/**
-	 * Set country
-	 *
-	 * @param string $country
-	 * @return Address
-	 */
-	public function setCountry($country)
-	{
-		$this->country = $country;
-
-		return $this;
-	}
-
-	/**
-	 * Get country
-	 *
-	 * @return string 
-	 */
-	public function getCountry()
-	{
-		return $this->country;
-	}
-
-	/**
-	 * Get country
-	 *
-	 * @return string 
-	 */
-	public function getCountryName()
-	{
-		return Intl::getRegionBundle()->getCountryName( $this->country );
+		return $this->mail ? [$this->mail => $this->getName()] : null;
 	}
 
 	/**
@@ -371,27 +162,12 @@ class Subscriber
 	}
 
 	/**
-	 * Set notes
-	 *
-	 * @param string $notes
-	 * @return Subscriber
-	 */
-	public function setNotes($notes)
-	{
-		$this->notes = $notes;
-
-		return $this;
-	}
-
-	/**
-	 * Get notes
-	 *
 	 * @return string 
 	 */
-	public function getNotes()
-	{
-		return $this->notes;
-	}
+	// public function getLocaleName()
+	// {
+	// 	return Intl::getRegionBundle()->getCountryName( $this->country );
+	// }
 
 	/**
 	 * Set token
@@ -414,90 +190,6 @@ class Subscriber
 	public function getToken()
 	{
 		return $this->token;
-	}
-
-	/**
-	 * Set newsletter
-	 *
-	 * @param string $newsletter
-	 * @return Subscriber
-	 */
-	public function setNewsletter($newsletter)
-	{
-		$this->newsletter = $newsletter;
-
-		return $this;
-	}
-
-	/**
-	 * Get newsletter
-	 *
-	 * @return string 
-	 */
-	public function getNewsletter()
-	{
-		return $this->newsletter;
-	}
-
-	public function wantsNewsletter()
-	{
-		return ($this->newsletter && !$this->removed);
-	}
-
-	/**
-	 * Set sms
-	 *
-	 * @param string $sms
-	 * @return Subscriber
-	 */
-	public function setSms($sms)
-	{
-		$this->sms = $sms;
-
-		return $this;
-	}
-
-	/**
-	 * Get sms
-	 *
-	 * @return string 
-	 */
-	public function getSms()
-	{
-		return $this->sms;
-	}
-
-	public function wantsSms()
-	{
-		return ($this->sms && !$this->removed);
-	}
-
-	/**
-	 * Set phone
-	 *
-	 * @param string $phone
-	 * @return Subscriber
-	 */
-	public function setPhone($phone)
-	{
-		$this->phone = $phone;
-
-		return $this;
-	}
-
-	/**
-	 * Get phone
-	 *
-	 * @return string 
-	 */
-	public function getPhone()
-	{
-		return $this->phone;
-	}
-
-	public function wantsCalls()
-	{
-		return ($this->phone && !$this->removed);
 	}
 
 	/**
@@ -602,38 +294,34 @@ class Subscriber
 	}
 
 	/**
-	 * Set address
+	 * Get full name
 	 *
-	 * @param \Maci\UserBundle\Entity\Address $address
-	 *
-	 * @return Subscriber
+	 * @return string 
 	 */
-	public function setAddress(\Maci\UserBundle\Entity\Address $address = null)
+	static public function getNameFromMail($mail)
 	{
-		$this->address = $address;
-
-		return $this;
-	}
-
-	/**
-	 * Get address
-	 *
-	 * @return \Maci\UserBundle\Entity\Address
-	 */
-	public function getAddress()
-	{
-		return $this->address;
+		$name = explode('@', $mail)[0];
+		$name = str_replace('-', ' ', $name);
+		$name = str_replace('_', ' ', $name);
+		$name = str_replace('.', ' ', $name);
+		$name = ucwords($name);
+		return $name;
 	}
 
 
-	public function setUpdatedValue()
+	public function setNameValue()
 	{
-		$this->updated = new \DateTime();
+		if (!$this->name) $this->name = $this->getNameFromMail($this->mail);
 	}
 
 	public function setCreatedValue()
 	{
 		$this->created = new \DateTime();
+	}
+
+	public function setUpdatedValue()
+	{
+		$this->updated = new \DateTime();
 	}
 
 	public function unsubscribe()

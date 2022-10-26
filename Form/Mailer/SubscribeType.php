@@ -55,18 +55,6 @@ class SubscribeType extends AbstractType
 					'message' => 'Insert your Email'
 				))
 			))
-			->add('mobile')
-			->add('sex', ChoiceType::class, array(
-				'choices' => ['Female' => 0, 'Male' => 1],
-				'expanded' => true,
-				'required' => false
-			))
-			->add('country', CountryType::class, array(
-				'choice_translation_locale' => $this->request->getLocale(),
-				'label_attr' => array('class'=> 'sr-only'),
-				'placeholder' => $this->translator->getLabel('form.select-country', 'Select Country'),
-				'required' => false
-			))
 		;
 
 		if(is_array($options['locales'])) {

@@ -51,16 +51,10 @@ var maciPageImport = function (options) {
 
 	importTxt: function() {
 		subscribers = form.find("#import_data").val().split("\n");
-		for (var i = 0; i < subscribers.length; i++) {
-			if(!subscribers[i]['country']) {
-				subscribers[i]['country'] = form.find("#import_country").val();
-			}
-			if(!subscribers[i]['locale']) {
+		for (var i = 0; i < subscribers.length; i++)
+		{
+			if(!subscribers[i]['locale'])
 				subscribers[i]['locale'] = form.find("#import_locale").val();
-			}
-			if(!subscribers[i]['sex']) {
-				subscribers[i]['sex'] = form.find("#import_sex_1").val();
-			}
 		}
 		index = 0;
 		_obj.saveNextSubscriber();

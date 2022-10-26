@@ -549,7 +549,7 @@ class Mail
 				continue;
 
 			array_push($list, [
-				'name' => $subscriber->getFullName(),
+				'name' => $subscriber->getName(),
 				'mail' => $subscriber->getMail(),
 				'sended' => false
 			]);

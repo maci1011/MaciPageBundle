@@ -25,33 +25,6 @@
 		{{ form_errors(form.name) }}
 	</div>
 
-	<div class="form-group">
-		<label for="subscribe_mobile">{{ 'form.phone'|matra('Phone') }}</label>
-		<input type="text" id="subscribe_mobile" name="subscribe[mobile]" maxlength="31" class="form-control" placeholder="{{ 'form.phone'|matra('Phone') }}" />
-		<br/>
-		{{ form_errors(form.mobile) }}
-	</div>
-
-	<div class="form-group">
-		<label for="subscribe_country">{{ 'form.country'|matra('Country') }}</label>
-		{{ form_widget(form.country) }}
-		<br/>
-		{{ form_errors(form.country) }}
-	</div>
-
-	<fieldset class="form-group form-inline pb-3">
-		<div id="subscribe_sex">
-			<div class="form-check">
-				<input type="radio" id="subscribe_sex_0" name="subscribe[sex]" required="required" class="form-check-input" value="0" checked="checked" />
-				<label class="form-check-label required" for="subscribe_sex_0">{{ 'form.sex.female'|matra('Female') }}</label>
-				<input type="radio" id="subscribe_sex_1" name="subscribe[sex]" required="required" class="form-check-input ml-3" value="1" />
-				<label class="form-check-label required" for="subscribe_sex_1">{{ 'form.sex.Male'|matra('Male') }}</label>
-			</div>
-		</div>
-		<br/>
-		{{ form_errors(form.sex) }}
-	</fieldset>
-
 	{% include "@MaciPage/Form/_optional_fields.html.twig" %}
 
 	<div class="checkbox privacy">

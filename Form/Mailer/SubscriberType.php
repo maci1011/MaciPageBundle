@@ -40,50 +40,25 @@ class SubscriberType extends AbstractType
 			$years[$i] = 2021 - $i;
 		}
 
-		// $locales = [];
-		// if(is_array($options['locales'])) {
-		// 	$locales = $options['locales'];
-		// } else {
-		// 	$locales = ...
-		// }
-
 		$builder
 			->add('name')
-			->add('surname', null, ['required' => false])
-			->add('birthdate', null, ['required' => false, 'years' => $years])
-			->add('sex', ChoiceType::class, array(
-				'choices' => ['Female' => 0, 'Male' => 1],
-				'expanded' => true
-			))
 			->add('mail', EmailType::class, array(
 				'constraints' => new Email(array(
 					'message' => 'Insert your Email'
 				))
 			))
-			->add('mobile', null, ['required' => false])
 		;
 
 		if(is_array($options['locales'])) {
-			$builder->add('locale', ChoiceType::class, array(
+			$builder->add('locale', ChoiceType::class, [
 				'choices' => $options['locales']
-			));
+			]);
 		} else {
-			$builder->add('locale', ChoiceType::class, array(
+			$builder->add('locale', ChoiceType::class, [
 				'empty_data' => '',
 				'choices' => \Maci\AdminBundle\Controller\AdminController::getLocales()
-			));
+			]);
 		}
-
-		$builder
-			->add('notes', null, ['required' => false])
-			->add('newsletter')
-			->add('sms')
-			->add('phone')
-			->add('address', AddressType::class, [
-				'required' => false,
-				'embedded' => true
-			])
-		;
 
 		$builder
 			->add('save', SubmitType::class)

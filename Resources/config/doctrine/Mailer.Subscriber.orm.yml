@@ -13,42 +13,15 @@ Maci\PageBundle\Entity\Mailer\Subscriber:
             type: string
             length: 63
             nullable: true
-        surname:
-            type: string
-            length: 63
-            nullable: true
-        birthdate:
-            type: date
-            nullable: true
-        sex:
-            type: boolean
-            nullable: true
         mail:
             type: string
             length: 63
-        mobile:
-            type: string
-            length: 31
-            nullable: true
-        country:
-            type: string
-            length: 2
-            nullable: true
         locale:
             type: string
             length: 2
-        notes:
-            type: text
-            nullable: true
         token:
             type: string
             length: 32
-        newsletter:
-            type: boolean
-        sms:
-            type: boolean
-        phone:
-            type: boolean
         removed:
             type: boolean
         created:
@@ -61,12 +34,6 @@ Maci\PageBundle\Entity\Mailer\Subscriber:
             joinColumn:
                 name: user_id
                 referencedColumnName: id
-        address:
-            targetEntity: Maci\UserBundle\Entity\Address
-            joinColumn:
-                name: address_id
-                referencedColumnName: id
-            cascade: ['persist', 'remove']
     lifecycleCallbacks:
-        prePersist: [ setUpdatedValue, setCreatedValue ]
+        prePersist: [ setNameValue, setCreatedValue, setUpdatedValue ]
         preUpdate: [ setUpdatedValue ]
