@@ -20,4 +20,9 @@ class SubscriberRepository extends \Doctrine\ORM\EntityRepository
 
         return $q->getResult();
     }
+
+    public function check(\Maci\PageBundle\Entity\Mailer\Subscriber $subscriber)
+    {
+        return !count($this->findByMail($subscriber->getMail()));
+    }
 }
