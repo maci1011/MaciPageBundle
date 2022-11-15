@@ -363,12 +363,14 @@ class Slide
 	/**
 	 * Add mediaItems
 	 *
-	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItem
 	 * @return Slide
 	 */
-	public function addMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems)
+	public function addMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItem)
 	{
-		$this->mediaItems[] = $mediaItems;
+		$mediaItem->setPosition(count($this->mediaItems));
+
+		$this->mediaItems[] = $mediaItem;
 
 		if ($this->type == 'default')
 			$this->type = 'gallery';
@@ -379,11 +381,11 @@ class Slide
 	/**
 	 * Remove mediaItems
 	 *
-	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItem
 	 */
-	public function removeMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems)
+	public function removeMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItem)
 	{
-		$this->mediaItems->removeElement($mediaItems);
+		$this->mediaItems->removeElement($mediaItem);
 	}
 
 	/**
@@ -397,29 +399,31 @@ class Slide
 	}
 
 	/**
-	 * Add productItems
+	 * Add a ProductItem
 	 *
-	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItems
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItem
 	 * @return Slide
 	 */
-	public function addProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItems)
+	public function addProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItem)
 	{
-		$this->productItems[] = $productItems;
+		$productItem->setPosition(count($this->productItems));
 
-		if ($this->type == 'default')
+		$this->productItems[] = $productItem;
+
+		if ($this->type == 'default' || $this->type == 'last_products')
 			$this->type = 'products';
 
 		return $this;
 	}
 
 	/**
-	 * Remove productItems
+	 * Remove a ProductItem
 	 *
-	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItems
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItem
 	 */
-	public function removeProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItems)
+	public function removeProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItem)
 	{
-		$this->productItems->removeElement($productItems);
+		$this->productItems->removeElement($productItem);
 	}
 
 	/**
