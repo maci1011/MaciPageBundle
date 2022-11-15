@@ -179,6 +179,11 @@ class Product
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
+	private $mailSlideItems;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
 	protected $translations;
 
 	/**
@@ -190,6 +195,7 @@ class Product
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->categoryItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->mailSlideItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->translations = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->name = 'New Product';
 		$this->type = 'unset';
@@ -1045,6 +1051,39 @@ class Product
 	public function getMediaItems()
 	{
 		return $this->mediaItems;
+	}
+
+	/**
+	 * Add MailSlideItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $mailSlideItems
+	 * @return Product
+	 */
+	public function addMailSlideItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $mailSlideItem)
+	{
+		$this->mailSlideItems[] = $mailSlideItem;
+
+		return $this;
+	}
+
+	/**
+	 * Remove MailSlideItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $mailSlideItems
+	 */
+	public function removeMailSlideItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $mailSlideItem)
+	{
+		$this->mailSlideItems->removeElement($mailSlideItem);
+	}
+
+	/**
+	 * Get MailSlideItems
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getMailSlideItems()
+	{
+		return $this->mailSlideItems;
 	}
 
 	public function getPrivateMedia()

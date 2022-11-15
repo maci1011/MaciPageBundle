@@ -99,17 +99,21 @@ Maci\PageBundle\Entity\Shop\Product:
         children:
             targetEntity: Maci\PageBundle\Entity\Shop\Product
             mappedBy: parent
-            orderBy: { 'position': ASC }
+            orderBy: {'position': ASC}
         categoryItems:
             targetEntity: Maci\PageBundle\Entity\Shop\CategoryItem
             mappedBy: product
-            orderBy: { 'position': ASC }
+            orderBy: {'position': ASC}
             cascade: ["persist", "remove"]
         mediaItems:
             targetEntity: Maci\PageBundle\Entity\Shop\MediaItem
             mappedBy: product
-            orderBy: { 'position': ASC }
+            orderBy: {'position': ASC}
             cascade: ["persist", "remove"]
+        mailSlideItems:
+            targetEntity: Maci\PageBundle\Entity\Mailer\SlideProduct
+            mappedBy: product
+            cascade: ["remove"]
     lifecycleCallbacks:
         prePersist: [ setUpdatedValue, setCreatedValue, setPathValue ]
         preUpdate: [ setUpdatedValue ]

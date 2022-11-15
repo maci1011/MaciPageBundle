@@ -1,0 +1,20 @@
+
+Maci\PageBundle\Entity\Mailer\SlideProduct:
+    type:  entity
+    table: maci_mailer_slide_product
+    # repositoryClass: Maci\PageBundle\Repository\Mailer\SlideProductRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        position:
+            type: smallint
+    manyToOne:
+        product:
+            targetEntity: Maci\PageBundle\Entity\Shop\Product
+            inversedBy: mailSlideItems
+        slide:
+            targetEntity: Maci\PageBundle\Entity\Mailer\Slide
+            inversedBy: productItems

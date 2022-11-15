@@ -43,3 +43,11 @@ Maci\PageBundle\Entity\Mailer\Slide:
         children:
             targetEntity: Maci\PageBundle\Entity\Mailer\Slide
             mappedBy: parent
+        mediaItems:
+            targetEntity: Maci\PageBundle\Entity\Mailer\SlideMedia
+            mappedBy: slide
+            cascade: ["persist","remove"]
+        productItems:
+            targetEntity: Maci\PageBundle\Entity\Mailer\SlideProduct
+            mappedBy: slide
+            cascade: ["persist","remove"]

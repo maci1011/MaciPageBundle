@@ -25,3 +25,7 @@ table {
 td > table {
    width: 100%;
 }
+
+.img-fluid {
+  max-width: 100%;
+}

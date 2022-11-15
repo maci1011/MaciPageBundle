@@ -61,6 +61,10 @@ Maci\PageBundle\Entity\Media\Media:
                 name: user_id
                 referencedColumnName: id
     oneToMany:
+        mailSlideItems:
+            targetEntity: Maci\PageBundle\Entity\Mailer\SlideProduct
+            mappedBy: product
+            cascade: ["remove"]
         permissions:
             targetEntity: Permission
             mappedBy: media

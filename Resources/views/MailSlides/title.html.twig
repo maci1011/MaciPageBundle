@@ -1,0 +1,42 @@
+
+{% if slide.media %}
+<table class="main s-media">
+<tbody>
+
+<tr>
+	<td class="center">
+		<img class="default img-fluid" src="{{ path('maci_media_get', {'path': slide.media.path}) }}" alt="{{ slide.media }}" />
+	</td>
+</tr>
+
+</tbody>
+</table>
+{% endif %}
+
+{% if slide.title %}
+<table class="main s-title">
+<tbody>
+
+<tr>
+	<td>
+		<h2 class="default item-title center">{{ slide.title }}</h2>
+	</td>
+</tr>
+
+</tbody>
+</table>
+{% endif %}
+
+{% if slide.content %}
+<table class="main s-text">
+<tbody>
+
+<tr>
+	<td>
+		<p class="default item-content center">{{ slide.content }}</p>
+	</td>
+</tr>
+
+</tbody>
+</table>
+{% endif %}

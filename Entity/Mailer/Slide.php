@@ -43,7 +43,7 @@ class Slide
 	private $position;
 
 	/**
-	 * @var \Maci\PageBundle\Entity\Media\Media
+	 * @var \Maci\PageBundle\Entity\Mailer\SlideMedia
 	 */
 	private $media;
 
@@ -62,6 +62,16 @@ class Slide
 	 */
 	private $children;
 
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $mediaItems;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $productItems;
+
 
 	/**
 	 * Constructor
@@ -71,6 +81,8 @@ class Slide
 		$this->type = 'default';
 		$this->position = 0;
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->mediaItems = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->productItems = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 
@@ -166,6 +178,7 @@ class Slide
 			'Header' => 'header',
 			'Gallery' => 'gallery',
 			'Intro' => 'intro',
+			'Products' => 'products',
 			'Last Products' => 'last_products',
 			'Footer' => 'footer'
 		];
@@ -236,7 +249,7 @@ class Slide
 	 *
 	 * @return Slide
 	 */
-	public function setMedia($media)
+	public function setMedia(\Maci\PageBundle\Entity\Media\Media $media = null)
 	{
 		$this->media = $media;
 
@@ -255,9 +268,9 @@ class Slide
 
 	public function getWebPreview()
 	{
-		if ($this->media) {
+		if ($this->media)
 			return $this->media->getWebPreview();
-		}
+
 		return '/images/defaults/document-icon.png';
 	}
 
@@ -283,6 +296,11 @@ class Slide
 	public function getMail()
 	{
 		return $this->mail;
+	}
+
+	public function getMailName()
+	{
+		return $this->mail ? $this->mail->getName() : '';
 	}
 
 	/**
@@ -319,10 +337,6 @@ class Slide
 	{
 		$this->children[] = $children;
 
-		if ($this->type == 'default') {
-			$this->type = 'gallery';
-		}
-
 		return $this;
 	}
 
@@ -347,10 +361,94 @@ class Slide
 	}
 
 	/**
+	 * Add mediaItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems
+	 * @return Slide
+	 */
+	public function addMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems)
+	{
+		$this->mediaItems[] = $mediaItems;
+
+		if ($this->type == 'default')
+			$this->type = 'gallery';
+
+		return $this;
+	}
+
+	/**
+	 * Remove mediaItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems
+	 */
+	public function removeMediaItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mediaItems)
+	{
+		$this->mediaItems->removeElement($mediaItems);
+	}
+
+	/**
+	 * Get mediaItems
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getMediaItems()
+	{
+		return $this->mediaItems;
+	}
+
+	/**
+	 * Add productItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItems
+	 * @return Slide
+	 */
+	public function addProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItems)
+	{
+		$this->productItems[] = $productItems;
+
+		if ($this->type == 'default')
+			$this->type = 'products';
+
+		return $this;
+	}
+
+	/**
+	 * Remove productItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideProduct $productItems
+	 */
+	public function removeProductItem(\Maci\PageBundle\Entity\Mailer\SlideProduct $productItems)
+	{
+		$this->productItems->removeElement($productItems);
+	}
+
+	/**
+	 * Get productItems
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getProductItems()
+	{
+		return $this->productItems;
+	}
+
+	/**
+	 * Get media | Images
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getProducts()
+	{
+		return $this->getProductItems()->map(function($e){
+			return $e->getProduct();
+		});
+	}
+
+	/**
 	 * _toString()
 	 */
 	public function __toString()
 	{
-		return 'MailSlide_'.$this->getId();
+		return 'MailSlide_'.($this->getId()?$this->getId():'New');
 	}
 }

@@ -84,6 +84,11 @@ class Media
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
+	protected $mailSlideItems;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
 	protected $permissions;
 
 	/**
@@ -95,6 +100,7 @@ class Media
 		$this->public = true;
 		$this->type = 'media';
 		$this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->mailSlideItems = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
@@ -599,6 +605,39 @@ class Media
 	public function getUser()
 	{
 		return $this->user;
+	}
+
+	/**
+	 * Add MailSlideItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mailSlideItems
+	 * @return Product
+	 */
+	public function addMailSlideItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mailSlideItem)
+	{
+		$this->mailSlideItems[] = $mailSlideItem;
+
+		return $this;
+	}
+
+	/**
+	 * Remove MailSlideItems
+	 *
+	 * @param \Maci\PageBundle\Entity\Mailer\SlideMedia $mailSlideItems
+	 */
+	public function removeMailSlideItem(\Maci\PageBundle\Entity\Mailer\SlideMedia $mailSlideItem)
+	{
+		$this->mailSlideItems->removeElement($mailSlideItem);
+	}
+
+	/**
+	 * Get MailSlideItems
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getMailSlideItems()
+	{
+		return $this->mailSlideItems;
 	}
 
 	/**
