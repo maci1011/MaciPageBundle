@@ -178,6 +178,7 @@ class Slide
 			'Header' => 'header',
 			'Gallery' => 'gallery',
 			'Intro' => 'intro',
+			'Title' => 'title',
 			'Products' => 'products',
 			'Last Products' => 'last_products',
 			'Footer' => 'footer'

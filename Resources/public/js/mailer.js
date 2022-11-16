@@ -11,7 +11,7 @@ var maciPage = function (options) {
 		mailId, mail,
 		selected_sub,
 		recipients, selected_re,
-		sent,
+		_send_stop,
 
 		sending,
 
@@ -72,12 +72,16 @@ var maciPage = function (options) {
 			success: function(d,s,x)
 			{
 				mail = d.item;
-				sent = [];
 
 				if (mail.data)
 				{
-					if (Array.isArray(mail.data.recipients))
-						recipients = mail.data.recipients;
+					if (mail.data.recipients)
+					{
+						recipients = [];
+						$.each(mail.data.recipients, function(i, v) {
+							recipients.push(v);
+						});
+					}
 					else
 						recipients = [];
 				}
@@ -208,13 +212,15 @@ var maciPage = function (options) {
 			url: '/mailer/send-next',
 			success: function(d,s,x)
 			{
+				_send_stop++;
+
 				// _obj.getNexts();
 				_obj.refreshMail();
 
-				if (d.end)
+				if (d.end || 99 < _send_stop)
 				{
-					_obj.refreshMail();
 					_obj.stop();
+					_obj.refreshMail();
 					return;
 				}
 
@@ -269,14 +275,14 @@ var maciPage = function (options) {
 
 		$('<h3/>').text('Mail').appendTo('#actions');
 		var mailUl = $('<ul/>').attr('class', 'navbar-nav').appendTo('#actions');
+		var sent = _obj.getSents();
 		mailUl.wrap('<nav/>').parent().attr('class', 'navbar navbar-dark py-0');
 
 		$('<span/>').html('Id: <b>' + mail.id + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
 		$('<span/>').html('Name: <b>' + mail.name + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
 		$('<span/>').html('Subject: <b>' + mail.subject + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
 
-		$('<span/>').html('Recipients List Length: <b>' + recipients.length + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
-		$('<span/>').html('Sended Length: <b>' + sent.length + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
+		$('<span/>').html('Sended To: <b>' + sent.length + ' / ' + recipients.length + '</b>').attr('class', 'navbar-text').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
 
 		$('<a/>').attr('class', 'nav-link').attr('href', '/mailer/show/' + mail.token).attr('target', '_black')
 		.html('<i class="fas fa-eye"></i> Show Template').appendTo(mailUl).wrap('<li/>').parent().attr('class', 'nav-item');
@@ -338,7 +344,7 @@ var maciPage = function (options) {
 				$(this).text($(this).attr('d-mail'));
 			}).mouseleave(function (e) {
 				$(this).text($(this).attr('d-name'));
-			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name).mouseleave()
+			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name ? list[i].name : list[i].mail.split('@')[0]).mouseleave()
 				.wrap('<li/>')
 				.parent()
 				.attr('class', 'nav-item')
@@ -349,6 +355,11 @@ var maciPage = function (options) {
 			e.preventDefault();
 			_obj.addSubribers();
 		}).text('Add Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
+
+		$('<button/>').appendTo('#content').click(function(e) {
+			e.preventDefault();
+			_obj.addAllSubribers();
+		}).text('Add All').attr('class', 'btn btn-success ml-2 mt-3');
 	},
 
 	showRecipients: function()
@@ -383,7 +394,7 @@ var maciPage = function (options) {
 				$(this).text($(this).attr('d-mail'));
 			}).mouseleave(function (e) {
 				$(this).text($(this).attr('d-name'));
-			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name).mouseleave()
+			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name ? list[i].name : list[i].mail.split('@')[0]).mouseleave()
 				.wrap('<li/>')
 				.parent()
 				.attr('class', 'nav-item')
@@ -394,6 +405,11 @@ var maciPage = function (options) {
 			e.preventDefault();
 			_obj.removeSubribers();
 		}).text('Remove Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
+
+		$('<button/>').appendTo('#content').click(function(e) {
+			e.preventDefault();
+			_obj.removeAllSubribers();
+		}).text('Remove All').attr('class', 'btn btn-success ml-2 mt-3');
 	},
 
 	showSendMail: function()
@@ -426,7 +442,7 @@ var maciPage = function (options) {
 				$(this).text($(this).attr('d-mail'));
 			}).mouseleave(function (e) {
 				$(this).text($(this).attr('d-name'));
-			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name).mouseleave()
+			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name ? list[i].name : list[i].mail.split('@')[0]).mouseleave()
 				.wrap('<li/>')
 				.parent()
 				.attr('class', 'nav-item')
@@ -484,7 +500,7 @@ var maciPage = function (options) {
 				$(this).text($(this).attr('d-mail'));
 			}).mouseleave(function (e) {
 				$(this).text($(this).attr('d-name'));
-			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name).mouseleave()
+			}).attr('d-mail', list[i].mail).attr('d-name', list[i].name ? list[i].name : list[i].mail.split('@')[0]).mouseleave()
 				.wrap('<li/>')
 				.parent()
 				.attr('class', 'nav-item')
@@ -492,8 +508,36 @@ var maciPage = function (options) {
 		}
 	},
 
+	countMap: function(map)
+	{
+		var i = 0;
+		$.each(selected_sub, function(e, v) {
+			i++;
+		});
+		return i;
+	},
+
 	addSubribers: function()
 	{
+		var savelist = {}, c = false;
+
+		if (_obj.countMap(selected_sub) < 210)
+		{
+			savelist = selected_sub;
+			selected_sub = {};
+		}
+		else
+		{
+			$.each(selected_sub, function(m, n) {
+				if (_obj.countMap(savelist) < 200)
+				{
+					savelist[m] = n;
+					selected_sub.delete(m);
+				}
+			});
+			c = true;
+		}
+
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -503,21 +547,52 @@ var maciPage = function (options) {
 						'entity': 'mail',
 						'id': mailId,
 						'data': {
-							'addRecipients': selected_sub
+							'addRecipients': savelist
 						}
 					}
 				}
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				selected_sub = {};
+				if (c)
+				{
+					_obj.addSubribers();
+					return;
+				}
 				_obj.refreshMail();
 			}
 		});
 	},
 
+	addAllSubribers: function()
+	{
+		selected_sub = {};
+		var list = _obj.getSubribers();
+
+		if (!list.length)
+			return;
+
+		for (var i = 0; i < list.length; i++)
+			selected_sub[list[i].mail] = list[i].name;
+
+		_obj.addSubribers();
+	},
+
 	removeSubribers: function()
 	{
+		var savelist = [];
+
+		if (selected_re.length < 210)
+		{
+			savelist = selected_re;
+			selected_re = [];
+		}
+		else
+		{
+			savelist = selected_re.slice(0, 200);
+			selected_re = selected_re.slice(200, selected_re.length);
+		}
+
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -527,17 +602,35 @@ var maciPage = function (options) {
 						'entity': 'mail',
 						'id': mailId,
 						'data': {
-							'removeRecipients': selected_re
+							'removeRecipients': savelist
 						}
 					}
 				}
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				selected_re = [];
+				if (0 < selected_re.length)
+				{
+					_obj.removeSubribers();
+					return;
+				}
 				_obj.refreshMail();
 			}
 		});
+	},
+
+	removeAllSubribers: function()
+	{
+		selected_re = [];
+		var list = _obj.getRecipients();
+
+		if (!list.length)
+			return;
+
+		for (var i = 0; i < list.length; i++)
+			selected_re.push(list[i].mail);
+
+		_obj.removeSubribers();
 	},
 
 	// getRecipientIndex: function(id)
@@ -579,6 +672,7 @@ var maciPage = function (options) {
 	getRecipients: function()
 	{
 		var list = [];
+
 		for (var i = recipients.length - 1; i >= 0; i--)
 		{
 			if (!recipients[i]['sended'])
@@ -610,6 +704,7 @@ var maciPage = function (options) {
 
 	play: function()
 	{
+		_send_stop = 0;
 		sending = true;
 		_obj.sendNext();
 	},
