@@ -484,10 +484,10 @@ class Mail
 		$data = $this->getData();
 		$list = [];
 
-		for ($i = 0; $i < count($data['recipients']); $i++)
+		foreach ($data['recipients'] as $key => $item)
 		{
-			if (!$data['recipients'][$i]['sended'])
-				array_push($list, $data['recipients'][$i]);
+			if (!$item['sended'])
+				array_push($list, $item);
 
 			if (0 < $max && $max <= count($list))
 				break;

@@ -21,7 +21,7 @@ var maciPage = function (options) {
 
 	_obj = {
 
-	getSubribersList: function()
+	getSubscribersList: function()
 	{
 		subscribers = [];
 		$.ajax({
@@ -111,7 +111,7 @@ var maciPage = function (options) {
 
 		if (subscribers === false || !subscribers.length)
 		{
-			_obj.getSubribersList();
+			_obj.getSubscribersList();
 			return false;
 		}
 
@@ -242,7 +242,7 @@ var maciPage = function (options) {
 		$('<a/>').attr('class', 'nav-link').attr('href', '#subscribers')
 		.text('Subscribers').appendTo(actionsUl).click(function(e) {
 			actionsUl.children().removeClass('active');
-			_obj.showSubribers();
+			_obj.showSubscribers();
 		}).wrap('<li/>').parent().attr('class', 'nav-item');
 
 		$('<a/>').attr('class', 'nav-link').attr('href', '#recipients')
@@ -305,7 +305,7 @@ var maciPage = function (options) {
 		else $('a[href="#subscribers"]').click();
 	},
 
-	showSubribers: function()
+	showSubscribers: function()
 	{
 		_obj.stop();
 		$('a[href="#subscribers"]').parent().addClass('active');
@@ -319,8 +319,8 @@ var maciPage = function (options) {
 			return;
 		}
 
-		selected_sub = {};
-		var list = _obj.getSubribers();
+		selected_sub = [];
+		var list = _obj.getSubscribers();
 
 		if (!list.length)
 		{
@@ -329,7 +329,7 @@ var maciPage = function (options) {
 		}
 
 		var ul = $('<ul/>').attr('class', 'navbar-nav ml-auto').appendTo('#content');
-		ul.wrap('<nav/>').parent().attr('class', 'navbar navbar-dark py-0');
+		ul.wrap('<nav/>').parent().attr('id', 'currentList').attr('class', 'navbar navbar-dark py-0');
 
 		for (var i = 0; i < list.length; i++)
 		{
@@ -337,9 +337,9 @@ var maciPage = function (options) {
 				e.preventDefault();
 				$(this).parent().toggleClass('active');
 				if ($(this).parent().hasClass('active'))
-					selected_sub[$(this).attr('d-mail')] = $(this).attr('d-name');
+					_obj.selectSubscriber($(this).attr('d-mail'));
 				else
-					selected_sub.delete($(this).attr('d-mail'));
+					_obj.deselectSubscriber($(this).attr('d-mail'));
 			}).mouseenter(function (e) {
 				$(this).text($(this).attr('d-mail'));
 			}).mouseleave(function (e) {
@@ -351,14 +351,26 @@ var maciPage = function (options) {
 			;
 		}
 
+		var sb = $('<div/>').addClass('select-bar').appendTo('#content');
+
+		$('<button/>').appendTo(sb).click(function(e) {
+			e.preventDefault();
+			_obj.selectAll();
+		}).text('Select All').attr('class', 'btn ml-auto mt-3');
+
+		$('<button/>').appendTo(sb).click(function(e) {
+			e.preventDefault();
+			_obj.deselectAll();
+		}).text('Deselect All').attr('class', 'btn ml-auto mt-3');
+
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
-			_obj.addSubribers();
+			_obj.addSubscribers();
 		}).text('Add Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
 
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
-			_obj.addAllSubribers();
+			_obj.addAllSubscribers();
 		}).text('Add All').attr('class', 'btn btn-success ml-2 mt-3');
 	},
 
@@ -378,7 +390,7 @@ var maciPage = function (options) {
 		}
 
 		var ul = $('<ul/>').attr('class', 'navbar-nav ml-auto').appendTo('#content');
-		ul.wrap('<nav/>').parent().attr('class', 'navbar navbar-dark py-0');
+		ul.wrap('<nav/>').parent().attr('id', 'currentList').attr('class', 'navbar navbar-dark py-0');
 
 		selected_re = [];
 		for (var i = 0; i < list.length; i++)
@@ -403,12 +415,12 @@ var maciPage = function (options) {
 
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
-			_obj.removeSubribers();
+			_obj.removeSubscribers();
 		}).text('Remove Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
 
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
-			_obj.removeAllSubribers();
+			_obj.removeAllSubscribers();
 		}).text('Remove All').attr('class', 'btn btn-success ml-2 mt-3');
 	},
 
@@ -434,7 +446,7 @@ var maciPage = function (options) {
 		}
 
 		var ul = $('<ul/>').attr('class', 'navbar-nav ml-auto').appendTo('#content');
-		ul.wrap('<nav/>').parent().attr('id', 'sendingList').attr('class', 'navbar navbar-dark py-0');
+		ul.wrap('<nav/>').parent().attr('id', 'currentList').attr('class', 'navbar navbar-dark py-0');
 
 		for (var i = 0; i < list.length; i++)
 		{
@@ -511,31 +523,42 @@ var maciPage = function (options) {
 	countMap: function(map)
 	{
 		var i = 0;
-		$.each(selected_sub, function(e, v) {
+		$.each(map, function(e, v) {
 			i++;
 		});
 		return i;
 	},
 
-	addSubribers: function()
+	getSubscriber: function(mail)
 	{
-		var savelist = {}, c = false;
+		var list = _obj.getSubscribers();
 
-		if (_obj.countMap(selected_sub) < 210)
+		for (var i = 0; i < list.length; i++)
+			if (mail == list[i].mail) return list[i];
+
+		return false;
+	},
+
+	addSubscribers: function()
+	{
+		var savelist = {}, _list = [];
+
+		if (selected_sub.length < 210)
 		{
-			savelist = selected_sub;
-			selected_sub = {};
+			_list = selected_sub;
+			selected_sub = [];
 		}
 		else
 		{
-			$.each(selected_sub, function(m, n) {
-				if (_obj.countMap(savelist) < 200)
-				{
-					savelist[m] = n;
-					selected_sub.delete(m);
-				}
-			});
-			c = true;
+			_list = selected_sub.slice(0, 200);
+			selected_sub = selected_sub.slice(200, selected_sub.length);
+		}
+
+		for (var i = 0; i < _list.length; i++)
+		{
+			var e = _obj.getSubscriber(_list[i]);
+			if (!e) continue;
+			savelist[e['mail']] = e['name'];
 		}
 
 		$.ajax({
@@ -554,9 +577,9 @@ var maciPage = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				if (c)
+				if (0 < selected_sub.length)
 				{
-					_obj.addSubribers();
+					_obj.addSubscribers();
 					return;
 				}
 				_obj.refreshMail();
@@ -564,21 +587,36 @@ var maciPage = function (options) {
 		});
 	},
 
-	addAllSubribers: function()
+	addAllSubscribers: function()
 	{
-		selected_sub = {};
-		var list = _obj.getSubribers();
+		if (!confirm('Confirm?')) return;
+
+		selected_sub = [];
+		var list = _obj.getSubscribers();
 
 		if (!list.length)
 			return;
 
 		for (var i = 0; i < list.length; i++)
-			selected_sub[list[i].mail] = list[i].name;
+			selected_sub.push(list[i].mail);
 
-		_obj.addSubribers();
+		_obj.addSubscribers();
 	},
 
-	removeSubribers: function()
+	selectSubscriber: function(mail)
+	{
+		if (-1 == selected_sub.indexOf(mail))
+			selected_sub.push(mail);
+	},
+
+	deselectSubscriber: function(mail)
+	{
+		var i = selected_sub.indexOf(mail);
+		if (-1 < i)
+			selected_sub.splice(i, 1);
+	},
+
+	removeSubscribers: function()
 	{
 		var savelist = [];
 
@@ -611,7 +649,7 @@ var maciPage = function (options) {
 			success: function(d,s,x) {
 				if (0 < selected_re.length)
 				{
-					_obj.removeSubribers();
+					_obj.removeSubscribers();
 					return;
 				}
 				_obj.refreshMail();
@@ -619,8 +657,10 @@ var maciPage = function (options) {
 		});
 	},
 
-	removeAllSubribers: function()
+	removeAllSubscribers: function()
 	{
+		if (!confirm('Confirm?')) return;
+
 		selected_re = [];
 		var list = _obj.getRecipients();
 
@@ -630,7 +670,21 @@ var maciPage = function (options) {
 		for (var i = 0; i < list.length; i++)
 			selected_re.push(list[i].mail);
 
-		_obj.removeSubribers();
+		_obj.removeSubscribers();
+	},
+
+	selectAll: function()
+	{
+		$('#currentList').find('a').each(function() {
+			if (!$(this).parent().hasClass('active')) $(this).click();
+		});
+	},
+
+	deselectAll: function()
+	{
+		$('#currentList').find('a').each(function() {
+			if ($(this).parent().hasClass('active')) $(this).click();
+		});
 	},
 
 	// getRecipientIndex: function(id)
@@ -691,7 +745,7 @@ var maciPage = function (options) {
 		return false;
 	},
 
-	getSubribers: function()
+	getSubscribers: function()
 	{
 		var list = [];
 		for (var i = subscribers.length - 1; i >= 0; i--)
