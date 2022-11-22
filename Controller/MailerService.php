@@ -106,10 +106,10 @@ class MailerService extends AbstractController
 		if (!$this->sendMessage($message))
 			return false;
 
-		// if ($subscriber)
-		// 	$mail->setSendedValue($subscriber->getMail());
-		// else
-		// 	$mail->setSendedValues();
+		if ($subscriber)
+			$mail->setSendedValue($subscriber->getMail());
+		else
+			$mail->setSendedValues();
 
 		if ($mail->isNew())
 			$this->om->persist($mail);

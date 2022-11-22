@@ -6,12 +6,16 @@ var maciPage = function (options) {
 	var _defaults = {},
 
 		subscribers = false,
+		locales,
 		_last_action,
 
 		mailId, mail,
 		selected_sub,
 		recipients, selected_re,
 		_send_stop,
+
+		search,
+		locale,
 
 		sending,
 
@@ -43,6 +47,10 @@ var maciPage = function (options) {
 				if (Array.isArray(d.list) && d.list.length)
 				{
 					subscribers = d.list;
+					locales = [];
+					for (var i = 0; i < subscribers.length; i++)
+						if (!locales.includes(subscribers[i].locale))
+							locales.push(subscribers[i].locale);
 					_obj.refreshMail();
 				} else {
 					$('#content').html('');
@@ -123,6 +131,8 @@ var maciPage = function (options) {
 		mailId = false;
 		mail = false;
 		sending = false;
+		search = false;
+		locale = false;
 		
 		$('#actions').html('');
 		$('#content').html('');
@@ -215,7 +225,7 @@ var maciPage = function (options) {
 				_send_stop++;
 
 				// _obj.getNexts();
-				_obj.refreshMail();
+				// _obj.refreshMail();
 
 				if (d.end || 99 < _send_stop)
 				{
@@ -223,6 +233,8 @@ var maciPage = function (options) {
 					_obj.refreshMail();
 					return;
 				}
+
+				_obj.showSendMail();
 
 				setTimeout(function() {
 					_obj.sendNext();
@@ -308,8 +320,10 @@ var maciPage = function (options) {
 	showSubscribers: function()
 	{
 		_obj.stop();
+
 		$('a[href="#subscribers"]').parent().addClass('active');
 		_last_action = "#subscribers";
+
 		$('#content').html('');
 		$('<h3/>').text('Subscribers:').appendTo('#content');
 
@@ -320,14 +334,88 @@ var maciPage = function (options) {
 		}
 
 		selected_sub = [];
-		var list = _obj.getSubscribers();
+		var list, subsList = _obj.getSubscribers();
 
-		if (!list.length)
+		if (!subsList.length)
 		{
 			$('<h3/>').text('All Subscribers added.').appendTo('#content');
 			return;
 		}
 
+		if (search && search.length)
+		{
+			list = [];
+			for (var i = 0; i < subsList.length; i++)
+				if (((subsList[i].name && subsList[i].name.match(search)) || subsList[i].mail.match(search)) &&
+					(!locale || locale == 'none' || subsList[i].locale == locale))
+					list.push(subsList[i]);
+		}
+		else if (locale && locale != 'none')
+		{
+			list = [];
+			for (var i = 0; i < subsList.length; i++)
+				if (subsList[i].locale == locale)
+					list.push(subsList[i]);
+		}
+		else list = subsList;
+
+		if (list.length)
+			_obj.printList(list);
+		else
+			$('<h3/>').text('No matches.').appendTo('#content');
+
+		var bar = $('<div/>').addClass('select-bar').appendTo('#content');
+
+		$('<button/>').appendTo(bar).click(function(e) {
+			e.preventDefault();
+			_obj.selectAll();
+		}).text('Select All').attr('class', 'btn ml-auto mt-3');
+
+		$('<button/>').appendTo(bar).click(function(e) {
+			e.preventDefault();
+			_obj.deselectAll();
+		}).text('Deselect All').attr('class', 'btn ml-auto mt-3');
+
+		bar = $('<div/>').addClass('filters-bar form-inline').appendTo('#content');
+
+		$('<input id="search" type="text" placeholder="Search" />').change(function(e) {
+			e.preventDefault();
+			var v = $(this).val(), s = search;
+			search = v;
+			if (v != s)
+				_obj.showSubscribers();
+		}).attr('class', 'form-control ml-auto mt-3').val(search ? search : null).appendTo(bar).focus();
+
+		var locSel = $('<select id="localesFilter" />').appendTo(bar).change(function(e) {
+			e.preventDefault();
+			var v = $(this).val(), l = locale;
+			locale = v;
+			if (v != l)
+				_obj.showSubscribers();
+		}).attr('class', 'form-control ml-2 mt-3');
+
+		$('<option value="none" />').text('All Locales').appendTo(locSel);
+
+		for (var i = 0; i < locales.length; i++)
+			$('<option value="' + locales[i] + '" />').text(locales[i].toUpperCase()).appendTo(locSel);
+
+		if (locale) locSel.val(locale);
+
+		bar = $('<div/>').addClass('action-bar').appendTo('#content');
+
+		$('<button/>').appendTo(bar).click(function(e) {
+			e.preventDefault();
+			_obj.addSubscribers();
+		}).text('Add Selected').attr('class', 'btn btn-success ml-auto mt-3');
+
+		$('<button/>').appendTo(bar).click(function(e) {
+			e.preventDefault();
+			_obj.addAllSubscribers();
+		}).text('Add All').attr('class', 'btn btn-success ml-2 mt-3');
+	},
+
+	printList: function(list)
+	{
 		var ul = $('<ul/>').attr('class', 'navbar-nav ml-auto').appendTo('#content');
 		ul.wrap('<nav/>').parent().attr('id', 'currentList').attr('class', 'navbar navbar-dark py-0');
 
@@ -350,35 +438,15 @@ var maciPage = function (options) {
 				.attr('class', 'nav-item')
 			;
 		}
-
-		var sb = $('<div/>').addClass('select-bar').appendTo('#content');
-
-		$('<button/>').appendTo(sb).click(function(e) {
-			e.preventDefault();
-			_obj.selectAll();
-		}).text('Select All').attr('class', 'btn ml-auto mt-3');
-
-		$('<button/>').appendTo(sb).click(function(e) {
-			e.preventDefault();
-			_obj.deselectAll();
-		}).text('Deselect All').attr('class', 'btn ml-auto mt-3');
-
-		$('<button/>').appendTo('#content').click(function(e) {
-			e.preventDefault();
-			_obj.addSubscribers();
-		}).text('Add Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
-
-		$('<button/>').appendTo('#content').click(function(e) {
-			e.preventDefault();
-			_obj.addAllSubscribers();
-		}).text('Add All').attr('class', 'btn btn-success ml-2 mt-3');
 	},
 
 	showRecipients: function()
 	{
 		_obj.stop();
+
 		$('a[href="#recipients"]').parent().addClass('active');
 		_last_action = "#recipients";
+
 		$('#content').html('');
 		$('<h3/>').text('Recipients:').appendTo('#content');
 
@@ -416,7 +484,7 @@ var maciPage = function (options) {
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
 			_obj.removeSubscribers();
-		}).text('Remove Subscribers').attr('class', 'btn btn-success ml-auto mt-3');
+		}).text('Remove Selected').attr('class', 'btn btn-success ml-auto mt-3');
 
 		$('<button/>').appendTo('#content').click(function(e) {
 			e.preventDefault();
@@ -474,12 +542,18 @@ var maciPage = function (options) {
 			return;
 
 		if (sending)
+		{
+			var rl = _obj.getRecipients();
 			$('<button/>').attr('id', 'buttonSend').appendTo('#content').click(function(e) {
 				e.preventDefault();
 				$(this).remove();
 				_obj.stop();
 				_obj.showSendMailButton();
-			}).text('Sending Mails...').attr('class', 'btn btn-info ml-auto mt-3');
+			}).attr('class', 'btn btn-info ml-auto mt-3')
+				.text('Sending Mails' + (
+					100 < rl.length ? ' - Autostop: ' + _send_stop + ' / 100' : null
+				) + ' - Click to Stop Now');
+		}
 		else
 			$('<button/>').attr('id', 'buttonSend').appendTo('#content').click(function(e) {
 				e.preventDefault();

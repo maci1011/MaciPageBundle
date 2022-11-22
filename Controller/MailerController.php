@@ -277,7 +277,7 @@ class MailerController extends AbstractController
 		if (!$mail)
 			return new JsonResponse(['success' => false, 'error' => 'Mail not found.'], 200);
 
-		$list = $mail->getNextRecipients($request->get('max', 1));
+		$list = $mail->getNextRecipients($request->get('max', 5));
 
 		if (!count($list))
 			return new JsonResponse(['success' => true, 'end' => true], 200);
@@ -312,7 +312,8 @@ class MailerController extends AbstractController
 		if (!$subscriber)
 			return new JsonResponse(['success' => false, 'error' => 'Subscriber not found.'], 200);
 
-		$this->get('maci.mailer')->sendNext($mail, $subscriber);
+		if (!$this->get('maci.mailer')->sendNext($mail, $subscriber))
+			return new JsonResponse(['success' => false, 'error' => 'Mail not sent.'], 200);
 
 		return new JsonResponse(['success' => true, 'end' => !$mail->hasNextRecipients()], 200);
 	}
