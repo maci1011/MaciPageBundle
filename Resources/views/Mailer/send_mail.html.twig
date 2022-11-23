@@ -2,11 +2,15 @@
 
 {% block _ga %}{% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/font-awesome.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/bootstrap.min.css') }}" />
 	<link rel="stylesheet" href="{{ asset('/bundles/macipage/css/mailer.css') }}" />
 {% endblock %}
 {% block javascripts %}
-	{{ parent() }}
+	<script type="text/javascript" src="/bundles/macipage/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/jquery.scrollTo.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/bootstrap.min.js') }}" ></script>
 	<script type="text/javascript" src="{{ asset('/bundles/macipage/js/mailer.js') }}" ></script>
 {% endblock %}
 
@@ -46,7 +50,7 @@ h3 {
 }
 
 #content > .navbar {
-	max-height: 421px;
+	max-height: 405px;
 	overflow: auto;
 }
 
