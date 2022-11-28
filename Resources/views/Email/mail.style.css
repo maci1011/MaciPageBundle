@@ -29,3 +29,7 @@ td > table {
 .img-fluid {
   max-width: 100%;
 }
+
+.center {
+   text-align: center;
+}

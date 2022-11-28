@@ -8,7 +8,7 @@
 {% for child in slide.Children %}
 
 	<td class="center">
-		<img class="gallery img-fluid" src="{{ path('maci_media_get', {'path': child.media.path}) }}" alt="{{ child.media }}" />
+		<img class="gallery img-fluid" src="{{ url('maci_media_get', {'path': child.media.path}) }}" alt="{{ child.media }}" />
 		<span class="gallery child-title">{{ child.title }}</span>
 		<p class="gallery child-content">{{ child.content }}</p>
 	</td>

@@ -14,7 +14,7 @@
 
 <div class="preview">
 <a href="{{ path('maci_product_show', {'path': item.path}) }}">
-	<img class="img-fluid" src="{{ asset(item.preview.webPath | imagine_filter('maci_product_preview')) }}" title="{{ item.name }} {{ item.description }}" alt="{{ item.name }} {{ item.description }}" />
+	<img class="img-fluid" src="{{ absolute_url(asset(item.preview.webPath|imagine_filter('maci_product_preview'))) }}" title="{{ item.name }} {{ item.description }}" alt="{{ item.name }} {{ item.description }}" />
 </a>
 </div>
 
@@ -29,10 +29,10 @@
 {% if item.price %}
 <div class="product-price-wrapper">
 	{% if item.sale %}
-	<span class="product-list-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
-	<span class="product-sale-price">{{ item.sale | number_format(2, '.', ',') }} &euro;</span>
+	<span class="product-list-price">{{ item.price|number_format(2, '.', ',') }} &euro;</span>
+	<span class="product-sale-price">{{ item.sale|number_format(2, '.', ',') }} &euro;</span>
 	{% else %}
-	<span class="product-price">{{ item.price | number_format(2, '.', ',') }} &euro;</span>
+	<span class="product-price">{{ item.price|number_format(2, '.', ',') }} &euro;</span>
 	{% endif %}
 </div>
 {% endif %}
