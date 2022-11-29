@@ -380,10 +380,27 @@ class Record
 					unset($data[$key]);
 					$data['price'] = number_format($this->price, 2);
 					break;
+				case 'gain':
+				case 'guadagn':
+				case 'percent':
 				case 'ratio':
+					$ratio = intval($value) + 100;
+					unset($data[$key]);
+					$data['ratio'] = $ratio;
+					break;
+				case 'proceed':
+				case 'return':
+				case 'ricavo':
 					$ratio = intval($value);
 					unset($data[$key]);
 					$data['ratio'] = $ratio;
+					break;
+				case 'sell':
+				case 'sellpri':
+				case 'vendita':
+					$price = floatval(str_replace(',', '.', $value));
+					unset($data[$key]);
+					$data['sell'] = $price;
 					break;
 				case 'quantit':
 				case 'qtà':
@@ -492,6 +509,34 @@ class Record
 	{
 		$r = $this->getImportedRatio();
 		return is_null($r) ? 0.28 : (intval($r) / 1000);
+	}
+
+	public function getPriceByRatio()
+	{
+		$price = (intval(floatval($this->getPrice()) * $this->getRatio()) + 1) * 10;
+		if ($price % 10 <= 5) $price -= 5;
+		return $price;
+	}
+
+	public function getSellPrice()
+	{
+		if (!$this->hasImportedData() || !array_key_exists('sell', $this->data['imported']))
+			return null;
+
+		return number_format(floatval($this->data['imported']['sell']), 2);
+	}
+
+	public function getFinalPrice()
+	{
+		$r = $this->getSellPrice();
+		if (!is_null($r))
+			return $r;
+
+		$r = $this->getImportedRatio();
+		if (!is_null($r))
+			return $this->getPriceByRatio();
+
+		return $this->getPrice();
 	}
 
 	public function hasVariant()

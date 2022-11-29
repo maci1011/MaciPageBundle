@@ -362,15 +362,6 @@ class Product
 		return $this;
 	}
 
-	public function setNewPrice($price, $ratio = 0.28)
-	{
-		$this->price = (intval(floatval($price) * $ratio) + 1) * 10;
-
-		if ($this->price % 10 <= 5) $this->price -= 5;
-
-		return $this;
-	}
-
 	/**
 	 * Get price
 	 *
@@ -1348,7 +1339,7 @@ class Product
 					($record->hasVariant() ? '-' . $record->getProductVariant() : '')
 				)
 			)))
-			->setNewPrice($record->getPrice(), $record->getRatio())
+			->setPrice($record->getFinalPrice())
 			->setLocale($locale != null && $locale != '' ? $locale : 'it')
 			->setMetaTitle($name .
 				($this->getVariant() ? " - " . ucwords($this->getVariant()) : '') .
