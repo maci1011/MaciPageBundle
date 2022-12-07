@@ -7,6 +7,14 @@ maci_record_export:
     path:     /record/export
     defaults: { _controller: MaciPageBundle:Record:export, section: records }
 
+maci_record_reports:
+    path:     /record/reports
+    defaults: { _controller: MaciPageBundle:Report:index, section: records }
+
+maci_record_reports_store:
+    path:     /record/reports/store
+    defaults: { _controller: MaciPageBundle:Report:store }
+
 maci_record_load_unsetted_records:
     path:     /record/load-unsetted-records
     defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords, section: records }

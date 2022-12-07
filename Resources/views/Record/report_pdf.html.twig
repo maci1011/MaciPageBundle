@@ -1,76 +1,9 @@
 {% extends "@MaciPage/Layout/void.html.twig" %}
 
-
 {% block head %}
-
 <style type="text/css">
-
-@font-face {
-	font-family: "Libre Barcode EAN13 Text";
-	src: url("http://base.localhost/bundles/macipage/webfonts/ean13.ttf");
-}
-
-body, table, tr, th, td, div, h4 {
-	padding: 0;
-	margin: 0;
-}
-
-body, p, span, h4, th {
-	padding: 0;
-	margin: 0;
-	font-weight: normal;
-	text-align: left;
-}
-
-h4 {
-	display: inline;
-}
-
-.label {
-	padding: 2px 15px;
-	width: 970px;
-	padding: 32px;
-}
-
-@media print {
-	.label {
-		page-break-before: always;
-	}
-	.label.first {
-		page-break-before: avoid;
-	}
-}
-
-th {
-	padding: 0 0 6px 0;
-}
-
-thead th {
-	border-bottom: 1px solid black;
-}
-
-.spacer {
-	padding: 0 0 12px 0;
-}
-
-tbody td {
-	border-bottom: 0.5px solid gray;
-	height: 16px;
-}
-
-.title {
-	text-transform: uppercase;
-	font-size: 11pt;
-	line-height: 16px;
-}
-
-th,
-.title.bold {
-	font-weight: bold;
-}
-
+{% include "@MaciPage/Report/report.css" %}
 </style>
-
 {% endblock %}
 
 {% block body %}

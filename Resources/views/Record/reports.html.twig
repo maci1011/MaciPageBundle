@@ -1,0 +1,38 @@
+{% extends "MaciAdminBundle::layout.html.twig" %}
+
+{% block content %}
+
+<h3>Reports</h3>
+
+<div class="list-default">
+<table class="table table-striped">
+
+<thead>
+<tr class="list-header">
+	<th class="list-header">
+		<span class="list-title">Reports</span>
+	</th>
+	<th class="list-header">
+		<span class="list-title">Action</span>
+	</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr class="list-item">
+	<td>
+		<span>Store Report</span>
+	</td>
+	<td>
+		<a class="btn" href="{{ path('maci_record_reports_store') }}" target="_blank">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Show
+		</a>
+	</td>
+</tr>
+
+</tbody>
+</table>
+
+{% endblock %}

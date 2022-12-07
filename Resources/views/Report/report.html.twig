@@ -1,0 +1,46 @@
+{% extends "@MaciPage/Layout/void.html.twig" %}
+
+{% block head %}
+<style type="text/css">
+{% include "@MaciPage/Report/report.css" %}
+</style>
+{% endblock %}
+
+{% block body %}
+
+{% if list|length %}
+
+{% set page = 1 %}
+{% set page_limit = 64 %}
+
+{# BEGIN ROW #}
+{% for row in list %}
+
+{# Headers #}
+{% if loop.index0 % page_limit == 0 %}
+<table class="label">
+<thead>
+<tr>
+	{% for title in titles %}
+	<th>{{ title|upper }}</th>
+	{% endfor %}
+</tr>
+<tr><td class="spacer"></td></tr>
+</thead>
+<tbody>
+{% endif %}
+
+<tr class="{{ loop.index is even ? 'even' : 'odd' }}">
+	{% for cell in row %}
+	<td>
+		<h4 class="cell">{{ cell }}</h4>
+	</td>
+	{% endfor %}
+</tr>
+
+{% endfor %}
+{# END ROW #}
+
+{% endif %}
+
+{% endblock %}
