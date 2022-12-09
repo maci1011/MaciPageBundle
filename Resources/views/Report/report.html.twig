@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
 {% if list|length %}
 
 {% set page = 1 %}
@@ -16,18 +15,20 @@
 {# BEGIN ROW #}
 {% for row in list %}
 
-{# Headers #}
+{# Header #}
 {% if loop.index0 % page_limit == 0 %}
-<table class="label">
+<table class="page">
+{% if headers|length %}
 <thead>
 <tr>
-	{% for title in titles %}
-	<th>{{ title|upper }}</th>
+	{% for header in headers %}
+	<th>{{ header }}</th>
 	{% endfor %}
 </tr>
-<tr><td class="spacer"></td></tr>
 </thead>
+{% endif %}
 <tbody>
+<tr><td class="spacer"></td></tr>
 {% endif %}
 
 <tr class="{{ loop.index is even ? 'even' : 'odd' }}">
@@ -38,9 +39,33 @@
 	{% endfor %}
 </tr>
 
-{% endfor %}
-{# END ROW #}
-
+{% if loop.last and amounts|length %}
+<tr><td class="spacer"></td></tr>
+<tr class="amounts">
+	{% for amount in amounts %}
+	<th>{{ amount }}</th>
+	{% endfor %}
+</tr>
 {% endif %}
 
+{# Footer #}
+{% if loop.last or loop.index0 % page_limit == page_limit - 1 %}
+<tr><td class="spacer"></td></tr>
+<tfoot>
+<tr>
+	{% for footer in footers %}
+	<th>{{ footer }}</th>
+	{% endfor %}
+	<th>Page: {{ page }} / {{ (list|length / page_limit)|intval + 1 }}</th>
+</tr>
+</tfoot>
+</tbody>
+</table>
+{% set page = page + 1 %}
+{% endif %}
+
+{# END ROW #}
+{% endfor %}
+
+{% endif %}
 {% endblock %}

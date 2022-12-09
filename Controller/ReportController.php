@@ -32,7 +32,9 @@ class ReportController extends AbstractController
 			'Buyed',
 			'Quantity',
 			'Selled',
-			'Foo'
+			'N. of Products',
+			'Avg. Price',
+			'Tot. Selled'
 		];
 		$list = [];
 
@@ -58,7 +60,9 @@ class ReportController extends AbstractController
 					1 => 0, // buyed
 					2 => 0, // quantity
 					3 => 0, // selled
-					4 => 0
+					4 => 0, // products number
+					5 => 0, // avg. price
+					6 => 0
 				]);
 			}
 
@@ -67,18 +71,66 @@ class ReportController extends AbstractController
 			$row[1] += $product->getBuyed();
 			$row[2] += $product->getQuantity();
 			$row[3] += $product->getSelled();
+			$row[4] += 1;
+			$row[5] += $product->getPrice();
+			$row[6] += $product->getSelled() * $product->getPrice();
 
 			$list[$index] = $row;
 		}
 
-		return $this->getPDF($titles, $list);
+		$tot = [
+			0 => 'Amount:',
+			1 => 0, // buyed
+			2 => 0, // quantity
+			3 => 0, // selled
+			4 => 0, // products number
+			5 => 0, // avg. price
+			6 => 0
+		];
+
+		foreach ($list as $index => $el)
+		{
+			$list[$index][5] = number_format($el[5] / $el[4], 2);
+			$list[$index][6] = number_format($el[6], 2);
+
+			$tot[1] += $el[1];
+			$tot[2] += $el[2];
+			$tot[3] += $el[3];
+			$tot[4] += $el[4];
+			$tot[5] += $list[$index][5];
+			$tot[6] += $el[6];
+		}
+
+		$tot[5] = number_format($tot[5] / count($list), 2);
+		$tot[6] = number_format($tot[6], 2);
+
+		return $this->getPDF([
+			'headers' => $titles,
+			'list' => $list,
+			'amounts' => $tot,
+			'footers' => [
+				$this->container->getParameter('company_title'),
+				'REPORT: Shop > Products',
+				date("Y/m/d H:i:s")
+			],
+			'filename' => 'report-shop-products.pdf'
+		]);
 	}
 
-	public function getPDF($titles, $list, $template = '@MaciPage/Report/report.html.twig')
+	public function getPDF($params, $options = [])
 	{
 		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
 
-		$defaults = [
+		$params = array_merge([
+			'headers' => [],
+			'list' => [],
+			'amounts' => [],
+			'footers' => [],
+			'template' => '@MaciPage/Report/report.html.twig',
+			'filename' => 'report.pdf'
+		], $params);
+
+		$options = array_merge([
 			'orientation' => 'portrait',
 			'enable-javascript' => true,
 			'javascript-delay' => 1000,
@@ -96,14 +148,11 @@ class ReportController extends AbstractController
 			'page-size' => 'A4',
 			'enable-external-links' => true,
 			'enable-internal-links' => true
-		];
+		], $options);
 
 		return new PdfResponse(
-			$snappy->getOutputFromHtml($this->renderView($template, [
-				'list' => $list,
-				'titles' => $titles
-			]), $defaults),
-			'report.pdf'
+			$snappy->getOutputFromHtml($this->renderView($params['template'], $params), $options),
+			$params['filename']
 		);
 	}
 }
