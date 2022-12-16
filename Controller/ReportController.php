@@ -81,8 +81,8 @@ class ReportController extends AbstractController
 			$row[4] += $record->isBack() ? $record->getQuantity() : 0;
 			if ($record->isPurchase()) array_push($row[5], [$record->getQuantity(), $record->getPrice()]);
 			if ($record->isSale()) array_push($row[6], [$record->getQuantity(), $record->getPrice()]);
-			if ($record->isReturn()) $el[5] = $this->sub($el[5], $record->getQuantity());
-			if ($record->isBack()) $el[6] = $this->sub($el[6], $record->getQuantity());
+			if ($record->isBack()) $el[5] = $this->sub($el[5], $record->getQuantity());
+			if ($record->isReturn()) $el[6] = $this->sub($el[6], $record->getQuantity());
 
 			$list[$index] = $row;
 		}
