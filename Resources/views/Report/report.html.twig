@@ -41,11 +41,17 @@
 
 {% if loop.last and amounts|length %}
 <tr><td class="spacer"></td></tr>
+{% for amount in amounts %}
+{% if amount == 'spacer' %}
+<tr><td class="spacer"></td></tr>
+{% else %}
 <tr class="amounts">
-	{% for amount in amounts %}
-	<th>{{ amount }}</th>
+	{% for cell in amount %}
+	<th>{{ cell }}</th>
 	{% endfor %}
 </tr>
+{% endif %}
+{% endfor %}
 {% endif %}
 
 {# Footer #}

@@ -2,7 +2,7 @@
 Maci\PageBundle\Entity\Shop\Record:
     type:  entity
     table: maci_record
-    # repositoryClass: Maci\PageBundle\Repository\Shop\RecordRepository
+    repositoryClass: Maci\PageBundle\Repository\Shop\RecordRepository
     id:
         id:
             type: integer

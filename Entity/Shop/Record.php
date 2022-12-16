@@ -134,6 +134,21 @@ class Record
 		return $this->type == 'purchas';
 	}
 
+	public function isSale()
+	{
+		return $this->type == 'sale';
+	}
+
+	public function isReturn()
+	{
+		return $this->type == 'return';
+	}
+
+	public function isBack()
+	{
+		return $this->type == 'back';
+	}
+
 	/**
 	 * Set code
 	 *

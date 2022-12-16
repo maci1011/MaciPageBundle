@@ -9,8 +9,8 @@
 
 <thead>
 <tr class="list-header">
-	<th class="list-header">
-		<span class="list-title">Reports</span>
+	<th width="60%" class="list-header">
+		<span class="list-title">Name</span>
 	</th>
 	<th class="list-header">
 		<span class="list-title">Action</span>
@@ -22,7 +22,19 @@
 
 <tr class="list-item">
 	<td>
-		<span>Store Report</span>
+		<span>Shop > Inventory</span>
+	</td>
+	<td>
+		<a class="btn" href="{{ path('maci_record_reports_inventory') }}" target="_blank">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Show
+		</a>
+	</td>
+</tr>
+
+<tr class="list-item">
+	<td>
+		<span>Shop > Products</span>
 	</td>
 	<td>
 		<a class="btn" href="{{ path('maci_record_reports_store') }}" target="_blank">
@@ -34,5 +46,26 @@
 
 </tbody>
 </table>
+</div>
+
+<h4>Records</h4>
+
+<form id="form-records" action="{{ path('maci_record_reports_records') }}">
+
+<div class="form-group">
+	<label for="after">From:</label>
+	<input id="after" type="date" name="after" class="form-control" />
+</div>
+
+<div class="form-group">
+	<label for="before">To:</label>
+	<input id="before" type="date" name="before" class="form-control" />
+</div>
+
+<div class="form-group">
+	<input class="btn btn-primary" type="submit" value="Show" />
+</div>
+
+</form>
 
 {% endblock %}

@@ -11,6 +11,14 @@ maci_record_reports:
     path:     /record/reports
     defaults: { _controller: MaciPageBundle:Report:index, section: records }
 
+maci_record_reports_inventory:
+    path:     /record/reports/inventory
+    defaults: { _controller: MaciPageBundle:Report:inventory }
+
+maci_record_reports_records:
+    path:     /record/reports/records
+    defaults: { _controller: MaciPageBundle:Report:records }
+
 maci_record_reports_store:
     path:     /record/reports/store
     defaults: { _controller: MaciPageBundle:Report:store }
