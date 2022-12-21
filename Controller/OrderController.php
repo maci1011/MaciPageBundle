@@ -426,13 +426,6 @@ class OrderController extends AbstractController
 		$paymentDetails['PAYMENTREQUEST_0_AMT'] = $cart->getAmount();
 		$paymentDetails['NOSHIPPING'] = Api::NOSHIPPING_NOT_DISPLAY_ADDRESS;
 
-		// $paymentDetails['REQCONFIRMSHIPPING'] = Api::REQCONFIRMSHIPPING_NOT_REQUIRED;
-		// $paymentDetails['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = Api::PAYMENTREQUEST_ITERMCATEGORY_DIGITAL;
-		// $paymentDetails['L_PAYMENTREQUEST_0_AMT0'] = $cart->getAmount();
-		// $paymentDetails['L_PAYMENTREQUEST_0_QTY0'] = 1;
-		// $paymentDetails['L_PAYMENTREQUEST_0_NAME0'] = $cart->getName();
-		// $paymentDetails['L_PAYMENTREQUEST_0_DESC0'] = $cart->getCode();
-
 		$storageDetails->update($paymentDetails);
 
 		$gatewayName = $this->get('maci.orders')->getCartPaymentGateway();
@@ -487,10 +480,6 @@ class OrderController extends AbstractController
 		// }
 
 		// Now you have order and payment status
-
-		// CHECKOUTSTATUS   "PaymentActionCompleted"
-		// PAYMENTREQUEST_0_PAYMENTSTATUS   "Pending"
-		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
 		$payment = $status->getFirstModel();
 		$cart = $payment->getOrder();

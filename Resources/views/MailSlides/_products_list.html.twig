@@ -13,7 +13,7 @@
 {% if item.preview is defined and item.preview %}
 
 <div class="preview">
-<a href="{{ path('maci_product_show', {'path': item.path}) }}">
+<a href="{{ url('maci_product_show', {'path': item.path}) }}">
 	<img class="img-fluid" src="{{ absolute_url(asset(item.preview.webPath|imagine_filter('maci_product_preview'))) }}" title="{{ item.name }} {{ item.description }}" alt="{{ item.name }} {{ item.description }}" />
 </a>
 </div>
@@ -22,7 +22,7 @@
 
 <div class="content">
 
-<a href="{{ path('maci_product_show', {'path': item.path}) }}">
+<a href="{{ url('maci_product_show', {'path': item.path}) }}">
 	<h4 class="product-title">{{ item.name }}</h4>
 </a>
 
