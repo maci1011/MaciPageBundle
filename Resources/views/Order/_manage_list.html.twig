@@ -69,7 +69,7 @@
 	</td>
 
 	<td>
-		<span>{{ item.invoice|date('d/m/Y') }}</span>
+		<span>{{ item.invoice ? item.invoice|date('d/m/Y') : null }}</span>
 	</td>
 
 	<td>
@@ -85,12 +85,12 @@
 			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 			Show
 		</a>
-		{#}
-		<a class="btn" href="#">
-			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-			Remove
+		{% if item.invoice %}
+		<a class="btn" href="{{ path('maci_order_invoice', {'id': item.id}) }}">
+			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+			Invoice
 		</a>
-		{#}
+		{% endif %}
 	</td>
 
 </tr>

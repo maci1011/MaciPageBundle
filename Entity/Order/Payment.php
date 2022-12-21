@@ -100,7 +100,10 @@ class Payment extends BasePayment
 	public function setStatusValue()
 	{
 		if (!count($this->paymentDetails))
+		{
+			$this->status = 'unp';
 			return;
+		}
 
 		switch (strtolower($this->paymentDetails->last()->getStatus()))
 		{

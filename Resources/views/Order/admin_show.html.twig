@@ -14,21 +14,19 @@
 	<select id="actions_select" class="form-control">
 		{% if order.status in ['new', 'current'] %}
 		<option value="completeOrder">Complete Order</option>
-		{% endif %}
-		{% if order.status == 'complete' %}
+		{% elseif order.status in ['complete', 'paid'] %}
 		<option value="confirmOrder">Confirm Order</option>
-		<option value="sendPlacedNotify">RE-Send Placed Notify</option>
-		{% endif %}
-		{% if order.status == 'confirm' %}
-		<option value="sendConfirmedNotify">Send Confirmed Notify</option>
-		<option value="sendShippedNotify">Send Shipped Notify</option>
+		{% elseif order.status in ['confirm', 'refunded'] %}
 		<option value="endOrder">End Order</option>
 		{% endif %}
-		{% if order.status == 'end' %}
+		<option value="sendPlacedNotify">Send Placed Notify</option>
+		<option value="sendConfirmedNotify">Send Confirmed Notify</option>
+		<option value="sendShippedNotify">Send Shipped Notify</option>
 		<option value="sendCompletedNotify">Send Completed Notify</option>
 		<option value="sendInvoiceNotify">Send Invoice</option>
-		{% endif %}
+		{% if order.status != 'endOrder' %}
 		<option value="cancelOrder">Cancel Order</option>
+		{% endif %}
 		{#}<option value="test">Test</option>{#}
 	</select>
 </div>
