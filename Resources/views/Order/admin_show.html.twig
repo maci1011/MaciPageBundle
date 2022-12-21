@@ -42,7 +42,7 @@
 {% include "MaciPageBundle:Order:_details.html.twig" %}
 
 <h4 class="pc-subtitle">{{ 'order.checkout-type'| matra('Order Type') }}: {{ order.checkoutLabel }}</h4>
-<h4 class="pc-subtitle">{{ 'payment.status' | matra('Payment Status') }}: {{ ('order.payment.status.' ~ order.paymentStatus)|matra(order.paymentStatus) }}</h4>
+<h4 class="pc-subtitle">{{ 'payment.status' | matra('Payment Status') }}: {{ ('order.payment.status.' ~ order.paymentStatus)|matra(order.paymentStatusLabel) }}</h4>
 
 {% include "MaciPageBundle:Order:_preview.html.twig" %}
 

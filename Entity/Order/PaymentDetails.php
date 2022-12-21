@@ -116,18 +116,27 @@ class PaymentDetails extends ArrayObject
 		return $this->payment;
 	}
 
-	public function getACK()
+	public function getPayaPalStatus()
 	{
-		if (!is_array($this->details) || !array_key_exists('ACK', $this->details))
-			return null;
+		if ((array_key_exists('ACK', $this->details) && $this->details['ACK'] == 'Success') &&
+			(array_key_exists('ADDRESSSTATUS', $this->details) && $this->details['ADDRESSSTATUS'] == 'Confirmed') &&
+			(array_key_exists('CHECKOUTSTATUS', $this->details) && $this->details['CHECKOUTSTATUS'] == 'PaymentActionCompleted') &&
+			(array_key_exists('PAYMENTINFO_0_PAYMENTSTATUS', $this->details) && $this->details['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed')
+		) return 'success';
 
-		return $this->details['ACK'];
+		return 'unpaid';
 	}
 
 	public function getStatus()
 	{
-		if (!is_array($this->details) || !array_key_exists('status', $this->details))
-			return $this->getACK();
+		if (!is_array($this->details))
+			return false;
+
+		if ($this->getType() == 'paypalExpress')
+			return $this->getPayaPalStatus();
+
+		if (!array_key_exists('status', $this->details))
+			return false;
 
 		return $this->details['status'];
 	}

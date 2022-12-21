@@ -19,21 +19,21 @@
 
 			{% if order.isCanceled %}
 
-			<span class="invoice-status canceled">CANCELED</span>
+			<span class="invoice-status canceled">{{ 'invoice.status.canceled'|matra('CANCELED')}}</span>
 
 			{% elseif order.isRefunded %}
 
-			<span class="invoice-status refounded">REFOUNDED</span>
+			<span class="invoice-status refounded">{{ 'invoice.status.refounded'|matra('REFOUNDED')}}</span>
 
-			{% elseif order.isConfirmed %}
+			{% elseif order.isPaid %}
 
-			<span class="invoice-status paid">PAID</span>
+			<span class="invoice-status paid">{{ 'invoice.status.paid'|matra('PAID')}}</span>
 
 			<span class="invoice-paid-date">Paid: {{ order.due|date('d/m/Y') }}</span>
 
 			{% else %}
 
-			<span class="invoice-status unpaid">UNPAID</span>
+			<span class="invoice-status unpaid">{{ 'invoice.status.unpaid'|matra('UNPAID')}}</span>
 
 			{% endif %}
 
@@ -110,7 +110,7 @@
 
 		<tr class="invoice-details-total">
 			<td class="invoice-label total">Total:</td>
-			<td class="invoice-details items">{{ order.totalItemsQuantity }}</td>
+			<td class="invoice-details quantity">{{ order.totalItemsQuantity }}</td>
 			<td class="invoice-details amount">{{ order.amount }} &euro;</td>
 		</tr>
 
@@ -129,11 +129,11 @@
 	<thead>
 
 		<tr>
-			<td class="invoice-transactions tx-date" width="20%">Transaction Date</td>
-			<td class="invoice-transactions gateway" width="20%">Gateway</td>
-			<td class="invoice-transactions tx-id" width="20%">Transaction ID</td>
-			<td class="invoice-transactions tx-id" width="20%">Status</td>
-			<td class="invoice-transactions amount" width="20%">Amount</td>
+			<td class="invoice-transactions tx-date" width="20%">{{ 'transactions.headers.date'|matra('Transaction Date')}}</td>
+			<td class="invoice-transactions gateway" width="20%">{{ 'transactions.headers.gateway'|matra('Gateway')}}</td>
+			<td class="invoice-transactions tx-id" width="20%">{{ 'transactions.headers.id'|matra('Transaction ID')}}</td>
+			<td class="invoice-transactions tx-id" width="20%">{{ 'transactions.headers.status'|matra('Status')}}</td>
+			<td class="invoice-transactions amount" width="20%">{{ 'transactions.headers.amount'|matra('Amount')}}</td>
 		</tr>
 
 	</thead>
@@ -169,10 +169,10 @@
 	<tfoot>
 
 		<tr class="invoice-transactions-paid">
-			<td class="invoice-label" colspan="4">Total Paid:</td>
+			<td class="invoice-label" colspan="4">{{ 'transactions.total-paid'|matra('Total Paid')}}:</td>
 			<td class="invoice-transactions amount">{{ order.transactionsAmount|number_format(2, '.', ',') }} &euro;</td>
 		</tr>
-
+{#}
 		<tr class="invoice-transactions-to-pay">
 			<td class="invoice-label" colspan="4">To Pay:</td>
 			<td class="invoice-transactions amount">-{{ order.amount|number_format(2, '.', ',') }} &euro;</td>
@@ -182,7 +182,7 @@
 			<td class="invoice-label" colspan="4">Balance:</td>
 			<td class="invoice-transactions amount">{{ order.balance|number_format(2, '.', ',') }} &euro;</td>
 		</tr>
-
+{#}
 	</tfoot>
 
 </table>

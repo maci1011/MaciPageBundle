@@ -416,9 +416,14 @@ class Order
 		return 4 < $this->getProgression();
 	}
 
+	public function isPaid()
+	{
+		return 5 < $this->getProgression();
+	}
+
 	public function isConfirmed()
 	{
-		return $this->status == 'confirmed';
+		return $this->status == 'confirm';
 	}
 
 	public function isCanceled()
@@ -823,6 +828,11 @@ class Order
 	public function paymentStatus()
 	{
 		return $this->hasPayments() ? $this->lastPayment()->getStatus() : null;
+	}
+
+	public function paymentStatusLabel()
+	{
+		return $this->hasPayments() ? $this->lastPayment()->getStatusLabel() : 'Unset';
 	}
 
 	/**
