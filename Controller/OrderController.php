@@ -451,10 +451,6 @@ class OrderController extends AbstractController
 
 		$storageDetails->update($paymentDetails);
 
-		// $payment->setDetails([]);
-		// $storage = $this->get('payum')->getStorage(Payment::class);
-		// $storage->update($payment);
-
 		return $this->redirect($captureToken->getTargetUrl());
 	}
 
@@ -497,6 +493,7 @@ class OrderController extends AbstractController
 		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
 		$payment = $status->getFirstModel();
+		$payment->setStatusValue();
 		$cart = $payment->getOrder();
 
 		if (!$cart)
@@ -513,20 +510,27 @@ class OrderController extends AbstractController
 			'label' => $payment_item['label'],
 			'gateway' => $payment_item['gateway'],
 			'sandbox' => $payment_item['sandbox'],
-			'payment' => [
-				'total_amount' => $payment->getTotalAmount(),
-				'currency_code' => $payment->getCurrencyCode(),
-				'details' => $payment->getDetails()
-			]
+			'sandbox' => $payment_item['sandbox']
 		];
 
-		if($payment_item['gateway'] == 'offline' && is_array($params['payment']['details']))
-			$params['payment']['details']['paid'] = false;
+		$payment->setDetails($params);
+
+		if($payment_item['gateway'] == 'offline')
+			$payment->setStatus('unp');
+
+		$params['payment'] = [
+			'total_amount' => $payment->getTotalAmount(),
+			'currency_code' => $payment->getCurrencyCode(),
+			'details' => $payment->getDetails()
+		];
 
 		$cart->completeOrder($params);
 
 		$this->sendPlacedNotify($cart);
 		$this->get('maci.orders')->resetCart();
+
+		$storage = $this->get('payum')->getStorage(Payment::class);
+		$storage->update($payment);
 
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();

@@ -107,6 +107,7 @@ class Payment extends BasePayment
 
 		switch (strtolower($this->paymentDetails->last()->getStatus()))
 		{
+			case 'completed':
 			case 'success':
 				$this->status = 'pai';
 				break;
@@ -175,9 +176,6 @@ class Payment extends BasePayment
 	public function addPaymentDetails(\Maci\PageBundle\Entity\Order\PaymentDetails $paymentDetails)
 	{
 		$this->paymentDetails[] = $paymentDetails;
-
-		if (!$this->status)
-			$this->setStatusValue();
 
 		return $this;
 	}

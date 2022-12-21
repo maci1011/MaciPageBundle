@@ -121,8 +121,8 @@ class PaymentDetails extends ArrayObject
 		if ((array_key_exists('ACK', $this->details) && $this->details['ACK'] == 'Success') &&
 			(array_key_exists('ADDRESSSTATUS', $this->details) && $this->details['ADDRESSSTATUS'] == 'Confirmed') &&
 			(array_key_exists('CHECKOUTSTATUS', $this->details) && $this->details['CHECKOUTSTATUS'] == 'PaymentActionCompleted') &&
-			(array_key_exists('PAYMENTINFO_0_PAYMENTSTATUS', $this->details) && $this->details['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed')
-		) return 'success';
+			array_key_exists('PAYMENTINFO_0_PAYMENTSTATUS', $this->details)
+		) return $this->details['PAYMENTINFO_0_PAYMENTSTATUS'];
 
 		return 'unpaid';
 	}
