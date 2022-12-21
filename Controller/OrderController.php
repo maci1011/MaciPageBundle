@@ -493,7 +493,6 @@ class OrderController extends AbstractController
 		// PAYMENTREQUEST_0_TRANSACTIONID   "1XX96663P5687610F"
 
 		$payment = $status->getFirstModel();
-		$payment->setStatusValue();
 		$cart = $payment->getOrder();
 
 		if (!$cart)
@@ -517,6 +516,8 @@ class OrderController extends AbstractController
 
 		if($payment_item['gateway'] == 'offline')
 			$payment->setStatus('unp');
+		else
+			$payment->setStatusValue();
 
 		$params['payment'] = [
 			'total_amount' => $payment->getTotalAmount(),
