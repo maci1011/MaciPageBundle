@@ -382,7 +382,6 @@ class OrderController extends AbstractController
 		}
 
 		$om = $this->getDoctrine()->getManager();
-		$notifyToken = false;
 		$payment = $storage->create();
 
 		$payment->setNumber(uniqid());
@@ -483,6 +482,10 @@ class OrderController extends AbstractController
 		// Now you have order and payment status
 
 		$payment = $status->getFirstModel();
+
+		if (method_exists($payment, 'getPayment'))
+			$payment = $payment->getPayment();
+
 		$cart = $payment->getOrder();
 
 		if (!$cart)
