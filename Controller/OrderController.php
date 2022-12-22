@@ -436,10 +436,11 @@ class OrderController extends AbstractController
 			'maci_order_payments_after_capture'
 		);
 
-		$notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
+		// $notifyToken = $this->get('payum')->getTokenFactory()->createNotifyToken($gatewayName, $paymentDetails);
+		// $paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
 
-		$paymentDetails['PAYMENTREQUEST_0_NOTIFYURL'] = $notifyToken->getTargetUrl();
 		$paymentDetails['INVNUM'] = $paymentDetails->getId();
+
 		$paymentDetails->setPayment($payment);
 
 		$storageDetails->update($paymentDetails);
