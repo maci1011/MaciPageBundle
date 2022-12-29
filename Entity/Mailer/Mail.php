@@ -424,6 +424,8 @@ class Mail
 	public function addRecipient($mail, $name)
 	{
 		$this->addRecipients([$mail => $name]);
+
+		return $this;
 	}
 
 	public function addRecipients($array)
@@ -455,7 +457,7 @@ class Mail
 		$index = $this->getRecipientIndex($mail);
 
 		if ($index == -1)
-			return;
+			return $this;
 
 		$list = $this->getRecipients();
 		unset($list[$index]);
@@ -587,23 +589,17 @@ class Mail
 		if (!$list)
 			return;
 
-		$found = false;
 		foreach ($list as $index => $item)
 		{
 			if (!$item['sended'])
 			{
-				$list[$i]['sended'] = date("c", time());
-				$found = true;
-				break;
+				$list[$index]['sended'] = date("c", time());
+				$this->data['recipients'] = $list;
+				return true;
 			}
 		}
 
-		if (!$found)
-			return false;
-
-		$this->data['recipients'] = $list;
-
-		return true;
+		return false;
 	}
 
 	public function setSendedValues()
@@ -617,7 +613,7 @@ class Mail
 		foreach ($list as $index => $item)
 		{
 			if (!$item['sended'])
-				$list[$i]['sended'] = date("c", time());
+				$list[$index]['sended'] = date("c", time());
 		}
 
 		$this->data['recipients'] = $list;
