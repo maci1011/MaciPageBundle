@@ -95,6 +95,11 @@ class Post
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
 	 */
+	private $comments;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
 	private $editors;
 
 	/**
@@ -137,6 +142,7 @@ class Post
 	 */
 	public function __construct()
 	{
+		$this->comments = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->tags = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->items = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->slides = new \Doctrine\Common\Collections\ArrayCollection();
@@ -526,6 +532,39 @@ class Post
 	public function getRemoved()
 	{
 		return $this->removed;
+	}
+
+	/**
+	 * Add comments
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Comment $comments
+	 * @return Post
+	 */
+	public function addComment(\Maci\PageBundle\Entity\Blog\Comment $comments)
+	{
+		$this->comments[] = $comments;
+
+		return $this;
+	}
+
+	/**
+	 * Remove comments
+	 *
+	 * @param \Maci\PageBundle\Entity\Blog\Comment $comments
+	 */
+	public function removeComment(\Maci\PageBundle\Entity\Blog\Comment $comments)
+	{
+		$this->comments->removeElement($comments);
+	}
+
+	/**
+	 * Get comments
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getComments()
+	{
+		return $this->comments;
 	}
 
 	/**
@@ -928,6 +967,6 @@ class Post
 	 */
 	public function __toString()
 	{
-		return $this->getTitle();
+		return 'BlogPost#' . ($this->id ? $this->id : 'New');
 	}
 }

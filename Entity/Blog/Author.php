@@ -239,6 +239,6 @@ class Author
 	 */
 	public function __toString()
 	{
-		return $this->getName();
+		return 'BlogAuthor#' . ($this->id ? $this->id : 'New');
 	}
 }

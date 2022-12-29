@@ -207,6 +207,14 @@ services:
     #     tags:
     #         - { name: kernel.event_listener, event: paypal.ipn.receive, method: onIPNReceive }
 
+    # Blog
+
+    maci_blog.form.type.comment:
+        class: Maci\PageBundle\Form\Blog\CommentType
+        arguments: ["@security.authorization_checker"]
+        tags:
+            - { name: form.type, alias: commentType }
+
     # Mailer
 
     Maci\PageBundle\Controller\MailerService:

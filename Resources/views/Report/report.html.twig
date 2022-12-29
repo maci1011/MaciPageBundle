@@ -21,7 +21,7 @@
 {% if headers|length %}
 <thead>
 <tr>
-	{% for header in headers %}
+	{% for id, header in headers %}
 	<th>{{ header }}</th>
 	{% endfor %}
 </tr>
@@ -32,7 +32,7 @@
 {% endif %}
 
 <tr class="{{ loop.index is even ? 'even' : 'odd' }}">
-	{% for cell in row %}
+	{% for id, cell in row %}
 	<td>
 		<h4 class="cell">{{ cell }}</h4>
 	</td>

@@ -1,0 +1,47 @@
+
+Maci\PageBundle\Entity\Blog\Comment:
+    type:  entity
+    table: maci_blog_comment
+    # repositoryClass: Maci\PageBundle\Repository\Blog\CommentRepository
+    id:
+        hash:
+            type: string
+            length: 13
+    fields:
+        name:
+            type: string
+            length: 31
+            nullable: true
+        email:
+            type: string
+            length: 63
+            nullable: true
+        content:
+            type: text
+        approved:
+            type: boolean
+        removed:
+            type: boolean
+        created:
+            type: datetime
+    manyToOne:
+        parent:
+            targetEntity: Maci\PageBundle\Entity\Blog\Comment
+            inversedBy: children
+            joinColumn:
+                referencedColumnName: hash
+        post:
+            targetEntity: Maci\PageBundle\Entity\Blog\Post
+            inversedBy: comments
+        user:
+            targetEntity: Maci\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    oneToMany:
+        children:
+            targetEntity: Maci\PageBundle\Entity\Blog\Comment
+            mappedBy: parent
+            orderBy: { 'created': DESC }
+    lifecycleCallbacks:
+        prePersist: [ setCreatedValue ]

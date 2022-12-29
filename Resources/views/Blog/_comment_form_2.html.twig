@@ -1,0 +1,63 @@
+
+{{ form_start(form) }}
+
+	{% if not form.vars.valid %}
+	<div class="form-group">
+		{{ form_errors(form) }}
+	</div>
+	{% endif %}
+
+	<div class="form-group">
+		<label class="required" for="form_name">{{ 'name'|matla('Name') }}</label>
+		<input id="form_name" class="form-control" type="text" required="required" name="contact[name]" placeholder="{{ 'name'|matla('Name') }}" />
+		<div class="form-errors">{{ form_errors(form.name) }}</div>
+	</div>
+
+	{#}
+	<div class="form-group">
+		<label for="form_surname">{{ 'surname'|matla('Surname') }}</label>
+		<input id="form_surname" class="form-control" type="text" name="contact[surname]" placeholder="{{ 'surname'|matla('Surname') }}*" />
+		<div class="form-errors">{{ form_errors(form.surname) }}</div>
+	</div>
+	{#}
+
+	<div class="form-group">
+		<label class="required" for="form_email">{{ 'email'|matla('Email') }}</label>
+		<input id="form_email" class="form-control" type="text" required="required" name="contact[email]" placeholder="{{ 'email'|matla('Email') }}" />
+		<div class="form-errors">{{ form_errors(form.email) }}</div>
+	</div>
+
+	{#}
+	<div class="form-group">
+		<label for="form_media">{{ 'file'|matla('File') }}</label>
+		<input id="form_media" type="file" name="contact[media]">
+		<div class="form-errors">{{ form_errors(form.media) }}</div>
+	</div>
+	{#}
+
+	<div class="form-group">
+		<label class="required" for="form_message">{{ 'message'|matla('Message') }}</label>
+		<textarea id="form_message" class="form-control" required="required" name="contact[message]" placeholder="{{ 'message'|matla('Message') }}"></textarea>
+		<div class="form-errors">{{ form_errors(form.message) }}</div>
+	</div>
+
+	{#% include "@MaciPage/Form/_required_fields.html.twig" %#}
+
+	<div class="checkbox privacy">
+		<input id="form_privacy" type="checkbox" required="required" name="contact[privacy]" />
+		<label class="required" for="form_privacy">{{ 'read_privacy'|matla('I have read and agree to the') }} <a href="{{ path('maci_page', {'path': 'privacy'}) }}" target="_blank">{{ 'privacy_policy'|matla('Privacy Policy') }}</a></label>
+		<div class="form-errors">{{ form_errors(form.privacy) }}</div>
+	</div>
+
+	{% if form.recaptcha is defined %}
+	{{ form_row(form.recaptcha) }}
+	{% endif %}
+
+	<div class="form-group">
+		{{ form_row(form._token) }}
+		{#}<button id="form_cancel" class="btn btn-default" name="contact[cancel]" type="reset">{{ 'reset'|matla('Reset') }}</button>{#}
+		<button id="form_send" class="btn btn-primary" name="contact[send]" type="submit">{{ 'send'|matla('Send') }}</button>
+	</div>
+
+{{ form_end(form, {'render_rest': false}) }}
+

@@ -26,10 +26,10 @@ class ReportController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$list = [];
 
-		$after = $request->get('after');
-		$before = $request->get('before');
-		if ($after) $after = date("Y/m/d", strtotime($after));
-		if ($before) $before = date("Y/m/d", strtotime($before));
+		$after = $request->get('after', '');
+		$before = $request->get('before', '');
+		$after = strlen($after) ? date("Y/m/d", strtotime($after)) : false;
+		$before = strlen($before) ? date("Y/m/d", strtotime($before)) : false;
 
 		$records = $om->getRepository('MaciPageBundle:Shop\Record')->fromTo($after, $before);
 
@@ -106,8 +106,8 @@ class ReportController extends AbstractController
 			$list[$index][0] = ucfirst(strtolower($el[0]));
 			array_push($cats, $list[$index][0]);
 
-			$list[$index][5] = $this->tot($el[5]);
-			$list[$index][6] = $this->tot($el[6]);
+			$list[$index][5] = number_format($this->tot($el[5]), 2);
+			$list[$index][6] = number_format($this->tot($el[6]), 2);
 
 			$tot[1] += $el[1];
 			$tot[2] += $el[2];
@@ -116,6 +116,9 @@ class ReportController extends AbstractController
 			$tot[5] += $list[$index][5];
 			$tot[6] += $list[$index][6];
 		}
+
+		$tot[5] = number_format($tot[5], 2);
+		$tot[6] = number_format($tot[6], 2);
 
 		// Sort
 
@@ -148,32 +151,6 @@ class ReportController extends AbstractController
 			],
 			'filename' => 'report-records.pdf'
 		]);
-	}
-
-	public function sub($list, $quantity)
-	{
-		for ($i = count($list) - 1; 0 <= $i; $i--)
-		{ 
-			if ($quantity <= $list[$i][0])
-			{
-				$list[$i][0] -= $quantity;
-				break;
-			}
-			else
-			{
-				$quantity -= $list[$i][0];
-				$list[$i][0] = 0;
-			}
-		}
-		return $list;
-	}
-
-	public function tot($list)
-	{
-		$t = 0;
-		foreach ($list as $value)
-			$t += $value[0] * $value[1];
-		return $t;
 	}
 
 	public function inventoryAction()
@@ -452,5 +429,31 @@ class ReportController extends AbstractController
 			$snappy->getOutputFromHtml($this->renderView($params['template'], $params), $options),
 			$params['filename']
 		);
+	}
+
+	public function sub($list, $quantity)
+	{
+		for ($i = count($list) - 1; 0 <= $i; $i--)
+		{ 
+			if ($quantity <= $list[$i][0])
+			{
+				$list[$i][0] -= $quantity;
+				break;
+			}
+			else
+			{
+				$quantity -= $list[$i][0];
+				$list[$i][0] = 0;
+			}
+		}
+		return $list;
+	}
+
+	public function tot($list)
+	{
+		$t = 0;
+		foreach ($list as $value)
+			$t += $value[0] * $value[1];
+		return $t;
 	}
 }

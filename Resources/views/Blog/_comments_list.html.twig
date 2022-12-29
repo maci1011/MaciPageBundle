@@ -1,0 +1,35 @@
+{% if not rl is defined %}{% set rl = 1 %}{% endif %}
+
+<div class="comments-list rl-{{ rl }}">
+<ul>
+
+{% for item in list %}
+<li id="cmm-{{ item.hash }}" class="comment-item">
+
+	<div class="comment-content">{{ item.content|markdown }}</div>
+
+	<nav class="navbar navbar-expand">
+	<ul class="navbar-nav">
+		<li class="navbar-item first">
+			<span class="navbar-text comment-name"><i class="fas fa-user-alt"></i> {{ item.username }}</span>
+		</li>
+		<li class="navbar-item">
+			<span class="navbar-text comment-date"><i class="fas fa-calendar-day"></i> {{ item.created|date('d-m-Y H:i:s') }}</span>
+		</li>
+		<li class="navbar-item">
+			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">{{ 'reply'|matla('Reply') }}</a>
+		</li>
+	</ul>
+	</nav>
+
+	{% if item.children|length %}
+
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': item.children, 'rl': (rl+1)} %}
+
+	{% endif %}
+
+</li>
+{% endfor %}
+
+</ul>
+</div>

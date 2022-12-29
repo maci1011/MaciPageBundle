@@ -162,6 +162,27 @@ $(document).ready(function(e) {
 		});
 	});
 
+	// Blog
+
+	$('.related-list.comments .comment-reply').each(function(i,el) {
+		$(el).click(function(e) {
+			e.preventDefault();
+			var wrp = $(el).parents('.related-list.comments').find('.addCommentWrapper'),
+				wcl = wrp.clone(),
+				cls = $('<button class="btn btn-danger" />').html('<i class="fas fa-times"></i>');
+			wrp.hide();
+			wcl.insertAfter($(el).parents('.navbar').first());
+			wcl.find('h4').text($(el).attr('alt'));
+			wcl.find('#comment__parent').val($(el).attr('hash'));
+			wcl.find('.form-group').last().append(cls);
+			cls.click(function(ev) {
+				ev.preventDefault();
+				wrp.show();
+				wcl.remove();
+			});
+		});
+	});
+
 	// Lightbox
 
 	maciLightbox();

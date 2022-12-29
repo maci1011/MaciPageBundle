@@ -170,5 +170,31 @@
 </section>
 {% endif %}
 
+<section class="related-list comments">
+
+	<h3 class="list-title related">
+		{{ 'blog.post.comments'|matra('Comments') }}:
+	</h3>
+
+	{% if post.comments|length %}
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.comments} %}
+	{% else %}
+	<h4 class="list-title no-comments">
+		{{ 'blog.post.no-comments'|matra('No comments here.') }}
+	</h4>
+	{% endif %}
+
+	<div class="addCommentWrapper">
+
+		<h4 class="list-title comments">
+			{{ 'blog.post.add-comment'|matra('Add a comment') }}:
+		</h4>
+
+		{% include "@MaciPage/Blog/_comment_form.html.twig" with {'form': commentForm} %}
+
+	</div>
+
+</section>
+
 </div>
 </article>

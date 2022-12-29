@@ -23,14 +23,23 @@
 <div class="row">
 <div class="col-12 col-sm-3">
 <div class="form-group">
-	<label class="required" for="data_quantity">Quantity</label>
-	<input id="data_quantity" class="form-control" type="number" value="1" />
+	<label class="required" for="code_type">Type</label>
+	<select id="code_type" class="form-control">
+		<option value="barcode">Barcode</option>
+		<option value="code">Code</option>
+	</select>
 </div>
 </div>
-<div class="col-12 col-sm-9">
+<div class="col-12 col-sm-6">
 <div class="form-group">
 	<label class="required" for="data_barcode">Barcode</label>
 	<input id="data_barcode" class="form-control" type="text" />
+</div>
+</div>
+<div class="col-12 col-sm-3">
+<div class="form-group">
+	<label class="required" for="data_quantity">Quantity</label>
+	<input id="data_quantity" class="form-control" type="number" value="1" />
 </div>
 </div>
 </div>

@@ -68,6 +68,10 @@ Maci\PageBundle\Entity\Blog\Post:
         preview:
             targetEntity: Maci\PageBundle\Entity\Media\Media
     oneToMany:
+        comments:
+            targetEntity: Maci\PageBundle\Entity\Blog\Comment
+            mappedBy: post
+            orderBy: { 'created': DESC }
         items:
             targetEntity: Maci\PageBundle\Entity\Blog\Item
             mappedBy: post
