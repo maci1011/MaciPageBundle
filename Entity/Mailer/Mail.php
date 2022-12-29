@@ -503,10 +503,10 @@ class Mail
 		if (!$list)
 			return false;
 
-		for ($i = 0; $i < count($list); $i++)
+		foreach ($list as $index => $item)
 		{
-			if ($list[$i]['mail'] == $mail && !$list[$i]['sended'])
-				return $list[$i];
+			if ($item['mail'] == $mail && !$item['sended'])
+				return $item;
 		}
 
 		return false;
@@ -567,11 +567,11 @@ class Mail
 		if (!$list)
 			return false;
 
-		for ($i = 0; $i < count($list); $i++)
+		foreach ($list as $index => $item)
 		{
-			if ($list[$i]['mail'] == $mail && !$list[$i]['sended'])
+			if ($item['mail'] == $mail && !$item['sended'])
 			{
-				$list[$i]['sended'] = $value ? $value : date("c", time());
+				$list[$index]['sended'] = $value ? $value : date("c", time());
 				$this->data['recipients'] = $list;
 				return true;
 			}
@@ -588,9 +588,9 @@ class Mail
 			return;
 
 		$found = false;
-		for ($i = 0; $i < count($list); $i++)
+		foreach ($list as $index => $item)
 		{
-			if (!$list[$i]['sended'])
+			if (!$item['sended'])
 			{
 				$list[$i]['sended'] = date("c", time());
 				$found = true;
@@ -602,7 +602,6 @@ class Mail
 			return false;
 
 		$this->data['recipients'] = $list;
-		$this->sended = true;
 
 		return true;
 	}
@@ -615,9 +614,9 @@ class Mail
 		if (!$list)
 			return;
 
-		for ($i = 0; $i < count($list); $i++)
+		foreach ($list as $index => $item)
 		{
-			if (!$list[$i]['sended'])
+			if (!$item['sended'])
 				$list[$i]['sended'] = date("c", time());
 		}
 

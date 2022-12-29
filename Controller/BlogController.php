@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 use Maci\PageBundle\Entity\Blog\Comment;
+use Maci\PageBundle\Entity\Mailer\Mail;
 use Maci\PageBundle\Form\Blog\CommentType;
 
 class BlogController extends AbstractController

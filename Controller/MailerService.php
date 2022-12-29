@@ -103,7 +103,7 @@ class MailerService extends AbstractController
 		else
 			$message = $mail->getSwiftMessage();
 
-		if (!$this->sendMessage($message))
+		if (!$message || !$this->sendMessage($message))
 			return false;
 
 		if ($subscriber)
