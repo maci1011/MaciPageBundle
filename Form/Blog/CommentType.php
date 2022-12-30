@@ -4,9 +4,10 @@ namespace Maci\PageBundle\Form\Blog;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
@@ -24,11 +25,11 @@ class CommentType extends AbstractType
 		$this->authorizationChecker = $authorizationChecker;
 	}
 
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([
 			'data_class' => 'Maci\PageBundle\Entity\Blog\Comment',
-			// 'cascade_validation' => true,
+			'env' => 'prod'
 		]);
 	}
 
@@ -36,7 +37,12 @@ class CommentType extends AbstractType
 	{
 		if ($this->authorizationChecker->isGranted('ROLE_USER'))
 		{
-			$builder->add('content');
+			$builder
+				->add('content')
+				->add('notify', CheckboxType::class, [
+					'required' => false
+				])
+			;
 		}
 		else
 		{
@@ -44,12 +50,20 @@ class CommentType extends AbstractType
 				->add('name')
 				->add('email')
 				->add('content')
-				->add('recaptcha', EWZRecaptchaType::class, [
+				->add('notify', CheckboxType::class, [
+					'required' => false
+				])
+				->add('newsletter', CheckboxType::class, [
+					'mapped' => false,
+					'required' => false
+				])
+			;
+			if($options['env'] === "prod")
+				$builder->add('recaptcha', EWZRecaptchaType::class, [
 					'label_attr'  => ['class'=> 'sr-only'],
 					'mapped'      => false,
 					'constraints' => [new RecaptchaTrue()]
-				])
-			;
+				]);
 		}
 
 		$builder->add('_parent', HiddenType::class, [
@@ -60,6 +74,6 @@ class CommentType extends AbstractType
 
 	public function getName()
 	{
-		return 'blog_tag';
+		return 'blog_comment';
 	}
 }

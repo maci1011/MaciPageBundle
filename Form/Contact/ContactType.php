@@ -45,12 +45,12 @@ class ContactType extends AbstractType
 			))
 			->add('media', FileType::class, array('mapped' => false, 'required' => false))
 			->add('message', TextareaType::class)
-			->add('privacy', CheckboxType::class, array(
+			->add('privacy', CheckboxType::class, [
 				'mapped' => false,
 				'constraints' => new IsTrue(array(
 					'message' => 'Please accept the Terms and Conditions'
 				))
-			))
+			])
 		;
 
 		if($options['env'] === "prod")

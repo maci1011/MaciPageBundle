@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Maci\PageBundle\Entity\Blog\Comment;
 use Maci\PageBundle\Entity\Mailer\Mail;
+use Maci\PageBundle\Entity\Mailer\Subscriber;
 use Maci\PageBundle\Form\Blog\CommentType;
 
 class BlogController extends AbstractController
@@ -79,7 +80,8 @@ class BlogController extends AbstractController
 
 		$commentForm = $this->createForm(CommentType::class, $comment, [
 			'action' => $this->generateUrl('maci_blog_add_comment', ['id' => $post->getId()]),
-			'method' => 'POST'
+			'method' => 'POST',
+			'env' => $this->get('kernel')->getEnvironment()
 		]);
 
 		return $this->render('@MaciPage/Blog/show.html.twig', array(
@@ -96,9 +98,9 @@ class BlogController extends AbstractController
 		$post = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')->findOneBy($params);
 
 		if (!$post)
-			return $this->redirect($this->generateUrl('maci_page', array('path' => 'post-not-found')));
+			return $this->redirect($this->generateUrl('maci_page', ['path' => 'post-not-found']));
 
-		return $this->redirect($this->generateUrl('maci_blog_show', array('path' => $post->getPath(), '_locale' => $post->getLocale())));
+		return $this->redirect($this->generateUrl('maci_blog_show', ['path' => $post->getPath(), '_locale' => $post->getLocale()]));
 	}
 
 	public function addCommentAction(Request $request, $id)
@@ -115,7 +117,8 @@ class BlogController extends AbstractController
 
 		$form = $this->createForm(CommentType::class, $comment, [
 			'action' => $this->generateUrl('maci_blog_add_comment', ['id' => $post->getId()]),
-			'method' => 'POST'
+			'method' => 'POST',
+			'env' => $this->get('kernel')->getEnvironment()
 		]);
 
 		$form->handleRequest($request);
@@ -125,6 +128,31 @@ class BlogController extends AbstractController
 			if ($this->isGranted('ROLE_USER'))
 				$comment->setUser($this->getUser());
 
+			if ($form->has('newsletter') && $form['newsletter']->getData())
+			{
+				$sub = $em->getRepository('MaciPageBundle:Mailer\Subscriber')->findOneBy([
+					'mail' => $comment->getEmail()
+				]);
+
+				if ($sub)
+				{
+					$this->get('session')->getFlashBag()->add('danger', $this->get('maci.translator')->getText('error.subscribe-error-comment', 'We are sorry, but this email can not be added to our newsletter. Contact us for more informations.'));
+				}
+				else
+				{
+					$sub = new Subscriber();
+					$sub->setName($comment->getName());
+					$sub->setMail($comment->getEmail());
+					$sub->setLocale($request->getLocale());
+					if ($this->isGranted('ROLE_USER'))
+						$sub->setUser($this->getUser());
+					$em->persist($sub);
+					$em->flush();
+					$this->get('maci.mailer')->notifyNewSubscription($sub);
+					$this->get('session')->getFlashBag()->add('success', $this->get('maci.translator')->getText('message.subscribe-success-comment', 'Thank you for signing up to our newsletter.'));
+				}
+			}
+
 			$hash = $form['_parent']->getData();
 			if (strlen($hash))
 			{
@@ -132,7 +160,9 @@ class BlogController extends AbstractController
 					'hash' => $hash //, 'removed' => false
 				]);
 				if ($rto)
+				{
 					$comment->setParent($rto);
+				}
 			}
 
 			if (!$comment->getParent())
@@ -152,23 +182,46 @@ class BlogController extends AbstractController
 		]);
 	}
 
-	public function sendNotify(Request $request, $comment)
+	public function approveCommentAction(Request $request, $hash)
 	{
-		$mt = $this->get('maci.translator');
+		$em = $this->getDoctrine()->getManager();
+		$comment = $em->getRepository('MaciPageBundle:Blog\Comment')->findOneBy([
+			'hash' => $hash, 'approved' => false //, 'removed' => false
+		]);
+
+		if (!$comment)
+			return $this->redirect($this->generateUrl('maci_blog'));
+
+		$post = $comment->getPostRec();
+		if (!$post)
+			return $this->redirect($this->generateUrl('maci_blog'));
+
+		$comment->setApproved(true);
+		$em->flush();
+
+		$this->sendNotify($comment);
+
+		return $this->redirect($this->generateUrl('maci_blog_show', [
+			'path' => $post->getPath(), '_locale' => $post->getLocale()
+		]) . '#cmm-' . $hash);
+	}
+
+	public function sendNotify($reply)
+	{
+		if (!$reply->getParent() || !$reply->getParent()->getNotify())
+			return;
 
 		$mail = new Mail();
 		$mail
-			->setName('ContactForm')
+			->setName('CommentNotify')
 			->setType('message')
-			->setSubject(str_replace('%name%', $comment->getFullName(), $mt->getLabel('contacts.mail-title', 'Messagge from: %name%')))
-			->setReplyTo($comment->getRecipient())
+			->setSubject(str_replace('%name%', $reply->getUsername(), $this->get('maci.translator')->getLabel('comments.mail-title', 'Reply from: %name%')))
 			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
-			->addRecipients([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
-			->setLocale($request->getLocale())
-			->setText($this->renderView('@MaciPage/Contact/email.txt.twig', ['comment' => $comment]))
-			->setContent($this->renderView('@MaciPage/Contact/email.html.twig', ['comment' => $comment]))
+			->addRecipients($reply->getParent()->getRecipient())
+			->setLocale($reply->getPostRec()->getLocale())
+			// ->setText($this->renderView('@MaciPage/Email/comment_reply.txt.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
+			->setContent($this->renderView('@MaciPage/Email/comment_reply.html.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
 		;
-
 		$this->get('maci.mailer')->send($mail);
 	}
 }

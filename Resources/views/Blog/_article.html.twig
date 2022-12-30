@@ -176,8 +176,10 @@
 		{{ 'blog.post.comments'|matra('Comments') }}:
 	</h3>
 
-	{% if post.comments|length %}
+	{% if is_granted('ROLE_ADMIN') and post.comments|length %}
 	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.comments} %}
+	{% elseif post.approvedComments|length %}
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.approvedComments} %}
 	{% else %}
 	<h4 class="list-title no-comments">
 		{{ 'blog.post.no-comments'|matra('No comments here.') }}

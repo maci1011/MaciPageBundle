@@ -20,6 +20,8 @@ Maci\PageBundle\Entity\Blog\Comment:
             type: text
         approved:
             type: boolean
+        notify:
+            type: boolean
         removed:
             type: boolean
         created:

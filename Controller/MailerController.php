@@ -68,8 +68,8 @@ class MailerController extends AbstractController
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$em = $this->getDoctrine()->getManager();
 
 			$item = $em->getRepository('MaciPageBundle:Mailer\Subscriber')
@@ -88,22 +88,7 @@ class MailerController extends AbstractController
 			$em->persist($subscriber);
 			$em->flush();
 
-			$mt = $this->get('maci.translator');
-
-			$mail = new Mail();
-			$mail
-				->setName('SubscriptionCompleted')
-				->setType('message')
-				->setSubject($mt->getLabel('newsletter.subscribtion-completed.mail-title', 'Subscription Completed'))
-				->setReplyTo([$this->get('service_container')->getParameter('contact_email') => $this->get('service_container')->getParameter('contact_email_int')])
-				->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
-				->addSubscribers([$subscriber])
-				->setLocale($request->getLocale())
-				// ->setText($this->renderView('@MaciPage/Email/subscription_complete.txt.twig', ['subscriber' => $subscriber]))
-				->setContent($this->renderView('@MaciPage/Email/subscription_complete.html.twig', ['subscriber' => $subscriber]))
-			;
-
-			$this->get('maci.mailer')->send($mail);
+			$this->get('maci.mailer')->notifyNewSubscription($subscriber);
 
 			return $this->redirect($this->generateUrl('maci_page', [
 				'path' => $this->get('maci.translator')->getRoute('newsletter.subscribe-completed', 'subscribtion-completed')

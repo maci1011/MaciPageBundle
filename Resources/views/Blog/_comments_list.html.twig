@@ -19,13 +19,25 @@
 		<li class="navbar-item">
 			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">{{ 'reply'|matla('Reply') }}</a>
 		</li>
+		{% if is_granted('ROLE_ADMIN') %}
+		<li class="navbar-item">
+			<span class="navbar-text comment-status {{ item.status }}">{{ item.status|capitalize }}</span>
+		</li>
+		{% if item.status == 'new' %}
+		<li class="navbar-item">
+			<a href="{{ path('maci_blog_approve_comment', {'hash': item.hash}) }}" class="nav-link comment-approve-link" alt="{{ 'approve'|matla('Approve') }}">
+				{{ 'approve'|matla('Approve') }}
+			</a>
+		</li>
+		{% endif %}
+		{% endif %}
 	</ul>
 	</nav>
 
-	{% if item.children|length %}
-
-	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': item.children, 'rl': (rl+1)} %}
-
+	{% if is_granted('ROLE_ADMIN') and item.children|length %}
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.comments} %}
+	{% elseif item.approvedReplys|length %}
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': item.approvedReplys, 'rl': (rl+1)} %}
 	{% endif %}
 
 </li>

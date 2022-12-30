@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Maci\PageBundle\Entity\Mailer\Mail;
 use Maci\PageBundle\Entity\Mailer\Subscriber;
+use Maci\TranslatorBundle\Controller\TranslatorController;
 
 class MailerService extends AbstractController
 {
@@ -15,6 +16,8 @@ class MailerService extends AbstractController
 	private $mailer;
 
 	private $templating;
+
+	private $translator;
 
 	private $env;
 
@@ -26,16 +29,22 @@ class MailerService extends AbstractController
 		ObjectManager $objectManager,
 		$_mailer,
 		TwigEngine $templating,
+		TranslatorController $translator,
 		string $_env,
 		string $_server_mail,
-		string $_server_header
+		string $_server_header,
+		string $_contact_mail,
+		string $_contact_header
 	) {
 		$this->om = $objectManager;
 		$this->mailer = $_mailer;
 		$this->templating = $templating;
+		$this->translator = $translator;
 		$this->env = $_env;
 		$this->server_mail = $_server_mail;
 		$this->server_header = $_server_header;
+		$this->contact_mail = $_contact_mail;
+		$this->contact_header = $_contact_header;
 	}
 
 	public function send(Mail &$mail, $notify = false)
@@ -151,5 +160,26 @@ class MailerService extends AbstractController
 			$this->mailer->send($notify);
 
 		return true;
+	}
+
+	public function notifyNewSubscription(Subscriber $subscriber)
+	{
+		$mail = new Mail();
+		$mail
+			->setName('SubscriptionCompleted')
+			->setType('message')
+			->setSubject($this->translator->getLabel('newsletter.subscribtion-completed.mail-title', 'Subscription Completed'))
+			->setReplyTo([$this->contact_mail => $this->contact_header])
+			->setSender([$this->server_mail => $this->server_header])
+			->addSubscribers([$subscriber])
+			->setLocale($subscriber->getLocale())
+			// ->setText($this->renderView('@MaciPage/Email/subscription_complete.txt.twig', ['subscriber' => $subscriber]))
+			->setContent($this->templating->render('@MaciPage/Email/subscription_complete.html.twig', [
+				'_locale' => $subscriber->getLocale(),
+				'subscriber' => $subscriber
+			]))
+		;
+
+		$this->send($mail);
 	}
 }

@@ -35,6 +35,11 @@ class Comment
 	/**
 	 * @var boolean
 	 */
+	private $notify;
+
+	/**
+	 * @var boolean
+	 */
 	private $removed;
 
 	/**
@@ -70,6 +75,7 @@ class Comment
 	{
 		$this->hash = uniqid();
 		$this->approved = false;
+		$this->notify = false;
 		$this->removed = false;
 	}
 
@@ -181,6 +187,30 @@ class Comment
 	}
 
 	/**
+	 * Set notify
+	 *
+	 * @param boolean $notify
+	 *
+	 * @return Comment
+	 */
+	public function setNotify($notify)
+	{
+		$this->notify = $notify;
+
+		return $this;
+	}
+
+	/**
+	 * Get notify
+	 *
+	 * @return boolean
+	 */
+	public function getNotify()
+	{
+		return $this->notify;
+	}
+
+	/**
 	 * Set removed
 	 *
 	 * @param boolean $removed
@@ -276,6 +306,18 @@ class Comment
 	}
 
 	/**
+	 * Get approved replys
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getApprovedReplys()
+	{
+		return $this->children->filter(function($e){
+			return $e->getApproved();
+		});
+	}
+
+	/**
 	 * Set post
 	 *
 	 * @param \Maci\PageBundle\Entity\Blog\Post $post
@@ -296,6 +338,14 @@ class Comment
 	public function getPost()
 	{
 		return $this->post;
+	}
+
+	public function getPostRec()
+	{
+		if ($this->post)
+			return $this->post;
+
+		return $this->parent ? $this->parent->getPostRec() : false;
 	}
 
 	/**
@@ -329,6 +379,22 @@ class Comment
 	public function getUsername()
 	{
 		return $this->user ? $this->user->getUsername() : $this->name;
+	}
+
+	public function getRecipient()
+	{
+		return $this->email ? [$this->email => $this->getName()] : null;
+	}
+
+	public function getStatus()
+	{
+		if ($this->removed)
+			return 'removed';
+
+		if ($this->approved)
+			return 'approved';
+
+		return 'new';
 	}
 
 	/**

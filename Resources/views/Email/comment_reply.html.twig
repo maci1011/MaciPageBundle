@@ -1,0 +1,30 @@
+<html>
+<head>
+
+<title>{{ 'order.mails.comment-reply'|matla('Comment Reply') }} | {{ company_title }}</title>
+
+{% include "@MaciPage/Email/_head.html.twig" %}
+
+</head>
+<body>
+
+{% include "@MaciPage/Email/_header.html.twig" %}
+
+{% include "@MaciPage/Email/_intro.html.twig" with {
+	'message': ('mail.comment-reply-text'|matra('there is a new reply on your comment to: ')) ~ post.title 
+} %}
+
+<table class="main wrapper">
+<tbody>
+<tr>
+	<td>
+		<a href="{{ url('maci_blog_show', {'_locale': post.locale, 'path': post.path}) }}#cmm-{{ reply.hash }}">{{ 'mail.comment-reply-button'|matra('Click here to read the reply.') }}</h3>
+	</td>
+</tr>
+</tbody>
+</table>
+
+{% include "@MaciPage/Email/_footer.html.twig" %}
+
+</body>
+</html>

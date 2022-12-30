@@ -13,6 +13,12 @@ maci_blog_add_comment:
     requirements:
         id: \d+
 
+maci_blog_approve_comment:
+    path:  /blog/approve-comment/{hash}
+    defaults: { _controller: MaciPageBundle:Blog:approveComment }
+    requirements:
+        hash: .+
+
 maci_blog_author:
     path:  /{_locale}/blog/author/{path}
     defaults: { _controller: MaciPageBundle:Blog:author }

@@ -568,6 +568,18 @@ class Post
 	}
 
 	/**
+	 * Get approved children
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getApprovedComments()
+	{
+		return $this->comments->filter(function($e){
+			return $e->getApproved();
+		});
+	}
+
+	/**
 	 * Add editors
 	 *
 	 * @param \Maci\PageBundle\Entity\Blog\Editor $editors
