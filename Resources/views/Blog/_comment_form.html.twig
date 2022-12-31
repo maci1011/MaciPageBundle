@@ -31,20 +31,16 @@
 
 	<div class="form-group">
 		<div class="checkbox">
-			<label for="comment_notify">
-				<input type="checkbox" id="comment_notify" name="comment[notify]" value="1">
-				{{ 'comment-notify'|matla('Get notified when someone replies to your comment.') }}
-			</label>
+			<input type="checkbox" id="comment_notify" name="comment[notify]" value="1">
+			<label for="comment_notify">{{ 'comment-notify'|matla('Get notified when someone replies to your comment.') }}</label>
 		</div>
 	</div>
 
 	{% if form.newsletter is defined %}
 	<div class="form-group">
 		<div class="checkbox">
-			<label for="comment_newsletter">
-				<input type="checkbox" id="comment_newsletter" name="comment[newsletter]" value="1">
-				{{ 'comment.subscribe-our-newsletter' | matra('Subscribe to our newsletter and stay updated on new articles.') }}
-			</label>
+			<input type="checkbox" id="comment_newsletter" name="comment[newsletter]" value="1">
+			<label for="comment_newsletter">{{ 'comment.subscribe-our-newsletter' | matra('Subscribe to our newsletter and stay updated on new articles.') }}</label>
 		</div>
 	</div>
 	{% endif %}
