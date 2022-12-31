@@ -1,2 +1,67 @@
 
-{{ form(form) }}
+{{ form_start(form) }}
+
+	{% if not form.vars.valid %}
+	<div class="form-group">
+		{{ form_errors(form) }}
+	</div>
+	{% endif %}
+
+	{% if form.name is defined %}
+	<div class="form-group">
+		<label class="control-label" for="comment_name">{{ 'name'|matla('Name') }}</label>
+		<input id="comment_name" class="form-control" type="text" name="comment[name]" placeholder="{{ 'name'|matla('Name') }}" />
+		<div class="form-errors">{{ form_errors(form.name) }}</div>
+	</div>
+	{% endif %}
+
+	{% if form.email is defined %}
+	<div class="form-group">
+		<label class="control-label" for="comment_email">{{ 'email'|matla('Email') }}</label>
+		<input id="comment_email" class="form-control" type="text" maxlength="63" name="comment[email]" placeholder="{{ 'email'|matla('Email') }}" />
+		<div class="form-errors">{{ form_errors(form.email) }}</div>
+	</div>
+	{% endif %}
+
+	<div class="form-group">
+		<label class="required" for="comment_content">{{ 'comment'|matla('Comment') }}</label>
+		<textarea id="comment_content" class="form-control" required="required" name="comment[content]" placeholder="{{ 'comment'|matla('Comment') }}"></textarea>
+		<div class="form-errors">{{ form_errors(form.content) }}</div>
+	</div>
+
+	<div class="form-group">
+		<div class="checkbox">
+			<label for="comment_notify">
+				<input type="checkbox" id="comment_notify" name="comment[notify]" value="1"> {{ 'comment-notify'|matla('Get notified when someone replies to your comment.') }}
+			</label>
+		</div>
+	</div>
+
+	{% if form.newsletter is defined %}
+	<div class="form-group">
+		<div class="checkbox">
+			<label for="comment_newsletter">
+				<input type="checkbox" id="comment_newsletter" name="comment[newsletter]" value="1"> {{ 'comment.subscribe-our-newsletter' | matra('Subscribe to our newsletter and stay updated on new articles.') }}
+			</label>
+		</div>
+	</div>
+	{% endif %}
+
+	{{ form_row(form._parent) }}
+
+	{{ form_row(form._token) }}
+
+	{% if form.recaptcha is defined %}
+	{{ form_row(form.recaptcha) }}
+	{% endif %}
+
+	{% if not is_granted('ROLE_USER') %}
+	{% include "@MaciPage/Form/_optional_fields.html.twig" %}
+	{% endif %}
+
+	<div class="form-group">
+		<button type="submit" name="comment[send_comment]" class="send_comment btn btn-success">{{ 'send-comment'|matla('Send Comment') }}</button>
+	</div>
+
+{{ form_end(form, {'render_rest': false}) }}
+

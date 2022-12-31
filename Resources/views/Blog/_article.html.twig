@@ -181,14 +181,14 @@
 	{% elseif post.approvedComments|length %}
 	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.approvedComments} %}
 	{% else %}
-	<h4 class="list-title no-comments">
+	<h4 class="pc-title no-comments">
 		{{ 'blog.post.no-comments'|matra('No comments here.') }}
 	</h4>
 	{% endif %}
 
 	<div class="addCommentWrapper">
 
-		<h4 class="list-title comments">
+		<h4 class="pc-title add-comment">
 			{{ 'blog.post.add-comment'|matra('Add a comment') }}:
 		</h4>
 

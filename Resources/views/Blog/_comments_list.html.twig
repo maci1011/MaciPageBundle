@@ -35,7 +35,7 @@
 	</nav>
 
 	{% if is_granted('ROLE_ADMIN') and item.children|length %}
-	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.comments} %}
+	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': item.children, 'rl': (rl+1)} %}
 	{% elseif item.approvedReplys|length %}
 	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': item.approvedReplys, 'rl': (rl+1)} %}
 	{% endif %}
