@@ -10,14 +10,16 @@
 
 	<nav class="navbar navbar-expand">
 	<ul class="navbar-nav">
-		<li class="navbar-item first">
-			<span class="navbar-text comment-name"><i class="fas fa-user-alt"></i> {{ item.username }}</span>
+		{% if rl == 1 %}
+		<li class="navbar-item">
+			<span class="navbar-text comment-number">#{{ loop.index }}</span>
 		</li>
+		{% endif %}
 		<li class="navbar-item">
 			<span class="navbar-text comment-date"><i class="fas fa-calendar-day"></i> {{ item.created|date('d-m-Y H:i:s') }}</span>
 		</li>
-		<li class="navbar-item">
-			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">{{ 'reply'|matla('Reply') }}</a>
+		<li class="navbar-item first">
+			<span class="navbar-text comment-name"><i class="fas fa-user-alt"></i> {{ item.username }}</span>
 		</li>
 		{% if is_granted('ROLE_ADMIN') %}
 		<li class="navbar-item">
@@ -30,6 +32,11 @@
 			</a>
 		</li>
 		{% endif %}
+		{% endif %}
+		{% if item.status == 'approved' %}
+		<li class="navbar-item">
+			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">{{ 'reply'|matla('Reply') }}</a>
+		</li>
 		{% endif %}
 	</ul>
 	</nav>

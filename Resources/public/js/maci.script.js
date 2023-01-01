@@ -172,7 +172,22 @@ $(document).ready(function(e) {
 				cls = $('<button class="btn btn-danger" />').html('<i class="fas fa-times"></i>');
 			wrp.hide();
 			wcl.insertAfter($(el).parents('.navbar').first());
-			wcl.find('h4').text($(el).attr('alt'));
+			wcl.find('h4').text($(el).attr('alt') + ':');
+			wcl.find('#comment_notify').click(function(e) {
+				console.log('x');
+				var ml = wcl.find('#comment_email');
+				if (!ml.length) return;
+				if ($(this).is(':checked'))
+				{
+					ml.prev().addClass('required');
+					ml.attr('required', 'required');
+				}
+				else
+				{
+					ml.prev().removeClass('required');
+					ml.removeAttr('required');
+				}
+			}).click().click();
 			wcl.find('#comment__parent').val($(el).attr('hash'));
 			wcl.find('.form-group').last().append(cls);
 			cls.click(function(ev) {
@@ -181,6 +196,23 @@ $(document).ready(function(e) {
 				wcl.remove();
 			});
 		});
+	});
+
+	$('.addCommentWrapper > form').each(function(i,el) {
+		$(el).find('#comment_notify').click(function(e) {
+			var ml = $(el).find('#comment_email');
+			if (!ml.length) return;
+			if ($(this).is(':checked'))
+			{
+				ml.prev().addClass('required');
+				ml.attr('required', 'required');
+			}
+			else
+			{
+				ml.prev().removeClass('required');
+				ml.removeAttr('required');
+			}
+		}).click().click();
 	});
 
 	// Lightbox
