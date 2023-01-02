@@ -85,7 +85,7 @@ var maciShopExport = function (options) {
 							'value': 'exprt'
 						}]
 					}
-				}
+				},
 				'code': barcodeInput.val().trim()
 			},
 			url: '/record/export-record',
