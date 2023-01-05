@@ -13,7 +13,7 @@
 
 {% include "MaciPageBundle:Shop:_item.html.twig" %}
 
-{% if ( loop.index % 4 ) == 0 %}
+{% if (loop.index % 4) == 0 and not loop.last %}
 
 </div>
 

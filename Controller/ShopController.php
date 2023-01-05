@@ -4,18 +4,20 @@ namespace Maci\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Maci\AdminBundle\MaciPager as Pager;
 
 class ShopController extends AbstractController
 {
-	public function indexAction()
+	public function indexAction(Request $request)
 	{
 		return $this->render('MaciPageBundle:Shop:index.html.twig', [
-			'list' => $this->getDoctrine()->getManager()
+			'pager' => $this->getPager($request, $this->getDoctrine()->getManager()
 				->getRepository('MaciPageBundle:Shop\Product')->getList()
+			)
 		]);
 	}
 
-	public function categoryAction($path)
+	public function categoryAction(Request $request, $path)
 	{
 		$om = $this->getDoctrine()->getManager();
 		$category = $om->getRepository('MaciPageBundle:Shop\Category')
@@ -34,10 +36,15 @@ class ShopController extends AbstractController
 		$list = $om->getRepository('MaciPageBundle:Shop\Product')
 			->getByCategory($category);
 
-		return $this->render('MaciPageBundle:Shop:category.html.twig', array(
+		return $this->render('MaciPageBundle:Shop:category.html.twig', [
 			'category' => $category,
-			'list' => $list
-		));
+			'pager' => $this->getPager($request, $list)
+		]);
+	}
+
+	public function getPager($request, $list)
+	{
+		return new Pager($list, 32, 5, intval($request->get('p', 1)));
 	}
 
 	public function showAction($path)

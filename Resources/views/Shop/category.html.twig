@@ -1,26 +1,16 @@
-
 {% extends "@MaciPage/Layout/shop.html.twig" %}
 
-
 {% block maciadmin %}
-
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'category', 'item': category } )) }}
-
 {% endblock %}
 
-
 {% block title %}
-
 {{ category }}
-
 {% endblock %}
 
 {% block description %}
-
 <meta name="description" content="{{ category.description }}" />
-
 {% endblock %}
-
 
 {#% block pathBar %}
 <nav class="breadcrumb-wrapper" aria-label="breadcrumb">
@@ -42,9 +32,7 @@
 </nav>
 {% endblock %#}
 
-
 {% block content %}
-
 {#}
 <header class="category-header container-fluid">
 
@@ -56,10 +44,6 @@
 
 </header>
 {#}
-
-{% include "MaciPageBundle:Shop:_list.html.twig" %}
-
+{% include "@MaciPage/Shop/_list.html.twig" with {'list': pager.pageList} %}
+{% include "@MaciPage/Page/_list_pagination.html.twig" %}
 {% endblock %}
-
-
-

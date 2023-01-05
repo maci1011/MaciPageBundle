@@ -1,31 +1,19 @@
-
 {% extends "@MaciPage/Layout/shop.html.twig" %}
 
-
 {% block maciadmin %}
-
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'product' } )) }}
-
 {{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'category' } )) }}
-
 {% endblock %}
 
-
 {% block title %}
-
 {{ 'product.index.meta_title' | matra('Shop') }}
-
 {% endblock %}
 
 {% block description %}
-
 <meta name="description" content="{{ 'product.index.meta_description' | matra('Visit our Shop!') }}" />
-
 {% endblock %}
 
-
 {% block content %}
-
-{% include "MaciPageBundle:Shop:_list.html.twig" %}
-
+{% include "@MaciPage/Shop/_list.html.twig" with {'list': pager.pageList} %}
+{% include "@MaciPage/Page/_list_pagination.html.twig" %}
 {% endblock %}
