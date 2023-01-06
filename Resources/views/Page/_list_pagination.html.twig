@@ -21,7 +21,7 @@
 	</li>
 	{% endif %}
 	{% for page in pager.getPageRange %}
-	<li {% if pager.current(page) %}class="active"{% endif %}>
+	<li class="nav-item{% if pager.current(page) %} active{% endif %}">
 		<a class="nav-link btn" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all)|merge({ "p": page })) }}">
 			{{ page }}
 		</a>
