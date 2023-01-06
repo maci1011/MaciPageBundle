@@ -11,7 +11,6 @@ class ProductRepository extends EntityRepository
 		$query = $this->createQueryBuilder('p');
 		$this->addProductListFilters($query);
 		$query = $query->setMaxResults($max);
-
 		return $query->getQuery()->getResult();
 	}
 
@@ -19,8 +18,6 @@ class ProductRepository extends EntityRepository
 	{
 		$query = $this->createQueryBuilder('p');
 		$this->addProductListFilters($query);
-		$query = $query->setMaxResults(60);
-
 		return $query->getQuery()->getResult();
 	}
 
@@ -29,7 +26,6 @@ class ProductRepository extends EntityRepository
 		$query = $this->createQueryBuilder('p');
 		$this->addProductListFilters($query);
 		$query = $query->andWhere('p.sale IS NOT NULL');
-
 		return $query->getQuery()->getResult();
 	}
 
@@ -39,7 +35,6 @@ class ProductRepository extends EntityRepository
 			->where('p.path = :path')
 			->setParameter(':path', $path);
 		$this->addProductFilters($query);
-
 		return $query->getQuery()->getOneOrNullResult();
 	}
 
@@ -51,7 +46,6 @@ class ProductRepository extends EntityRepository
 			->where('c.id = :id')
 			->setParameter(':id', $category->getId());
 		$this->addProductListFilters($query);
-
 		return $query->getQuery()->getResult();
 	}
 
@@ -60,14 +54,14 @@ class ProductRepository extends EntityRepository
 		self::addProductFilters($query);
 		$query = $query
 			->andWhere('0 < p.quantity')
+			->andWhere('p.removed = false')
 			->orderBy('p.updated', 'DESC');
 	}
 
 	public static function addProductFilters(&$query)
 	{
 		$query = $query
-			->andWhere('p.public = true')
-			->andWhere('p.removed = false');
+			->andWhere('p.public = true');
 	}
 
 	public function search($request)
@@ -82,7 +76,6 @@ class ProductRepository extends EntityRepository
 			->setParameter(':query', "%$query%")
 			->setParameter(':locale', $locale)
 		;
-
 		return $search->getQuery()->getResult();
 	}
 }
