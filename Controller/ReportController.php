@@ -392,6 +392,83 @@ class ReportController extends AbstractController
 		]);
 	}
 
+	public function backsAction(Request $request, $setId)
+	{
+		if (!$this->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$om = $this->getDoctrine()->getManager();
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId], ['code' => 'ASC']);
+		$products = [];
+		$lasts = [];
+
+		foreach ($records as $record)
+		{
+			$product = $this->getProduct($record, $lasts);
+
+			if (!$product)
+			{
+				echo "Product with code " . $record->getCode() . " and variant '" . $record->getVariantLabel() . "' not found.";
+				die();
+			}
+
+			array_push($products, $product);
+		}
+
+		$list = [];
+		$i = 0;
+		$qta = 0;
+		foreach ($records as $record)
+		{
+			$label = $record->getCode() . '-' . $products[$i]->getVariant();
+			$variant = (1 < $record->getQuantity() ? $record->getQuantity() . ' ' : '') . $record->getVariantName();
+			if (strtolower($variant) == 'simple') $variant = '-';
+			if (array_key_exists($label, $list))
+			{
+				$x = $list[$label]['quantity'];
+				$list[$label]['quantity'] = $x + $record->getQuantity();
+				$x = $list[$label]['variants'];
+				$list[$label]['variants'] = $x . ', ' . $variant;
+			}
+			else
+			{
+				$list[$label] = [
+					'code' => $record->getCode(),
+					'category' => $record->getCategory(),
+					'quantity' => $record->getQuantity(),
+					'variant' => $products[$i]->getVariant(),
+					'variants' => $variant,
+					'price' => $products[$i]->getPriceLabel()
+				];
+			}
+			$qta += $record->getQuantity();
+			$i++;
+		}
+
+		return new PdfResponse(
+			$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/report_pdf.html.twig', [
+				'list' => $list,
+				'products' => $products,
+				'qta' => $qta
+			]), $defaults),
+			'report.pdf'
+		);
+
+		// return PDF
+
+		return $this->getPDF([
+			'headers' => $titles,
+			'list' => $slist,
+			'amounts' => [$tot],
+			'footers' => [
+				$this->container->getParameter('company_title'),
+				'REPORT: Shop > Products',
+				date("Y/m/d H:i:s")
+			],
+			'filename' => 'report-shop-products.pdf'
+		]);
+	}
+
 	public function getPDF($params, $options = [])
 	{
 		$snappy = new Snappy($this->container->getParameter('knp_snappy.pdf.binary'));
@@ -418,7 +495,7 @@ class ReportController extends AbstractController
 			'margin-left'  => 0,
 			'encoding' => 'utf-8',
 			'images' => true,
-			'cookie' => array(),
+			'cookie' => [],
 			'dpi' => 300,
 			'page-size' => 'A4',
 			'enable-external-links' => true,
@@ -431,7 +508,44 @@ class ReportController extends AbstractController
 		);
 	}
 
-	public function sub($list, $quantity)
+	public function getProduct($record, &$list)
+	{
+		$product = false;
+		foreach ($list as $item)
+		{
+			if ($item->checkRecord($record) && !$product)
+			{
+				$product = $item;
+				break;
+			}
+		}
+		if (!$product)
+		{
+			$product = $this->findProduct($record);
+			if ($product)
+				array_push($list, $product);
+		}
+		return $product;
+	}
+
+	public function findProduct($record)
+	{
+		$list = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')->findBy([
+			'code' => $record->getCode()
+		]);
+		$product = false;
+		foreach ($list as $item)
+		{
+			if ($item->checkRecord($record))
+			{
+				$product = $item;
+				break;
+			}
+		}
+		return $product;
+	}
+
+	public static function sub($list, $quantity)
 	{
 		for ($i = count($list) - 1; 0 <= $i; $i--)
 		{ 
@@ -449,7 +563,7 @@ class ReportController extends AbstractController
 		return $list;
 	}
 
-	public function tot($list)
+	public static function tot($list)
 	{
 		$t = 0;
 		foreach ($list as $value)
