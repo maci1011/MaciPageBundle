@@ -26,8 +26,9 @@ class ShopController extends AbstractController
 		if (!$category)
 		{
 			if ($path == 'promo') return $this->render('MaciPageBundle:Shop:index.html.twig', [
-				'list' => $this->getDoctrine()->getManager()
+				'pager' => $this->getPager($request, $this->getDoctrine()->getManager()
 					->getRepository('MaciPageBundle:Shop\Product')->getPromo()
+				)
 			]);
 
 			return $this->redirect($this->generateUrl('maci_product'));
