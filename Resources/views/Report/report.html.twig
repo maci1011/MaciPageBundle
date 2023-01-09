@@ -21,6 +21,7 @@
 {% if headers|length %}
 <thead>
 <tr>
+	<th>#</th>
 	{% for id, header in headers %}
 	<th>{{ header }}</th>
 	{% endfor %}
@@ -31,10 +32,13 @@
 <tr><td class="spacer"></td></tr>
 {% endif %}
 
-<tr class="{{ loop.index is even ? 'even' : 'odd' }}">
+<tr class="row {{ loop.index is even ? 'even' : 'odd' }}">
+	<td class="cell">
+		<span class="row-index">{{ loop.index }}</span>
+	</td>
 	{% for id, cell in row %}
-	<td>
-		<h4 class="cell">{{ cell }}</h4>
+	<td class="cell">
+		<h4 class="cell-text">{{ cell }}</h4>
 	</td>
 	{% endfor %}
 </tr>
@@ -46,6 +50,7 @@
 <tr><td class="spacer"></td></tr>
 {% else %}
 <tr class="amounts">
+	<th>#</th>
 	{% for cell in amount %}
 	<th>{{ cell }}</th>
 	{% endfor %}

@@ -532,7 +532,8 @@ class RecordController extends AbstractController
 
 		$setId = $request->get('setId');
 
-		if (!$setId) {
+		if (!$setId)
+		{
 			$request->getSession()->getFlashBag()->add('danger', 'Bad Request.');
 			return $this->redirect($this->generateUrl('maci_record_labels'));
 		}
@@ -570,7 +571,7 @@ class RecordController extends AbstractController
 			'margin-left'  => 0,
 			'encoding' => 'utf-8',
 			'images' => true,
-			'cookie' => array(),
+			'cookie' => [],
 			'dpi' => 300,
 			'enable-external-links' => true,
 			'enable-internal-links' => true
