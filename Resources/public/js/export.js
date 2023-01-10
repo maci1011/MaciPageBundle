@@ -144,8 +144,8 @@ var maciShopExport = function (options) {
 	},
 
 	toggleBarcode: function() {
-		if (_obj.check()) barcodeInput.parents('.row').first().hide();
-		else barcodeInput.parents('.row').first().show();
+		if (_obj.check()) barcodeInput.parents('.toggleContainer').first().hide();
+		else barcodeInput.parents('.toggleContainer').first().show();
 	},
 
 	set: function(_form) {
@@ -162,6 +162,7 @@ var maciShopExport = function (options) {
 		});
 		setInput.change(function(e) {
 			_obj.toggleBarcode();
+			form.find('#btn_export').attr('href', '/record/reports/export-set/' + setInput.val());
 		});
 		typeInput.change(function(e) {
 			_obj.toggleBarcode();

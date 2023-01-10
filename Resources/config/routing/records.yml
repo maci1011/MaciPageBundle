@@ -1,12 +1,4 @@
 
-maci_record_import:
-    path:     /record/import
-    defaults: { _controller: MaciPageBundle:Record:import, section: records }
-
-maci_record_export:
-    path:     /record/export
-    defaults: { _controller: MaciPageBundle:Record:export, section: records }
-
 maci_record_reports:
     path:     /record/reports
     defaults: { _controller: MaciPageBundle:Report:index, section: records }
@@ -23,13 +15,11 @@ maci_record_reports_store:
     path:     /record/reports/store
     defaults: { _controller: MaciPageBundle:Report:store }
 
-maci_record_load_unsetted_records:
-    path:     /record/load-unsetted-records
-    defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords, section: records }
-
-maci_record_export_record:
-    path:     /record/export-record
-    defaults: { _controller: MaciPageBundle:Record:exportRecord, section: records }
+maci_record_reports_export_set:
+    path:     /record/reports/export-set/{id}
+    defaults: { _controller: MaciPageBundle:Report:backs }
+    requirements:
+        id: \d+
 
 maci_record_labels:
     path:     /record/labels
@@ -42,3 +32,19 @@ maci_record_get_labels:
 maci_record_get_report:
     path:     /record/get-report
     defaults: { _controller: MaciPageBundle:Record:getLabels, section: records, template: report }
+
+maci_record_import:
+    path:     /record/import
+    defaults: { _controller: MaciPageBundle:Record:import, section: records }
+
+maci_record_export:
+    path:     /record/export
+    defaults: { _controller: MaciPageBundle:Record:export, section: records }
+
+maci_record_export_record:
+    path:     /record/export-record
+    defaults: { _controller: MaciPageBundle:Record:exportRecord, section: records }
+
+maci_record_load_unsetted_records:
+    path:     /record/load-unsetted-records
+    defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords, section: records }

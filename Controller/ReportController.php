@@ -392,80 +392,68 @@ class ReportController extends AbstractController
 		]);
 	}
 
-	public function backsAction(Request $request, $setId)
+	public function backsAction(Request $request, $id)
 	{
 		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
 
 		$om = $this->getDoctrine()->getManager();
-		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(['parent' => $setId], ['code' => 'ASC']);
-		$products = [];
-		$lasts = [];
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(
+			['parent' => $id], ['code' => 'ASC']
+		);
 
-		foreach ($records as $record)
-		{
-			$product = $this->getProduct($record, $lasts);
-
-			if (!$product)
-			{
-				echo "Product with code " . $record->getCode() . " and variant '" . $record->getVariantLabel() . "' not found.";
-				die();
-			}
-
-			array_push($products, $product);
-		}
+		$titles = [
+			'Code',
+			'Variant',
+			'Category',
+			'Quantity'
+		];
 
 		$list = [];
-		$i = 0;
 		$qta = 0;
 		foreach ($records as $record)
 		{
-			$label = $record->getCode() . '-' . $products[$i]->getVariant();
+			$label = $record->getCode() . '-' . $record->getVariantLabel();
 			$variant = (1 < $record->getQuantity() ? $record->getQuantity() . ' ' : '') . $record->getVariantName();
 			if (strtolower($variant) == 'simple') $variant = '-';
 			if (array_key_exists($label, $list))
 			{
-				$x = $list[$label]['quantity'];
-				$list[$label]['quantity'] = $x + $record->getQuantity();
-				$x = $list[$label]['variants'];
-				$list[$label]['variants'] = $x . ', ' . $variant;
+				$x = $list[$label][3];
+				$list[$label][3] = $x + $record->getQuantity();
 			}
 			else
 			{
 				$list[$label] = [
-					'code' => $record->getCode(),
-					'category' => $record->getCategory(),
-					'quantity' => $record->getQuantity(),
-					'variant' => $products[$i]->getVariant(),
-					'variants' => $variant,
-					'price' => $products[$i]->getPriceLabel()
+					0 => $record->getCode(),
+					1 => $record->getVariantLabel(),
+					2 => $record->getCategory(),
+					3 => $record->getQuantity()
 				];
 			}
 			$qta += $record->getQuantity();
-			$i++;
 		}
 
-		return new PdfResponse(
-			$snappy->getOutputFromHtml($this->renderView('@MaciPage/Record/report_pdf.html.twig', [
-				'list' => $list,
-				'products' => $products,
-				'qta' => $qta
-			]), $defaults),
-			'report.pdf'
-		);
+		// Amounts
+
+		$tot = [
+			0 => 'Amount:',
+			1 => '',
+			2 => '',
+			3 => $qta
+		];
 
 		// return PDF
 
 		return $this->getPDF([
 			'headers' => $titles,
-			'list' => $slist,
+			'list' => $list,
 			'amounts' => [$tot],
 			'footers' => [
 				$this->container->getParameter('company_title'),
-				'REPORT: Shop > Products',
+				'REPORT: Export > Set',
 				date("Y/m/d H:i:s")
 			],
-			'filename' => 'report-shop-products.pdf'
+			'filename' => 'report-export-set.pdf'
 		]);
 	}
 
