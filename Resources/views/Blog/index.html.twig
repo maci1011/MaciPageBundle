@@ -29,5 +29,6 @@
 {% endblock %}
 
 {% block content %}
-{% include "@MaciPage/Blog/_list.html.twig" %}
+{% include "@MaciPage/Blog/_list.html.twig" with {'list': pager.pageList} %}
+{% include "@MaciPage/Page/_list_pagination.html.twig" %}
 {% endblock %}

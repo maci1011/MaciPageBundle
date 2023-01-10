@@ -5,6 +5,7 @@ namespace Maci\PageBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
+use Maci\AdminBundle\MaciPager as Pager;
 use Maci\PageBundle\Entity\Blog\Comment;
 use Maci\PageBundle\Entity\Mailer\Mail;
 use Maci\PageBundle\Entity\Mailer\Subscriber;
@@ -14,21 +15,22 @@ class BlogController extends AbstractController
 {
 	public function indexAction(Request $request)
 	{
-		return $this->render('@MaciPage/Blog/index.html.twig', array(
-			'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
-				->getLatestPosts($request->getLocale())
-		));
+		return $this->render('@MaciPage/Blog/index.html.twig', [
+			'pager' => $this->getPager($request, $this->getDoctrine()->getManager()
+				->getRepository('MaciPageBundle:Blog\Post')->getLatestPosts($request->getLocale())
+			)
+		]);
 	}
 
 	public function lastPostsAction(Request $request)
 	{
-		return $this->render('@MaciPage/Blog/last_posts.html.twig', array(
+		return $this->render('@MaciPage/Blog/last_posts.html.twig', [
 			'list' => $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Blog\Post')
 				->getLatestPosts($request->getLocale(), 6)
-		));
+		]);
 	}
 
-	public function tagAction($path)
+	public function tagAction(Request $request, $path)
 	{
 		$om = $this->getDoctrine()->getManager();
 		$tag = $om->getRepository('MaciPageBundle:Blog\Tag')
@@ -41,7 +43,7 @@ class BlogController extends AbstractController
 			->getByTag($tag);
 
 		return $this->render('@MaciPage/Blog/tag.html.twig', [
-			'list' => $list,
+			'pager' => $this->getPager($request, $list),
 			'tag' => $tag
 		]);
 	}
@@ -62,6 +64,11 @@ class BlogController extends AbstractController
 			'list' => $list,
 			'author' => $author
 		]);
+	}
+
+	public function getPager($request, $list)
+	{
+		return new Pager($list, 17, 5, intval($request->get('p', 1)));
 	}
 
 	public function showAction(Request $request, $path)
@@ -162,6 +169,8 @@ class BlogController extends AbstractController
 				if ($rto)
 				{
 					$comment->setParent($rto);
+					if ($rto->getUser())
+						$this->get('maci.notify')->notifyTo($rto->getUser(), $this->get('maci.translator')->getText('notify.blog.new-reply', 'There is a new reply to your comment.'));
 				}
 			}
 
