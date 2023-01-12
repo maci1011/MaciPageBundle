@@ -151,7 +151,7 @@ class BlogController extends AbstractController
 					$sub->setName($comment->getName());
 					$sub->setMail($comment->getEmail());
 					$sub->setLocale($request->getLocale());
-					if ($this->isGranted('ROLE_USER'))
+					if ($this->isGranted('ROLE_USER') === true)
 						$sub->setUser($this->getUser());
 					$em->persist($sub);
 					$em->flush();
@@ -169,8 +169,6 @@ class BlogController extends AbstractController
 				if ($rto)
 				{
 					$comment->setParent($rto);
-					if ($rto->getUser())
-						$this->get('maci.notify')->notifyTo($rto->getUser(), $this->get('maci.translator')->getText('notify.blog.new-reply', 'There is a new reply to your comment.'));
 				}
 			}
 
@@ -179,6 +177,8 @@ class BlogController extends AbstractController
 
 			$em->persist($comment);
 			$em->flush();
+
+			// $this->sendAdminNotify($comment);
 
 			return $this->redirect($this->generateUrl('maci_blog_show', [
 				'_locale' => $post->getLocale(), 'path' => $post->getPath()
@@ -208,7 +208,16 @@ class BlogController extends AbstractController
 		$comment->setApproved(true);
 		$em->flush();
 
-		$this->sendNotify($comment);
+		if ($comment->getParent())
+		{
+			if (!$comment->getParent()->getNotify())
+				return;
+
+			if ($comment->getParent()->getUser())
+				$this->get('maci.notify')->notifyTo($comment->getParent()->getUser(), $this->get('maci.translator')->getText('notify.blog.new-reply', 'There is a new reply to your comment.'));
+			else
+				$this->sendNotify($comment);
+		}
 
 		return $this->redirect($this->generateUrl('maci_blog_show', [
 			'path' => $post->getPath(), '_locale' => $post->getLocale()
@@ -217,9 +226,22 @@ class BlogController extends AbstractController
 
 	public function sendNotify($reply)
 	{
-		if (!$reply->getParent() || !$reply->getParent()->getNotify())
-			return;
+		$mail = new Mail();
+		$mail
+			->setName('CommentNotify')
+			->setType('message')
+			->setSubject(str_replace('%name%', $reply->getUsername(), $this->get('maci.translator')->getLabel('comments.mail-title', 'Reply from: %name%')))
+			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
+			->addRecipients($reply->getParent()->getRecipient())
+			->setLocale($reply->getPostRec()->getLocale())
+			// ->setText($this->renderView('@MaciPage/Email/comment_reply.txt.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
+			->setContent($this->renderView('@MaciPage/Email/comment_reply.html.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
+		;
+		$this->get('maci.mailer')->send($mail);
+	}
 
+	public function sendAdminNotify($comment)
+	{
 		$mail = new Mail();
 		$mail
 			->setName('CommentNotify')
