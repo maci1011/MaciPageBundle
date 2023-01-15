@@ -60,7 +60,9 @@
 	{% endif %}
 
 	<div class="form-group">
-		<button type="submit" name="comment[send_comment]" class="send_comment btn btn-success">{{ 'send-comment'|matla('Send Comment') }}</button>
+		<button type="submit" name="comment[send_comment]" class="send_comment btn btn-primary">
+			{{ 'send-comment'|matla('Send Comment') }}
+		</button>
 	</div>
 
 {{ form_end(form, {'render_rest': false}) }}
