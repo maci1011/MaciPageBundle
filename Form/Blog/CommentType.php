@@ -37,12 +37,7 @@ class CommentType extends AbstractType
 	{
 		if ($this->authorizationChecker->isGranted('ROLE_USER'))
 		{
-			$builder
-				->add('content')
-				->add('notify', CheckboxType::class, [
-					'required' => false
-				])
-			;
+			$builder->add('content');
 		}
 		else
 		{

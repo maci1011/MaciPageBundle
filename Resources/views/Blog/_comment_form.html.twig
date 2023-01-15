@@ -29,12 +29,14 @@
 		<div class="form-errors">{{ form_errors(form.content) }}</div>
 	</div>
 
+	{% if form.notify is defined %}
 	<div class="form-group">
 		<div class="checkbox">
 			<input type="checkbox" id="comment_notify" name="comment[notify]" value="1">
 			<label for="comment_notify">{{ 'comment-notify'|matla('Get notified when someone replies to your comment.') }}</label>
 		</div>
 	</div>
+	{% endif %}
 
 	{% if form.newsletter is defined %}
 	<div class="form-group">

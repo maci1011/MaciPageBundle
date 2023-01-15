@@ -10,11 +10,13 @@
 
 	<nav class="navbar navbar-expand">
 	<ul class="navbar-nav">
-		{% if rl == 1 %}
 		<li class="navbar-item">
-			<span class="navbar-text comment-number">#{{ loop.index }}</span>
+			{% if rl == 1 %}
+			<span class="navbar-text comment-number"><i class="fas fa-hashtag"></i>{{ loop.index }}</span>
+			{% else %}
+			<span class="navbar-text comment-reply"><i class="fas fa-reply"></i></span>
+			{% endif %}
 		</li>
-		{% endif %}
 		<li class="navbar-item">
 			<span class="navbar-text comment-date"><i class="fas fa-calendar-day"></i> {{ item.created|date('d-m-Y H:i:s') }}</span>
 		</li>

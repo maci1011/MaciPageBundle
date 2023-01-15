@@ -133,7 +133,10 @@ class BlogController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid())
 		{
 			if ($this->isGranted('ROLE_USER'))
+			{
 				$comment->setUser($this->getUser());
+				$comment->setNotify(true);
+			}
 
 			if ($form->has('newsletter') && $form['newsletter']->getData())
 			{
