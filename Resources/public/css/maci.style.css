@@ -541,8 +541,8 @@ body.noscroll {
 	margin: 30px 0;
 }
 
-.checkbox label {
-	padding-left: 12px;
+.checkbox label > input {
+	margin-right: 8px;
 }
 
 .checkbox input[type="checkbox"] {
