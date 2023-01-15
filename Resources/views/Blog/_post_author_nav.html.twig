@@ -9,11 +9,11 @@
 			<p class="navbar-text">
 				{% if post.authors|length == 1 %}
 				<span class="post-author post-nav-label">{{ 'blog.author'|matra('Author') }}:</span>
-				<span class="post-author post-nav-val">{{ post.author.name }}</span>
+				<a class="post-author post-nav-val" href="{{ path('maci_blog_author', { 'path': post.author.path, '_locale': post.author.locale }) }}">{{ post.author.name }}</a>
 				{% else %}
 				<span class="post-author post-nav-label">{{ 'blog.authors'|matra('Authors') }}:</span>
 				{% for author in post.authors %}
-				<span class="post-author post-nav-val">{{ author.name ~ (loop.last ? '' : ', ') }}</span>
+				<a class="post-author post-nav-val" href="{{ path('maci_blog_author', { 'path': author.path, '_locale': author.locale }) }}">{{ author.name }}</a>{{ loop.last ? '' : ', ' }}
 				{% endfor %}
 				{% endif %}
 			</p>
@@ -25,11 +25,11 @@
 			<p class="navbar-text">
 				{% if post.translators|length == 1 %}
 				<span class="post-author translator post-nav-label">{{ 'blog.translator'|matra('Translator') }}:</span>
-				<span class="post-author translator post-nav-val">{{ translator.name }}</span>
+				<a class="post-author translator post-nav-val" href="{{ path('maci_blog_author', { 'path': post.translator.path, '_locale': post.translator.locale }) }}">{{ post.translator.name }}</a>
 				{% else %}
 				<span class="post-author translator post-nav-label">{{ 'blog.translators'|matra('Translators') }}:</span>
 				{% for translator in post.translators %}
-				<span class="post-author translator post-nav-val">{{ translator.name ~ (loop.last ? '' : ', ') }}</span>
+				<a class="post-author translator post-nav-val" href="{{ path('maci_blog_author', { 'path': translator.path, '_locale': translator.locale }) }}">{{ translator.name ~ (loop.last ? '' : ', ') }}</a>
 				{% endfor %}
 				{% endif %}
 			</p>

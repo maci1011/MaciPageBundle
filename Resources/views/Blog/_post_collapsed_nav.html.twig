@@ -17,16 +17,20 @@
 
 		{% if post.editors|length %}
 		<li class="nav-item first">
-			<p class="post-author post-nav-val navbar-text px-2">
-				{% if post.editors|length == 1 %}
+			{% if post.authors|length == 1 %}
+			<a class="post-author nav-author-single post-nav-val nav-link px-2" href="{{ path('maci_blog_author', { 'path': post.author.path, '_locale': post.author.locale }) }}">
 				<i class="fas fa-user-alt"></i>
-				{% else %}
+				{{ post.author.name }}
+			</a>
+			{% else %}
+			<p class="post-author post-nav-val navbar-text px-2">
 				<i class="fas fa-users"></i>
-				{% endif %}
-				{% for editor in post.editors %}
-				{{ editor.name ~ (loop.last ? '' : ', ') }}
+				{% for editor in post.authors %}
+				<a class="nav-author-item" href="{{ path('maci_blog_author', { 'path': editor.path, '_locale': editor.locale }) }}">{{ editor.name }}</a>
+				{% if not loop.last %}<span class="nav-author-separator">, </span>{% endif %}
 				{% endfor %}
 			</p>
+			{% endif %}
 		</li>
 		{% else %}
 		<li class="nav-item">

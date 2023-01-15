@@ -185,6 +185,22 @@ class Editor
 	}
 
 	/**
+	 * Get Name
+	 */
+	public function getPath()
+	{
+		return $this->author ? $this->author->getPath() : null;
+	}
+
+	/**
+	 * Get Name
+	 */
+	public function getLocale()
+	{
+		return $this->author ? $this->author->getLocale() : null;
+	}
+
+	/**
 	 * __toString()
 	 */
 	public function __toString()
