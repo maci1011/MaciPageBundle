@@ -169,7 +169,7 @@ $(document).ready(function(e) {
 			e.preventDefault();
 			var wrp = $(el).parents('.related-list.comments').find('.addCommentWrapper'),
 				wcl = wrp.clone(),
-				cls = $('<button class="btn btn-danger" />').html('<i class="fas fa-times"></i>');
+				cls = wcl.find('.cancel_reply').show();
 			wrp.hide();
 			wcl.insertAfter($(el).parents('.navbar').first());
 			wcl.find('h4').text($(el).attr('alt') + ':');
@@ -213,6 +213,7 @@ $(document).ready(function(e) {
 				ml.removeAttr('required');
 			}
 		}).click().click();
+		$(el).find('.cancel_reply').hide();
 	});
 
 	// Lightbox

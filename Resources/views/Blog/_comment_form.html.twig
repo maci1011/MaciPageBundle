@@ -61,7 +61,12 @@
 
 	<div class="form-group">
 		<button type="submit" name="comment[send_comment]" class="send_comment btn btn-primary">
+			<i class="fas fa-paper-plane"></i>
 			{{ 'send-comment'|matla('Send Comment') }}
+		</button>
+		<button type="reset" class="cancel_reply btn btn-danger">
+			<i class="fas fa-times"></i>
+			{{ 'cancel-reply'|matla('Cancel Reply') }}
 		</button>
 	</div>
 
