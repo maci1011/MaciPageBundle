@@ -25,11 +25,15 @@
 		</li>
 		{% if is_granted('ROLE_ADMIN') %}
 		<li class="navbar-item">
-			<span class="navbar-text comment-status {{ item.status }}">{{ item.status|capitalize }}</span>
+			<span class="navbar-text comment-status {{ item.status }}">
+				<i class="fas fa-shield-alt"></i>
+				{{ item.status|capitalize }}
+			</span>
 		</li>
 		{% if item.status == 'new' %}
 		<li class="navbar-item">
 			<a href="{{ path('maci_blog_approve_comment', {'hash': item.hash}) }}" class="nav-link comment-approve-link" alt="{{ 'approve'|matla('Approve') }}">
+				<i class="fas fa-check"></i>
 				{{ 'approve'|matla('Approve') }}
 			</a>
 		</li>
@@ -37,7 +41,10 @@
 		{% endif %}
 		{% if item.status == 'approved' %}
 		<li class="navbar-item">
-			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">{{ 'reply'|matla('Reply') }}</a>
+			<a href="#" class="nav-link comment-reply" alt="{{ 'reply-to'|matla('Reply to ') }} {{ item.username }}" hash="{{ item.hash }}">
+				<i class="fas fa-reply"></i>
+				{{ 'reply'|matla('Reply') }}
+			</a>
 		</li>
 		{% endif %}
 	</ul>

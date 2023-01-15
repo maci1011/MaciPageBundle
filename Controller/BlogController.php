@@ -219,7 +219,7 @@ class BlogController extends AbstractController
 			if ($comment->getParent()->getUser())
 				$this->get('maci.notify')->notifyTo($comment->getParent()->getUser(), $this->get('maci.translator')->getText('notify.blog.new-reply', 'There is a new reply to your comment.'));
 			else
-				$this->sendNotify($comment);
+				$this->sendNotify($request, $comment);
 		}
 
 		return $this->redirect($this->generateUrl('maci_blog_show', [
@@ -227,7 +227,7 @@ class BlogController extends AbstractController
 		]) . '#cmm-' . $hash);
 	}
 
-	public function sendNotify($reply)
+	public function sendNotify($request, $reply)
 	{
 		$mail = new Mail();
 		$mail
@@ -237,8 +237,8 @@ class BlogController extends AbstractController
 			->setSender([$this->get('service_container')->getParameter('server_email') => $this->get('service_container')->getParameter('server_email_int')])
 			->addRecipients($reply->getParent()->getRecipient())
 			->setLocale($reply->getPostRec()->getLocale())
-			// ->setText($this->renderView('@MaciPage/Email/comment_reply.txt.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
-			->setContent($this->renderView('@MaciPage/Email/comment_reply.html.twig', ['_locale' => $locale, 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
+			// ->setText($this->renderView('@MaciPage/Email/comment_reply.txt.twig', ['_locale' => $request->getLocale(), 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
+			->setContent($this->renderView('@MaciPage/Email/comment_reply.html.twig', ['_locale' => $request->getLocale(), 'comment' => $reply->getParent(), 'reply' => $reply, 'post' => $reply->getPostRec()]))
 		;
 		$this->get('maci.mailer')->send($mail);
 	}
