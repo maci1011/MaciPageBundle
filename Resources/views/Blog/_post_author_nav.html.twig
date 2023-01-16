@@ -29,7 +29,7 @@
 				{% else %}
 				<span class="post-author translator post-nav-label">{{ 'blog.translators'|matra('Translators') }}:</span>
 				{% for translator in post.translators %}
-				<a class="post-author translator post-nav-val" href="{{ path('maci_blog_author', { 'path': translator.path, '_locale': translator.locale }) }}">{{ translator.name ~ (loop.last ? '' : ', ') }}</a>
+				<a class="post-author translator post-nav-val" href="{{ path('maci_blog_author', { 'path': translator.path, '_locale': translator.locale }) }}">{{ translator.name }}</a>{{ loop.last ? '' : ', ' }}
 				{% endfor %}
 				{% endif %}
 			</p>

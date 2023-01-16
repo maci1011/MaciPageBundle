@@ -167,6 +167,9 @@ $(document).ready(function(e) {
 	$('.related-list.comments .comment-reply').each(function(i,el) {
 		$(el).click(function(e) {
 			e.preventDefault();
+			if ($(el).hasClass('active'))
+				return;
+			$(el).addClass('active');
 			var wrp = $(el).parents('.related-list.comments').find('.addCommentWrapper'),
 				wcl = wrp.clone(),
 				cls = wcl.find('.cancel_reply').show();
@@ -192,6 +195,7 @@ $(document).ready(function(e) {
 			wcl.find('.form-group').last().append(cls);
 			cls.click(function(ev) {
 				ev.preventDefault();
+				$(el).removeClass('active');
 				wrp.show();
 				wcl.remove();
 			});
