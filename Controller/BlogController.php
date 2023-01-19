@@ -68,7 +68,7 @@ class BlogController extends AbstractController
 
 	public function getPager($request, $list)
 	{
-		return new Pager($list, 17, 5, intval($request->get('p', 1)));
+		return new Pager($list, 13, 5, intval($request->get('p', 1)));
 	}
 
 	public function showAction(Request $request, $path)

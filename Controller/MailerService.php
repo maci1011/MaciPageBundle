@@ -97,7 +97,7 @@ class MailerService extends AbstractController
 			if (array_key_exists('template', $mail->getData()))
 				$mail->setContent(
 					$this->templating->render($mail->getData()['template']['path'], array_merge(
-						$params, $mail->getData()['template']['params']
+						$mail->getData()['template']['params'], $params
 					))
 				);
 

@@ -25,8 +25,11 @@ class PostRepository extends EntityRepository
 			->andWhere('p.locale = :locale')
 			->setparameter(':locale', $locale)
 			->orderBy('p.created', 'DESC')
-			->setMaxResults($max)
 		;
+
+		if (0 < $max)
+			$q->setMaxResults($max);
+
 		return $q->getQuery()->getResult();
 	}
 
@@ -42,7 +45,7 @@ class PostRepository extends EntityRepository
 			->andWhere('p.status = :status')
 			->setparameter(':status', 'pubblished')
 			->orderBy('p.created', 'DESC')
-			;
+		;
 		return $q->getQuery()->getResult();
 	}
 
