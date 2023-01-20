@@ -87,25 +87,22 @@ class MailerService extends AbstractController
 		if (!$mail->getSender())
 			$mail->setSender($this->server_mail, $this->server_header);
 
-		if (!$mail->getContent())
-		{
-			$params = ['mail' => $mail];
+		$params = ['mail' => $mail];
 
-			if ($subscriber)
-				$params['subscriber'] = $subscriber;
+		if ($subscriber)
+			$params['subscriber'] = $subscriber;
 
-			if (array_key_exists('template', $mail->getData()))
-				$mail->setContent(
-					$this->templating->render($mail->getData()['template']['path'], array_merge(
-						$mail->getData()['template']['params'], $params
-					))
-				);
+		if (array_key_exists('template', $mail->getData()))
+			$mail->setContent(
+				$this->templating->render($mail->getData()['template']['path'], array_merge(
+					$mail->getData()['template']['params'], $params
+				))
+			);
 
-			else
-				$mail->setContent(
-					$this->templating->render('@MaciPage/Mailer/show.html.twig', $params)
-				);
-		}
+		else
+			$mail->setContent(
+				$this->templating->render('@MaciPage/Mailer/show.html.twig', $params)
+			);
 
 		if ($subscriber)
 			$message = $mail->getNextMessage($subscriber->getMail());
