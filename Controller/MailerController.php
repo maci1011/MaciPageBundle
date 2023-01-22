@@ -310,4 +310,87 @@ class MailerController extends AbstractController
 
 		return $this->render('@MaciPage/Mailer/import.html.twig');
 	}
+
+	public function checkSubscriptionsAction(Request $request)
+	{
+		if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		if (!$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		if ($request->getMethod() !== 'POST')
+			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
+
+		$om = $this->getDoctrine()->getManager();
+		$users = $om->getRepository('MaciUserBundle:User')->findBy(['enabled' => true]);
+
+		if (!count($users))
+			return new JsonResponse(['success' => false, 'error' => 'No Users.'], 200);
+
+		$messages = [];
+
+		foreach ($users as $user)
+		{
+			$user_subs = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
+				->findBy(['user' => $user->getId()]);
+
+			if (1 < count($user_subs))
+			{
+				$messages[] = 'Multiple user subscriptions for @' . $user->getUsername();
+				continue;
+			}
+
+			$mail_subs = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
+				->findBy(['mail' => $user->getEmail()]);
+
+			if (1 < count($mail_subs))
+			{
+				$messages[] = 'Multiple mail subscriptions for @' . $user->getUsername();
+				continue;
+			}
+
+			$user_sub = 1 == count($user_subs) ? $user_subs[0] : false;
+			$mail_sub = 1 == count($mail_subs) ? $mail_subs[0] : false;
+
+			if ($user_sub && $mail_sub && $mail_sub->getId() == $user_sub->getId())
+				continue; // all ok!
+
+			if (!$user_sub)
+			{
+				if ($mail_sub)
+				{
+					$mail_sub->setUser($user);
+					$messages[] = 'User @' . $user->getUsername() . ' linked to mail subscription.';
+					continue;
+				}
+			}
+
+			if (!$mail_sub)
+			{
+				if ($user_sub)
+				{
+					$user_sub->setMail($user->getEmail());
+					$messages[] = 'Subscription mail for user @' . $user->getUsername() . ' refreshed.';
+					continue;
+				}
+			}
+
+			$ns = new Subscriber();
+			$ns->setMail($user->getEmail());
+			$ns->setUser($user);
+			$ns->setLocale($request->get('set_locale', $request->getLocale()));
+
+			$om->persist($ns);
+
+			$messages[] = 'New subscription for user @' . $user->getUsername();
+		}
+
+		$om->flush();
+
+		if (!count($messages))
+			$messages[] = 'All OK.';
+
+		return new JsonResponse(['success' => true, 'messages' => $messages]);
+	}
 }

@@ -8,9 +8,11 @@
 
 {% block content %}
 
+<form id="import_form">
+
 <h3>Import Mails</h3>
 
-<form id="import_form" class="p-2">
+<div class="p-2">
 
 <div class="form-group">
 	<label class="required" for="import_locale">Locale</label>
@@ -27,6 +29,21 @@
 <div class="form-group">
 	<button id="import_submit_txt" class="btn btn-primary" type="submit">Import TXT</button>
 	{#}<button id="import_submit_xml" class="btn btn-primary" type="submit">Import XML</button>{#}
+</div>
+
+</div>
+
+<h3>Check User Subscriptions</h3>
+
+<div class="p-2">
+
+<div class="form-group">
+	<button id="checkSubscriptions" class="btn btn-primary" type="submit">Check Subscriptions</button>
+</div>
+
+<div class="list" class="p-2">
+</div>
+
 </div>
 
 </form>

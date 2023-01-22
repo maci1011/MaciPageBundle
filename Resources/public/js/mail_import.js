@@ -7,6 +7,24 @@ var maciPageImport = function (options) {
 
 	_obj = {
 
+	checkUsers: function()
+	{
+		if (!confirm('LOCALE setted???'))
+			return;
+
+		$.ajax({
+			type: 'POST',
+			data: {
+				'set_locale': form.find("#import_locale").val()
+			},
+			url: '/mailer/check_subscriptions',
+			success: function(d,s,x) {
+				console.log(d.messages);
+			},
+			error: function(d,s,x) {}
+		});
+	},
+
 	saveSubscriber: function(data)
 	{
 		if(!data['mail'] || !data['locale'])
@@ -98,7 +116,6 @@ var maciPageImport = function (options) {
 		}
 
 		index = 0;
-		// console.log(subscribers);
 		_obj.saveNextSubscriber();
 	},
 
@@ -111,54 +128,18 @@ var maciPageImport = function (options) {
 				'locale': form.find("#import_locale").val()
 			};
 			$(row).children().each(function(j, field) {
-				switch (field['nodeName']) {
-					case 'CAP':
-						// row_data['address']['cap'] = $(field).text();
-						break;
-					case 'CELLULARE':
-						// row_data['mobile'] = $(field).text();
-						break;
-					case 'COGNOME':
-						// row_data['surname'] = $(field).text();
-						break;
-					case 'DATANASCITA':
-						// row_data['birthdate'] = $(field).text();
-						break;
-					case 'INDIRIZZO':
-						// row_data['address']['address'] = $(field).text();
-						break;
-					case 'LOCALITà':
-						// row_data['address']['city'] = $(field).text();
-						break;
-					case 'CITTà':
-						// row_data['address']['state'] = $(field).text();
-						break;
-					case 'NEWSLETTER':
-						// row_data['newsletter'] = "1";
-						break;
-					case 'SMS':
-						// row_data['sms'] = $(field).text();
-						break;
-					case 'TELEFONI':
-						// row_data['phone'] = $(field).text();
-						break;
-					case 'UOMO':
-						// row_data['sex'] = $(field).text();
-						break;
-					case 'EMAIL':
+				var fld = field['nodeName'].toLowerCase();
+				switch (fld)
+				{
+					case 'mail':
+					case 'email':
 						row_data['mail'] = $(field).text();
 						break;
-					case 'NOME':
+					case 'name':
+					case 'nome':
 						row_data['name'] = $(field).text();
 						break;
-					case 'AUTORIZZO':
-					case 'EMEIL':
-					case 'IDFORNITORE':
-						break;
 				}
-				// row_data['address']['name'] = row_data['name'];
-				// row_data['address']['surname'] = row_data['surname'];
-				// row_data['address']['country'] = row_data['country'];
 			});
 			list[i] = row_data;
 		});
@@ -178,9 +159,11 @@ var maciPageImport = function (options) {
 		// 	form.find("#import_submit").hide();
 		// 	_obj.importXml();
 		// });
-	},
-
-	foo: function() {}
+		form.find("#checkSubscriptions").click(function(e) {
+			e.preventDefault();
+			_obj.checkUsers();
+		});
+	}
 
 	}; // end _obj
 

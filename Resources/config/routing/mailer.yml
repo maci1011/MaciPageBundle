@@ -15,6 +15,10 @@ maci_mailer_send_next:
     path:     /mailer/send-next
     defaults: { _controller: MaciPageBundle:Mailer:sendNext }
 
+maci_mailer_check_subscriptions:
+    path:     /mailer/check_subscriptions
+    defaults: { _controller: MaciPageBundle:Mailer:checkSubscriptions }
+
 maci_mailer_import:
     path:     /mailer/import
     defaults: { _controller: MaciPageBundle:Mailer:import, section: mails }
