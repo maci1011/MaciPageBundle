@@ -1,4 +1,6 @@
 
+## Admin Routes
+
 maci_mailer_send_mail:
     path:     /mailer/send-mail/{token}
     defaults: { _controller: MaciPageBundle:Mailer:sendMail }
@@ -23,6 +25,7 @@ maci_mailer_import:
     path:     /mailer/import
     defaults: { _controller: MaciPageBundle:Mailer:import, section: mails }
 
+## Templates
 
 maci_mailer_templates_order_placed:
     path:     /mailer/templates/order_placed
@@ -52,54 +55,62 @@ maci_mailer_templates:
     path:     /mailer/templates
     defaults: { _controller: MaciPageBundle:Mailer:templates, section: mails }
 
-
-maci_mailer:
-    path:     /mailer
-    defaults: { _controller: MaciPageBundle:Mailer:index }
-
-
-
-maci_mailer_user_mails:
-    path:     /notifications/
-    defaults: { _controller: MaciPageBundle:Mailer:userMails }
-
 maci_mailer_show:
     path:     /mailer/show/{token}
     defaults: { _controller: MaciPageBundle:Mailer:adminShow }
     requirements:
         token: .+
 
+## Index
 
+maci_mailer:
+    path:     /mailer
+    defaults: { _controller: MaciPageBundle:Mailer:index }
 
-maci_mailer_unsubscribe:
-    path:     /newsletter/unsubscribe/{token}
-    defaults: { _controller: MaciPageBundle:Mailer:unsubscribe }
-    requirements:
-        token: .+
+## Notifications
+
+maci_mailer_user_mails:
+    path:     /notifications/
+    defaults: { _controller: MaciPageBundle:Mailer:userMails }
+
+## Newsletter
 
 maci_mailer_manage_redirect:
-    path:     /newsletter/manage/{token}
+    path: /newsletter/manage/{token}
     defaults: { _controller: MaciPageBundle:Mailer:manageRedirect }
     requirements:
         token: .+
 
+maci_user_newsletter_enable:
+    path: /newsletter/subscriber/enable
+    defaults: { _controller: MaciPageBundle:Mailer:toggleSubscription, set: true }
+
+maci_user_newsletter_disable:
+    path: /newsletter/subscriber/disable
+    defaults: { _controller: MaciPageBundle:Mailer:toggleSubscription, set: false }
+
+maci_mailer_unsubscribe:
+    path: /newsletter/unsubscribe/{token}
+    defaults: { _controller: MaciPageBundle:Mailer:unsubscribe }
+    requirements:
+        token: .+
+
 maci_mailer_manage:
-    path:     /{_locale}/newsletter/manage/{token}
+    path: /{_locale}/newsletter/manage/{token}
     defaults: { _controller: MaciPageBundle:Mailer:manage }
     requirements:
         _locale: "%r_locales%"
         token: .+
 
 maci_mailer_newsletter_show:
-    path:     /{_locale}/newsletter/show/{token}
+    path: /{_locale}/newsletter/show/{token}
     defaults: { _controller: MaciPageBundle:Mailer:show }
     requirements:
         _locale: "%r_locales%"
         token: .+
 
 maci_mailer_subscribe:
-    path:     /{_locale}/newsletter/subscribe
+    path: /{_locale}/newsletter/subscribe
     defaults: { _controller: MaciPageBundle:Mailer:subscribe }
     requirements:
         _locale: "%r_locales%"
-

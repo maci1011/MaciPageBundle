@@ -6,12 +6,12 @@
 
 		{% if intro_message is defined and intro_message|length %}
 		{% if subscriber is defined %}
-		<h4>{{ intro_message|replace({'%name%': subscriber.name}) }}</h4>
+		<h4>{{ intro_message|replace({'%name%': subscriber.header}) }}</h4>
 		{% else %}
 		<h4>{{ intro_message }}</h4>
 		{% endif %}
 		{% elseif subscriber is defined %}
-		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%,')|replace({'%name%': subscriber.name}) }}</h4>
+		<h4>{{ 'mail.subscriber-incipit'|matra('Dear %name%,')|replace({'%name%': subscriber.header}) }}</h4>
 		{% else %}
 		<h4>{{ 'mail.incipit'|matra('Dear Customer,') }}</h4>
 		{% endif %}

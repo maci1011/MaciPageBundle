@@ -2,6 +2,7 @@
 
 namespace Maci\PageBundle\Controller;
 
+use FOS\UserBundle\Model\UserInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\TwigBundle\TwigEngine;
@@ -155,6 +156,69 @@ class MailerService extends AbstractController
 		// ---> send notify
 		if ($this->env == "prod")
 			$this->mailer->send($notify);
+
+		return true;
+	}
+
+	public function getSubscription($user)
+	{
+		if (!is_object($user) || !$user instanceof UserInterface)
+			return false;
+
+		$sub = $this->om->getRepository('MaciPageBundle:Mailer\Subscriber')
+			->findOneBy(['user' => $user->getId()]);
+
+		if (!$sub)
+		{
+			$sub = $this->om->getRepository('MaciPageBundle:Mailer\Subscriber')
+				->findOneBy(['mail' => $user->getEmail()]);
+
+			if ($sub)
+			{
+				$sub->setUser($user);
+				$this->om->flush();
+				return $sub;
+			}
+
+			$sub = new Subscriber();
+			$sub->setUser($user);
+			$sub->setLocale($this->translator->getLocale());
+
+			$this->om->persist($sub);
+			$this->om->flush();
+		}
+
+		return $sub;
+	}
+
+	public function enableSubscription($user, bool $value)
+	{
+		$sub = $this->getSubscription($user);
+
+		if (!$sub)
+			return false;
+
+		if ($sub->getRemoved() != $value)
+			return true;
+
+		$sub->setRemoved(!$value);
+		$this->om->flush();
+
+		return true;
+	}
+
+	public function removeSubscription($user)
+	{
+		$sub = $this->getSubscription($user);
+
+		if (!$sub)
+			return false;
+
+		if ($sub->getRemoved())
+			return true;
+
+		$this->om->remove($sub);
+		$this->om->flush();
 
 		return true;
 	}

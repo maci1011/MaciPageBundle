@@ -2,10 +2,12 @@
 
 namespace Maci\PageBundle\Controller;
 
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Locales;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Maci\PageBundle\Entity\Mailer\Mail;
 use Maci\PageBundle\Entity\Mailer\Subscriber;
@@ -146,6 +148,17 @@ class MailerController extends AbstractController
 			'env' => $this->get('kernel')->getEnvironment(),
 			'locales' => $choices
 		));
+	}
+
+	public function toggleSubscriptionAction(Request $request, bool $set)
+	{
+		$user = $this->getUser();
+		if (!is_object($user) || !$user instanceof UserInterface)
+			throw new AccessDeniedException('This user does not have access to this section.');
+
+		$subscription = $this->get('maci.mailer')->enableSubscription($user, $set);
+
+		return $this->redirect($this->generateUrl('maci_user_newsletter'));
 	}
 
 	public function templatesAction()
@@ -341,8 +354,8 @@ class MailerController extends AbstractController
 				continue;
 			}
 
-			$mail_subs = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
-				->findBy(['mail' => $user->getEmail()]);
+			$mail_subs = $user->getEnabled() ? $om->getRepository('MaciPageBundle:Mailer\Subscriber')
+				->findBy(['mail' => $user->getEmail()]) : [];
 
 			if (1 < count($mail_subs))
 			{
@@ -370,14 +383,19 @@ class MailerController extends AbstractController
 			{
 				if ($user_sub)
 				{
+					if (!$user->getEnabled())
+						continue;
+
 					$user_sub->setMail($user->getEmail());
 					$messages[] = 'Subscription mail for user @' . $user->getUsername() . ' refreshed.';
 					continue;
 				}
 			}
 
+			if (!$user->getEnabled())
+				continue;
+
 			$ns = new Subscriber();
-			$ns->setMail($user->getEmail());
 			$ns->setUser($user);
 			$ns->setLocale($request->get('set_locale', $request->getLocale()));
 

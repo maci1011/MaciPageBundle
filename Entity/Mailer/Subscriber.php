@@ -106,7 +106,7 @@ class Subscriber
 	 */
 	public function getHeader()
 	{
-		return $this->getName();
+		return $this->user ? $this->user->getUsername() : $this->name;
 	}
 
 	/**
@@ -135,7 +135,10 @@ class Subscriber
 
 	public function getRecipient()
 	{
-		return $this->mail ? [$this->mail => $this->getName()] : null;
+		if ($this->user)
+			return [$this->user->getEmail() => $this->getHeader()];
+
+		return [$this->mail => $this->getHeader()];
 	}
 
 	/**
@@ -280,6 +283,9 @@ class Subscriber
 	{
 		$this->user = $user;
 
+		if (!$this->mail)
+			$this->mail = $user->getEmail();
+
 		return $this;
 	}
 
@@ -311,7 +317,8 @@ class Subscriber
 
 	public function setNameValue()
 	{
-		if (!$this->name) $this->name = $this->getNameFromMail($this->mail);
+		if (!$this->name)
+			$this->name = $this->getNameFromMail($this->mail);
 	}
 
 	public function setCreatedValue()
