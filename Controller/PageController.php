@@ -77,7 +77,8 @@ class PageController extends AbstractController
 				'removed' => false
 			]);
 
-		if (!$page) {
+		if (!$page)
+		{
 			$default = $this->getTemplateByPath($request, $path);
 			if($default) {
 				return $this->render($default, array('page' => false));
@@ -102,11 +103,12 @@ class PageController extends AbstractController
 	{
 		$templates = [];
 
-		if ($request->getLocale() == 'en') $templates = [
-			'subscribe-completed' => '@MaciPage/Page/subscribed.html.twig',
-			'subscribtion-completed' => '@MaciPage/Page/subscribed.html.twig',
+		$templates = [
 			'message-sent' => '@MaciPage/Page/message_sent.html.twig',
-			'unsubscribed' => '@MaciPage/Page/unsubscribed.html.twig',
+			'comment-sent' => '@MaciPage/Blog/comment_sent.html.twig',
+			'subscribtion-completed' => '@MaciPage/Mailer/subscribed.html.twig',
+			'subscribe-completed' => '@MaciPage/Mailer/subscribed.html.twig',
+			'unsubscribed' => '@MaciPage/Mailer/unsubscribed.html.twig',
 			'customer-service' => '@MaciPage/Terms/customer_service.html.twig',
 			'shopping-guide' => '@MaciPage/Terms/shopping_guide.html.twig',
 			'size-guide' => '@MaciPage/Terms/size_guide.html.twig',
@@ -118,23 +120,30 @@ class PageController extends AbstractController
 			'privacy' => '@MaciPage/Terms/privacy.html.twig'
 		];
 
-		if ($request->getLocale() == 'it') $templates = [
-			'iscrizione-completa' => '@MaciPage/Page/subscribed.html.twig',
-			'messaggio-inviato' => '@MaciPage/Page/message_sent.html.twig',
-			'iscrizione-cancellata' => '@MaciPage/Page/unsubscribed.html.twig',
-			'servizio-clienti' => '@MaciPage/Terms/customer_service.html.twig',
-			'guida-all-acquisto' => '@MaciPage/Terms/shopping_guide.html.twig',
-			'guida-alle-taglie' => '@MaciPage/Terms/size_guide.html.twig',
-			'spedizione' => '@MaciPage/Terms/shipping.html.twig',
-			'pagamenti' => '@MaciPage/Terms/payment.html.twig',
-			'resi-e-rimborsi' => '@MaciPage/Terms/refunds.html.twig',
-			'condizioni-generali' => '@MaciPage/Terms/gcs.html.twig',
-			'cookies' => '@MaciPage/Terms/cookies.html.twig',
-			'privacy' => '@MaciPage/Terms/privacy.html.twig'
-		];
-
 		if(array_key_exists($path, $templates))
 			return $templates[$path];
+
+		if ($request->getLocale() == 'it')
+		{
+			$templates = [
+				'messaggio-inviato' => '@MaciPage/Page/message_sent.html.twig',
+				'commento-inviato' => '@MaciPage/Blog/comment_sent.html.twig',
+				'iscrizione-completa' => '@MaciPage/Mailer/subscribed.html.twig',
+				'iscrizione-cancellata' => '@MaciPage/Mailer/unsubscribed.html.twig',
+				'servizio-clienti' => '@MaciPage/Terms/customer_service.html.twig',
+				'guida-all-acquisto' => '@MaciPage/Terms/shopping_guide.html.twig',
+				'guida-alle-taglie' => '@MaciPage/Terms/size_guide.html.twig',
+				'spedizione' => '@MaciPage/Terms/shipping.html.twig',
+				'pagamenti' => '@MaciPage/Terms/payment.html.twig',
+				'resi-e-rimborsi' => '@MaciPage/Terms/refunds.html.twig',
+				'condizioni-generali' => '@MaciPage/Terms/gcs.html.twig',
+				'cookies' => '@MaciPage/Terms/cookies.html.twig',
+				'privacy' => '@MaciPage/Terms/privacy.html.twig'
+			];
+
+			if(array_key_exists($path, $templates))
+				return $templates[$path];
+		}
 
 		return false;
 	}

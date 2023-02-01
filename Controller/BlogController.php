@@ -170,9 +170,7 @@ class BlogController extends AbstractController
 					'hash' => $hash //, 'removed' => false
 				]);
 				if ($rto)
-				{
 					$comment->setParent($rto);
-				}
 			}
 
 			if (!$comment->getParent())
@@ -183,8 +181,9 @@ class BlogController extends AbstractController
 
 			// $this->sendAdminNotify($comment);
 
-			return $this->redirect($this->generateUrl('maci_blog_show', [
-				'_locale' => $post->getLocale(), 'path' => $post->getPath()
+			return $this->redirect($this->generateUrl('maci_page', [
+				'path' => $this->get('maci.translator')->getRoute('blog.comment-sent', 'comment-sent'),
+				'post' => $post->getPath()
 			]));
 		}
 

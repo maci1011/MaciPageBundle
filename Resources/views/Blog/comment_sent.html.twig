@@ -1,0 +1,25 @@
+{% extends "@MaciPage/Layout/layout.html.twig" %}
+
+{% block bodyTag %}<body id="bodyFullPage">{% endblock %}
+
+{% block title %}
+{{ 'comment-sent'|matla('Comment Sent') }} - {{ company_title }}
+{% endblock %}
+
+{% block description %}
+<meta name="description" content="{{ 'comment-sent'|matra("Your comment has been sent. It will be published after approval.") }}" />
+{% endblock %}
+
+{% block container %}
+<section class="comment">
+<div class="container not-found-page">
+	<h1>{{ 'comment-sent'|matla('Comment Sent') }}</h1>
+	<p>{{ 'comment-sent'|matra("Your comment has been sent. It will be published after approval.") }}</p>
+	{% if app.request.get('post') %}
+	<a class="btn btn-primary" href="{{ path('maci_blog_show', {'path': app.request.get('post')}) }}">
+		{{ 'go-back'|matla('Go Back') }}
+	</a>
+	{% endif %}
+</div>
+</section>
+{% endblock %}

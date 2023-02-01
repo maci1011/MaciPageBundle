@@ -71,7 +71,7 @@ Maci\PageBundle\Entity\Blog\Post:
         comments:
             targetEntity: Maci\PageBundle\Entity\Blog\Comment
             mappedBy: post
-            orderBy: { 'created': DESC }
+            orderBy: { 'created': ASC }
         items:
             targetEntity: Maci\PageBundle\Entity\Blog\Item
             mappedBy: post
