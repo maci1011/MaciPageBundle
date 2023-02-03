@@ -106,6 +106,7 @@ var maciShopExport = function (options) {
 		$.ajax({
 			type: 'POST',
 			data: {
+				'setId': setInput.val(),
 				'products': products
 			},
 			url: '/record/export-products',
@@ -180,7 +181,7 @@ var maciShopExport = function (options) {
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
 			_obj.export(qtaInput.val(), 'back');
-		}).text('Sell (Sel.Qta)');
+		}).text('Sell (Sel.Qta)').css('marginLeft', '8px');
 
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
@@ -202,7 +203,9 @@ var maciShopExport = function (options) {
 			products.push({
 				'id': parseInt($(el).attr('pid')),
 				'variant': $(el).attr('pva') == '__null__' ? null : $(el).attr('pva'),
-				'quantity': quantity == 'all' ? parseInt($(el).attr('qta')) : parseInt(quantity),
+				'quantity': quantity == 'all' ? parseInt($(el).attr('qta')) : (
+					parseInt(quantity) <= parseInt($(el).attr('qta')) ? parseInt(quantity) : parseInt($(el).attr('qta'))
+				),
 				'type': type
 			});
 		});
@@ -215,12 +218,16 @@ var maciShopExport = function (options) {
 	showAlert: function(data)
 	{
 		if (!alertNode)
+		{
+			out.html('');
 			alertNode = $("<div/>").addClass('alert alert-info mt-2')
 				.css('marginTop', '16px').appendTo(out)
 				.click(function(e) {
 					alertNode.remove();
 					alertNode = false;
 				});
+		}
+
 		alertNode.text(
 			(data.success ?
 				(typeInput.val() == 'check' ? (
@@ -252,11 +259,16 @@ var maciShopExport = function (options) {
 		if (_obj.check()) return;
 		if (codeInput.val() == 'barcode')
 		{
-			if (barcodeInput.val().trim().length != 13) return;
+			if (barcodeInput.val().trim().length != 13)
+				return;
+
 			_obj.saleRecord();
 		}
 		else
 		{
+			if (barcodeInput.val().trim().length < 6)
+				return;
+
 			_obj.findProduct();
 		}
 	},

@@ -442,7 +442,7 @@ class RecordController extends AbstractController
 
 	public function exportRecordAction(Request $request)
 	{
-		if (!$request->isXmlHttpRequest())
+		if ($request->getMethod() !== 'POST' || !$request->isXmlHttpRequest())
 			return $this->redirect($this->generateUrl('homepage'));
 
 		// --- Check Auth
@@ -454,8 +454,7 @@ class RecordController extends AbstractController
 		// --- Check Request
 
 		$barcode = $request->get('barcode');
-
-		if ($request->getMethod() !== 'POST' || !$barcode)
+		if (!$barcode)
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
 		$om = $this->getDoctrine()->getManager();
@@ -524,7 +523,9 @@ class RecordController extends AbstractController
 
 	public function exportProductsAction(Request $request)
 	{
-		if (!$request->isXmlHttpRequest())
+		// --- Check Request
+
+		if ($request->getMethod() !== 'POST' || !$request->isXmlHttpRequest())
 			return $this->redirect($this->generateUrl('homepage'));
 
 		// --- Check Auth
@@ -533,40 +534,56 @@ class RecordController extends AbstractController
 		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
 
-		// --- Check Request
+		$om = $this->getDoctrine()->getManager();
+
+		$setId = $request->get('setId');
+		$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById(intval($setId));
+		if (!$set)
+			return new JsonResponse(['success' => false, 'error' => 'Set not found.', 'id' => $setId], 200);
 
 		$products = $request->get('products');
-
-		if ($request->getMethod() !== 'POST' || !$products)
+		if (!$products)
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
-		$om = $this->getDoctrine()->getManager();
 		$errors = [];
-		$newRecord = false;
 
 		foreach ($products as $key => $pdata)
 		{
+			if (intval($pdata['quantity']) == 0)
+				continue;
+
 			$product = $om->getRepository('MaciPageBundle:Shop\Product')
 				->findOneBy(['id' => $pdata['id']]);
 
 			if (!$product)
+			{
 				array_push($errors, ['error' => 'Record not Found.', 'id' => $pdata['id']]);
+				continue;
+			}
+
+			$newRecord = false;
 
 			switch ($pdata['type'])
 			{
 				case 'sale':
-					$newRecord = $product->exportSaleRecord($pdata['variant'], $pdata['quantity']);
+					$newRecord = $product->exportSaleRecord($pdata['variant'], intval($pdata['quantity']));
 					break;
 
 				case 'back':
-					$newRecord = $product->exportBackRecord($pdata['variant'], $pdata['quantity']);
+					$newRecord = $product->exportBackRecord($pdata['variant'], intval($pdata['quantity']));
 					break;
 			}
+
+			if (!$newRecord)
+			{
+				array_push($errors, ['error' => 'Export Failed.', 'id' => $pdata['id']], 200);
+				continue;
+			}
+
+			$newRecord->setParent($set);
+			$om->persist($newRecord);
 		}
 
-		if (!$newRecord) return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
-
-		$om->persist($newRecord);
 		$om->flush();
 
 		return new JsonResponse([
