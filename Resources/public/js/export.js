@@ -324,9 +324,11 @@ var maciShopExport = function (options) {
 		setInput.change(function(e) {
 			_obj.toggleBarcode();
 			form.find('#btn_export').attr('href', '/record/reports/export-set/' + setInput.val());
+			out.html('');
 		});
 		typeInput.change(function(e) {
 			_obj.toggleBarcode();
+			out.html('');
 		}).change();
 		codeInput.change(function(e) {
 			var s = $(this).val();
