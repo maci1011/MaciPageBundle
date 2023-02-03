@@ -113,6 +113,7 @@ var maciShopExport = function (options) {
 			success: function(d,s,x) {
 				console.log(d);
 				_obj.findProduct();
+				qtaInput.val(1);
 			}
 		});
 	},
@@ -291,7 +292,10 @@ var maciShopExport = function (options) {
 		else
 		{
 			if (barcodeInput.val().trim().length < 6)
+			{
+				out.html('');
 				return;
+			}
 
 			_obj.findProduct();
 		}
@@ -327,6 +331,7 @@ var maciShopExport = function (options) {
 		codeInput.change(function(e) {
 			var s = $(this).val();
 			barcodeInput.prev().text(s[0].toUpperCase() + s.slice(1));
+			out.html('');
 		}).change();
 		barcodeInput.on('keypress', _obj.barcodeChange).keypress();
 		_obj.getSets();
