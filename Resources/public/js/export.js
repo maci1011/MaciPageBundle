@@ -126,15 +126,9 @@ var maciShopExport = function (options) {
 
 	showList: function(data)
 	{
-		if (alertNode)
-		{
-			alertNode.remove();
-			alertNode = false;
-		}
-
 		console.log(data);
 
-		out.html('');
+		_obj.resetOutput();
 
 		var tbody = $('<tbody/>')
 			.appendTo(out)
@@ -239,7 +233,7 @@ var maciShopExport = function (options) {
 			});
 		});
 
-		console.log(products);
+		// console.log(products);
 
 		_obj.exportProducts(products);
 	},
@@ -278,6 +272,17 @@ var maciShopExport = function (options) {
 		barcodeInput.focus();
 	},
 
+	resetOutput: function()
+	{
+		if (alertNode)
+		{
+			alertNode.remove();
+			alertNode = false;
+		}
+
+		out.html('');
+	},
+
 	check: function()
 	{
 		return setInput.val() == 'null' && typeInput.val() != 'quantity' && typeInput.val() != 'check';
@@ -299,7 +304,7 @@ var maciShopExport = function (options) {
 		{
 			if (barcodeInput.val().trim().length < 6)
 			{
-				out.html('');
+				_obj.resetOutput();
 				return;
 			}
 
@@ -332,16 +337,16 @@ var maciShopExport = function (options) {
 			form.find('#btn_export').attr('href', '/record/reports/export-set/' + setInput.val()).show();
 			if (setInput.val() == 'null')
 				form.find('#btn_export').hide();
-			out.html('');
+			_obj.resetOutput();
 		}).change();
 		typeInput.change(function(e) {
 			_obj.toggleBarcode();
-			out.html('');
+			_obj.resetOutput();
 		});
 		codeInput.change(function(e) {
 			var s = $(this).val();
 			barcodeInput.prev().text(s[0].toUpperCase() + s.slice(1));
-			out.html('');
+			_obj.resetOutput();
 		}).change();
 		barcodeInput.on('keypress', _obj.barcodeChange).keypress();
 		_obj.getSets();
