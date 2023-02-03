@@ -348,7 +348,7 @@ var maciShopExport = function (options) {
 			barcodeInput.prev().text(s[0].toUpperCase() + s.slice(1));
 			_obj.resetOutput();
 		}).change();
-		barcodeInput.on('keypress', _obj.barcodeChange).keypress();
+		barcodeInput.val('').on('keypress', _obj.barcodeChange).keypress();
 		_obj.getSets();
 		_obj.resetOutput();
 	}
