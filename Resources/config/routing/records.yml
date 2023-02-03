@@ -45,6 +45,10 @@ maci_record_export_record:
     path:     /record/export-record
     defaults: { _controller: MaciPageBundle:Record:exportRecord, section: records }
 
+maci_record_export_products:
+    path:     /record/export-products
+    defaults: { _controller: MaciPageBundle:Record:exportProducts, section: records }
+
 maci_record_load_unsetted_records:
     path:     /record/load-unsetted-records
     defaults: { _controller: MaciPageBundle:Record:loadUnsettedRecords, section: records }

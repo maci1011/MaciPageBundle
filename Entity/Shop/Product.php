@@ -1731,7 +1731,7 @@ class Product
 
 	public function findVariant($name)
 	{
-		if(!$this->hasVariants() || !$name) return -1;
+		if(!$this->hasVariants() || !strlen($name)) return -1;
 		for ($i=0; $i < count($this->getVariants()); $i++)
 			if($name == $this->data['variants'][$i]['name'])
 				return $i;
@@ -1751,17 +1751,17 @@ class Product
 		return join(', ', $list);
 	}
 
+	public function getVariantId()
+	{
+		return $this->getVariantIdentifier($this->getVariant());
+	}
+
 	static public function getVariantIdentifier($name)
 	{
 		if (!$name || !strlen($name))
 			return null;
 
 		return strtolower(str_replace('.', '', str_replace(' ', '', $name)));
-	}
-
-	public function getVariantId()
-	{
-		return $this->getVariantIdentifier($this->getVariant());
 	}
 
 	public function checkVariantAttr($variant)
@@ -1778,6 +1778,9 @@ class Product
 
 	public function checkVariant($variant)
 	{
+		if ($this->hasVariants() && is_string($variant))
+			return -1 < $this->findVariant($variant);
+
 		return !(
 			!$this->hasVariants() && is_array($variant) && (
 				(!array_key_exists('type', $variant) || $variant['type'] != 'simple') ||
@@ -1812,10 +1815,41 @@ class Product
 		return $this->checkRecord($record) && $this->checkVariant($record->getVariant());
 	}
 
+	public function exportVariant($name = null)
+	{
+		if (!$this->hasVariants())
+		{
+			return [
+				'type' => $this->getVariantType(),
+				'field' => $this->getVariantField(),
+				'variant' => $this->getVariant()
+			];
+		}
+
+		if (!is_string($name) || -1 == $this->findVariant($name))
+			return false;
+
+		// $variant = $this->findVariantItem($name);
+
+		if ($this->isColorNSize())
+		{
+			return [
+				'type' => 'color-n-size',
+				'name' => $name,
+				'color' => $this->getVariant()
+			];
+		}
+
+		return false;
+	}
+
 	public function createRecord($type, $variant, $quantity = 1)
 	{
 		if (!in_array($type, Record::getTypes()) || !$this->checkVariant($variant))
 			return false;
+
+		if ($this->hasVariants() && is_string($variant))
+			$variant = $this->exportVariant($variant);
 
 		$record = new Record;
 		$record->setCode($this->getCode());

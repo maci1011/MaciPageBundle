@@ -3,11 +3,12 @@
 
 var maciShopExport = function (options) {
 
-	var form, setInput, typeInput, codeInput, barcodeInput, qtaInput, wrapper, alertNode,
+	var form, setInput, typeInput, codeInput, barcodeInput, qtaInput, wrapper, alertNode, out,
 
 	_obj = {
 
-	getSets: function() {
+	getSets: function()
+	{
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -24,11 +25,13 @@ var maciShopExport = function (options) {
 			},
 			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				if (!d.list.length) {
+				if (!d.list.length)
+				{
 					setInput.parent().hide();
 					return;
 				}
-				for (var i = 0; i < d.list.length; i++) {
+				for (var i = 0; i < d.list.length; i++)
+				{
 					$('<option/>').attr('value', d.list[i].id).text(d.list[i].id + ": " + d.list[i].label).appendTo(setInput);
 					if (21 < setInput.find('option').length) break;
 				}
@@ -36,7 +39,8 @@ var maciShopExport = function (options) {
 		});
 	},
 
-	setParent: function(id) {
+	setParent: function(id)
+	{
 		if (!id || _obj.check()) return;
 		$.ajax({
 			type: 'POST',
@@ -55,7 +59,8 @@ var maciShopExport = function (options) {
 		});
 	},
 
-	saleRecord: function() {
+	saleRecord: function()
+	{
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -72,35 +77,146 @@ var maciShopExport = function (options) {
 		});
 	},
 
-	findProduct: function() {
+	findProduct: function()
+	{
 		$.ajax({
 			type: 'POST',
 			data: {
 				'data': {
 					'list': {
-						'section': 'records',
-						'entity': 'record_set',
+						'section': 'shop',
+						'entity': 'product',
 						'filters': [{
-							'field': 'type',
-							'value': 'exprt'
+							'field': 'code',
+							'method': 'LIKE',
+							'value': barcodeInput.val().trim()
 						}]
 					}
-				},
-				'code': barcodeInput.val().trim()
+				}
 			},
-			url: '/record/export-record',
+			url: '/mcm/ajax',
 			success: function(d,s,x) {
-				_obj.setParent(d.id);
-				_obj.showAlert(d);
-				_obj.reset();
+				_obj.showList(d);
 			}
 		});
 	},
 
-	showAlert: function(data) {
+	exportProducts: function(products)
+	{
+		$.ajax({
+			type: 'POST',
+			data: {
+				'products': products
+			},
+			url: '/record/export-products',
+			success: function(d,s,x) {
+				console.log(d);
+			}
+		});
+	},
+
+	showList: function(data)
+	{
+		if (alertNode)
+		{
+			alertNode.remove();
+			alertNode = false;
+		}
+
+		console.log(data);
+
+		out.html('');
+
+		var tbody = $('<tbody/>')
+			.appendTo(out)
+			.wrap('<table class="table table-striped" />')
+		;
+
+		for (var i = data.list.length - 1; i >= 0; i--)
+		{
+
+			if (data.list[i].type == 'simple')
+			{
+				var tr = $('<tr/>');
+				$('<td/>').html('<input type="checkbox" class="productItemId" pid="' + data.list[i].id + '" pva="__null__" qta="' + data.list[i].quantity + '">').appendTo(tr);
+				$('<td/>').text(data.list[i].code).appendTo(tr);
+				$('<td/>').text(data.list[i].name).appendTo(tr);
+				$('<td/>').text(data.list[i].variant).appendTo(tr);
+				$('<td/>').text('-').appendTo(tr);
+				$('<td/>').text(data.list[i].buyed).appendTo(tr);
+				$('<td/>').text(data.list[i].quantity).appendTo(tr);
+				$('<td/>').text(data.list[i].selled).appendTo(tr);
+				tr.appendTo(tbody);
+			}
+			else
+			{
+				var variants = data.list[i].data.variants;
+				for (var j = variants.length - 1; j >= 0; j--)
+				{
+					var tr = $('<tr/>');
+					$('<td/>').html('<input type="checkbox" class="productItemId" pid="' + data.list[i].id + '" pva="' + variants[j].name + '" qta="' + variants[j].quantity + '">').appendTo(tr);
+					$('<td/>').text(data.list[i].code).appendTo(tr);
+					$('<td/>').text(data.list[i].name).appendTo(tr);
+					$('<td/>').text(data.list[i].variant).appendTo(tr);
+					$('<td/>').text(variants[j].name).appendTo(tr);
+					$('<td/>').text(variants[j].buyed).appendTo(tr);
+					$('<td/>').text(variants[j].quantity).appendTo(tr);
+					$('<td/>').text(variants[j].selled).appendTo(tr);
+					tr.appendTo(tbody);
+				}
+			}
+		}
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export(qtaInput.val(), 'sale');
+		}).text('Sell (Sel.Qta)');
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export('all', 'sale');
+		}).text('Sell All').css('marginLeft', '8px');
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export(qtaInput.val(), 'back');
+		}).text('Sell (Sel.Qta)');
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export('all', 'back');
+		}).text('Sell All').css('marginLeft', '8px');
+	},
+
+	export: function(quantity, type)
+	{
+		var selected = $('.productItemId:checked');
+		if (!selected.length)
+		{
+			alert('Nothing selected!');
+			return;
+		}
+
+		var products = [];
+		selected.each(function(i, el) {
+			products.push({
+				'id': parseInt($(el).attr('pid')),
+				'variant': $(el).attr('pva') == '__null__' ? null : $(el).attr('pva'),
+				'quantity': quantity == 'all' ? parseInt($(el).attr('qta')) : parseInt(quantity),
+				'type': type
+			});
+		});
+
+		console.log(products);
+
+		_obj.exportProducts(products);
+	},
+
+	showAlert: function(data)
+	{
 		if (!alertNode)
 			alertNode = $("<div/>").addClass('alert alert-info mt-2')
-				.css('marginTop', '16px').appendTo(barcodeInput.parents('form').first())
+				.css('marginTop', '16px').appendTo(out)
 				.click(function(e) {
 					alertNode.remove();
 					alertNode = false;
@@ -119,13 +235,15 @@ var maciShopExport = function (options) {
 		);
 	},
 
-	reset: function() {
+	reset: function()
+	{
 		qtaInput.val(1);
 		barcodeInput.val('');
 		barcodeInput.focus();
 	},
 
-	check: function() {
+	check: function()
+	{
 		return setInput.val() == 'null' && typeInput.val() != 'quantity' && typeInput.val() != 'check';
 	},
 
@@ -139,16 +257,18 @@ var maciShopExport = function (options) {
 		}
 		else
 		{
-			// _obj.findProduct();
+			_obj.findProduct();
 		}
 	},
 
-	toggleBarcode: function() {
+	toggleBarcode: function()
+	{
 		if (_obj.check()) barcodeInput.parents('.toggleContainer').first().hide();
 		else barcodeInput.parents('.toggleContainer').first().show();
 	},
 
-	set: function(_form) {
+	set: function(_form)
+	{
 		wrapper = false;
 		alertNode = false;
 		form = _form;
@@ -157,6 +277,7 @@ var maciShopExport = function (options) {
 		codeInput = form.find("#code_type");
 		qtaInput = form.find("#data_quantity");
 		barcodeInput = form.find("#data_barcode");
+		out = form.find("#output");
 		form.submit(function(e) {
 			e.preventDefault();
 		});

@@ -442,18 +442,8 @@ class RecordController extends AbstractController
 
 	public function exportRecordAction(Request $request)
 	{
-		if (!$this->isGranted('ROLE_ADMIN'))
-			return $this->redirect($this->generateUrl('maci_homepage'));
-
-		// --- Check Request
-
 		if (!$request->isXmlHttpRequest())
 			return $this->redirect($this->generateUrl('homepage'));
-
-		$barcode = $request->get('barcode');
-
-		if ($request->getMethod() !== 'POST' || !$barcode)
-			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
 		// --- Check Auth
 
@@ -461,13 +451,20 @@ class RecordController extends AbstractController
 		if (!$admin->checkAuth())
 			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
 
+		// --- Check Request
+
+		$barcode = $request->get('barcode');
+
+		if ($request->getMethod() !== 'POST' || !$barcode)
+			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
+
 		$om = $this->getDoctrine()->getManager();
 		$record = $om->getRepository('MaciPageBundle:Shop\Record')->findOneBy(['barcode' => $barcode, 'type' => 'purchas']);
 
 		if (!$record)
 			return new JsonResponse(['success' => false, 'error' => 'Record not Found.'], 200);
 
-		$product = $product = $this->findProduct($record);
+		$product = $this->findProduct($record);
 
 		if (!$product)
 			return new JsonResponse(['success' => false, 'error' => 'Product not Found.'], 200);
@@ -522,6 +519,59 @@ class RecordController extends AbstractController
 			'id' => $newRecord->getId(),
 			'variant' => $newRecord->getVariantLabel(),
 			'quantity' => $product->getQuantity($record->getVariant())
+		], 200);
+	}
+
+	public function exportProductsAction(Request $request)
+	{
+		if (!$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('homepage'));
+
+		// --- Check Auth
+
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth())
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+
+		// --- Check Request
+
+		$products = $request->get('products');
+
+		if ($request->getMethod() !== 'POST' || !$products)
+			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
+
+		$om = $this->getDoctrine()->getManager();
+		$errors = [];
+		$newRecord = false;
+
+		foreach ($products as $key => $pdata)
+		{
+			$product = $om->getRepository('MaciPageBundle:Shop\Product')
+				->findOneBy(['id' => $pdata['id']]);
+
+			if (!$product)
+				array_push($errors, ['error' => 'Record not Found.', 'id' => $pdata['id']]);
+
+			switch ($pdata['type'])
+			{
+				case 'sale':
+					$newRecord = $product->exportSaleRecord($pdata['variant'], $pdata['quantity']);
+					break;
+
+				case 'back':
+					$newRecord = $product->exportBackRecord($pdata['variant'], $pdata['quantity']);
+					break;
+			}
+		}
+
+		if (!$newRecord) return new JsonResponse(['success' => false, 'error' => 'Export Failed.'], 200);
+
+		$om->persist($newRecord);
+		$om->flush();
+
+		return new JsonResponse([
+			'success' => true,
+			'errors' => $errors
 		], 200);
 	}
 
