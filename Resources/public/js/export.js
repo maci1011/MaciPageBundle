@@ -134,6 +134,17 @@ var maciShopExport = function (options) {
 			.wrap('<table class="table table-striped" />')
 		;
 
+		var thead = $('<tr/>');
+		$('<th/>').html('&nbsp;').attr('width', '50px').appendTo(thead);
+		$('<th/>').text('Code').attr('width', '150px').appendTo(thead);
+		$('<th/>').text('Name').attr('width', '250px').appendTo(thead);
+		$('<th/>').text('Color').attr('width', '200px').appendTo(thead);
+		$('<th/>').text('Variant').appendTo(thead);
+		$('<th/>').text('Buyd').attr('width', '56px').appendTo(thead);
+		$('<th/>').text('Qta').attr('width', '56px').appendTo(thead);
+		$('<th/>').text('Sell').attr('width', '56px').appendTo(thead);
+		thead.wrap('<thead/>').parent().prependTo(tbody.parent());
+
 		for (var i = data.list.length - 1; i >= 0; i--)
 		{
 
