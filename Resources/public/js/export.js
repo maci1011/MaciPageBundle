@@ -323,13 +323,15 @@ var maciShopExport = function (options) {
 		});
 		setInput.change(function(e) {
 			_obj.toggleBarcode();
-			form.find('#btn_export').attr('href', '/record/reports/export-set/' + setInput.val());
+			form.find('#btn_export').attr('href', '/record/reports/export-set/' + setInput.val()).show();
+			if (setInput.val() == 'null')
+				form.find('#btn_export').hide();
 			out.html('');
-		});
+		}).change();
 		typeInput.change(function(e) {
 			_obj.toggleBarcode();
 			out.html('');
-		}).change();
+		});
 		codeInput.change(function(e) {
 			var s = $(this).val();
 			barcodeInput.prev().text(s[0].toUpperCase() + s.slice(1));

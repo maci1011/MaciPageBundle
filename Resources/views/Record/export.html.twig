@@ -10,6 +10,9 @@
 	</select>
 </div>
 <div class="form-group">
+	<a id="btn_export" class="btn btn-primary" href="#">Export List</a>
+</div>
+<div class="form-group">
 	<label class="required" for="sales_type">Type</label>
 	<select id="sales_type" class="form-control">
 		<option value="sale">Sale</option>
@@ -24,7 +27,7 @@
 <div class="row">
 <div class="col-12 col-sm-3">
 <div class="form-group">
-	<label class="required" for="code_type">Type</label>
+	<label class="required" for="code_type">Find By</label>
 	<select id="code_type" class="form-control">
 		<option value="barcode">Barcode</option>
 		<option value="code">Code</option>
@@ -43,9 +46,6 @@
 	<input id="data_quantity" class="form-control" type="number" value="1" />
 </div>
 </div>
-</div>
-<div class="form-group">
-	<a id="btn_export" class="btn btn-primary" href="#">Export List</a>
 </div>
 </div>
 <div id="output" style="padding: 32px 0;"></div>
