@@ -103,6 +103,12 @@ var maciShopExport = function (options) {
 
 	exportProducts: function(products)
 	{
+		if (setInput.val() == 'null')
+		{
+			alert('Select a Record Set!');
+			return;
+		}
+
 		$.ajax({
 			type: 'POST',
 			data: {
