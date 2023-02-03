@@ -112,6 +112,7 @@ var maciShopExport = function (options) {
 			url: '/record/export-products',
 			success: function(d,s,x) {
 				console.log(d);
+				_obj.findProduct();
 			}
 		});
 	},
@@ -181,12 +182,12 @@ var maciShopExport = function (options) {
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
 			_obj.export(qtaInput.val(), 'back');
-		}).text('Sell (Sel.Qta)').css('marginLeft', '8px');
+		}).text('Back (Sel.Qta)').css('marginLeft', '8px');
 
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
 			_obj.export('all', 'back');
-		}).text('Sell All').css('marginLeft', '8px');
+		}).text('Back All').css('marginLeft', '8px');
 	},
 
 	export: function(quantity, type)
@@ -256,7 +257,9 @@ var maciShopExport = function (options) {
 
 	barcodeChange: function(e)
 	{
-		if (_obj.check()) return;
+		if (_obj.check())
+			return;
+
 		if (codeInput.val() == 'barcode')
 		{
 			if (barcodeInput.val().trim().length != 13)
