@@ -565,12 +565,16 @@ class RecordController extends AbstractController
 
 			switch ($pdata['type'])
 			{
-				case 'sale':
-					$newRecord = $product->exportSaleRecord($pdata['variant'], intval($pdata['quantity']));
-					break;
-
 				case 'back':
 					$newRecord = $product->exportBackRecord($pdata['variant'], intval($pdata['quantity']));
+					break;
+
+				case 'return':
+					$newRecord = $product->exportReturnRecord($pdata['variant'], intval($pdata['quantity']));
+					break;
+
+				case 'sale':
+					$newRecord = $product->exportSaleRecord($pdata['variant'], intval($pdata['quantity']));
 					break;
 			}
 

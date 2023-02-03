@@ -188,6 +188,16 @@ var maciShopExport = function (options) {
 			e.preventDefault();
 			_obj.export('all', 'back');
 		}).text('Back All').css('marginLeft', '8px');
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export(qtaInput.val(), 'return');
+		}).text('Return (Sel.Qta)').css('marginLeft', '8px');
+
+		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+			e.preventDefault();
+			_obj.export('all', 'return');
+		}).text('Return All').css('marginLeft', '8px');
 	},
 
 	export: function(quantity, type)
