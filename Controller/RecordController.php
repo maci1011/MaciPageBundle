@@ -545,6 +545,7 @@ class RecordController extends AbstractController
 		if (!$products)
 			return new JsonResponse(['success' => false, 'error' => 'Bad Request.'], 200);
 
+		$checks = [];
 		$errors = [];
 
 		foreach ($products as $key => $pdata)
@@ -576,6 +577,10 @@ class RecordController extends AbstractController
 				case 'sale':
 					$newRecord = $product->exportSaleRecord($pdata['variant'], intval($pdata['quantity']));
 					break;
+
+				case 'check':
+					array_push($checks, ['result' => $this->checkProduct($product), 'id' => $pdata['id']]);
+					continue;
 			}
 
 			if (!$newRecord)
@@ -592,7 +597,8 @@ class RecordController extends AbstractController
 
 		return new JsonResponse([
 			'success' => true,
-			'errors' => $errors
+			'errors' => $errors,
+			'checks' => $checks
 		], 200);
 	}
 

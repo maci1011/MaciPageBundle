@@ -181,35 +181,30 @@ var maciShopExport = function (options) {
 			}
 		}
 
-		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
-			e.preventDefault();
-			_obj.export(qtaInput.val(), 'sale');
-		}).text('Sell (Sel.Qta)');
+		if (typeInput.val() == 'quantity')
+			return;
+
+		var label = typeInput.val();
+		label = label[0].toUpperCase() + label.slice(1);
+
+		if (typeInput.val() == 'check')
+		{
+			$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
+				e.preventDefault();
+				_obj.export(qtaInput.val(), 1);
+			}).text(label + ' Products');
+			return;
+		}
 
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
-			_obj.export('all', 'sale');
-		}).text('Sell All').css('marginLeft', '8px');
+			_obj.export(qtaInput.val(), typeInput.val());
+		}).text(label + ' (Sel.Qta)');
 
 		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 			e.preventDefault();
-			_obj.export(qtaInput.val(), 'back');
-		}).text('Back (Sel.Qta)').css('marginLeft', '8px');
-
-		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
-			e.preventDefault();
-			_obj.export('all', 'back');
-		}).text('Back All').css('marginLeft', '8px');
-
-		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
-			e.preventDefault();
-			_obj.export(qtaInput.val(), 'return');
-		}).text('Return (Sel.Qta)').css('marginLeft', '8px');
-
-		$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
-			e.preventDefault();
-			_obj.export('all', 'return');
-		}).text('Return All').css('marginLeft', '8px');
+			_obj.export('all', typeInput.val());
+		}).text(label + ' All').css('marginLeft', '8px');
 	},
 
 	export: function(quantity, type)
@@ -338,10 +333,14 @@ var maciShopExport = function (options) {
 			if (setInput.val() == 'null')
 				form.find('#btn_export').hide();
 			_obj.resetOutput();
+			if (codeInput.val() == 'code')
+				barcodeInput.keypress();
 		}).change();
 		typeInput.change(function(e) {
 			_obj.toggleBarcode();
 			_obj.resetOutput();
+			if (codeInput.val() == 'code')
+				barcodeInput.keypress();
 		});
 		codeInput.change(function(e) {
 			var s = $(this).val();
