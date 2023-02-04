@@ -49,6 +49,18 @@ class ProductRepository extends EntityRepository
 		return $query->getQuery()->getResult();
 	}
 
+	public function getOlders()
+	{
+		$query = $this->createQueryBuilder('p')
+			->andWhere('0 < p.quantity')
+			->andWhere('p.removed = false')
+			->orderBy('p.updated', 'ASC');
+
+		$query = $query->setMaxResults(7);
+
+		return $query->getQuery()->getResult();
+	}
+
 	public static function addProductListFilters(&$query)
 	{
 		self::addProductFilters($query);

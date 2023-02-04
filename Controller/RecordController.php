@@ -602,6 +602,29 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
+	public function getOldersAction(Request $request)
+	{
+		// --- Check Request
+
+		if ($request->getMethod() !== 'POST' || !$request->isXmlHttpRequest())
+			return $this->redirect($this->generateUrl('homepage'));
+
+		// --- Check Auth
+
+		$admin = $this->container->get(\Maci\AdminBundle\Controller\AdminController::class);
+		if (!$admin->checkAuth())
+			return new JsonResponse(['success' => false, 'error' => 'Not Authorized.'], 200);
+
+		$om = $this->getDoctrine()->getManager();
+
+		$list = $om->getRepository('MaciPageBundle:Shop\Product')->getOlders();
+
+		return new JsonResponse([
+			'success' => true,
+			'list' => $admin->getDataFromList($admin->getEntity('shop', 'product'), $list)
+		], 200);
+	}
+
 	public function getLabelsAction(Request $request, $template = false)
 	{
 		if (!$this->isGranted('ROLE_ADMIN'))
