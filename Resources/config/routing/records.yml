@@ -50,8 +50,8 @@ maci_record_export_products:
     defaults: { _controller: MaciPageBundle:Record:exportProducts, section: records }
 
 maci_record_export_olders:
-    path:     /record/export-olders
-    defaults: { _controller: MaciPageBundle:Record:getOlders, section: shop }
+    path:     /record/export-list
+    defaults: { _controller: MaciPageBundle:Record:getProductsList, section: shop }
 
 maci_record_load_unsetted_records:
     path:     /record/load-unsetted-records

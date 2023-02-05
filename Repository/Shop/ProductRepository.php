@@ -54,7 +54,20 @@ class ProductRepository extends EntityRepository
 		$query = $this->createQueryBuilder('p')
 			->andWhere('0 < p.quantity')
 			->andWhere('p.removed = false')
-			->orderBy('p.updated', 'ASC');
+			->orderBy('p.id', 'ASC');
+
+		$query = $query->setMaxResults(7);
+
+		return $query->getQuery()->getResult();
+	}
+
+	public function getNegatives()
+	{
+		$query = $this->createQueryBuilder('p')
+			->where('p.buyed < 0')
+			->orWhere('p.quantity < 0')
+			->orWhere('p.selled < 0')
+			->orderBy('p.id', 'ASC');
 
 		$query = $query->setMaxResults(7);
 

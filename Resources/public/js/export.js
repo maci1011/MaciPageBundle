@@ -124,12 +124,14 @@ var maciShopExport = function (options) {
 		});
 	},
 
-	getOlders: function(products)
+	getProductsList: function(type)
 	{
 		$.ajax({
 			type: 'POST',
-			data: {},
-			url: '/record/export-olders',
+			data: {
+				'type': type
+			},
+			url: '/record/export-list',
 			success: function(d,s,x) {
 				_obj.showList(d);
 			}
@@ -141,7 +143,10 @@ var maciShopExport = function (options) {
 		_obj.resetOutput();
 
 		if (!data || !data.list || !data.list.length)
+		{
+			$('<h5/>').text('No result.').appendTo(out);
 			return;
+		}
 
 		var tbody = $('<tbody/>')
 			.appendTo(out)
@@ -314,7 +319,13 @@ var maciShopExport = function (options) {
 		{
 			barcodeInput.parent().hide();
 
-			_obj.getOlders();
+			_obj.getProductsList('olders');
+		}
+		else if (codeInput.val() == 'negatives')
+		{
+			barcodeInput.parent().hide();
+
+			_obj.getProductsList('negatives');
 		}
 		else
 		{

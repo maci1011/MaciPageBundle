@@ -602,7 +602,7 @@ class RecordController extends AbstractController
 		], 200);
 	}
 
-	public function getOldersAction(Request $request)
+	public function getProductsListAction(Request $request)
 	{
 		// --- Check Request
 
@@ -617,7 +617,22 @@ class RecordController extends AbstractController
 
 		$om = $this->getDoctrine()->getManager();
 
-		$list = $om->getRepository('MaciPageBundle:Shop\Product')->getOlders();
+		$type = $request->get('type');
+
+		switch ($type)
+		{
+			case 'olders':
+				$list = $om->getRepository('MaciPageBundle:Shop\Product')->getOlders();
+				break;
+			
+			case 'negatives':
+				$list = $om->getRepository('MaciPageBundle:Shop\Product')->getNegatives();
+				break;
+			
+			default:
+				$list = [];
+				break;
+		}
 
 		return new JsonResponse([
 			'success' => true,
