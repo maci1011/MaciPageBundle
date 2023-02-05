@@ -209,7 +209,7 @@ var maciShopExport = function (options) {
 		{
 			$('<button class="btn btn-primary" />').appendTo(out).click(function(e) {
 				e.preventDefault();
-				_obj.export(qtaInput.val(), 1);
+				_obj.export(1, 'check');
 			}).text(label + ' Products');
 			return;
 		}
