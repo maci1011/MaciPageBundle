@@ -580,12 +580,15 @@ class RecordController extends AbstractController
 
 				case 'check':
 					array_push($checks, ['result' => $this->checkProduct($product), 'id' => $pdata['id']]);
-					continue;
+					break;
 			}
+
+			if ($pdata['type'] == 'check')
+				continue;
 
 			if (!$newRecord)
 			{
-				array_push($errors, ['error' => 'Export Failed.', 'id' => $pdata['id']], 200);
+				array_push($errors, ['error' => 'Export Failed.', 'id' => $pdata['id']]);
 				continue;
 			}
 
