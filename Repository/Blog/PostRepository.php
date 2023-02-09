@@ -17,15 +17,7 @@ class PostRepository extends EntityRepository
 	public function getLatestPosts($locale, $max = 13)
 	{
 		$q = $this->createQueryBuilder('p');
-		$q
-			->where('p.removed = :removed')
-			->setparameter(':removed', false)
-			->andWhere('p.status = :status')
-			->setparameter(':status', 'pubblished')
-			->andWhere('p.locale = :locale')
-			->setparameter(':locale', $locale)
-			->orderBy('p.created', 'DESC')
-		;
+		$this->addPostListFilters($q, $locale);
 
 		if (0 < $max)
 			$q->setMaxResults($max);
@@ -35,34 +27,28 @@ class PostRepository extends EntityRepository
 
 	public function getByTag($id)
 	{
-		$q = $this->createQueryBuilder('p');
-		$q
+		$q = $this->createQueryBuilder('p')
 			->leftJoin('p.tags', 't')
 			->where('t.id = :id')
-			->setParameter('id', $id)
-			->andWhere('p.removed = :removed')
-			->setparameter(':removed', false)
-			->andWhere('p.status = :status')
-			->setparameter(':status', 'pubblished')
-			->orderBy('p.created', 'DESC')
+			->setParameter(':id', $id)
 		;
+
+		$this->addPostListFilters($q);
+
 		return $q->getQuery()->getResult();
 	}
 
 	public function getByAuthor($author)
 	{
-		$q = $this->createQueryBuilder('p');
-		$q
+		$q = $this->createQueryBuilder('p')
 			->leftJoin('p.editors', 'e')
 			->leftJoin('e.author', 'a')
 			->where('a.id = :id')
-			->setParameter('id', $author->getId())
-			->andWhere('p.removed = :removed')
-			->setparameter(':removed', false)
-			->andWhere('p.status = :status')
-			->setparameter(':status', 'pubblished')
-			->orderBy('p.created', 'ASC')
-			;
+			->setParameter(':id', $author->getId())
+		;
+
+		$this->addPostListFilters($q);
+
 		return $q->getQuery()->getResult();
 	}
 
@@ -71,32 +57,59 @@ class PostRepository extends EntityRepository
 		$offset = ($page - 1) * $limit;
 
 		$q = $this->createQueryBuilder('p');
+		$this->addPostListFilters($q);
+
 		$q
 			->setFirstResult($offset)
 			->setMaxResults($limit)
-			;
+		;
 
 		return $q->getQuery()->getResult();
 	}
 
 	public function countAll()
 	{
-		if (!is_null($this->allCount)) {
+		if (!is_null($this->allCount))
 			return $this->allCount;
-		}
 
 		$q = $this->createQueryBuilder('p');
-		$q
-			->select('COUNT(p.id)')
-			;
+		$q->select('COUNT(p.id)');
 
-		return $q->getQuery()->getSingleScalarResult();
+		return $this->allCount = $q->getQuery()->getSingleScalarResult();
+	}
+
+	public static function addPostListFilters(&$query, $locale = false)
+	{
+		self::addPostDefaultFilters($query);
+
+		$query
+			->andWhere('p.status = :status')
+			->setparameter(':status', 'pubblished')
+			->orderBy('p.created', 'DESC')
+		;
+
+		if ($locale)
+		{
+			$query
+				->andWhere('p.locale = :locale')
+				->setparameter(':locale', $locale)
+			;
+		}
+	}
+
+	public static function addPostDefaultFilters(&$query)
+	{
+		$query
+			->andWhere('p.removed = :removed')
+			->setparameter(':removed', false)
+		;
 	}
 
 	public function search($request)
 	{
 		$query = $request->get('query');
 		$locale = $request->get('_locale');
+
 		$search = $this->createQueryBuilder('p')
 			->leftJoin('p.translations', 't')
 			->where('t.title LIKE :query')
