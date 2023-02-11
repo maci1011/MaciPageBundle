@@ -168,7 +168,7 @@ var maciShopExport = function (options) {
 		{
 			if (data.list[i].type == 'simple')
 			{
-				if (['olders', 'negatives'].includes(codeInput.val()) && data.list[i].quantity == 0)
+				if (!(['quantity', 'check'].includes(typeInput.val())) && data.list[i].quantity == 0)
 					continue;
 
 				var tr = $('<tr/>');
@@ -187,7 +187,7 @@ var maciShopExport = function (options) {
 				var variants = data.list[i].data.variants;
 				for (var j = variants.length - 1; j >= 0; j--)
 				{
-					if (['olders', 'negatives'].includes(codeInput.val()) && variants[j].quantity == 0)
+					if (!(['quantity', 'check'].includes(typeInput.val())) && variants[j].quantity == 0)
 						continue;
 
 					var tr = $('<tr/>');
