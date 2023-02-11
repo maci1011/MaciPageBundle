@@ -103,7 +103,7 @@ var maciShopExport = function (options) {
 
 	exportProducts: function(products)
 	{
-		if (setInput.val() == 'null')
+		if (codeInput.val() != 'check' && setInput.val() == 'null')
 		{
 			alert('Select a Record Set!');
 			return;
