@@ -56,7 +56,7 @@ class ProductRepository extends EntityRepository
 			->andWhere('p.removed = false')
 			->orderBy('p.id', 'ASC');
 
-		$query = $query->setMaxResults(7);
+		$query = $query->setMaxResults(77);
 
 		return $query->getQuery()->getResult();
 	}
@@ -69,7 +69,7 @@ class ProductRepository extends EntityRepository
 			->orWhere('p.selled < 0')
 			->orderBy('p.id', 'ASC');
 
-		$query = $query->setMaxResults(7);
+		$query = $query->setMaxResults(77);
 
 		return $query->getQuery()->getResult();
 	}

@@ -166,9 +166,11 @@ var maciShopExport = function (options) {
 
 		for (var i = data.list.length - 1; i >= 0; i--)
 		{
-
 			if (data.list[i].type == 'simple')
 			{
+				if (['olders', 'negatives'].includes(codeInput.val()) && data.list[i].quantity == 0)
+					continue;
+
 				var tr = $('<tr/>');
 				$('<td/>').html('<input type="checkbox" class="productItemId" pid="' + data.list[i].id + '" pva="__null__" qta="' + data.list[i].quantity + '">').appendTo(tr);
 				$('<td/>').text(data.list[i].code).appendTo(tr);
@@ -185,6 +187,9 @@ var maciShopExport = function (options) {
 				var variants = data.list[i].data.variants;
 				for (var j = variants.length - 1; j >= 0; j--)
 				{
+					if (['olders', 'negatives'].includes(codeInput.val()) && variants[j].quantity == 0)
+						continue;
+
 					var tr = $('<tr/>');
 					$('<td/>').html('<input type="checkbox" class="productItemId" pid="' + data.list[i].id + '" pva="' + variants[j].name + '" qta="' + variants[j].quantity + '">').appendTo(tr);
 					$('<td/>').text(data.list[i].code).appendTo(tr);
