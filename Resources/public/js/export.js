@@ -164,7 +164,7 @@ var maciShopExport = function (options) {
 		$('<th/>').text('Sell').attr('width', '56px').appendTo(thead);
 		thead.wrap('<thead/>').parent().prependTo(tbody.parent());
 
-		for (var i = data.list.length - 1; i >= 0; i--)
+		for (var i = 0; i < data.list.length; i++)
 		{
 			if (data.list[i].type == 'simple')
 			{
@@ -185,7 +185,7 @@ var maciShopExport = function (options) {
 			else
 			{
 				var variants = data.list[i].data.variants;
-				for (var j = variants.length - 1; j >= 0; j--)
+				for (var j = 0; j < variants.length; j++)
 				{
 					if (!(['quantity', 'check'].includes(typeInput.val())) && variants[j].quantity == 0)
 						continue;

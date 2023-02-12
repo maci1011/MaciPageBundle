@@ -52,11 +52,11 @@ class ProductRepository extends EntityRepository
 	public function getOlders()
 	{
 		$query = $this->createQueryBuilder('p')
-			->andWhere('0 < p.quantity')
+			->where('0 < p.quantity')
 			->andWhere('p.removed = false')
-			->orderBy('p.id', 'ASC');
+			->orderBy('p.updated', 'ASC');
 
-		$query = $query->setMaxResults(77);
+		$query = $query->setMaxResults(20);
 
 		return $query->getQuery()->getResult();
 	}
@@ -69,7 +69,7 @@ class ProductRepository extends EntityRepository
 			->orWhere('p.selled < 0')
 			->orderBy('p.id', 'ASC');
 
-		$query = $query->setMaxResults(77);
+		$query = $query->setMaxResults(30);
 
 		return $query->getQuery()->getResult();
 	}
