@@ -18,7 +18,7 @@
 <div class="cart-item row {{ loop.index is even ? 'even' : 'odd' }}">
 
 	<div class="item-preview col-3 px-0">
-		<img class="img-fluid" src="{{ asset(item.product.webPreview | imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.name }}" {% if item.product.description %}title="{{ item.product.description }}"{% else %}title="{{ item.product.name }}"{% endif %} />
+		<img class="img-fluid" src="{{ asset(item.product.webPreview | imagine_filter('maci_product_preview_list')) }}" alt="{{ item.product.name }}" {% if item.product.description %}title="{{ item.product.description }}"{% else %}title="{{ item.product.name }}"{% endif %} />
 	</div>
 
 	<div class="item-description col-9">

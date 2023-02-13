@@ -45,7 +45,7 @@
 	<td class="preview hidden-xs">
 
 		{% if item.product.inhPreview is not null %}
-		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath|imagine_filter('maci_product_preview_cart')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %}title="{{ item.product.inhDescription }}"{% else %}title="{{ item.product.inhName }}"{% endif %} />
+		<img class="img-fluid" src="{{ asset(item.product.inhPreview.webPath|imagine_filter('maci_product_preview_list')) }}" alt="{{ item.product.inhName }}" {% if item.product.inhDescription %}title="{{ item.product.inhDescription }}"{% else %}title="{{ item.product.inhName }}"{% endif %} />
 		{% else %}
 		&nbsp;
 		{% endif %}

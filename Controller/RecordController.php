@@ -792,8 +792,13 @@ class RecordController extends AbstractController
 		if ($b != $product->getBuyed() || $q != $product->getQuantity() || $s != $product->getSelled())
 		{
 			$edited = true;
-			$om->flush();
 		}
+		else
+		{
+			$product->setUpdatedValue();
+		}
+
+		$om->flush();
 
 		return [
 			'success' => true,

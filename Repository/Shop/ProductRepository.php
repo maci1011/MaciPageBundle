@@ -56,7 +56,7 @@ class ProductRepository extends EntityRepository
 			->andWhere('p.removed = false')
 			->orderBy('p.updated', 'ASC');
 
-		$query = $query->setMaxResults(20);
+		$query = $query->setMaxResults(30);
 
 		return $query->getQuery()->getResult();
 	}
