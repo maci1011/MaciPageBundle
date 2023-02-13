@@ -2,18 +2,20 @@
 <nav class="post-collapsed-nav navbar navbar-expand-md flex-column">
 	<ul class="navbar-nav mr-auto">
 
-		{% if post.isPubblished and post.pubblished %}
-		<li class="nav-item">
+		<li class="nav-item first">
 			<p class="post-date post-nav-val navbar-text px-2">
 				{% if post.isUpdated %}
 				<i class="fas fa-calendar-edit"></i>
-				{% else %}
+				{{ post.updated|date('d/m/Y') }}
+				{% elseif post.isPubblished %}
 				<i class="fas fa-calendar-day"></i>
-				{% endif %}
 				{{ post.pubblished|date('d/m/Y') }}
+				{% else %}
+				<i class="fas fa-ufo"></i>
+				{{ post.created|date('d/m/Y') }}
+				{% endif %}
 			</p>
 		</li>
-		{% endif %}
 
 		{% if post.editors|length %}
 		<li class="nav-item first">
@@ -23,11 +25,10 @@
 				{{ post.author.name }}
 			</a>
 			{% else %}
-			<p class="post-author post-nav-val navbar-text px-2">
+			<p class="post-nav-val navbar-text px-2">
 				<i class="fas fa-users"></i>
 				{% for editor in post.authors %}
-				<a class="nav-author-item" href="{{ path('maci_blog_author', { 'path': editor.path, '_locale': editor.locale }) }}">{{ editor.name }}</a>
-				{% if not loop.last %}<span class="nav-author-separator">, </span>{% endif %}
+				<a class="post-author nav-author-item" href="{{ path('maci_blog_author', { 'path': editor.path, '_locale': editor.locale }) }}">{{ editor.name }}</a>{% if not loop.last %}<span class="nav-author-separator">,</span>{% endif %}
 				{% endfor %}
 			</p>
 			{% endif %}
