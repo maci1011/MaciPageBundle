@@ -2,7 +2,7 @@
 <tr>
 <td class="item-preview-wrapper">
 	{% if item.media.path %}
-	<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_blog_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
+	<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_page_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
 	{% else %}
 	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
 	{% endif %}

@@ -142,7 +142,7 @@
 					{% for variant in variants %}
 					<a class="product-variant-item{% if variant.variant == item.variant %} active{% endif %}" href="{{ path('maci_product_show', {'path': variant.path}) }}">
 						{% if variant.preview %}
-						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_product_preview_list')) }}" title="{{ variant.variant }}" alt="{{ variant.description ? variant.description : 'product.media_preview'|matra('Photo of the Product') }}" />
+						<img class="img-fluid" src="{{ asset(variant.webPreview | imagine_filter('maci_page_thumb')) }}" title="{{ variant.variant }}" alt="{{ variant.description ? variant.description : 'product.media_preview'|matra('Photo of the Product') }}" />
 						{% else %}
 						<span class="product-variant-item-label">{{ variant.variant|capitalize }}</span>
 						{% endif %}

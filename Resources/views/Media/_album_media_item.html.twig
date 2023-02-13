@@ -17,7 +17,7 @@
 		{% include "@MaciPage/Media/_media_preview.html.twig" %}
 	</a>
 	{% else %}
-	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_thumb')) }}"{% endif %}{% endif %}>
+	<a href="{{ asset(path('maci_media_get', {'path': item.media.path})) }}" target="_blank"{% if item.media.type == 'image' %} data-toggle="lightbox" data-lightbox="media-album-{{ album.id }}" data-title="{{ item.name ? item.name : item.media.name }}" data-description="{{ item.description ? item.description : item.media.description }}" data-image="{{ asset(item.media.webPreview | imagine_filter('maci_media_lightbox')) }}"{% if item.brand %} data-brand="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_page_thumb')) }}"{% endif %}{% endif %}>
 		{% include "@MaciPage/Media/_media_preview.html.twig" %}
 	</a>
 	{% endif %}
@@ -26,7 +26,7 @@
 	{% if item.brand %}
 	<div class="media-brand">
 		{% if item.brand.preview %}
-		<img class="media-brand-icon" src="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_media_brand_icon')) }}" alt="{{ item.brand.name }}" />
+		<img class="media-brand-icon" src="{{ asset(item.brand.preview.webPreview | imagine_filter('maci_page_thumb')) }}" alt="{{ item.brand.name }}" />
 		{% else %}
 		<span class="media-brand-name">{{ item.brand.name }}</span>
 		{% endif %}

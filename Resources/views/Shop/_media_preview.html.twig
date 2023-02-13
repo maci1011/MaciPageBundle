@@ -1,4 +1,4 @@
 
 <a class="media-preview" href="{{ path('maci_media_get', {'path': item.path}) }}" data-lightbox="product-preview" data-title="{{ item }}">
-	<img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_product_preview_list')) }}" title="{{ item }}" alt="{{ item.description ? item.description : 'product.media_preview'|matra('Photo of the Product') }}" />
+	<img class="img-fluid" src="{{ asset(item.webPreview | imagine_filter('maci_page_thumb')) }}" title="{{ item }}" alt="{{ item.description ? item.description : 'product.media_preview'|matra('Photo of the Product') }}" />
 </a>

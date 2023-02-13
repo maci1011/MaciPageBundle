@@ -2,9 +2,9 @@
 <tr>
 <td class="item-preview-wrapper">
 	{% if post.preview %}
-	<img class="item-preview" src="{{ asset(post.preview.webPath | imagine_filter('maci_blog_thumb')) }}" alt="{{ post.title }}"/>
+	<img class="item-preview" src="{{ asset(post.preview.webPath | imagine_filter('maci_page_thumb')) }}" alt="{{ post.title }}"/>
 	{% else %}
-	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_blog_thumb')) }}" alt="{{ post.title }}"/>
+	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png' | imagine_filter('maci_page_thumb')) }}" alt="{{ post.title }}"/>
 	{% endif %}
 </td>
 <td class="item-content">
