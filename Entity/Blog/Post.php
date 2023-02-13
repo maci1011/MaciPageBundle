@@ -743,21 +743,21 @@ class Post
 	public function getPreviousSourcePosts()
 	{
 		return $this->sources->filter(function($e){
-			return ( is_object($e->getTargetPost()) && $e->getType() == 'prev' );
+			return (is_object($e->getTargetPost()) && $e->getType() == 'prev');
 		});
 	}
 
 	public function getNextSourcePosts()
 	{
 		return $this->sources->filter(function($e){
-			return ( is_object($e->getTargetPost()) && $e->getType() == 'next' );
+			return (is_object($e->getTargetPost()) && $e->getType() == 'next');
 		});
 	}
 
 	public function getRelatedSourcePosts()
 	{
 		return $this->sources->filter(function($e){
-			return ( is_object($e->getTargetPost()) && $e->getType() == 'related' );
+			return (is_object($e->getTargetPost()) && $e->getType() == 'related');
 		});
 	}
 
@@ -766,21 +766,21 @@ class Post
 	public function getPreviousTargetPosts()
 	{
 		return $this->targets->filter(function($e){
-			return ( is_object($e->getSourcePost()) && $e->getType() == 'prev' );
+			return (is_object($e->getSourcePost()) && $e->getType() == 'prev');
 		});
 	}
 
 	public function getNextTargetPosts()
 	{
 		return $this->targets->filter(function($e){
-			return ( is_object($e->getSourcePost()) && $e->getType() == 'next' );
+			return (is_object($e->getSourcePost()) && $e->getType() == 'next');
 		});
 	}
 
 	public function getRelatedTargetPosts()
 	{
 		return $this->targets->filter(function($e){
-			return ( is_object($e->getSourcePost()) && $e->getType() == 'related' );
+			return (is_object($e->getSourcePost()) && $e->getType() == 'related');
 		});
 	}
 
@@ -957,9 +957,9 @@ class Post
 	 */
 	public function setUpdatedValue()
 	{
-		if ($this->status == 'pubblished' && $this->pubblished == null) {
+		if ($this->status == 'pubblished' && $this->pubblished == null)
 			$this->pubblished = new \DateTime();
-		}
+
 		$this->updated = new \DateTime();
 	}
 

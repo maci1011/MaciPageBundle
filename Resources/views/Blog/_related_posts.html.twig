@@ -4,11 +4,10 @@
 <tbody>
 
 {% for related_item in list %}
-
 {% set post = post.id == related_item.sourcePost.id ? related_item.targetPost : related_item.sourcePost %}
-
+{% if post.isPubblished or is_granted('ROLE_ADMIN') %}
 {% include "@MaciPage/Blog/_item_compact.html.twig" %}
-
+{% endif %}
 {% endfor %}
 
 </tbody>
