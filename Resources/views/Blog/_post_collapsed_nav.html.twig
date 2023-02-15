@@ -25,10 +25,10 @@
 				{{ post.author.name }}
 			</a>
 			{% else %}
-			<p class="post-nav-val navbar-text px-2">
+			<p class="navbar-text post-nav-val px-2">
 				<i class="fas fa-users"></i>
 				{% for editor in post.authors %}
-				<a class="post-author nav-author-item" href="{{ path('maci_blog_author', { 'path': editor.path, '_locale': editor.locale }) }}">{{ editor.name }}</a>{% if not loop.last %}<span class="nav-author-separator">,</span>{% endif %}
+				<a class="post-author post-nav-val nav-author-item" href="{{ path('maci_blog_author', { 'path': editor.path, '_locale': editor.locale }) }}">{{ editor.name }}</a>{% if not loop.last %}<span class="nav-author-separator">,</span>{% endif %}
 				{% endfor %}
 			</p>
 			{% endif %}

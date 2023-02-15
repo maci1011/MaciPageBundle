@@ -413,12 +413,12 @@ class Order
 
 	public function isCompleted()
 	{
-		return 4 < $this->getProgression();
+		return in_array($this->status, ['complete', 'paid', 'confirm']);
 	}
 
 	public function isPaid()
 	{
-		return 5 < $this->getProgression();
+		return in_array($this->status, ['paid', 'confirm']);
 	}
 
 	public function isConfirmed()
@@ -1258,8 +1258,12 @@ class Order
 		return $this->export_errors;
 	}
 
-	public function completeOrder($params = [])
+	public function completeOrder(RecordSet $set, $params = [])
 	{
+		$this->subItemsQuantity();
+
+		$this->exportSaleRecords($set);
+
 		$this->setInvoiceValue();
 
 		$this->due = $this->invoice;
@@ -1273,12 +1277,27 @@ class Order
 		]));
 	}
 
-	public function confirmOrder(RecordSet $set, $params = [])
+	public function cancelOrder(RecordSet $set, $params = [])
 	{
-		$this->subItemsQuantity();
+		if ($this->isCompleted())
+		{
+			$this->exportReturnRecords($set);
 
-		$this->exportSaleRecords($set);
+			$this->addActionData([
+				'_action' => 'returnItems',
+				'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+			]);
+		}
 
+		$this->status = 'canceled';
+
+		$this->addActionData(array_merge($params, [
+			'_action' => 'cancelOrder'
+		]));
+	}
+
+	public function confirmOrder($params = [])
+	{
 		$this->status = 'confirm';
 
 		$this->addActionData(array_merge($params, [
@@ -1293,25 +1312,6 @@ class Order
 
 		$this->addActionData(array_merge($params, [
 			'_action' => 'endOrder'
-		]));
-	}
-
-	public function cancelOrder(RecordSet $set, $params = [])
-	{
-		if ($this->status == 'confirm')
-		{
-			$this->exportReturnRecords($set);
-
-			$this->addActionData([
-				'_action' => 'returnItems',
-				'_return_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
-			]);
-		}
-
-		$this->status = 'canceled';
-
-		$this->addActionData(array_merge($params, [
-			'_action' => 'cancelOrder'
 		]));
 	}
 

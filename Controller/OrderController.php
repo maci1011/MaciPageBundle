@@ -518,7 +518,8 @@ class OrderController extends AbstractController
 			'details' => $payment->getDetails()
 		];
 
-		$cart->completeOrder($params);
+		$set = $this->getOrderSet($order);
+		$cart->completeOrder($set, $params);
 
 		$this->sendPlacedNotify($cart);
 		$this->get('maci.orders')->resetCart();
@@ -791,47 +792,35 @@ class OrderController extends AbstractController
 
 	public function completeOrder($order)
 	{
-		$order->completeOrder();
-
+		$set = $this->getOrderSet($order);
+		$order->completeOrder($set);
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
-
 		return ['success' => true];
 	}
 
 	public function confirmOrder($order)
 	{
-		$set = $this->getOrderSet($order);
-
-		$order->confirmOrder($set);
-
+		$order->confirmOrder();
 		$om = $this->getDoctrine()->getManager();
-		$om->persist($set);
 		$om->flush();
-
 		return ['success' => true];
 	}
 
 	public function cancelOrder($order)
 	{
 		$set = $this->getOrderSet($order);
-
-		$order->cancelOrder($set, []);
-
+		$order->cancelOrder($set);
 		$om = $this->getDoctrine()->getManager();
-		$om->persist($set);
 		$om->flush();
-
 		return ['success' => true];
 	}
 
 	public function endOrder($order)
 	{
-		$order->endOrder([]);
-
+		$order->endOrder();
 		$om = $this->getDoctrine()->getManager();
 		$om->flush();
-
 		return ['success' => true];
 	}
 

@@ -169,62 +169,92 @@ class MailerController extends AbstractController
 		return $this->render('@MaciPage/Mailer/templates.html.twig');
 	}
 
-	public function orderPlacedTemplateAction()
+	public function orderPlacedTemplateAction(Request $request)
 	{
 		return $this->render('@MaciPage/Email/order_placed.html.twig', [
-			'order' => $this->getARandomOrder()
+			'order' => $this->getAnOrder($request)
 		]);
 	}
 
-	public function orderCompletedTemplateAction()
+	public function orderCompletedTemplateAction(Request $request)
 	{
 		return $this->render('@MaciPage/Email/order_completed.html.twig', [
-			'order' => $this->getARandomOrder()
+			'order' => $this->getAnOrder($request)
 		]);
 	}
 
-	public function orderConfirmedTemplateAction()
+	public function orderConfirmedTemplateAction(Request $request)
 	{
 		return $this->render('@MaciPage/Email/order_confirmed.html.twig', [
-			'order' => $this->getARandomOrder()
+			'order' => $this->getAnOrder($request)
 		]);
 	}
 
-	public function orderShippedTemplateAction()
+	public function orderShippedTemplateAction(Request $request)
 	{
 		return $this->render('@MaciPage/Email/order_shipped.html.twig', [
-			'order' => $this->getARandomOrder()
+			'order' => $this->getAnOrder($request)
 		]);
 	}
 
-	public function orderInvoiceTemplateAction()
+	public function orderInvoiceTemplateAction(Request $request)
 	{
 		return $this->render('@MaciPage/Email/order_invoice.html.twig', [
-			'order' => $this->getARandomOrder()
+			'order' => $this->getAnOrder($request)
 		]);
 	}
 
-	public function subscriptionCompleteTemplateAction()
+	public function getAnOrder(Request $request)
 	{
-		return $this->render('@MaciPage/Email/subscription_complete.html.twig', [
-			'subscriber' => $this->getARandomSubscriber()
-		]);
-	}
+		$om = $this->getDoctrine()->getManager();
+		$id = $request->get('id');
+		if ($id)
+		{
+			$order = $om->getRepository('MaciPageBundle:Order\Order')
+				->findOneById($id);
 
-	public function getARandomOrder()
-	{
-		$orders = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Order\Order')
-			->findBy(['status' => ['confirm', 'complete']], ['id' => 'DESC']);
+			if ($order)
+				return $order;
+		}
+
+		$orders = $om->getRepository('MaciPageBundle:Order\Order')
+			->findBy(['status' => ['confirm', 'complete', 'end']], ['id' => 'DESC']);
+
+		if (!count($orders))
+		{
+			echo "No orders found."; die();
+		}
 
 		return $orders[rand(0,count($orders) - 1)];
 	}
 
-	public function getARandomSubscriber()
+	public function subscriptionCompleteTemplateAction(Request $request)
 	{
-		$subscribers = $this->getDoctrine()->getManager()
-			->getRepository('MaciPageBundle:Mailer\Subscriber')
+		return $this->render('@MaciPage/Email/subscription_complete.html.twig', [
+			'subscriber' => $this->getASubscriber($request)
+		]);
+	}
+
+	public function getASubscriber($request)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$id = $request->get('id');
+		if ($id)
+		{
+			$subscriber = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
+				->findOneById($id);
+
+			if ($subscriber)
+				return $subscriber;
+		}
+
+		$subscribers = $om->getRepository('MaciPageBundle:Mailer\Subscriber')
 			->findBy(['removed' => false], ['id' => 'DESC']);
+
+		if (!count($subscribers))
+		{
+			echo "No subscribers found."; die();
+		}
 
 		return $subscribers[rand(0,count($subscribers) - 1)];
 	}
