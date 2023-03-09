@@ -1332,6 +1332,7 @@ class Product
 			->setName($name)
 			->setDescription($record->getImportedDescription())
 			->setComposition($record->getImportedComposition())
+			->setCollection($record->getCollection())
 			->setBrand($record->getBrand())
 			->setPath(str_replace(' ', '-',str_replace('.', '',
 				$record->getCode() . "-" . strtolower(
@@ -1370,6 +1371,23 @@ class Product
 		$record->setLoadedValue();
 
 		return true;
+	}
+
+	public function getCollection()
+	{
+		$data = $this->getData();
+
+		if(!array_key_exists('collection', $data))
+			return null;
+
+		return $this->data['collection'];
+	}
+
+	public function setCollection($collection)
+	{
+		$this->getData();
+		$this->data['collection'] = $collection;
+		return $this;
 	}
 
 	public function getVariants()
@@ -1854,6 +1872,7 @@ class Product
 		$record = new Record;
 		$record->setCode($this->getCode());
 		$record->setCategory($this->getName());
+		$record->setCollection($this->getCollection());
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
 		$record->setType($type);

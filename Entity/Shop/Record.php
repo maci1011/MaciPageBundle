@@ -38,6 +38,11 @@ class Record
 	private $category;
 
 	/**
+	 * @var string
+	 */
+	private $collection;
+
+	/**
 	 * @var decimal
 	 */
 	private $price;
@@ -247,6 +252,29 @@ class Record
 	}
 
 	/**
+	 * Set collection
+	 *
+	 * @param string $collection
+	 * @return Record
+	 */
+	public function setCollection($collection)
+	{
+		$this->collection = $collection;
+
+		return $this;
+	}
+
+	/**
+	 * Get collection
+	 *
+	 * @return string 
+	 */
+	public function getCollection()
+	{
+		return $this->collection;
+	}
+
+	/**
 	 * Set price
 	 *
 	 * @param string $price
@@ -386,6 +414,12 @@ class Record
 					$this->category = $value;
 					unset($data[$key]);
 					$data['category'] = $value;
+					break;
+				case 'collezi':
+				case 'collect':
+					$this->collection = $value;
+					unset($data[$key]);
+					$data['collection'] = strtoupper($value);
 					break;
 				case 'prezzo':
 				case 'przlord':

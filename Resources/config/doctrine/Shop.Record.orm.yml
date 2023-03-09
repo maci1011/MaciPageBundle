@@ -26,6 +26,10 @@ Maci\PageBundle\Entity\Shop\Record:
         category:
             type: string
             length: 63
+        collection:
+            type: string
+            length: 31
+            nullable: true
         price:
             type: decimal
             precision: 5

@@ -47,7 +47,7 @@ class PostRepository extends EntityRepository
 			->setParameter(':id', $author->getId())
 		;
 
-		$this->addPostListFilters($q);
+		$this->addPostListFilters($q, false, 'ASC');
 
 		return $q->getQuery()->getResult();
 	}
@@ -78,14 +78,14 @@ class PostRepository extends EntityRepository
 		return $this->allCount = $q->getQuery()->getSingleScalarResult();
 	}
 
-	public static function addPostListFilters(&$query, $locale = false)
+	public static function addPostListFilters(&$query, $locale = false, $order = 'DESC')
 	{
 		self::addPostDefaultFilters($query);
 
 		$query
 			->andWhere('p.status = :status')
 			->setparameter(':status', 'pubblished')
-			->orderBy('p.created', 'DESC')
+			->orderBy('p.created', $order)
 		;
 
 		if ($locale)
