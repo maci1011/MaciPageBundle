@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class RecordRepository extends EntityRepository
 {
-	public function fromTo($from, $to)
+	public function fromTo($from, $to, $collection = false)
 	{
 		$query = $this->createQueryBuilder('r');
 
@@ -17,6 +17,10 @@ class RecordRepository extends EntityRepository
 		if ($to)
 			$query->andWhere('r.recorded <= :to')
 				->setParameter(':to', $to);
+
+		if ($collection !== false && $collection != '*')
+			$query->andWhere('r.collection <= :collection')
+				->setParameter(':collection', $collection);
 
 		$query->orderBy('r.recorded', 'ASC');
 

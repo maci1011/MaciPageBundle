@@ -30,8 +30,10 @@ class ReportController extends AbstractController
 		$before = $request->get('before', '');
 		$after = strlen($after) ? date("Y/m/d", strtotime($after)) : false;
 		$before = strlen($before) ? date("Y/m/d", strtotime($before)) : false;
+		$collection = $request->get('collection', '');
 
-		$records = $om->getRepository('MaciPageBundle:Shop\Record')->fromTo($after, $before);
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')
+			->fromTo($after, $before, is_string($collection) ? ($collection == '' ? null : $collection) : false);
 
 		$titles = [
 			'Category',

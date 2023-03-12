@@ -1321,10 +1321,9 @@ class Product
 
 	public function loadRecord(Record $record)
 	{
-		$data = $this->getData();
-
-		if($record->isPurchase() && !array_key_exists('collection', $data) && $record->getCollection() != null)
-			$this->data['collection'] = $record->getCollection();
+		// $data = $this->getData();
+		// if($record->isPurchase() && !array_key_exists('collection', $data) && $record->getCollection() != null)
+		// 	$this->data['collection'] = $record->getCollection();
 
 		if($this->status != 'unset') return false;
 
