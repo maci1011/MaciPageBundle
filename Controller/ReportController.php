@@ -49,7 +49,7 @@ class ReportController extends AbstractController
 
 		foreach ($records as $record)
 		{
-			$category = explode(' ', $record->getCategory())[0];
+			$category = ucfirst(strtolower(explode(' ', $record->getCategory())[0]));
 
 			$index = -1;
 			foreach ($list as $key => $el)
