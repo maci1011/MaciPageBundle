@@ -63,3 +63,7 @@ th,
 .title.bold {
 	font-weight: bold;
 }
+
+.cell-text {
+	padding: 0 4px;
+}

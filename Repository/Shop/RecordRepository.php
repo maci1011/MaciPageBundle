@@ -18,9 +18,14 @@ class RecordRepository extends EntityRepository
 			$query->andWhere('r.recorded <= :to')
 				->setParameter(':to', $to);
 
-		if ($collection !== false && $collection != '*')
-			$query->andWhere('r.collection <= :collection')
-				->setParameter(':collection', $collection);
+		if (!($collection === false) && $collection != '*')
+		{
+			if ($collection === null)
+				$query->andWhere('r.collection IS NULL');
+			else
+				$query->andWhere('r.collection = :collection')
+					->setParameter(':collection', $collection);
+		}
 
 		$query->orderBy('r.recorded', 'ASC');
 

@@ -39,8 +39,8 @@ class ReportController extends AbstractController
 			'Category',
 			'Purchase',
 			'Sale',
-			'Customer Return',
-			'Supplier Return',
+			'Cust.Ret.',
+			'Supp.Ret.',
 			'Buyed',
 			'Selled'
 		];
