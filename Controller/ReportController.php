@@ -108,15 +108,17 @@ class ReportController extends AbstractController
 			$list[$index][0] = ucfirst(strtolower($el[0]));
 			array_push($cats, $list[$index][0]);
 
-			$list[$index][5] = number_format($this->tot($el[5]), 2);
-			$list[$index][6] = number_format($this->tot($el[6]), 2);
+			$t5 = $this->tot($el[5]);
+			$t6 = $this->tot($el[6]);
+			$list[$index][5] = number_format($t5, 2);
+			$list[$index][6] = number_format($t6, 2);
 
 			$tot[1] += $el[1];
 			$tot[2] += $el[2];
 			$tot[3] += $el[3];
 			$tot[4] += $el[4];
-			$tot[5] += $list[$index][5];
-			$tot[6] += $list[$index][6];
+			$tot[5] += $t5;
+			$tot[6] += $t6;
 		}
 
 		$tot[5] = number_format($tot[5], 2);
