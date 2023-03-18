@@ -18,6 +18,112 @@ class ReportController extends AbstractController
 		return $this->render('@MaciPage/Record/reports.html.twig');
 	}
 
+	public function totalsAction(Request $request)
+	{
+		if (!$this->isGranted('ROLE_ADMIN'))
+			return $this->redirect($this->generateUrl('maci_homepage'));
+
+		$om = $this->getDoctrine()->getManager();
+		$list = [];
+
+		$after = $request->get('after', '');
+		$before = $request->get('before', '');
+		$after = strlen($after) ? date("Y/m/d", strtotime($after)) : false;
+		$before = strlen($before) ? date("Y/m/d", strtotime($before)) : false;
+		$collection = $request->get('collection', '');
+
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')
+			->fromTo($after, $before, is_string($collection) ? ($collection == '' ? null : $collection) : false);
+
+		$titles = [
+			'Category',
+			'Buyed',
+			'Selled'
+		];
+
+		$list = [];
+		$categories = [];
+
+		foreach ($records as $record)
+		{
+			$id = $record->getIdentifier();
+			$item = false;
+
+			if (array_key_exists($id, $list))
+			{
+				$item = $list[$id];
+			}
+			else
+			{
+				$category = ucfirst(strtolower(explode(' ', $record->getCategory())[0]));
+				$item = [
+					'category' => $category,
+					'buyed' => 0,
+					'selled' => 0,
+					'buyamt' => 0,
+					'sllamt' => 0
+				];
+				array_push($categories, $category);
+			}
+
+			if ($record->isPurchase())
+			{
+				$item['buyed'] += $record->getQuantity();
+				$item['buyamt'] += $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isSale())
+			{
+				$item['selled'] += $record->getQuantity();
+				$item['sllamt'] += $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isReturn())
+			{
+				$item['selled'] -= $record->getQuantity();
+				$item['sllamt'] -= $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isBack())
+			{
+				$item['buyed'] -= $record->getQuantity();
+				$item['buyamt'] -= $record->getPrice() * $record->getQuantity();
+			}
+
+			$list[$id] = $item;
+		}
+
+		// Amounts
+
+		$tot = [
+			0 => 'Amount:',
+			5 => 0, // Buyed
+			6 => 0  // Selled
+		];
+
+		$cats = [];
+
+		foreach ($list as $index => $el)
+		{
+		}
+
+		// Sort
+
+		// return PDF
+
+		return $this->getPDF([
+			'headers' => $titles,
+			'list' => $slist,
+			'amounts' => [$tot],
+			'footers' => [
+				$this->container->getParameter('company_title'),
+				'REPORT: Records',
+				date("Y/m/d H:i:s")
+			],
+			'filename' => 'report-records.pdf'
+		]);
+	}
+
 	public function recordsAction(Request $request)
 	{
 		if (!$this->isGranted('ROLE_ADMIN'))

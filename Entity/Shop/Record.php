@@ -728,6 +728,11 @@ class Record
 		return Product::getVariantIdentifier($variant);
 	}
 
+	public function getIdentifier()
+	{
+		return $this->code . ($this->hasVariant() ? '-' . $this->getVariantIdentifier() : null);
+	}
+
 	public function isLoaded()
 	{
 		return array_key_exists('loaded', $this->getData()) && $this->data['loaded'];

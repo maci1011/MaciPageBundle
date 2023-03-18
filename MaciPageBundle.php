@@ -12,9 +12,7 @@ class MaciPageBundle extends Bundle
 		if(!$value || $value == "") return array_search(array_values($haystack)[0], $haystack);
 		$array = $haystack;
 		$key = array_search($value, $array);
-		if ($key) {
-			return $key;
-		}
+		if ($key) return $key;
 		$str = str_replace('_', ' ', $value);
 		return ucwords($str);
 	}
