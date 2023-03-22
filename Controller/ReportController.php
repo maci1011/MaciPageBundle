@@ -18,112 +18,6 @@ class ReportController extends AbstractController
 		return $this->render('@MaciPage/Record/reports.html.twig');
 	}
 
-	public function totalsAction(Request $request)
-	{
-		if (!$this->isGranted('ROLE_ADMIN'))
-			return $this->redirect($this->generateUrl('maci_homepage'));
-
-		$om = $this->getDoctrine()->getManager();
-		$list = [];
-
-		$after = $request->get('after', '');
-		$before = $request->get('before', '');
-		$after = strlen($after) ? date("Y/m/d", strtotime($after)) : false;
-		$before = strlen($before) ? date("Y/m/d", strtotime($before)) : false;
-		$collection = $request->get('collection', '');
-
-		$records = $om->getRepository('MaciPageBundle:Shop\Record')
-			->fromTo($after, $before, is_string($collection) ? ($collection == '' ? null : $collection) : false);
-
-		$titles = [
-			'Category',
-			'Buyed',
-			'Selled'
-		];
-
-		$list = [];
-		$categories = [];
-
-		foreach ($records as $record)
-		{
-			$id = $record->getIdentifier();
-			$item = false;
-
-			if (array_key_exists($id, $list))
-			{
-				$item = $list[$id];
-			}
-			else
-			{
-				$category = ucfirst(strtolower(explode(' ', $record->getCategory())[0]));
-				$item = [
-					'category' => $category,
-					'buyed' => 0,
-					'selled' => 0,
-					'buyamt' => 0,
-					'sllamt' => 0
-				];
-				array_push($categories, $category);
-			}
-
-			if ($record->isPurchase())
-			{
-				$item['buyed'] += $record->getQuantity();
-				$item['buyamt'] += $record->getPrice() * $record->getQuantity();
-			}
-
-			if ($record->isSale())
-			{
-				$item['selled'] += $record->getQuantity();
-				$item['sllamt'] += $record->getPrice() * $record->getQuantity();
-			}
-
-			if ($record->isReturn())
-			{
-				$item['selled'] -= $record->getQuantity();
-				$item['sllamt'] -= $record->getPrice() * $record->getQuantity();
-			}
-
-			if ($record->isBack())
-			{
-				$item['buyed'] -= $record->getQuantity();
-				$item['buyamt'] -= $record->getPrice() * $record->getQuantity();
-			}
-
-			$list[$id] = $item;
-		}
-
-		// Amounts
-
-		$tot = [
-			0 => 'Amount:',
-			5 => 0, // Buyed
-			6 => 0  // Selled
-		];
-
-		$cats = [];
-
-		foreach ($list as $index => $el)
-		{
-		}
-
-		// Sort
-
-		// return PDF
-
-		return $this->getPDF([
-			'headers' => $titles,
-			'list' => $slist,
-			'amounts' => [$tot],
-			'footers' => [
-				$this->container->getParameter('company_title'),
-				'REPORT: Records',
-				date("Y/m/d H:i:s")
-			],
-			'filename' => 'report-records.pdf'
-		]);
-	}
-
 	public function recordsAction(Request $request)
 	{
 		if (!$this->isGranted('ROLE_ADMIN'))
@@ -140,6 +34,11 @@ class ReportController extends AbstractController
 
 		$records = $om->getRepository('MaciPageBundle:Shop\Record')
 			->fromTo($after, $before, is_string($collection) ? ($collection == '' ? null : $collection) : false);
+
+		$report = $request->get('report');
+
+		if ($report == 'totals')
+			return $this->totalsReport($request, $records);
 
 		$titles = [
 			'Category',
@@ -260,6 +159,199 @@ class ReportController extends AbstractController
 				date("Y/m/d H:i:s")
 			],
 			'filename' => 'report-records.pdf'
+		]);
+	}
+
+	public function totalsReport(Request $request, $records)
+	{
+		$list = [];
+		$categories = [];
+
+		foreach ($records as $record)
+		{
+			$id = $record->getIdentifier();
+			$item = false;
+
+			if (array_key_exists($id, $list)) $item = $list[$id];
+			else
+			{
+				$category = ucfirst(strtolower(explode(' ', $record->getCategory())[0]));
+				$item = [
+					'category' => $category,
+					'buyprc' => null,
+					'sllprc' => null,
+					'lstbuy' => 0,
+					'buyed' => 0,
+					'selled' => 0,
+					'buytot' => 0,
+					'slltot' => 0,
+					'buyamt' => 0,
+					'buyval' => 0,
+					'sllamt' => 0,
+					'sllval' => 0
+				];
+
+				if (!array_search($category, $categories))
+					array_push($categories, $category);
+			}
+
+			if ($record->isPurchase() && $item['buyprc'] == null)
+			{
+				$item['buyprc'] = $record->getPrice();
+			}
+
+			if ($record->isSale() && $item['sllprc'] == null)
+			{
+				$item['sllprc'] = $record->getPrice();
+			}
+
+			if ($record->isPurchase())
+			{
+				$item['lstbuy'] = $record->getPrice();
+				$item['buyed'] += $record->getQuantity();
+				$item['buytot'] += $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isSale())
+			{
+				$item['selled'] += $record->getQuantity();
+				$item['slltot'] += $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isReturn())
+			{
+				$item['selled'] -= $record->getQuantity();
+				$item['slltot'] -= $record->getPrice() * $record->getQuantity();
+			}
+
+			if ($record->isBack())
+			{
+				$item['buyed'] -= $record->getQuantity();
+				$item['buytot'] -= $item['lstbuy'] * $record->getQuantity();
+			}
+
+			$list[$id] = $item;
+		}
+
+		foreach ($list as $id => $el)
+		{
+			$el['errors'] = [];
+
+			if ($el['buyprc'] === null)
+			{
+				array_push($el['errors'], [$id, 'Buy price is null.']);
+				continue;
+			}
+
+			$el['buyamt'] = $el['buyprc'] * $el['buyed'];
+			$el['sllval'] = $el['buyprc'] * $el['selled'];
+
+			if ($el['sllprc'] === null)
+			{
+				array_push($el['errors'], [$id, 'Sell price is null.']);
+				continue;
+			}
+
+			$el['buyval'] = $el['sllprc'] * $el['buyed'];
+			$el['sllamt'] = $el['sllprc'] * $el['selled'];
+
+			$list[$id] = $el;
+		}
+
+		// Sort
+
+		sort($categories);
+
+		// Result List
+
+		$titles = [
+			'Category',
+			'Buy',
+			'Sell',
+			'B.Tot.',
+			'B.Amt.',
+			'B.Val.',
+			'S.Tot.',
+			'S.Amt.',
+			'S.Val.',
+			'E'
+		];
+
+		$resl = [];
+		foreach ($categories as $category)
+		{
+			$row = [
+				0 => $category,
+				1 => 0,
+				2 => 0,
+				3 => 0,
+				4 => 0,
+				5 => 0,
+				6 => 0,
+				7 => 0,
+				8 => 0,
+				9 => 0
+			];
+
+			foreach ($list as $el)
+			{
+				if ($el['category'] != $category)
+					continue;
+
+				$row[1] += $el['buyed'];
+				$row[2] += $el['selled'];
+				$row[3] += $el['buytot'];
+				$row[4] += $el['buyamt'];
+				$row[5] += $el['buyval'];
+				$row[6] += $el['slltot'];
+				$row[7] += $el['sllamt'];
+				$row[8] += $el['sllval'];
+				$row[9] += count($el['errors']);
+			}
+
+			array_push($resl, $row);
+		}
+
+		// Amounts
+
+		$tot = [
+			0 => 'Amount:',
+			1 => 0,
+			2 => 0,
+			3 => 0,
+			4 => 0,
+			5 => 0,
+			6 => 0,
+			7 => 0,
+			8 => 0,
+			9 => 0
+		];
+
+		foreach ($resl as $row)
+		{
+			$tot[1] += $row[1];
+			$tot[2] += $row[2];
+			$tot[3] += $row[3];
+			$tot[4] += $row[4];
+			$tot[5] += $row[5];
+			$tot[6] += $row[6];
+			$tot[7] += $row[7];
+			$tot[8] += $row[8];
+			$tot[9] += $row[9];
+		}
+
+		// return PDF
+
+		return $this->getPDF([
+			'headers' => $titles,
+			'list' => $resl,
+			'amounts' => [$tot],
+			'footers' => [
+				$this->container->getParameter('company_title'),
+				'REPORT: Totals',
+				date("Y/m/d H:i:s")
+			],
+			'filename' => 'report-totals.pdf'
 		]);
 	}
 
