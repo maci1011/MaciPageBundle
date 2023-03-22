@@ -237,7 +237,7 @@ class ReportController extends AbstractController
 		{
 			$el['errors'] = [];
 
-			if ($el['buyprc'] == null)
+			if (!$el['buyprc'])
 			{
 				array_push($el['errors'], [$id, 'Buy price is null.']);
 			}
@@ -247,7 +247,7 @@ class ReportController extends AbstractController
 				$el['sllval'] += $el['buyprc'] * $el['selled'];
 			}
 
-			if ($el['sllprc'] == null)
+			if (!$el['sllprc'])
 			{
 				array_push($el['errors'], [$id, 'Sell price is null.']);
 			}
