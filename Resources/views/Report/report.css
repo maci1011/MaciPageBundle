@@ -26,6 +26,10 @@ h4 {
 	padding: 32px;
 }
 
+.page-content > table {
+	width: 100%;
+}
+
 @media print {
 	.page {
 		page-break-before: always;
@@ -66,4 +70,8 @@ th,
 
 .cell-text {
 	padding: 0 4px;
+}
+
+.t-right {
+	text-align: right;
 }
