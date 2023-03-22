@@ -178,8 +178,8 @@ class ReportController extends AbstractController
 				$category = ucfirst(strtolower(explode(' ', $record->getCategory())[0]));
 				$item = [
 					'category' => $category,
-					'buyprc' => null,
-					'sllprc' => null,
+					'buyprc' => false,
+					'sllprc' => false,
 					'lstbuy' => 0,
 					'buyed' => 0,
 					'selled' => 0,
@@ -195,12 +195,12 @@ class ReportController extends AbstractController
 					array_push($categories, $category);
 			}
 
-			if ($record->isPurchase() && $item['buyprc'] == null)
+			if ($record->isPurchase() && !$item['buyprc'])
 			{
 				$item['buyprc'] = $record->getPrice();
 			}
 
-			if ($record->isSale() && $item['sllprc'] == null)
+			if ($record->isSale() && !$item['sllprc'])
 			{
 				$item['sllprc'] = $record->getPrice();
 			}
@@ -237,23 +237,25 @@ class ReportController extends AbstractController
 		{
 			$el['errors'] = [];
 
-			if ($el['buyprc'] === null)
+			if ($el['buyprc'] == null)
 			{
 				array_push($el['errors'], [$id, 'Buy price is null.']);
-				continue;
+			}
+			else
+			{
+				$el['buyamt'] += $el['buyprc'] * $el['buyed'];
+				$el['sllval'] += $el['buyprc'] * $el['selled'];
 			}
 
-			$el['buyamt'] += $el['buyprc'] * $el['buyed'];
-			$el['sllval'] += $el['buyprc'] * $el['selled'];
-
-			if ($el['sllprc'] === null)
+			if ($el['sllprc'] == null)
 			{
 				array_push($el['errors'], [$id, 'Sell price is null.']);
-				continue;
 			}
-
-			$el['buyval'] += $el['sllprc'] * $el['buyed'];
-			$el['sllamt'] += $el['sllprc'] * $el['selled'];
+			else
+			{
+				$el['buyval'] += $el['sllprc'] * $el['buyed'];
+				$el['sllamt'] += $el['sllprc'] * $el['selled'];
+			}
 
 			$list[$id] = $el;
 		}
