@@ -243,8 +243,8 @@ class ReportController extends AbstractController
 				continue;
 			}
 
-			$el['buyamt'] = $el['buyprc'] * $el['buyed'];
-			$el['sllval'] = $el['buyprc'] * $el['selled'];
+			$el['buyamt'] += $el['buyprc'] * $el['buyed'];
+			$el['sllval'] += $el['buyprc'] * $el['selled'];
 
 			if ($el['sllprc'] === null)
 			{
@@ -252,8 +252,8 @@ class ReportController extends AbstractController
 				continue;
 			}
 
-			$el['buyval'] = $el['sllprc'] * $el['buyed'];
-			$el['sllamt'] = $el['sllprc'] * $el['selled'];
+			$el['buyval'] += $el['sllprc'] * $el['buyed'];
+			$el['sllamt'] += $el['sllprc'] * $el['selled'];
 
 			$list[$id] = $el;
 		}
