@@ -1420,7 +1420,7 @@ class Product
 		$this->data = $data;
 	}
 
-	public function getVariantIndex($index)
+	public function getVariantByIndex($index)
 	{
 		if (!$this->hasVariants()) return false;
 		$variants = $this->getVariants();
@@ -1694,9 +1694,6 @@ class Product
 
 	public function buyOrSellRecord($record)
 	{
-		if ($record->getType() == 'unset')
-			return false;
-
 		if ($record->isSimple() == $this->hasVariants())
 			return false;
 
@@ -1716,13 +1713,13 @@ class Product
 			;
 		}
 
-		if ($record->getType() == 'return')
+		if ($record->isReturn())
 			return $this->return($record->getQuantity());
-		if ($record->getType() == 'back')
+		if ($record->isBack())
 			return $this->back($record->getQuantity());
-		if ($record->getType() == 'sale')
+		if ($record->isSale())
 			return $this->sell($record->getQuantity());
-		if ($record->getType() == 'purchas')
+		if ($record->isPurchase())
 			return $this->buy($record->getQuantity());
 
 		return false;
@@ -1805,8 +1802,10 @@ class Product
 
 		return !(
 			!$this->hasVariants() && is_array($variant) && (
-				(!array_key_exists('type', $variant) || $variant['type'] != 'simple') ||
+				!array_key_exists('type', $variant) ||
+				!in_array($variant['type'], ['unset', 'simple']) ||
 				(array_key_exists('variant', $variant) && !$this->checkVariantAttr($variant['variant'])) ||
+				(!array_key_exists('variant', $variant) && !!$this->getVariant()) ||
 				(array_key_exists('field', $variant) && $variant['field'] != $this->getVariantField())
 			) ||
 			$this->hasVariants() && (
@@ -1837,7 +1836,7 @@ class Product
 		return $this->checkRecord($record) && $this->checkVariant($record->getVariant());
 	}
 
-	public function exportVariant($name = null)
+	public function exportVariant($variant = null)
 	{
 		if (!$this->hasVariants())
 		{
@@ -1848,10 +1847,10 @@ class Product
 			];
 		}
 
+		$name = is_array($variant) ? $variant['name'] : (is_string($variant) ? $variant : false);
+
 		if (!is_string($name) || -1 == $this->findVariant($name))
 			return false;
-
-		// $variant = $this->findVariantItem($name);
 
 		if ($this->isColorNSize())
 		{
@@ -1865,21 +1864,13 @@ class Product
 		return false;
 	}
 
-	public function createRecord($type, $variant, $quantity = 1)
+	public function createRecord($type, $variant = false, $quantity = 1)
 	{
 		if (!in_array($type, Record::getTypes()) || !$this->checkVariant($variant))
 			return false;
 
-		if ($this->hasVariants())
-		{
-			if (is_string($variant))
-				$variant = $this->exportVariant($variant);
-			if (!$variant)
-				return false;
-		}
-
-		if (!$this->hasVariants())
-			$variant = false;
+		if ($this->hasVariants() && !$variant)
+			return false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());
@@ -1891,7 +1882,10 @@ class Product
 		$record->setQuantity($quantity);
 
 		if ($variant)
+		{
+			$variant = $this->exportVariant($variant);
 			$record->setVariant($variant);
+		}
 
 		return $record;
 	}

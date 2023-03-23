@@ -1404,7 +1404,7 @@ class Order
 			$quantity = $item->getQuantity() + $quantity;
 			if ($quantity < 1)
 				$quantity = 1;
-			$limit = intval($product->getVariantIndex($variant)['quantity']);
+			$limit = intval($product->getVariantByIndex($variant)['quantity']);
 			if ($variant && $limit < $quantity)
 				$quantity = $limit;
 			if (!$variant && !$product->checkQuantity($quantity))
@@ -1417,7 +1417,7 @@ class Order
 			$item->setOrder($this);
 			$this->addItem($item);
 			if ($variant)
-				$item->setVariant($variant);
+				$item->setVariant($product->exportVariant($variant));
 			$persist = true;
 		}
 

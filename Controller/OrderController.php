@@ -127,7 +127,7 @@ class OrderController extends AbstractController
 			{
 				$index = $item->findVariant($form['variant']->getData());
 				if ($index == -1) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notFound']));
-				$variant = $item->getVariantIndex($index);
+				$variant = $item->getVariantByIndex($index);
 				$variantQta = intval($variant['quantity']);
 				if ($variantQta == 0) return $this->redirect($this->generateUrl('maci_order_cart', ['error' => 'error.notAvailable']));
 				if ($variantQta < $quantity) $quantity = $variantQta;
@@ -518,7 +518,7 @@ class OrderController extends AbstractController
 			'details' => $payment->getDetails()
 		];
 
-		$set = $this->getOrderSet($order);
+		$set = $this->getOrderSet($cart);
 		$cart->completeOrder($set, $params);
 
 		$this->sendPlacedNotify($cart);
