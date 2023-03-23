@@ -309,8 +309,10 @@ class ReportController extends AbstractController
 				$row[3] += $el['buytot'];
 				$row[4] += $el['buyamt'];
 				$row[5] += $el['buyval'];
-				$row[6] += $el['bcktot'];
-				$row[7] += $el['rettot'];
+				$row[6] += $el['sllamt'];
+				$row[7] += $el['sllval'];
+				// $row[6] += $el['bcktot'];
+				// $row[7] += $el['rettot'];
 				$row[8] += $el['sllval'];
 				$row[9] += count($el['errors']);
 			}
