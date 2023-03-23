@@ -1870,8 +1870,16 @@ class Product
 		if (!in_array($type, Record::getTypes()) || !$this->checkVariant($variant))
 			return false;
 
-		if ($this->hasVariants() && is_string($variant))
-			$variant = $this->exportVariant($variant);
+		if ($this->hasVariants())
+		{
+			if (is_string($variant))
+				$variant = $this->exportVariant($variant);
+			if (!$variant)
+				return false;
+		}
+
+		if (!$this->hasVariants())
+			$variant = false;
 
 		$record = new Record;
 		$record->setCode($this->getCode());
@@ -1880,8 +1888,10 @@ class Product
 		$record->setBrand($this->getBrand());
 		$record->setPrice($this->getPrice());
 		$record->setType($type);
-		$record->setVariant($variant);
 		$record->setQuantity($quantity);
+
+		if ($variant)
+			$record->setVariant($variant);
 
 		return $record;
 	}

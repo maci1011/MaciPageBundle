@@ -185,13 +185,15 @@ class ReportController extends AbstractController
 					'selled' => 0,
 					'buytot' => 0,
 					'slltot' => 0,
+					'rettot' => 0,
+					'bcktot' => 0,
 					'buyamt' => 0,
 					'buyval' => 0,
 					'sllamt' => 0,
 					'sllval' => 0
 				];
 
-				if (!array_search($category, $categories))
+				if (false === array_search($category, $categories))
 					array_push($categories, $category);
 			}
 
@@ -200,7 +202,7 @@ class ReportController extends AbstractController
 				$item['buyprc'] = $record->getPrice();
 			}
 
-			if ($record->isSale() && !$item['sllprc'])
+			else if ($record->isSale() && !$item['sllprc'])
 			{
 				$item['sllprc'] = $record->getPrice();
 			}
@@ -212,22 +214,24 @@ class ReportController extends AbstractController
 				$item['buytot'] += $record->getPrice() * $record->getQuantity();
 			}
 
-			if ($record->isSale())
+			else if ($record->isSale())
 			{
 				$item['selled'] += $record->getQuantity();
 				$item['slltot'] += $record->getPrice() * $record->getQuantity();
 			}
 
-			if ($record->isReturn())
+			else if ($record->isReturn())
 			{
 				$item['selled'] -= $record->getQuantity();
 				$item['slltot'] -= $record->getPrice() * $record->getQuantity();
+				$item['rettot'] += $record->getPrice() * $record->getQuantity();
 			}
 
-			if ($record->isBack())
+			else if ($record->isBack())
 			{
 				$item['buyed'] -= $record->getQuantity();
 				$item['buytot'] -= $item['lstbuy'] * $record->getQuantity();
+				$item['bcktot'] += $item['lstbuy'] * $record->getQuantity();
 			}
 
 			$list[$id] = $item;
@@ -237,7 +241,7 @@ class ReportController extends AbstractController
 		{
 			$el['errors'] = [];
 
-			if (!$el['buyprc'])
+			if ($el['buyprc'] == null)
 			{
 				array_push($el['errors'], [$id, 'Buy price is null.']);
 			}
@@ -247,7 +251,7 @@ class ReportController extends AbstractController
 				$el['sllval'] += $el['buyprc'] * $el['selled'];
 			}
 
-			if (!$el['sllprc'])
+			if ($el['sllprc'] == null)
 			{
 				array_push($el['errors'], [$id, 'Sell price is null.']);
 			}
@@ -305,8 +309,8 @@ class ReportController extends AbstractController
 				$row[3] += $el['buytot'];
 				$row[4] += $el['buyamt'];
 				$row[5] += $el['buyval'];
-				$row[6] += $el['slltot'];
-				$row[7] += $el['sllamt'];
+				$row[6] += $el['bcktot'];
+				$row[7] += $el['rettot'];
 				$row[8] += $el['sllval'];
 				$row[9] += count($el['errors']);
 			}

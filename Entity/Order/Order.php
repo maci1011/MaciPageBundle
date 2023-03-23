@@ -1273,7 +1273,8 @@ class Order
 		$this->status = 'complete';
 
 		$this->addActionData(array_merge($params, [
-			'_action' => 'completeOrder'
+			'_action' => 'completeOrder',
+			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
 		]));
 	}
 
@@ -1301,8 +1302,7 @@ class Order
 		$this->status = 'confirm';
 
 		$this->addActionData(array_merge($params, [
-			'_action' => 'confirmOrder',
-			'_sale_export_errors' => 0 < count($this->export_errors) ? $this->export_errors : 'All Right!'
+			'_action' => 'confirmOrder'
 		]));
 	}
 
