@@ -12,7 +12,7 @@
 <div class="form-group">
 	<label class="required" for="actions_select">Action:</label>
 	<select id="actions_select" class="form-control">
-		{% if order.status in ['new', 'current'] %}
+		{% if order.status in ['new', 'current', 'end'] %}
 		<option value="completeOrder">Complete Order</option>
 		{% elseif order.status in ['complete', 'paid'] %}
 		<option value="confirmOrder">Confirm Order</option>

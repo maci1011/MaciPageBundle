@@ -1270,7 +1270,8 @@ class Order
 
 		$this->due->modify('+1 month');
 
-		$this->status = 'complete';
+		if ($this->getProgression() < 5)
+			$this->status = 'complete';
 
 		$this->addActionData(array_merge($params, [
 			'_action' => 'completeOrder',

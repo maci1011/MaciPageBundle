@@ -23,23 +23,28 @@ class ReportController extends AbstractController
 		if (!$this->isGranted('ROLE_ADMIN'))
 			return $this->redirect($this->generateUrl('maci_homepage'));
 
-		$om = $this->getDoctrine()->getManager();
 		$list = [];
-
 		$after = $request->get('after', '');
 		$before = $request->get('before', '');
 		$after = strlen($after) ? date("Y/m/d", strtotime($after)) : false;
 		$before = strlen($before) ? date("Y/m/d", strtotime($before)) : false;
 		$collection = $request->get('collection', '');
-
-		$records = $om->getRepository('MaciPageBundle:Shop\Record')
-			->fromTo($after, $before, is_string($collection) ? ($collection == '' ? null : $collection) : false);
-
 		$report = $request->get('report');
+
+		$om = $this->getDoctrine()->getManager();
+		$records = $om->getRepository('MaciPageBundle:Shop\Record')
+			->fromTo($after, $before, is_string($collection) ? (
+				$collection == '' ? null : $collection
+			) : false);
 
 		if ($report == 'totals')
 			return $this->totalsReport($request, $records);
 
+		return $this->defaultReport($request, $records);
+	}
+
+	public function defaultReport(Request $request, $records)
+	{
 		$titles = [
 			'Category',
 			'Purchase',
@@ -180,6 +185,7 @@ class ReportController extends AbstractController
 					'category' => $category,
 					'buyprc' => false,
 					'sllprc' => false,
+					'lstrec' => false,
 					'lstbuy' => 0,
 					'buyed' => 0,
 					'selled' => 0,
@@ -234,6 +240,8 @@ class ReportController extends AbstractController
 				$item['bcktot'] += $item['lstbuy'] * $record->getQuantity();
 			}
 
+			$item['lstrec'] = $record;
+
 			$list[$id] = $item;
 		}
 
@@ -242,16 +250,28 @@ class ReportController extends AbstractController
 			$el['errors'] = [];
 
 			if ($el['buyprc'] == null)
-				array_push($el['errors'], [$id, 'Buy price is null.']);
-			else
+			{
+				$purchase = $this->getPurchaseRecord($record);
+				if (!$purchase)
+					array_push($el['errors'], [$id, 'Sell price is null.']);
+				else $el['buyprc'] = $purchase->getPrice();
+			}
+
+			if ($el['buyprc'] != null)
 			{
 				$el['buyamt'] += $el['buyprc'] * $el['buyed'];
 				$el['sllval'] += $el['buyprc'] * $el['selled'];
 			}
 
 			if ($el['sllprc'] == null)
-				array_push($el['errors'], [$id, 'Sell price is null.']);
-			else
+			{
+				$product = $this->getProduct($record);
+				if (!$product)
+					array_push($el['errors'], [$id, 'Sell price is null.']);
+				else $el['sllprc'] = $product->getSellPrice();
+			}
+
+			if ($el['sllprc'] != null)
 			{
 				$el['buyval'] += $el['sllprc'] * $el['buyed'];
 				$el['sllamt'] += $el['sllprc'] * $el['selled'];
@@ -307,9 +327,9 @@ class ReportController extends AbstractController
 				$row[5] += $el['buyval'];
 				$row[6] += $el['slltot'];
 				$row[7] += $el['sllamt'];
-				// $row[6] += $el['bcktot'];
-				// $row[7] += $el['rettot'];
 				$row[8] += $el['sllval'];
+				// $row[7] += $el['bcktot'];
+				// $row[8] += $el['rettot'];
 				$row[9] += count($el['errors']);
 			}
 
@@ -365,7 +385,6 @@ class ReportController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_homepage'));
 
 		$om = $this->getDoctrine()->getManager();
-
 		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 
 		$titles = [
@@ -480,7 +499,6 @@ class ReportController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_homepage'));
 
 		$om = $this->getDoctrine()->getManager();
-
 		$products = $om->getRepository('MaciPageBundle:Shop\Product')->findAll();
 
 		$titles = [
@@ -702,6 +720,35 @@ class ReportController extends AbstractController
 		);
 	}
 
+	public function getPurchaseRecord($record)
+	{
+		$om = $this->getDoctrine()->getManager();
+		$purchases = $om->getRepository('MaciPageBundle:Shop\Record')
+			->findBy([
+				'code' => $record->getCode(),
+				'type' => 'purchas'
+			]);
+		$purchase = false;
+		foreach ($purchases as $rec)
+		{
+			if ($rec->getProductVariant() == $record->getProductVariant() &&
+				$rec->getVariantName() == $record->getVariantName())
+			{
+				$purchase = $rec;
+				break;
+			}
+		}
+		if (!$purchase) foreach ($purchases as $rec)
+		{
+			if ($rec->getProductVariant() == $record->getProductVariant())
+			{
+				$purchase = $rec;
+				break;
+			}
+		}
+		return $purchase;
+	}
+
 	public function getProduct($record, &$list)
 	{
 		$product = false;
@@ -724,9 +771,10 @@ class ReportController extends AbstractController
 
 	public function findProduct($record)
 	{
-		$list = $this->getDoctrine()->getManager()->getRepository('MaciPageBundle:Shop\Product')->findBy([
-			'code' => $record->getCode()
-		]);
+		$list = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Shop\Product')->findBy([
+				'code' => $record->getCode()
+			]);
 		$product = false;
 		foreach ($list as $item)
 		{

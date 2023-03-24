@@ -692,7 +692,7 @@ class Record
 		if($data['variant']['type'] == 'color-n-size')
 			return $data['variant']['name'];
 
-		return $data['variant']['type'];
+		return null;
 	}
 
 	public function getProductVariant()
