@@ -468,6 +468,8 @@ class Record
 		$this->setVariant($data);
 
 		$this->data['imported'] = $data;
+
+		return true;
 	}
 
 	public function reload()
@@ -476,9 +478,9 @@ class Record
 		$this->setVariant($variant);
 
 		if (!is_array($this->data) || !array_key_exists('imported', $this->data))
-			return;
+			return false;
 
-		$this->import($this->data['imported']);
+		return $this->import($this->data['imported']);
 	}
 
 	public function hasImportedData()

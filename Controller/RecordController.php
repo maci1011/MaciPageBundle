@@ -191,7 +191,7 @@ class RecordController extends AbstractController
 		$om = $this->getDoctrine()->getManager();
 		$qtas = [];
 
-		$removedRecords = 0;
+		$removedRecords = [];
 		$qtaErrProducts = [];
 		$qtaChangedProducts = [];
 		$doubleProducts = [];
@@ -215,8 +215,8 @@ class RecordController extends AbstractController
 
 			if ($record->getQuantity() == 0 || !$record->getParent())
 			{
+				array_push($removedRecords, ($record->getId() . '-' . $record->getCode()));
 				$om->remove($record);
-				$removedRecords++;
 				continue;
 			}
 
