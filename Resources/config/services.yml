@@ -207,7 +207,15 @@ services:
     #     tags:
     #         - { name: kernel.event_listener, event: paypal.ipn.receive, method: onIPNReceive }
 
-    # Blog
+    # ---> Records
+
+    maci_records.form.type.mcm_record_set:
+        class: Maci\PageBundle\Form\Shop\McmRecordSetType
+        arguments: ["@security.authorization_checker"]
+        tags:
+            - { name: form.type, alias: mcm_record_set }
+
+    # ---> Blog
 
     maci_blog.form.type.comment:
         class: Maci\PageBundle\Form\Blog\CommentType
@@ -215,7 +223,7 @@ services:
         tags:
             - { name: form.type, alias: commentType }
 
-    # Mailer
+    # ---> Mailer
 
     Maci\PageBundle\Controller\MailerService:
         arguments: ["@doctrine.orm.entity_manager","@mailer","@templating","@maci.translator","%env(APP_ENV)%","%server_email%","%server_email_int%","%contact_email%","%contact_email_int%"]

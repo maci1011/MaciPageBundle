@@ -28,16 +28,16 @@ class ProductType extends AbstractType
 			->add('code')
 			->add('sale')
 			->add('price')
-			->add('shipment', 'choice', array(
+			->add('shipment', 'choice', [
 				'choices'   => array(0 => 'No', 1 => 'Yes')
-			))
-			->add('limited', 'choice', array(
+			])
+			->add('limited', 'choice', [
 				'choices'   => array(0 => 'No', 1 => 'Yes')
-			))
+			])
 			->add('quantity')
-			->add('status', 'choice', array(
+			->add('status', 'choice', [
                 'choices' => $builder->getData()->getStatusArray()
-            ))
+            ])
 			->add('reset', 'reset')
 			->add('send', 'submit')
 		;

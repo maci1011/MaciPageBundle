@@ -142,8 +142,8 @@ class RecordSet
 	static public function getTypeArray()
 	{
 		return [
-			'Import' => 'imprt',
 			'Export' => 'exprt',
+			'Import' => 'imprt',
 			'Order' => 'order'
 		];
 	}
