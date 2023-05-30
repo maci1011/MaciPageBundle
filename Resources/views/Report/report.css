@@ -43,6 +43,10 @@ th {
 	padding: 0 0 6px 0;
 }
 
+td {
+	vertical-align: top;
+}
+
 thead th {
 	border-bottom: 1px solid black;
 }
@@ -74,4 +78,12 @@ th,
 
 .t-right {
 	text-align: right;
+}
+
+.main-title {
+	padding: 0 0 16px;
+}
+
+.address-wrapper {
+	padding: 16px 0;
 }

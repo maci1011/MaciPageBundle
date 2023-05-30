@@ -22,17 +22,19 @@
 	<a id="getLabels" class="btn btn-primary" href="{{ path('maci_record_get_labels') }}">Get Labels</a>
 	<a id="getReport" class="btn btn-primary" href="{{ path('maci_record_get_report') }}">Get Report</a>
 </div>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
 <div class="form-group">
 
-	<button id="reload-order" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload Order</button>
-	<button id="reload-records" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reload Records</button>
+	<button id="reload-order" class="btn btn-danger" type="submit">Reload Order</button>
+	<button id="reload-records" class="btn btn-danger" type="submit">Reload Records</button>
 
-	<button id="check-data" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Check Data</button>
-	<button id="reset-data" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Reset Data</button>
+	<button id="check-data" class="btn btn-danger" type="submit">Check Data</button>
+	<button id="reset-data" class="btn btn-danger" type="submit">Reset Data</button>
 	
-	<button id="version" class="btn btn-danger{{ debug ? '' : ' hidden' }}" type="submit">Version</button>
+	<button id="version" class="btn btn-danger" type="submit">Version</button>
 
 </div>
+{% endif %}
 </form>
 {% endblock %}
 

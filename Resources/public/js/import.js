@@ -248,6 +248,36 @@ var maciShopImport = function (options) {
 		});
 	},
 
+	debugButtons: function() {
+		if (!form.find('#reload-order').length)
+			return;
+		form.find('#reload-order').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd(null);
+		});
+		form.find('#reload-records').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('reload_recs');
+		});
+		form.find('#check-data').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('check_data');
+		});
+		form.find('#reset-data').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('reset_data');
+		});
+		form.find('#version').click(function(e) {
+			e.preventDefault();
+			if(!confirm("Confirm?")) return;
+			_obj.sendCmd('version');
+		});
+	},
+
 	set: function(_form) {
 		form = _form;
 		select = form.find('#import-set');
@@ -274,31 +304,7 @@ var maciShopImport = function (options) {
 			if(!confirm("Confirm?")) return;
 			_obj.sendCmd('reset_import');
 		});
-		form.find('#reload-order').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd(null);
-		});
-		form.find('#reload-records').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reload_recs');
-		});
-		form.find('#check-data').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('check_data');
-		});
-		form.find('#reset-data').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('reset_data');
-		});
-		form.find('#version').click(function(e) {
-			e.preventDefault();
-			if(!confirm("Confirm?")) return;
-			_obj.sendCmd('version');
-		});
+		_obj.debugButtons();
 		_obj.getSets();
 		_obj.setFileInput();
 	}

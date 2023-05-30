@@ -14,7 +14,7 @@
 
 <section class="blog-post-info flex">
 
-{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
+	{% include "@MaciPage/Blog/_post_collapsed_nav.html.twig" %}
 
 </section>
 
@@ -40,107 +40,82 @@
 
 {% if post.previousPosts|length %}
 <section class="related-list related-prev">
-
 	<h3 class="list-title related">
-	{% if post.previousPosts|length == 1 %}
+		{% if post.previousPosts|length == 1 %}
 		{{ 'blog.post.related.prev-post' | matra('Previous Post') }}:
-	{% else %}
+		{% else %}
 		{{ 'blog.post.related.prev-posts' | matra('Previous Posts') }}:
-	{% endif %}
+		{% endif %}
 	</h3>
-
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.previousPosts } %}
-
 </section>
 {% endif %}
 
 <section class="blog-post-content">
-
 	{% if post.preheader is not null %}
 	<div class="post-content post-preheader">{{ post.preheader|raw }}</div>
 	{% endif %}
-
 	{% if post.header is not null %}
 	<div class="post-content post-header">{{ post.header|raw }}</div>
 	{% endif %}
-
 	{% if post.markdown is not null %}
 	<div class="post-content markdown-content">{{ post.markdown|markdown|nl2br }}</div>
 	{% endif %}
-
 	{% if post.content is not null %}
 	<div class="post-content item-content">{{ post.content|raw }}</div>
 	{% endif %}
-
 </section>
 
 {% if post.slides %}
 <section class="blog-post-slides">
-{% for slide in post.slides %}
-
-{% include "@MaciPage/Blog/_slide.html.twig" %}
-
-{% endfor %}
+	{% for slide in post.slides %}
+	{% include "@MaciPage/Blog/_slide.html.twig" %}
+	{% endfor %}
 </section>
 {% endif %}
 
 {% if post.images|length %}
 <section class="blog-post images">
-
 	{% include "@MaciPage/Blog/_media_list.html.twig" with {'list': post.images} %}
-
 </section>
 {% endif %}
 
 {% if post.otherMedias|length %}
 <section class="related-list downloads">
-
 	<h3 class="list-title related">
 		{{ 'blog.post.download' | matra('Download') }}:
 	</h3>
-
 	{% include "@MaciPage/Blog/_downloads.html.twig" with {'list': post.otherMedias} %}
-
 </section>
 {% endif %}
 
 {% if post.nextPosts|length %}
 <section class="related-list related-next">
-
 	<h3 class="list-title related">
-	{% if post.nextPosts|length == 1 %}
+		{% if post.nextPosts|length == 1 %}
 		{{ 'blog.post.related.next-post' | matra('Next Post') }}:
-	{% else %}
+		{% else %}
 		{{ 'blog.post.related.next-posts' | matra('Next Posts') }}:
-	{% endif %}
+		{% endif %}
 	</h3>
-
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.nextPosts } %}
-
 </section>
 {% endif %}
 
 <footer class="blog-post-footer flex">
-
 	{% include "@MaciPage/Blog/_post_author_nav.html.twig" %}
-
 	{% include "@MaciPage/Blog/_post_dates_nav.html.twig" %}
-
 	{% include "@MaciPage/Blog/_post_tags_nav.html.twig" %}
-
 	{% include "@MaciPage/Blog/_post_links_nav.html.twig" %}
-
 	{% if is_granted('ROLE_ADMIN') %}
 	{{ render(controller('MaciAdminBundle:View:adminBar', { 'entity': 'blog_post', 'item': post } )) }}
 	{% endif %}
-
 </footer>
 
 {% include "@MaciPage/Blog/_license.html.twig" %}
 
 {% if post.editors|length %}
 <section class="related-list editors">
-
 	<h3 class="list-title related">
 		{% if post.editors|length == 1 %}
 		{{ 'blog.author'|matra('Author') }}:
@@ -148,15 +123,12 @@
 		{{ 'blog.authors'|matra('Authors') }}:
 		{% endif %}
 	</h3>
-
 	{% include "@MaciPage/Blog/_editors.html.twig" with { 'list': post.editors } %}
-
 </section>
 {% endif %}
 
 {% if post.related|length %}
 <section class="related-list related-posts">
-
 	<h3 class="list-title related">
 		{% if post.related|length == 1 %}
 		{{ 'blog.post.related-post'|matra('Related Post') }}:
@@ -164,18 +136,14 @@
 		{{ 'blog.post.related-posts'|matra('Related Posts') }}:
 		{% endif %}
 	</h3>
-
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.related } %}
-
 </section>
 {% endif %}
 
 <section class="related-list comments">
-
 	<h3 class="list-title related">
 		{{ 'blog.post.comments'|matra('Comments') }}
 	</h3>
-
 	{% if is_granted('ROLE_ADMIN') and post.comments|length %}
 	{% include "@MaciPage/Blog/_comments_list.html.twig" with {'list': post.comments} %}
 	{% elseif post.approvedComments|length %}
@@ -185,17 +153,12 @@
 		{{ 'blog.post.no-comments'|matra('No comments here.') }}
 	</h4>
 	{% endif %}
-
 	<div class="addCommentWrapper">
-
 		<h4 class="pc-title add-comment">
 			{{ 'blog.post.add-comment'|matra('Add a comment') }}:
 		</h4>
-
 		{% include "@MaciPage/Blog/_comment_form.html.twig" with {'form': commentForm} %}
-
 	</div>
-
 </section>
 
 </div>

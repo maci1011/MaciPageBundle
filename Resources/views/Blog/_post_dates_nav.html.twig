@@ -2,7 +2,14 @@
 <nav class="post-dates-nav navbar navbar-expand flex-column">
 	<ul class="navbar-nav mr-auto">
 
-		{% if post.isPubblished and post.pubblished %}
+		{% if post.isUpdated %}
+		<li class="nav-item">
+			<p class="navbar-text">
+				<span class="post-date post-nav-label">{{ 'blog.post.last_update' | matra('Last Update') }}:</span>
+				<span class="post-date post-nav-val">{{ post.updated|date('d/m/Y') }}</span>
+			</p>
+		</li>
+		{% elseif post.pubblished %}
 		<li class="nav-item">
 			<p class="navbar-text">
 				<span class="post-date post-nav-label">{{ 'blog.post.published' | matra('Published') }}:</span>
@@ -14,15 +21,6 @@
 			<p class="navbar-text">
 				<span class="post-date post-nav-label">{{ 'blog.post.created' | matra('Created') }}:</span>
 				<span class="post-date post-nav-val">{{ post.created|date('d/m/Y') }}</span>
-			</p>
-		</li>
-		{% endif %}
-
-		{% if post.isUpdated %}
-		<li class="nav-item">
-			<p class="navbar-text">
-				<span class="post-date post-nav-label">{{ 'blog.post.last_update' | matra('Last Update') }}:</span>
-				<span class="post-date post-nav-val">{{ post.updated|date('d/m/Y') }}</span>
 			</p>
 		</li>
 		{% endif %}

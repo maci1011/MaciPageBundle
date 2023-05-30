@@ -40,7 +40,7 @@ class BlogController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_blog'));
 
 		$list = $om->getRepository('MaciPageBundle:Blog\Post')
-			->getByTag($tag);
+			->getByTag($tag, $request->getLocale());
 
 		return $this->render('@MaciPage/Blog/tag.html.twig', [
 			'pager' => $this->getPager($request, $list),
@@ -48,17 +48,17 @@ class BlogController extends AbstractController
 		]);
 	}
 
-	public function authorAction($path)
+	public function authorAction(Request $request, $path)
 	{
 		$om = $this->getDoctrine()->getManager();
 		$author = $om->getRepository('MaciPageBundle:Blog\Author')
-			->findOneByPath($path);
+			->findOneBy(['path' => $path, 'locale' => $request->getLocale()]);
 
 		if (!$author)
 			return $this->redirect($this->generateUrl('maci_blog'));
 
 		$list = $om->getRepository('MaciPageBundle:Blog\Post')
-			->getByAuthor($author);
+			->getByAuthor($author, $request->getLocale());
 
 		return $this->render('@MaciPage/Blog/author.html.twig', [
 			'list' => $list,

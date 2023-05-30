@@ -10,7 +10,8 @@
 {% if list|length %}
 
 {% set page = 1 %}
-{% set page_limit = 55 %}
+{% set page_max = 55 %}
+{% set page_limit = page_max %}
 
 {# BEGIN ROW #}
 {% for row in list %}
@@ -21,6 +22,47 @@
 <table class="page">
 <tbody>
 <tr><td class="page-content">
+
+{% if main_title is defined and main_title %}
+<table class="main-title-wrapper">
+<tbody>
+<tr>
+
+	<td>
+		<h1 class="main-title">{{ main_title }}</h1>
+	</td>
+
+</tr>
+</tbody>
+</table>
+{% set page_limit = page_limit - 8 %}
+{% endif %}
+
+{% if recipient is defined and recipient %}
+<table class="addresses-header">
+<tbody>
+<tr>
+
+	<td class="colspacer" width="10%">&nbsp;</td>
+
+	<td class="address-wrapper" width="40%">
+		<h3>{{ 'sender'|matla('Sender') }}:</h3>
+		{% include "@MaciPage/Page/_company_address.html.twig" %}
+	</td>
+
+	<td class="address-wrapper" width="40%">
+		<h3>{{ 'recipient'|matla('Recipient') }}:</h3>
+		{% include "@MaciUser/Address/_item.html.twig" with { 'address': recipient } %}
+	</td>
+
+	<td class="colspacer">&nbsp;</td>
+
+</tr>
+</tbody>
+</table>
+{% set page_limit = page_limit - 12 %}
+{% endif %}
+
 
 <table class="list">
 {% if headers|length %}
@@ -98,6 +140,7 @@
 </table>
 
 {% set page = page + 1 %}
+{% set page_limit = page_max %}
 {% endif %}
 
 {# END ROW #}

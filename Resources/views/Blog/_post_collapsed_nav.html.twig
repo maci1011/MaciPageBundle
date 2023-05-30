@@ -4,16 +4,7 @@
 
 		<li class="nav-item first">
 			<p class="post-date post-nav-val navbar-text px-2">
-				{% if post.isUpdated %}
-				<i class="fas fa-calendar-edit"></i>
-				{{ post.updated|date('d/m/Y') }}
-				{% elseif post.isPubblished %}
-				<i class="fas fa-calendar-day"></i>
-				{{ post.pubblished|date('d/m/Y') }}
-				{% else %}
-				<i class="fas fa-ufo"></i>
-				{{ post.created|date('d/m/Y') }}
-				{% endif %}
+				{% include "@MaciPage/Blog/_date_compact.html.twig" %}
 			</p>
 		</li>
 

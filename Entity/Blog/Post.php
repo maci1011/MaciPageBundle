@@ -953,6 +953,16 @@ class Post
 	}
 
 	/**
+	 * Get Last Update
+	 * 
+	 * @return date
+	 */
+	public function getLastUpdate()
+	{
+		return $this->isUpdated() ? $this->updated : ($this->isPubblished() ? $this->pubblished : $this->created);
+	}
+
+	/**
 	 * setUpdatedValue
 	 */
 	public function setUpdatedValue()

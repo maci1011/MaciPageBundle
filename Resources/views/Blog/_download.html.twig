@@ -1,15 +1,19 @@
 
 <tr>
 <td class="item-preview-wrapper">
-	{% if item.media.path %}
-	<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_page_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
-	{% else %}
-	<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
-	{% endif %}
+	<a href="{{ path('maci_media_get', {'path': item.media.path}) }}" target="_blank" title="{{ 'download'|matla('Download') }}">
+		{% if item.media.path %}
+		<img class="item-preview" src="{{ asset(item.media.webPreview|imagine_filter('maci_page_thumb')) }}" alt="{{ item.media.title }} - {{ item.media.description|striptags }}">
+		{% else %}
+		<img class="item-preview default" src="{{ asset('/images/defaults/media-icon.png') }}" alt="{{ post.title }}" />
+		{% endif %}
+	</a>
 </td>
 <td class="item-content">
 	{% if item.name %}
-	<span class="item-title">{{ item.name }}</span>
+	<a class="item-link" href="{{ path('maci_media_get', {'path': item.media.path}) }}" target="_blank" title="{{ 'download'|matla('Download') }}">
+		<span class="item-title">{{ item.name }}</span>
+	</a>
 	{% endif %}
 	{% if item.description %}
 	<p class="item-description">{{ item.description }}</p>

@@ -752,6 +752,10 @@ class ReportController extends AbstractController
 			return $this->redirect($this->generateUrl('maci_homepage'));
 
 		$om = $this->getDoctrine()->getManager();
+		$set = $om->getRepository('MaciPageBundle:Shop\RecordSet')->findOneById($id);
+		if (!$set)
+			return $this->redirect($this->generateUrl('maci_admin_view'));
+
 		$records = $om->getRepository('MaciPageBundle:Shop\Record')->findBy(
 			['parent' => $id], ['code' => 'ASC']
 		);
@@ -799,12 +803,14 @@ class ReportController extends AbstractController
 		// return PDF
 
 		return $this->getPDF([
+			'main_title' => $set->getLabel(),
+			'recipient' => $set->getSupplier() ? $set->getSupplier()->getAddress() : null,
 			'headers' => $titles,
 			'list' => $list,
 			'amounts' => [$tot],
 			'footers' => [
 				$this->container->getParameter('company_title'),
-				'REPORT: Export > Set',
+				'REPORT: Export > ' . $set->getLabel(),
 				date("Y/m/d H:i:s")
 			],
 			'filename' => 'report-export-set.pdf'

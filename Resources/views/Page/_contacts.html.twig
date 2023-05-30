@@ -1,24 +1,3 @@
 
-<address>
-
-	<span class="address-detail name"><strong>{{ company_title }}</strong></span><br/>
-
-	<span class="address-detail address">{{ company_address }}</span><br/>
-
-	<span class="address-detail cccs">{{ company_cccs }}</span><br/>
-
-	<span class="address-detail phone">
-		<abbr title="Phone">Tel.</abbr> {{ company_phone }}
-	</span><br/>
-
-	{% if company_fax is defined %}
-	<span class="address-detail phone">
-		<abbr title="Phone">Fax</abbr> {{ company_fax }}
-	</span><br/>
-	{% endif %}
-
-	<span class="address-detail mail">
-		E-Mail: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
-	</span>
-
-</address>
+{% include "@MaciPage/Page/_company_address.html.twig" %}
+{% include "@MaciPage/Page/_opening_hours.html.twig" %}

@@ -1,0 +1,11 @@
+
+{% if post.isUpdated %}
+<i class="date-icon fas fa-calendar-edit"></i>
+{{ post.updated|date('d/m/Y') }}
+{% elseif post.isPubblished %}
+<i class="date-icon fas fa-calendar-day"></i>
+{{ post.pubblished|date('d/m/Y') }}
+{% else %}
+<i class="date-icon fas fa-ufo"></i>
+{{ post.created|date('d/m/Y') }}
+{% endif %}

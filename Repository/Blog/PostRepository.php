@@ -25,7 +25,7 @@ class PostRepository extends EntityRepository
 		return $q->getQuery()->getResult();
 	}
 
-	public function getByTag($id)
+	public function getByTag($id, $locale)
 	{
 		$q = $this->createQueryBuilder('p')
 			->leftJoin('p.tags', 't')
@@ -33,12 +33,12 @@ class PostRepository extends EntityRepository
 			->setParameter(':id', $id)
 		;
 
-		$this->addPostListFilters($q);
+		$this->addPostListFilters($q, $locale);
 
 		return $q->getQuery()->getResult();
 	}
 
-	public function getByAuthor($author)
+	public function getByAuthor($author, $locale)
 	{
 		$q = $this->createQueryBuilder('p')
 			->leftJoin('p.editors', 'e')
@@ -47,7 +47,7 @@ class PostRepository extends EntityRepository
 			->setParameter(':id', $author->getId())
 		;
 
-		$this->addPostListFilters($q, false, 'ASC');
+		$this->addPostListFilters($q, $locale, 'ASC');
 
 		return $q->getQuery()->getResult();
 	}
