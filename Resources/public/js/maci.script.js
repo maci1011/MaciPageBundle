@@ -222,6 +222,23 @@ $(document).ready(function(e) {
 		$(el).find('.cancel_reply').hide();
 	}).addClass('default');
 
+	$('.copyToClipboard').each(function(i,el) {
+		$(el).attr('txt', $(el).text())
+			.html('<i class="fas fa-copy"></i> ' + $(el).attr('txt'))
+			.click(function(e) {
+				e.preventDefault();
+				navigator.clipboard.writeText($(el).next().text().trim());
+				$(el).addClass('active')
+					.html('<i class="fas fa-check"></i> ' + $(el).attr('alt'));
+				setTimeout(function() {
+					$(el).removeClass('active')
+						.html('<i class="fas fa-copy"></i> ' + $(el).attr('txt'));
+				}, 2700);
+			})
+			.show()
+		;
+	});
+
 	// Lightbox
 
 	maciLightbox();

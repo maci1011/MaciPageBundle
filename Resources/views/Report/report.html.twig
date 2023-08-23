@@ -9,16 +9,17 @@
 {% block body %}
 {% if list|length %}
 
+{% set diff = 0 %}
 {% set page = 1 %}
-{% set page_max = 55 %}
-{% set page_limit = page_max %}
+{% set page_limit = 57 %}
 
 {# BEGIN ROW #}
 {% for row in list %}
 
 {# Header #}
 
-{% if loop.index0 % page_limit == 0 %}
+{% if (loop.index0 + diff) % page_limit == 0 %}
+
 <table class="page">
 <tbody>
 <tr><td class="page-content">
@@ -35,7 +36,8 @@
 </tr>
 </tbody>
 </table>
-{% set page_limit = page_limit - 8 %}
+{% set main_title = false %}
+{% set diff = diff + 5 %}
 {% endif %}
 
 {% if recipient is defined and recipient %}
@@ -55,16 +57,17 @@
 		{% include "@MaciUser/Address/_item.html.twig" with { 'address': recipient } %}
 	</td>
 
-	<td class="colspacer">&nbsp;</td>
+	<td class="colspacer last">&nbsp;</td>
 
 </tr>
 </tbody>
 </table>
-{% set page_limit = page_limit - 12 %}
+{% set recipient = false %}
+{% set diff = diff + 11 %}
 {% endif %}
 
-
 <table class="list">
+
 {% if headers|length %}
 <thead>
 <tr>
@@ -77,8 +80,13 @@
 </tr>
 </thead>
 {% endif %}
+
 <tbody>
+
+{% if headers|length %}
 <tr><td class="spacer"></td></tr>
+{% endif %}
+
 {% endif %}
 
 {# Content List #}
@@ -115,7 +123,7 @@
 {% endif %}
 
 {# Footer #}
-{% if loop.last or loop.index0 % page_limit == page_limit - 1 %}
+{% if loop.last or (((loop.index0 + diff) % page_limit) == (page_limit - 1)) %}
 
 </tbody>
 </table>
@@ -129,7 +137,7 @@
 	{% for footer in footers %}
 	<th><p class="cell-text">{{ footer }}</p></th>
 	{% endfor %}
-	<th><p class="cell-text t-right">Page: {{ page }} / {{ (list|length / page_limit)|intval + 1 }}</p></th>
+	<th><p class="cell-text t-right">Page: {{ page }} / {{ ((list|length + diff) / page_limit)|intval + 1 }}</p></th>
 </tr>
 </tfoot>
 </tbody>
@@ -140,7 +148,6 @@
 </table>
 
 {% set page = page + 1 %}
-{% set page_limit = page_max %}
 {% endif %}
 
 {# END ROW #}

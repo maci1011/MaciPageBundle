@@ -1,6 +1,6 @@
 
-<nav class="post-dates-nav navbar navbar-expand flex-column">
-	<ul class="navbar-nav mr-auto">
+<div class="post-dates-nav navbar navbar-expand">
+	<ul class="navbar-nav flex-column mr-auto">
 
 		{% if post.isUpdated %}
 		<li class="nav-item">
@@ -9,6 +9,7 @@
 				<span class="post-date post-nav-val">{{ post.updated|date('d/m/Y') }}</span>
 			</p>
 		</li>
+
 		{% elseif post.pubblished %}
 		<li class="nav-item">
 			<p class="navbar-text">
@@ -16,6 +17,7 @@
 				<span class="post-date post-nav-val">{{ post.pubblished|date('d/m/Y') }}</span>
 			</p>
 		</li>
+
 		{% elseif post.created %}
 		<li class="nav-item">
 			<p class="navbar-text">
@@ -26,4 +28,4 @@
 		{% endif %}
 
 	</ul>
-</nav>
+</div>

@@ -68,7 +68,8 @@ tbody td {
 }
 
 th,
-.title.bold {
+.title.bold,
+.address-detail.name {
 	font-weight: bold;
 }
 
@@ -86,4 +87,8 @@ th,
 
 .address-wrapper {
 	padding: 16px 0;
+}
+
+.addresses-header {
+	margin-bottom: 36px;
 }

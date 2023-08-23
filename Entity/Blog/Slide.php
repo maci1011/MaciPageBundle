@@ -141,8 +141,8 @@ class Slide
 	static public function getTypeArray()
 	{
 		return [
-			'Default' => 'default'
-			// 'Foo' => 'foo',
+			'Default' => 'default',
+			'Image' => 'image'
 		];
 	}
 

@@ -6,12 +6,15 @@
 	<a class="post-preview-link d-block" href="{{ path('maci_media_get', {'path': slide.preview.path}) }}" data-lightbox="post-image" data-title="{{ slide.preview }}">
 		<img class="post-preview img-fluid" src="{{ asset(slide.preview.webPath|imagine_filter('maci_blog_list')) }}" alt="{{ slide.preview.name }} - {{ slide.preview.description|striptags }}" />
 	</a>
-	{% if slide.preview.name or slide.preview.description or slide.preview.credits %}
 	<figcaption class="post-preview-caption">
-		{% if slide.preview.name %}
+		{% if slide.title %}
+		<span class="post-preview-name">{{ slide.title }}</span>
+		{% elseif slide.preview.name %}
 		<span class="post-preview-name">{{ slide.preview.name }}</span>
 		{% endif %}
-		{% if slide.preview.description %}
+		{% if slide.content %}
+		<div class="post-preview-description">{{ slide.content|raw }}</div>
+		{% elseif slide.preview.description %}
 		<div class="post-preview-description">{{ slide.preview.description|raw }}</div>
 		{% endif %}
 		{% if post.preview.credits %}
@@ -21,22 +24,7 @@
 		</div>
 		{% endif %}
 	</figcaption>
-	{% endif %}
 </figure>
 {% endif %}
-
-<div class="post-content slide-caption">
-
-{% if slide.title %}
-<h3 id="blogSlideTitle_{{ slide.id }}" class="slide-title pc-title">{{ slide.title }}</h3>
-{% endif %}
-
-{% if slide.content %}
-<div id="blogSlideContent_{{ slide.id }}" class="slide-content">
-{{ slide.content|raw }}
-</div>
-{% endif %}
-
-</div>
 
 </div>

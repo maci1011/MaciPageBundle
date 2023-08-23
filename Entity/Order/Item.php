@@ -406,6 +406,20 @@ class Item
 		);
 	}
 
+	public function applyCoupon($coupon)
+	{
+		foreach ($coupon->getTerms() as $term => $value)
+		{
+			if ($this->$term() != $value)
+				return false;
+		}
+		$this->applyDiscount($coupon->getDiscount());
+	}
+
+	public function applyDiscount($discount)
+	{
+	}
+
 	/**
 	 * __toString()
 	 */

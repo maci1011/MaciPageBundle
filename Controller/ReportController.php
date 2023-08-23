@@ -49,6 +49,9 @@ class ReportController extends AbstractController
 		if ($report == 'records')
 			return $this->checkRecordsReport($records);
 
+		if ($report == 'inventory')
+			return $this->inventoryReport($records);
+
 		return $this->defaultReport($records);
 	}
 
@@ -420,6 +423,90 @@ class ReportController extends AbstractController
 				date("Y/m/d H:i:s")
 			],
 			'filename' => 'report-totals-check-records.pdf'
+		]);
+	}
+
+	public function inventoryReport($records)
+	{
+		$list = $this->recordsAmounts($records);
+		$categories = $this->categories;
+
+		// Result List
+
+		$titles = [
+			'Category',
+			'Buyed',
+			'Selled',
+			'Quantity',
+			'Buy Val',
+			'Sell Val',
+			'Qta Val'
+		];
+
+		$resl = [];
+		foreach ($categories as $category)
+		{
+			$row = [
+				0 => $category,
+				1 => 0,
+				2 => 0,
+				3 => 0,
+				4 => 0,
+				5 => 0,
+				6 => 0
+			];
+
+			$num = 0;
+			foreach ($list as $el)
+			{
+				if ($el['category'] != $category)
+					continue;
+
+				$row[1] += $el['blb'];
+				$row[2] += $el['slr'];
+				$row[3] += $el['qta'];
+				$row[4] += $el['buytot'];
+				$row[5] += $el['sllval'];
+				$row[6] += $el['dffval'];
+			}
+
+			array_push($resl, $row);
+		}
+
+		// Amounts
+
+		$tot = [
+			0 => 'Amount:',
+			1 => 0,
+			2 => 0,
+			3 => 0,
+			4 => 0,
+			5 => 0,
+			6 => 0
+		];
+
+		foreach ($resl as $row)
+		{
+			$tot[1] += $row[1];
+			$tot[2] += $row[2];
+			$tot[3] += $row[3];
+			$tot[4] += $row[4];
+			$tot[5] += $row[5];
+			$tot[6] += $row[6];
+		}
+
+		// return PDF
+
+		return $this->getPDF([
+			'headers' => $titles,
+			'list' => $resl,
+			'amounts' => [$tot],
+			'footers' => [
+				$this->container->getParameter('company_title'),
+				'REPORT: Totals / Inventory',
+				date("Y/m/d H:i:s")
+			],
+			'filename' => 'report-totals-inventory.pdf'
 		]);
 	}
 
@@ -953,6 +1040,7 @@ class ReportController extends AbstractController
 	{
 		$list = [];
 		$categories = [];
+		$products = [];
 
 		foreach ($records as $record)
 		{
@@ -973,16 +1061,19 @@ class ReportController extends AbstractController
 					'selled' => 0,
 					'backed' => 0,
 					'return' => 0,
+					'qta'    => 0,
 					'blb'    => 0,
 					'slr'    => 0,
 					'buytot' => 0,
 					'slltot' => 0,
+					'dfftot' => 0,
 					'rettot' => 0,
 					'bcktot' => 0,
 					'buyamt' => 0,
 					'buyval' => 0,
 					'sllamt' => 0,
-					'sllval' => 0
+					'sllval' => 0,
+					'dffval' => 0
 				];
 
 				if (false === array_search($category, $categories))
@@ -1031,13 +1122,14 @@ class ReportController extends AbstractController
 			$list[$id] = $item;
 		}
 
-		$products = [];
 		foreach ($list as $id => $el)
 		{
 			$el['errors'] = [];
 
 			$el['blb'] = $el['buyed'] - $el['backed'];
 			$el['slr'] = $el['selled'] - $el['return'];
+			$el['qta'] = $el['blb'] - $el['slr'];
+			$el['dfftot'] = $el['buytot'] - $el['slltot'];
 
 			if ($el['buyprc'] == null)
 			{
@@ -1049,8 +1141,9 @@ class ReportController extends AbstractController
 
 			if ($el['buyprc'] != null)
 			{
-				$el['buyval'] += $el['buyprc'] * $el['buyed'];
-				$el['sllval'] += $el['buyprc'] * $el['selled'];
+				$el['buyval'] += $el['buyprc'] * $el['blb'];
+				$el['sllval'] += $el['buyprc'] * $el['slr'];
+				$el['dffval'] = $el['buyval'] - $el['sllval'];
 			}
 
 			if ($el['sllprc'] == null)

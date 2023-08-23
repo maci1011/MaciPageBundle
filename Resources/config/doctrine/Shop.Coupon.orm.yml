@@ -1,0 +1,29 @@
+
+Maci\PageBundle\Entity\Shop\Coupon:
+    type:  entity
+    table: maci_product_coupon
+    # repositoryClass: Maci\PageBundle\Repository\Shop\CouponRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        code:
+            type: string
+            length: 15
+        discount:
+            type: decimal
+            precision: 5
+            scale: 2
+        start:
+            type: datetime
+            nullable: true
+        expire:
+            type: datetime
+            nullable: true
+        enable:
+            type: boolean
+        terms:
+            type: json
+            nullable: true

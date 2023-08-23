@@ -54,6 +54,11 @@ class Media
 	/**
 	 * @var string
 	 */
+	private $credits;
+
+	/**
+	 * @var string
+	 */
 	private $type;
 
 	/**
@@ -389,7 +394,7 @@ class Media
 	 * Set token
 	 *
 	 * @param string $token
-	 * @return Order
+	 * @return Media
 	 */
 	public function setToken($token)
 	{
@@ -414,10 +419,53 @@ class Media
 	}
 
 	/**
+	 * Set credits
+	 *
+	 * @param string $credits
+	 * @return Media
+	 */
+	public function setCredits($credits)
+	{
+		$this->credits = $credits;
+
+		return $this;
+	}
+
+	/**
+	 * Get credits
+	 *
+	 * @return string 
+	 */
+	public function getCredits()
+	{
+		return $this->credits;
+	}
+
+	public function getCreditsTitle()
+	{
+		$pos = strpos($this->credits, '|');
+		
+		if ($pos == false)
+			return $this->credits;
+
+		return substr($this->credits, 0, $pos);
+	}
+
+	public function getCreditsLink()
+	{
+		$pos = strpos($this->credits, '|');
+		
+		if ($pos == false)
+			return $this->credits;
+
+		return substr($this->credits, $pos + 1);
+	}
+
+	/**
 	 * Set mimetype
 	 *
 	 * @param string $mimetype
-	 * @return Order
+	 * @return Media
 	 */
 	public function setMimetype($mimetype)
 	{

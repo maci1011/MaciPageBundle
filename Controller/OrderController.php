@@ -189,6 +189,23 @@ class OrderController extends AbstractController
 		));
 	}
 
+	public function applyCouponAction(Request $request, $code)
+	{
+		$coupon = $this->getDoctrine()->getManager()
+			->getRepository('MaciPageBundle:Shop\Coupon')
+			->findOneByCode($code);
+
+		if (!$coupon)
+		{
+			return $this->redirect($this->generateUrl('maci_order_cart'));
+		}
+
+		$cart = $this->get('maci.orders')->getCurrentCart();
+		$cart->applyCoupon($coupon);
+
+		return $this->redirect($this->generateUrl('maci_order_cart'));
+	}
+
 	public function cartStartCheckoutAction(Request $request, $type)
 	{
 		if (!is_string($type) || !in_array($type, Order::getCheckoutArray()))
@@ -692,8 +709,7 @@ class OrderController extends AbstractController
 		if (!$order)
 			return $this->redirect($this->generateUrl('maci_order_notfound'));
 
-		if (
-			( $order->getUser() && $order->getUser()->getId() !== $this->getUser()->getId() ) &&
+		if (($order->getUser() && $order->getUser()->getId() !== $this->getUser()->getId()) &&
 			false === $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
 		) return $this->redirect($this->generateUrl('maci_order_homepage', array('error' => 'order.nomap')));
 

@@ -1958,6 +1958,11 @@ class Product
 		return $this;
 	}
 
+	static public function getIdentifier()
+	{
+		return $this->code . strtolower($this->variant ? '-' . $this->variant : '');
+	}
+
 	/**
 	 * __toString()
 	 */

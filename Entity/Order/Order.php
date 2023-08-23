@@ -1440,6 +1440,14 @@ class Order
 		return true;
 	}
 
+	public function applyCoupon($coupon)
+	{
+		foreach ($this->getItems() as $item)
+		{
+			$item->applyCoupon($coupon);
+		}
+	}
+
 	/**
 	 * __toString()
 	 */

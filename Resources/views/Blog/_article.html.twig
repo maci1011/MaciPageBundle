@@ -23,13 +23,19 @@
 	<a class="post-preview-link d-block" href="{{ path('maci_media_get', {'path': post.preview.path}) }}" data-lightbox="post-image" data-title="{{ post.preview }}">
 		<img class="post-preview img-fluid" src="{{ asset(post.preview.webPath|imagine_filter('maci_blog_list')) }}" alt="{{ post.preview }} - {{ post.preview.description|striptags }}" />
 	</a>
-	{% if post.preview.name or post.preview.description %}
+	{% if post.preview.name or post.preview.description or slide.preview.credits %}
 	<figcaption class="post-preview-caption">
 		{% if post.preview.name %}
 		<span class="post-preview-name">{{ post.preview.name }}</span>
 		{% endif %}
-		{% if post.preview.name or post.preview.description %}
+		{% if post.preview.description %}
 		<div class="post-preview-description">{{ post.preview.description|raw }}</div>
+		{% endif %}
+		{% if post.preview.credits %}
+		<div class="post-preview-credits">
+			<span class="post-preview-credits-label">{{ 'media.credits'|matra('Credits') }}:</span>
+			<a class="post-preview-credits" href="{{ post.preview.creditsLink }}" rel="nofollow" target="_blank">{{ post.preview.creditsTitle }}</a>
+		</div>
 		{% endif %}
 	</figcaption>
 	{% endif %}
@@ -42,9 +48,9 @@
 <section class="related-list related-prev">
 	<h3 class="list-title related">
 		{% if post.previousPosts|length == 1 %}
-		{{ 'blog.post.related.prev-post' | matra('Previous Post') }}:
+		{{ 'blog.post.related.prev-post'|matra('Previous Post') }}:
 		{% else %}
-		{{ 'blog.post.related.prev-posts' | matra('Previous Posts') }}:
+		{{ 'blog.post.related.prev-posts'|matra('Previous Posts') }}:
 		{% endif %}
 	</h3>
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.previousPosts } %}
@@ -83,7 +89,7 @@
 {% if post.otherMedias|length %}
 <section class="related-list downloads">
 	<h3 class="list-title related">
-		{{ 'blog.post.download' | matra('Download') }}:
+		{{ 'blog.post.download'|matra('Download') }}:
 	</h3>
 	{% include "@MaciPage/Blog/_downloads.html.twig" with {'list': post.otherMedias} %}
 </section>
@@ -93,9 +99,9 @@
 <section class="related-list related-next">
 	<h3 class="list-title related">
 		{% if post.nextPosts|length == 1 %}
-		{{ 'blog.post.related.next-post' | matra('Next Post') }}:
+		{{ 'blog.post.related.next-post'|matra('Next Post') }}:
 		{% else %}
-		{{ 'blog.post.related.next-posts' | matra('Next Posts') }}:
+		{{ 'blog.post.related.next-posts'|matra('Next Posts') }}:
 		{% endif %}
 	</h3>
 	{% include "@MaciPage/Blog/_related_posts.html.twig" with {'list': post.nextPosts } %}

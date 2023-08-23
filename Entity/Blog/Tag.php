@@ -209,6 +209,6 @@ class Tag
 	 */
 	public function __toString()
 	{
-		return $this->getName();
+		return $this->name ? $this->name : 'New Tag';
 	}
 }

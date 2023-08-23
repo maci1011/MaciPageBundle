@@ -34,6 +34,10 @@ Maci\PageBundle\Entity\Media\Media:
             type: string
             length: 31
             nullable: true
+        credits:
+            type: string
+            length: 255
+            nullable: true
         token:
             type: string
             length: 127
