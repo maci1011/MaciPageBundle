@@ -1232,16 +1232,16 @@ class Product
 		if ($this->removed)
 			return false;
 
-		elseif ($this->status === 'not_available')
+		if ($this->status === 'not_available')
 			return false;
 
-		elseif (!$this->price || $this->price <= 0)
+		if (!$this->price || $this->price <= 0)
 			return false;
 
-		elseif ($this->limited && $this->quantity < 1)
+		if ($this->limited && $this->quantity < 1)
 			return false;
 
-		elseif ($this->type == 'vrnts' && $this->getTotalVariantsQuantity() < 1)
+		if ($this->type == 'vrnts' && $this->getTotalVariantsQuantity() < 1)
 			return false;
 
 		return true;
@@ -1249,14 +1249,12 @@ class Product
 
 	public function isOnSale()
 	{
-		if (0 < $this->sale) return true;
-		return false;
+		return (0 < $this->sale);
 	}
 
 	public function getAmount()
 	{
-		if (0 < $this->sale) return $this->sale;
-		return $this->price;
+		return $this->isOnSale() ? $this->sale : $this->price;
 	}
 
 	/**

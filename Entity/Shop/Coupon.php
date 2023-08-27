@@ -51,7 +51,7 @@ class Coupon
 	 */
 	public function __construct()
 	{
-		$this->enable = true;
+		$this->enable = false;
 	}
 
 	/**

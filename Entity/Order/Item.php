@@ -420,6 +420,14 @@ class Item
 	{
 	}
 
+	public function isProductOnSale()
+	{
+		if (!$this->product)
+			return false;
+
+		return $this->product->isOnSale();
+	}
+
 	/**
 	 * __toString()
 	 */
