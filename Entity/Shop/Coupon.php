@@ -42,7 +42,7 @@ class Coupon
 	private $enable;
 
 	/**
-	 * @var json
+	 * @var array
 	 */
 	private $terms;
 
@@ -189,6 +189,28 @@ class Coupon
 	public function getTerms()
 	{
 		return $this->terms;
+	}
+
+	public static function getTermsArray()
+	{
+		return \Maci\PageBundle\Entity\Order\Item::getTermsArray();
+	}
+
+	public function getTermsLabel()
+	{
+		if (!count($this->terms))
+			return '';
+
+		$labels = [];
+		foreach ($this->terms as $term)
+			array_push($labels, \Maci\PageBundle\MaciPageBundle::getLabel($term, $this->getTermsArray()));
+
+		return implode(', ', $labels);
+	}
+
+	public static function getTermsValues()
+	{
+		return array_values(Order::getTermsArray());
 	}
 
 	/**

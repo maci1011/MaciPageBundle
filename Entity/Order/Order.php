@@ -401,6 +401,16 @@ class Order
 		];
 	}
 
+	public function getStatusLabel()
+	{
+		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
+	}
+
+	public static function getStatusValues()
+	{
+		return array_values(Order::getStatusArray());
+	}
+
 	public function getProgression()
 	{
 		$i = 1;
@@ -434,16 +444,6 @@ class Order
 	public function isRefunded()
 	{
 		return $this->status == 'refunded';
-	}
-
-	public function getStatusLabel()
-	{
-		return \Maci\PageBundle\MaciPageBundle::getLabel($this->status, $this->getStatusArray());
-	}
-
-	public static function getStatusValues()
-	{
-		return array_values(Order::getStatusArray());
 	}
 
 	public function setCheckout($checkout)

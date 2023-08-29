@@ -25,5 +25,5 @@ Maci\PageBundle\Entity\Shop\Coupon:
         enable:
             type: boolean
         terms:
-            type: json
+            type: array
             nullable: true

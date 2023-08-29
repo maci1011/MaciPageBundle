@@ -408,9 +408,9 @@ class Item
 
 	public function applyCoupon($coupon)
 	{
-		foreach ($coupon->getTerms() as $term => $value)
+		foreach ($coupon->getTerms() as $term)
 		{
-			if ($this->$term() != $value)
+			if (!$this->$term())
 				return false;
 		}
 		$this->applyDiscount($coupon->getDiscount());
@@ -418,6 +418,21 @@ class Item
 
 	public function applyDiscount($discount)
 	{
+		if (!is_array($this->details))
+			$this->details = [];
+
+	}
+
+	/**
+	 *   TERMS START
+	 */
+
+	public static function getTermsArray()
+	{
+		return [
+			'Product is not On Sale' => 'isNotProductOnSale',
+			'Product is On Sale' => 'isProductOnSale'
+		];
 	}
 
 	public function isProductOnSale()
@@ -427,6 +442,15 @@ class Item
 
 		return $this->product->isOnSale();
 	}
+
+	public function isNotProductOnSale()
+	{
+		return !$this->isProductOnSale();
+	}
+
+	/**
+	 *   TERMS END
+	 */
 
 	/**
 	 * __toString()

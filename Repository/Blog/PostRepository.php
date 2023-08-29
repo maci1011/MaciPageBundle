@@ -14,7 +14,7 @@ class PostRepository extends EntityRepository
 {
 	protected $allCount = null;
 
-	public function getLatestPosts($locale, $max = 13)
+	public function getLatestPosts($locale, $max = 0)
 	{
 		$q = $this->createQueryBuilder('p');
 		$this->addPostListFilters($q, $locale);
