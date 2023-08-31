@@ -9,7 +9,7 @@
 
 		{% for tag in post.tags %}
 		<li class="nav-item{% if loop.last %} last{% endif %}">
-			<a class="nav-link post-tag post-nav-val" href="{{ path('maci_blog_tag', { 'path': tag.path }) }}">{{ tag }}</a>
+			<a class="nav-link post-tag post-nav-val" href="{{ path('maci_blog_tag', { 'path': tag.path }) }}"><i class="fas fa-hashtag"></i>{{ tag }}</a>
 		</li>
 		{% endfor %}
 

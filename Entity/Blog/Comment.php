@@ -114,6 +114,11 @@ class Comment
 		return $this->name;
 	}
 
+	public function getNameLabel()
+	{
+		return $this->user ? $this->user->getUsername() : $this->name;
+	}
+
 	/**
 	 * Set email
 	 *
